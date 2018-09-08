@@ -10,21 +10,24 @@ export const searchUrl = setting.searchUrl;
 export const imgUrl = setting.imgUrl;
 
 export const apiHost = host;
+
 const rules = {
     cart: /^[1-9]\d{3}[A-Za-z]\d{3}$/,
-    reel: /^[1-9]\d{6}[A-Ca-c]$|^[1-9]\d{4}$|^[1-9]\d{4}[A-Ca-c]$|^[1-9]\d{6}$|[A-Z]\d{11}[A-Z]/
+    // reel: /^[1-9]\d{6}[A-Ca-c]$|^[1-9]\d{4}$|^[1-9]\d{4}[A-Ca-c]$|^[1-9]\d{6}$|[A-Z]\d{11}[A-Z]/
+    reel: /^[1-9]\d{6}[A-Ca-c]$|^[1-9]\d{4}[A-Ca-c]$|[A-Z]\d{11}[A-Z]/
 };
 export const isCartOrReel = str => {
-    return rules.cart.test(str) || rules.reel.test(str);
+    return rules.cart.test(String(str).trim()) || rules.reel.test(String(str).trim());
 };
 
-export const isCart = str => rules.cart.test(str);
-export const isReel = str => rules.reel.test(str);
+export const isCart = str => rules.cart.test(String(str).trim())
+export const isReel = str => rules.reel.test(String(str).trim())
 
 export const isDateTime = str =>
     /^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d$|^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d [0-2][0-9]:[0-5][0-9](:[0-5][0-9])$|^[0-2][0-9]:[0-5][0-9](:[0-5][0-9])$/.test(
-        str
+        String(str).trim()
     );
+
 export const isNumOrFloat = str => /^\d+(\.)\d+$|^\d+$/.test(str);
 export const isInt = str => /^\d+$/.test(str);
 export const isFloat = str => /^\d+\.\d+$|^\d+$/.test(str);

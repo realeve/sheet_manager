@@ -1,11 +1,12 @@
 import * as lib from "../utils/lib";
 import { uploadHost } from "../utils/axios";
 import styles from "../components/Table.less";
-
+import * as setting from "../utils/setting";
 const R = require("ramda");
 
 const isFilterColumn = (data, key) => {
   let isValid = true;
+
   const handleItem = item => {
     if (R.isNil(item)) {
       isValid = false;
@@ -22,11 +23,14 @@ const isFilterColumn = (data, key) => {
       }
     }
   };
+
   let uniqColumn = R.compose(
     R.uniq,
     R.map(R.prop(key))
   )(data);
+
   R.map(handleItem)(uniqColumn);
+
   return {
     uniqColumn,
     filters: isValid
@@ -35,7 +39,7 @@ const isFilterColumn = (data, key) => {
 
 export function handleColumns(
   { dataSrc, filteredInfo },
-  cartLinkPrefix = "//10.8.2.133/search#"
+  cartLinkPrefix = setting.searchUrl
 ) {
   let { data, header, rows } = dataSrc;
   let showURL = typeof data !== "undefined" && rows > 0;
@@ -216,13 +220,10 @@ export const updateState = (props, { page, pageSize, columns }) => {
     source,
     timing: time,
     dataSrc,
-    loading
+    loading,
+    dataClone: dataSrc.data,
+    dataSearchClone: []
   };
-
-  // // 如果 columns存在 ，不更新
-  // if (columns && columns.length > 0) {
-  //   return state;
-  // }
 
   columns = handleColumns(
     {
