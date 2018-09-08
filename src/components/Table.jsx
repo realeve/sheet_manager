@@ -63,27 +63,27 @@ class Tables extends Component {
     this.refreshByPage(newPage);
   };
 
-  customFilter = async filteredInfo => {
+  customFilter = async filters => {
     // const dataSrc = this.dataSrc;
     const { columns, dataSrc } = this.state;
 
     let dataClone = db.handleFilter({
       data: dataSrc.data,
-      filters: filteredInfo
+      filters
     });
 
     let newColumn = db.updateColumns({
       columns,
-      filters: filteredInfo
+      filters
     });
 
     await this.setState({
       dataClone,
       columns: newColumn,
-      filteredInfo,
+      filteredInfo: filters,
       total: dataClone.length
     });
-    // this.refreshByPage();
+    this.refreshByPage();
   };
 
   customSort = async sortedInfo => {
@@ -102,13 +102,12 @@ class Tables extends Component {
       sortedInfo,
       dataClone
     });
-    // this.refreshByPage();
+    this.refreshByPage();
   };
 
   handleChange = (pagination, filters, sorter) => {
     this.customFilter(filters);
     this.customSort(sorter);
-    this.refreshByPage();
   };
 
   handleSearchChange = async e => {
