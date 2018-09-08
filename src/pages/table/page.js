@@ -1,4 +1,4 @@
-import Index from "./index";
+import Index from "./index.jsx";
 export default () => {
-  return <Index / > ;
+    return <Index / > ;
 };

@@ -12,8 +12,8 @@ import {
 import * as db from "../services/table";
 import styles from "./Table.less";
 
-import Excel from "../../../utils/excel";
-import pdf from "../../../utils/pdf";
+import Excel from "../utils/excel";
+import pdf from "../utils/pdf";
 
 const R = require("ramda");
 
@@ -22,11 +22,12 @@ const Search = Input.Search;
 class Tables extends Component {
   constructor(props) {
     super(props);
+    // this.config = props.config;
+    this.dataSrc = props.dataSrc; //db.handleSrcData(props.dataSrc);
     this.dataClone = [];
     this.dataSearchClone = [];
 
     this.state = {
-      dataSrc: props.dataSrc,
       dataSource: [],
       total: 10,
       page: 1,
@@ -41,14 +42,14 @@ class Tables extends Component {
   }
 
   init = async () => {
-    const { page, pageSize, dataSrc } = this.state;
-    let data = dataSrc;
-    const { source, timing } = data;
+    const { page, pageSize } = this.state;
+    let data = this.dataSrc;
+    const { source, time } = data;
 
     this.setState({
-      total: data.rows,
+      total: this.dataSrc.rows,
       source,
-      timing
+      timing: time
     });
 
     let dataSource = [];
@@ -72,7 +73,7 @@ class Tables extends Component {
         dataSrc: data,
         filteredInfo: {}
       },
-      this.props.cartLinkMode
+      this.props.cartLinkPrefix
     );
     this.setState({
       columns,
@@ -85,13 +86,16 @@ class Tables extends Component {
     this.init();
   }
 
-  // 待调整，生产周期命名函数
-  componentDidUpdate({ dataSrc }, prevState) {
-    if (R.equals(dataSrc, prevState.dataSrc)) {
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      loading: nextProps.loading
+    });
+    if (R.equals(nextProps.dataSrc, this.dataSrc)) {
       return;
     }
+    this.dataSrc = nextProps.dataSrc;
     this.setState({
-      dataSrc
+      source: nextProps.dataSrc.source
     });
     this.init();
   }
@@ -119,7 +123,8 @@ class Tables extends Component {
   };
 
   customFilter = async filteredInfo => {
-    const { columns, dataSrc } = this.state;
+    const dataSrc = this.dataSrc;
+    const { columns } = this.state;
 
     this.dataClone = db.handleFilter({
       data: dataSrc.data,
@@ -185,7 +190,7 @@ class Tables extends Component {
 
   getExportConfig = () => {
     const { columns } = this.state;
-    const { title } = this.state.dataSrc;
+    const { title } = this.dataSrc;
 
     const header = R.map(R.prop("title"))(columns);
     const filename = `${title}`;
@@ -200,106 +205,122 @@ class Tables extends Component {
 
   downloadExcel = () => {
     const config = this.getExportConfig();
+    config.filename = config.filename + ".xlsx";
     const xlsx = new Excel(config);
     xlsx.save();
   };
 
   downloadPdf = () => {
     const config = this.getExportConfig();
-    config.download = "download";
-    config.title = this.state.dataSrc.title;
-    // 自动调整文档方向
-    config.orientation =
-      this.state.dataSrc.header.length > 7 ? "landscape" : "portrait";
+    config.download = "open";
+    config.title = this.dataSrc.title;
     pdf(config);
   };
 
+  Action = () => {
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <a rel="noopener noreferrer" onClick={this.downloadExcel}>
+            <Icon type="file-excel" />
+            excel
+          </a>
+        </Menu.Item>
+        <Menu.Item>
+          <a rel="noopener noreferrer" onClick={this.downloadPdf}>
+            <Icon type="file-pdf" />
+            PDF
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
+    return (
+      <Dropdown overlay={menu}>
+        <Button style={{ marginLeft: 0 }}>
+          下载 <Icon type="down" />
+        </Button>
+      </Dropdown>
+    );
+  };
+
+  // 为每行增加自定义附加操作
+  appendActions = columns => {
+    if (!this.props.actions) {
+      return columns;
+    }
+
+    let actions = this.props.actions.map(({ title, render }, idx) => ({
+      title,
+      key: "col" + (columns.length + idx),
+      dataIndex: "col" + (columns.length + idx),
+      render: (text, record) => render(record)
+    }));
+    return [...columns, ...actions];
+  };
+
+  getTBody = () => {
+    const {
+      loading,
+      columns,
+      dataSource,
+      source,
+      timing,
+      total,
+      page,
+      pageSize
+    } = this.state;
+    return (
+      <>
+        <Table
+          loading={loading}
+          columns={this.appendActions(columns)}
+          dataSource={dataSource}
+          rowKey="key"
+          pagination={false}
+          size="medium"
+          onChange={this.handleChange}
+          footer={() => `${source} (共耗时${timing})`}
+        />
+        <Pagination
+          className="ant-table-pagination"
+          showTotal={(total, range) =>
+            total ? `${range[0]}-${range[1]} 共 ${total} 条数据` : ""
+          }
+          showSizeChanger
+          onShowSizeChange={this.onShowSizeChange}
+          total={total}
+          current={page}
+          pageSize={pageSize}
+          onChange={this.refreshByPage}
+          pageSizeOptions={["5", "10", "15", "20", "30", "40", "50", "100"]}
+        />
+      </>
+    );
+  };
+
   render() {
-    const TableBody = () => {
-      const {
-        loading,
-        columns,
-        dataSource,
-        total,
-        page,
-        pageSize
-      } = this.state;
+    const tBody = this.getTBody();
 
-      const { source, time } = this.state.dataSrc;
-
-      return (
-        <>
-          <Table
-            loading={loading}
-            columns={columns}
-            dataSource={dataSource}
-            rowKey="key"
-            pagination={false}
-            size="medium"
-            onChange={this.handleChange}
-            footer={() => `${source} (共耗时${time})`}
-          />
-          <Pagination
-            className="ant-table-pagination"
-            showTotal={(total, range) =>
-              total ? `${range[0]}-${range[1]} 共 ${total} 条数据` : ""
-            }
-            showSizeChanger
-            onShowSizeChange={this.onShowSizeChange}
-            total={total}
-            current={page}
-            pageSize={pageSize}
-            onChange={this.refreshByPage}
-            pageSizeOptions={["5", "10", "15", "20", "30", "40", "50", "100"]}
-          />
-        </>
-      );
-    };
-
-    const Action = () => {
-      const menu = (
-        <Menu>
-          <Menu.Item>
-            <a rel="noopener noreferrer" onClick={this.downloadExcel}>
-              <Icon type="file-excel" />
-              excel
-            </a>
-          </Menu.Item>
-          <Menu.Item>
-            <a rel="noopener noreferrer" onClick={this.downloadPdf}>
-              <Icon type="file-pdf" />
-              PDF
-            </a>
-          </Menu.Item>
-        </Menu>
-      );
-      return (
-        <Dropdown overlay={menu}>
-          <Button style={{ marginLeft: 0 }}>
-            下载 <Icon type="down" />
-          </Button>
-        </Dropdown>
-      );
-    };
-
-    const TableTitle = () => {
-      const { title } = this.state.dataSrc;
-      return (
-        title && (
-          <div className={styles.tips}>
-            <div className={styles.title}>{title}</div>
-            {this.props.subTitle}
-          </div>
-        )
-      );
-    };
+    // const dateRange = this.config.params;
+    /* {dateRange.tstart && (
+            <small>
+              时间范围 : {dateRange.tstart} 至 {dateRange.tend}
+            </small>
+          )} */
+    const { title, subTitle } = this.dataSrc;
+    const TableTitle = title && (
+      <div className={styles.tips}>
+        <div className={styles.title}>{title}</div>
+        {subTitle && <div className={styles.subTitle}>{subTitle}</div>}
+      </div>
+    );
 
     return (
       <Card
         title={
           <div className={styles.header}>
-            <Action />
-            <TableTitle />
+            {this.Action()}
+            {TableTitle}
             <div className={styles.search}>
               <Search
                 placeholder="输入任意值过滤数据"
@@ -313,7 +334,7 @@ class Tables extends Component {
         bodyStyle={{ padding: "0px 0px 12px 0px" }}
         className={styles.exCard}
       >
-        <TableBody />
+        {tBody}
       </Card>
     );
   }
@@ -328,7 +349,8 @@ Tables.defaultProps = {
     header: []
   },
   loading: false,
-  cartLinkMode: "search"
+  cartLinkPrefix: "//10.8.2.133/search#",
+  actions: false
 };
 
 export default Tables;

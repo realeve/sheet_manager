@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import Table from "./components/Table";
+import VTable from "../../components/Table";
 import { DatePicker, Card } from "antd";
 import styles from "./index.less";
 import dateRanges from "../../utils/ranges";
@@ -25,7 +25,7 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
   };
 
   const DateRangePicker = () => (
-    <div>
+    <>
       <label className={styles.labelDesc}>起始时间:</label>
       <RangePicker
         ranges={dateRanges}
@@ -36,8 +36,9 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
           rangePlaceholder: ["开始日期", "结束日期"]
         }}
       />
-    </div>
+    </>
   );
+
   return (
     <>
       <div className={styles.header}>
@@ -45,11 +46,13 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
           <DateRangePicker />
         </div>
       </div>
+
       {dataSource.length === 0 && <Card title="加载中" loading={true} />}
       {dataSource.map((dataSrc, key) => (
         <div key={key} className={key ? styles.tableContainer : null}>
-          <Table
+          <VTable
             dataSrc={dataSrc}
+            loading={loading}
             subTitle={
               <small>
                 时间范围 : {dateRange[0]} 至 {dateRange[1]}

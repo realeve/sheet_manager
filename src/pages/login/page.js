@@ -155,5 +155,4 @@ function mapStateToProps(state) {
   };
 }
 
-// export default LoginComponent;
 export default connect(mapStateToProps)(LoginComponent);
