@@ -167,3 +167,64 @@ export const handleSrcData = data => {
   }
   return data;
 };
+
+// 根据 props 初始化state
+export const initState = props => {
+  let page = 1;
+  let pageSize = 10;
+  let state = updateState(props, { page, pageSize });
+  return {
+    page,
+    pageSize,
+    filteredInfo: {},
+    sortedInfo: {},
+    ...state
+  };
+};
+
+// 根据 props 更新state
+export const updateState = (props, { page, pageSize }) => {
+  let { dataSrc, loading } = props;
+
+  const { source, time } = dataSrc;
+
+  let dataSource = [];
+
+  if (dataSrc.rows) {
+    if (typeof dataSrc.data[0].key === "undefined") {
+      dataSrc.data = dataSrc.data.map((item, key) => {
+        let col = {
+          key
+        };
+        item.forEach((td, idx) => {
+          col["col" + idx] = td;
+        });
+        return col;
+      });
+    }
+
+    dataSource = getPageData({
+      data: dataSrc.data,
+      page,
+      pageSize
+    });
+  }
+
+  const columns = handleColumns(
+    {
+      dataSrc,
+      filteredInfo: {}
+    },
+    props.cartLinkPrefix
+  );
+
+  return {
+    columns,
+    dataSource,
+    total: dataSrc.rows,
+    source,
+    timing: time,
+    dataSrc,
+    loading
+  };
+};

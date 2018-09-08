@@ -22,90 +22,17 @@ const Search = Input.Search;
 class Tables extends Component {
   constructor(props) {
     super(props);
-    // this.config = props.config;
-    // this.dataSrc = props.dataSrc; //db.handleSrcData(props.dataSrc);
-    this.dataClone = [];
+    this.dataClone = props.dataSrc.data ? props.dataSrc.data : [];
     this.dataSearchClone = [];
-
-    this.state = {
-      dataSrc: props.dataSrc,
-      dataSource: [],
-      total: 10,
-      page: 1,
-      pageSize: 10,
-      columns: [],
-      source: "",
-      timing: "",
-      filteredInfo: {},
-      sortedInfo: {},
-      loading: props.loading
-    };
+    this.state = db.initState(props);
   }
 
-  init = () => {
-    const { page, pageSize, dataSrc } = this.state;
-    let data = dataSrc;
-    const { source, time } = data;
-
-    this.setState({
-      total: dataSrc.rows,
-      source,
-      timing: time
-    });
-
-    let dataSource = [];
-
-    if (data.rows) {
-      if (typeof data.data[0].key === "undefined") {
-        data.data = data.data.map((item, key) => {
-          let col = {
-            key
-          };
-          item.forEach((td, idx) => {
-            col["col" + idx] = td;
-          });
-          return col;
-        });
-      }
-      this.dataClone = data.data;
-      dataSource = db.getPageData({
-        data: this.dataClone,
-        page,
-        pageSize
-      });
+  // 返回的值即是当前需要setState的内容
+  static getDerivedStateFromProps(props, { page, pageSize, dataSrc }) {
+    if (R.equals(props.dataSrc, dataSrc)) {
+      return { loading: props.loading };
     }
-
-    const columns = db.handleColumns(
-      {
-        dataSrc: data,
-        filteredInfo: {}
-      },
-      this.props.cartLinkPrefix
-    );
-    this.setState({
-      columns,
-      dataSource
-    });
-    this.dataSearchClone = [];
-  };
-
-  componentDidMount() {
-    this.init();
-  }
-
-  componentWillReceiveProps({ loading, dataSrc }) {
-    this.setState({
-      loading: loading
-    });
-    if (R.equals(dataSrc, this.state.dataSrc)) {
-      return;
-    }
-    // this.dataSrc = dataSrc;
-    this.setState({
-      source: dataSrc.source,
-      dataSrc
-    });
-    this.init();
+    return db.updateState(props, { page, pageSize });
   }
 
   // 页码更新
