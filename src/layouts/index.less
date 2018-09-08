@@ -1,0 +1,50 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  .container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 50px;
+    .breadCrumb {
+      margin: 16px 0;
+    }
+    .content {
+      background: #f0f2f5;
+      padding: 0;
+      height: 100%;
+      border: none;
+    }
+  }
+  .footer {
+    text-align: center;
+  }
+}
+.clear {
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  border: none;
+}
+@media print {
+  .main {
+    background: #fff;
+    .container {
+      .clear;
+      .breadCrumb {
+        display: none;
+      }
+      .content {
+        .clear;
+      }
+    }
+    .footer {
+      display: none;
+      .clear;
+    }
+  }
+  :global(.ant-back-top) {
+    display: none;
+  }
+}

@@ -1,0 +1,20 @@
+﻿<IfModule mod_rewrite.c>
+	<Files ~ "^.(htaccess|htpasswd)$">
+	deny from all
+	</Files>
+
+	#定义目录索引页面
+	DirectoryIndex index.html
+	order deny,allow
+
+	RewriteEngine On
+	RewriteBase /
+	RewriteRule ^index\.html$ - [L]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . /index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header append Vary Accept env=REDIRECT_accept
+</IfModule>

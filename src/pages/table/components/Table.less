@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  // width: 55%;
+  .tips {
+    text-align: center;
+    .title {
+      font-size: 24px;
+    }
+  }
+  .search {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 0 10px 0;
+  }
+}
+
+.exCard {
+  :global(.ant-card-head) {
+    padding: 0 12px;
+  }
+  :global(.ant-card-head-title) {
+    padding-bottom: 0;
+  }
+}
+
+.imgContent {
+  width: 200px;
+}
