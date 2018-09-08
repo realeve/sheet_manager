@@ -28,11 +28,13 @@ class Tables extends Component {
   }
 
   // 返回的值即是当前需要setState的内容
-  static getDerivedStateFromProps(props, { page, pageSize, dataSrc }) {
+  static getDerivedStateFromProps(props, { page, pageSize, dataSrc, columns }) {
     if (R.equals(props.dataSrc, dataSrc)) {
+      console.log("what is this");
       return { loading: props.loading };
     }
-    return db.updateState(props, { page, pageSize });
+    console.log("did update");
+    return db.updateState(props, { page, pageSize, columns });
   }
 
   // 页码更新
@@ -43,9 +45,11 @@ class Tables extends Component {
       page,
       pageSize
     });
+
     this.setState({
       dataSource,
-      page
+      page,
+      loading: false
     });
   };
 
@@ -89,14 +93,19 @@ class Tables extends Component {
       return;
     }
 
+    this.setState({
+      sortedInfo,
+      loading: true
+    });
+
+    const dataClone = R.clone(this.dataClone);
+
     this.dataClone = db.handleSort({
-      dataClone: this.dataClone,
+      dataClone,
       field,
       order
     });
-    await this.setState({
-      sortedInfo
-    });
+
     this.refreshByPage();
   };
 
@@ -163,36 +172,6 @@ class Tables extends Component {
     pdf(config);
   };
 
-  Action = () => {
-    const menu = (
-      <Menu>
-        <Menu.Item>
-          <a rel="noopener noreferrer" onClick={this.downloadExcel}>
-            <Icon type="file-excel" />
-            excel
-          </a>
-        </Menu.Item>
-        <Menu.Item>
-          <a rel="noopener noreferrer" onClick={this.downloadPdf}>
-            <Icon type="file-pdf" />
-            PDF
-          </a>
-        </Menu.Item>
-      </Menu>
-    );
-    return (
-      <Dropdown overlay={menu}>
-        <Button
-          style={{
-            marginLeft: 0
-          }}
-        >
-          下载 <Icon type="down" />
-        </Button>
-      </Dropdown>
-    );
-  };
-
   // 为每行增加自定义附加操作
   appendActions = columns => {
     if (!this.props.actions) {
@@ -208,68 +187,94 @@ class Tables extends Component {
     return [...columns, ...actions];
   };
 
-  getTBody = () => {
-    const {
-      loading,
-      columns,
-      dataSource,
-      source,
-      timing,
-      total,
-      page,
-      pageSize
-    } = this.state;
-    return (
-      <>
-        <Table
-          loading={loading}
-          columns={this.appendActions(columns)}
-          dataSource={dataSource}
-          rowKey="key"
-          pagination={false}
-          size="medium"
-          onChange={this.handleChange}
-          footer={() => `${source} (共耗时${timing})`}
-        />
-        <Pagination
-          className="ant-table-pagination"
-          showTotal={(total, range) =>
-            total ? `${range[0]}-${range[1]} 共 ${total} 条数据` : ""
-          }
-          showSizeChanger
-          onShowSizeChange={this.onShowSizeChange}
-          total={total}
-          current={page}
-          pageSize={pageSize}
-          onChange={this.refreshByPage}
-          pageSizeOptions={["5", "10", "15", "20", "30", "40", "50", "100"]}
-        />
-      </>
-    );
-  };
-
   render() {
-    const tBody = this.getTBody();
+    const { subTitle } = this.props;
+    const { title } = this.state.dataSrc;
+    const TableTitle = () =>
+      title && (
+        <div className={styles.tips}>
+          <div className={styles.title}> {title} </div>
+          <div className={styles.subTitle}> {subTitle} </div>
+        </div>
+      );
 
-    // const dateRange = this.config.params;
-    /* {dateRange.tstart && (
-                <small>
-                  时间范围 : {dateRange.tstart} 至 {dateRange.tend}
-                </small>
-              )} */
-    const { title, subTitle } = this.state.dataSrc;
-    const TableTitle = title && (
-      <div className={styles.tips}>
-        <div className={styles.title}> {title} </div>
-        {subTitle && <div className={styles.subTitle}> {subTitle} </div>}
-      </div>
-    );
+    const Action = () => {
+      const menu = (
+        <Menu>
+          <Menu.Item>
+            <a rel="noopener noreferrer" onClick={this.downloadExcel}>
+              <Icon type="file-excel" />
+              excel
+            </a>
+          </Menu.Item>
+          <Menu.Item>
+            <a rel="noopener noreferrer" onClick={this.downloadPdf}>
+              <Icon type="file-pdf" />
+              PDF
+            </a>
+          </Menu.Item>
+        </Menu>
+      );
+      return (
+        <Dropdown overlay={menu}>
+          <Button
+            style={{
+              marginLeft: 0
+            }}
+          >
+            下载 <Icon type="down" />
+          </Button>
+        </Dropdown>
+      );
+    };
+
+    const TBody = () => {
+      const {
+        loading,
+        columns,
+        dataSource,
+        source,
+        timing,
+        total,
+        page,
+        pageSize
+      } = this.state;
+
+      return (
+        <>
+          <Table
+            loading={loading}
+            columns={this.appendActions(columns)}
+            dataSource={dataSource}
+            rowKey="key"
+            pagination={false}
+            size="medium"
+            onChange={this.handleChange}
+            footer={() => `${source} (共耗时${timing})`}
+          />
+          <Pagination
+            className="ant-table-pagination"
+            showTotal={(total, range) =>
+              total ? `${range[0]}-${range[1]} 共 ${total} 条数据` : ""
+            }
+            showSizeChanger
+            onShowSizeChange={this.onShowSizeChange}
+            total={total}
+            current={page}
+            pageSize={pageSize}
+            onChange={this.refreshByPage}
+            pageSizeOptions={["5", "10", "15", "20", "30", "40", "50", "100"]}
+          />
+        </>
+      );
+    };
 
     return (
       <Card
         title={
           <div className={styles.header}>
-            {this.Action()} {TableTitle}
+            <Action />
+            <TableTitle />
             <div className={styles.search}>
               <Search
                 placeholder="输入任意值过滤数据"
@@ -291,7 +296,7 @@ class Tables extends Component {
         }}
         className={styles.exCard}
       >
-        {tBody}
+        <TBody />
       </Card>
     );
   }

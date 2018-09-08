@@ -183,7 +183,7 @@ export const initState = props => {
 };
 
 // 根据 props 更新state
-export const updateState = (props, { page, pageSize }) => {
+export const updateState = (props, { page, pageSize, columns }) => {
   let { dataSrc, loading } = props;
 
   const { source, time } = dataSrc;
@@ -210,7 +210,21 @@ export const updateState = (props, { page, pageSize }) => {
     });
   }
 
-  const columns = handleColumns(
+  let state = {
+    dataSource,
+    total: dataSrc.rows,
+    source,
+    timing: time,
+    dataSrc,
+    loading
+  };
+
+  // // 如果 columns存在 ，不更新
+  // if (columns && columns.length > 0) {
+  //   return state;
+  // }
+
+  columns = handleColumns(
     {
       dataSrc,
       filteredInfo: {}
@@ -219,12 +233,7 @@ export const updateState = (props, { page, pageSize }) => {
   );
 
   return {
-    columns,
-    dataSource,
-    total: dataSrc.rows,
-    source,
-    timing: time,
-    dataSrc,
-    loading
+    ...state,
+    columns
   };
 };
