@@ -23,11 +23,12 @@ class Tables extends Component {
   constructor(props) {
     super(props);
     // this.config = props.config;
-    this.dataSrc = props.dataSrc; //db.handleSrcData(props.dataSrc);
+    // this.dataSrc = props.dataSrc; //db.handleSrcData(props.dataSrc);
     this.dataClone = [];
     this.dataSearchClone = [];
 
     this.state = {
+      dataSrc: props.dataSrc,
       dataSource: [],
       total: 10,
       page: 1,
@@ -41,13 +42,13 @@ class Tables extends Component {
     };
   }
 
-  init = async () => {
-    const { page, pageSize } = this.state;
-    let data = this.dataSrc;
+  init = () => {
+    const { page, pageSize, dataSrc } = this.state;
+    let data = dataSrc;
     const { source, time } = data;
 
     this.setState({
-      total: this.dataSrc.rows,
+      total: dataSrc.rows,
       source,
       timing: time
     });
@@ -57,7 +58,9 @@ class Tables extends Component {
     if (data.rows) {
       if (typeof data.data[0].key === "undefined") {
         data.data = data.data.map((item, key) => {
-          let col = { key };
+          let col = {
+            key
+          };
           item.forEach((td, idx) => {
             col["col" + idx] = td;
           });
@@ -65,7 +68,11 @@ class Tables extends Component {
         });
       }
       this.dataClone = data.data;
-      dataSource = db.getPageData({ data: this.dataClone, page, pageSize });
+      dataSource = db.getPageData({
+        data: this.dataClone,
+        page,
+        pageSize
+      });
     }
 
     const columns = db.handleColumns(
@@ -86,16 +93,17 @@ class Tables extends Component {
     this.init();
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps({ loading, dataSrc }) {
     this.setState({
-      loading: nextProps.loading
+      loading: loading
     });
-    if (R.equals(nextProps.dataSrc, this.dataSrc)) {
+    if (R.equals(dataSrc, this.state.dataSrc)) {
       return;
     }
-    this.dataSrc = nextProps.dataSrc;
+    // this.dataSrc = dataSrc;
     this.setState({
-      source: nextProps.dataSrc.source
+      source: dataSrc.source,
+      dataSrc
     });
     this.init();
   }
@@ -103,7 +111,11 @@ class Tables extends Component {
   // 页码更新
   refreshByPage = (page = 1) => {
     const { pageSize } = this.state;
-    const dataSource = db.getPageData({ data: this.dataClone, page, pageSize });
+    const dataSource = db.getPageData({
+      data: this.dataClone,
+      page,
+      pageSize
+    });
     this.setState({
       dataSource,
       page
@@ -123,15 +135,18 @@ class Tables extends Component {
   };
 
   customFilter = async filteredInfo => {
-    const dataSrc = this.dataSrc;
-    const { columns } = this.state;
+    // const dataSrc = this.dataSrc;
+    const { columns, dataSrc } = this.state;
 
     this.dataClone = db.handleFilter({
       data: dataSrc.data,
       filters: filteredInfo
     });
 
-    let newColumn = db.updateColumns({ columns, filters: filteredInfo });
+    let newColumn = db.updateColumns({
+      columns,
+      filters: filteredInfo
+    });
     await this.setState({
       columns: newColumn,
       filteredInfo,
@@ -147,7 +162,11 @@ class Tables extends Component {
       return;
     }
 
-    this.dataClone = db.handleSort({ dataClone: this.dataClone, field, order });
+    this.dataClone = db.handleSort({
+      dataClone: this.dataClone,
+      field,
+      order
+    });
     await this.setState({
       sortedInfo
     });
@@ -189,8 +208,8 @@ class Tables extends Component {
   };
 
   getExportConfig = () => {
-    const { columns } = this.state;
-    const { title } = this.dataSrc;
+    const { columns, dataSrc } = this.state;
+    const { title } = dataSrc;
 
     const header = R.map(R.prop("title"))(columns);
     const filename = `${title}`;
@@ -213,7 +232,7 @@ class Tables extends Component {
   downloadPdf = () => {
     const config = this.getExportConfig();
     config.download = "open";
-    config.title = this.dataSrc.title;
+    config.title = this.state.dataSrc.title;
     pdf(config);
   };
 
@@ -236,7 +255,11 @@ class Tables extends Component {
     );
     return (
       <Dropdown overlay={menu}>
-        <Button style={{ marginLeft: 0 }}>
+        <Button
+          style={{
+            marginLeft: 0
+          }}
+        >
           下载 <Icon type="down" />
         </Button>
       </Dropdown>
@@ -303,15 +326,15 @@ class Tables extends Component {
 
     // const dateRange = this.config.params;
     /* {dateRange.tstart && (
-            <small>
-              时间范围 : {dateRange.tstart} 至 {dateRange.tend}
-            </small>
-          )} */
-    const { title, subTitle } = this.dataSrc;
+                <small>
+                  时间范围 : {dateRange.tstart} 至 {dateRange.tend}
+                </small>
+              )} */
+    const { title, subTitle } = this.state.dataSrc;
     const TableTitle = title && (
       <div className={styles.tips}>
-        <div className={styles.title}>{title}</div>
-        {subTitle && <div className={styles.subTitle}>{subTitle}</div>}
+        <div className={styles.title}> {title} </div>
+        {subTitle && <div className={styles.subTitle}> {subTitle} </div>}
       </div>
     );
 
@@ -319,19 +342,26 @@ class Tables extends Component {
       <Card
         title={
           <div className={styles.header}>
-            {this.Action()}
-            {TableTitle}
+            {this.Action()} {TableTitle}
             <div className={styles.search}>
               <Search
                 placeholder="输入任意值过滤数据"
                 onChange={this.handleSearchChange}
-                style={{ width: 220, height: 35 }}
+                style={{
+                  width: 220,
+                  height: 35
+                }}
               />
             </div>
           </div>
         }
-        style={{ width: "100%", marginTop: 20 }}
-        bodyStyle={{ padding: "0px 0px 12px 0px" }}
+        style={{
+          width: "100%",
+          marginTop: 20
+        }}
+        bodyStyle={{
+          padding: "0px 0px 12px 0px"
+        }}
         className={styles.exCard}
       >
         {tBody}

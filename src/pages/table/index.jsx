@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import VTable from "../../components/Table";
+import VTable from "../../components/Table.jsx";
 import { DatePicker, Card } from "antd";
 import styles from "./index.less";
 import dateRanges from "../../utils/ranges";
