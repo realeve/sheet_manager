@@ -17,7 +17,7 @@ const pdf = config => {
         pageSize: "A4",
         download: "open",
         title: document.title,
-        filename: "*"
+        filename: "*",
     };
 
     config = Object.assign({}, defaultConfig, config);
@@ -53,6 +53,7 @@ const pdf = config => {
     }
 
     let doc = {
+        pageMargins: [0, 0, 0, 40],
         pageSize: config.pageSize,
         pageOrientation: config.orientation,
         content: [{
@@ -93,8 +94,8 @@ const pdf = config => {
                 margin: [8, 3, 8, 3]
             },
             title: {
-                alignment: "center",
-                fontSize: 20
+                alignment: "left",
+                fontSize: 20,
             },
             message: {}
         },
@@ -117,7 +118,7 @@ const pdf = config => {
         doc.content.unshift({
             text: config.title,
             style: "title",
-            margin: [0, 0, 0, 6]
+            margin: [10, 30, 0, 20]
         });
     }
 
