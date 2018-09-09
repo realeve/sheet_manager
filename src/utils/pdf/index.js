@@ -51,9 +51,12 @@ const pdf = config => {
             }))
         );
     }
-
+    let pageMargins = [0, 0, 0, 40];
+    if (config.orientation === 'portrait') {
+        pageMargins = [40, 40];
+    }
     let doc = {
-        pageMargins: [0, 0, 0, 40],
+        pageMargins,
         pageSize: config.pageSize,
         pageOrientation: config.orientation,
         content: [{
@@ -115,10 +118,14 @@ const pdf = config => {
     }
 
     if (config.title) {
+        let margin = [10, 30, 0, 20];
+        if (config.orientation === 'portrait') {
+            margin = [0, 10];
+        }
         doc.content.unshift({
             text: config.title,
             style: "title",
-            margin: [10, 30, 0, 20]
+            margin
         });
     }
 
