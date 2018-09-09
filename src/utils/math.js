@@ -1,11 +1,10 @@
 const R = require('ramda');
 
 export const dataOperator = [{
-        label: "汇总",
-        value: 0
-    },
-    {
         label: "计数",
+        value: 0
+    }, {
+        label: "汇总",
         value: 1
     },
     {
@@ -93,11 +92,24 @@ export const groupArr = ({
     data = R.map(item => R.pick(headerFields)(item))(data);
     data = groupBy(calFieldHeader)(data);
 
+    // 是否有计数操作
+    let hasCountOperation = operatorList.includes(0);
+    if (hasCountOperation) {
+        operatorList = R.reject(R.equals(0))(operatorList)
+    }
+
     let operatorLabel = R.map(id => dataOperator[id])(operatorList)
 
-    console.log(groupFields, calFields)
-    let operatorHeader = getOperatorHeader(groupFields.length > 0 ? groupFields : calFields, operatorLabel);
-    console.log(operatorHeader)
+    let operatorHeader = getOperatorHeader(groupFields.length > 0 ? groupFields : calFieldHeader, operatorLabel);
+
+    if (hasCountOperation) {
+        operatorHeader.push({
+            fields: groupFields[0] || calFieldHeader[0],
+            header: '计数',
+            calcType: 0
+        })
+    }
+
     let _header = R.clone(calFieldHeader);
     // 计算新的header信息
     operatorHeader.forEach(({
@@ -112,7 +124,7 @@ export const groupArr = ({
 
     // 将数据中的对象重新转换为数组
     calData = calData.map(item => _header.map(key => item[key]))
-
+    calData = calData.sort((a, b) => a[0] - b[0])
     return Object.assign({}, dataSrc, {
         data: calData,
         header: _header,
@@ -133,18 +145,17 @@ const handleDataItem = (data, operator, calFields) => {
         calcType
     }) => {
         let cacheItem = cache[fields];
-        console.log(cacheItem);
-
         let res = '';
         switch (calcType) {
             case 0:
-                res = getSum(cacheItem);
+                res = getCount(cacheItem)
                 break;
             case 1:
-                res = getCount(cacheItem)
+                res = getSum(cacheItem);
                 break;
             case 2:
                 res = getMean(cacheItem)
+                res = parseFloat(res).toFixed(3)
                 break;
             case 3:
                 res = getMax(cacheItem)

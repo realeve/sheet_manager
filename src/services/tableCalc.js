@@ -4,7 +4,8 @@ const R = require("ramda");
 export const initState = props => {
     let {
         dataSrc,
-        loading
+        loading,
+        subTitle
     } = props;
     let header = dataSrc.header || [];
     header = header.map((label, value) => ({
@@ -15,21 +16,29 @@ export const initState = props => {
         dataSrc: lib.restoreDataSrc(dataSrc) || [],
         header,
         loading,
+        subTitle,
         fieldList: [],
         operatorList: [0, 1, 2],
-        groupList: []
+        groupList: [],
+        dataSource: []
     }
 }
 
 export const updateState = (props, {
     fieldList,
     operatorList,
-    groupList
+    groupList,
+    loading,
+    subTitle,
+    dataSource
 }) => {
     let nextState = initState(props);
     return Object.assign(nextState, {
         fieldList,
         operatorList,
-        groupList
+        groupList,
+        loading,
+        subTitle,
+        dataSource
     })
 }

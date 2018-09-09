@@ -6,6 +6,8 @@ import * as setting from "../utils/setting";
 import * as libMath from "../utils/math";
 import VFiledsSelector from "./FieldsSelector";
 
+import VTable from "./Table.jsx";
+
 const dataOperator = libMath.dataOperator;
 
 const R = require("ramda");
@@ -62,54 +64,66 @@ class TableCalc extends Component {
 
   groupData = () => {
     let { dataSrc, groupList, fieldList, operatorList } = this.state;
-    let res = libMath.groupArr({
+    let dataSource = libMath.groupArr({
       dataSrc,
       groupFields: groupList,
       calFields: fieldList,
       operatorList
     });
-    console.log(res);
+    console.log(dataSource);
+    this.setState({ dataSource });
   };
 
   render() {
-    let { header, fieldList, operatorList, groupList } = this.state;
+    let {
+      header,
+      fieldList,
+      operatorList,
+      groupList,
+      dataSource,
+      loading,
+      subTitle
+    } = this.state;
     return (
-      <Card title="基础设置" bordered>
-        <Row gutter={16} style={{ marginTop: 10 }}>
-          <Col span={8}>
-            <VFiledsSelector
-              title="参与分组的字段"
-              desc="这些数据通常是文本类型的数据，比如日期、人员、设备等无法用于计算的数据"
-              header={header}
-              onChange={this.fieldsChange}
-              checkedList={fieldList}
-            />
-          </Col>
-          <Col span={8}>
-            <VFiledsSelector
-              title="参与计算的字段"
-              desc="这些数据通常是数值类型的数据，比如小数、整数等可用于计算平均值、求和。"
-              header={header}
-              onChange={this.groupChange}
-              checkedList={groupList}
-            />
-          </Col>
-          <Col span={8}>
-            <VFiledsSelector
-              title="计算方式"
-              header={dataOperator}
-              onChange={this.operatorChange}
-              checkedList={operatorList}
-            />
-          </Col>
-        </Row>
-        <div className={styles.action}>
-          <Button type="primary" onClick={this.groupData}>
-            汇总数据
-          </Button>
-          <Button>重置</Button>
-        </div>
-      </Card>
+      <div>
+        <Card title="基础设置" bordered>
+          <Row gutter={16} style={{ marginTop: 10 }}>
+            <Col span={8}>
+              <VFiledsSelector
+                title="参与分组的字段"
+                desc="这些数据通常是文本类型的数据，比如日期、人员、设备等无法用于计算的数据"
+                header={header}
+                onChange={this.fieldsChange}
+                checkedList={fieldList}
+              />
+            </Col>
+            <Col span={8}>
+              <VFiledsSelector
+                title="参与计算的字段"
+                desc="这些数据通常是数值类型的数据，比如小数、整数等可用于计算平均值、求和。"
+                header={header}
+                onChange={this.groupChange}
+                checkedList={groupList}
+              />
+            </Col>
+            <Col span={8}>
+              <VFiledsSelector
+                title="计算方式"
+                header={dataOperator}
+                onChange={this.operatorChange}
+                checkedList={operatorList}
+              />
+            </Col>
+          </Row>
+          <div className={styles.action}>
+            <Button type="primary" onClick={this.groupData}>
+              汇总数据
+            </Button>
+            <Button>重置</Button>
+          </div>
+        </Card>
+        <VTable dataSrc={dataSource} loading={loading} subTitle={subTitle} />
+      </div>
     );
   }
 }
