@@ -14,6 +14,7 @@ import styles from "./Table.less";
 import * as setting from "../utils/setting";
 import Excel from "../utils/excel";
 import pdf from "../utils/pdf";
+import * as lib from "../utils/lib";
 
 const R = require("ramda");
 
@@ -143,11 +144,13 @@ class Tables extends Component {
   getExportConfig = () => {
     const { columns, dataSrc, dataClone } = this.state;
     const { title } = dataSrc;
-
     const header = R.map(R.prop("title"))(columns);
     const filename = `${title}`;
     const keys = header.map((item, i) => "col" + i);
-    const body = R.map(R.props(keys))(dataClone);
+    const body = R.compose(
+      R.map(item => R.map(a => (lib.hasDecimal(a) ? parseFloat(a) : a))(item)),
+      R.map(R.props(keys))
+    )(dataClone);
     return {
       filename,
       header,
@@ -163,9 +166,16 @@ class Tables extends Component {
   };
 
   downloadPdf = () => {
-    const config = this.getExportConfig();
-    config.download = "open";
-    config.title = this.state.dataSrc.title;
+    let { title, source } = this.state.dataSrc;
+    const { subTitle } = this.props;
+    let config = this.getExportConfig();
+    config = Object.assign(config, {
+      download: "open",
+      title,
+      orientation: config.header.length > 10 ? "landscape" : "portrait",
+      pageSize: config.header.length > 15 ? "A3" : "A4",
+      message: `\n${subTitle}\n${source}\n(c)成都印钞有限公司 印钞管理部`
+    });
     pdf(config);
   };
 
@@ -231,7 +241,9 @@ class Tables extends Component {
       title && (
         <div className={styles.tips}>
           <div className={styles.title}> {title} </div>
-          <div className={styles.subTitle}> {subTitle} </div>
+          <div className={styles.subTitle}>
+            <small>{subTitle}</small>
+          </div>
         </div>
       )
     );

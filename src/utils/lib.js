@@ -31,12 +31,18 @@ export const isDateTime = str =>
 export const isNumOrFloat = str => /^\d+(\.)\d+$|^\d+$/.test(str);
 export const isInt = str => /^\d+$/.test(str);
 export const isFloat = str => /^\d+\.\d+$|^\d+$/.test(str);
+export const hasDecimal = str => /^\d+\.\d+$/.test(str);
+export const parseNumber = str => {
+    if (!hasDecimal(str)) {
+        return str;
+    }
+    return str.toFixed(3);
+}
 
 export const now = () => moment().format("YYYY-MM-DD HH:mm:ss");
 export const weeks = () => moment().weeks();
 
 export const ymd = () => moment().format("YYYYMMDD");
-
 let getLastAlpha = str => {
     if (str === "A") {
         return "Z";

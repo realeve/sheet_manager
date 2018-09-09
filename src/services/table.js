@@ -80,6 +80,9 @@ export function handleColumns(
     } else if (lib.isInt(tdValue) && !lib.isDateTime(tdValue)) {
       item.render = text => parseInt(text, 10).toLocaleString();
       return item;
+    } else if (lib.hasDecimal(tdValue)) {
+      item.render = text => parseFloat(text);
+      return item;
     } else {
       item.render = text => {
         text = R.isNil(text) ? "" : text;
@@ -164,7 +167,7 @@ export const handleSrcData = data => {
         key
       };
       item.forEach((td, idx) => {
-        col["col" + idx] = td;
+        col["col" + idx] = lib.parseNumber(td);
       });
       return col;
     });

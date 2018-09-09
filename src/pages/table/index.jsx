@@ -53,11 +53,7 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
           <VTable
             dataSrc={dataSrc}
             loading={loading}
-            subTitle={
-              <small>
-                时间范围 : {dateRange[0]} 至 {dateRange[1]}
-              </small>
-            }
+            subTitle={`统计期间: ${dateRange[0]} 至 ${dateRange[1]}`}
           />
         </div>
       ))}
