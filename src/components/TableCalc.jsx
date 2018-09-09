@@ -20,7 +20,7 @@ class TableCalc extends Component {
   // 返回的值即是当前需要setState的内容
   static getDerivedStateFromProps(props, state) {
     if (R.equals(props.dataSrc, state.dataSrc)) {
-      return { loading: props.loading };
+      return null; //{ loading: props.loading };
     }
     return db.updateState(props, state);
   }
@@ -63,14 +63,7 @@ class TableCalc extends Component {
   };
 
   groupData = () => {
-    let { dataSrc, groupList, fieldList, operatorList } = this.state;
-    let dataSource = libMath.groupArr({
-      dataSrc,
-      groupFields: groupList,
-      calFields: fieldList,
-      operatorList
-    });
-    console.log(dataSource);
+    let dataSource = db.getDataSourceWithState(this.state);
     this.setState({ dataSource });
   };
 

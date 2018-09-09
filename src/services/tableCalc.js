@@ -27,18 +27,32 @@ export const initState = props => {
 export const updateState = (props, {
     fieldList,
     operatorList,
-    groupList,
-    loading,
-    subTitle,
-    dataSource
+    groupList
 }) => {
     let nextState = initState(props);
-    return Object.assign(nextState, {
+
+    let state = Object.assign(nextState, {
         fieldList,
         operatorList,
-        groupList,
-        loading,
-        subTitle,
+        groupList
+    })
+    let dataSource = getDataSourceWithState(state);
+    return Object.assign(state, {
         dataSource
     })
+}
+
+export const getDataSourceWithState = state => {
+    let {
+        dataSrc,
+        groupList,
+        fieldList,
+        operatorList
+    } = state;
+    return lib.groupArr({
+        dataSrc,
+        groupFields: groupList,
+        calFields: fieldList,
+        operatorList
+    });
 }
