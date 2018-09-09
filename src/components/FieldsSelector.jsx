@@ -21,7 +21,10 @@ class FiledsSelector extends Component {
 
   // 返回的值即是当前需要setState的内容
   static getDerivedStateFromProps({ header, desc, checkedList }, state) {
-    if (R.equals(header, state.header)) {
+    if (
+      R.equals(header, state.header) &&
+      R.equals(checkedList, state.checkedList)
+    ) {
       return null;
     }
 

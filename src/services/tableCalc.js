@@ -1,9 +1,4 @@
-import * as lib from "../utils/lib";
-import {
-    uploadHost
-} from "../utils/axios";
-import styles from "../components/Table.less";
-import * as setting from "../utils/setting";
+import * as lib from "../utils/math";
 const R = require("ramda");
 
 export const initState = props => {
@@ -17,11 +12,11 @@ export const initState = props => {
         value
     }));
     return {
-        dataSrc: dataSrc || [],
+        dataSrc: lib.restoreDataSrc(dataSrc) || [],
         header,
         loading,
         fieldList: [],
-        operatorList: [],
+        operatorList: [0, 1, 2],
         groupList: []
     }
 }
