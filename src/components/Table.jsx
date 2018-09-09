@@ -284,6 +284,7 @@ class Tables extends Component {
 
     return (
       <Card
+        bordered={false}
         title={
           <div className={styles.header}>
             <Action />
@@ -302,7 +303,7 @@ class Tables extends Component {
         }
         style={{
           width: "100%",
-          marginTop: 20
+          marginTop: 0
         }}
         bodyStyle={{
           padding: "0px 0px 12px 0px"
@@ -325,7 +326,8 @@ Tables.defaultProps = {
   },
   loading: false,
   cartLinkPrefix: setting.searchUrl,
-  actions: false
+  actions: false,
+  subTitle: ""
 };
 
 export default Tables;

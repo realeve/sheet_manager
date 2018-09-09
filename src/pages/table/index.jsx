@@ -1,13 +1,16 @@
 import React from "react";
 import { connect } from "dva";
 import VTable from "../../components/Table.jsx";
-import { DatePicker, Card } from "antd";
+import VTableCalc from "../../components/TableCalc.jsx";
+
+import { DatePicker, Card, Tabs } from "antd";
 import styles from "./index.less";
 import dateRanges from "../../utils/ranges";
 import moment from "moment";
 import "moment/locale/zh-cn";
 moment.locale("zh-cn");
 
+const TabPane = Tabs.TabPane;
 const RangePicker = DatePicker.RangePicker;
 
 function Tables({ dispatch, dateRange, loading, dataSource }) {
@@ -49,12 +52,26 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
 
       {dataSource.length === 0 && <Card title="加载中" loading={true} />}
       {dataSource.map((dataSrc, key) => (
-        <div key={key} className={key ? styles.tableContainer : null}>
-          <VTable
-            dataSrc={dataSrc}
-            loading={loading}
-            subTitle={`统计期间: ${dateRange[0]} 至 ${dateRange[1]}`}
-          />
+        <div
+          key={key}
+          className={key ? styles.tableContainer : styles.dataList}
+        >
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="原始数据" key="1">
+              <VTable
+                dataSrc={dataSrc}
+                loading={loading}
+                subTitle={`统计期间: ${dateRange[0]} 至 ${dateRange[1]}`}
+              />
+            </TabPane>
+            <TabPane tab="数据汇总" key="2">
+              <VTableCalc
+                dataSrc={dataSrc}
+                loading={loading}
+                subTitle={`统计期间: ${dateRange[0]} 至 ${dateRange[1]}`}
+              />
+            </TabPane>
+          </Tabs>
         </div>
       ))}
     </>
