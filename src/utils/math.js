@@ -28,6 +28,14 @@ export const dataOperator = [{
     {
         label: "标准方差",
         value: 6
+    },
+    {
+        label: "变异系数",
+        value: 7
+    },
+    {
+        label: "众数",
+        value: 8
     }
 ];
 
@@ -171,8 +179,15 @@ const handleDataItem = (data, operator, calFields) => {
                 res = jStat.median(cacheItem)
                 break;
             case 6:
-            default:
                 res = jStat.stdev(cacheItem).toFixed(3)
+                break;
+            case 7:
+                res = jStat.coeffvar(cacheItem).toFixed(3)
+                break;
+            case 8:
+            default:
+                res = jStat.mode(cacheItem)
+                console.log(res)
                 break;
         }
         result[header] = res;

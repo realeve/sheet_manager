@@ -113,6 +113,23 @@ class TableCalc extends Component {
                 onChange={this.operatorChange}
                 checkedList={operatorList}
               />
+              <p
+                style={{
+                  borderTop: "1px solid #e9e9e9",
+                  marginTop: 5,
+                  paddingTop: 5
+                }}
+              >
+                计数：统计分组字段出现的次数;
+                <br />
+                中位数：按顺序排列的一组数据中居于中间位置的数;
+                <br />
+                标准方差：表示数据离散程度;
+                <br />
+                变异系数：标准偏差 ÷ 平均值，比较离散程度时消除量纲的影响;
+                <br />
+                众数：该列中出现次数最多的数据;
+              </p>
             </Col>
           </Row>
           <div className={styles.action}>
