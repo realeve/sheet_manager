@@ -191,7 +191,9 @@ const handleDataItem = (data, operator, calFields) => {
             case 8:
             default:
                 res = jStat.mode(cacheItem)
-                console.log(res)
+                if (res.length > 0) {
+                    res = '';
+                }
                 break;
         }
         result[header] = res;
