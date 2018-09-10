@@ -5,6 +5,10 @@ import {
 } from "./axios";
 import http from "axios";
 import * as setting from './setting';
+import qs from 'qs';
+import dateRanges from './ranges';
+
+const R = require('ramda');
 
 export const searchUrl = setting.searchUrl;
 export const imgUrl = setting.imgUrl;
@@ -229,4 +233,28 @@ export const thouandsNum = (num, decimalLength = 2) => {
         return integer + "." + decimal.padEnd(decimalLength, "0");
     }
     return num + '.00';
+}
+
+// 处理url链接信息，返回组件model所需的初始数据
+export const handleUrlParams = hash => {
+    let queryStr = hash.slice(1);
+    let query = qs.parse(queryStr);
+    let {
+        id
+    } = query;
+    let params = R.clone(query);
+    Reflect.deleteProperty(params, 'id');
+
+    if ('String' === R.type(id)) {
+        id = [id]
+    }
+
+    const [tstart, tend] = dateRanges["过去一月"];
+    const [ts, te] = [tstart.format("YYYYMMDD"), tend.format("YYYYMMDD")];
+
+    return {
+        id,
+        params,
+        dateRange: [ts, te]
+    }
 }

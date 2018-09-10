@@ -1,7 +1,7 @@
 import pathToRegexp from "path-to-regexp";
 import * as db from "../services/table";
-import dateRanges from "../../../utils/ranges";
-import qs from 'qs';
+import * as lib from '../../../utils/lib';
+
 const R = require('ramda');
 
 const namespace = "table";
@@ -90,28 +90,16 @@ export default {
                 if (!match) {
                     return;
                 }
-
-                let queryStr = hash.slice(1);
-                let query = qs.parse(queryStr);
                 let {
-                    id
-                } = query;
-                let params = R.clone(query);
-                Reflect.deleteProperty(params, 'id');
+                    id,
+                    params,
+                    dateRange
+                } = lib.handleUrlParams(hash);
 
-                if ('String' === R.type(id)) {
-                    id = [id]
-                }
-
-                let needRefresh = id && id.length
-
-
-                const [tstart, tend] = dateRanges["过去一月"];
-                const [ts, te] = [tstart.format("YYYYMMDD"), tend.format("YYYYMMDD")];
                 dispatch({
                     type: "setStore",
                     payload: {
-                        dateRange: [ts, te],
+                        dateRange,
                         tid: id,
                         params,
                         dataSource: [] // url变更时，数据变更 
@@ -122,7 +110,7 @@ export default {
                     type: 'updateParams'
                 })
 
-                if (needRefresh) {
+                if (id && id.length) {
                     dispatch({
                         type: "refreshData"
                     });

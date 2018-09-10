@@ -14,12 +14,12 @@ function Charts({ dispatch, dateRange, config, loading }) {
   const onDateChange = async (dates, dateStrings) => {
     const [tstart, tend] = dateStrings;
     await dispatch({
-      type: "chartIndex/setStore",
+      type: "chart/setStore",
       payload: { dateRange: dateStrings }
     });
 
     await dispatch({
-      type: "chartIndex/updateConfig",
+      type: "chart/updateConfig",
       payload: { tstart, tend }
     });
   };
@@ -62,7 +62,7 @@ function Charts({ dispatch, dateRange, config, loading }) {
 
 function mapStateToProps(state) {
   return {
-    ...state.chartIndex
+    ...state.chart
   };
 }
 

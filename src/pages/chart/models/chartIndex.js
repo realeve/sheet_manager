@@ -1,10 +1,8 @@
 import pathToRegexp from "path-to-regexp";
 import * as db from "../services/chart";
-import dateRanges from "../../../utils/ranges";
-import qs from 'qs';
-const R = require('ramda');
+import * as lib from '../../../utils/lib';
 
-const namespace = "chartIndex";
+const namespace = "chart";
 export default {
     namespace,
     state: {
@@ -61,30 +59,38 @@ export default {
         }) {
             return history.listen(({
                 pathname,
-                query
+                hash
             }) => {
-                const match = pathToRegexp("/chart/:tid").exec(pathname);
-                if (match) {
-                    const [tstart, tend] = dateRanges["去年同期"];
-                    const [ts, te] = [tstart.format("YYYYMMDD"), tend.format("YYYYMMDD")];
-                    const tid = match[1].split(",");
-                    dispatch({
-                        type: "setStore",
-                        payload: {
-                            dateRange: [ts, te],
-                            tid,
-                            query,
-                        }
-                    });
-
-                    dispatch({
-                        type: "updateConfig",
-                        payload: {
-                            tstart: ts,
-                            tend: te
-                        }
-                    });
+                const match = pathToRegexp("/" + namespace).exec(pathname);
+                if (!match) {
+                    return;
                 }
+
+                let {
+                    id,
+                    params,
+                    dateRange
+                } = lib.handleUrlParams(hash);
+
+                dispatch({
+                    type: "setStore",
+                    payload: {
+                        dateRange,
+                        tid: id,
+                        query: params,
+                    }
+                });
+
+                let [tstart, tend] = dateRange;
+
+                dispatch({
+                    type: "updateConfig",
+                    payload: {
+                        tstart,
+                        tend
+                    }
+                });
+
             });
         }
     }
