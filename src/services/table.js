@@ -39,7 +39,6 @@ const isFilterColumn = (data, key) => {
 
 export function handleColumns(
   { dataSrc, filteredInfo },
-  needFixHeader,
   cartLinkPrefix = setting.searchUrl
 ) {
   let { data, header, rows } = dataSrc;
@@ -118,17 +117,15 @@ export function handleColumns(
     return item;
   });
 
-  if (needFixHeader) {
-    let fixedHeaders = [0, 1];
-    fixedHeaders.forEach(id => {
-      if (column[id]) {
-        column[id] = Object.assign(column[id], {
-          width: 80,
-          fixed: "left"
-        });
-      }
-    });
-  }
+  let fixedHeaders = [0, 1];
+  fixedHeaders.forEach(id => {
+    if (column[id]) {
+      column[id] = Object.assign(column[id], {
+        width: 80,
+        fixed: "left"
+      });
+    }
+  });
   return column;
 }
 
@@ -192,18 +189,18 @@ export const initState = props => {
   let page = 1;
   let pageSize = 15;
   let state = updateState(props, { page, pageSize });
+
   return {
     page,
     pageSize,
     filteredInfo: {},
     sortedInfo: {},
-    size: "small",
     ...state
   };
 };
 
 // 根据 props 更新state
-export const updateState = (props, { size, page, pageSize, columns }) => {
+export const updateState = (props, { page, pageSize, columns }) => {
   let { dataSrc, loading } = props;
 
   const { source, time } = dataSrc;
@@ -230,8 +227,11 @@ export const updateState = (props, { size, page, pageSize, columns }) => {
     });
   }
 
+  let bordered = window.localStorage.getItem("_tbl_bordered");
+  bordered = R.isNil(bordered) || bordered === "0" ? false : true;
+
   let state = {
-    size: size || "middle",
+    bordered,
     dataSource,
     total: dataSrc.rows,
     source,
@@ -247,7 +247,6 @@ export const updateState = (props, { size, page, pageSize, columns }) => {
       dataSrc,
       filteredInfo: {}
     },
-    state.size !== "small",
     props.cartLinkPrefix
   );
 

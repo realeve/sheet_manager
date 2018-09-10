@@ -9,7 +9,8 @@ import {
   Dropdown,
   Icon,
   Form,
-  Radio
+  Radio,
+  Switch
 } from "antd";
 import * as db from "../services/table";
 import styles from "./Table.less";
@@ -208,7 +209,7 @@ class Tables extends Component {
       total,
       page,
       pageSize,
-      size
+      bordered
     } = this.state;
 
     let scroll = {};
@@ -227,7 +228,8 @@ class Tables extends Component {
           dataSource={dataSource}
           rowKey="key"
           pagination={false}
-          size={size}
+          size="middle"
+          bordered={bordered}
           scroll={scroll}
           onChange={this.handleChange}
           footer={() => `${source} (共耗时${timing})`}
@@ -264,8 +266,13 @@ class Tables extends Component {
     );
   };
 
-  handleSizeChange = e => {
-    this.setState({ size: e.target.value });
+  handleToggle = prop => {
+    return enable => {
+      let key = "_tbl_" + prop;
+      window.localStorage.setItem(key, enable ? 1 : 0);
+
+      this.setState({ [prop]: enable });
+    };
   };
 
   render() {
@@ -303,17 +310,12 @@ class Tables extends Component {
     };
 
     const TableSetting = () => (
-      <Form>
-        <FormItem label="表格尺寸">
-          <Radio.Group
-            size="default"
-            value={this.state.size}
-            onChange={this.handleSizeChange}
-          >
-            <Radio.Button value="default">默认</Radio.Button>
-            <Radio.Button value="middle">中</Radio.Button>
-            <Radio.Button value="small">小</Radio.Button>
-          </Radio.Group>
+      <Form layout="inline">
+        <FormItem label="表格边框">
+          <Switch
+            checked={this.state.bordered}
+            onChange={this.handleToggle("bordered")}
+          />
         </FormItem>
       </Form>
     );
