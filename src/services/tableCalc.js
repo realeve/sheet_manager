@@ -1,6 +1,9 @@
 import * as lib from "../utils/math";
 import * as util from '../utils/lib';
-export const initState = props => {
+import * as setting from '../utils/setting'
+const R = require('ramda');
+
+export const initState = (props, loadSetting = true) => {
     let {
         dataSrc,
         loading,
@@ -14,7 +17,16 @@ export const initState = props => {
     }));
 
     let tblData = lib.restoreDataSrc(dataSrc) || [];
-    let calHeaders = getHeaders(tblData)
+    let calHeaders = getHeaders(tblData);
+    let fieldSetting = loadCalcSetting(tblData);
+    if (!fieldSetting) {
+        fieldSetting = {
+            fieldList: [],
+            operatorList: [0, 1, 2],
+            groupList: [],
+        }
+    }
+
     return {
         ...calHeaders,
         dataSrc,
@@ -22,9 +34,7 @@ export const initState = props => {
         header,
         loading,
         subTitle,
-        fieldList: [],
-        operatorList: [0, 1, 2],
-        groupList: [],
+        ...fieldSetting,
         dataSource: []
     }
 }
@@ -77,7 +87,7 @@ export const updateState = (props, {
     operatorList,
     groupList
 }) => {
-    let nextState = initState(props);
+    let nextState = initState(props, false);
 
     let state = Object.assign(nextState, {
         fieldList,
@@ -88,6 +98,21 @@ export const updateState = (props, {
     return Object.assign(state, {
         dataSource
     })
+}
+
+const loadCalcSetting = ({
+    api_id
+}) => {
+    if (R.isNil(api_id)) {
+        return false;
+    }
+
+    let key = setting.lsKeys.calSetting + api_id;
+    let data = window.localStorage.getItem(key);
+    if (R.isNil(data)) {
+        return false;
+    }
+    return JSON.parse(data)
 }
 
 export const getDataSourceWithState = state => {

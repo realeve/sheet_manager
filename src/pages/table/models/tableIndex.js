@@ -59,9 +59,14 @@ export default {
                 axiosOptions,
                 dataSource
             } = yield select(state => state[namespace]);
-
             for (let idx = 0; idx < axiosOptions.length; idx++) {
-                dataSource[idx] = yield call(db.fetchData, axiosOptions[idx])
+                let {
+                    url
+                } = axiosOptions[idx];
+                dataSource[idx] = yield call(db.fetchData, axiosOptions[idx]);
+
+                // 将apiid绑定在接口上，方便对数据设置存储
+                dataSource[idx].api_id = url.replace('/array', '');
             }
 
             yield put({

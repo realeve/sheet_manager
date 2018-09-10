@@ -25,34 +25,47 @@ class TableCalc extends Component {
     return db.updateState(props, state);
   }
 
-  fieldsChange = fieldList => {
+  fieldsChange = async fieldList => {
     let { groupList, operatorList } = this.state;
     fieldList = R.sort((a, b) => a - b)(fieldList);
     if (groupList.length === 0) {
       operatorList = [0];
     }
-    this.setState({
+    await this.setState({
       fieldList,
       operatorList
     });
+    this.saveFieldsSetting();
   };
 
-  operatorChange = operatorList => {
-    this.setState({
+  operatorChange = async operatorList => {
+    await this.setState({
       operatorList
     });
+    this.saveFieldsSetting();
   };
 
-  groupChange = groupList => {
+  groupChange = async groupList => {
     let { operatorList } = this.state;
     groupList = R.sort((a, b) => a - b)(groupList);
     if (groupList.length === 0) {
       operatorList = [0];
     }
-    this.setState({
+    await this.setState({
       groupList,
       operatorList
     });
+    this.saveFieldsSetting();
+  };
+
+  // 将分组字段，计算字段存储至本地
+  saveFieldsSetting = () => {
+    let { groupList, operatorList, fieldList, dataSrc } = this.state;
+    let key = setting.lsKeys.calSetting + dataSrc.api_id;
+    window.localStorage.setItem(
+      key,
+      JSON.stringify({ groupList, operatorList, fieldList })
+    );
   };
 
   groupData = () => {
@@ -106,7 +119,7 @@ class TableCalc extends Component {
             <Button type="primary" onClick={this.groupData}>
               汇总数据
             </Button>
-            <Button>重置</Button>
+            {/* <Button>重置</Button> */}
           </div>
         </Card>
         <VTable dataSrc={dataSource} loading={loading} subTitle={subTitle} />

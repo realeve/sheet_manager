@@ -1,3 +1,5 @@
+import jStat from 'jstat';
+import * as lib from '../utils/lib'
 const R = require('ramda');
 
 export const dataOperator = [{
@@ -22,6 +24,10 @@ export const dataOperator = [{
     {
         label: "中位数",
         value: 5
+    },
+    {
+        label: "标准方差",
+        value: 6
     }
 ];
 
@@ -142,28 +148,31 @@ const handleDataItem = (data, operator, calFields) => {
         header,
         calcType
     }) => {
-        let cacheItem = cache[fields];
+        let cacheItem = cache[fields].map(item => lib.isFloat(item) ? parseFloat(item) : parseInt(item, 10));
         let res = '';
         switch (calcType) {
             case 0:
-                res = getCount(cacheItem)
+                res = jStat.rows(cacheItem)
                 break;
             case 1:
-                res = getSum(cacheItem);
+                res = jStat.sum(cacheItem);
                 break;
             case 2:
-                res = getMean(cacheItem)
+                res = jStat.mean(cacheItem)
                 res = parseFloat(res).toFixed(3)
                 break;
             case 3:
-                res = getMax(cacheItem)
+                res = jStat.max(cacheItem)
                 break;
             case 4:
-                res = getMin(cacheItem)
+                res = jStat.min(cacheItem)
                 break;
             case 5:
+                res = jStat.median(cacheItem)
+                break;
+            case 6:
             default:
-                res = getMedian(cacheItem)
+                res = jStat.stdev(cacheItem).toFixed(3)
                 break;
         }
         result[header] = res;
@@ -172,9 +181,9 @@ const handleDataItem = (data, operator, calFields) => {
 }
 
 let getCol = (data, col) => R.map(R.prop(col))(data)
-let getSum = data => R.reduce(R.add, 0)(data);
-let getCount = data => data.length;
-let getMax = data => R.reduce(R.max, data[0])(data);
-let getMin = data => R.reduce(R.min, data[0])(data);
-let getMean = data => R.mean(data);
-let getMedian = data => R.median(data)
+    // let getSum = data => R.reduce(R.add, 0)(data);
+    // let getCount = data => data.length;
+    // let getMax = data => R.reduce(R.max, data[0])(data);
+    // let getMin = data => R.reduce(R.min, data[0])(data);
+    // let getMean = data => R.mean(data);
+    // let getMedian = data => R.median(data)

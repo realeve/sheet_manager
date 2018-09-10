@@ -17,3 +17,8 @@ export const searchUrl = "http://10.8.2.133/search#";
 
 // 图片信息搜索 Url
 export const imgUrl = "http://10.8.2.133/search/image#";
+
+export const lsKeys = {
+    border: '_tbl_bordered',
+    calSetting: '_tbl_calc_'
+}

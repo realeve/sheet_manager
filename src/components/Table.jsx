@@ -9,7 +9,6 @@ import {
   Dropdown,
   Icon,
   Form,
-  Radio,
   Switch
 } from "antd";
 import * as db from "../services/table";
@@ -28,7 +27,7 @@ class Tables extends Component {
   constructor(props) {
     super(props);
     this.state = db.initState(props);
-    console.log(this.state);
+    // console.log(this.state);
   }
 
   // 返回的值即是当前需要setState的内容
@@ -270,7 +269,6 @@ class Tables extends Component {
     return enable => {
       let key = "_tbl_" + prop;
       window.localStorage.setItem(key, enable ? 1 : 0);
-
       this.setState({ [prop]: enable });
     };
   };

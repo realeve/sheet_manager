@@ -117,15 +117,18 @@ export function handleColumns(
     return item;
   });
 
-  let fixedHeaders = [0, 1];
-  fixedHeaders.forEach(id => {
-    if (column[id]) {
-      column[id] = Object.assign(column[id], {
-        width: 80,
-        fixed: "left"
-      });
-    }
-  });
+  // 10列以上自动固定
+  if (column.length > 10) {
+    let fixedHeaders = [0, 1];
+    fixedHeaders.forEach(id => {
+      if (column[id]) {
+        column[id] = Object.assign(column[id], {
+          width: 80,
+          fixed: "left"
+        });
+      }
+    });
+  }
   return column;
 }
 
