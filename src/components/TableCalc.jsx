@@ -19,24 +19,20 @@ class TableCalc extends Component {
 
   // 返回的值即是当前需要setState的内容
   static getDerivedStateFromProps(props, state) {
-    if (R.equals(props.dataSrc, state.dataSrc)) {
-      return null; //{ loading: props.loading };
-    }
+    // if (R.equals(props.dataSrc, state.dataSrc)) {
+    //   return null; //{ loading: props.loading };
+    // }
     return db.updateState(props, state);
   }
 
   fieldsChange = fieldList => {
     let { groupList, operatorList } = this.state;
     fieldList = R.sort((a, b) => a - b)(fieldList);
-    groupList = R.difference(groupList, fieldList);
-
     if (groupList.length === 0) {
       operatorList = [0];
     }
-
     this.setState({
       fieldList,
-      groupList,
       operatorList
     });
   };
@@ -48,16 +44,13 @@ class TableCalc extends Component {
   };
 
   groupChange = groupList => {
-    let { fieldList, operatorList } = this.state;
+    let { operatorList } = this.state;
     groupList = R.sort((a, b) => a - b)(groupList);
-    fieldList = R.difference(fieldList, groupList);
     if (groupList.length === 0) {
       operatorList = [0];
     }
-
     this.setState({
       groupList,
-      fieldList,
       operatorList
     });
   };
@@ -69,7 +62,8 @@ class TableCalc extends Component {
 
   render() {
     let {
-      header,
+      fieldHeader,
+      groupHeader,
       fieldList,
       operatorList,
       groupList,
@@ -85,7 +79,7 @@ class TableCalc extends Component {
               <VFiledsSelector
                 title="参与分组的字段"
                 desc="这些数据通常是文本类型的数据，比如日期、人员、设备等无法用于计算的数据"
-                header={header}
+                header={fieldHeader}
                 onChange={this.fieldsChange}
                 checkedList={fieldList}
               />
@@ -94,7 +88,7 @@ class TableCalc extends Component {
               <VFiledsSelector
                 title="参与计算的字段"
                 desc="这些数据通常是数值类型的数据，比如小数、整数等可用于计算平均值、求和。"
-                header={header}
+                header={groupHeader}
                 onChange={this.groupChange}
                 checkedList={groupList}
               />

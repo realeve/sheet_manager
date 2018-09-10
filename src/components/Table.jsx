@@ -7,7 +7,9 @@ import {
   Input,
   Menu,
   Dropdown,
-  Icon
+  Icon,
+  Form,
+  Radio
 } from "antd";
 import * as db from "../services/table";
 import styles from "./Table.less";
@@ -19,11 +21,13 @@ import * as lib from "../utils/lib";
 const R = require("ramda");
 
 const Search = Input.Search;
+const FormItem = Form.Item;
 
 class Tables extends Component {
   constructor(props) {
     super(props);
     this.state = db.initState(props);
+    console.log(this.state);
   }
 
   // 返回的值即是当前需要setState的内容
@@ -203,8 +207,18 @@ class Tables extends Component {
       timing,
       total,
       page,
-      pageSize
+      pageSize,
+      size
     } = this.state;
+
+    let scroll = {};
+    if (columns.length > 10) {
+      scroll.x = 1680;
+    }
+    // if (pageSize > 15) {
+    //   scroll.y = 700;
+    // }
+
     return (
       <>
         <Table
@@ -213,7 +227,8 @@ class Tables extends Component {
           dataSource={dataSource}
           rowKey="key"
           pagination={false}
-          size="medium"
+          size={size}
+          scroll={scroll}
           onChange={this.handleChange}
           footer={() => `${source} (共耗时${timing})`}
         />
@@ -248,6 +263,11 @@ class Tables extends Component {
       )
     );
   };
+
+  handleSizeChange = e => {
+    this.setState({ size: e.target.value });
+  };
+
   render() {
     const tBody = this.getTBody();
     const tTitle = this.tblTitle();
@@ -282,6 +302,21 @@ class Tables extends Component {
       );
     };
 
+    const TableSetting = () => (
+      <Form>
+        <FormItem label="表格尺寸">
+          <Radio.Group
+            size="default"
+            value={this.state.size}
+            onChange={this.handleSizeChange}
+          >
+            <Radio.Button value="default">默认</Radio.Button>
+            <Radio.Button value="middle">中</Radio.Button>
+            <Radio.Button value="small">小</Radio.Button>
+          </Radio.Group>
+        </FormItem>
+      </Form>
+    );
     return (
       <Card
         bordered={false}
@@ -311,6 +346,7 @@ class Tables extends Component {
         className={styles.exCard}
       >
         {tBody}
+        <TableSetting />
       </Card>
     );
   }

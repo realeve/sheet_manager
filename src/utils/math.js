@@ -4,7 +4,7 @@ export const dataOperator = [{
         label: "计数",
         value: 0
     }, {
-        label: "汇总",
+        label: "求和",
         value: 1
     },
     {
@@ -49,7 +49,7 @@ export const restoreDataSrc = dataSrc => {
         let values = R.values(item)
         let obj = {}
         header.forEach((key, id) => {
-            obj[key] = values[id];
+            obj[key] = values[id]; //.trim();
         });
         return obj;
     })(data);
@@ -58,7 +58,7 @@ export const restoreDataSrc = dataSrc => {
     });
 }
 
-const getSrcHeaderName = (arr, header) => R.values(R.pick(arr)(header));
+const getSrcHeaderName = (arr, header) => R.compose(R.map(R.prop('label')), R.values, R.pick(arr))(header);
 const getOperatorHeader = (arr, operatorLabel) => {
     let res = arr.map(fields => operatorLabel.map(({
         label,
@@ -75,19 +75,17 @@ export const groupArr = ({
     groupFields,
     calFields,
     dataSrc,
-    operatorList
+    operatorList,
+    fieldHeader,
+    groupHeader
 }) => {
     let {
-        header,
         data
     } = dataSrc;
+    let calFieldHeader = getSrcHeaderName(calFields, fieldHeader);
+    let groupFieldsHeader = getSrcHeaderName(groupFields, groupHeader);
 
-    let fields = R.concat(groupFields, calFields);
-
-
-    let calFieldHeader = getSrcHeaderName(calFields, header);
-    let headerFields = getSrcHeaderName(fields, header);
-    groupFields = getSrcHeaderName(groupFields, header);
+    let headerFields = R.concat(calFieldHeader, groupFieldsHeader);
 
     data = R.map(item => R.pick(headerFields)(item))(data);
     data = groupBy(calFieldHeader)(data);
@@ -100,11 +98,11 @@ export const groupArr = ({
 
     let operatorLabel = R.map(id => dataOperator[id])(operatorList)
 
-    let operatorHeader = getOperatorHeader(groupFields.length > 0 ? groupFields : calFieldHeader, operatorLabel);
+    let operatorHeader = getOperatorHeader(groupFieldsHeader.length > 0 ? groupFieldsHeader : calFieldHeader, operatorLabel);
 
     if (hasCountOperation) {
         operatorHeader.push({
-            fields: groupFields[0] || calFieldHeader[0],
+            fields: groupFieldsHeader[0] || calFieldHeader[0],
             header: '计数',
             calcType: 0
         })
@@ -134,10 +132,10 @@ export const groupArr = ({
 
 const handleDataItem = (data, operator, calFields) => {
     let result = R.pick(calFields)(data[0]);
-    let cachedColName = R.uniq(getCol(operator, ['fields']));
+    let cachedColName = R.uniq(getCol(operator, 'fields'));
     let cache = {};
     cachedColName.forEach(col => {
-        cache[col] = getCol(data, [col])
+        cache[col] = getCol(data, col)
     });
     operator.forEach(({
         fields,
@@ -173,12 +171,7 @@ const handleDataItem = (data, operator, calFields) => {
     return result;
 }
 
-let getCol = (data, col) => {
-    let res = R.map(R.pick(col))(data)
-    res = R.map(R.values)(res)
-    return R.flatten(res);
-}
-
+let getCol = (data, col) => R.map(R.prop(col))(data)
 let getSum = data => R.reduce(R.add, 0)(data);
 let getCount = data => data.length;
 let getMax = data => R.reduce(R.max, data[0])(data);
