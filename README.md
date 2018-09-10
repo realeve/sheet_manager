@@ -2,11 +2,14 @@
 
 基于 umi+dva+antd+react
 
-## 路由
+# 功能列表
 
-此处 :tid 表示接口 id，数据格式有微调
-http://localhost:8000/table/:tid
+## 👌 1. table 组件
 
-http://localhost:8000/table/:tid?cache=10
+http://localhost:8000/table/#id=7/d0e509c803
 
-http://localhost:8000/table/:tid?cache=10&其它参数
+/table/#id=6/8d5b63370c&data_type=score
+
+/table/#id=6/8d5b63370c&data_type=score&id=6/8d5b63370c&data_type=dom_loaded
+
+## 👌 2. chart 组件

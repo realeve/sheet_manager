@@ -29,3 +29,28 @@
 .imgContent {
   width: 200px;
 }
+
+@media (max-width: 768px) {
+  .hide {
+    display: none;
+  }
+  .header {
+    button {
+      .hide;
+    }
+    .tips {
+      .title {
+        font-size: 16px;
+      }
+      .subTitle {
+        margin: 5px 0;
+      }
+    }
+    .search {
+      .hide;
+    }
+  }
+  .tblSetting {
+    .hide;
+  }
+}

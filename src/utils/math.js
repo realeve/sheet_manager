@@ -94,8 +94,12 @@ export const groupArr = ({
     groupHeader
 }) => {
     let {
-        data
+        data,
+        rows
     } = dataSrc;
+    if (rows === 0) {
+        return dataSrc;
+    }
     let calFieldHeader = getSrcHeaderName(calFields, fieldHeader);
     let groupFieldsHeader = getSrcHeaderName(groupFields, groupHeader);
 
@@ -132,7 +136,7 @@ export const groupArr = ({
 
     let calData = data.map(item => handleDataItem(item, operatorHeader, calFieldHeader))
     calData = R.flatten(calData);
-    let rows = calData.length;
+    rows = calData.length;
 
     // 将数据中的对象重新转换为数组
     calData = calData.map(item => _header.map(key => item[key]))

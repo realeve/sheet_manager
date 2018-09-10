@@ -82,12 +82,15 @@ export default {
             dispatch,
             history
         }) {
-            // /table/#id=6/8d5b63370c&data_type=score
-            // /table/#id=6/8d5b63370c&data_type=score&id=6/8d5b63370c&data_type=dom_loaded
             return history.listen(({
                 pathname,
                 hash
             }) => {
+                const match = pathToRegexp("/" + namespace).exec(pathname);
+                if (!match) {
+                    return;
+                }
+
                 let queryStr = hash.slice(1);
                 let query = qs.parse(queryStr);
                 let {
@@ -102,11 +105,6 @@ export default {
 
                 let needRefresh = id && id.length
 
-                const match = pathToRegexp("/" + namespace).exec(pathname);
-
-                if (!match) {
-                    return;
-                }
 
                 const [tstart, tend] = dateRanges["过去一月"];
                 const [ts, te] = [tstart.format("YYYYMMDD"), tend.format("YYYYMMDD")];

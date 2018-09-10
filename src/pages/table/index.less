@@ -1,7 +1,7 @@
 .header {
   display: flex;
   justify-content: flex-end;
-  margin: 0 0 10px 0;
+  margin: -40px 0 10px 0;
   .labelDesc {
     padding-right: 10px;
   }
@@ -24,4 +24,15 @@
 .tableContainer {
   margin-top: 40px;
   .dataList;
+}
+
+@media (max-width: 768px) {
+  .hide {
+    display: none;
+  }
+  .header {
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px 0;
+  }
 }

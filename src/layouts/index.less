@@ -21,12 +21,14 @@
     text-align: center;
   }
 }
+
 .clear {
   padding: 0;
   margin: 0;
   box-shadow: none;
   border: none;
 }
+
 @media print {
   .main {
     background: #fff;
@@ -46,5 +48,13 @@
   }
   :global(.ant-back-top) {
     display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    .container {
+      padding: 0 10px;
+    }
   }
 }
