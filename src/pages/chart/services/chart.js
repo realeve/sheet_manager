@@ -1,7 +1,8 @@
 import util from "../utils/lib";
 import chartOption from "../utils/charts";
 import {
-    axios
+    axios,
+    DEV
 } from "../../../utils/axios";
 const R = require('ramda');
 
@@ -66,7 +67,7 @@ export const computeDerivedState = async({
     params,
     idx
 }) => {
-    console.time()
+    console.time(`加载图表${idx+1}数据`)
     let dataSrc = await axios({
         url,
         params
@@ -76,8 +77,10 @@ export const computeDerivedState = async({
         params,
         idx
     });
-    console.log(`option=${JSON.stringify(option)}`);
-    console.timeEnd()
+    if (DEV) {
+        console.log(`option=${JSON.stringify(option)}`);
+    }
+    console.timeEnd(`加载图表${idx+1}数据`)
     return {
         dataSrc,
         option,
