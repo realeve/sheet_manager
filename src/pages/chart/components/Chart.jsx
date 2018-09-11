@@ -5,10 +5,6 @@ import styles from "./Chart.less";
 import ReactEcharts from "./echarts-for-react";
 const R = require("ramda");
 
-// import theme from "../utils/theme";
-// import echarts from "echarts";
-// echarts.registerTheme("g2", theme);
-
 class Charts extends Component {
   constructor(props) {
     super(props);
@@ -33,43 +29,29 @@ class Charts extends Component {
 
   componentDidMount() {
     this.init();
-    // console.log(this.echarts_react);
-    this.echarts_react.renderEchartDom();
-    // window.onhashchange = () => {
-    //   this.hashChange();
-    // };
   }
 
-  static getDerivedStateFromProps(nextProp, { dataSrc }) {
-    if (R.equals(nextProp.dataSrc, { dataSrc })) {
-      return { loading: true };
+  static getDerivedStateFromProps({ config }, state) {
+    let { dataSrc, params } = config;
+    console.log(params, state.params);
+    if (R.equals(dataSrc, state.dataSrc) && R.equals(params, state.params)) {
+      return { loading: false };
     }
     return {
       dataSrc,
-      loading: false
+      params,
+      loading: true
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (R.equals(prevProps.dataSrc, prevState.dataSrc)) {
-      console.log("update");
+  componentDidUpdate({ config }) {
+    let { dataSrc, url, params } = this.state;
+    if (R.equals(config, { dataSrc, url, params })) {
       return false;
     }
 
-    // let state = await db.computeDerivedState(config, idx);
-    // this.setState({
-    //   ...state
-    // });
+    this.init();
   }
-
-  // hashChange = async () => {
-  //   let { config, idx } = this.state;
-  //   this.setState({ loading: true });
-  //   let state = await db.computeDerivedState(config, idx);
-  //   console.log(state);
-  //   this.setState({ ...state });
-  //   this.chartInstance.renderEchartDom();
-  // };
 
   render() {
     let { loading } = this.state;
@@ -80,7 +62,6 @@ class Charts extends Component {
         className={styles.exCard}
         loading={loading}
       >
-        <div>{JSON.stringify(this.state.config)}</div>
         <ReactEcharts
           ref={e => {
             this.echarts_react = e;
