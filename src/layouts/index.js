@@ -16,7 +16,8 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      curPageName: ""
+      curPageName: "",
+      pageDetail: props.curPageName || ""
     };
     this.handleLoginLogic();
   }
@@ -82,8 +83,8 @@ class Index extends Component {
           >
             <Content className={styles.container}>
               <Breadcrumb className={styles.breadCrumb}>
-                <Breadcrumb.Item>主页</Breadcrumb.Item>
                 <Breadcrumb.Item>{this.state.curPageName}</Breadcrumb.Item>
+                <Breadcrumb.Item>{this.state.pageDetail}</Breadcrumb.Item>
               </Breadcrumb>
               <div className={styles.content}>{children}</div>
             </Content>

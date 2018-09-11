@@ -308,7 +308,11 @@ class Tables extends Component {
     };
 
     const TableSetting = () => (
-      <Form layout="inline" className={styles.tblSetting}>
+      <Form
+        layout="inline"
+        className={styles.tblSetting}
+        style={{ paddingLeft: 15 }}
+      >
         <FormItem label="表格边框">
           <Switch
             checked={this.state.bordered}

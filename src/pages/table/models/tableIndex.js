@@ -59,6 +59,9 @@ export default {
                 axiosOptions,
                 dataSource
             } = yield select(state => state[namespace]);
+
+            let curPageName = "";
+
             for (let idx = 0; idx < axiosOptions.length; idx++) {
                 let {
                     url
@@ -67,8 +70,14 @@ export default {
 
                 // 将apiid绑定在接口上，方便对数据设置存储
                 dataSource[idx].api_id = url.replace('/array', '');
+                curPageName = dataSource[idx].title;
             }
-
+            yield put({
+                type: "common/setStore",
+                payload: {
+                    curPageName
+                }
+            })
             yield put({
                 type: "setStore",
                 payload: {

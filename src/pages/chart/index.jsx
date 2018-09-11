@@ -24,6 +24,15 @@ function Charts({ dispatch, dateRange, config, loading }) {
     });
   };
 
+  const onLoad = curPageName => {
+    dispatch({
+      type: "common/setStore",
+      payload: {
+        curPageName
+      }
+    });
+  };
+
   const DateRangePicker = () => (
     <div className={styles.setting}>
       <label className={styles.labelDesc}>起始时间:</label>
@@ -55,7 +64,7 @@ function Charts({ dispatch, dateRange, config, loading }) {
           className={idx > 0 ? styles.tableContainer : ""}
           key={option.url + idx}
         >
-          <Chart config={option} idx={idx} />
+          <Chart onLoad={onLoad} config={option} idx={idx} />
         </div>
       ))}
     </>
