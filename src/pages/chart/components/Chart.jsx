@@ -20,19 +20,6 @@ class Charts extends Component {
     };
   }
 
-  init = async () => {
-    let state = await db.computeDerivedState(this.state);
-    state.dataSrc.data = state.dataSrc.data.map(item => Object.values(item));
-    this.setState({
-      ...state
-    });
-    this.props.onLoad(state.dataSrc.title);
-  };
-
-  componentDidMount() {
-    this.init();
-  }
-
   static getDerivedStateFromProps({ config }, state) {
     let { params } = config;
     if (R.equals(params, state.params)) {
@@ -44,12 +31,29 @@ class Charts extends Component {
     };
   }
 
+  init = async () => {
+    let state = await db.computeDerivedState(this.state);
+    state.dataSrc.data = state.dataSrc.data.map(item => Object.values(item));
+    this.setState({
+      ...state
+    });
+    this.props.onLoad(state.dataSrc.title);
+  };
+
   componentDidUpdate({ config }) {
     let { url, params } = this.state;
     if (R.equals(config.params, params) && url === config.url) {
       return false;
     }
     this.init();
+  }
+
+  componentDidMount() {
+    this.init();
+  }
+
+  componentWillUnmount() {
+    this.echarts_react.dispose();
   }
 
   render() {
