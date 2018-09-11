@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import Chart from "./components/Chart";
+import Chart from "./components/Chart.jsx";
 import { DatePicker, Card } from "antd";
 import styles from "./index.less";
 import dateRanges from "../../utils/ranges";
@@ -10,7 +10,7 @@ moment.locale("zh-cn");
 
 const RangePicker = DatePicker.RangePicker;
 
-function Charts({ dispatch, dateRange, config, loading }) {
+function Charts({ dispatch, dateRange, dataSource, loading }) {
   const onDateChange = async (dates, dateStrings) => {
     const [tstart, tend] = dateStrings;
     await dispatch({
@@ -19,7 +19,7 @@ function Charts({ dispatch, dateRange, config, loading }) {
     });
 
     await dispatch({
-      type: "chart/updateConfig",
+      type: "chart/refreshData",
       payload: { tstart, tend }
     });
   };
@@ -38,9 +38,11 @@ function Charts({ dispatch, dateRange, config, loading }) {
       />
     </div>
   );
-  if (!config.length) {
+
+  if (!dataSource.length) {
     return <Card title="加载中" loading={true} />;
   }
+
   return (
     <>
       <div className={styles.header}>
@@ -48,12 +50,9 @@ function Charts({ dispatch, dateRange, config, loading }) {
           <DateRangePicker />
         </div>
       </div>
-      {config.map((item, id) => (
-        <div
-          className={id > 0 ? styles.tableContainer : ""}
-          key={item.params.ID}
-        >
-          <Chart config={item} idx={id} />
+      {dataSource.map((item, idx) => (
+        <div className={idx > 0 ? styles.tableContainer : ""} key={item.url}>
+          <Chart config={item} idx={idx} />
         </div>
       ))}
     </>

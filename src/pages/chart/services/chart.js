@@ -1,37 +1,77 @@
-// import request from "../../../utils/request";
-import axios from "axios";
-import * as lib from "../../../utils/lib";
 import util from "../utils/lib";
 import chartOption from "../utils/charts";
+import {
+    axios
+} from "../../../utils/axios";
 
-export const fetchData = async ({ url, params }) =>
-  await axios({ url, params }).then(res => res.data);
+export const fetchData = params => axios(params)
 
-export const getQueryConfig = ({ tid, tstart, tend, idx }) => ({
-  type: "fetchAPIData",
-  payload: {
-    url: lib.apiHost,
-    params: {
-      ID: tid,
-      cache: 10,
-      tstart,
-      tend,
-      tstart2: tstart,
-      tend2: tend,
-      tstart3: tstart,
-      tend3: tend
-    },
-    idx
-  }
+export const getQueryConfig = (url, params) => ({
+    url,
+    params: {...params,
+        tstart2: params.tstart,
+        tend2: params.tend,
+        tstart3: params.tstart,
+        tend3: params.tend
+    }
 });
 
 export const getChartOption = (data, idx, dateRange) => {
-  let config = util.getChartConfig(idx);
-  config.data = data;
-  config.dateRange = dateRange;
-  let { type } = config;
-  type = type === "line" ? "bar" : type;
-  const opt = data.length === 0 ? {} : chartOption[type](config);
+    let config = util.getChartConfig(idx);
+    config.data = data;
+    config.dateRange = dateRange;
+    let {
+        type
+    } = config;
+    type = type || 'bar';
 
-  return util.handleDefaultOption(opt, config);
+    const opt = data.length === 0 ? {} : chartOption[type](config);
+    return util.handleDefaultOption(opt, config);
 };
+
+export const computeDerivedState = async({
+    dataSrc,
+    params,
+    idx
+}) => {
+    console.time()
+        // let dataSrc = await axios(config);
+    const option = getOption({
+        dataSrc,
+        params,
+        idx
+    });
+    console.log(`option=${JSON.stringify(option)}`);
+    console.timeEnd()
+    return {
+        dataSrc,
+        option,
+        loading: false
+    };
+}
+
+export const getOption = ({
+    dataSrc,
+    params,
+    idx
+}) => {
+    let {
+        tstart,
+        tend
+    } = params;
+    if (dataSrc.rows) {
+        // 根据地址栏参数顺序决定图表配置顺序
+        return getChartOption(dataSrc, idx, [tstart, tend]);
+    }
+
+    return {
+        tooltip: {},
+        xAxis: {
+            type: "category"
+        },
+        yAxis: {
+            type: "value"
+        },
+        series: []
+    };
+}

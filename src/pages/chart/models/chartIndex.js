@@ -1,15 +1,14 @@
 import pathToRegexp from "path-to-regexp";
-import * as db from "../services/chart";
 import * as lib from '../../../utils/lib';
-
+import * as db from '../services/chart'
 const namespace = "chart";
 export default {
     namespace,
     state: {
         dateRange: [],
         tid: [],
-        config: {},
-        query: {}
+        query: {},
+        dataSource: []
     },
     reducers: {
         setStore(state, {
@@ -21,33 +20,52 @@ export default {
         },
     },
     effects: {
-        * updateConfig({
+        * refreshData({
             payload: {
                 tstart,
                 tend
             }
         }, {
-            put,
             call,
+            put,
             select
         }) {
             const {
                 tid,
                 query
-            } = yield select(state => state.chartIndex);
+            } = yield select(state => state[namespace]);
+
             const config = tid.map(
-                item =>
-                db.getQueryConfig({
-                    ...query,
-                    tid: item,
-                    tstart,
-                    tend
-                }).payload
+                url => ({
+                    url, //: url + '/array',
+                    params: {...query,
+                        tstart,
+                        tend,
+                        tstart2: tstart,
+                        tend2: tend,
+                        tstart3: tstart,
+                        tend3: tend
+                    }
+                })
             );
+
+            let dataSource = []
+            for (let idx = 0; idx < config.length; idx++) {
+                let dataSrc = yield call(db.fetchData, config[idx]);
+                let {
+                    params,
+                    url
+                } = config[idx]
+                dataSource[idx] = {
+                    dataSrc,
+                    params,
+                    url
+                }
+            }
             yield put({
                 type: "setStore",
                 payload: {
-                    config
+                    dataSource
                 }
             });
         }
@@ -65,13 +83,11 @@ export default {
                 if (!match) {
                     return;
                 }
-
                 let {
                     id,
                     params,
                     dateRange
                 } = lib.handleUrlParams(hash);
-
                 dispatch({
                     type: "setStore",
                     payload: {
@@ -84,7 +100,7 @@ export default {
                 let [tstart, tend] = dateRange;
 
                 dispatch({
-                    type: "updateConfig",
+                    type: "refreshData",
                     payload: {
                         tstart,
                         tend
