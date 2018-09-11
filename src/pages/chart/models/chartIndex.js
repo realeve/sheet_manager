@@ -1,6 +1,5 @@
 import pathToRegexp from "path-to-regexp";
 import * as lib from '../../../utils/lib';
-import * as db from '../services/chart'
 const namespace = "chart";
 export default {
     namespace,
@@ -8,7 +7,7 @@ export default {
         dateRange: [],
         tid: [],
         query: {},
-        dataSource: []
+        config: []
     },
     reducers: {
         setStore(state, {
@@ -20,7 +19,7 @@ export default {
         },
     },
     effects: {
-        * refreshData({
+        * refreshConfig({
             payload: {
                 tstart,
                 tend
@@ -37,7 +36,7 @@ export default {
 
             const config = tid.map(
                 url => ({
-                    url, //: url + '/array',
+                    url,
                     params: {...query,
                         tstart,
                         tend,
@@ -49,23 +48,10 @@ export default {
                 })
             );
 
-            let dataSource = []
-            for (let idx = 0; idx < config.length; idx++) {
-                let dataSrc = yield call(db.fetchData, config[idx]);
-                let {
-                    params,
-                    url
-                } = config[idx]
-                dataSource[idx] = {
-                    dataSrc,
-                    params,
-                    url
-                }
-            }
             yield put({
                 type: "setStore",
                 payload: {
-                    dataSource
+                    config
                 }
             });
         }
@@ -100,7 +86,7 @@ export default {
                 let [tstart, tend] = dateRange;
 
                 dispatch({
-                    type: "refreshData",
+                    type: "refreshConfig",
                     payload: {
                         tstart,
                         tend

@@ -30,12 +30,15 @@ export const getChartOption = (data, idx, dateRange) => {
 };
 
 export const computeDerivedState = async({
-    dataSrc,
+    url,
     params,
     idx
 }) => {
     console.time()
-        // let dataSrc = await axios(config);
+    let dataSrc = await axios({
+        url,
+        params
+    });
     const option = getOption({
         dataSrc,
         params,

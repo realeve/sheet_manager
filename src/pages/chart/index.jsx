@@ -10,7 +10,7 @@ moment.locale("zh-cn");
 
 const RangePicker = DatePicker.RangePicker;
 
-function Charts({ dispatch, dateRange, dataSource, loading }) {
+function Charts({ dispatch, dateRange, config, loading }) {
   const onDateChange = async (dates, dateStrings) => {
     const [tstart, tend] = dateStrings;
     await dispatch({
@@ -19,14 +19,14 @@ function Charts({ dispatch, dateRange, dataSource, loading }) {
     });
 
     await dispatch({
-      type: "chart/refreshData",
+      type: "chart/refreshConfig",
       payload: { tstart, tend }
     });
   };
 
   const DateRangePicker = () => (
-    <div>
-      {/* <label className={styles.labelDesc}>起始时间:</label> */}
+    <div className={styles.setting}>
+      <label className={styles.labelDesc}>起始时间:</label>
       <RangePicker
         ranges={dateRanges}
         format="YYYYMMDD"
@@ -39,8 +39,8 @@ function Charts({ dispatch, dateRange, dataSource, loading }) {
     </div>
   );
 
-  if (!dataSource.length) {
-    return <Card title="加载中" loading={true} />;
+  if (!config.length) {
+    return <Card loading={true} />;
   }
 
   return (
@@ -50,9 +50,12 @@ function Charts({ dispatch, dateRange, dataSource, loading }) {
           <DateRangePicker />
         </div>
       </div>
-      {dataSource.map((item, idx) => (
-        <div className={idx > 0 ? styles.tableContainer : ""} key={item.url}>
-          <Chart config={item} idx={idx} />
+      {config.map((option, idx) => (
+        <div
+          className={idx > 0 ? styles.tableContainer : ""}
+          key={option.url + idx}
+        >
+          <Chart config={option} idx={idx} />
         </div>
       ))}
     </>

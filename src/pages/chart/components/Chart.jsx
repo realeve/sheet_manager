@@ -8,22 +8,19 @@ const R = require("ramda");
 class Charts extends Component {
   constructor(props) {
     super(props);
-    let { dataSrc, params, url } = props.config;
     this.state = {
       loading: false,
       option: {},
-      dataSrc,
-      params,
       idx: props.idx,
-      url
+      ...props.config
     };
   }
 
   init = async () => {
-    let { dataSrc, params, url, idx } = this.state;
-    let data = await db.computeDerivedState({ dataSrc, params, url, idx });
+    let state = await db.computeDerivedState(this.state);
+    //更新 state.dataSrc;
     this.setState({
-      ...data
+      ...state
     });
   };
 
@@ -32,24 +29,21 @@ class Charts extends Component {
   }
 
   static getDerivedStateFromProps({ config }, state) {
-    let { dataSrc, params } = config;
-    console.log(params, state.params);
-    if (R.equals(dataSrc, state.dataSrc) && R.equals(params, state.params)) {
+    let { params } = config;
+    if (R.equals(params, state.params)) {
       return { loading: false };
     }
     return {
-      dataSrc,
       params,
       loading: true
     };
   }
 
   componentDidUpdate({ config }) {
-    let { dataSrc, url, params } = this.state;
-    if (R.equals(config, { dataSrc, url, params })) {
+    let { url, params } = this.state;
+    if (R.equals(config.params, params) && url === config.url) {
       return false;
     }
-
     this.init();
   }
 
@@ -57,7 +51,6 @@ class Charts extends Component {
     let { loading } = this.state;
     return (
       <Card
-        style={{ width: "100%" }}
         bodyStyle={{ padding: "12px" }}
         className={styles.exCard}
         loading={loading}
