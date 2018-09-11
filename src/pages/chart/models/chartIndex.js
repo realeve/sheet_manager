@@ -1,5 +1,6 @@
 import pathToRegexp from "path-to-regexp";
 import * as lib from '../../../utils/lib';
+import * as db from '../services/chart'
 const namespace = "chart";
 export default {
     namespace,
@@ -20,34 +21,16 @@ export default {
     },
     effects: {
         * refreshConfig({
-            payload: {
-                tstart,
-                tend
-            }
+            payload
         }, {
             call,
             put,
             select
         }) {
-            const {
-                tid,
-                query
-            } = yield select(state => state[namespace]);
-
-            const config = tid.map(
-                url => ({
-                    url,
-                    params: {...query,
-                        tstart,
-                        tend,
-                        tstart2: tstart,
-                        tend2: tend,
-                        tstart3: tstart,
-                        tend3: tend
-                    }
-                })
-            );
-
+            const res = yield select(state => state[namespace]);
+            const config = db.decodeHash({...payload,
+                ...res
+            })
             yield put({
                 type: "setStore",
                 payload: {

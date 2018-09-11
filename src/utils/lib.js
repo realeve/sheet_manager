@@ -237,7 +237,9 @@ export const thouandsNum = (num, decimalLength = 2) => {
 
 // 处理url链接信息，返回组件model所需的初始数据
 export const handleUrlParams = hash => {
-    let queryStr = hash.slice(1);
+    let queryStr = hash.slice(1)
+        .replace(/，/g, ",")
+        .replace(/ /g, "");
     let query = qs.parse(queryStr);
     let {
         id

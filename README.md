@@ -19,3 +19,6 @@ http://localhost:8000/chart#id=6/8d5b63370c&data_type=answer_minutes&x=3&y=4&leg
 http://localhost:8000/chart#id=6/8d5b63370c&data_type=dom_loaded&x=3&y=4&legend=2&type=line
 
 http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=line
+
+多张图表拼合
+http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=line&smooth=1&id=6/8d5b63370c&data_type=dom_loaded&x=3&y=4&legend=2&type=line&smooth=1
