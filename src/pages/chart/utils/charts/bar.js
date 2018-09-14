@@ -1,4 +1,5 @@
 import util from "../lib";
+import jStat from 'jStat';
 const R = require("ramda");
 
 let chartConfig = [{
@@ -50,6 +51,10 @@ let chartConfig = [{
         key: 'min/max',
         title: 'Y轴最小值/最大值',
         default: '自动设置'
+    }, {
+        key: 'barWidth 或 barwidth',
+        title: '柱状图柱条最大宽度',
+        default: 'auto'
     }
 ];
 
@@ -168,6 +173,10 @@ let handleSeriesItem = option => seriesItem => {
         );
     }
 
+    if (option.barWidth || option.barwidth) {
+        seriesItem.barMaxWidth = option.barWidth || option.barwidth
+    }
+
     return seriesItem;
 };
 
@@ -190,6 +199,33 @@ let getChartConfig = options => {
         xAxis = R.map(util.str2Date)(xAxis);
     }
     series = R.map(handleSeriesItem(option))(series);
+
+    // 只有一项时
+    if (series.length === 1 || series[0].type === 'bar') {
+        let {
+            data,
+            barMaxWidth
+        } = series[0];
+        let max = jStat.max(data);
+        data = data.map(item => max);
+        series[0].z = 10;
+        let seriesItem = {
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    "color": "rgba(0,0,0,0.1)"
+                }
+            },
+            silent: true,
+            // barWidth: 40,
+            barGap: '-100%',
+            data
+        };
+        if (barMaxWidth) {
+            seriesItem.barMaxWidth = barMaxWidth;
+        }
+        series.push(seriesItem)
+    }
 
     let axisOption = {
         nameLocation: "center",
@@ -305,7 +341,7 @@ const handlePareto = option => {
         {
             name: "帕累托(%)",
             nameLocation: "middle",
-            nameGap: 45,
+            nameGap: 36,
             nameTextStyle: {
                 fontSize: 16
             },
