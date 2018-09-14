@@ -1,6 +1,58 @@
 import util from "../lib";
 const R = require("ramda");
 
+let chartConfig = [{
+        key: 'x',
+        title: 'X轴在数据的索引或键值',
+        default: 0
+    },
+    {
+        key: 'y',
+        title: 'Y轴在数据的索引或键值',
+        default: 1
+    },
+    {
+        key: 'legend',
+        title: '数据序列的索引或键值',
+        default: '当legend存在时，legend/x/y默认为0，1，2'
+    },
+    {
+        key: 'type',
+        title: '图表类型',
+        default: 'bar，默认；line，曲线图'
+    },
+    {
+        key: 'smooth',
+        title: '平滑曲线',
+        default: '1/0  是/否'
+    },
+    {
+        key: 'stack',
+        title: '堆叠数据',
+        default: 0
+    }, {
+        key: 'area',
+        title: '曲线图中开启该项则显示面积图',
+        default: 0
+    }, {
+        key: 'zoom',
+        title: '是否显示缩放条',
+        default: 0
+    }, {
+        key: 'reverse',
+        title: '交换x/y轴',
+        default: 0
+    }, {
+        key: 'pareto',
+        title: '显示帕累托曲线',
+        default: 0
+    }, {
+        key: 'min/max',
+        title: 'Y轴最小值/最大值',
+        default: '自动设置'
+    }
+];
+
 let getOption = options => {
     let option;
     switch (options.data.header.length) {
@@ -141,7 +193,7 @@ let getChartConfig = options => {
 
     let axisOption = {
         nameLocation: "center",
-        nameGap: 25,
+        nameGap: 60,
         nameTextStyle: {
             fontWeight: "bold"
         }
@@ -253,7 +305,7 @@ const handlePareto = option => {
         {
             name: "帕累托(%)",
             nameLocation: "middle",
-            nameGap: 15,
+            nameGap: 45,
             nameTextStyle: {
                 fontSize: 16
             },
@@ -288,12 +340,14 @@ const handlePareto = option => {
     // source = R.compose(R.sortBy(R.descend(R.nth(1))), R.map(i => g(i)(i)))(
     //   source
     // );
-    source = R.compose(
-        R.sortBy(R.descend(R.nth(1))),
-        R.map(R.adjust(parseFloat, 1))
-    )(source);
 
-    let valueIndex = source;
+    // console.log(source);
+    // source = R.compose(
+    //     R.sortBy(R.descend(R.nth(1))),
+    //     R.map(R.adjust(parseFloat, 1))
+    // )(source);
+
+    let valueIndex = R.clone(source);
     valueIndex.forEach((item, i) => {
         if (i < valueIndex.length - 1) {
             valueIndex[i + 1] = parseInt(valueIndex[i + 1], 10) + parseInt(item, 10);
@@ -348,5 +402,6 @@ const handlePareto = option => {
 };
 
 export {
-    bar
+    bar,
+    chartConfig
 };

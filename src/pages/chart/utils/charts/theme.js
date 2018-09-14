@@ -98,8 +98,8 @@ export default {
     },
     grid: {
         borderWidth: 0,
-        left: 50,
-        right: 20,
+        left: 100,
+        right: 50,
         top: 50,
         bottom: 60
             // containLabel: true
