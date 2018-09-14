@@ -28,9 +28,12 @@ const decodeUrlParam = ({
         let item = params[key];
         if (R.type(item) !== 'Array') {
             param[key] = item;
-            return;
+        } else {
+            param[key] = item[idx] ? item[idx] : R.last(item);
         }
-        param[key] = item[idx] ? item[idx] : R.last(item);
+        if (param[key].includes(';')) {
+            param[key] = param[key].split(';')
+        }
     }
     R.compose(R.forEach(handleKey), R.keys)(params);
     return param;

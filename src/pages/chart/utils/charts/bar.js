@@ -97,9 +97,15 @@ let handleDataWithLegend = (srcData, option) => {
         data,
         header
     } = srcData;
-    let getUniqByIdx = idx => R.compose(R.uniq, R.pluck(header[idx]))(data);
-    let xAxis = R.sort((a, b) => a - b)(getUniqByIdx(option.x));
-    let legendData = getUniqByIdx(option.legend);
+
+    let xAxis = R.sort((a, b) => a - b)(util.getUniqByIdx({
+        key: header[option.x],
+        data
+    }));
+    let legendData = util.getUniqByIdx({
+        key: option.legend,
+        data
+    });
     let getSeriesData = name => {
         let dataList = R.filter(R.propEq(header[option.legend], name))(data);
         let seriesData = R.map(item => {
@@ -126,8 +132,11 @@ let handleDataNoLegend = (srcData, option) => {
         data,
         header
     } = srcData;
-    let getDataByIdx = idx => R.pluck(header[idx])(data);
-    let xAxis = R.sort((a, b) => a - b)(getDataByIdx(option.x));
+
+    let xAxis = R.sort((a, b) => a - b)(util.getDataByIdx({
+        data,
+        key: header[option.x]
+    }));
 
     let getSeriesData = () => {
         let seriesData = R.map(item =>

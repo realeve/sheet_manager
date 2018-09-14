@@ -132,6 +132,9 @@ export default {
         axisLine: {
             show: false
         },
+        axisTick: {
+            show: false
+        },
         axisLabel: {
             textStyle: {
                 color: "#222"

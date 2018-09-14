@@ -117,6 +117,19 @@ let needConvertDate = dateStr => {
     );
 };
 
+let getDataByIdx = ({
+    key,
+    data
+}) => R.pluck(key)(data);
+
+let getUniqByIdx = ({
+    key,
+    data
+}) => R.uniq(getDataByIdx({
+    key,
+    data
+}));
+
 export default {
     isDate,
     needConvertDate,
@@ -125,5 +138,7 @@ export default {
     handleDefaultOption,
     str2Date,
     str2Num,
-    handleColor: gColor.handleColor
+    handleColor: gColor.handleColor,
+    getUniqByIdx,
+    getDataByIdx
 };
