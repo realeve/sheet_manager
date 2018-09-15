@@ -63,7 +63,7 @@ let chartConfig = [{
         url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=bar&barshadow=1'
     }, {
         key: 'pictorial',
-        title: '是否使用象形柱图',
+        title: '是否使用象形柱图,仅支持平面坐标系',
         default: 0
     },
     {
@@ -71,6 +71,12 @@ let chartConfig = [{
         title: '象形柱图使用三角形/弧形',
         default: '0:三角形,1：弧形',
         url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&type=bar&legend=2&pictorial=1&symbol=1'
+    },
+    {
+        key: 'polar',
+        title: '极坐标系，与象形柱图不能同时存在',
+        default: 0,
+        url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&area=1&type=line&legend=2&pictorial=0&polar=1'
     }
 ];
 
@@ -109,11 +115,12 @@ let getOption = options => {
         "y",
         "legend"
     ]);
-    option.smooth = option.smooth !== "0";
+    option.smooth = options.smooth !== '0';
 
-    if (option.pictorial) {
+    if (options.pictorial && (R.isNil(options.polar) || options.polar === '0')) {
         option.type = 'pictorialBar';
     }
+    console.log(options)
 
     return option;
 };
@@ -368,11 +375,20 @@ let bar = options => {
 
     // 极坐标系
     if (options.polar) {
-        configs = Object.assign(configs, {
-            radiusAxis: {},
-            polar: {},
-            angleAxis: configs.xAxis
-        });
+        if (options.reverse && options.reverse === '1') {
+            configs.yAxis.nameGap = -40;
+            configs = Object.assign(configs, {
+                radiusAxis: configs.yAxis,
+                polar: {},
+                angleAxis: {}
+            });
+        } else {
+            configs = Object.assign(configs, {
+                radiusAxis: {},
+                polar: {},
+                angleAxis: configs.xAxis
+            });
+        }
         Reflect.deleteProperty(configs, "dataZoom");
         Reflect.deleteProperty(configs, "xAxis");
         Reflect.deleteProperty(configs, "yAxis");
