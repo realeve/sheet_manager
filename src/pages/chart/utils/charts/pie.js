@@ -132,18 +132,18 @@ let standardPie = ({
                 shadowColor: "rgba(0, 0, 0, 0.5)"
             }
         },
-        label: {
-            emphasis: {
-                show: true,
-                textStyle: {
-                    fontSize: '20'
-                },
-                formatter: ({
-                    seriesName,
-                    name
-                }) => seriesName + '\n' + name
-            }
-        },
+        // label: {
+        //     emphasis: {
+        //         show: true,
+        //         textStyle: {
+        //             fontSize: '20'
+        //         },
+        //         formatter: ({
+        //             seriesName,
+        //             name
+        //         }) => seriesName + '\n' + name
+        //     }
+        // },
     })
 
 
