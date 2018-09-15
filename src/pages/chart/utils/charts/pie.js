@@ -23,8 +23,9 @@ let chartConfig = [{
     },
     {
         key: 'doughnut',
-        title: '是否显示为环形图。示例url:/chart#id=6/8d5b63370c&data_type=sex;score;net_type;dom_loaded;wechat_version;answer_minutes&x=3&y=4&type=pie&legend=2&doughnut=1',
-        default: '0'
+        title: '是否显示为环形图。',
+        default: '0',
+        url: '/chart#id=6/8d5b63370c&data_type=sex;score;net_type;dom_loaded;wechat_version;answer_minutes&x=3&y=4&type=pie&legend=2&doughnut=1'
     }
 ];
 

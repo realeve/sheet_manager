@@ -46,7 +46,8 @@ let chartConfig = [{
     }, {
         key: 'pareto',
         title: '显示帕累托曲线',
-        default: 0
+        default: 0,
+        url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=line&smooth=1&area=1&pareto=1'
     }, {
         key: 'min/max',
         title: 'Y轴最小值/最大值',
@@ -58,9 +59,25 @@ let chartConfig = [{
     }, {
         key: 'barshadow',
         title: '显示柱状图背景',
+        default: 0,
+        url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=bar&barshadow=1'
+    }, {
+        key: 'pictorial',
+        title: '是否使用象形柱图',
         default: 0
+    },
+    {
+        key: 'symbol',
+        title: '象形柱图使用三角形/弧形',
+        default: '0:三角形,1：弧形',
+        url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&type=bar&legend=2&pictorial=1&symbol=1'
     }
 ];
+
+let symbol = {
+    triangle: 'path://M0,10 L10,10 L5,0 L0,10 z',
+    roundAngle: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z'
+}
 
 let getOption = options => {
     let option;
@@ -93,6 +110,11 @@ let getOption = options => {
         "legend"
     ]);
     option.smooth = option.smooth !== "0";
+
+    if (option.pictorial) {
+        option.type = 'pictorialBar';
+    }
+
     return option;
 };
 
@@ -190,6 +212,21 @@ let handleSeriesItem = option => seriesItem => {
 
     if (option.barWidth || option.barwidth) {
         seriesItem.barMaxWidth = option.barWidth || option.barwidth
+    }
+
+    if (option.type === 'pictorialBar') {
+        seriesItem = Object.assign({}, seriesItem, {
+            itemStyle: {
+                normal: {
+                    opacity: 0.6
+                },
+                emphasis: {
+                    opacity: 1
+                }
+            },
+            barGap: '0',
+            symbol: option.symbol == '0' ? symbol.triangle : symbol.roundAngle
+        });
     }
 
     return seriesItem;
