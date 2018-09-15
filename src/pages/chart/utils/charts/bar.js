@@ -55,6 +55,10 @@ let chartConfig = [{
         key: 'barWidth 或 barwidth',
         title: '柱状图柱条最大宽度',
         default: 'auto'
+    }, {
+        key: 'barshadow',
+        title: '显示柱状图背景',
+        default: 0
     }
 ];
 
@@ -102,10 +106,12 @@ let handleDataWithLegend = (srcData, option) => {
         key: header[option.x],
         data
     }));
+
     let legendData = util.getUniqByIdx({
-        key: option.legend,
+        key: header[option.legend],
         data
     });
+
     let getSeriesData = name => {
         let dataList = R.filter(R.propEq(header[option.legend], name))(data);
         let seriesData = R.map(item => {
@@ -210,7 +216,8 @@ let getChartConfig = options => {
     series = R.map(handleSeriesItem(option))(series);
 
     // 只有一项时
-    if (series.length === 1 || series[0].type === 'bar') {
+    // if (series.length === 1 && series[0].type === 'bar') {
+    if (option.barshadow) {
         let {
             data,
             barMaxWidth
