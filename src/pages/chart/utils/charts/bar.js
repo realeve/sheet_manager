@@ -48,7 +48,7 @@ let chartConfig = [{
         default: 0
     }, {
         key: 'pareto',
-        title: '显示帕累托曲线',
+        title: '显示帕累托曲线，只针对单个legend序列的数据。当有多个legend序列时默认对第1项数据处理',
         default: 0,
         url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=line&smooth=1&area=1&pareto=1'
     }, {
@@ -86,6 +86,11 @@ let chartConfig = [{
         title: '阶梯线图（也称为步骤图）,是与线图相似的​​图表，但是线在数据点之间形成一系列步骤。当您要显示以不规则间隔发生的更改时，分阶线图可能很有用。例如，奶制品价格上涨，汽油，税率，利率等。开启阶梯图时，smooth平滑选项自动关闭',
         default: '可选值start/middle/end,默认不设置',
         url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&area=0&type=line&legend=2&step=start'
+    },
+    {
+        type: 'percent',
+        title: '百分比堆叠图，开启该项时，帕累托选项自动关闭',
+        default: 0
     }
 ];
 
@@ -129,7 +134,6 @@ let getOption = options => {
     if (options.pictorial && (R.isNil(options.polar) || options.polar === '0')) {
         option.type = 'pictorialBar';
     }
-    console.log(options)
 
     return option;
 };
@@ -241,10 +245,11 @@ let handleSeriesItem = option => seriesItem => {
                 }
             },
             barGap: '0',
-            symbol: option.symbol == '0' ? symbol.triangle : symbol.roundAngle
+            symbol: option.symbol === '0' ? symbol.triangle : symbol.roundAngle
         });
     }
 
+    // 阶梯图
     if (option.step) {
         seriesItem.step = option.step;
         seriesItem.smooth = false;
@@ -252,6 +257,38 @@ let handleSeriesItem = option => seriesItem => {
 
     return seriesItem;
 };
+
+// 堆叠百分比处理
+let handlePercentSeries = series => {
+
+    const handleItem = item => {
+        item = parseFloat(item);
+        item = R.isNil(item) ? 0 : item;
+        return item;
+    }
+
+    let sumArr = [];
+    series.forEach(({
+        data
+    }, i) => {
+        data.forEach((item, idx) => {
+            item = handleItem(item)
+            sumArr[idx] = R.isNil(sumArr[idx]) ? item : sumArr[idx] + item;
+        })
+    })
+    series.forEach(({
+        data
+    }, i) => {
+        series[i].data = data.map((item, idx) => {
+            item = handleItem(item);
+            if (sumArr[idx] === 0) {
+                return '-';
+            }
+            return (100 * item / sumArr[idx])
+        })
+    })
+    return series;
+}
 
 let getChartConfig = options => {
     let option = getOption(options);
@@ -272,6 +309,10 @@ let getChartConfig = options => {
         xAxis = R.map(util.str2Date)(xAxis);
     }
     series = R.map(handleSeriesItem(option))(series);
+
+    if (option.percent) {
+        series = handlePercentSeries(series);
+    }
 
     // 只有一项时
     // if (series.length === 1 && series[0].type === 'bar') {
@@ -303,7 +344,7 @@ let getChartConfig = options => {
 
     let axisOption = {
         nameLocation: "center",
-        nameGap: 60,
+        nameGap: 30,
         nameTextStyle: {
             fontWeight: "bold"
         }
@@ -324,7 +365,8 @@ let getChartConfig = options => {
     xAxis = {
         data: xAxis,
         name: header[option.x],
-        ...axisOption
+        ...axisOption,
+        boundaryGap: false,
     };
 
     return {
@@ -383,7 +425,7 @@ let bar = options => {
     let configs = util.handleColor(option);
 
     // 帕累托图
-    if (options.pareto) {
+    if ((R.isNil(options.percent) || options.percent === '0') && options.pareto) {
         configs = handlePareto(option);
     }
 
