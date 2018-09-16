@@ -15,7 +15,8 @@ let chartConfig = [{
     {
         key: 'legend',
         title: '数据序列的索引或键值',
-        default: '当legend存在时，legend/x/y默认为0，1，2'
+        default: '不设置时，legend/x/y默认为0，1，2;如果数据列最多只有2列，则x/y为 0/1',
+        url: '/chart#id=8/26f49db157&area=1&type=line'
     },
     {
         key: 'type',
@@ -25,12 +26,14 @@ let chartConfig = [{
     {
         key: 'smooth',
         title: '平滑曲线',
-        default: '1/0  是/否'
+        default: '默认1，可选值 1/0  是/否',
+        url: '/chart#id=8/26f49db157&area=1&type=line&smooth=0'
     },
     {
         key: 'stack',
         title: '堆叠数据',
-        default: 0
+        default: 0,
+        url: '/chart#id=8/26f49db157&area=1&type=line&stack=1'
     }, {
         key: 'area',
         title: '曲线图中开启该项则显示面积图',
@@ -77,6 +80,12 @@ let chartConfig = [{
         title: '极坐标系，与象形柱图不能同时存在',
         default: 0,
         url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&area=1&type=line&legend=2&pictorial=0&polar=1'
+    },
+    {
+        key: 'step',
+        title: '阶梯线图（也称为步骤图）,是与线图相似的​​图表，但是线在数据点之间形成一系列步骤。当您要显示以不规则间隔发生的更改时，分阶线图可能很有用。例如，奶制品价格上涨，汽油，税率，利率等。开启阶梯图时，smooth平滑选项自动关闭',
+        default: '可选值start/middle/end,默认不设置',
+        url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&area=0&type=line&legend=2&step=start'
     }
 ];
 
@@ -198,7 +207,7 @@ let handleData = (srcData, option) => {
 };
 
 let handleSeriesItem = option => seriesItem => {
-    if (option.area && option.type !== "bar") {
+    if (option.area && option.area === '1' && option.type !== "bar") {
         seriesItem.areaStyle = {
             normal: {
                 opacity: 0.4
@@ -234,6 +243,11 @@ let handleSeriesItem = option => seriesItem => {
             barGap: '0',
             symbol: option.symbol == '0' ? symbol.triangle : symbol.roundAngle
         });
+    }
+
+    if (option.step) {
+        seriesItem.step = option.step;
+        seriesItem.smooth = false;
     }
 
     return seriesItem;
