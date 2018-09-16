@@ -5,10 +5,15 @@ import {
 import {
     pie
 } from "./pie";
+import {
+    sunburst
+} from './sunburst';
+
 
 export default {
     line: bar,
     bar,
     theme,
-    pie
+    pie,
+    sunburst
 };

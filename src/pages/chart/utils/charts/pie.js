@@ -26,6 +26,11 @@ let chartConfig = [{
         title: '是否显示为环形图。',
         default: '0',
         url: '/chart#id=6/8d5b63370c&data_type=sex;score;net_type;dom_loaded;wechat_version;answer_minutes&x=3&y=4&type=pie&legend=2&doughnut=1'
+    },
+    {
+        key: 'rose',
+        title: '玫瑰图样式',
+        default: 'radius/area,不设置时为默认样式'
     }
 ];
 
@@ -133,18 +138,6 @@ let standardPie = ({
                 shadowColor: "rgba(0, 0, 0, 0.5)"
             }
         },
-        // label: {
-        //     emphasis: {
-        //         show: true,
-        //         textStyle: {
-        //             fontSize: '20'
-        //         },
-        //         formatter: ({
-        //             seriesName,
-        //             name
-        //         }) => seriesName + '\n' + name
-        //     }
-        // },
     })
 
 
@@ -163,6 +156,14 @@ let standardPie = ({
     } else {
         seriesData = getSeriesData(data)
         series = getSeriesItem(header[option.x], ['50%', '50%'], seriesData)
+    }
+
+    // 玫瑰图
+    if (['area', 'radius'].includes(option.rose)) {
+        series = series.map(item => {
+            item.roseType = option.rose
+            return item;
+        })
     }
 
     return {
