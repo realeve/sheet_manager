@@ -79,7 +79,7 @@ let chartConfig = [{
         key: 'polar',
         title: '极坐标系，与象形柱图不能同时存在',
         default: 0,
-        url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&area=1&type=line&legend=2&pictorial=0&polar=1'
+        url: ['/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&area=1&type=line&legend=2&pictorial=0&polar=1', '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&reverse=1&area=1&type=bar&legend=2&pictorial=0&polar=1&barshadow=1', '/chart#id=6/8d5b63370c&data_type=sex&barwidth=20&x=3&y=4&reverse=1&area=1&type=bar&legend=2&pictorial=0&polar=1&barshadow=1&max=4000000']
     },
     {
         key: 'step',
@@ -367,7 +367,7 @@ let getChartConfig = options => {
         data: xAxis,
         name: header[option.x],
         ...axisOption,
-        boundaryGap: false,
+        boundaryGap: options.type === 'bar'
     };
 
     return {
@@ -437,11 +437,11 @@ let bar = options => {
             configs = Object.assign(configs, {
                 radiusAxis: configs.yAxis,
                 polar: {},
-                angleAxis: {}
+                angleAxis: configs.xAxis || {}
             });
         } else {
             configs = Object.assign(configs, {
-                radiusAxis: {},
+                radiusAxis: configs.yAxis || {},
                 polar: {},
                 angleAxis: configs.xAxis
             });
