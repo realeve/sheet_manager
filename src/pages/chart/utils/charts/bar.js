@@ -90,7 +90,8 @@ let chartConfig = [{
     {
         type: 'percent',
         title: '百分比堆叠图，开启该项时，帕累托选项自动关闭',
-        default: 0
+        default: 0,
+        url: '/chart#id=8/26f49db157&area=1&type=line&stack=1&percent=1'
     }
 ];
 
