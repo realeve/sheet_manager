@@ -55,17 +55,6 @@ export default {
             "rgb(38,185,139)",
             "rgb(38,185,139)"
         ],
-        feature: {
-            dataZoom: {},
-            // dataView: { readOnly: false },
-            magicType: {
-                type: ["line", "bar", "stack", "tiled"]
-            },
-            restore: {},
-            saveAsImage: {
-                type: "svg"
-            } //'png'
-        },
         left: "left"
     },
     legend: {

@@ -20,8 +20,21 @@ let getCopyRight = () => {
 };
 
 let handleDefaultOption = (option, config) => {
+    let toolbox = option.toolbox || {
+        feature: {
+            dataZoom: {},
+            magicType: {
+                type: ["line", "bar", "stack", "tiled"]
+            },
+            restore: {},
+            saveAsImage: {
+                type: "svg" //'png'
+            }
+        }
+    }
+
     option = Object.assign({
-            toolbox: {},
+            toolbox,
             tooltip: {},
             legend: {},
             title: [{

@@ -173,9 +173,14 @@ let standardPie = ({
             formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         legend: {
-            orient: "vertical",
-            x: "right",
             show: false
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {
+                    type: "svg"
+                }
+            }
         }
     };
 };

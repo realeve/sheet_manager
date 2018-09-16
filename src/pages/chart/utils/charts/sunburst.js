@@ -10,7 +10,7 @@ let chartConfig = [{
     url: '/chart#id=8/26f49db157&type=sunburst'
 }, {
     key: 'border',
-    type: '最外层数据显示为细线条样式',
+    type: '最外层数据是否显示为细线条样式',
     default: '1',
     url: '/chart#id=8/26f49db157&type=sunburst&border=1'
 }];
@@ -128,6 +128,13 @@ let sunburst = config => {
         },
         legend: {
             show: false
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {
+                    type: "svg"
+                }
+            }
         }
     };
 };
