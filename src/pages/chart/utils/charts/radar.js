@@ -6,7 +6,7 @@ const R = require("ramda");
 let chartConfig = [{
     key: 'type',
     title: '图表类型',
-    default: 'radar'
+    default: 'radar。雷达图默认第一列为序列名称，后续列为需要比较的各项数据'
 }, {
     key: 'area',
     title: '项则显示面积图',
