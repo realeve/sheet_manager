@@ -27,7 +27,7 @@ let chartConfig = [{
     {
         key: 'type',
         title: '图表类型',
-        default: 'bar:默认；line:曲线图;scatter:散点图',
+        default: 'bar:默认；line:曲线图;scatter:散点图。其中散点图也可使用横纵互换、标记区域等功能。',
         url: '/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2'
     },
     {
@@ -38,7 +38,8 @@ let chartConfig = [{
     {
         key: 'scale',
         title: '散点图中散点大小缩放比例',
-        default: '1'
+        default: '1',
+        url: '/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2&z=3&scale=1.5&markarea=5-12&markareatext=优秀值'
     },
     {
         key: 'smooth',
@@ -545,7 +546,7 @@ let getChartConfig = options => {
     if (options.min) {
         yAxis.min = parseFloat(options.min);
     }
-
+    let xAxisData = R.clone(xAxis);
     xAxis = {
         name: header[option.x],
         ...axisOption,
@@ -553,7 +554,7 @@ let getChartConfig = options => {
     };
 
     if (options.type !== 'scatter') {
-        xAxis.data = xAxis;
+        xAxis.data = xAxisData;
     }
 
     return {
@@ -594,7 +595,7 @@ let bar = options => {
     let {
         xAxis,
         yAxis
-    } = option;
+    } = R.clone(option);
     if (options.reverse) {
         option.xAxis = yAxis;
         option.yAxis = xAxis;
