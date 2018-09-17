@@ -166,9 +166,9 @@ function hex2rgb(hexVal) {
 
 function rgb2hex(rgbVal) {
     rgbVal = rgbVal.replace(/rgb/, '').replace(/\(/, '').replace(/\)/, '').split(',');
-    rgbVal[0] = parseInt(rgbVal[0], 10).toString(16).length == 2 ? parseInt(rgbVal[0], 10).toString(16) : '0' + parseInt(rgbVal[0], 10).toString(16);
-    rgbVal[1] = parseInt(rgbVal[1], 10).toString(16).length == 2 ? parseInt(rgbVal[1], 10).toString(16) : '0' + parseInt(rgbVal[1], 10).toString(16);
-    rgbVal[2] = parseInt(rgbVal[2], 10).toString(16).length == 2 ? parseInt(rgbVal[2], 10).toString(16) : '0' + parseInt(rgbVal[2], 10).toString(16);
+    rgbVal[0] = parseInt(rgbVal[0], 10).toString(16).length === 2 ? parseInt(rgbVal[0], 10).toString(16) : '0' + parseInt(rgbVal[0], 10).toString(16);
+    rgbVal[1] = parseInt(rgbVal[1], 10).toString(16).length === 2 ? parseInt(rgbVal[1], 10).toString(16) : '0' + parseInt(rgbVal[1], 10).toString(16);
+    rgbVal[2] = parseInt(rgbVal[2], 10).toString(16).length === 2 ? parseInt(rgbVal[2], 10).toString(16) : '0' + parseInt(rgbVal[2], 10).toString(16);
 
     return rgbVal;
 }

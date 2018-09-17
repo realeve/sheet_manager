@@ -9,6 +9,9 @@ import {
     sunburst
 } from './sunburst';
 
+import {
+    radar
+} from './radar';
 
 export default {
     line: bar,
@@ -16,5 +19,6 @@ export default {
     theme,
     pie,
     sunburst,
-    scatter: bar
+    scatter: bar,
+    radar
 };

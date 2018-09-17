@@ -18,6 +18,9 @@ class Charts extends Component {
       ...props.config,
       dataSrc: []
     };
+
+    // 创建echarts实例
+    this.echarts_react = React.createRef();
   }
 
   static getDerivedStateFromProps({ config }, state) {
