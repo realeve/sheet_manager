@@ -450,6 +450,9 @@ const handleScatter = ({
             return [xName, sData, options.scale * R.prop(header[options.z])(scatterData)];
         })
         item.symbolSize = data => data[2];
+        if (item.data.length > 100) {
+            item.large = true;
+        }
         return item;
     })
     return {
