@@ -15,5 +15,6 @@ export default {
     bar,
     theme,
     pie,
-    sunburst
+    sunburst,
+    scatter: bar
 };

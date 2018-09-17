@@ -14,6 +14,11 @@ let chartConfig = [{
         default: 1
     },
     {
+        key: 'z',
+        title: '散点图中散点大小的索引或键值',
+        default: '仅在散点图中生效，不设置时默认为20'
+    },
+    {
         key: 'legend',
         title: '数据序列的索引或键值',
         default: '不设置时，legend/x/y默认为0，1，2;如果数据列最多只有2列，则x/y为 0/1',
@@ -22,7 +27,18 @@ let chartConfig = [{
     {
         key: 'type',
         title: '图表类型',
-        default: 'bar，默认；line，曲线图'
+        default: 'bar:默认；line:曲线图;scatter:散点图',
+        url: '/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2'
+    },
+    {
+        key: 'scattersize',
+        title: '散点图中散点大小',
+        default: '不设置时默认为20px'
+    },
+    {
+        key: 'scale',
+        title: '散点图中散点大小缩放比例',
+        default: '1'
     },
     {
         key: 'smooth',
@@ -402,6 +418,45 @@ let handleMarkArea = (series, options) => {
     return series;
 }
 
+const handleScatter = ({
+    xAxis,
+    series
+}, options, data) => {
+    let {
+        header
+    } = data;
+    if (R.isNil(options.z)) {
+        series = series.map(item => {
+            item.symbolSize = R.isNil(options.scattersize) ? 20 : options.scattersize;
+            return item;
+        })
+        return {
+            xAxis,
+            series
+        };
+    }
+
+    options.scale = options.scale || 1;
+
+    series = series.map(item => {
+        item.data = item.data.map((sData, idx) => {
+            let legendName = item.name;
+            let xName = R.nth(idx)(xAxis);
+            let scatterData = R.find(R.whereEq({
+                [header[options.legend]]: legendName,
+                [header[options.x]]: xName
+            }))(data.data)
+            return [xName, sData, options.scale * R.prop(header[options.z])(scatterData)];
+        })
+        item.symbolSize = data => data[2];
+        return item;
+    })
+    return {
+        xAxis: [],
+        series
+    };
+}
+
 let getChartConfig = options => {
     let option = getOption(options);
     let {
@@ -432,6 +487,15 @@ let getChartConfig = options => {
 
     if (option.markarea) {
         series = handleMarkArea(series, options);
+    }
+
+    if (options.type === 'scatter') {
+        let res = handleScatter({
+            xAxis,
+            series
+        }, options, data);
+        series = res.series;
+        xAxis = res.xAxis;
     }
 
     // 只有一项时
@@ -483,11 +547,14 @@ let getChartConfig = options => {
     }
 
     xAxis = {
-        data: xAxis,
         name: header[option.x],
         ...axisOption,
         boundaryGap: options.type === 'bar'
     };
+
+    if (options.type !== 'scatter') {
+        xAxis.data = xAxis;
+    }
 
     return {
         xAxis,
@@ -622,16 +689,6 @@ const handlePareto = option => {
     option.series[0].name = name;
 
     let source = option.series[0].data;
-    // const g = i => j => R.update(1, parseFloat(R.nth(1)(i)))(j);
-    // source = R.compose(R.sortBy(R.descend(R.nth(1))), R.map(i => g(i)(i)))(
-    //   source
-    // );
-
-    // console.log(source);
-    // source = R.compose(
-    //     R.sortBy(R.descend(R.nth(1))),
-    //     R.map(R.adjust(parseFloat, 1))
-    // )(source);
 
     let valueIndex = R.clone(source);
     valueIndex.forEach((item, i) => {
