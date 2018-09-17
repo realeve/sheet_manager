@@ -9,7 +9,7 @@ export default class EchartsReactCore extends Component {
   constructor(props) {
     super(props);
     this.echartsLib = this.props.echarts; // the echarts object.
-    this.echartsElement = null; // echarts div element
+    this.echartsElement = React.createRef(); // null; // echarts div element
   }
 
   // first add

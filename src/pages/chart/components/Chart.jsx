@@ -57,8 +57,9 @@ class Charts extends Component {
   }
 
   render() {
-    let { loading, dataSrc, params } = this.state;
+    let { loading, dataSrc, params, option } = this.state;
     let { tstart, tend } = params;
+    let renderer = params.markarea ? "canvas" : "svg";
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab="数据图表" key="1">
@@ -72,9 +73,9 @@ class Charts extends Component {
               ref={e => {
                 this.echarts_react = e;
               }}
-              option={this.state.option}
+              option={option}
               style={{ height: "500px" }}
-              opts={{ renderer: "svg" }}
+              opts={{ renderer }}
             />
           </Card>
         </TabPane>

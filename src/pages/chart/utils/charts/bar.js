@@ -1,5 +1,6 @@
 import util from "../lib";
 import jStat from 'jStat';
+import theme from './theme'
 const R = require("ramda");
 
 let chartConfig = [{
@@ -92,6 +93,25 @@ let chartConfig = [{
         title: '百分比堆叠图，开启该项时，帕累托选项自动关闭',
         default: 0,
         url: '/chart#id=8/26f49db157&area=1&type=line&stack=1&percent=1'
+    }, {
+        type: 'markline',
+        title: '标记线位置',
+        default: '主要用在对某一指标设置上限的场景,默认不设置，可设置为Y轴的具体数值，也可设置为max/min/average,分别表示最大值、最小值、平均值。当需要设置多个标记线时使用半角逗号隔开',
+        url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=line&smooth=1&markline=750000,average&marktext=上限,avg'
+    }, {
+        type: 'marktext',
+        title: '标记线显示文本，与markline一一对应',
+        default: '如果设置了markline但未设置marktext时，显示对应数据的值。',
+        url: '/chart#id=8/26f49db157&type=line&markline=1500&marktext=参考值'
+    }, {
+        type: 'markarea',
+        title: '标记区域',
+        default: '标记区域需设置标记的上下限，格式为 min-max，需要设置多个标记区域时使用半角逗号隔开。如markarea=15-30,35-45'
+    }, {
+        type: 'markareatext',
+        title: '标记区域显示文本，与标记区域一一对应',
+        default: '如果设置了markarea但未设置markareatext时，显示对应数据的值。',
+        url: '/chart#id=8/26f49db157&type=line&markarea=1200-2500,800-1200&markareatext=优秀值,良好值'
     }
 ];
 
@@ -291,6 +311,97 @@ let handlePercentSeries = series => {
     return series;
 }
 
+// 处理标记线
+let handleMarkLine = (series, options) => {
+    let {
+        markline,
+        marktext
+    } = options;
+
+    markline = markline.split(',');
+    marktext = marktext ? marktext.split(',') : [];
+
+
+    let data = markline.map((item, i) => {
+        let type = ['average', 'min', 'max'].includes(item) ? {
+            type: item
+        } : {
+            yAxis: parseFloat(item)
+        }
+        let res = {
+            ...type,
+            "label": {
+                "normal": {
+                    "show": true,
+                    formatter: params => marktext[i] ? marktext[i] : params.value
+                }
+            },
+        };
+        return res;
+    })
+
+    return series.map((item, idx) => {
+        item = Object.assign(item, {
+            markLine: {
+                symbol: "none",
+                lineStyle: {
+                    "normal": {
+                        "type": "dashed"
+                    }
+                },
+                data
+            },
+        });
+        return item;
+    });
+}
+
+
+// 处理标区域
+let handleMarkArea = (series, options) => {
+    let {
+        markarea,
+        markareatext
+    } = options;
+
+    markarea = markarea.split(',');
+    markareatext = markareatext ? markareatext.split(',') : [];
+
+    let data = markarea.map((item, i) => {
+        let yAxis = item.split('-').map(value => parseFloat(value));
+        let color = util.hex2rgb(theme.color[i % theme.color.length]);
+        color = `rgba(${color},0.2)`;
+
+        return [{
+            name: markareatext[i] ? markareatext[i] : markarea[i],
+            yAxis: yAxis[0],
+            itemStyle: {
+                color
+            }
+        }, {
+            yAxis: yAxis[1]
+        }];
+    })
+
+    series[0] = Object.assign(series[0], {
+        markArea: {
+            silent: false,
+            emphasis: {
+                label: {
+                    position: "insideRight"
+                }
+            },
+            label: {
+                position: "insideRight",
+                fontSize: 15,
+                color: '#aaa'
+            },
+            data
+        }
+    });
+    return series;
+}
+
 let getChartConfig = options => {
     let option = getOption(options);
     let {
@@ -313,6 +424,14 @@ let getChartConfig = options => {
 
     if (option.percent) {
         series = handlePercentSeries(series);
+    }
+
+    if (option.markline) {
+        series = handleMarkLine(series, options);
+    }
+
+    if (option.markarea) {
+        series = handleMarkArea(series, options);
     }
 
     // 只有一项时
@@ -389,6 +508,11 @@ let getChartConfig = options => {
 // http://localhost:8000/chart/145#type=line&legend=0&x=1&y=2&smooth=1&max=100&min=70
 let bar = options => {
     let option = getChartConfig(options);
+
+    // svg下,markarea有bug
+    if (options.markarea) {
+        option.renderer = 'canvas';
+    }
 
     if (!options.stack) {
         option.dataZoom.push({
