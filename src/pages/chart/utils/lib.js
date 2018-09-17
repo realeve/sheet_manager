@@ -155,13 +155,11 @@ function hex2rgb(hexVal) {
                 parseInt(hexVal[2] + '' + hexVal[2], 16);
             break;
         case 6:
+        default:
             result = parseInt(hexVal[0] + '' + hexVal[1], 16) + ',' +
                 parseInt(hexVal[2] + '' + hexVal[3], 16) + ',' +
                 parseInt(hexVal[4] + '' + hexVal[5], 16);
             break;
-        default:
-            alert('Wrong Format');
-            return;
     }
     return result;
 }
