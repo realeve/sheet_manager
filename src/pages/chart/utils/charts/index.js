@@ -13,13 +13,18 @@ import {
     radar
 } from './radar';
 
+import {
+    sankey
+} from './sankey'
+
 export default {
-    line: bar,
     bar,
+    line: bar,
+    scatter: bar,
+    boxplot: bar,
     theme,
     pie,
     sunburst,
-    scatter: bar,
     radar,
-    boxplot: bar
+    sankey
 };

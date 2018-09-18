@@ -33,7 +33,7 @@ let chartConfig = [{
         key: 'type',
         title: '图表类型',
         default: 'bar:默认；line:曲线图;scatter:散点图;boxplot:箱线图。其中散点图也可使用横纵互换、标记区域等功能。',
-        url: ['/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值&reverse=1&markline=87']
+        url: ['/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2', '/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2&markarea=10-15&markareatext=优秀值&reverse=1&markline=8&marktext=良好', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值&reverse=1&markline=87']
     },
     {
         key: 'scattersize',
@@ -529,7 +529,9 @@ let getChartConfig = options => {
             series
         }, options, data);
         series = res.series;
-        xAxis = res.xAxis;
+        xAxis = {
+            data: xAxis
+        };
     }
 
     if (option.barshadow) {
