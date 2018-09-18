@@ -33,7 +33,7 @@ let chartConfig = [{
         key: 'type',
         title: '图表类型',
         default: 'bar:默认；line:曲线图;scatter:散点图;boxplot:箱线图。其中散点图也可使用横纵互换、标记区域等功能。',
-        url: ['/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值&reverse=1']
+        url: ['/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值&reverse=1&markline=87']
     },
     {
         key: 'scattersize',
@@ -629,12 +629,30 @@ const handleReverse = (config, option) => {
     // markarea需交换轴信息
     if (config.markarea) {
         option.series.forEach((item, i) => {
-            if (option.series[i].markArea && option.series[i].markArea.data)
-                option.series[i].markArea.data = option.series[i].markArea.data.map(markData => markData.map(s => {
-                    s.xAxis = R.clone(s.yAxis);
-                    Reflect.deleteProperty(s, 'yAxis');
+            let markArea = option.series[i].markArea;
+            if (markArea && markArea.data)
+                option.series[i].markArea.data = markArea.data.map(markData => markData.map(s => {
+                    if (s.yAxis) {
+                        s.xAxis = R.clone(s.yAxis);
+                        Reflect.deleteProperty(s, 'yAxis');
+                    }
                     return s;
                 }))
+        })
+    }
+
+    if (config.markline) {
+        option.series.forEach((item, i) => {
+            let markLine = option.series[i].markLine;
+            if (markLine && markLine.data) {
+                option.series[i].markLine.data = markLine.data.map(s => {
+                    if (s.yAxis) {
+                        s.xAxis = R.clone(s.yAxis);
+                        Reflect.deleteProperty(s, 'yAxis');
+                    }
+                    return s;
+                })
+            }
         })
     }
 
