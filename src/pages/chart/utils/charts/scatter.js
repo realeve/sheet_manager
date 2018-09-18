@@ -1,6 +1,6 @@
 const R = require("ramda");
 
-export const handleScatter = ({
+export const init = ({
     xAxis,
     series
 }, options, data) => {

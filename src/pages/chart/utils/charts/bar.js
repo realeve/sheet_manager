@@ -3,6 +3,7 @@ import jStat from 'jStat';
 import theme from './theme'
 import * as scatter from './scatter';
 import * as histogram from './histogram';
+import * as boxplot from './boxplot';
 
 const R = require("ramda");
 
@@ -30,8 +31,8 @@ let chartConfig = [{
     {
         key: 'type',
         title: '图表类型',
-        default: 'bar:默认；line:曲线图;scatter:散点图。其中散点图也可使用横纵互换、标记区域等功能。',
-        url: '/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2'
+        default: 'bar:默认；line:曲线图;scatter:散点图;boxplot:箱线图。其中散点图也可使用横纵互换、标记区域等功能。',
+        url: ['/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值']
     },
     {
         key: 'scattersize',
@@ -375,7 +376,7 @@ let handleMarkLine = (series, options) => {
             markLine: {
                 symbol: "none",
                 lineStyle: {
-                    "normal": {
+                    normal: {
                         "type": "dashed"
                     }
                 },
@@ -441,14 +442,43 @@ let getChartConfig = options => {
         header
     } = data;
 
+    let res = handleData(data, option);
+
+    if (options.histogram) {
+        res = histogram.init(options)
+    } else if (options.type === 'boxplot') {
+        res = boxplot.init(options)
+    }
+
     let {
         xAxis,
-        series
-    } = handleData(data, option);
+        series,
+        yAxis,
+        legend
+    } = res;
 
-    let dateAxis = util.needConvertDate(R.path(["xAxis", 0], xAxis));
-    if (dateAxis) {
-        xAxis = R.map(util.str2Date)(xAxis);
+    let axisOption = {
+        nameLocation: "center",
+        nameGap: 30,
+        nameTextStyle: {
+            fontWeight: "bold"
+        }
+    };
+
+    if (!['histogram', 'boxplot'].includes(options.type)) {
+        let dateAxis = util.needConvertDate(R.path(["xAxis", 0], xAxis));
+        if (dateAxis) {
+            xAxis = R.map(util.str2Date)(xAxis);
+        }
+    }
+
+    if (!['histogram', 'boxplot', 'scatter'].includes(options.type)) {
+        xAxis.data = R.clone(xAxis);
+        xAxis = {
+            name: header[option.x],
+            ...axisOption,
+            boundaryGap: options.type === 'bar'
+        };
     }
 
     series = R.map(handleSeriesItem(option))(series);
@@ -466,7 +496,7 @@ let getChartConfig = options => {
     }
 
     if (options.type === 'scatter') {
-        let res = scatter.handleScatter({
+        let res = scatter.init({
             xAxis,
             series
         }, options, data);
@@ -502,15 +532,8 @@ let getChartConfig = options => {
         series.push(seriesItem)
     }
 
-    let axisOption = {
-        nameLocation: "center",
-        nameGap: 30,
-        nameTextStyle: {
-            fontWeight: "bold"
-        }
-    };
-
-    let yAxis = {
+    // 处理Y轴信息
+    yAxis = yAxis || {
         name: header[option.y],
         ...axisOption
     };
@@ -521,21 +544,14 @@ let getChartConfig = options => {
     if (options.min) {
         yAxis.min = parseFloat(options.min);
     }
-    let xAxisData = R.clone(xAxis);
-    xAxis = {
-        name: header[option.x],
-        ...axisOption,
-        boundaryGap: options.type === 'bar'
-    };
 
-    if (options.type !== 'scatter') {
-        xAxis.data = xAxisData;
-    }
+    // Y轴处理完毕
 
     return {
         xAxis,
         series,
         yAxis,
+        legend,
         dataZoom: [{
             type: "inside",
             realtime: true,
@@ -546,36 +562,49 @@ let getChartConfig = options => {
     };
 };
 
-let initDefaultOption = options => Object.assign({
-    type: 'bar',
-    scattersize: 20,
-    scale: 1,
-    smooth: true,
-    stack: false,
-    area: false,
-    zoom: false,
-    reverse: false,
-    pareto: false,
-    barshadow: true,
-    pictorial: false,
-    polar: false,
-    percent: false,
-    histogram: false,
-    multilegend: false
-}, options)
+let initDefaultOption = options => {
+    let option = {
+        type: options.type || 'bar',
+        scattersize: options.scattersize || 20,
+        scale: options.scale || 1,
+        smooth: options.smooth === '1' ? true : false,
+        stack: options.stack === '1' ? true : false,
+        area: options.area === '1' ? true : false,
+        zoom: options.zoom === '1' ? true : false,
+        reverse: options.reverse === '1' ? true : false,
+        pareto: options.pareto === '1' ? true : false,
+        barshadow: options.barshadow === '1' ? true : false,
+        pictorial: options.pictorial === '1' ? true : false,
+        polar: options.polar === '1' ? true : false,
+        percent: options.percent === '1' ? true : false,
+        histogram: options.histogram === '1' ? true : false,
+        multilegend: options.multilegend === '1' ? true : false
+    };
+    return Object.assign({
+        type: 'bar',
+        scattersize: 20,
+        scale: 1,
+        smooth: true,
+        stack: false,
+        area: false,
+        zoom: false,
+        reverse: false,
+        pareto: false,
+        barshadow: true,
+        pictorial: false,
+        polar: false,
+        percent: false,
+        histogram: false,
+        multilegend: false
+    }, options, option)
+}
 
 // http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2
 // test URL: http://localhost:8000/chart/133#type=bar&x=0&y=1&smooth=1&max=100&min=70
 // http://localhost:8000/chart/145#type=line&legend=0&x=1&y=2&smooth=1&max=100&min=70
 let bar = options => {
     options = initDefaultOption(options);
-
-    let option;
-    if (options.histogram) {
-        option = histogram.handleHistogram(options)
-    } else {
-        option = getChartConfig(options);
-    }
+    let option = getChartConfig(options);
 
     // svg下,markarea有bug
     if (options.markarea) {

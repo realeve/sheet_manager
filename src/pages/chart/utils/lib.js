@@ -173,7 +173,13 @@ function rgb2hex(rgbVal) {
     return rgbVal;
 }
 
+let getLegendData = legendData => legendData.map(name => ({
+    name,
+    icon: 'circle'
+}))
+
 export default {
+    getLegendData,
     hex2rgb,
     rgb2hex,
     isDate,

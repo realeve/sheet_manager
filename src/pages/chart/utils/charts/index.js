@@ -20,5 +20,6 @@ export default {
     pie,
     sunburst,
     scatter: bar,
-    radar
+    radar,
+    boxplot: bar
 };

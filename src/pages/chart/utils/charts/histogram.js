@@ -37,6 +37,7 @@ const getSeriesItem = (seriesData, idx, name) => {
     let series = {
         type: 'bar',
         barWidth: '99.3%',
+        smooth: true,
         label: {
             normal: {
                 show: true,
@@ -67,7 +68,7 @@ const getSeriesItem = (seriesData, idx, name) => {
     return [series, pdfSeries];
 }
 
-export const handleHistogram = option => {
+export const init = option => {
     let {
         header,
         data
@@ -81,20 +82,15 @@ export const handleHistogram = option => {
             type: 'value',
         }, {
             type: 'value',
+            nameLocation: "middle",
             name: 'PDF'
         }],
         xAxis: {
             name: header[xIdx],
             type: 'value',
+            nameLocation: "middle",
             scale: true
-        },
-        dataZoom: [{
-            type: "inside",
-            realtime: true,
-            start: 0,
-            end: 100,
-            xAxisIndex: 0
-        }]
+        }
     };
 
     if (!option.legend) {
@@ -120,10 +116,7 @@ export const handleHistogram = option => {
     return {...config,
         series,
         legend: {
-            data: legendData.map(name => ({
-                name,
-                icon: 'circle'
-            })),
+            data: util.getLegendData(legendData),
             selectedMode: option.multilegend ? 'multiple' : 'single'
         }
     }
