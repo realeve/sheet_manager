@@ -4,6 +4,7 @@ import theme from './theme'
 import * as scatter from './scatter';
 import * as histogram from './histogram';
 import * as boxplot from './boxplot';
+import * as pareto from './pareto';
 
 const R = require("ramda");
 
@@ -32,7 +33,7 @@ let chartConfig = [{
         key: 'type',
         title: '图表类型',
         default: 'bar:默认；line:曲线图;scatter:散点图;boxplot:箱线图。其中散点图也可使用横纵互换、标记区域等功能。',
-        url: ['/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值']
+        url: ['/chart#id=9/a043209280&type=scatter&legend=0&x=1&y=2', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值', '/chart#id=11/51742ef993&type=boxplot&x=0&y=1&legend=2&markarea=90-95&markareatext=优秀值&reverse=1']
     },
     {
         key: 'scattersize',
@@ -433,6 +434,33 @@ let handleMarkArea = (series, options) => {
     return series;
 }
 
+let handleBarshadow = series => {
+    let {
+        data,
+        barMaxWidth
+    } = series[0];
+    let max = jStat.max(data);
+    data = data.map(item => max);
+    series[0].z = 10;
+    let seriesItem = {
+        type: 'bar',
+        itemStyle: {
+            normal: {
+                "color": "rgba(0,0,0,0.1)"
+            }
+        },
+        silent: true,
+        // barWidth: 40,
+        barGap: '-100%',
+        data
+    };
+    if (barMaxWidth) {
+        seriesItem.barMaxWidth = barMaxWidth;
+    }
+    series.push(seriesItem)
+    return series;
+}
+
 let getChartConfig = options => {
     let option = getOption(options);
     let {
@@ -465,14 +493,14 @@ let getChartConfig = options => {
         }
     };
 
-    if (!['histogram', 'boxplot'].includes(options.type)) {
+    if (!options.histogram && !['boxplot'].includes(options.type)) {
         let dateAxis = util.needConvertDate(R.path(["xAxis", 0], xAxis));
         if (dateAxis) {
             xAxis = R.map(util.str2Date)(xAxis);
         }
     }
 
-    if (!['histogram', 'boxplot', 'scatter'].includes(options.type)) {
+    if (!options.histogram && !['boxplot', 'scatter'].includes(options.type)) {
         xAxis.data = R.clone(xAxis);
         xAxis = {
             name: header[option.x],
@@ -504,32 +532,8 @@ let getChartConfig = options => {
         xAxis = res.xAxis;
     }
 
-    // 只有一项时
-    // if (series.length === 1 && series[0].type === 'bar') {
     if (option.barshadow) {
-        let {
-            data,
-            barMaxWidth
-        } = series[0];
-        let max = jStat.max(data);
-        data = data.map(item => max);
-        series[0].z = 10;
-        let seriesItem = {
-            type: 'bar',
-            itemStyle: {
-                normal: {
-                    "color": "rgba(0,0,0,0.1)"
-                }
-            },
-            silent: true,
-            // barWidth: 40,
-            barGap: '-100%',
-            data
-        };
-        if (barMaxWidth) {
-            seriesItem.barMaxWidth = barMaxWidth;
-        }
-        series.push(seriesItem)
+        series = handleBarshadow(series)
     }
 
     // 处理Y轴信息
@@ -599,6 +603,44 @@ let initDefaultOption = options => {
     }, options, option)
 }
 
+const handleReverse = (config, option) => {
+    let {
+        xAxis,
+        yAxis
+    } = R.clone(option);
+
+    option.xAxis = yAxis;
+    option.yAxis = xAxis;
+
+    option.grid = {
+        left: 100
+    };
+    option.yAxis.nameGap = 70;
+
+    // 箱线图的散点需要交换顺序
+    if (config.type === 'boxplot') {
+        option.series.forEach((item, i) => {
+            if (item.type === 'scatter') {
+                option.series[i].data = option.series[i].data.map(s => s.reverse())
+            }
+        })
+    }
+
+    // markarea需交换轴信息
+    if (config.markarea) {
+        option.series.forEach((item, i) => {
+            if (option.series[i].markArea && option.series[i].markArea.data)
+                option.series[i].markArea.data = option.series[i].markArea.data.map(markData => markData.map(s => {
+                    s.xAxis = R.clone(s.yAxis);
+                    Reflect.deleteProperty(s, 'yAxis');
+                    return s;
+                }))
+        })
+    }
+
+    return option;
+}
+
 // http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2
 // test URL: http://localhost:8000/chart/133#type=bar&x=0&y=1&smooth=1&max=100&min=70
 // http://localhost:8000/chart/145#type=line&legend=0&x=1&y=2&smooth=1&max=100&min=70
@@ -621,18 +663,8 @@ let bar = options => {
         });
     }
 
-    let {
-        xAxis,
-        yAxis
-    } = R.clone(option);
     if (options.reverse) {
-        option.xAxis = yAxis;
-        option.yAxis = xAxis;
-
-        option.grid = {
-            left: 100
-        };
-        option.yAxis.nameGap = 70;
+        option = handleReverse(options, option);
     }
 
     if (options.zoom) {
@@ -648,7 +680,7 @@ let bar = options => {
 
     // 帕累托图
     if (!options.percent && options.pareto) {
-        configs = handlePareto(option);
+        configs = pareto.init(option);
     }
 
     // 极坐标系
@@ -678,101 +710,6 @@ let bar = options => {
     return configs;
 };
 
-const handlePareto = option => {
-    let yAxis = option.yAxis;
-    let {
-        name
-    } = yAxis;
-    option.yAxis = [
-        yAxis,
-        {
-            name: "帕累托(%)",
-            nameLocation: "middle",
-            nameGap: 36,
-            nameTextStyle: {
-                fontSize: 16
-            },
-            type: "value",
-            position: "right",
-            scale: true,
-            axisLabel: {
-                show: true,
-                interval: "auto",
-                margin: 10,
-                textStyle: {
-                    fontSize: 16
-                }
-            },
-            axisTick: {
-                show: false
-            },
-            splitArea: {
-                show: false
-            },
-            max: 100,
-            min: 0
-        }
-    ];
-    option.legend = {
-        data: [name, "Pareto"]
-    };
-    option.series[0].name = name;
-
-    let source = option.series[0].data;
-
-    let valueIndex = R.clone(source);
-    valueIndex.forEach((item, i) => {
-        if (i < valueIndex.length - 1) {
-            valueIndex[i + 1] = parseInt(valueIndex[i + 1], 10) + parseInt(item, 10);
-        }
-    });
-    let sum = R.last(valueIndex);
-    let paretoData = R.map(item => (100 * parseInt(item, 10) / sum).toFixed(2))(
-        valueIndex
-    );
-
-    option.grid = {
-        right: 50
-    };
-
-    option.series.push({
-        name: "Pareto",
-        yAxisIndex: 1,
-        data: paretoData,
-        markLine: {
-            symbol: "none",
-            lineStyle: {
-                normal: {
-                    type: "dot"
-                }
-            },
-            data: [{
-                name: "80%",
-                yAxis: 80,
-                label: {
-                    normal: {
-                        show: false
-                    }
-                }
-            }]
-        },
-        type: "line",
-        smooth: true,
-        symbolSize: "4",
-        symbol: "circle",
-        lineStyle: {
-            normal: {
-                width: 2,
-                type: "solid",
-                shadowColor: "rgba(0,0,0,0)",
-                shadowBlur: 0,
-                shadowOffsetX: 0,
-                shadowOffsetY: 0
-            }
-        }
-    });
-    return option;
-};
 
 export {
     bar,
