@@ -62,7 +62,8 @@ class Charts extends Component {
   render() {
     let { loading, dataSrc, params, option } = this.state;
     let { tstart, tend } = params;
-    let renderer = params.markarea ? "canvas" : "svg";
+    let renderer = params.markarea || params.histogram ? "canvas" : "svg";
+
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab="数据图表" key="1">

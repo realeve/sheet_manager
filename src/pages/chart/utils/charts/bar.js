@@ -1,6 +1,9 @@
 import util from "../lib";
 import jStat from 'jStat';
 import theme from './theme'
+import * as scatter from './scatter';
+import * as histogram from './histogram';
+
 const R = require("ramda");
 
 let chartConfig = [{
@@ -80,7 +83,7 @@ let chartConfig = [{
     }, {
         key: 'barshadow',
         title: '显示柱状图背景',
-        default: 0,
+        default: 1,
         url: '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=bar&barshadow=1'
     }, {
         key: 'pictorial',
@@ -129,6 +132,16 @@ let chartConfig = [{
         title: '标记区域显示文本，与标记区域一一对应',
         default: '如果设置了markarea但未设置markareatext时，显示对应数据的值。',
         url: '/chart#id=8/26f49db157&type=line&markarea=1200-2500,800-1200&markareatext=优秀值,良好值'
+    }, {
+        type: 'histogram',
+        title: '开启直方图模式，此时只允许设置legend及x轴。绘制直方图时，还将自动添加一根概率密度分布曲线。',
+        default: '0,默认关闭'
+    },
+    {
+        type: 'multilegend',
+        title: '多个序列是否能同时开启，直方图中默认为否',
+        default: '1',
+        url: '/chart#id=11/51742ef993&type=bar&x=1&legend=0&histogram=1&multilegend=1'
     }
 ];
 
@@ -167,9 +180,9 @@ let getOption = options => {
         "y",
         "legend"
     ]);
-    option.smooth = options.smooth !== '0';
+    option.smooth = options.smooth;
 
-    if (options.pictorial && (R.isNil(options.polar) || options.polar === '0')) {
+    if (options.pictorial && !options.polar) {
         option.type = 'pictorialBar';
     }
 
@@ -249,7 +262,7 @@ let handleData = (srcData, option) => {
 };
 
 let handleSeriesItem = option => seriesItem => {
-    if (option.area && option.area === '1' && option.type !== "bar") {
+    if (option.area && option.type !== "bar") {
         seriesItem.areaStyle = {
             normal: {
                 opacity: 0.4
@@ -419,48 +432,6 @@ let handleMarkArea = (series, options) => {
     return series;
 }
 
-const handleScatter = ({
-    xAxis,
-    series
-}, options, data) => {
-    let {
-        header
-    } = data;
-    if (R.isNil(options.z)) {
-        series = series.map(item => {
-            item.symbolSize = R.isNil(options.scattersize) ? 20 : options.scattersize;
-            return item;
-        })
-        return {
-            xAxis,
-            series
-        };
-    }
-
-    options.scale = options.scale || 1;
-
-    series = series.map(item => {
-        item.data = item.data.map((sData, idx) => {
-            let legendName = item.name;
-            let xName = R.nth(idx)(xAxis);
-            let scatterData = R.find(R.whereEq({
-                [header[options.legend]]: legendName,
-                [header[options.x]]: xName
-            }))(data.data)
-            return [xName, sData, options.scale * R.prop(header[options.z])(scatterData)];
-        })
-        item.symbolSize = data => data[2];
-        if (item.data.length > 100) {
-            item.large = true;
-        }
-        return item;
-    })
-    return {
-        xAxis: [],
-        series
-    };
-}
-
 let getChartConfig = options => {
     let option = getOption(options);
     let {
@@ -479,6 +450,7 @@ let getChartConfig = options => {
     if (dateAxis) {
         xAxis = R.map(util.str2Date)(xAxis);
     }
+
     series = R.map(handleSeriesItem(option))(series);
 
     if (option.percent) {
@@ -494,7 +466,7 @@ let getChartConfig = options => {
     }
 
     if (options.type === 'scatter') {
-        let res = handleScatter({
+        let res = scatter.handleScatter({
             xAxis,
             series
         }, options, data);
@@ -574,11 +546,36 @@ let getChartConfig = options => {
     };
 };
 
+let initDefaultOption = options => Object.assign({
+    type: 'bar',
+    scattersize: 20,
+    scale: 1,
+    smooth: true,
+    stack: false,
+    area: false,
+    zoom: false,
+    reverse: false,
+    pareto: false,
+    barshadow: true,
+    pictorial: false,
+    polar: false,
+    percent: false,
+    histogram: false,
+    multilegend: false
+}, options)
+
 // http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2
 // test URL: http://localhost:8000/chart/133#type=bar&x=0&y=1&smooth=1&max=100&min=70
 // http://localhost:8000/chart/145#type=line&legend=0&x=1&y=2&smooth=1&max=100&min=70
 let bar = options => {
-    let option = getChartConfig(options);
+    options = initDefaultOption(options);
+
+    let option;
+    if (options.histogram) {
+        option = histogram.handleHistogram(options)
+    } else {
+        option = getChartConfig(options);
+    }
 
     // svg下,markarea有bug
     if (options.markarea) {
@@ -621,13 +618,13 @@ let bar = options => {
     let configs = util.handleColor(option);
 
     // 帕累托图
-    if ((R.isNil(options.percent) || options.percent === '0') && options.pareto) {
+    if (!options.percent && options.pareto) {
         configs = handlePareto(option);
     }
 
     // 极坐标系
     if (options.polar) {
-        if (options.reverse && options.reverse === '1') {
+        if (options.reverse) {
             configs.yAxis.nameGap = -40;
             configs = Object.assign(configs, {
                 radiusAxis: configs.yAxis,
