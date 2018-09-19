@@ -501,8 +501,9 @@ let getChartConfig = options => {
     }
 
     if (!options.histogram && !['boxplot', 'scatter'].includes(options.type)) {
-        xAxis.data = R.clone(xAxis);
+        let xAxisData = R.clone(xAxis);
         xAxis = {
+            data: xAxisData,
             name: header[option.x],
             ...axisOption,
             boundaryGap: options.type === 'bar'
