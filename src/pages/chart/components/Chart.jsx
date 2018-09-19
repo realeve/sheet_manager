@@ -63,7 +63,7 @@ class Charts extends Component {
     let { loading, dataSrc, params, option } = this.state;
     let { tstart, tend } = params;
     let renderer = params.markarea || params.histogram ? "canvas" : "svg";
-
+    let height = params.type === "sankey" ? "1000px" : "500px";
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab="数据图表" key="1">
@@ -78,7 +78,7 @@ class Charts extends Component {
                 this.echarts_react = e;
               }}
               option={option}
-              style={{ height: "500px" }}
+              style={{ height }}
               opts={{ renderer }}
             />
           </Card>

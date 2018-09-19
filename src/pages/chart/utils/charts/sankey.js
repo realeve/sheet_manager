@@ -1,17 +1,22 @@
 import util from "../lib";
-import jStat from 'jStat'
 const R = require("ramda");
 
 let chartConfig = [{
-    key: 'type',
-    title: '图表类型',
-    default: 'sankey,桑基图，数据结构中前N列为参与可视化的字段，最后一个字段为数据列'
-}, {
-    key: 'sequence',
-    title: 'header中各字段序列',
-    default: '默认按接口中输出字段的顺序进行，最后一列为数据字段。',
-    url: '/chart#id=12/e7d0f080bc&type=sankey&sequence=2,0,1,3,4,5'
-}];
+        key: 'type',
+        title: '图表类型',
+        default: 'sankey,桑基图，数据结构中前N列为参与可视化的字段，最后一个字段为数据列'
+    }, {
+        key: 'sequence',
+        title: 'header中各字段序列',
+        default: '默认按接口中输出字段的顺序进行，最后一列为数据字段。',
+        url: '/chart#id=12/e7d0f080bc&type=sankey&sequence=2,0,1,3,4,5'
+    },
+    {
+        key: 'orient',
+        title: '水平/垂直布局',
+        default: 'horizontal:水平,vertical:垂直'
+    }
+];
 
 const sankey = config => {
     let {
@@ -70,13 +75,18 @@ const sankey = config => {
                 })
             })
         })
-
     })
-
+    let orient = config.orient || 'horizontal';
     return {
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove'
+        },
         series: [{
+            orient,
             type: 'sankey',
             layout: 'none',
+            focusNodeAdjacency: 'allEdges',
             data: dataList,
             links,
             itemStyle: {
@@ -84,6 +94,9 @@ const sankey = config => {
                     borderWidth: 1,
                     borderColor: '#aaa'
                 }
+            },
+            label: {
+                position: orient === 'vertical' ? 'top' : 'right'
             },
             lineStyle: {
                 normal: {

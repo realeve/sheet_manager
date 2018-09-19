@@ -730,7 +730,6 @@ let bar = options => {
     return configs;
 };
 
-
 export {
     bar,
     chartConfig
