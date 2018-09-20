@@ -67,12 +67,12 @@ let handleDefaultOption = (option, config) => {
         option
     );
 
-    if (["bar", "histogram", "line"].includes(config.type)) {
+    if (["bar", "line"].includes(config.type)) {
         let axisPointerType = "shadow";
         let tooltipTrigger = "axis";
         switch (config.type) {
             case "bar":
-            case "histogram":
+                // case "histogram":
                 axisPointerType = "shadow";
                 break;
             case "line":
@@ -89,8 +89,12 @@ let handleDefaultOption = (option, config) => {
                 type: axisPointerType
             }
         };
-    }
 
+        if (config.histogram) {
+            option.tooltip = {};
+            // Reflect.deleteProperty(option, 'dataZoom');
+        }
+    }
     return option;
 };
 

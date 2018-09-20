@@ -62,7 +62,7 @@ class Charts extends Component {
   render() {
     let { loading, dataSrc, params, option } = this.state;
     let { tstart, tend } = params;
-    let renderer = "svg"; // params.markarea || params.histogram ? "canvas" :
+    let renderer = params.histogram ? "canvas" : "svg";
     let height = params.type === "sankey" ? "1000px" : "500px";
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>

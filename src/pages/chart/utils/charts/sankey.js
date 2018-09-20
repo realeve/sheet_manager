@@ -14,7 +14,8 @@ let chartConfig = [{
     {
         key: 'orient',
         title: '水平/垂直布局',
-        default: 'horizontal:水平,vertical:垂直'
+        default: 'horizontal:水平,vertical:垂直',
+        url: '/chart#id=12/e7d0f080bc&type=sankey&sequence=2,0,1,3,4,5&orient=vertical'
     }
 ];
 

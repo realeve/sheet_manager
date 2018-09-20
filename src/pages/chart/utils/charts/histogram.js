@@ -90,6 +90,9 @@ export const init = option => {
             type: 'value',
             nameLocation: "middle",
             scale: true
+        },
+        tooltip: {
+
         }
     };
 
