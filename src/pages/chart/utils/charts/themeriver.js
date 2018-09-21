@@ -1,6 +1,7 @@
 import util from "../lib";
 import jStat from 'jStat';
 import color from '../themeColor';
+import theme from './theme';
 import {
     handleSunBrustData
 } from './sunburst';
@@ -42,7 +43,17 @@ let themeriver = config => {
             top: 50,
             bottom: 50,
             axisTick: {},
-            axisLabel: {},
+            axisLabel: {
+                textStyle: {
+                    color: "#222"
+                }
+            },
+            axisLine: {
+                lineStyle: {
+                    color: "#aaa",
+                    width: 2
+                }
+            },
             type: 'time',
             axisPointer: {
                 animation: true,
