@@ -19,7 +19,9 @@ import {
 import {
     treemap
 } from './treemap';
-
+import {
+    themeriver
+} from './themeriver';
 export default {
     bar,
     line: bar,
@@ -30,5 +32,6 @@ export default {
     sunburst,
     radar,
     sankey,
-    treemap
+    treemap,
+    themeriver
 };
