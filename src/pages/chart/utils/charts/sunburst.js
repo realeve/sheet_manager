@@ -20,7 +20,7 @@ let getColSum = (data, key) => {
     return R.sum(vals);
 }
 
-let handleSunBrustData = (data, header) => {
+let handleSunBrustData = (data, header, colorful = true) => {
     // 剩余待处理的header
     let _header = R.tail(header);
 
@@ -39,14 +39,16 @@ let handleSunBrustData = (data, header) => {
         let _data = R.compose(R.map(R.pick(_header)), R.filter(R.propEq(key, name)))(data);
         let res = {
             name,
-            value: getColSum(_data, valKey),
-            itemStyle: {
+            value: getColSum(_data, valKey)
+        }
+        if (colorful) {
+            res.itemStyle = {
                 color: util.colors[Math.floor(Math.random() * util.colors.length)]
             }
         }
 
         if (_header.length > 1) {
-            res.children = handleSunBrustData(_data, _header);
+            res.children = handleSunBrustData(_data, _header, colorful);
         }
         return res;
     })
@@ -109,7 +111,7 @@ let sunburst = config => {
 
     config.border = config.border || '1';
 
-    let seriesData = handleSunBrustData(data, header);
+    let seriesData = handleSunBrustData(data, header, config.type);
     let levels = getLevels(header.length - 1, config);
 
     let series = {
@@ -141,5 +143,6 @@ let sunburst = config => {
 
 export {
     sunburst,
-    chartConfig
+    chartConfig,
+    handleSunBrustData
 };

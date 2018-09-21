@@ -16,6 +16,9 @@ import {
 import {
     sankey
 } from './sankey'
+import {
+    treemap
+} from './treemap';
 
 export default {
     bar,
@@ -26,5 +29,6 @@ export default {
     pie,
     sunburst,
     radar,
-    sankey
+    sankey,
+    treemap
 };

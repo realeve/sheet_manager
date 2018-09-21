@@ -63,7 +63,9 @@ class Charts extends Component {
     let { loading, dataSrc, params, option } = this.state;
     let { tstart, tend } = params;
     let renderer = params.histogram ? "canvas" : "svg";
-    let height = params.type === "sankey" ? "1000px" : "500px";
+    let height = ["sunburst", "sankey"].includes(params.type)
+      ? "1000px"
+      : "500px";
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab="数据图表" key="1">

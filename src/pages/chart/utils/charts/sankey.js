@@ -87,7 +87,7 @@ const sankey = config => {
             orient,
             type: 'sankey',
             layout: 'none',
-            focusNodeAdjacency: 'allEdges',
+            focusNodeAdjacency: false, //'allEdges',
             data: dataList,
             links,
             itemStyle: {
