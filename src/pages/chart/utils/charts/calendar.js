@@ -208,10 +208,12 @@ let calendar = config => {
 
     return {
         tooltip: {
-            position: "top",
-            formatter(params) {
-                console.log(params)
-            }
+            trigger: "item",
+            position: 'top',
+            formatter: ({
+                seriesName,
+                value: [datename, val]
+            }) => `${seriesName}\n<br>${datename.split(' ')[0]}：${val}`
         },
         legend: {
             show: false
