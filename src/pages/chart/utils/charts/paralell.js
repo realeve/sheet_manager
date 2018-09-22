@@ -129,24 +129,6 @@ let getDataSequence = ({
     return R.map(idx => header[idx])(sequence);
 }
 
-// 处理minmax值至最佳刻度，需要考虑 >10 及 <10 两种场景以及负数的情况
-let handleMinMax = ({
-    min,
-    max
-}) => {
-    let exLength = String(Math.floor(max)).length - 1;
-    if (max > 10) {
-        return {
-            max: Math.ceil(max / (10 ** exLength)) * (10 ** exLength),
-            min: min - min % (10 ** exLength)
-        }
-    }
-    return {
-        max: Math.ceil(max / 1) * 1,
-        min: min > 0 ? (min - min % 1) : (Math.floor(min / 1) * 1)
-    }
-}
-
 let getMinMax = (dataSequence, data, idx) => {
     let key = dataSequence[idx];
     let dataByKey = R.pluck(key)(data);
@@ -165,7 +147,7 @@ let getParallelAxis = (dataSequence, [seriesData], data) => dataSequence.map((na
     if (!lib.isNumOrFloat(seriesData[dim])) {
         res.type = 'category';
     } else {
-        let minMax = handleMinMax(getMinMax(dataSequence, data, dim));
+        let minMax = util.handleMinMax(getMinMax(dataSequence, data, dim));
         res = {
             ...res,
             ...minMax
@@ -261,6 +243,5 @@ let paralell = config => {
 
 export {
     paralell,
-    chartConfig,
-    handleMinMax
+    chartConfig
 };

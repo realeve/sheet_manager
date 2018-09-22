@@ -1,9 +1,5 @@
 import util from '../lib'
-import * as lib from '../../../../utils/lib';
 import jStat from 'jStat';
-import {
-    handleMinMax
-} from './paralell';
 const R = require("ramda");
 
 let chartConfig = [{
@@ -78,7 +74,7 @@ let getVisualMap = ({
         max: jStat.max(key),
         min: jStat.min(key)
     }
-    minmax = handleMinMax(minmax);
+    minmax = util.handleMinMax(minmax);
     return {
         ...minmax,
         precision: 1,
@@ -90,25 +86,6 @@ let getVisualMap = ({
     };
 }
 
-let getLegend = ({
-    data,
-    legend
-}) => {
-    if (R.isNil(legend)) {
-        return {
-            show: false
-        }
-    };
-    let key = data.header[legend];
-    let legendData = util.getUniqByIdx({
-        key,
-        data: data.data
-    });
-    return {
-        selectedMode: 'single',
-        data: util.getLegendData(legendData)
-    }
-};
 
 let getSeries = ({
     data,
@@ -117,7 +94,6 @@ let getSeries = ({
     z,
     legend
 }, xAxis, yAxis) => {
-    let seriesData = [];
     let {
         header
     } = data;
@@ -177,7 +153,7 @@ let getSeries = ({
         let seriesItem = R.filter(R.propEq(0, name))(srcData);
         return {
             name,
-            data: seriesItem.map(([legendName, x, y, z]) => [xAxisIndex[x], yAxisIndex[y], z]),
+            data: seriesItem.map(([, x, y, z]) => [xAxisIndex[x], yAxisIndex[y], z]),
             type: "heatmap",
             ...heatmapStyle
         }
@@ -214,7 +190,7 @@ let handleConfig = config => {
 
 const heatmap = config => {
     config = handleConfig(config);
-    let legend = getLegend(config);
+    let legend = util.getLegend(config);
     let xAxis = getAxisX(config);
     let yAxis = getAxisY(config);
     let visualMap = getVisualMap(config);

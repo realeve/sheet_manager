@@ -64,10 +64,8 @@ class Charts extends Component {
     let { loading, dataSrc, params, option } = this.state;
     let { tstart, tend } = params;
     let renderer = lib.getRenderer(params);
+    let height = lib.getChartHeight(params, option);
 
-    let height = ["sunburst", "sankey", "paralell"].includes(params.type)
-      ? "900px"
-      : "500px";
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab="数据图表" key="1">

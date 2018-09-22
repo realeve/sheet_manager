@@ -31,6 +31,10 @@ import {
     heatmap
 } from './heatmap';
 
+import {
+    calendar
+} from './calendar';
+
 export default {
     bar,
     line: bar,
@@ -44,5 +48,6 @@ export default {
     treemap,
     themeriver,
     paralell,
-    heatmap
+    heatmap,
+    calendar
 };

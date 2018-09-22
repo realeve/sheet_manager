@@ -196,7 +196,63 @@ let getLegendData = legendData => legendData.map(name => ({
 
 let getRenderer = params => ["paralell"].includes(params.type) || params.histogram ? "canvas" : "svg";
 
+let getChartHeight = (params, {
+    series
+}) => {
+    let height = ["sunburst", "sankey", "paralell"].includes(params.type) ?
+        "900px" :
+        "500px";
+    if (params.type === 'calendar') {
+        if (!R.isNil(series)) {
+            height = 100 + series.length * (6 * params.size + 70) + 'px';
+        } else {
+            height = '800px';
+        }
+    }
+    return height;
+}
+
+// 处理minmax值至最佳刻度，需要考虑 >10 及 <10 两种场景以及负数的情况
+let handleMinMax = ({
+    min,
+    max
+}) => {
+    let exLength = String(Math.floor(max)).length - 1;
+    if (max > 10) {
+        return {
+            max: Math.ceil(max / (10 ** exLength)) * (10 ** exLength),
+            min: min - min % (10 ** exLength)
+        }
+    }
+    return {
+        max: Math.ceil(max / 1) * 1,
+        min: min > 0 ? (min - min % 1) : (Math.floor(min / 1) * 1)
+    }
+}
+
+let getLegend = ({
+    data,
+    legend
+}, selectedMode = 'single') => {
+    if (R.isNil(legend)) {
+        return {
+            show: false
+        }
+    };
+    let key = data.header[legend];
+    let legendData = getUniqByIdx({
+        key,
+        data: data.data
+    });
+    return {
+        selectedMode,
+        data: getLegendData(legendData)
+    }
+};
+
 export default {
+    handleMinMax,
+    getLegend,
     getLegendData,
     hex2rgb,
     rgb2hex,
@@ -212,5 +268,6 @@ export default {
     getDataByIdx,
     colors,
     getDataByKeys,
-    getRenderer
+    getRenderer,
+    getChartHeight
 };
