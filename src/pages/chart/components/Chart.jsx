@@ -4,6 +4,7 @@ import * as db from "../services/chart";
 import styles from "./Chart.less";
 import ReactEcharts from "./echarts-for-react";
 import VTable from "../../../components/Table.jsx";
+import lib from "../utils/lib";
 
 const R = require("ramda");
 const TabPane = Tabs.TabPane;
@@ -62,9 +63,10 @@ class Charts extends Component {
   render() {
     let { loading, dataSrc, params, option } = this.state;
     let { tstart, tend } = params;
-    let renderer = params.histogram ? "canvas" : "svg";
-    let height = ["sunburst", "sankey"].includes(params.type)
-      ? "1000px"
+    let renderer = lib.getRenderer(params);
+
+    let height = ["sunburst", "sankey", "paralell"].includes(params.type)
+      ? "900px"
       : "500px";
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>

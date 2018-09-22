@@ -82,13 +82,7 @@ let radar = config => {
                 icon: 'circle'
             }))
         },
-        toolbox: {
-            feature: {
-                saveAsImage: {
-                    type: "svg"
-                }
-            }
-        }
+        toolbox: {}
     };
 };
 

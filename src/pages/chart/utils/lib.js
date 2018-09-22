@@ -20,18 +20,22 @@ let getCopyRight = () => {
 };
 
 let handleDefaultOption = (option, config) => {
+    let renderer = getRenderer(config);
     let toolbox = option.toolbox || {
         feature: {
             dataZoom: {},
             magicType: {
                 type: ["line", "bar", "stack", "tiled"]
-            },
-            restore: {},
-            saveAsImage: {
-                type: "svg" //'png'
             }
         }
-    }
+    };
+    toolbox = Object.assign(toolbox, {
+        feature: {
+            saveAsImage: {
+                type: renderer === "svg" ? 'svg' : 'png'
+            }
+        }
+    })
 
     option = Object.assign({
             toolbox,
@@ -186,9 +190,11 @@ function rgb2hex(rgbVal) {
 }
 
 let getLegendData = legendData => legendData.map(name => ({
-    name,
+    name: String(name),
     icon: 'circle'
 }))
+
+let getRenderer = params => ["paralell"].includes(params.type) || params.histogram ? "canvas" : "svg";
 
 export default {
     getLegendData,
@@ -205,5 +211,6 @@ export default {
     getUniqByIdx,
     getDataByIdx,
     colors,
-    getDataByKeys
+    getDataByKeys,
+    getRenderer
 };

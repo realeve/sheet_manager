@@ -22,6 +22,11 @@ import {
 import {
     themeriver
 } from './themeriver';
+
+import {
+    paralell
+} from './paralell';
+
 export default {
     bar,
     line: bar,
@@ -33,5 +38,6 @@ export default {
     radar,
     sankey,
     treemap,
-    themeriver
+    themeriver,
+    paralell
 };

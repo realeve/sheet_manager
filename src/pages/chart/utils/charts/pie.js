@@ -175,13 +175,7 @@ let standardPie = ({
         legend: {
             show: false
         },
-        toolbox: {
-            feature: {
-                saveAsImage: {
-                    type: "svg"
-                }
-            }
-        }
+        toolbox: {}
     };
 };
 
