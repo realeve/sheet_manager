@@ -30,8 +30,66 @@ let chartConfig = [{
         title: '以第几个数据作为颜色索引序列',
         default: 0,
         url: ['/chart#id=14/52e11ab939&legend=0&type=paralell&visual=1', '/chart#id=15/440962596e&type=paralell&visual=0']
-    }
+    },
+    // {
+    //     key: 'blackbg',
+    //     title: '是否使用黑色背景',
+    //     default: 1,
+    //     url: ['/chart#id=15/440962596e&type=paralell&visual=0&blackbg=0']
+    // }
 ];
+
+let getParalellBg = ({
+    blackbg
+}) => blackbg ? {
+    nameTextStyle: {
+        color: '#aaa',
+        fontSize: 14
+    },
+    axisLine: {
+        show: true,
+        lineStyle: {
+            color: '#aaa'
+        }
+    },
+    axisTick: {
+        lineStyle: {
+            color: '#999'
+        }
+    },
+    splitLine: {
+        show: false
+    },
+    axisLabel: {
+        textStyle: {
+            color: '#fff'
+        }
+    }
+} : {
+    nameTextStyle: {
+        color: '#333',
+        fontSize: 12
+    },
+    axisLine: {
+        show: true,
+        lineStyle: {
+            color: '#333'
+        }
+    },
+    axisTick: {
+        lineStyle: {
+            color: '#333'
+        }
+    },
+    splitLine: {
+        show: false
+    },
+    axisLabel: {
+        textStyle: {
+            color: '#333'
+        }
+    }
+}
 
 let handleSeriesItem = (config, keys, legendName, legendKey) => {
     let seriesData = R.isNil(legendName) ? config.data.data : R.filter(R.propEq(legendKey, legendName))(config.data.data);
@@ -127,6 +185,8 @@ let getVisualMap = (dataSequence, data, dimension) => ({
 let paralell = config => {
     config.smooth = config.smooth === '0' ? false : true
     config.visual = config.visual || 0;
+    config.blackbg = config.blackbg === '0' ? false : true;
+
     let {
         data,
         header
@@ -152,59 +212,9 @@ let paralell = config => {
     let parallelAxis = getParallelAxis(dataSequence, seriesData[0].data, data);
     let visualMap = getVisualMap(dataSequence, data, config.visual);
 
-    let blackBg = {
-        nameTextStyle: {
-            color: '#aaa',
-            fontSize: 14
-        },
-        axisLine: {
-            show: true,
-            lineStyle: {
-                color: '#aaa'
-            }
-        },
-        axisTick: {
-            lineStyle: {
-                color: '#999'
-            }
-        },
-        splitLine: {
-            show: false
-        },
-        axisLabel: {
-            textStyle: {
-                color: '#fff'
-            }
-        }
-    }
-    let whiteBg = {
-        nameTextStyle: {
-            color: '#333',
-            fontSize: 12
-        },
-        axisLine: {
-            show: true,
-            lineStyle: {
-                color: '#333'
-            }
-        },
-        axisTick: {
-            lineStyle: {
-                color: '#333'
-            }
-        },
-        splitLine: {
-            show: false
-        },
-        axisLabel: {
-            textStyle: {
-                color: '#333'
-            }
-        }
-    }
+    let bg = getParalellBg(config);
 
     let option = {
-        backgroundColor: '#445',
         tooltip: {},
         parallelAxis,
         visualMap,
@@ -217,7 +227,7 @@ let paralell = config => {
                 type: 'value',
                 nameLocation: 'start',
                 nameGap: 20,
-                ...blackBg
+                ...bg
             },
         },
         series: seriesData,
@@ -227,6 +237,11 @@ let paralell = config => {
             show: false
         }
     };
+
+    if (config.blackbg) {
+        option.backgroundColor = '#445';
+    }
+
     if (!R.isNil(config.legend)) {
         option.legend = {
             data: util.getLegendData(legendData)
