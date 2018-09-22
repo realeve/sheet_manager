@@ -10,7 +10,7 @@ let chartConfig = [{
         key: 'type',
         title: '图表类型',
         default: 'paralell',
-        url: '/chart#id=15/440962596e&type=paralell&visual=0'
+        url: ['/chart#id=16/48add90c27&type=heatmap&legend=0', '/chart#id=16/48add90c27&type=heatmap&legend=0&x=1&y=2']
     }, {
         key: 'x',
         title: 'X轴在数据的索引或键值。由于热力图中x,y均为类目型数据，请在数据结构中做好legend/X/Y的排序.',
