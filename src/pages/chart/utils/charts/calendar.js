@@ -40,8 +40,8 @@ let getCalendarStyle = name => ({
 let chartConfig = [{
         key: 'type',
         title: '图表类型',
-        default: 'paralell',
-        url: ['/chart#id=17/f378da2c28&type=calendar&size=20&legend=0']
+        default: 'calendar',
+        url: ['/chart#id=17/f378da2c28&type=calendar&size=20&legend=0&startmode=day']
     }, {
         key: 'x',
         title: 'X轴在数据的索引或键值。在日历图中，X轴格式为 YYYY-MM-DD.',
@@ -65,6 +65,11 @@ let chartConfig = [{
         key: 'orient',
         title: '水平/垂直布局',
         default: 'horizontal:水平,vertical:垂直',
+    }, {
+        key: 'startmode',
+        title: '起止时间以当前最大/最小日期还是以其对应的月份',
+        default: 'day/month,默认以当天最小日期开始',
+        url: '/chart#id=17/f378da2c28&type=calendar&size=20&legend=0&startmode=day'
     }
 ];
 
@@ -90,6 +95,7 @@ let handleConfig = config => {
 
     config.size = config.size || 20;
     config.orient = config.orient || 'horizontal';
+    config.startmode = config.startmode || 'day';
 
     return Object.assign(config, {
         x,
@@ -183,15 +189,22 @@ let getCalendar = (config, idx, range, name) => {
         ...getCalendarStyle(name)
     }
 }
-let getRange = data => {
+let getRange = (data, {
+    startmode
+}) => {
     let curData = R.pluck(0)(data);
-    curData = R.compose(R.uniq, R.map(R.slice(0, 7)))(curData);
-    curData = curData.sort((a, b) => (parseInt(a.replace('-', '') - parseInt(b.replace('-', '')))));
+    if (startmode === 'day') {
+        curData = R.compose(R.uniq, R.map(R.slice(0, 10)))(curData);
+        curData = curData.sort((a, b) => (parseInt(a.replace(/\-/g, '') - parseInt(b.replace(/\-/g, '')))));
+        return [R.head(curData), R.last(curData)];
+    }
 
+    // 以月为单位 
+    curData = R.compose(R.uniq, R.map(R.slice(0, 7)))(curData);
+    curData = curData.sort((a, b) => (parseInt(a.replace(/\-/g, '') - parseInt(b.replace(/\-/g, '')))));
     let head = R.head(curData);
     let last = R.last(curData);
     return [moment(head).startOf("month").format('YYYY-MM-DD'), moment(last).endOf("month").format('YYYY-MM-DD')]
-
 }
 let calendar = config => {
     config = handleConfig(config);
@@ -200,7 +213,7 @@ let calendar = config => {
             data,
             name
         }, idx) => {
-            let range = getRange(data)
+            let range = getRange(data, config)
             return getCalendar(config, idx, range, name);
         })
         // let legend = util.getLegend(config, 'multiple');
