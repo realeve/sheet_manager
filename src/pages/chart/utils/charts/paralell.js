@@ -1,11 +1,6 @@
-import color from '../themeColor';
 import util from '../lib'
 import * as lib from '../../../../utils/lib';
 import jStat from 'jStat';
-
-import {
-    handleSunBrustData
-} from './sunburst';
 const R = require("ramda");
 
 let chartConfig = [{
@@ -30,6 +25,12 @@ let chartConfig = [{
         title: '以第几个数据作为颜色索引序列',
         default: 0,
         url: ['/chart#id=14/52e11ab939&legend=0&type=paralell&visual=1', '/chart#id=15/440962596e&type=paralell&visual=0']
+    },
+    {
+        key: 'orient',
+        title: '水平/垂直布局',
+        default: 'horizontal:水平,vertical:垂直',
+        url: '/chart#id=15/440962596e&type=paralell&visual=0&orient=vertical'
     },
     // {
     //     key: 'blackbg',
@@ -109,6 +110,7 @@ let handleSeriesItem = (config, keys, legendName, legendKey) => {
         data: seriesItem,
         smooth: config.smooth,
         progressiveChunkMode: 'mod',
+        progressive: 500,
     };
 }
 
@@ -186,6 +188,7 @@ let paralell = config => {
     config.smooth = config.smooth === '0' ? false : true
     config.visual = config.visual || 0;
     config.blackbg = config.blackbg === '0' ? false : true;
+    config.orient = config.orient || 'horizontal';
 
     let {
         data,
@@ -213,15 +216,20 @@ let paralell = config => {
     let visualMap = getVisualMap(dataSequence, data, config.visual);
 
     let bg = getParalellBg(config);
+    let [left, right] = ['5%', '10%'];
+    if (config.orient === 'vertical') {
+        left = '18%';
+        right = '5%'
+    }
 
     let option = {
         tooltip: {},
         parallelAxis,
         visualMap,
         parallel: {
-            left: '5%',
-            right: '18%',
-            top: 120,
+            left,
+            right,
+            top: 60,
             axisExpandable: true,
             parallelAxisDefault: {
                 type: 'value',
@@ -229,6 +237,7 @@ let paralell = config => {
                 nameGap: 20,
                 ...bg
             },
+            layout: config.orient
         },
         series: seriesData,
         toolbox: {},

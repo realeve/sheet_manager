@@ -27,6 +27,10 @@ import {
     paralell
 } from './paralell';
 
+import {
+    heatmap
+} from './heatmap';
+
 export default {
     bar,
     line: bar,
@@ -39,5 +43,6 @@ export default {
     sankey,
     treemap,
     themeriver,
-    paralell
+    paralell,
+    heatmap
 };
