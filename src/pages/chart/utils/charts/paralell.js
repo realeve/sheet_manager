@@ -261,5 +261,6 @@ let paralell = config => {
 
 export {
     paralell,
-    chartConfig
+    chartConfig,
+    handleMinMax
 };
