@@ -8,7 +8,8 @@ const namespace = "menu";
 export default {
     namespace,
     state: {
-
+        treeDataLeft: [],
+        treeDataRight: []
     },
     reducers: {
         setStore(state, {
@@ -20,7 +21,13 @@ export default {
         }
     },
     effects: {
+        * loadMenuList(payload, {
+            call,
+            put,
+            select
+        }) {
 
+        }
     },
     subscriptions: {
         setup({
@@ -28,14 +35,13 @@ export default {
             history
         }) {
             return history.listen(({
-                pathname,
-                hash
+                pathname
             }) => {
                 const match = pathToRegexp("/" + namespace).exec(pathname);
                 if (!match) {
                     return;
                 }
-                console.log(pathname, hash)
+                console.log(pathname)
             });
         }
     }
