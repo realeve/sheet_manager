@@ -9,7 +9,7 @@ import * as treeUtil from "../tree-data-utils";
 import * as db from "../service";
 import styles from "../index.less";
 
-export default class MenuPreview extends Component {
+class MenuPreview extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,3 +66,9 @@ export default class MenuPreview extends Component {
     );
   }
 }
+
+MenuPreview.defaultProps = {
+  externalNodeType: "shareNodeType"
+};
+
+export default MenuPreview;

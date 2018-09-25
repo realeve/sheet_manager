@@ -8,12 +8,13 @@ import * as treeUtil from "../tree-data-utils";
 
 import * as db from "../service";
 import styles from "../index.less";
+import MenuItem from "./MenuItem.jsx";
 
 const Search = Input.Search;
 const R = require("ramda");
 const getNodeKey = ({ treeIndex }) => treeIndex;
 
-export default class MenuItem extends Component {
+class MenuList extends Component {
   constructor(props) {
     super(props);
 
@@ -23,7 +24,10 @@ export default class MenuItem extends Component {
       shouldCopyOnOutsideDrop: false,
       menuList: [],
       searchValue: "",
-      externalNodeType: props.externalNodeType
+      externalNodeType: props.externalNodeType,
+      showMenuItem: false,
+      treeIndex: 0,
+      editMode: false
     };
   }
 
@@ -74,10 +78,19 @@ export default class MenuItem extends Component {
   // 编辑菜单项
   editMenuItem = ({ node, path }) => {
     let { treeDataLeft } = R.clone(this.state);
-    let menuItem = {
-      title: "菜单n",
-      id: 29
-    };
+    let { treeIndex } = treeUtil.getNodeAtPath({
+      treeData: treeDataLeft,
+      path,
+      getNodeKey
+    });
+    this.setState({
+      treeIndex,
+      editMode: true
+    });
+
+    console.log(treeIndex);
+    this.toggleMenuItem(true);
+    return;
     treeDataLeft = treeUtil.changeNodeAtPath({
       treeData: treeDataLeft,
       path,
@@ -85,6 +98,20 @@ export default class MenuItem extends Component {
       newNode: { ...node, ...menuItem }
     });
     this.setState({ treeDataLeft });
+  };
+
+  addMenuItem = () => {
+    this.setState({
+      editMode: false,
+      treeIndex: null
+    });
+    this.toggleMenuItem(true);
+  };
+
+  toggleMenuItem = showMenuItem => {
+    this.setState({
+      showMenuItem
+    });
   };
 
   render() {
@@ -132,14 +159,32 @@ export default class MenuItem extends Component {
         </div>
       );
 
+    const { showMenuItem, treeIndex, editMode } = this.state;
+    let menuItem = treeDataLeft[treeIndex];
+    if (R.isNil(menuItem)) {
+      menuItem = {
+        title: "",
+        url: "",
+        icon: ""
+      };
+    }
+
     return (
       <>
+        <MenuItem
+          visible={showMenuItem}
+          menuItem={menuItem}
+          onCancel={this.toggleMenuItem}
+          editMode={editMode}
+        />
         <div className={styles.action}>
           <Search
+            prefix={<Icon type="search" />}
             placeholder="搜索菜单项"
             defaultValue={searchValue}
-            onSearch={this.filterMenuList}
             onChange={this.searchChange}
+            onSearch={this.addMenuItem}
+            enterButton={<Icon type="plus" />}
             style={{ width: "calc(80% - 10px)" }}
           />
         </div>
@@ -148,3 +193,9 @@ export default class MenuItem extends Component {
     );
   }
 }
+
+MenuList.defaultProps = {
+  externalNodeType: "shareNodeType"
+};
+
+export default MenuList;

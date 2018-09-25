@@ -7,19 +7,27 @@ const R = require("ramda");
 export const getMenuLeft = async() => {
     return [{
             title: "菜单1",
-            id: 23
+            id: 23,
+            url: '/chart',
+            icon: 'area-chart'
         },
         {
             title: "菜单2",
-            id: 26
+            id: 26,
+            url: '/table',
+            icon: 'table'
         },
         {
             title: "菜单3",
-            id: 24
+            id: 24,
+            url: '/menu',
+            icon: 'setting'
         },
         {
-            title: "菜单4",
-            id: 25
+            title: "数据报表",
+            id: 25,
+            url: '/table/#id=6/8d5b63370c&data_type=score',
+            icon: 'project'
         }
     ];
 }
