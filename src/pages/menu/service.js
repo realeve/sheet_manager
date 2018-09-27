@@ -2,38 +2,6 @@ import {
     axios
 } from "../../utils/axios";
 
-const R = require("ramda");
-
-export const getMenuSettingByIdx = async idx => {
-    return [{
-            title: "Chicken",
-            id: 23,
-            children: [{
-                    title: "Egg",
-                    id: 24
-                },
-                {
-                    title: "Test",
-                    id: 25
-                }
-            ]
-        },
-        {
-            title: "Test2",
-            id: 26,
-            children: [{
-                    title: "Egg",
-                    id: 24
-                },
-                {
-                    title: "Test",
-                    id: 25
-                }
-            ]
-        }
-    ]
-}
-
 /**
 *   @database: { 接口管理 }
 *   @desc:     { 插入菜单项 } 
@@ -75,4 +43,46 @@ export const delBaseMenuItem = async _id => await axios({
     params: {
         _id
     },
+}).then(res => res);
+
+/**
+*   @database: { 接口管理 }
+*   @desc:     { 插入菜单配置信息 } 
+    const { title, detail, uid } = params;
+*/
+export const addBaseMenuList = async params => await axios({
+    url: '/22/48c41dde3b.json',
+    params,
+}).then(res => res);
+
+/**
+ *   @database: { 接口管理 }
+ *   @desc:     { 读取菜单配置列表 } 
+ */
+export const getBaseMenuList = async() => await axios({
+    url: '/23/dc95d5f25b.json'
+}).then(res => res);
+
+/**
+*   @database: { 接口管理 }
+*   @desc:     { 修改菜单列表 } 
+	以下参数在建立过程中与系统保留字段冲突，已自动替换:
+	@id:_id. 参数说明：api 索引序号
+    const { title, detail, _id, uid } = params;
+*/
+export const setBaseMenuList = async params => await axios({
+    url: '/24/0e4f343fa7.json',
+    params,
+}).then(res => res);
+
+/**
+*   @database: { 接口管理 }
+*   @desc:     { 删除菜单列表 } 
+	以下参数在建立过程中与系统保留字段冲突，已自动替换:
+	@id:_id. 参数说明：api 索引序号
+    const { _id, uid } = params;
+*/
+export const delBaseMenuList = async params => await axios({
+    url: '/25/bbbd988205.json',
+    params,
 }).then(res => res);

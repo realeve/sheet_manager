@@ -12,7 +12,6 @@ import MenuItem from "./MenuItem.jsx";
 
 const Search = Input.Search;
 const R = require("ramda");
-const getNodeKey = ({ treeIndex }) => treeIndex;
 
 class MenuList extends Component {
   constructor(props) {
@@ -76,7 +75,7 @@ class MenuList extends Component {
     treeDataLeft = treeUtil.removeNodeAtPath({
       treeData: treeDataLeft,
       path,
-      getNodeKey
+      getNodeKey: treeUtil.getNodeKey
     });
 
     this.setState({ treeDataLeft });
@@ -92,7 +91,7 @@ class MenuList extends Component {
     let { treeIndex } = treeUtil.getNodeAtPath({
       treeData: treeDataLeft,
       path,
-      getNodeKey
+      getNodeKey: treeUtil.getNodeKey
     });
     this.setState({
       menuItem: treeDataLeft[treeIndex],
@@ -137,7 +136,7 @@ class MenuList extends Component {
     if (!editMode) {
       // 新增数据
       let { data } = await db.addBaseMenuItem(menuItem);
-      if (data.rows === 0) {
+      if (data[0].affected_rows === 0) {
         this.noticeError();
         return;
       }
@@ -149,7 +148,7 @@ class MenuList extends Component {
         depth: 0,
         minimumTreeIndex: 0,
         newNode: menuItem,
-        getNodeKey
+        getNodeKey: treeUtil.getNodeKey
       });
       treeDataLeft = treeData;
     } else {
@@ -166,7 +165,7 @@ class MenuList extends Component {
       treeDataLeft = treeUtil.changeNodeAtPath({
         treeData: treeDataLeft,
         path: [treeIndex],
-        getNodeKey,
+        getNodeKey: treeUtil.getNodeKey,
         newNode: { ...node, ...menuItem }
       });
     }

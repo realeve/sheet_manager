@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Button } from "antd";
+import { connect } from "dva";
+
+import { Button, Input, Popconfirm, notification, Icon } from "antd";
 
 import SortableTree from "react-sortable-tree";
 import "react-sortable-tree/style.css";
@@ -9,6 +11,9 @@ import * as treeUtil from "./tree-data-utils";
 import * as db from "../service";
 import styles from "../index.less";
 
+const getNodeKey = ({ treeIndex }) => treeIndex;
+const R = require("ramda");
+
 class MenuPreview extends Component {
   constructor(props) {
     super(props);
@@ -16,14 +21,26 @@ class MenuPreview extends Component {
       expanded: true,
       treeData: [],
       shouldCopyOnOutsideDrop: false,
-      externalNodeType: props.externalNodeType
+      externalNodeType: props.externalNodeType,
+      editMode: false,
+      menu_id: 0,
+      uid: props.uid,
+      title: ""
     };
   }
 
   // 初始化数据
   initData = async () => {
-    let treeData = await db.getMenuSettingByIdx();
-    this.setState({ treeData });
+    let { data } = await db.getBaseMenuList();
+
+    // 此处还需过滤当前用户请求
+    let { id: menu_id, detail, title } = data[0];
+    this.setState({
+      menu_id,
+      title,
+      treeData: JSON.parse(detail),
+      editMode: true
+    });
   };
 
   componentDidMount() {
@@ -43,15 +60,107 @@ class MenuPreview extends Component {
     this.setState({ treeData, expanded: !expanded });
   };
 
+  // 移除菜单项
+  removeMenuItem = async ({ path }) => {
+    let { treeData } = R.clone(this.state);
+    treeData = treeUtil.removeNodeAtPath({
+      treeData,
+      path,
+      getNodeKey: treeUtil.getNodeKey
+    });
+
+    this.setState({ treeData });
+    // notification.success({
+    //   message: "系统提示",
+    //   description: "菜单项删除成功."
+    // });
+  };
+
+  noticeError = () => {
+    // 数据插入失败
+    notification.error({
+      message: "系统提示",
+      description: "菜单配置信息调整失败，请稍后重试."
+    });
+  };
+
+  submitMenu = async () => {
+    let { treeData: detail, title, uid, editMode, menu_id } = this.state;
+    let params = {
+      title,
+      detail: JSON.stringify(detail),
+      uid
+    };
+    if (!editMode) {
+      let { data } = await db.addBaseMenuList(params).catch(e => {
+        return [{ affected_rows: 0 }];
+      });
+      if (data[0].affected_rows === 0) {
+        this.noticeError();
+        return;
+      }
+
+      this.setState({
+        editMode: true,
+        menu_id: data[0].id
+      });
+    } else {
+      params._id = menu_id;
+      let { data } = db.setBaseMenuList(params).catch(e => {
+        return [{ affected_rows: 0 }];
+      });
+      if (data[0].affected_rows === 0) {
+        this.noticeError();
+        return;
+      }
+    }
+    notification.success({
+      message: "系统提示",
+      description: "菜单项调整成功."
+    });
+  };
+
   render() {
-    const { externalNodeType, shouldCopyOnOutsideDrop, treeData } = this.state;
+    const {
+      externalNodeType,
+      shouldCopyOnOutsideDrop,
+      treeData,
+      expanded,
+      editMode,
+      title
+    } = this.state;
     return (
       <>
-        <div className={styles.action}>
-          <Button type="primary" onClick={this.expandAll}>
-            {this.state.expanded ? "全部展开" : "全部折叠"}
+        <div
+          className={styles.action}
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "80%",
+            marginBottom: 5
+          }}
+        >
+          <Button onClick={this.expandAll}>
+            {expanded ? "全部展开" : "全部折叠"}
+          </Button>
+          <Button
+            type="primary"
+            onClick={this.submitMenu}
+            disabled={treeData.length === 0}
+          >
+            {editMode ? "更新菜单" : "插入菜单"}
           </Button>
         </div>
+        <div className={styles.action}>
+          <Input
+            prefix={<Icon type="edit" />}
+            placeholder="菜单名称"
+            value={title}
+            onChange={e => this.setState({ title: e.target.value })}
+            style={{ width: "80%" }}
+          />
+        </div>
+
         <div style={{ height: 500 }} className={styles.container}>
           <SortableTree
             treeData={treeData}
@@ -60,6 +169,21 @@ class MenuPreview extends Component {
             rowHeight={32}
             dndType={externalNodeType}
             shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
+            generateNodeProps={treeItem => ({
+              buttons: [
+                <Popconfirm
+                  title="确定删除该菜单项?"
+                  okText="是"
+                  cancelText="否"
+                  icon={
+                    <Icon type="question-circle-o" style={{ color: "red" }} />
+                  }
+                  onConfirm={() => this.removeMenuItem(treeItem)}
+                >
+                  <Button size="small" icon="delete" />
+                </Popconfirm>
+              ]
+            })}
           />
         </div>
       </>
@@ -71,4 +195,12 @@ MenuPreview.defaultProps = {
   externalNodeType: "shareNodeType"
 };
 
-export default MenuPreview;
+function mapStateToProps(state) {
+  return {
+    uid: state.common.userSetting.uid
+  };
+}
+
+export default connect(mapStateToProps)(MenuPreview);
+
+// export default MenuPreview;
