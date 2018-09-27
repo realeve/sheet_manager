@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Modal, Button, Input, Row, Col, Icon } from "antd";
+import { Modal, Button, Input, Tag, Icon } from "antd";
 import styles from "./menuitem.less";
 import IconList from "./IconList.jsx";
+import util from "../../../utils/pinyin";
 
 const R = require("ramda");
 
@@ -29,7 +30,7 @@ class MenuItem extends Component {
   }
 
   handleOk = e => {
-    console.log(this.state);
+    this.props.onChange(this.state.menuItem);
     this.props.onCancel(false);
   };
 
@@ -54,9 +55,25 @@ class MenuItem extends Component {
     this.toggleIconList(false);
   };
 
+  addLink = link => {
+    let { menuItem } = this.state;
+    menuItem = Object.assign(menuItem, { url: `/${link}#id=` });
+    this.setState({ menuItem });
+  };
+
+  updateState = (key, e) => {
+    let { menuItem } = this.state;
+    let { value } = e.target;
+    menuItem = Object.assign(menuItem, {
+      [key]: value,
+      pinyin: util.toPinYin(value).toLowerCase(),
+      pinyin_full: util.toPinYinFull(value).toLowerCase()
+    });
+    this.setState({ menuItem });
+  };
+
   render() {
     let { menuItem, editMode, iconVisible } = this.state;
-    menuItem = menuItem || { title: "", url: "", icon: "" };
     let urlIcon = menuItem.icon === "" ? "图标" : <Icon type={menuItem.icon} />;
     return (
       <Modal
@@ -72,15 +89,28 @@ class MenuItem extends Component {
           onCancel={this.toggleIconList}
           onOk={this.updateIcon}
         />
-        <Row className={styles.title}>
+        <div className={styles.title}>
           <Button onClick={this.chooseIcon}>{urlIcon}</Button>
-          <Input placeholder="标题" defaultValue={menuItem.title} />
-        </Row>
+          <Input
+            placeholder="标题"
+            value={menuItem.title}
+            onChange={e => this.updateState("title", e)}
+          />
+        </div>
         <Input
           className={styles.input}
           placeholder="链接地址"
-          defaultValue={menuItem.url}
+          value={menuItem.url}
+          onChange={e => this.updateState("url", e)}
         />
+        <div className={styles.tags}>
+          <Tag color="#f50" onClick={() => this.addLink("chart")}>
+            图表
+          </Tag>
+          <Tag color="#108ee9" onClick={() => this.addLink("table")}>
+            报表
+          </Tag>
+        </div>
       </Modal>
     );
   }

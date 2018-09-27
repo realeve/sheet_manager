@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Collapse, Icon, Button } from "antd";
+import { Modal, Collapse, Icon } from "antd";
 import iconList from "./iconList.js";
 import styles from "./iconList.less";
 
@@ -36,6 +36,7 @@ class IconList extends Component {
   };
 
   render() {
+    // accordion
     const IconItems = ({ list }) =>
       list.map(type => (
         <li key={type}>
@@ -56,9 +57,9 @@ class IconList extends Component {
         okText="确认"
         cancelText="取消"
       >
-        <Collapse accordion>
+        <Collapse bordered="false" defaultActiveKey={["2", "3", "4", "5"]}>
           {iconList.map(({ type, list }, key) => (
-            <Panel header={key + 1 + ". " + type} key={type + key}>
+            <Panel header={key + 1 + ". " + type} key={key}>
               <ul className={styles.anticons}>
                 <IconItems list={list} />
               </ul>

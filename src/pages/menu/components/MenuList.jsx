@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Input, Button, Popconfirm, Icon } from "antd";
+import { Input, Button, Popconfirm, Icon, notification } from "antd";
 
 import SortableTree from "react-sortable-tree";
 import "react-sortable-tree/style.css";
 import FileExplorerTheme from "react-sortable-tree-theme-minimal";
-import * as treeUtil from "../tree-data-utils";
+import * as treeUtil from "./tree-data-utils";
 
 import * as db from "../service";
 import styles from "../index.less";
@@ -26,14 +26,15 @@ class MenuList extends Component {
       searchValue: "",
       externalNodeType: props.externalNodeType,
       showMenuItem: false,
-      treeIndex: 0,
-      editMode: false
+      editMode: false,
+      menuItem: {},
+      treeIndex: null
     };
   }
 
   // 初始化数据
   initData = async () => {
-    let menuList = await db.getMenuLeft();
+    let { data: menuList } = await db.getBaseMenuItem();
     this.setState({ menuList });
     this.handleMenuLeft(this.state.searchValue, menuList);
   };
@@ -65,18 +66,28 @@ class MenuList extends Component {
   };
 
   // 移除菜单项
-  removeMenuItem = ({ node, path }) => {
+  removeMenuItem = async ({ path }) => {
     let { treeDataLeft } = R.clone(this.state);
+    let { data } = await db.delBaseMenuItem(treeDataLeft[path].id);
+    if (data[0].affected_rows === 0) {
+      this.noticeError();
+      return;
+    }
     treeDataLeft = treeUtil.removeNodeAtPath({
       treeData: treeDataLeft,
       path,
       getNodeKey
     });
+
     this.setState({ treeDataLeft });
+    notification.success({
+      message: "系统提示",
+      description: "菜单项删除成功."
+    });
   };
 
   // 编辑菜单项
-  editMenuItem = ({ node, path }) => {
+  editMenuItem = ({ path }) => {
     let { treeDataLeft } = R.clone(this.state);
     let { treeIndex } = treeUtil.getNodeAtPath({
       treeData: treeDataLeft,
@@ -84,26 +95,17 @@ class MenuList extends Component {
       getNodeKey
     });
     this.setState({
+      menuItem: treeDataLeft[treeIndex],
       treeIndex,
       editMode: true
     });
 
-    console.log(treeIndex);
     this.toggleMenuItem(true);
-    return;
-    treeDataLeft = treeUtil.changeNodeAtPath({
-      treeData: treeDataLeft,
-      path,
-      getNodeKey,
-      newNode: { ...node, ...menuItem }
-    });
-    this.setState({ treeDataLeft });
   };
 
   addMenuItem = () => {
     this.setState({
-      editMode: false,
-      treeIndex: null
+      editMode: false
     });
     this.toggleMenuItem(true);
   };
@@ -111,6 +113,72 @@ class MenuList extends Component {
   toggleMenuItem = showMenuItem => {
     this.setState({
       showMenuItem
+    });
+  };
+
+  noticeError = () => {
+    // 数据插入失败
+    notification.error({
+      message: "系统提示",
+      description: "菜单项调整失败，请稍后重试."
+    });
+  };
+
+  changeMenuItem = async menuItem => {
+    let { treeDataLeft, treeIndex, editMode } = this.state;
+    // 如果未做任何修改，不继续更新/增加菜单项
+    if (
+      (editMode && R.equals(menuItem, treeDataLeft[treeIndex])) ||
+      menuItem.title.length === 0 // 标题信息必须输入
+    ) {
+      return;
+    }
+
+    if (!editMode) {
+      // 新增数据
+      let { data } = await db.addBaseMenuItem(menuItem);
+      if (data.rows === 0) {
+        this.noticeError();
+        return;
+      }
+      menuItem.id = data[0].id;
+
+      // 在开头插入数据
+      let { treeData } = treeUtil.insertNode({
+        treeData: treeDataLeft,
+        depth: 0,
+        minimumTreeIndex: 0,
+        newNode: menuItem,
+        getNodeKey
+      });
+      treeDataLeft = treeData;
+    } else {
+      let params = R.pick("icon,title,url,pinyin,pinyin_full".split(","))(
+        menuItem
+      );
+      params._id = menuItem.id;
+      await db.setBaseMenuItem(params).catch(e => {
+        this.noticeError();
+      });
+      // 更新结点,对于树形结构适用
+      let node = treeDataLeft[treeIndex];
+
+      treeDataLeft = treeUtil.changeNodeAtPath({
+        treeData: treeDataLeft,
+        path: [treeIndex],
+        getNodeKey,
+        newNode: { ...node, ...menuItem }
+      });
+    }
+
+    notification.success({
+      message: "系统提示",
+      description: "菜单项调整成功."
+    });
+    //更新完毕后刷新相关状态的数据
+    this.setState({
+      treeDataLeft,
+      menuItem
     });
   };
 
@@ -159,9 +227,9 @@ class MenuList extends Component {
         </div>
       );
 
-    const { showMenuItem, treeIndex, editMode } = this.state;
-    let menuItem = treeDataLeft[treeIndex];
-    if (R.isNil(menuItem)) {
+    let { showMenuItem, menuItem, editMode } = this.state;
+
+    if (!editMode) {
       menuItem = {
         title: "",
         url: "",
@@ -176,6 +244,7 @@ class MenuList extends Component {
           menuItem={menuItem}
           onCancel={this.toggleMenuItem}
           editMode={editMode}
+          onChange={this.changeMenuItem}
         />
         <div className={styles.action}>
           <Search

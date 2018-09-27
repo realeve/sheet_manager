@@ -5,7 +5,7 @@ import SortableTree from "react-sortable-tree";
 import "react-sortable-tree/style.css";
 import FileExplorerTheme from "react-sortable-tree-theme-minimal";
 
-import * as treeUtil from "../tree-data-utils";
+import * as treeUtil from "./tree-data-utils";
 import * as db from "../service";
 import styles from "../index.less";
 
@@ -33,7 +33,7 @@ class MenuPreview extends Component {
   // 菜单层级调整
   onTreeChange = treeData => {
     this.setState({ treeData });
-    console.log(treeData);
+    console.log("菜单项调整：", treeData);
   };
 
   // 展开所有
