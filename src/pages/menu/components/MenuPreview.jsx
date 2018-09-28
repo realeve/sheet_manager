@@ -5,13 +5,12 @@ import { Button, Input, Popconfirm, notification, Icon } from "antd";
 
 import SortableTree from "react-sortable-tree";
 import "react-sortable-tree/style.css";
-// import FileExplorerTheme from "react-sortable-tree-theme-minimal";
 
 import * as treeUtil from "./tree-data-utils";
 import * as db from "../service";
 import styles from "../index.less";
+import { Object } from "core-js";
 
-const getNodeKey = ({ treeIndex }) => treeIndex;
 const R = require("ramda");
 
 class MenuPreview extends Component {
@@ -22,29 +21,24 @@ class MenuPreview extends Component {
       treeData: [],
       shouldCopyOnOutsideDrop: false,
       externalNodeType: props.externalNodeType,
-      editMode: false,
+      editMode: props.editMode,
       menu_id: 0,
       uid: props.uid,
       title: ""
     };
   }
 
-  // 初始化数据
-  initData = async () => {
-    let { data } = await db.getBaseMenuList();
-
-    // 此处还需过滤当前用户请求
-    let { id: menu_id, detail, title } = data[0];
-    this.setState({
-      menu_id,
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let { id, detail, title } = nextProps.menuDetail;
+    if (R.isNil(id) || R.equals(id, prevState.menu_id)) {
+      return null;
+    }
+    return {
+      treeData: detail,
+      menu_id: id,
       title,
-      treeData: JSON.parse(detail),
-      editMode: true
-    });
-  };
-
-  componentDidMount() {
-    this.initData();
+      editMode: nextProps.editMode
+    };
   }
 
   // 菜单层级调整
@@ -70,10 +64,6 @@ class MenuPreview extends Component {
     });
 
     this.setState({ treeData });
-    // notification.success({
-    //   message: "系统提示",
-    //   description: "菜单项删除成功."
-    // });
   };
 
   noticeError = () => {
@@ -106,7 +96,7 @@ class MenuPreview extends Component {
       });
     } else {
       params._id = menu_id;
-      let { data } = db.setBaseMenuList(params).catch(e => {
+      let { data } = await db.setBaseMenuList(params).catch(e => {
         return [{ affected_rows: 0 }];
       });
       if (data[0].affected_rows === 0) {
@@ -146,12 +136,15 @@ class MenuPreview extends Component {
           <Button onClick={this.expandAll}>
             {expanded ? "全部展开" : "全部折叠"}
           </Button>
+          <Button onClick={this.props.onNew} icon="file">
+            新建
+          </Button>
           <Button
             type="primary"
             onClick={this.submitMenu}
-            disabled={treeData.length === 0}
+            disabled={R.isNil(treeData) || treeData.length === 0}
           >
-            {editMode ? "更新菜单" : "插入菜单"}
+            {editMode ? "更新" : "新增"}
           </Button>
         </div>
 
@@ -159,7 +152,6 @@ class MenuPreview extends Component {
           <SortableTree
             treeData={treeData}
             onChange={this.onTreeChange}
-            // theme={FileExplorerTheme}
             rowHeight={45}
             dndType={externalNodeType}
             shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
@@ -168,6 +160,7 @@ class MenuPreview extends Component {
                 <Popconfirm
                   title="确定删除该菜单项?"
                   okText="是"
+                  title="删除"
                   cancelText="否"
                   icon={
                     <Icon type="question-circle-o" style={{ color: "red" }} />
@@ -186,15 +179,10 @@ class MenuPreview extends Component {
 }
 
 MenuPreview.defaultProps = {
-  externalNodeType: "shareNodeType"
+  externalNodeType: "shareNodeType",
+  menuDetail: [],
+  editMode: false,
+  treeData: []
 };
 
-function mapStateToProps(state) {
-  return {
-    uid: state.common.userSetting.uid
-  };
-}
-
-export default connect(mapStateToProps)(MenuPreview);
-
-// export default MenuPreview;
+export default MenuPreview;
