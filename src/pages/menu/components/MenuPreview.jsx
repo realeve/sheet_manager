@@ -5,7 +5,7 @@ import { Button, Input, Popconfirm, notification, Icon } from "antd";
 
 import SortableTree from "react-sortable-tree";
 import "react-sortable-tree/style.css";
-import FileExplorerTheme from "react-sortable-tree-theme-minimal";
+// import FileExplorerTheme from "react-sortable-tree-theme-minimal";
 
 import * as treeUtil from "./tree-data-utils";
 import * as db from "../service";
@@ -131,15 +131,18 @@ class MenuPreview extends Component {
     } = this.state;
     return (
       <>
-        <div
-          className={styles.action}
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "80%",
-            marginBottom: 5
-          }}
-        >
+        <p className={styles.title}>2.菜单编辑</p>
+        <div className={styles.action}>
+          <span style={{ width: 100 }}>菜单标题：</span>
+          <Input
+            prefix={<Icon type="edit" />}
+            placeholder="菜单名称"
+            value={title}
+            onChange={e => this.setState({ title: e.target.value })}
+          />
+        </div>
+
+        <div className={[styles.action, styles["action-submit"]].join(" ")}>
           <Button onClick={this.expandAll}>
             {expanded ? "全部展开" : "全部折叠"}
           </Button>
@@ -151,22 +154,13 @@ class MenuPreview extends Component {
             {editMode ? "更新菜单" : "插入菜单"}
           </Button>
         </div>
-        <div className={styles.action}>
-          <Input
-            prefix={<Icon type="edit" />}
-            placeholder="菜单名称"
-            value={title}
-            onChange={e => this.setState({ title: e.target.value })}
-            style={{ width: "80%" }}
-          />
-        </div>
 
         <div style={{ height: 500 }} className={styles.container}>
           <SortableTree
             treeData={treeData}
             onChange={this.onTreeChange}
-            theme={FileExplorerTheme}
-            rowHeight={32}
+            // theme={FileExplorerTheme}
+            rowHeight={45}
             dndType={externalNodeType}
             shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
             generateNodeProps={treeItem => ({

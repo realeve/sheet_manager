@@ -23,10 +23,33 @@
       content: "✚"; //"\25BC";▶
     }
   }
+  :global(.rst__rowWrapper) {
+    padding: 5px 5px 5px 0;
+  }
+  :global(.rst__rowContents) {
+    box-shadow: none;
+    border: 1px dashed rgba(0, 0, 0, 0.24);
+    border-left: none;
+  }
+  :global(.rst__moveHandle) {
+    box-shadow: none;
+  }
 }
 
 .action {
   padding: 0 0 10px 45px;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.action-submit {
+  border-bottom: 1px dotted #bbb;
+  margin-bottom: 5px;
+}
+
+.title {
+  font-weight: bold;
 }
 
 .notSearch {

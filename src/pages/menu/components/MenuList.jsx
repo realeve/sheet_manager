@@ -245,6 +245,8 @@ class MenuList extends Component {
           editMode={editMode}
           onChange={this.changeMenuItem}
         />
+
+        <p className={styles.title}>1.菜单项列表</p>
         <div className={styles.action}>
           <Search
             prefix={<Icon type="search" />}
@@ -253,7 +255,6 @@ class MenuList extends Component {
             onChange={this.searchChange}
             onSearch={this.addMenuItem}
             enterButton={<Icon type="plus" />}
-            style={{ width: "calc(80% - 10px)" }}
           />
         </div>
         <TreeList />
