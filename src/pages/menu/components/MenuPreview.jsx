@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "dva";
 
 import { Button, Input, Popconfirm, notification, Icon } from "antd";
 
@@ -9,7 +8,6 @@ import "react-sortable-tree/style.css";
 import * as treeUtil from "./tree-data-utils";
 import * as db from "../service";
 import styles from "../index.less";
-import { Object } from "core-js";
 
 const R = require("ramda");
 
@@ -104,6 +102,9 @@ class MenuPreview extends Component {
         return;
       }
     }
+
+    this.props.onNew();
+
     notification.success({
       message: "系统提示",
       description: "菜单项调整成功."

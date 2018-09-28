@@ -5,8 +5,7 @@ import { Row, Col, Card } from "antd";
 import MenuItemList from "./components/MenuItemList.jsx";
 import MenuPreview from "./components/MenuPreview.jsx";
 import MenuList from "./components/MenuList.jsx";
-
-const R = require("ramda");
+import * as db from "./service";
 
 class VTree extends Component {
   constructor(props) {
@@ -14,15 +13,35 @@ class VTree extends Component {
     this.state = {
       menuDetail: [],
       editMode: false,
-      uid: props.uid
+      uid: props.uid,
+      menuList: []
     };
   }
 
-  editMenu = menuDetail => {
-    this.setState({ menuDetail, editMode: true });
+  componentDidMount() {
+    this.initData();
+  }
+
+  initData = async () => {
+    let { data } = await db.getBaseMenuList();
+    let menuList = data.map(item => {
+      item.detail = JSON.parse(item.detail);
+      return item;
+    });
+    this.setState({
+      menuList
+    });
   };
 
-  newMenu = () => {
+  editMenu = async (menuDetail, mode) => {
+    if (mode === "edit") {
+      this.setState({ menuDetail, editMode: true });
+    } else if (mode === "del") {
+      this.reset();
+    }
+  };
+
+  reset = () => {
     this.setState({
       editMode: false,
       menuDetail: {
@@ -31,6 +50,7 @@ class VTree extends Component {
         id: 0
       }
     });
+    this.initData();
   };
 
   render() {
@@ -47,12 +67,16 @@ class VTree extends Component {
               externalNodeType={externalNodeType}
               menuDetail={menuDetail}
               editMode={editMode}
-              onNew={this.newMenu}
+              onNew={this.reset}
               uid={this.state.uid}
             />
           </Col>
           <Col md={8} sm={24}>
-            <MenuList onEdit={this.editMenu} uid={this.state.uid} />
+            <MenuList
+              onEdit={this.editMenu}
+              uid={this.state.uid}
+              menuList={this.state.menuList}
+            />
           </Col>
         </Row>
       </Card>

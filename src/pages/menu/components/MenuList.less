@@ -3,8 +3,8 @@
 }
 
 .menuContainer {
-  width: 80%;
-  padding-left: 45px;
+  width: 100%;
+  margin-left: -40px;
   li {
     display: flex;
     justify-content: space-between;
@@ -23,15 +23,16 @@
       transform: translate(-2px, -1px) scale(1.05);
       box-shadow: 0 1px 18px rgba(0, 0, 0, 0.05), 0 5px 5px rgba(0, 0, 0, 0.01);
       .action {
-        display: block;
+        display: flex;
       }
     }
     .action {
       display: none;
+      width: 40%;
+      max-width: 160px;
+      justify-content: flex-end;
       button {
-        &:nth-child(2) {
-          margin: 0 5px;
-        }
+        margin: 0 5px;
       }
     }
   }
