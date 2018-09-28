@@ -1,6 +1,6 @@
 .main {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   min-height: 100vh;
   .container {
     flex: 1;
@@ -19,6 +19,9 @@
   }
   .footer {
     text-align: center;
+  }
+  :global(.ant-layout-header) {
+    padding: 0 10px;
   }
 }
 

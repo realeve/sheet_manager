@@ -26,8 +26,9 @@ function HeaderMenu({ location, avatar }) {
       <div className={styles.logo}>{setting.systemName}</div>
       <Menu
         selectedKeys={[location.pathname]}
-        mode="horizontal"
+        mode="inline"
         theme="dark"
+        // style={{ width: 128 }}
         className={styles.menu}
       >
         {linkList.map(({ url, title, icon }, key) => (

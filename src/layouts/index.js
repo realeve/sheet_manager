@@ -6,7 +6,7 @@ import userTool from "../utils/users";
 import "ant-design-pro/dist/ant-design-pro.css";
 
 import styles from "./index.less";
-import Header from "./Header";
+import Header from "./Header.jsx";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import { Layout, Breadcrumb, BackTop } from "antd";
@@ -45,10 +45,15 @@ class Index extends Component {
       case "/chart":
         curPageName = "图表";
         break;
-      case "/":
-      case "/index":
-      default:
+      case "/table":
         curPageName = "报表";
+        break;
+      case "/menu":
+        curPageName = "菜单设置";
+        break;
+      case "/":
+      default:
+        curPageName = "首页";
         break;
     }
     this.setState({
@@ -75,25 +80,27 @@ class Index extends Component {
     return (
       <Layout className={styles.main}>
         <Header location={location} avatar={userSetting} />
-        <TransitionGroup>
-          <CSSTransition
-            key={location.key}
-            classNames="ani-left"
-            timeout={{ enter: 400, exit: 300 }}
-          >
-            <Content className={styles.container}>
-              <Breadcrumb className={styles.breadCrumb}>
-                <Breadcrumb.Item>{this.state.curPageName}</Breadcrumb.Item>
-                <Breadcrumb.Item>{this.state.pageDetail}</Breadcrumb.Item>
-              </Breadcrumb>
-              <div className={styles.content}>{children}</div>
-            </Content>
-          </CSSTransition>
-        </TransitionGroup>
-        <BackTop />
-        <Footer className={styles.footer}>
-          cbpc ©2018 All rights reserved.
-        </Footer>
+        <div style={{ width: "100%" }}>
+          <TransitionGroup>
+            <CSSTransition
+              key={location.key}
+              classNames="fade"
+              timeout={{ enter: 800, exit: 300 }}
+            >
+              <Content className={styles.container}>
+                <Breadcrumb className={styles.breadCrumb}>
+                  <Breadcrumb.Item>{this.state.curPageName}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{this.state.pageDetail}</Breadcrumb.Item>
+                </Breadcrumb>
+                <div className={styles.content}>{children}</div>
+              </Content>
+            </CSSTransition>
+          </TransitionGroup>
+          <BackTop />
+          <Footer className={styles.footer}>
+            cbpc ©2018 All rights reserved.
+          </Footer>
+        </div>
       </Layout>
     );
   }

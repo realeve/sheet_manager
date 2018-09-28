@@ -45,11 +45,14 @@ class LoginComponent extends Component {
     const autoLogin = this.state.autoLogin;
 
     if (userInfo.rows > 0) {
-      this.handleAutoLogin({ values, setting: userInfo.data[0], autoLogin });
+      let userSetting = userInfo.data[0];
+      userSetting.menu = JSON.parse(userSetting.menu);
+
+      this.handleAutoLogin({ values, setting: userSetting, autoLogin });
       this.props.dispatch({
         type: "common/setStore",
         payload: {
-          userSetting: userInfo.data[0]
+          userSetting
         }
       });
       router.push(userTool.readLastRouter());

@@ -8,7 +8,8 @@ export default {
         userSetting: {
             uid: '',
             name: '',
-            avatar: ''
+            avatar: '',
+            menu: ''
         },
         inited: false,
         curPageName: ''

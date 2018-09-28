@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Popconfirm, Icon, notification } from "antd";
-
+import { connect } from "dva";
 import styles from "./MenuList.less";
 import * as db from "../service";
 
