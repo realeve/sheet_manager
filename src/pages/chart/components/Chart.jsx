@@ -3,7 +3,7 @@ import { Card, Tabs } from "antd";
 import * as db from "../services/chart";
 import styles from "./Chart.less";
 import ReactEcharts from "./echarts-for-react";
-import VTable from "../../../components/Table.jsx";
+import VTable from "@/components/Table.jsx";
 import lib from "../utils/lib";
 
 const R = require("ramda");

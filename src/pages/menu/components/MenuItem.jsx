@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Modal, Button, Input, Tag, Icon } from "antd";
 import styles from "./menuitem.less";
 import IconList from "./IconList.jsx";
-import util from "../../../utils/pinyin";
+import util from "@/utils/pinyin";
 
 const R = require("ramda");
 

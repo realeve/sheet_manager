@@ -3,7 +3,7 @@ import { connect } from "dva";
 import Chart from "./components/Chart.jsx";
 import { DatePicker, Card } from "antd";
 import styles from "./index.less";
-import dateRanges from "../../utils/ranges";
+import dateRanges from "@/utils/ranges";
 import moment from "moment";
 import "moment/locale/zh-cn";
 moment.locale("zh-cn");

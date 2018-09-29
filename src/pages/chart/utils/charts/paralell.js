@@ -1,5 +1,5 @@
 import util from '../lib'
-import * as lib from '../../../../utils/lib';
+import * as lib from '@/utils/lib';
 import jStat from 'jStat';
 const R = require("ramda");
 

@@ -1,6 +1,6 @@
 import pathToRegexp from "path-to-regexp";
 import * as db from "../services/table";
-import * as lib from '../../../utils/lib';
+import * as lib from '@/utils/lib';
 
 const R = require('ramda');
 

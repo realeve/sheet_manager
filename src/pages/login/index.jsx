@@ -6,7 +6,7 @@ import { Alert, Checkbox, Layout } from "antd";
 import Login from "ant-design-pro/lib/Login";
 import styles from "./index.less";
 import * as db from "./service";
-import userTool from "../../utils/users";
+import userTool from "@/utils/users";
 
 const { Footer } = Layout;
 const { UserName, Password, Submit } = Login;

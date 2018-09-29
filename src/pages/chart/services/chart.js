@@ -3,7 +3,7 @@ import chartOption from "../utils/charts";
 import {
     axios,
     DEV
-} from "../../../utils/axios";
+} from "@/utils/axios";
 const R = require('ramda');
 
 export const fetchData = params => axios(params)

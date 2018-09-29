@@ -1,5 +1,5 @@
 import pathToRegexp from "path-to-regexp";
-import * as lib from '../../../utils/lib';
+import * as lib from '@/utils/lib';
 import * as db from '../services/chart'
 const namespace = "chart";
 export default {

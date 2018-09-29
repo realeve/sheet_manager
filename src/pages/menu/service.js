@@ -1,6 +1,6 @@
 import {
     axios
-} from "../../utils/axios";
+} from "@/utils/axios";
 
 /**
 *   @database: { 接口管理 }

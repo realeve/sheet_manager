@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "dva";
-import VTable from "../../components/Table.jsx";
-import VTableCalc from "../../components/TableCalc.jsx";
+import VTable from "@/components/Table.jsx";
+import VTableCalc from "@/components/TableCalc.jsx";
 
 import { DatePicker, Card, Tabs } from "antd";
 import styles from "./index.less";
-import dateRanges from "../../utils/ranges";
+import dateRanges from "@/utils/ranges";
 import moment from "moment";
 import "moment/locale/zh-cn";
 moment.locale("zh-cn");

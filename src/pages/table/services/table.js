@@ -1,6 +1,6 @@
 import {
     axios
-} from "../../../utils/axios";
+} from "@/utils/axios";
 
 const R = require("ramda");
 
