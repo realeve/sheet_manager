@@ -20,37 +20,7 @@ import Exception403 from "../pages/Exception/403";
 import PageHeaderWrapper from "@/components/PageHeaderWrapper";
 
 const { Content } = Layout;
-
-// Conversion router to menu.
-function formatter(data, parentPath = "", parentAuthority, parentName) {
-  return data.map(item => {
-    let locale = "menu";
-    if (parentName && item.name) {
-      locale = `${parentName}.${item.name}`;
-    } else if (item.name) {
-      locale = `menu.${item.name}`;
-    } else if (parentName) {
-      locale = parentName;
-    }
-    const result = {
-      ...item,
-      locale,
-      authority: item.authority || parentAuthority
-    };
-    if (item.routes) {
-      const children = formatter(
-        item.routes,
-        `${parentPath}${item.path}/`,
-        item.authority,
-        locale
-      );
-      // Reduce memory usage
-      result.children = children;
-    }
-    delete result.routes;
-    return result;
-  });
-}
+const systemName = "某数据系统";
 
 const query = {
   "screen-xs": {
@@ -139,10 +109,58 @@ class BasicLayout extends React.PureComponent {
   }
 
   getMenuData() {
-    const {
-      route: { routes }
-    } = this.props;
-    return formatter(routes);
+    return [
+      {
+        path: "/dashboard",
+        name: "dashboard",
+        icon: "dashboard",
+        children: [
+          {
+            path: "/dashboard/analysis",
+            name: "analysis"
+          }
+        ]
+      },
+      {
+        path: "/form",
+        icon: "form",
+        name: "form",
+        children: [
+          {
+            path: "/form/basic-form",
+            name: "basicform"
+          },
+          {
+            path: "/form/step-form",
+            name: "stepform",
+            children: [
+              {
+                path: "/form/step-form/info",
+                name: "info"
+              },
+              {
+                path: "/form/step-form/confirm",
+                name: "confirm",
+                children: [
+                  {
+                    path: "/form/step-form/info",
+                    name: "info"
+                  },
+                  {
+                    path: "/form/step-form/confirm",
+                    name: "confirm"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            path: "/form/advanced-form",
+            name: "advancedform"
+          }
+        ]
+      }
+    ];
   }
 
   /**
@@ -173,15 +191,11 @@ class BasicLayout extends React.PureComponent {
 
   getPageTitle = pathname => {
     const currRouterData = this.matchParamsPath(pathname);
-
     if (!currRouterData) {
-      return "Ant Design Pro";
+      return systemName;
     }
-    const message = formatMessage({
-      id: currRouterData.locale || currRouterData.name,
-      defaultMessage: currRouterData.name
-    });
-    return `${message} - Ant Design Pro`;
+
+    return `${currRouterData.name} - ${systemName}`;
   };
 
   getLayoutStyle = () => {
@@ -262,15 +276,12 @@ class BasicLayout extends React.PureComponent {
             {...this.props}
           />
           <Content style={this.getContentStyle()}>
-            <Authorized
-              authority={routerConfig.authority}
-              noMatch={<Exception403 />}
-            >
-              <PageHeaderWrapper>
-                {/* <Card bordered={false}></Card> */}
+            <PageHeaderWrapper>
+              {/* <Card bordered={false} style={{ marginTop: 12 }}>
                 {children}
-              </PageHeaderWrapper>
-            </Authorized>
+              </Card> */}
+              {children}
+            </PageHeaderWrapper>
           </Content>
           <Footer />
         </Layout>

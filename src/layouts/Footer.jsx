@@ -2,9 +2,10 @@ import React, { Fragment } from "react";
 import { Layout, Icon } from "antd";
 import GlobalFooter from "ant-design-pro/lib/GlobalFooter";
 
+import styles from "./index.less";
 const { Footer } = Layout;
 const FooterView = () => (
-  <Footer style={{ padding: 0 }}>
+  <Footer className={styles.footer}>
     <GlobalFooter
       links={[
         {
@@ -28,7 +29,7 @@ const FooterView = () => (
       ]}
       copyright={
         <Fragment>
-          Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品
+          Copyright <Icon type="copyright" /> 2018 CBPC All Rights Reserved
         </Fragment>
       }
     />

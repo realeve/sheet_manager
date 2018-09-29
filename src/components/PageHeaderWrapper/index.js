@@ -25,14 +25,8 @@ const PageHeaderWrapper = ({
           key="pageheader"
           {...restProps}
           linkElement={Link}
-          itemRender={item => {
-            if (item.locale) {
-              return (
-                <FormattedMessage id={item.locale} defaultMessage={item.name} />
-              );
-            }
-            return item.name;
-          }}
+          itemRender={({ name }) => name}
+          // title="页面标题"
         />
       )}
     </MenuContext.Consumer>

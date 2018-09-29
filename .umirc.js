@@ -14,9 +14,9 @@ export default {
                 exclude: [/models\//, /services\//, /components\//, /utils\//, /service\.js/],
             },
             locale: {
-                enable: true, // default false
+                enable: false, // default false
                 default: 'zh-CN', // default zh-CN
-                baseNavigator: true, // default true, when it is true, will use `navigator.language` overwrite default
+                baseNavigator: false, // default true, when it is true, will use `navigator.language` overwrite default
             },
             dynamicImport: {
                 loadingComponent: './components/PageLoading/index',
@@ -27,6 +27,8 @@ export default {
     define: {
         APP_TYPE: process.env.APP_TYPE || '',
     },
+    // 路由配置
+    // routes: pageRoutes,
     // Theme for antd
     // https://ant.design/docs/react/customize-theme-cn
     theme: {
@@ -48,8 +50,7 @@ export default {
             type: 'image/png',
         }, ],
     },
-
-    chainWebpack: webpackplugin,
+    // chainWebpack: webpackplugin,
     cssnano: {
         mergeRules: false,
     },

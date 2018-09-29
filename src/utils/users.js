@@ -36,7 +36,7 @@ const saveLastRouter = pathname => {
 
 const readLastRouter = () => {
     let router = window.localStorage.getItem('_lastRouter');
-    return router == null || router === '/' ? '/financial/inv' : router;
+    return router == null || router === '/' ? '/menu' : router;
 }
 
 export default {

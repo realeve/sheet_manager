@@ -1,11 +1,16 @@
-import React, { PureComponent } from 'react';
-import { FormattedMessage, formatMessage, setLocale, getLocale } from 'umi/locale';
-import { Spin, Tag, Menu, Icon, Dropdown, Avatar, Tooltip, Button } from 'antd';
-import moment from 'moment';
-import groupBy from 'lodash/groupBy';
-import NoticeIcon from '../NoticeIcon';
-import HeaderSearch from '../HeaderSearch';
-import styles from './index.less';
+import React, { PureComponent } from "react";
+import {
+  FormattedMessage,
+  formatMessage,
+  setLocale,
+  getLocale
+} from "umi/locale";
+import { Spin, Tag, Menu, Icon, Dropdown, Avatar, Tooltip, Button } from "antd";
+import moment from "moment";
+import groupBy from "lodash/groupBy";
+import NoticeIcon from "../NoticeIcon";
+import HeaderSearch from "../HeaderSearch";
+import styles from "./index.less";
 
 export default class GlobalHeaderRight extends PureComponent {
   getNoticeData() {
@@ -23,10 +28,10 @@ export default class GlobalHeaderRight extends PureComponent {
       }
       if (newNotice.extra && newNotice.status) {
         const color = {
-          todo: '',
-          processing: 'blue',
-          urgent: 'red',
-          doing: 'gold',
+          todo: "",
+          processing: "blue",
+          urgent: "red",
+          doing: "gold"
         }[newNotice.status];
         newNotice.extra = (
           <Tag color={color} style={{ marginRight: 0 }}>
@@ -36,15 +41,15 @@ export default class GlobalHeaderRight extends PureComponent {
       }
       return newNotice;
     });
-    return groupBy(newNotices, 'type');
+    return groupBy(newNotices, "type");
   }
 
   changLang = () => {
     const locale = getLocale();
-    if (!locale || locale === 'zh-CN') {
-      setLocale('en-US');
+    if (!locale || locale === "zh-CN") {
+      setLocale("en-US");
     } else {
-      setLocale('zh-CN');
+      setLocale("zh-CN");
     }
   };
 
@@ -55,21 +60,30 @@ export default class GlobalHeaderRight extends PureComponent {
       onNoticeVisibleChange,
       onMenuClick,
       onNoticeClear,
-      theme,
+      theme
     } = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="userCenter">
           <Icon type="user" />
-          <FormattedMessage id="menu.account.center" defaultMessage="account center" />
+          <FormattedMessage
+            id="menu.account.center"
+            defaultMessage="account center"
+          />
         </Menu.Item>
         <Menu.Item key="userinfo">
           <Icon type="setting" />
-          <FormattedMessage id="menu.account.settings" defaultMessage="account settings" />
+          <FormattedMessage
+            id="menu.account.settings"
+            defaultMessage="account settings"
+          />
         </Menu.Item>
         <Menu.Item key="triggerError">
           <Icon type="close-circle" />
-          <FormattedMessage id="menu.account.trigger" defaultMessage="Trigger Error" />
+          <FormattedMessage
+            id="menu.account.trigger"
+            defaultMessage="Trigger Error"
+          />
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout">
@@ -80,30 +94,30 @@ export default class GlobalHeaderRight extends PureComponent {
     );
     const noticeData = this.getNoticeData();
     let className = styles.right;
-    if (theme === 'dark') {
+    if (theme === "dark") {
       className = `${styles.right}  ${styles.dark}`;
     }
     return (
       <div className={className}>
         <HeaderSearch
           className={`${styles.action} ${styles.search}`}
-          placeholder={formatMessage({ id: 'component.globalHeader.search' })}
+          placeholder={formatMessage({ id: "component.globalHeader.search" })}
           dataSource={[
-            formatMessage({ id: 'component.globalHeader.search.example1' }),
-            formatMessage({ id: 'component.globalHeader.search.example2' }),
-            formatMessage({ id: 'component.globalHeader.search.example3' }),
+            formatMessage({ id: "component.globalHeader.search.example1" }),
+            formatMessage({ id: "component.globalHeader.search.example2" }),
+            formatMessage({ id: "component.globalHeader.search.example3" })
           ]}
           onSearch={value => {
-            console.log('input', value); // eslint-disable-line
+            console.log("input", value); // eslint-disable-line
           }}
           onPressEnter={value => {
-            console.log('enter', value); // eslint-disable-line
+            console.log("enter", value); // eslint-disable-line
           }}
         />
-        <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
+        <Tooltip title={formatMessage({ id: "component.globalHeader.help" })}>
           <a
             target="_blank"
-            href="https://pro.ant.design/docs/getting-started"
+            href="/docs/"
             rel="noopener noreferrer"
             className={styles.action}
             title="{ formatMessage({id: 'component.globalHeader.help'}) }"
@@ -124,20 +138,26 @@ export default class GlobalHeaderRight extends PureComponent {
         >
           <NoticeIcon.Tab
             list={noticeData.notification}
-            title={formatMessage({ id: 'component.globalHeader.notification' })}
-            emptyText={formatMessage({ id: 'component.globalHeader.notification.empty' })}
+            title={formatMessage({ id: "component.globalHeader.notification" })}
+            emptyText={formatMessage({
+              id: "component.globalHeader.notification.empty"
+            })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
           />
           <NoticeIcon.Tab
             list={noticeData.message}
-            title={formatMessage({ id: 'component.globalHeader.message' })}
-            emptyText={formatMessage({ id: 'component.globalHeader.message.empty' })}
+            title={formatMessage({ id: "component.globalHeader.message" })}
+            emptyText={formatMessage({
+              id: "component.globalHeader.message.empty"
+            })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
           />
           <NoticeIcon.Tab
             list={noticeData.event}
-            title={formatMessage({ id: 'component.globalHeader.event' })}
-            emptyText={formatMessage({ id: 'component.globalHeader.event.empty' })}
+            title={formatMessage({ id: "component.globalHeader.event" })}
+            emptyText={formatMessage({
+              id: "component.globalHeader.event.empty"
+            })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
           />
         </NoticeIcon>
@@ -158,9 +178,9 @@ export default class GlobalHeaderRight extends PureComponent {
         )}
         <Button
           size="small"
-          ghost={theme === 'dark'}
+          ghost={theme === "dark"}
           style={{
-            margin: '0 8px',
+            margin: "0 8px"
           }}
           onClick={() => {
             this.changLang();

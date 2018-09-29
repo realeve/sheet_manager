@@ -5,8 +5,8 @@ import * as setting from "../utils/setting";
 
 function LoginAvatar({ avatar }) {
   const currentUser = {
-    name: "avatar.fullname",
-    avatar: setting.domain + "avatar.avatar"
+    name: avatar.fullname,
+    avatar: setting.domain + avatar.avatar
   };
 
   if (!currentUser.name || currentUser.name.length === 0) {

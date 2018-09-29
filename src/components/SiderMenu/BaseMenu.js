@@ -85,7 +85,7 @@ export default class BaseMenu extends PureComponent {
       !item.hideChildrenInMenu &&
       item.children.some(child => child.name)
     ) {
-      const name = formatMessage({ id: item.locale });
+      const name = item.name; // formatMessage({ id: item.locale });
       return (
         <SubMenu
           title={
@@ -113,7 +113,7 @@ export default class BaseMenu extends PureComponent {
    * @memberof SiderMenu
    */
   getMenuItemPath = item => {
-    const name = formatMessage({ id: item.locale });
+    const name = item.name; //formatMessage({ id: item.locale });
     const itemPath = this.conversionPath(item.path);
     const icon = getIcon(item.icon);
     const { target } = item;
