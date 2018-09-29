@@ -19,6 +19,8 @@ import Context from "./MenuContext";
 import Exception403 from "../pages/Exception/403";
 import PageHeaderWrapper from "@/components/PageHeaderWrapper";
 
+import menuData from "./menuData";
+
 const { Content } = Layout;
 const systemName = "某数据系统";
 
@@ -108,61 +110,6 @@ class BasicLayout extends React.PureComponent {
     };
   }
 
-  getMenuData() {
-    return [
-      {
-        path: "/dashboard",
-        name: "dashboard",
-        icon: "dashboard",
-        children: [
-          {
-            path: "/dashboard/analysis",
-            name: "analysis"
-          }
-        ]
-      },
-      {
-        path: "/form",
-        icon: "form",
-        name: "form",
-        children: [
-          {
-            path: "/form/basic-form",
-            name: "basicform"
-          },
-          {
-            path: "/form/step-form",
-            name: "stepform",
-            children: [
-              {
-                path: "/form/step-form/info",
-                name: "info"
-              },
-              {
-                path: "/form/step-form/confirm",
-                name: "confirm",
-                children: [
-                  {
-                    path: "/form/step-form/info",
-                    name: "info"
-                  },
-                  {
-                    path: "/form/step-form/confirm",
-                    name: "confirm"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            path: "/form/advanced-form",
-            name: "advancedform"
-          }
-        ]
-      }
-    ];
-  }
-
   /**
    * 获取面包屑映射
    * @param {Object} menuData 菜单配置
@@ -178,7 +125,7 @@ class BasicLayout extends React.PureComponent {
         routerMap[menuItem.path] = menuItem;
       });
     };
-    mergeMenuAndRouter(this.getMenuData());
+    mergeMenuAndRouter(menuData);
     return routerMap;
   }
 
@@ -247,7 +194,7 @@ class BasicLayout extends React.PureComponent {
     } = this.props;
     const { isMobile } = this.state;
     const isTop = PropsLayout === "topmenu";
-    const menuData = this.getMenuData();
+    // const menuData = this.getMenuData();
     const routerConfig = this.matchParamsPath(pathname);
     const layout = (
       <Layout>
@@ -276,12 +223,7 @@ class BasicLayout extends React.PureComponent {
             {...this.props}
           />
           <Content style={this.getContentStyle()}>
-            <PageHeaderWrapper>
-              {/* <Card bordered={false} style={{ marginTop: 12 }}>
-                {children}
-              </Card> */}
-              {children}
-            </PageHeaderWrapper>
+            <PageHeaderWrapper>{children}</PageHeaderWrapper>
           </Content>
           <Footer />
         </Layout>
