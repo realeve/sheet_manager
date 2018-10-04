@@ -19,6 +19,9 @@ import Context from "./MenuContext";
 import Exception403 from "../pages/Exception/403";
 import PageHeaderWrapper from "@/components/PageHeaderWrapper";
 
+import userTool from "../utils/users";
+import router from "umi/router";
+
 import menuData from "./menuData";
 
 const { Content } = Layout;
@@ -65,6 +68,21 @@ class BasicLayout extends React.PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
+
+    // 登录逻辑
+    let { data, success } = userTool.getUserSetting();
+    if (!success || !data.autoLogin) {
+      router.push("/login");
+      return;
+    }
+
+    dispatch({
+      type: "common/setStore",
+      payload: {
+        userSetting: data.setting
+      }
+    });
+
     dispatch({
       type: "user/fetchCurrent"
     });
@@ -229,13 +247,16 @@ class BasicLayout extends React.PureComponent {
         </Layout>
       </Layout>
     );
+
     return (
       <React.Fragment>
         <DocumentTitle title={this.getPageTitle(pathname)}>
           <ContainerQuery query={query}>
             {params => (
               <Context.Provider value={this.getContext()}>
-                <div className={classNames(params)}>{layout}</div>
+                <div className={classNames(params)}>
+                  {pathname === "/login" ? children : layout}
+                </div>
               </Context.Provider>
             )}
           </ContainerQuery>
@@ -246,8 +267,9 @@ class BasicLayout extends React.PureComponent {
   }
 }
 
-export default connect(({ global, setting }) => ({
+export default connect(({ global, setting, common }) => ({
   collapsed: global.collapsed,
   layout: setting.layout,
-  ...setting
+  ...setting,
+  ...common
 }))(BasicLayout);

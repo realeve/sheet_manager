@@ -60,8 +60,10 @@ export default class GlobalHeaderRight extends PureComponent {
       onNoticeVisibleChange,
       onMenuClick,
       onNoticeClear,
-      theme
+      theme,
+      userSetting
     } = this.props;
+
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="userCenter">
@@ -76,13 +78,6 @@ export default class GlobalHeaderRight extends PureComponent {
           <FormattedMessage
             id="menu.account.settings"
             defaultMessage="account settings"
-          />
-        </Menu.Item>
-        <Menu.Item key="triggerError">
-          <Icon type="close-circle" />
-          <FormattedMessage
-            id="menu.account.trigger"
-            defaultMessage="Trigger Error"
           />
         </Menu.Item>
         <Menu.Divider />
@@ -161,16 +156,16 @@ export default class GlobalHeaderRight extends PureComponent {
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
           />
         </NoticeIcon>
-        {currentUser.name ? (
+        {userSetting.fullname ? (
           <Dropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
               <Avatar
                 size="small"
-                className={styles.avatar}
-                src={currentUser.avatar}
+                className={userSetting.avatar}
+                src={userSetting.avatar}
                 alt="avatar"
               />
-              <span className={styles.name}>{currentUser.name}</span>
+              <span className={styles.name}>{userSetting.fullname}</span>
             </span>
           </Dropdown>
         ) : (

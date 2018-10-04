@@ -59,10 +59,6 @@ class HeaderView extends PureComponent {
       router.push("/account/center");
       return;
     }
-    if (key === "triggerError") {
-      router.push("/exception/trigger");
-      return;
-    }
     if (key === "userinfo") {
       router.push("/account/settings/base");
       return;
@@ -158,10 +154,13 @@ class HeaderView extends PureComponent {
   }
 }
 
-export default connect(({ user, global, setting, loading }) => ({
-  currentUser: user.currentUser,
-  collapsed: global.collapsed,
-  fetchingNotices: loading.effects["global/fetchNotices"],
-  notices: global.notices,
-  setting
-}))(HeaderView);
+export default connect(
+  ({ user, global, setting, loading, common: { userSetting } }) => ({
+    currentUser: user.currentUser,
+    collapsed: global.collapsed,
+    fetchingNotices: loading.effects["global/fetchNotices"],
+    notices: global.notices,
+    setting,
+    userSetting
+  })
+)(HeaderView);
