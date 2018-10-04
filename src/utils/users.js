@@ -1,16 +1,26 @@
 const _lsKey = "_userSetting";
+const _menu = "_userMenu";
+const R = require('ramda');
+const CryptoJS = require("crypto-js");
+const salt = btoa(encodeURI("8f5661a0527b538ea5b2566c9da779f4"));
 
-const encodeStr = values => {
-    values.token =
-        new Date().getTime() +
-        encodeURI("8f5661a0527b538ea5b2566c9da779f4").replace(/\%/g, "");
-    return btoa(encodeURI(JSON.stringify(values)));
-};
+const encodeStr = values => CryptoJS.AES.encrypt(JSON.stringify(values), salt)
 
-const decodeStr = str => JSON.parse(decodeURI(atob(str)));
+const decodeStr = ciphertext => {
+    // Decrypt
+    const bytes = CryptoJS.AES.decrypt(ciphertext.toString(), salt);
+    const plainText = bytes.toString(CryptoJS.enc.Utf8);
+    return JSON.parse(plainText);
+}
 
-const saveUserSetting = values => {
+const saveUserSetting = data => {
+    let values = R.clone(data)
+    let {
+        menu
+    } = values.setting;
+    Reflect.deleteProperty(values.setting, 'menu');
     window.localStorage.setItem(_lsKey, encodeStr(values));
+    window.localStorage.setItem(_menu, JSON.stringify(menu));
 };
 
 const getUserSetting = () => {
@@ -20,8 +30,12 @@ const getUserSetting = () => {
             success: false
         };
     }
+
+    let menu = window.localStorage.getItem(_menu);
+    let data = decodeStr(_userSetting);
+    data.setting.menu = JSON.parse(menu);
     return {
-        data: decodeStr(_userSetting),
+        data,
         success: true
     };
 };

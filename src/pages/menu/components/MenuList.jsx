@@ -4,6 +4,7 @@ import { connect } from "dva";
 import styles from "./MenuList.less";
 import * as db from "../service";
 import * as lib from "@/utils/lib";
+import userTool from "@/utils/users";
 
 const R = require("ramda");
 
@@ -29,7 +30,7 @@ class MenuList extends Component {
     this.props.onEdit(menuItem, "edit");
   };
 
-  setCurMenu = async ({ id: menu_id }) => {
+  setCurMenu = async ({ id: menu_id, detail: menu }) => {
     const {
       data: [{ affected_rows }]
     } = await db.setSysUser({
@@ -45,7 +46,24 @@ class MenuList extends Component {
     if (!affected_rows) {
       return;
     }
-    lib.logout(this.props);
+
+    // 调整默认菜单数据
+    const { dispatch } = this.props;
+
+    let { data } = userTool.getUserSetting();
+    data.setting.menu = menu;
+
+    dispatch({
+      type: "common/setStore",
+      payload: {
+        userSetting: {
+          menu
+        }
+      }
+    });
+    userTool.saveUserSetting(data);
+
+    // lib.logout(this.props);
   };
 
   removeMenu = async (menuItem, idx) => {
