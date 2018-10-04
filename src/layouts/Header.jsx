@@ -8,6 +8,7 @@ import GlobalHeader from "@/components/GlobalHeader";
 import TopNavHeader from "@/components/TopNavHeader";
 import styles from "./Header.less";
 import Authorized from "@/utils/Authorized";
+import * as lib from "@/utils/lib";
 
 const { Header } = Layout;
 
@@ -64,9 +65,7 @@ class HeaderView extends PureComponent {
       return;
     }
     if (key === "logout") {
-      dispatch({
-        type: "login/logout"
-      });
+      lib.logout(this.props);
     }
   };
 

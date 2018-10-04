@@ -22,10 +22,11 @@ import PageHeaderWrapper from "@/components/PageHeaderWrapper";
 import userTool from "../utils/users";
 import router from "umi/router";
 
-import menuData from "./menuData";
+import menuUtil from "./menuData";
 
 const { Content } = Layout;
 const systemName = "某数据系统";
+const R = require("ramda");
 
 const query = {
   "screen-xs": {
@@ -57,14 +58,32 @@ class BasicLayout extends React.PureComponent {
     super(props);
     this.getPageTitle = memoizeOne(this.getPageTitle);
     this.getBreadcrumbNameMap = memoizeOne(this.getBreadcrumbNameMap, isEqual);
-    this.breadcrumbNameMap = this.getBreadcrumbNameMap();
+    const menu = props.userSetting.menu;
+    const menuData = menu === "" ? [] : menuUtil.getMenuData(menu);
+    this.breadcrumbNameMap = this.getBreadcrumbNameMap(menuData);
     this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual);
+    this.state = {
+      menuData,
+      rendering: true,
+      isMobile: false,
+      menu
+    };
   }
 
-  state = {
-    rendering: true,
-    isMobile: false
-  };
+  static getDerivedStateFromProps(
+    {
+      userSetting: { menu }
+    },
+    curState
+  ) {
+    if (R.equals(menu, curState.menu)) {
+      return null;
+    }
+    return {
+      menu,
+      menuData: menu === "" ? [] : menuUtil.getMenuData(menu)
+    };
+  }
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -107,7 +126,7 @@ class BasicLayout extends React.PureComponent {
   componentDidUpdate(preProps) {
     // After changing to phone mode,
     // if collapsed is true, you need to click twice to display
-    this.breadcrumbNameMap = this.getBreadcrumbNameMap();
+    this.breadcrumbNameMap = this.getBreadcrumbNameMap(this.state.menuData);
     const { isMobile } = this.state;
     const { collapsed } = this.props;
     if (isMobile && !preProps.isMobile && !collapsed) {
@@ -132,7 +151,7 @@ class BasicLayout extends React.PureComponent {
    * 获取面包屑映射
    * @param {Object} menuData 菜单配置
    */
-  getBreadcrumbNameMap() {
+  getBreadcrumbNameMap(menuData) {
     const routerMap = {};
     const mergeMenuAndRouter = data => {
       data.forEach(menuItem => {
@@ -210,7 +229,7 @@ class BasicLayout extends React.PureComponent {
       children,
       location: { pathname }
     } = this.props;
-    const { isMobile } = this.state;
+    const { isMobile, menuData } = this.state;
     const isTop = PropsLayout === "topmenu";
     // const menuData = this.getMenuData();
     const routerConfig = this.matchParamsPath(pathname);
@@ -267,9 +286,9 @@ class BasicLayout extends React.PureComponent {
   }
 }
 
-export default connect(({ global, setting, common }) => ({
+export default connect(({ global, setting, common: { userSetting } }) => ({
   collapsed: global.collapsed,
   layout: setting.layout,
   ...setting,
-  ...common
+  userSetting
 }))(BasicLayout);

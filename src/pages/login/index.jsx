@@ -55,7 +55,11 @@ class LoginComponent extends Component {
           userSetting
         }
       });
-      router.push(userTool.readLastRouter());
+
+      const query = this.props.location.query;
+      let nextUrl = query.redirect || userTool.readLastRouter();
+
+      router.push(nextUrl);
       return;
     }
 
@@ -79,7 +83,7 @@ class LoginComponent extends Component {
     });
 
     const query = this.props.location.query;
-    if (query.autoLogin === "0") {
+    if (query.autoLogin === "0" || query.redirect) {
       return;
     }
     this.login(data.values);

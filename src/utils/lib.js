@@ -7,6 +7,7 @@ import http from "axios";
 import * as setting from './setting';
 import qs from 'qs';
 import dateRanges from './ranges';
+import router from "umi/router";
 
 const R = require('ramda');
 
@@ -259,4 +260,31 @@ export const handleUrlParams = hash => {
         params,
         dateRange: [ts, te]
     }
+}
+
+export const logout = ({
+    dispatch
+}) => {
+    dispatch({
+        type: "common/setStore",
+        payload: {
+            userSetting: {
+                uid: "",
+                name: "",
+                avatar: "",
+                menu: ""
+            }
+        }
+    });
+
+    let {
+        href,
+        origin
+    } = window.location;
+    router.push({
+        pathname: "/login",
+        search: qs.stringify({
+            redirect: href.replace(origin, "")
+        })
+    });
 }
