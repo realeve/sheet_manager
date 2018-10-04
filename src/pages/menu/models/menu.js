@@ -42,7 +42,7 @@ export default {
                 if (!match) {
                     return;
                 }
-                console.log(pathname)
+                // console.log(pathname)
             });
         }
     }

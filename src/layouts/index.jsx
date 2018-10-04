@@ -28,6 +28,14 @@ const { Content } = Layout;
 const systemName = "某数据系统";
 const R = require("ramda");
 
+const getMenuData = ({ menu, previewMenu, location: { pathname } }) => {
+  if (menu === "") {
+    return [];
+  }
+  const previewMode = pathname === "/menu" && previewMenu.length > 0;
+  return menuUtil.getMenuData(previewMode ? previewMenu : menu);
+};
+
 const query = {
   "screen-xs": {
     maxWidth: 575
@@ -53,35 +61,35 @@ const query = {
   }
 };
 
-class BasicLayout extends React.PureComponent {
+class BasicLayout extends React.Component {
   constructor(props) {
     super(props);
     this.getPageTitle = memoizeOne(this.getPageTitle);
     this.getBreadcrumbNameMap = memoizeOne(this.getBreadcrumbNameMap, isEqual);
-    const menu = props.userSetting.menu;
-    const menuData = menu === "" ? [] : menuUtil.getMenuData(menu);
+    const { menu, previewMenu } = props;
+    const menuData = getMenuData(props);
     this.breadcrumbNameMap = this.getBreadcrumbNameMap(menuData);
     this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual);
     this.state = {
       menuData,
       rendering: true,
       isMobile: false,
-      menu
+      menu,
+      previewMenu
     };
   }
 
-  static getDerivedStateFromProps(
-    {
-      userSetting: { menu }
-    },
-    curState
-  ) {
-    if (R.equals(menu, curState.menu)) {
+  static getDerivedStateFromProps(props, curState) {
+    const { menu, previewMenu } = props;
+    if (
+      R.equals(menu, curState.menu) &&
+      R.equals(previewMenu, curState.previewMenu)
+    ) {
       return null;
     }
     return {
       menu,
-      menuData: menu === "" ? [] : menuUtil.getMenuData(menu)
+      menuData: getMenuData(props)
     };
   }
 
@@ -102,9 +110,10 @@ class BasicLayout extends React.PureComponent {
       }
     });
 
-    dispatch({
-      type: "user/fetchCurrent"
-    });
+    // dispatch({
+    //   type: "user/fetchCurrent"
+    // });
+
     dispatch({
       type: "setting/getSetting"
     });
@@ -113,6 +122,7 @@ class BasicLayout extends React.PureComponent {
         rendering: false
       });
     });
+
     this.enquireHandler = enquireScreen(mobile => {
       const { isMobile } = this.state;
       if (isMobile !== mobile) {
@@ -231,7 +241,6 @@ class BasicLayout extends React.PureComponent {
     } = this.props;
     const { isMobile, menuData } = this.state;
     const isTop = PropsLayout === "topmenu";
-    // const menuData = this.getMenuData();
     const routerConfig = this.matchParamsPath(pathname);
     const layout = (
       <Layout>
@@ -286,9 +295,18 @@ class BasicLayout extends React.PureComponent {
   }
 }
 
-export default connect(({ global, setting, common: { userSetting } }) => ({
-  collapsed: global.collapsed,
-  layout: setting.layout,
-  ...setting,
-  userSetting
-}))(BasicLayout);
+export default connect(
+  ({
+    global,
+    setting,
+    common: {
+      userSetting: { menu, previewMenu }
+    }
+  }) => ({
+    collapsed: global.collapsed,
+    layout: setting.layout,
+    ...setting,
+    menu,
+    previewMenu
+  })
+)(BasicLayout);

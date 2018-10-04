@@ -299,14 +299,15 @@ export const setStore = ({
     state,
     payload
 }) => {
+    let nextState = R.clone(state)
     Object.keys(payload).forEach(key => {
         let val = payload[key];
         // console.log(key, val);
         if (getType(val) == 'object') {
-            state[key] = Object.assign({}, state[key], val);
+            nextState[key] = Object.assign({}, nextState[key], val);
         } else {
-            state[key] = val;
+            nextState[key] = val;
         }
     })
-    return state;
+    return nextState;
 }

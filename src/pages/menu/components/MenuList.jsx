@@ -92,7 +92,6 @@ class MenuList extends Component {
 
   previewMenu = async ({ detail: previewMenu }) => {
     let { dispatch } = this.props;
-    console.log(previewMenu);
     dispatch({
       type: "common/setStore",
       payload: {

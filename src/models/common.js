@@ -8,10 +8,12 @@ export default {
     state: {
         userSetting: {
             uid: '',
-            name: '',
             avatar: '',
             menu: '',
-            previewMenu: []
+            previewMenu: [],
+            username: "",
+            fullname: "",
+            user_type: 0
         },
         inited: false,
         curPageName: ''
