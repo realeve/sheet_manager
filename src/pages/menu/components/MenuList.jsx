@@ -3,10 +3,11 @@ import { Button, Popconfirm, Icon, notification } from "antd";
 import { connect } from "dva";
 import styles from "./MenuList.less";
 import * as db from "../service";
+import * as lib from "@/utils/lib";
 
 const R = require("ramda");
 
-export default class MenuList extends Component {
+class MenuList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,6 +27,25 @@ export default class MenuList extends Component {
 
   editMenu = menuItem => {
     this.props.onEdit(menuItem, "edit");
+  };
+
+  setCurMenu = async ({ id: menu_id }) => {
+    const {
+      data: [{ affected_rows }]
+    } = await db.setSysUser({
+      menu_id,
+      _id: this.state.uid
+    });
+
+    notification.success({
+      message: "系统提示",
+      description: "默认菜单配置成功."
+    });
+
+    if (!affected_rows) {
+      return;
+    }
+    lib.logout(this.props);
   };
 
   removeMenu = async (menuItem, idx) => {
@@ -99,7 +119,12 @@ export default class MenuList extends Component {
                     </Popconfirm>
                   </>
                 )}
-                <Button shape="circle" title="设为当前菜单" icon="home" />
+                <Button
+                  shape="circle"
+                  title="设为当前菜单"
+                  icon="home"
+                  onClick={() => this.setCurMenu(item)}
+                />
                 <Button
                   shape="circle"
                   type="primary"
@@ -114,3 +139,11 @@ export default class MenuList extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    ...state.common
+  };
+}
+
+export default connect(mapStateToProps)(MenuList);

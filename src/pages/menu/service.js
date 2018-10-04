@@ -86,3 +86,15 @@ export const delBaseMenuList = async params => await axios({
     url: '/25/bbbd988205.json',
     params,
 }).then(res => res);
+
+/**
+*   @database: { 接口管理 }
+*   @desc:     { 设置用户默认菜单 } 
+	以下参数在建立过程中与系统保留字段冲突，已自动替换:
+	@id:_id. 参数说明：api 索引序号
+    const { menu_id, _id } = params;
+*/
+export const setSysUser = async params => await axios({
+    url: '/26/0d3c8d84a5.json',
+    params,
+}).then(res => res);
