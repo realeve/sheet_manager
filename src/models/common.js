@@ -1,5 +1,6 @@
 import pathToRegexp from "path-to-regexp";
-import userTool from '../utils/users';
+import userTool from '@/utils/users';
+import * as lib from '@/utils/lib';
 
 const namespace = "common";
 export default {
@@ -9,7 +10,8 @@ export default {
             uid: '',
             name: '',
             avatar: '',
-            menu: ''
+            menu: '',
+            previewMenu: []
         },
         inited: false,
         curPageName: ''
@@ -18,9 +20,10 @@ export default {
         setStore(state, {
             payload
         }) {
-            return {...state,
-                ...payload
-            };
+            return lib.setStore({
+                state,
+                payload
+            });
         }
     },
     subscriptions: {

@@ -14,9 +14,10 @@ export default {
         setStore(state, {
             payload
         }) {
-            return {...state,
-                ...payload
-            };
+            return lib.setStore({
+                state,
+                payload
+            });
         },
     },
     effects: {

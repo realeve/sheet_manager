@@ -288,3 +288,25 @@ export const logout = ({
         })
     });
 }
+
+export const getType = o =>
+    Object.prototype.toString
+    .call(o)
+    .match(/\w+/g)[1]
+    .toLowerCase();
+
+export const setStore = ({
+    state,
+    payload
+}) => {
+    Object.keys(payload).forEach(key => {
+        let val = payload[key];
+        // console.log(key, val);
+        if (getType(val) == 'object') {
+            state[key] = Object.assign({}, state[key], val);
+        } else {
+            state[key] = val;
+        }
+    })
+    return state;
+}

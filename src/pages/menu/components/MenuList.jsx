@@ -52,6 +52,7 @@ class MenuList extends Component {
 
     let { data } = userTool.getUserSetting();
     data.setting.menu = menu;
+    userTool.saveUserSetting(data);
 
     dispatch({
       type: "common/setStore",
@@ -61,7 +62,6 @@ class MenuList extends Component {
         }
       }
     });
-    userTool.saveUserSetting(data);
 
     // lib.logout(this.props);
   };
@@ -87,6 +87,19 @@ class MenuList extends Component {
     notification.success({
       message: "系统提示",
       description: "菜单配置删除成功."
+    });
+  };
+
+  previewMenu = async ({ detail: previewMenu }) => {
+    let { dispatch } = this.props;
+    console.log(previewMenu);
+    dispatch({
+      type: "common/setStore",
+      payload: {
+        userSetting: {
+          previewMenu
+        }
+      }
     });
   };
 
@@ -148,6 +161,7 @@ class MenuList extends Component {
                   type="primary"
                   title="预览"
                   icon="like"
+                  onClick={() => this.previewMenu(item)}
                 />
               </div>
             </li>

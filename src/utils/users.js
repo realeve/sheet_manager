@@ -18,6 +18,7 @@ const saveUserSetting = data => {
     let {
         menu
     } = values.setting;
+    Reflect.deleteProperty(values.setting, 'previewMenu');
     Reflect.deleteProperty(values.setting, 'menu');
     window.localStorage.setItem(_lsKey, encodeStr(values));
     window.localStorage.setItem(_menu, JSON.stringify(menu));
@@ -33,7 +34,10 @@ const getUserSetting = () => {
 
     let menu = window.localStorage.getItem(_menu);
     let data = decodeStr(_userSetting);
-    data.setting.menu = JSON.parse(menu);
+    data.setting = Object.assign(data.setting, {
+        menu: JSON.parse(menu),
+        previewMenu: []
+    })
     return {
         data,
         success: true
