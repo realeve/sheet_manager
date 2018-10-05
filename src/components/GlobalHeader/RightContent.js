@@ -97,11 +97,11 @@ export default class GlobalHeaderRight extends PureComponent {
         <HeaderSearch
           className={`${styles.action} ${styles.search}`}
           placeholder={formatMessage({ id: "component.globalHeader.search" })}
-          dataSource={[
-            formatMessage({ id: "component.globalHeader.search.example1" }),
-            formatMessage({ id: "component.globalHeader.search.example2" }),
-            formatMessage({ id: "component.globalHeader.search.example3" })
-          ]}
+          // dataSource={[
+          //   formatMessage({ id: "component.globalHeader.search.example1" }),
+          //   formatMessage({ id: "component.globalHeader.search.example2" }),
+          //   formatMessage({ id: "component.globalHeader.search.example3" })
+          // ]}
           onSearch={value => {
             console.log("input", value); // eslint-disable-line
           }}

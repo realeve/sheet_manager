@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "antd-pro-theme-webpack-plugin": "^1.1.8",
+    "babel-eslint": "^10.0.1",
     "dva-core": "^1.4.0",
     "eslint": "^4.14.0",
     "eslint-config-umi": "^0.1.1",
