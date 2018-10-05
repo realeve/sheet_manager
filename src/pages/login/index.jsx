@@ -124,10 +124,14 @@ class LoginComponent extends Component {
           </Checkbox>
           <a {...loginStyle}>忘记密码</a>
         </div>
-        <Submit>登录</Submit>
-        <Link style={{ float: 'right' }} to={`/login/register${search}`}>
-          <FormattedMessage id="app.login.signup" />
-        </Link>
+        <div className={styles.action}>
+          <Submit>登录</Submit>
+          <Link
+            style={{ float: 'right', marginBottom: 12 }}
+            to={`/login/register${search}`}>
+            <FormattedMessage id="app.login.signup" />
+          </Link>
+        </div>
       </Login>
     );
   }
