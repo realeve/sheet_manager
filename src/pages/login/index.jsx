@@ -1,20 +1,22 @@
-import React, { Component } from "react";
-import router from "umi/router";
-import { connect } from "dva";
+import React, { Component } from 'react';
+import router from 'umi/router';
+import { connect } from 'dva';
+import { FormattedMessage } from 'umi/locale';
 
-import { Alert, Checkbox } from "antd";
-import Login from "ant-design-pro/lib/Login";
-import styles from "./index.less";
-import * as db from "./service";
-import userTool from "@/utils/users";
+import { Alert, Checkbox } from 'antd';
+import Login from 'ant-design-pro/lib/Login';
+import styles from './index.less';
+import * as db from './service';
+import userTool from '@/utils/users';
+import Link from 'umi/link';
 
 const { UserName, Password, Submit } = Login;
 
 class LoginComponent extends Component {
   state = {
-    notice: "",
+    notice: '',
     autoLogin: true,
-    avatar: ""
+    avatar: ''
   };
 
   onSubmit = (_, values) => {
@@ -49,7 +51,7 @@ class LoginComponent extends Component {
 
       this.handleAutoLogin({ values, setting: userSetting, autoLogin });
       this.props.dispatch({
-        type: "common/setStore",
+        type: 'common/setStore',
         payload: {
           userSetting
         }
@@ -63,13 +65,13 @@ class LoginComponent extends Component {
     }
 
     this.setState({
-      notice: "账号或密码错误！"
+      notice: '账号或密码错误！'
     });
   }
 
   componentDidMount() {
     let { data, success } = userTool.getUserSetting();
-    let avatar = "/img/avatar.svg";
+    let avatar = '/img/avatar.svg';
     if (!success || !data.autoLogin) {
       this.setState({
         avatar
@@ -82,7 +84,7 @@ class LoginComponent extends Component {
     });
 
     const query = this.props.location.query;
-    if (query.autoLogin === "0" || query.redirect) {
+    if (query.autoLogin === '0' || query.redirect) {
       return;
     }
     this.login(data.values);
@@ -90,13 +92,15 @@ class LoginComponent extends Component {
 
   render() {
     const loginStyle = {
-      style: { float: "right" },
-      href: "http://10.8.2.133/welcome/logout",
-      rel: "noopener noreferrer",
-      target: "_blank"
+      style: { float: 'right' },
+      // href: 'http://10.8.2.133/welcome/logout',
+      rel: 'noopener noreferrer',
+      target: '_blank'
     };
     const { autoLogin, avatar } = this.state;
-
+    const {
+      location: { search }
+    } = this.props;
     return (
       <Login defaultActiveKey={this.state.type} onSubmit={this.onSubmit}>
         <div>
@@ -121,9 +125,9 @@ class LoginComponent extends Component {
           <a {...loginStyle}>忘记密码</a>
         </div>
         <Submit>登录</Submit>
-        <div>
-          <a {...loginStyle}>注册账户</a>
-        </div>
+        <Link style={{ float: 'right' }} to={`/login/register${search}`}>
+          <FormattedMessage id="app.login.signup" />
+        </Link>
       </Login>
     );
   }
