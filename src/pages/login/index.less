@@ -1,25 +1,28 @@
-.main {
-  .title {
-    margin-top: 0.625rem;
-    text-align: center;
-    font-size: 2.25rem;
-    line-height: 1.5em;
-    font-weight: lighter;
-    color: #fff;
-  }
-  a {
-    text-decoration: underline;
-    color: #fff;
-  }
-  @avatar-size: 80px;
-  .avatar {
-    height: @avatar-size;
-    border-radius: 50%;
-    position: absolute;
-    top: -@avatar-size / 2;
-    left: 50%;
-    margin-left: -@avatar-size / 2; // border: 5px #fff solid;
-    box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56),
-      0 4px 25px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
-  }
+.title {
+  margin-top: 0.625rem;
+  text-align: center;
+  font-size: 2.25rem;
+  line-height: 1.5em;
+  font-weight: lighter;
+  color: #fff;
+}
+
+a {
+  text-decoration: underline;
+  color: #fff;
+}
+
+@avatar-size: 80px;
+.avatar {
+  height: @avatar-size;
+  border-radius: 50%;
+  position: absolute;
+  top: -@avatar-size / 2;
+  left: 50%;
+  margin-left: -@avatar-size / 2; // border: 5px #fff solid;
+  box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+:global(.ant-form-item) {
+  margin-top: 12px;
 }

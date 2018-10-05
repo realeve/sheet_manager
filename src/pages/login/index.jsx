@@ -7,7 +7,6 @@ import Login from "ant-design-pro/lib/Login";
 import styles from "./index.less";
 import * as db from "./service";
 import userTool from "@/utils/users";
-import GlobalFooter from "@/layouts/Footer.jsx";
 
 const { UserName, Password, Submit } = Login;
 
@@ -18,7 +17,7 @@ class LoginComponent extends Component {
     avatar: ""
   };
 
-  onSubmit = (err, values) => {
+  onSubmit = (_, values) => {
     this.login(values);
   };
 

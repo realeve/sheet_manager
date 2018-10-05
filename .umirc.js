@@ -19,9 +19,9 @@ export default {
                 baseNavigator: false, // default true, when it is true, will use `navigator.language` overwrite default
             },
             dynamicImport: {
-                loadingComponent: './components/PageLoading/index',
+                loadingComponent: './components/PageLoading/Loading1.jsx',
             },
-            polyfills: ['ie11'],
+            targets: ['ie11'],
         }]
     ],
     define: {

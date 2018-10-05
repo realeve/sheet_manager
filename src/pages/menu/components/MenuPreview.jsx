@@ -9,6 +9,8 @@ import * as treeUtil from "./tree-data-utils";
 import * as db from "../service";
 import styles from "../index.less";
 
+import classNames from "classnames";
+
 const R = require("ramda");
 
 class MenuPreview extends Component {
@@ -133,7 +135,7 @@ class MenuPreview extends Component {
           />
         </div>
 
-        <div className={[styles.action, styles["action-submit"]].join(" ")}>
+        <div className={classNames(styles.action, styles["action-submit"])}>
           <Button onClick={this.expandAll}>
             {expanded ? "全部展开" : "全部折叠"}
           </Button>

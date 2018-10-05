@@ -5,6 +5,7 @@ import { DatePicker, Card } from "antd";
 import styles from "./index.less";
 import dateRanges from "@/utils/ranges";
 import moment from "moment";
+import classNames from "classnames";
 import "moment/locale/zh-cn";
 moment.locale("zh-cn");
 
@@ -61,7 +62,7 @@ function Charts({ dispatch, dateRange, config, loading }) {
       </div>
       {config.map((option, idx) => (
         <div
-          className={idx > 0 ? styles.tableContainer : ""}
+          className={classNames({ [styles.tableContainer]: idx })}
           key={option.url + idx}
         >
           <Chart onLoad={onLoad} config={option} idx={idx} />
