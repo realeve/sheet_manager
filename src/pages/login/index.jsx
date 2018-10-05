@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import router from "umi/router";
 import { connect } from "dva";
 
-import { Alert, Checkbox, Layout } from "antd";
+import { Alert, Checkbox } from "antd";
 import Login from "ant-design-pro/lib/Login";
 import styles from "./index.less";
 import * as db from "./service";
 import userTool from "@/utils/users";
+import GlobalFooter from "@/layouts/Footer.jsx";
 
-const { Footer } = Layout;
 const { UserName, Password, Submit } = Login;
 
 class LoginComponent extends Component {
@@ -99,59 +99,33 @@ class LoginComponent extends Component {
     const { autoLogin, avatar } = this.state;
 
     return (
-      <div className={styles.container}>
-        <div className={styles.content}>
-          <div className={styles.top}>
-            <div className={styles.header}>
-              <div>
-                {/* <img alt="logo" className={styles.logo} src="/img/logo.svg" /> */}
-                <span className={styles.title}>某系统</span>
-              </div>
-            </div>
-            {/* <div className={styles.desc}>多多益善</div> */}
-          </div>
-          <div className={styles.main}>
-            <Login defaultActiveKey={this.state.type} onSubmit={this.onSubmit}>
-              <div>
-                <img alt="avatar" className={styles.avatar} src={avatar} />
-                <h2 className={styles.title}>登录</h2>
-                {this.state.notice && (
-                  <Alert
-                    style={{ marginBottom: 24 }}
-                    message={this.state.notice}
-                    type="error"
-                    showIcon
-                    closable
-                  />
-                )}
-                <UserName
-                  name="username"
-                  placeholder="用户名"
-                  autoComplete="false"
-                />
-                <Password
-                  name="password"
-                  placeholder="密码"
-                  autoComplete="false"
-                />
-              </div>
-              <div>
-                <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-                  自动登录
-                </Checkbox>
-                <a {...loginStyle}>忘记密码</a>
-              </div>
-              <Submit>登录</Submit>
-              <div>
-                <a {...loginStyle}>注册账户</a>
-              </div>
-            </Login>
-          </div>
-          <Footer className={styles.footer}>
-            cbpc ©2018 All rights reserved.
-          </Footer>
+      <Login defaultActiveKey={this.state.type} onSubmit={this.onSubmit}>
+        <div>
+          <img alt="avatar" className={styles.avatar} src={avatar} />
+          <h2 className={styles.title}>登录</h2>
+          {this.state.notice && (
+            <Alert
+              style={{ marginBottom: 24 }}
+              message={this.state.notice}
+              type="error"
+              showIcon
+              closable
+            />
+          )}
+          <UserName name="username" placeholder="用户名" autoComplete="false" />
+          <Password name="password" placeholder="密码" autoComplete="false" />
         </div>
-      </div>
+        <div>
+          <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
+            自动登录
+          </Checkbox>
+          <a {...loginStyle}>忘记密码</a>
+        </div>
+        <Submit>登录</Submit>
+        <div>
+          <a {...loginStyle}>注册账户</a>
+        </div>
+      </Login>
     );
   }
 }
