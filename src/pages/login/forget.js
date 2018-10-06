@@ -15,20 +15,20 @@ const actions = (
   </div>
 );
 
-const RegisterResult = ({
-  location: {
-    state: { account, forget }
-  }
-}) => (
+const RegisterResult = ({ location: { state } }) => (
   <Result
     className={styles.registerResult}
     type="success"
     title={
       <div className={styles.title}>
         <FormattedMessage
-          id={forget ? 'app.register-result.hello' : 'app.register-result.msg'}
+          id={
+            state && state.forget
+              ? 'app.register-result.hello'
+              : 'app.register-result.msg'
+          }
           values={{
-            username: account || '测试用户'
+            username: state && state.account ? state.account : '测试用户'
           }}
         />
       </div>

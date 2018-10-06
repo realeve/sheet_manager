@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import router from 'umi/router';
 import { connect } from 'dva';
 import { FormattedMessage } from 'umi/locale';
+import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
 
 import { Alert, Checkbox } from 'antd';
 import Login from 'ant-design-pro/lib/Login';

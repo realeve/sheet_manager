@@ -15,6 +15,8 @@ import {
 import styles from './Register.less';
 import * as db from './service';
 
+import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
+
 const FormItem = Form.Item;
 const { Option } = Select;
 

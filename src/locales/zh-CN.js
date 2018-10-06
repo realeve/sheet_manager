@@ -94,7 +94,7 @@ export default {
   'app.register.register': '注册',
   'app.register.get-verification-code': '获取验证码',
   'app.register.sing-in': '使用已有账户登录',
-  'app.register-result.hello': '你好：{username} ',
+  'app.register-result.hello': '你好!',
   'app.register-result.msg': '你的账户：{username} 注册成功',
   'app.register-result.activation-email':
     '基于数据安全的考虑，帐户注册成功后需激活帐户方可使用。关于激活与密码修改事宜请电话联系6129。',

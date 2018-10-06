@@ -1,14 +1,14 @@
-import React from "react";
-import { connect } from "dva";
-import VTable from "@/components/Table.jsx";
-import VTableCalc from "@/components/TableCalc.jsx";
+import React from 'react';
+import { connect } from 'dva';
+import VTable from '@/components/Table.jsx';
+import VTableCalc from '@/components/TableCalc.jsx';
 
-import { DatePicker, Card, Tabs } from "antd";
-import styles from "./index.less";
-import dateRanges from "@/utils/ranges";
-import moment from "moment";
-import "moment/locale/zh-cn";
-moment.locale("zh-cn");
+import { DatePicker, Card, Tabs } from 'antd';
+import styles from './index.less';
+import dateRanges from '@/utils/ranges';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 const TabPane = Tabs.TabPane;
 const RangePicker = DatePicker.RangePicker;
@@ -16,14 +16,14 @@ const RangePicker = DatePicker.RangePicker;
 function Tables({ dispatch, dateRange, loading, dataSource }) {
   const onDateChange = async (dates, dateStrings) => {
     dispatch({
-      type: "table/setStore",
+      type: 'table/setStore',
       payload: { dateRange: dateStrings }
     });
     dispatch({
-      type: "table/updateParams"
+      type: 'table/updateParams'
     });
     dispatch({
-      type: "table/refreshData"
+      type: 'table/refreshData'
     });
   };
 
@@ -36,7 +36,7 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
         onChange={onDateChange}
         defaultValue={[moment(dateRange[0]), moment(dateRange[1])]}
         locale={{
-          rangePlaceholder: ["开始日期", "结束日期"]
+          rangePlaceholder: ['开始日期', '结束日期']
         }}
       />
     </>
@@ -49,13 +49,11 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
           <DateRangePicker />
         </div>
       </div>
-
       {dataSource.length === 0 && <Card title="加载中" loading={true} />}
       {dataSource.map((dataSrc, key) => (
         <div
           key={key}
-          className={key ? styles.tableContainer : styles.dataList}
-        >
+          className={key ? styles.tableContainer : styles.dataList}>
           <Tabs defaultActiveKey="1">
             <TabPane tab="原始数据" key="1">
               <VTable

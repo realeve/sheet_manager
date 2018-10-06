@@ -93,7 +93,7 @@ export default {
   'app.register.register': 'Register',
   'app.register.get-verification-code': 'Get code',
   'app.register.sing-in': 'Already have an account?',
-  'app.register-result.hello': 'Hello {username}',
+  'app.register-result.hello': 'Hello!',
   'app.register-result.msg': 'Account：registered at {username}',
   'app.register-result.activation-email':
     'Due to data security, the account must be activated after successful registration. Please contact 6129 for activation and password modification.',
