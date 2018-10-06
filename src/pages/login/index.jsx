@@ -16,7 +16,8 @@ class LoginComponent extends Component {
   state = {
     notice: '',
     autoLogin: true,
-    avatar: ''
+    avatar: '',
+    submitting: false
   };
 
   onSubmit = (_, values) => {
@@ -42,7 +43,22 @@ class LoginComponent extends Component {
   };
 
   async login(values) {
-    let userInfo = await db.getSysUser(values);
+    this.setState({
+      submitting: true
+    });
+    let userInfo = await db
+      .getSysUser(values)
+      .finally(e => {
+        this.setState({
+          submitting: false
+        });
+      })
+      .catch(e => {
+        this.setState({
+          notice: '系统错误，登录失败'
+        });
+        return;
+      });
     const autoLogin = this.state.autoLogin;
 
     if (userInfo.rows > 0) {
@@ -108,7 +124,7 @@ class LoginComponent extends Component {
       rel: 'noopener noreferrer',
       target: '_blank'
     };
-    const { autoLogin, avatar } = this.state;
+    const { autoLogin, avatar, submitting } = this.state;
     const {
       location: { search }
     } = this.props;
@@ -136,7 +152,7 @@ class LoginComponent extends Component {
           <a {...loginStyle}>忘记密码</a>
         </div>
         <div className={styles.action}>
-          <Submit>登录</Submit>
+          <Submit loading={submitting}>登录</Submit>
           <Link
             style={{ float: 'right', marginBottom: 12 }}
             to={`/login/register${search}`}>

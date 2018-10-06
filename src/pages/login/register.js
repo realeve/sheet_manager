@@ -2,12 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
-import { Form, Input, Button, Popover, Progress, Select } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  Popover,
+  Progress,
+  Select,
+  notification
+} from 'antd';
 import styles from './Register.less';
+import * as db from './service';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const InputGroup = Input.Group;
 
 const passwordStatusMap = {
   ok: (
@@ -33,40 +41,54 @@ const passwordProgressMap = {
   poor: 'exception'
 };
 
-@connect(({ register, loading }) => ({
-  register,
-  submitting: loading.effects['register/submit']
-}))
+// @connect(({ register, loading }) => ({
+//   register,
+//   submitting: loading.effects['register/submit']
+// }))
 @Form.create()
 class Register extends Component {
   state = {
     count: 0,
     confirmDirty: false,
     visible: false,
-    help: ''
+    help: '',
+    depts: [],
+    submitting: false
   };
 
-  componentDidUpdate() {
-    const { form } = this.props;
-    const account = form.getFieldValue('username');
-    console.log(account);
-    // if (register.status === 'ok') {
-    //   router.push({
-    //     pathname: '/user/register-result',
-    //     state: {
-    //       account
-    //     }
-    //   });
-    // }
+  loadDepts = async () => {
+    const { data: depts } = await db.getSysDept();
+    this.setState({
+      depts
+    });
+  };
+  componentDidMount() {
+    this.loadDepts();
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
+  getFormParam = () => {
+    const { form } = this.props;
+    const { username, psw, dept_id, fullname } = form.getFieldsValue();
+    let params = {
+      username,
+      fullname,
+      psw,
+      avatar: '/img/avatar.svg',
+      user_type: 2,
+      dept_id,
+      menu_id: 1,
+      actived: 0
+    };
+    return params;
+  };
+
   getPasswordStatus = () => {
     const { form } = this.props;
-    const value = form.getFieldValue('password');
+    const value = form.getFieldValue('psw');
     if (value && value.length > 9) {
       return 'ok';
     }
@@ -78,18 +100,37 @@ class Register extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, dispatch } = this.props;
-    form.validateFields({ force: true }, (err, values) => {
-      if (!err) {
-        const { prefix } = this.state;
-        dispatch({
-          type: 'register/submit',
-          payload: {
-            ...values,
-            prefix
-          }
+    this.setState({
+      submitting: true
+    });
+    const { form } = this.props;
+    form.validateFields({ force: true }, async err => {
+      if (err) {
+        this.setState({
+          submitting: false
         });
+        return;
       }
+      let params = this.getFormParam();
+      let {
+        data: [{ affected_rows }]
+      } = await db.addSysUser(params).finally(e => {
+        this.setState({
+          submitting: false
+        });
+      });
+      if (affected_rows === 0) {
+        notification.error({
+          message: '注册失败',
+          description: '帐户注册失败，请稍后重试.'
+        });
+        return;
+      }
+      form.resetFields();
+      notification.success({
+        message: '注册成功',
+        description: '请联系管理员激活帐户.'
+      });
     });
   };
 
@@ -101,7 +142,7 @@ class Register extends Component {
 
   checkConfirm = (rule, value, callback) => {
     const { form } = this.props;
-    if (value && value !== form.getFieldValue('password')) {
+    if (value && value !== form.getFieldValue('psw')) {
       callback(formatMessage({ id: 'validation.password.twice' }));
     } else {
       callback();
@@ -109,6 +150,23 @@ class Register extends Component {
         visible: false
       });
     }
+  };
+
+  // 检查用户名格式以及是否存在
+  checkUsername = async (_, username, callback) => {
+    let pattern = /^[a-zA-Z0-9_-]{5,16}$/;
+    if (!pattern.test(username)) {
+      callback(formatMessage({ id: 'validation.username.wrong-format' }));
+      return;
+    }
+    const {
+      data: [{ value }]
+    } = await db.getSysUserExist(username);
+    if (value > 0) {
+      callback(formatMessage({ id: 'validation.username.existed' }));
+      return;
+    }
+    callback();
   };
 
   checkPassword = (rule, value, callback) => {
@@ -132,7 +190,6 @@ class Register extends Component {
         callback('error');
       } else {
         const { form } = this.props;
-        console.log(value);
         if (value && confirmDirty) {
           form.validateFields(['confirm'], { force: true });
           this.setState({
@@ -146,7 +203,7 @@ class Register extends Component {
 
   renderPasswordProgress = () => {
     const { form } = this.props;
-    const value = form.getFieldValue('password');
+    const value = form.getFieldValue('psw');
     const passwordStatus = this.getPasswordStatus();
     return value && value.length ? (
       <div className={styles[`progress-${passwordStatus}`]}>
@@ -162,9 +219,9 @@ class Register extends Component {
   };
 
   render() {
-    const { form, submitting } = this.props;
+    const { form } = this.props;
     const { getFieldDecorator } = form;
-    const { help, visible } = this.state;
+    const { help, visible, depts, submitting } = this.state;
     const {
       location: { search }
     } = this.props;
@@ -182,12 +239,7 @@ class Register extends Component {
                   message: formatMessage({ id: 'validation.username.required' })
                 },
                 {
-                  // type: 'string',
-                  pattern: /[a-z]||[A-Z]||[0-9]||_/,
-                  min: 4,
-                  message: formatMessage({
-                    id: 'validation.username.wrong-format'
-                  })
+                  validator: this.checkUsername
                 }
               ]
             })(
@@ -211,7 +263,7 @@ class Register extends Component {
               overlayStyle={{ width: 240 }}
               placement="right"
               visible={visible}>
-              {getFieldDecorator('password', {
+              {getFieldDecorator('psw', {
                 rules: [
                   {
                     validator: this.checkPassword
@@ -252,7 +304,29 @@ class Register extends Component {
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('dept', {
+            {getFieldDecorator('fullname', {
+              rules: [
+                {
+                  required: true,
+                  message: formatMessage({ id: 'validation.fullname.required' })
+                },
+                {
+                  type: 'string',
+                  min: 2,
+                  message: formatMessage({
+                    id: 'validation.fullname.wrong-format'
+                  })
+                }
+              ]
+            })(
+              <Input
+                size="large"
+                placeholder={formatMessage({ id: 'form.fullname.placeholder' })}
+              />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('dept_id', {
               rules: [
                 {
                   required: true,
@@ -262,12 +336,16 @@ class Register extends Component {
                 }
               ]
             })(
-              <Select size="large" 
-              placeholder={formatMessage({
-                id: 'validation.dept'
-              })}>
-                <Option value="86">+86</Option>
-                <Option value="87">+87</Option>
+              <Select
+                size="large"
+                placeholder={formatMessage({
+                  id: 'validation.dept'
+                })}>
+                {depts.map(({ id, value }) => (
+                  <Option value={id} key={id}>
+                    {value}
+                  </Option>
+                ))}
               </Select>
             )}
           </FormItem>

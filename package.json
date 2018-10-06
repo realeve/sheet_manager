@@ -24,6 +24,7 @@
     "omit.js": "^1.0.0",
     "path-to-regexp": "^2.2.0",
     "pdfmake": "^0.1.38",
+    "promise.prototype.finally": "^3.1.0",
     "prop-types": "^15.6.1",
     "qs": "^6.5.2",
     "ramda": "^0.25.0",
