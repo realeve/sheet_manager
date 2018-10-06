@@ -13,7 +13,9 @@ export default {
             previewMenu: [],
             username: "",
             fullname: "",
-            user_type: 0
+            user_type: 0,
+            actived:0,
+            dept_name:''
         },
         inited: false,
         curPageName: ''

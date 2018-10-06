@@ -10,11 +10,13 @@ export default {
   'validation.password.required': 'Please enter your password!',
   'validation.password.twice': 'The passwords entered twice do not match!',
   'validation.password.strength.msg':
-    "Please enter at least 6 characters and don't use passwords that are easy to guess.",
+    "Please enter at least 5 characters and don't use passwords that are easy to guess.",
   'validation.password.strength.strong': 'Strength: strong',
   'validation.password.strength.medium': 'Strength: medium',
   'validation.password.strength.short': 'Strength: too short',
   'validation.confirm-password.required': 'Please confirm your password!',
+  'validation.dept': 'Please choose your department',
+  'validation.dept.required': 'Please choose your department!',
   'validation.phone-number.required': 'Please enter your phone number!',
   'validation.phone-number.wrong-format': 'Malformed phone number!',
   'validation.verification-code.required':

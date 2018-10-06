@@ -47,6 +47,17 @@ class LoginComponent extends Component {
 
     if (userInfo.rows > 0) {
       let userSetting = userInfo.data[0];
+      if (userSetting.actived === 0) {
+        this.setState({
+          notice: '帐户未激活，请联系管理员'
+        });
+        return;
+      } else {
+        this.setState({
+          notice: ''
+        });
+      }
+
       userSetting.menu = JSON.parse(userSetting.menu);
 
       this.handleAutoLogin({ values, setting: userSetting, autoLogin });

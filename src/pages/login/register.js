@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
-import router from 'umi/router';
-import { Form, Input, Button, Popover, Progress } from 'antd';
+import { Form, Input, Button, Popover, Progress, Select } from 'antd';
 import styles from './Register.less';
 
 const FormItem = Form.Item;
+const { Option } = Select;
+const InputGroup = Input.Group;
 
 const passwordStatusMap = {
   ok: (
@@ -42,8 +43,7 @@ class Register extends Component {
     count: 0,
     confirmDirty: false,
     visible: false,
-    help: '',
-    prefix: '86'
+    help: ''
   };
 
   componentDidUpdate() {
@@ -105,6 +105,9 @@ class Register extends Component {
       callback(formatMessage({ id: 'validation.password.twice' }));
     } else {
       callback();
+      this.setState({
+        visible: false
+      });
     }
   };
 
@@ -125,22 +128,20 @@ class Register extends Component {
           visible: !!value
         });
       }
-      if (value.length < 6) {
+      if (value.length < 5) {
         callback('error');
       } else {
         const { form } = this.props;
+        console.log(value);
         if (value && confirmDirty) {
           form.validateFields(['confirm'], { force: true });
+          this.setState({
+            visible: false
+          });
         }
         callback();
       }
     }
-  };
-
-  changePrefix = value => {
-    this.setState({
-      prefix: value
-    });
   };
 
   renderPasswordProgress = () => {
@@ -152,7 +153,7 @@ class Register extends Component {
         <Progress
           status={passwordProgressMap[passwordStatus]}
           className={styles.progress}
-          strokeWidth={6}
+          strokeWidth={5}
           percent={value.length * 10 > 100 ? 100 : value.length * 10}
           showInfo={false}
         />
@@ -181,7 +182,8 @@ class Register extends Component {
                   message: formatMessage({ id: 'validation.username.required' })
                 },
                 {
-                  type: 'string',
+                  // type: 'string',
+                  pattern: /[a-z]||[A-Z]||[0-9]||_/,
                   min: 4,
                   message: formatMessage({
                     id: 'validation.username.wrong-format'
@@ -247,6 +249,26 @@ class Register extends Component {
                   id: 'form.confirm-password.placeholder'
                 })}
               />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('dept', {
+              rules: [
+                {
+                  required: true,
+                  message: formatMessage({
+                    id: 'validation.dept.required'
+                  })
+                }
+              ]
+            })(
+              <Select size="large" 
+              placeholder={formatMessage({
+                id: 'validation.dept'
+              })}>
+                <Option value="86">+86</Option>
+                <Option value="87">+87</Option>
+              </Select>
             )}
           </FormItem>
           <FormItem>
