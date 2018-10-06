@@ -9,9 +9,10 @@ import { Tag, Icon, Tooltip, Button } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import NoticeIcon from 'ant-design-pro/lib/NoticeIcon';
-import HeaderSearch from 'ant-design-pro/lib/HeaderSearch';
+import HeaderSearch from '@/components/HeaderSearch';
+
 import AvatarView from './AvatarView';
-import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
+// import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
 
 import styles from './index.less';
 
@@ -76,6 +77,7 @@ export default class GlobalHeaderRight extends PureComponent {
       <div className={className}>
         <HeaderSearch
           className={`${styles.action} ${styles.search}`}
+          defaultOpen={true}
           placeholder={formatMessage({ id: 'component.globalHeader.search' })}
           onSearch={value => {
             console.log('input', value); // eslint-disable-line
