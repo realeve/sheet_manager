@@ -22,30 +22,18 @@ const getDefaultCollapsedSubMenus = ({ breadcrumbList }) => {
       R.init,
       R.uniq,
       R.tail,
+      R.map(item => item.slice(1)),
       urlToList
     )(selectedKeys)
   };
 };
-
-/**
- * Find all matched menu keys based on paths
- * @param  flatMenuKeys: [/abc, /abc/:id, /abc/:id/info]
- * @param  paths: [/abc, /abc/11, /abc/11/info]
- */
-export const getMenuMatchKeys = (flatMenuKeys, paths) =>
-  paths.reduce(
-    (matchKeys, path) =>
-      matchKeys.concat(
-        flatMenuKeys.filter(item => pathToRegexp(item).test(path))
-      ),
-    []
-  );
 
 export default class SiderMenu extends PureComponent {
   constructor(props) {
     super(props);
     this.flatMenuKeys = getFlatMenuKeys(props.menuData);
     this.state = getDefaultCollapsedSubMenus(props);
+    console.log(props.breadcrumbList);
   }
 
   static getDerivedStateFromProps(props, state) {

@@ -87,7 +87,6 @@ class BasicLayout extends PureComponent {
 
   static getDerivedStateFromProps(props, curState) {
     const { menu, previewMenu } = props;
-
     if (
       R.equals(menu, curState.menu) &&
       R.equals(previewMenu, curState.previewMenu)
@@ -103,10 +102,11 @@ class BasicLayout extends PureComponent {
     }
 
     const menuData = getMenuData(props);
+    const breadcrumbList = getBreadcrumbList(menuData);
     return {
       menu,
       menuData,
-      breadcrumbList: getBreadcrumbList(menuData)
+      breadcrumbList
     };
   }
 
@@ -250,14 +250,10 @@ class BasicLayout extends PureComponent {
   }
 
   render() {
-    const {
-      navTheme,
-      layout: PropsLayout,
-      children,
-      location //: { pathname }
-    } = this.props;
+    const { navTheme, layout: PropsLayout, children, location } = this.props;
     const { isMobile, menuData, breadcrumbList } = this.state;
     const isTop = PropsLayout === 'topmenu';
+
     const layout = (
       <Layout>
         {isTop && !isMobile ? null : (
@@ -299,7 +295,9 @@ class BasicLayout extends PureComponent {
           <ContainerQuery query={query}>
             {params => (
               <Context.Provider value={this.getContext()}>
-                <div className={classNames(params)}>{layout}</div>
+                <div className={classNames(params)}>
+                  {breadcrumbList.length && layout}
+                </div>
               </Context.Provider>
             )}
           </ContainerQuery>

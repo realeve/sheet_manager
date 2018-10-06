@@ -139,8 +139,6 @@ export default class BaseMenu extends PureComponent {
       style,
       menuData
     } = this.props;
-
-    console.log(openKeys);
     const {} = this.props;
     return (
       <Menu
