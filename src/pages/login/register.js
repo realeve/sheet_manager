@@ -137,13 +137,15 @@ class Register extends Component {
 
   showResult = account => {
     const {
-      location: { search }
+      location: { query }
     } = this.props;
-    let pathname = `/login/forget${search}`;
+
+    let pathname = `/login/forget`;
     router.push({
       pathname,
+      query,
       state: {
-        account
+        account: 'guest'
       }
     });
   };

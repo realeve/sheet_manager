@@ -126,13 +126,15 @@ class LoginComponent extends Component {
 
   forgetPsw = () => {
     const {
-      location: { search }
+      location: { query }
     } = this.props;
-    let pathname = `/login/forget${search}`;
+
+    let pathname = `/login/forget`;
     router.push({
       pathname,
+      query,
       state: {
-        account: '123',
+        account: 'guest',
         forget: true
       }
     });

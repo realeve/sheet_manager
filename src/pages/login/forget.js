@@ -7,7 +7,7 @@ import styles from './forget.less';
 
 const actions = (
   <div className={styles.actions}>
-    <Link to="/">
+    <Link to={`/login?${window.location.search.slice(1)}`}>
       <Button size="large" type="primary">
         <FormattedMessage id="app.register-result.back" />
       </Button>
