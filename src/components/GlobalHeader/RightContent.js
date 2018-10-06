@@ -11,6 +11,7 @@ import groupBy from 'lodash/groupBy';
 import NoticeIcon from 'ant-design-pro/lib/NoticeIcon';
 import HeaderSearch from 'ant-design-pro/lib/HeaderSearch';
 import AvatarView from './AvatarView';
+import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
 
 import styles from './index.less';
 

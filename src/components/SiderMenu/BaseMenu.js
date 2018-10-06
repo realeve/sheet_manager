@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Menu, Icon } from 'antd';
 import Link from 'umi/link';
-import { formatMessage } from 'umi/locale';
-import pathToRegexp from 'path-to-regexp';
-import { urlToList } from '../_utils/pathTools';
 import styles from './index.less';
+import { getFlatMenuKeys } from './util';
 
 const { SubMenu } = Menu;
 
@@ -22,29 +20,10 @@ const getIcon = icon => {
   return icon;
 };
 
-export const getMenuMatches = (flatMenuKeys, path) =>
-  flatMenuKeys.filter(item => item && pathToRegexp(item).test(path));
-
 export default class BaseMenu extends PureComponent {
   constructor(props) {
     super(props);
-    this.flatMenuKeys = this.getFlatMenuKeys(props.menuData);
-  }
-
-  /**
-   * Recursively flatten the data
-   * [{path:string},{path:string}] => {path,path2}
-   * @param  menus
-   */
-  getFlatMenuKeys(menus) {
-    let keys = [];
-    menus.forEach(item => {
-      if (item.children) {
-        keys = keys.concat(this.getFlatMenuKeys(item.children));
-      }
-      keys.push(item.path);
-    });
-    return keys;
+    this.flatMenuKeys = getFlatMenuKeys(props.menuData);
   }
 
   /**
@@ -65,16 +44,6 @@ export default class BaseMenu extends PureComponent {
       .filter(item => item);
   };
 
-  // Get the currently selected menu
-  getSelectedMenuKeys = () => {
-    const {
-      location: { pathname }
-    } = this.props;
-    return urlToList(pathname).map(itemPath =>
-      getMenuMatches(this.flatMenuKeys, itemPath).pop()
-    );
-  };
-
   /**
    * get SubMenu or Item
    */
@@ -85,17 +54,16 @@ export default class BaseMenu extends PureComponent {
       !item.hideChildrenInMenu &&
       item.children.some(child => child.name)
     ) {
-      const name = item.name; // formatMessage({ id: item.locale });
       return (
         <SubMenu
           title={
             item.icon ? (
               <span>
                 {getIcon(item.icon)}
-                <span>{name}</span>
+                <span>{item.name}</span>
               </span>
             ) : (
-              name
+              item.name
             )
           }
           key={item.key}>
@@ -162,19 +130,18 @@ export default class BaseMenu extends PureComponent {
   };
 
   render() {
-    const { openKeys, theme, mode } = this.props;
-    // if pathname can't match, use the nearest parent's key
-    let selectedKeys = this.getSelectedMenuKeys();
-    if (!selectedKeys.length && openKeys) {
-      selectedKeys = [openKeys[openKeys.length - 1]];
-    }
-    let props = {};
-    if (openKeys) {
-      props = {
-        openKeys
-      };
-    }
-    const { handleOpenChange, style, menuData } = this.props;
+    let {
+      openKeys,
+      theme,
+      mode,
+      selectedKeys,
+      handleOpenChange,
+      style,
+      menuData
+    } = this.props;
+
+    console.log(openKeys);
+    const {} = this.props;
     return (
       <Menu
         key="Menu"
@@ -184,7 +151,7 @@ export default class BaseMenu extends PureComponent {
         selectedKeys={selectedKeys}
         style={style}
         className={mode === 'horizontal' ? 'top-nav-menu' : ''}
-        {...props}>
+        openKeys={openKeys || []}>
         {this.getNavMenuItems(menuData)}
       </Menu>
     );

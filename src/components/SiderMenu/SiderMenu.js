@@ -1,41 +1,31 @@
-import React, { PureComponent } from "react";
-import { Layout } from "antd";
-import pathToRegexp from "path-to-regexp";
-import classNames from "classnames";
-import Link from "umi/link";
-import styles from "./index.less";
-import BaseMenu, { getMenuMatches } from "./BaseMenu";
-import { urlToList } from "../_utils/pathTools";
-
+import React, { PureComponent } from 'react';
+import { Layout } from 'antd';
+import pathToRegexp from 'path-to-regexp';
+import classNames from 'classnames';
+import Link from 'umi/link';
+import styles from './index.less';
+import BaseMenu, { getMenuMatches } from './BaseMenu';
+import * as setting from '@/utils/setting';
+import { getFlatMenuKeys, getCurKey } from './util';
+import { urlToList } from '../_utils/pathTools';
 const { Sider } = Layout;
-
+const R = require('ramda');
 /**
  * 获得菜单子节点
  * @memberof SiderMenu
  */
-const getDefaultCollapsedSubMenus = props => {
-  const {
-    location: { pathname },
-    flatMenuKeys
-  } = props;
-  return urlToList(pathname)
-    .map(item => getMenuMatches(flatMenuKeys, item)[0])
-    .filter(item => item);
+const getDefaultCollapsedSubMenus = ({ breadcrumbList }) => {
+  let selectedKeys = getCurKey(breadcrumbList);
+  return {
+    selectedKeys: [selectedKeys],
+    openKeys: R.compose(
+      R.init,
+      R.uniq,
+      R.tail,
+      urlToList
+    )(selectedKeys)
+  };
 };
-
-/**
- * Recursively flatten the data
- * [{path:string},{path:string}] => {path,path2}
- * @param  menu
- */
-export const getFlatMenuKeys = menu =>
-  menu.reduce((keys, item) => {
-    keys.push(item.path);
-    if (item.children) {
-      return keys.concat(getFlatMenuKeys(item.children));
-    }
-    return keys;
-  }, []);
 
 /**
  * Find all matched menu keys based on paths
@@ -55,17 +45,16 @@ export default class SiderMenu extends PureComponent {
   constructor(props) {
     super(props);
     this.flatMenuKeys = getFlatMenuKeys(props.menuData);
-    this.state = {
-      openKeys: getDefaultCollapsedSubMenus(props)
-    };
+    this.state = getDefaultCollapsedSubMenus(props);
   }
 
   static getDerivedStateFromProps(props, state) {
     const { pathname } = state;
     if (props.location.pathname !== pathname) {
+      let nextState = getDefaultCollapsedSubMenus(props);
       return {
         pathname: props.location.pathname,
-        openKeys: getDefaultCollapsedSubMenus(props)
+        ...nextState
       };
     }
     return null;
@@ -91,12 +80,11 @@ export default class SiderMenu extends PureComponent {
 
   render() {
     const { logo, collapsed, onCollapse, fixSiderbar, theme } = this.props;
-    const { openKeys } = this.state;
-    const defaultProps = collapsed ? {} : { openKeys };
-
+    const { selectedKeys, openKeys } = this.state;
+    const defaultProps = collapsed ? {} : { selectedKeys, openKeys };
     const siderClassName = classNames(styles.sider, {
       [styles.fixSiderbar]: fixSiderbar,
-      [styles.light]: theme === "light"
+      [styles.light]: theme === 'light'
     });
 
     return (
@@ -108,12 +96,11 @@ export default class SiderMenu extends PureComponent {
         onCollapse={onCollapse}
         width={256}
         theme={theme}
-        className={siderClassName}
-      >
+        className={siderClassName}>
         <div className={styles.logo} id="logo">
           <Link to="/">
             <img src={logo} alt="logo" />
-            <h1>Ant Design Pro</h1>
+            <h1>{setting.systemName}</h1>
           </Link>
         </div>
         <BaseMenu
@@ -121,7 +108,7 @@ export default class SiderMenu extends PureComponent {
           mode="inline"
           handleOpenChange={this.handleOpenChange}
           onOpenChange={this.handleOpenChange}
-          style={{ padding: "16px 0", width: "100%" }}
+          style={{ padding: '16px 0', width: '100%' }}
           {...defaultProps}
         />
       </Sider>

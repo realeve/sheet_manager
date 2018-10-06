@@ -1,6 +1,7 @@
-import React, { PureComponent } from "react";
-import styles from "./UserLayout.less";
-import GlobalFooter from "@/layouts/Footer.jsx";
+import React, { PureComponent } from 'react';
+import styles from './UserLayout.less';
+import GlobalFooter from '@/layouts/Footer.jsx';
+import * as setting from '@/utils/setting';
 
 export default class UserLayout extends PureComponent {
   render() {
@@ -12,7 +13,7 @@ export default class UserLayout extends PureComponent {
             <div className={styles.header}>
               <div>
                 <img alt="logo" className={styles.logo} src="/img/logo.svg" />
-                <span className={styles.title}>某系统</span>
+                <span className={styles.title}>{setting.systemName}</span>
               </div>
             </div>
             <div className={styles.desc}>让数据栩栩如生</div>
