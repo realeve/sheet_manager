@@ -42,3 +42,17 @@ export const addSysUser = async params =>
     url: '/29/607526f43d.json',
     params
   }).then(res => res);
+
+export const getIp = async () => await axios({ url: '/ip' });
+
+/**
+ *   @database: { 接口管理 }
+ *   @desc:     { 获取帐户注册时ip }
+ */
+export const getSysUserIp = async username =>
+  await axios({
+    url: '/30/9cb633ba86.json',
+    params: {
+      username
+    }
+  }).then(res => res);

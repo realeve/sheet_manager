@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import router from 'umi/router';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
@@ -41,10 +42,6 @@ const passwordProgressMap = {
   poor: 'exception'
 };
 
-// @connect(({ register, loading }) => ({
-//   register,
-//   submitting: loading.effects['register/submit']
-// }))
 @Form.create()
 class Register extends Component {
   state = {
@@ -53,13 +50,19 @@ class Register extends Component {
     visible: false,
     help: '',
     depts: [],
-    submitting: false
+    submitting: false,
+    ip: ''
   };
 
   loadDepts = async () => {
-    const { data: depts } = await db.getSysDept();
-    this.setState({
-      depts
+    db.getSysDept().then(({ data: depts }) => {
+      this.setState({
+        depts
+      });
+    });
+
+    db.getIp().then(({ ip }) => {
+      this.setState({ ip });
     });
   };
   componentDidMount() {
@@ -81,7 +84,8 @@ class Register extends Component {
       user_type: 2,
       dept_id,
       menu_id: 1,
-      actived: 0
+      actived: 0,
+      ip: this.state.ip
     };
     return params;
   };
@@ -127,10 +131,20 @@ class Register extends Component {
         return;
       }
       form.resetFields();
-      notification.success({
-        message: '注册成功',
-        description: '请联系管理员激活帐户.'
-      });
+      this.showResult(params.username);
+    });
+  };
+
+  showResult = account => {
+    const {
+      location: { search }
+    } = this.props;
+    let pathname = `/login/forget${search}`;
+    router.push({
+      pathname,
+      state: {
+        account
+      }
     });
   };
 

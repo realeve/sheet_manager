@@ -17,7 +17,8 @@ class LoginComponent extends Component {
     notice: '',
     autoLogin: true,
     avatar: '',
-    submitting: false
+    submitting: false,
+    ip: ''
   };
 
   onSubmit = (_, values) => {
@@ -117,13 +118,27 @@ class LoginComponent extends Component {
     this.login(data.values);
   }
 
+  handleLoginIp = async () => {
+    let { ip } = await db.getIp();
+    this.setState({ ip });
+    db.getSysUserIp();
+  };
+
+  forgetPsw = () => {
+    const {
+      location: { search }
+    } = this.props;
+    let pathname = `/login/forget${search}`;
+    router.push({
+      pathname,
+      state: {
+        account: '123',
+        forget: true
+      }
+    });
+  };
+
   render() {
-    const loginStyle = {
-      style: { float: 'right' },
-      // href: 'http://10.8.2.133/welcome/logout',
-      rel: 'noopener noreferrer',
-      target: '_blank'
-    };
     const { autoLogin, avatar, submitting } = this.state;
     const {
       location: { search }
@@ -149,7 +164,9 @@ class LoginComponent extends Component {
           <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
             自动登录
           </Checkbox>
-          <a {...loginStyle}>忘记密码</a>
+          <a style={{ float: 'right' }} onClick={this.forgetPsw}>
+            <FormattedMessage id="app.login.forgot-password" />
+          </a>
         </div>
         <div className={styles.action}>
           <Submit loading={submitting}>登录</Submit>
