@@ -1,17 +1,17 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { Button, Input, Popconfirm, notification, Icon } from "antd";
+import { Button, Input, Popconfirm, notification, Icon } from 'antd';
 
-import SortableTree from "react-sortable-tree";
-import "react-sortable-tree/style.css";
+import SortableTree from 'react-sortable-tree';
+import 'react-sortable-tree/style.css';
 
-import * as treeUtil from "./tree-data-utils";
-import * as db from "../service";
-import styles from "../index.less";
+import * as treeUtil from './tree-data-utils';
+import * as db from '../service';
+import styles from '../index.less';
 
-import classNames from "classnames";
+import classNames from 'classnames';
 
-const R = require("ramda");
+const R = require('ramda');
 
 class MenuPreview extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class MenuPreview extends Component {
       editMode: props.editMode,
       menu_id: 0,
       uid: props.uid,
-      title: ""
+      title: ''
     };
   }
 
@@ -44,7 +44,7 @@ class MenuPreview extends Component {
   // 菜单层级调整
   onTreeChange = treeData => {
     this.setState({ treeData });
-    console.log("菜单项调整：", treeData);
+    console.log('菜单项调整：', treeData);
   };
 
   // 展开所有
@@ -69,8 +69,8 @@ class MenuPreview extends Component {
   noticeError = () => {
     // 数据插入失败
     notification.error({
-      message: "系统提示",
-      description: "菜单配置信息调整失败，请稍后重试."
+      message: '系统提示',
+      description: '菜单配置信息调整失败，请稍后重试.'
     });
   };
 
@@ -108,8 +108,8 @@ class MenuPreview extends Component {
     this.props.onNew();
 
     notification.success({
-      message: "系统提示",
-      description: "菜单项调整成功."
+      message: '系统提示',
+      description: '菜单项调整成功.'
     });
   };
 
@@ -125,7 +125,7 @@ class MenuPreview extends Component {
     return (
       <>
         <p className={styles.title}>2.菜单编辑</p>
-        <div className={styles.action}>
+        <div className={styles.action} style={{ paddingLeft: 0 }}>
           <span style={{ width: 100 }}>菜单标题：</span>
           <Input
             prefix={<Icon type="edit" />}
@@ -135,9 +135,11 @@ class MenuPreview extends Component {
           />
         </div>
 
-        <div className={classNames(styles.action, styles["action-submit"])}>
+        <div
+          className={classNames(styles.action, styles['action-submit'])}
+          style={{ paddingLeft: 0 }}>
           <Button onClick={this.expandAll}>
-            {expanded ? "全部展开" : "全部折叠"}
+            {expanded ? '全部展开' : '全部折叠'}
           </Button>
           <Button onClick={this.props.onNew} icon="file">
             新建
@@ -145,9 +147,8 @@ class MenuPreview extends Component {
           <Button
             type="primary"
             onClick={this.submitMenu}
-            disabled={R.isNil(treeData) || treeData.length === 0}
-          >
-            {editMode ? "更新" : "新增"}
+            disabled={R.isNil(treeData) || treeData.length === 0}>
+            {editMode ? '更新' : '新增'}
           </Button>
         </div>
 
@@ -166,10 +167,9 @@ class MenuPreview extends Component {
                   title="删除"
                   cancelText="否"
                   icon={
-                    <Icon type="question-circle-o" style={{ color: "red" }} />
+                    <Icon type="question-circle-o" style={{ color: 'red' }} />
                   }
-                  onConfirm={() => this.removeMenuItem(treeItem)}
-                >
+                  onConfirm={() => this.removeMenuItem(treeItem)}>
                   <Button size="small" icon="delete" />
                 </Popconfirm>
               ]
@@ -182,7 +182,7 @@ class MenuPreview extends Component {
 }
 
 MenuPreview.defaultProps = {
-  externalNodeType: "shareNodeType",
+  externalNodeType: 'shareNodeType',
   menuDetail: [],
   editMode: false,
   treeData: []

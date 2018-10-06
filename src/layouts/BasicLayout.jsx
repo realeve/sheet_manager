@@ -1,60 +1,60 @@
-import React, { PureComponent } from "react";
-import { Layout } from "antd";
-import DocumentTitle from "react-document-title";
-import isEqual from "lodash/isEqual";
-import memoizeOne from "memoize-one";
-import { connect } from "dva";
-import { ContainerQuery } from "react-container-query";
-import classNames from "classnames";
-import pathToRegexp from "path-to-regexp";
-import { enquireScreen, unenquireScreen } from "enquire-js";
-import SiderMenu from "@/components/SiderMenu";
-import Authorized from "@/utils/Authorized";
-import SettingDrawer from "@/components/SettingDrawer";
-import logo from "../assets/logo.svg";
-import Footer from "./Footer";
-import Header from "./Header";
-import Context from "./MenuContext";
-import PageHeaderWrapper from "@/components/PageHeaderWrapper";
+import React, { PureComponent } from 'react';
+import { Layout } from 'antd';
+import DocumentTitle from 'react-document-title';
+import isEqual from 'lodash/isEqual';
+import memoizeOne from 'memoize-one';
+import { connect } from 'dva';
+import { ContainerQuery } from 'react-container-query';
+import classNames from 'classnames';
+import pathToRegexp from 'path-to-regexp';
+import { enquireScreen, unenquireScreen } from 'enquire-js';
+import SiderMenu from '@/components/SiderMenu';
 
-import userTool from "../utils/users";
-import router from "umi/router";
+import SettingDrawer from '@/components/SettingDrawer';
+import logo from '../assets/logo.svg';
+import Footer from './Footer';
+import Header from './Header';
+import Context from './MenuContext';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
-import menuUtil from "./menuData";
+import userTool from '../utils/users';
+import router from 'umi/router';
+
+import menuUtil from './menuData';
 
 const { Content } = Layout;
-const systemName = "某数据系统";
-const R = require("ramda");
+const systemName = '某数据系统';
+const R = require('ramda');
 
 const getMenuData = ({ menu, previewMenu, location: { pathname } }) => {
-  if (menu === "") {
+  if (menu === '') {
     return [];
   }
-  const previewMode = pathname === "/menu" && previewMenu.length > 0;
+  const previewMode = pathname === '/menu' && previewMenu.length > 0;
   return menuUtil.getMenuData(previewMode ? previewMenu : menu);
 };
 
 const query = {
-  "screen-xs": {
+  'screen-xs': {
     maxWidth: 575
   },
-  "screen-sm": {
+  'screen-sm': {
     minWidth: 576,
     maxWidth: 767
   },
-  "screen-md": {
+  'screen-md': {
     minWidth: 768,
     maxWidth: 991
   },
-  "screen-lg": {
+  'screen-lg': {
     minWidth: 992,
     maxWidth: 1199
   },
-  "screen-xl": {
+  'screen-xl': {
     minWidth: 1200,
     maxWidth: 1599
   },
-  "screen-xxl": {
+  'screen-xxl': {
     minWidth: 1600
   }
 };
@@ -97,12 +97,12 @@ class BasicLayout extends PureComponent {
     // 登录逻辑
     let { data, success } = userTool.getUserSetting();
     if (!success || !data.autoLogin) {
-      router.push("/login");
+      router.push('/login');
       return;
     }
 
     dispatch({
-      type: "common/setStore",
+      type: 'common/setStore',
       payload: {
         userSetting: data.setting
       }
@@ -113,7 +113,7 @@ class BasicLayout extends PureComponent {
     // });
 
     dispatch({
-      type: "setting/getSetting"
+      type: 'setting/getSetting'
     });
     this.renderRef = requestAnimationFrame(() => {
       this.setState({
@@ -193,9 +193,9 @@ class BasicLayout extends PureComponent {
   getLayoutStyle = () => {
     const { isMobile } = this.state;
     const { fixSiderbar, collapsed, layout } = this.props;
-    if (fixSiderbar && layout !== "topmenu" && !isMobile) {
+    if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
       return {
-        paddingLeft: collapsed ? "80px" : "256px"
+        paddingLeft: collapsed ? '80px' : '256px'
       };
     }
     return null;
@@ -204,7 +204,7 @@ class BasicLayout extends PureComponent {
   getContentStyle = () => {
     const { fixedHeader } = this.props;
     return {
-      margin: "24px 24px 0",
+      margin: '24px 24px 0',
       paddingTop: fixedHeader ? 64 : 0
     };
   };
@@ -212,7 +212,7 @@ class BasicLayout extends PureComponent {
   handleMenuCollapse = collapsed => {
     const { dispatch } = this.props;
     dispatch({
-      type: "global/changeLayoutCollapsed",
+      type: 'global/changeLayoutCollapsed',
       payload: collapsed
     });
   };
@@ -222,8 +222,8 @@ class BasicLayout extends PureComponent {
     // unless it is deployed in preview.pro.ant.design as demo
     const { rendering } = this.state;
     if (
-      (rendering || process.env.NODE_ENV === "production") &&
-      APP_TYPE !== "site"
+      (rendering || process.env.NODE_ENV === 'production') &&
+      APP_TYPE !== 'site'
     ) {
       return null;
     }
@@ -238,14 +238,14 @@ class BasicLayout extends PureComponent {
       location: { pathname }
     } = this.props;
     const { isMobile, menuData } = this.state;
-    const isTop = PropsLayout === "topmenu";
+    const isTop = PropsLayout === 'topmenu';
     const routerConfig = this.matchParamsPath(pathname);
+    console.log(routerConfig);
     const layout = (
       <Layout>
         {isTop && !isMobile ? null : (
           <SiderMenu
             logo={logo}
-            Authorized={Authorized}
             theme={navTheme}
             onCollapse={this.handleMenuCollapse}
             menuData={menuData}
@@ -256,9 +256,8 @@ class BasicLayout extends PureComponent {
         <Layout
           style={{
             ...this.getLayoutStyle(),
-            minHeight: "100vh"
-          }}
-        >
+            minHeight: '100vh'
+          }}>
           <Header
             menuData={menuData}
             handleMenuCollapse={this.handleMenuCollapse}
