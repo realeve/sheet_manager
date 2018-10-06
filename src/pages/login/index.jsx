@@ -147,7 +147,9 @@ class LoginComponent extends Component {
       <Login defaultActiveKey={this.state.type} onSubmit={this.onSubmit}>
         <div>
           <img alt="avatar" className={styles.avatar} src={avatar} />
-          <h2 className={styles.title}>登录</h2>
+          <h2 className={styles.title}>
+            <FormattedMessage id="app.login.login" />
+          </h2>
           {this.state.notice && (
             <Alert
               style={{ marginBottom: 24 }}
@@ -162,14 +164,16 @@ class LoginComponent extends Component {
         </div>
         <div>
           <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-            自动登录
+            <FormattedMessage id="app.login.remember-me" />
           </Checkbox>
           <a style={{ float: 'right' }} onClick={this.forgetPsw}>
             <FormattedMessage id="app.login.forgot-password" />
           </a>
         </div>
         <div className={styles.action}>
-          <Submit loading={submitting}>登录</Submit>
+          <Submit loading={submitting}>
+            <FormattedMessage id="app.login.login" />
+          </Submit>
           <Link
             style={{ float: 'right', marginBottom: 12 }}
             to={`/login/register${search}`}>
