@@ -8,8 +8,8 @@ import {
 import { Tag, Icon, Tooltip, Button } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
-import NoticeIcon from '../NoticeIcon';
-import HeaderSearch from '../HeaderSearch';
+import NoticeIcon from 'ant-design-pro/lib/NoticeIcon';
+import HeaderSearch from 'ant-design-pro/lib/HeaderSearch';
 import AvatarView from './AvatarView';
 
 import styles from './index.less';

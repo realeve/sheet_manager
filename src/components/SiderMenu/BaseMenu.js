@@ -1,10 +1,10 @@
-import React, { PureComponent } from "react";
-import { Menu, Icon } from "antd";
-import Link from "umi/link";
-import { formatMessage } from "umi/locale";
-import pathToRegexp from "path-to-regexp";
-import { urlToList } from "../_utils/pathTools";
-import styles from "./index.less";
+import React, { PureComponent } from 'react';
+import { Menu, Icon } from 'antd';
+import Link from 'umi/link';
+import { formatMessage } from 'umi/locale';
+import pathToRegexp from 'path-to-regexp';
+import { urlToList } from '../_utils/pathTools';
+import styles from './index.less';
 
 const { SubMenu } = Menu;
 
@@ -13,10 +13,10 @@ const { SubMenu } = Menu;
 //   icon: 'http://demo.com/icon.png',
 //   icon: <Icon type="setting" />,
 const getIcon = icon => {
-  if (typeof icon === "string" && icon.indexOf("http") === 0) {
+  if (typeof icon === 'string' && icon.indexOf('http') === 0) {
     return <img src={icon} alt="icon" className={styles.icon} />;
   }
-  if (typeof icon === "string") {
+  if (typeof icon === 'string') {
     return <Icon type={icon} />;
   }
   return icon;
@@ -98,13 +98,12 @@ export default class BaseMenu extends PureComponent {
               name
             )
           }
-          key={item.path}
-        >
+          key={item.key}>
           {this.getNavMenuItems(item.children)}
         </SubMenu>
       );
     }
-    return <Menu.Item key={item.path}>{this.getMenuItemPath(item)}</Menu.Item>;
+    return <Menu.Item key={item.key}>{this.getMenuItemPath(item)}</Menu.Item>;
   };
 
   /**
@@ -138,8 +137,7 @@ export default class BaseMenu extends PureComponent {
                 onCollapse(true);
               }
             : undefined
-        }
-      >
+        }>
         {icon}
         <span>{name}</span>
       </Link>
@@ -157,10 +155,10 @@ export default class BaseMenu extends PureComponent {
   };
 
   conversionPath = path => {
-    if (path && path.indexOf("http") === 0) {
+    if (path && path.indexOf('http') === 0) {
       return path;
     }
-    return `/${path || ""}`.replace(/\/+/g, "/");
+    return `/${path || ''}`.replace(/\/+/g, '/');
   };
 
   render() {
@@ -185,9 +183,8 @@ export default class BaseMenu extends PureComponent {
         onOpenChange={handleOpenChange}
         selectedKeys={selectedKeys}
         style={style}
-        className={mode === "horizontal" ? "top-nav-menu" : ""}
-        {...props}
-      >
+        className={mode === 'horizontal' ? 'top-nav-menu' : ''}
+        {...props}>
         {this.getNavMenuItems(menuData)}
       </Menu>
     );

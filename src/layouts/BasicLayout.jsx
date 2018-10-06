@@ -34,6 +34,12 @@ const getMenuData = ({ menu, previewMenu, location: { pathname } }) => {
   return menuUtil.getMenuData(previewMode ? previewMenu : menu);
 };
 
+const getBreadcrumbList = menuData => {
+  const { href, origin } = window.location;
+  const curMenu = href.replace(origin, '');
+  return menuUtil.getBreadcrumbList(curMenu, menuData);
+};
+
 const query = {
   'screen-xs': {
     maxWidth: 575
@@ -73,21 +79,34 @@ class BasicLayout extends PureComponent {
       rendering: true,
       isMobile: false,
       menu,
-      previewMenu
+      previewMenu,
+      pathname: props.location.pathname,
+      breadcrumbList: getBreadcrumbList(menuData)
     };
   }
 
   static getDerivedStateFromProps(props, curState) {
     const { menu, previewMenu } = props;
+
     if (
       R.equals(menu, curState.menu) &&
       R.equals(previewMenu, curState.previewMenu)
     ) {
-      return null;
+      let { pathname } = props.location;
+      if (R.equals(pathname, curState.pathname)) {
+        return null;
+      }
+      return {
+        pathname,
+        breadcrumbList: getBreadcrumbList(curState.menuData)
+      };
     }
+
+    const menuData = getMenuData(props);
     return {
       menu,
-      menuData: getMenuData(props)
+      menuData,
+      breadcrumbList: getBreadcrumbList(menuData)
     };
   }
 
@@ -235,12 +254,10 @@ class BasicLayout extends PureComponent {
       navTheme,
       layout: PropsLayout,
       children,
-      location: { pathname }
+      location //: { pathname }
     } = this.props;
-    const { isMobile, menuData } = this.state;
+    const { isMobile, menuData, breadcrumbList } = this.state;
     const isTop = PropsLayout === 'topmenu';
-    const routerConfig = this.matchParamsPath(pathname);
-    console.log(routerConfig);
     const layout = (
       <Layout>
         {isTop && !isMobile ? null : (
@@ -266,7 +283,9 @@ class BasicLayout extends PureComponent {
             {...this.props}
           />
           <Content style={this.getContentStyle()}>
-            <PageHeaderWrapper>{children}</PageHeaderWrapper>
+            <PageHeaderWrapper breadcrumbList={breadcrumbList}>
+              {children}
+            </PageHeaderWrapper>
           </Content>
           <Footer />
         </Layout>
@@ -275,14 +294,11 @@ class BasicLayout extends PureComponent {
 
     return (
       <React.Fragment>
-        <DocumentTitle title={this.getPageTitle(pathname)}>
+        <DocumentTitle title={this.getPageTitle(location.pathname)}>
           <ContainerQuery query={query}>
             {params => (
               <Context.Provider value={this.getContext()}>
-                <div className={classNames(params)}>
-                  {layout}
-                  {/* {pathname === "/login" ? children : layout} */}
-                </div>
+                <div className={classNames(params)}>{layout}</div>
               </Context.Provider>
             )}
           </ContainerQuery>
