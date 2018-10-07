@@ -1,28 +1,47 @@
 import React, { Component, Fragment } from 'react';
 import { formatMessage } from 'umi/locale';
 import { Switch, List } from 'antd';
+import * as db from '@/pages/login/service';
 
 class NotificationView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: []
+    };
+  }
+
+  loadUsers = async () => {
+    let { data } = await db.getSysUserUnActived();
+    this.setState({
+      users: data.map(({ _id, fullname: title, dept_name: description }) => ({
+        _id,
+        title,
+        description
+      }))
+    });
+  };
+
+  componentDidMount() {
+    this.loadUsers();
+  }
+
+  onChange = (checked, _id) => {
+    console.log(`${_id} switch to ${checked}`);
+  };
+
   getData = () => {
-    const Action = (
+    const Action = ({ uid }) => (
       <Switch
         checkedChildren={formatMessage({ id: 'app.settings.active' })}
         unCheckedChildren={formatMessage({ id: 'app.settings.unactive' })}
-        defaultChecked
+        onChange={e => this.onChange(e, uid)}
       />
     );
-    return [
-      {
-        title: '张三',
-        description: '某部门',
-        actions: [Action]
-      },
-      {
-        title: '张四',
-        description: '某部门2',
-        actions: [Action]
-      }
-    ];
+    let { users } = this.state;
+    return users.map(item =>
+      Object.assign(item, { actions: [<Action uid={item._id} />] })
+    );
   };
 
   render() {

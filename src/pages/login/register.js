@@ -143,7 +143,7 @@ class Register extends Component {
       pathname,
       query,
       state: {
-        account: 'guest'
+        account
       }
     });
   };

@@ -116,3 +116,12 @@ export const setSysUserPsw = async params =>
     url: '/4/63bc967cec.json',
     params
   }).then(res => res);
+
+/**
+ *   @database: { 接口管理 }
+ *   @desc:     { 待激活用户列表 }
+ */
+export const getSysUserUnActived = async () =>
+  await axios({
+    url: '/33/831c282ac2.json'
+  }).then(res => res);
