@@ -1,33 +1,14 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Form, Input, Upload, Select, Button } from 'antd';
+import { Form, Input, Select, Button } from 'antd';
 import { connect } from 'dva';
 import styles from './BaseView.less';
 import * as db from '@/pages/login/service';
+import AvatarView from './AvatarView';
 const R = require('ramda');
 
 const FormItem = Form.Item;
 const { Option } = Select;
-
-// 头像组件 方便以后独立，增加裁剪之类的功能
-const AvatarView = ({ avatar }) => (
-  <Fragment>
-    <div className={styles.avatar_title}>头像</div>
-    <div className={styles.avatar}>
-      <img src={avatar} alt="avatar" />
-    </div>
-    <Upload fileList={[]}>
-      <div className={styles.button_view}>
-        <Button icon="upload">
-          <FormattedMessage
-            id="app.settings.basic.avatar"
-            defaultMessage="Change avatar"
-          />
-        </Button>
-      </div>
-    </Upload>
-  </Fragment>
-);
 
 @connect(({ common: { userSetting } }) => ({
   userSetting
@@ -72,7 +53,7 @@ class BaseView extends Component {
     } = this.props;
     const { depts } = this.state;
     const dept_id = this.getDeptId();
-    console.log(dept_id);
+
     return (
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>

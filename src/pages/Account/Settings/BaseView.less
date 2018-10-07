@@ -14,7 +14,7 @@
       font-size: @font-size-base;
       color: @heading-color;
       line-height: 22px;
-      margin-bottom: 8px;
+      margin-bottom: 16px;
     }
     @avatarSize: 128px;
     .avatar {
@@ -46,6 +46,12 @@
     .button_view {
       width: 144px;
       text-align: center;
+    }
+    :global {
+      .ant-upload-select-picture-card {
+        background: #fff;
+        border: none;
+      }
     }
   }
 }
