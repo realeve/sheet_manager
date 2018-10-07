@@ -18,7 +18,8 @@ class BaseView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      depts: []
+      depts: [],
+      submitting: false
     };
   }
   componentDidMount() {
@@ -51,7 +52,7 @@ class BaseView extends Component {
       form: { getFieldDecorator },
       userSetting: { avatar, fullname }
     } = this.props;
-    const { depts } = this.state;
+    const { depts, submitting } = this.state;
     const dept_id = this.getDeptId();
 
     return (
@@ -99,7 +100,7 @@ class BaseView extends Component {
               )}
             </FormItem>
 
-            <Button type="primary">
+            <Button loading={submitting} type="primary">
               <FormattedMessage
                 id="app.settings.basic.update"
                 defaultMessage="Update Information"

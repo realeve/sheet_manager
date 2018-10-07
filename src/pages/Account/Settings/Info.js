@@ -87,6 +87,7 @@ class Info extends Component {
     }
     requestAnimationFrame(() => {
       let mode = 'inline';
+
       const { offsetWidth } = this.main;
       if (this.main.offsetWidth < 641 && offsetWidth > 400) {
         mode = 'horizontal';

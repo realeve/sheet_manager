@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'umi/locale';
-import { Upload, Button, message, Icon } from 'antd';
+import { Upload, message, Icon } from 'antd';
 import { connect } from 'dva';
 import styles from './BaseView.less';
+import * as util from '@/utils/setting';
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -11,15 +12,22 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
-  const isJPG = file.type === 'image/jpeg';
-  if (!isJPG) {
-    message.error('You can only upload JPG file!');
+  const isIMAGE = [
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'image/bmp',
+    'image/gif',
+    'image/svg'
+  ].includes(file.type);
+  if (!isIMAGE) {
+    message.error(`${file.type}不是当前支持的图片格式`);
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
+  const isLt5M = file.size / 1024 / 1024 < 5;
+  if (!isLt5M) {
+    message.error('图片大小请勿超过5MB!');
   }
-  return isJPG && isLt2M;
+  return isIMAGE && isLt5M;
 }
 
 @connect(({ common: { userSetting } }) => ({
@@ -35,19 +43,24 @@ class AvatarView extends Component {
   }
 
   handleChange = info => {
-    console.log(info);
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
       return;
     }
     if (info.file.status === 'done') {
+      const { response } = info.file;
+      const { url } = response;
+      this.setState({
+        imageUrl: `${util.uploadHost}${url.slice(1)}`,
+        loading: false
+      });
       // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          imageUrl,
-          loading: false
-        })
-      );
+      // getBase64(info.file.originFileObj, imageUrl =>
+      //   this.setState({
+      //     imageUrl,
+      //     loading: false
+      //   })
+      // );
     }
   };
 
@@ -62,11 +75,11 @@ class AvatarView extends Component {
 
     return (
       <Upload
-        name="avatar"
+        name="file"
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="//jsonplaceholder.typicode.com/posts/"
+        action={util.uploadHost}
         beforeUpload={beforeUpload}
         onChange={this.handleChange}>
         {imageUrl ? (
