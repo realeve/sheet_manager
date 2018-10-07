@@ -3,9 +3,8 @@ import { formatMessage, FormattedMessage } from 'umi/locale';
 import { Form, Input, Upload, Select, Button } from 'antd';
 import { connect } from 'dva';
 import styles from './BaseView.less';
-
-import PhoneView from './PhoneView';
-// import { getTimeDistance } from '@/utils/utils';
+import * as db from '@/pages/login/service';
+const R = require('ramda');
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -13,7 +12,7 @@ const { Option } = Select;
 // 头像组件 方便以后独立，增加裁剪之类的功能
 const AvatarView = ({ avatar }) => (
   <Fragment>
-    <div className={styles.avatar_title}>Avatar</div>
+    <div className={styles.avatar_title}>头像</div>
     <div className={styles.avatar}>
       <img src={avatar} alt="avatar" />
     </div>
@@ -30,154 +29,95 @@ const AvatarView = ({ avatar }) => (
   </Fragment>
 );
 
-const validatorPhone = (rule, value, callback) => {
-  const values = value.split('-');
-  if (!values[0]) {
-    callback('Please input your area code!');
-  }
-  if (!values[1]) {
-    callback('Please input your phone number!');
-  }
-  callback();
-};
-
-@connect(({ user,common:{userSetting} }) => ({
-  currentUser: user.currentUser,
+@connect(({ common: { userSetting } }) => ({
   userSetting
 }))
 @Form.create()
 class BaseView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      depts: []
+    };
+  }
   componentDidMount() {
-    this.setBaseInfo();
+    this.loadDepts();
   }
 
-  setBaseInfo = () => {
-    const { currentUser, form } = this.props;
-    Object.keys(form.getFieldsValue()).forEach(key => {
-      const obj = {};
-      obj[key] = currentUser[key] || null;
-      form.setFieldsValue(obj);
+  loadDepts = async () => {
+    db.getSysDept().then(({ data: depts }) => {
+      this.setState({
+        depts
+      });
     });
   };
-
-  getAvatarURL() {
-    const { userSetting } = this.props;
-    console.log(userSetting);
-    if (userSetting.avatar) {
-      return userSetting.avatar;
-    }
-    const url =
-      'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png';
-    return url;
-  }
 
   getViewDom = ref => {
     this.view = ref;
   };
 
+  getDeptId = () => {
+    const {
+      userSetting: { dept_name }
+    } = this.props;
+    const { depts } = this.state;
+    let dept = R.find(R.propEq('value', dept_name))(depts);
+    return dept ? dept.id : 0;
+  };
+
   render() {
     const {
-      form: { getFieldDecorator }
+      form: { getFieldDecorator },
+      userSetting: { avatar, fullname }
     } = this.props;
+    const { depts } = this.state;
+    const dept_id = this.getDeptId();
+    console.log(dept_id);
     return (
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>
           <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
-            <FormItem label={formatMessage({ id: 'app.settings.basic.email' })}>
-              {getFieldDecorator('email', {
+            <FormItem
+              label={formatMessage({ id: 'form.fullname.placeholder' })}>
+              {getFieldDecorator('fullname', {
                 rules: [
                   {
                     required: true,
                     message: formatMessage(
-                      { id: 'app.settings.basic.email-message' },
+                      { id: 'validation.fullname.required' },
                       {}
                     )
                   }
-                ]
+                ],
+                initialValue: fullname
               })(<Input />)}
             </FormItem>
-            <FormItem
-              label={formatMessage({ id: 'app.settings.basic.nickname' })}>
-              {getFieldDecorator('name', {
+            <FormItem label={formatMessage({ id: 'validation.dept' })}>
+              {getFieldDecorator('dept_id', {
                 rules: [
                   {
                     required: true,
-                    message: formatMessage(
-                      { id: 'app.settings.basic.nickname-message' },
-                      {}
-                    )
+                    message: formatMessage({
+                      id: 'validation.dept.required'
+                    })
                   }
-                ]
-              })(<Input />)}
-            </FormItem>
-            <FormItem
-              label={formatMessage({ id: 'app.settings.basic.profile' })}>
-              {getFieldDecorator('profile', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage(
-                      { id: 'app.settings.basic.profile-message' },
-                      {}
-                    )
-                  }
-                ]
+                ],
+                initialValue: dept_id
               })(
-                <Input.TextArea
+                <Select
+                  size="large"
                   placeholder={formatMessage({
-                    id: 'app.settings.basic.profile-placeholder'
-                  })}
-                  rows={4}
-                />
-              )}
-            </FormItem>
-            <FormItem
-              label={formatMessage({ id: 'app.settings.basic.country' })}>
-              {getFieldDecorator('country', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage(
-                      { id: 'app.settings.basic.country-message' },
-                      {}
-                    )
-                  }
-                ]
-              })(
-                <Select style={{ maxWidth: 220 }}>
-                  <Option value="China">中国</Option>
+                    id: 'validation.dept'
+                  })}>
+                  {depts.map(({ id, value }) => (
+                    <Option value={id} key={id}>
+                      {value}
+                    </Option>
+                  ))}
                 </Select>
               )}
             </FormItem>
 
-            <FormItem
-              label={formatMessage({ id: 'app.settings.basic.address' })}>
-              {getFieldDecorator('address', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage(
-                      { id: 'app.settings.basic.address-message' },
-                      {}
-                    )
-                  }
-                ]
-              })(<Input />)}
-            </FormItem>
-            <FormItem label={formatMessage({ id: 'app.settings.basic.phone' })}>
-              {getFieldDecorator('phone', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage(
-                      { id: 'app.settings.basic.phone-message' },
-                      {}
-                    )
-                  },
-                  { validator: validatorPhone }
-                ]
-              })(<PhoneView />)}
-            </FormItem>
             <Button type="primary">
               <FormattedMessage
                 id="app.settings.basic.update"
@@ -187,7 +127,7 @@ class BaseView extends Component {
           </Form>
         </div>
         <div className={styles.right}>
-          <AvatarView avatar={this.getAvatarURL()} />
+          <AvatarView avatar={avatar} />
         </div>
       </div>
     );

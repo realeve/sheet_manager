@@ -134,7 +134,7 @@ export default {
   'app.analysis.table.users': 'Users',
   'app.analysis.table.weekly-range': 'Weekly Range',
   'app.settings.menuMap.basic': 'Basic Settings',
-  'app.settings.menuMap.security': 'Security Settings',
+  'app.settings.menuMap.security': 'Change password',
   'app.settings.menuMap.binding': 'Account Binding',
   'app.settings.menuMap.notification': 'New Message Notification',
   'app.settings.basic.avatar': 'Change avatar',

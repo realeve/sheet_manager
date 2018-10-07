@@ -261,8 +261,8 @@ class BasicLayout extends PureComponent {
     const { isMobile, menuData, breadcrumbList } = this.state;
     const isTop = PropsLayout === 'topmenu';
 
-    // 未在允许菜单列表中搜索到，同时用户身份类型>=3时，表示非法访问。
-    const notAllowed = breadcrumbList.length === 0 && user_type >= 3;
+    // 未在允许菜单列表中搜索到，同时用户身份类型>=4时，表示非法访问。
+    const notAllowed = breadcrumbList.length === 0 && user_type >= 4;
 
     const layout = (
       <Layout>

@@ -33,7 +33,6 @@ export default class SiderMenu extends PureComponent {
     super(props);
     this.flatMenuKeys = getFlatMenuKeys(props.menuData);
     this.state = getDefaultCollapsedSubMenus(props);
-    console.log(props.breadcrumbList);
   }
 
   static getDerivedStateFromProps(props, state) {

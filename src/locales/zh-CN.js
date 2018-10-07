@@ -135,7 +135,7 @@ export default {
   'app.analysis.table.users': '用户数',
   'app.analysis.table.weekly-range': '周涨幅',
   'app.settings.menuMap.basic': '基本设置',
-  'app.settings.menuMap.security': '安全设置',
+  'app.settings.menuMap.security': '修改密码',
   'app.settings.menuMap.binding': '账号绑定',
   'app.settings.menuMap.notification': '新消息通知',
   'app.settings.basic.avatar': '更换头像',

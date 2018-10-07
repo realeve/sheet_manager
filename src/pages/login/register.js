@@ -20,7 +20,7 @@ import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
 const FormItem = Form.Item;
 const { Option } = Select;
 
-const passwordStatusMap = {
+export const passwordStatusMap = {
   ok: (
     <div className={styles.success}>
       <FormattedMessage id="validation.password.strength.strong" />
@@ -38,7 +38,7 @@ const passwordStatusMap = {
   )
 };
 
-const passwordProgressMap = {
+export const passwordProgressMap = {
   ok: 'success',
   pass: 'normal',
   poor: 'exception'
@@ -69,10 +69,6 @@ class Register extends Component {
   };
   componentDidMount() {
     this.loadDepts();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
   }
 
   getFormParam = () => {
@@ -152,11 +148,11 @@ class Register extends Component {
     });
   };
 
-  handleConfirmBlur = e => {
-    const { value } = e.target;
-    const { confirmDirty } = this.state;
-    this.setState({ confirmDirty: confirmDirty || !!value });
-  };
+  // handleConfirmBlur = e => {
+  //   const { value } = e.target;
+  //   const { confirmDirty } = this.state;
+  //   this.setState({ confirmDirty: confirmDirty || !!value });
+  // };
 
   checkConfirm = (rule, value, callback) => {
     const { form } = this.props;
