@@ -7,5 +7,6 @@ export default () => (
     type="404"
     style={{ minHeight: 500, height: '100%' }}
     linkElement={Link}
+    img="/img/404.svg"
   />
 );

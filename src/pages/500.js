@@ -4,7 +4,7 @@ import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
 
 class ForOFor extends Component {
   render() {
-    return <Exception type="500" />;
+    return <Exception type="500" img="/img/500.svg" />;
   }
 }
 export default ForOFor;

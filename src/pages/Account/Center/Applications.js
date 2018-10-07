@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Menu } from 'antd';
+import { List, Menu } from 'antd';
 
 import { connect } from 'dva';
 
@@ -8,9 +8,9 @@ import { connect } from 'dva';
 }))
 class Center extends PureComponent {
   render() {
-    const {
-      list: { list }
-    } = this.props;
+    // const {
+    //   list: { list }
+    // } = this.props;
     const itemMenu = (
       <Menu>
         <Menu.Item>
@@ -43,9 +43,9 @@ class Center extends PureComponent {
     return (
       <List
         rowKey="id"
-        className={stylesApplications.filterCardList}
+        // className={stylesApplications.filterCardList}
         grid={{ gutter: 24, xxl: 3, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
-        dataSource={list}
+        // dataSource={list}
         renderItem={item => <List.Item key={item.id} />}
       />
     );

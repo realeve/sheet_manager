@@ -10,15 +10,15 @@ import stylesProjects from './Articles.less';
 }))
 class Center extends PureComponent {
   render() {
-    const {
-      list: { list }
-    } = this.props;
+    // const {
+    //   list: { list }
+    // } = this.props;
     return (
       <List
         className={stylesProjects.coverCardList}
         rowKey="id"
         grid={{ gutter: 24, xxl: 3, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
-        dataSource={list}
+        // dataSource={list}
         renderItem={item => (
           <List.Item>
             <Card

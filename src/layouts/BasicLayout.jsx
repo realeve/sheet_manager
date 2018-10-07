@@ -21,6 +21,7 @@ import userTool from '../utils/users';
 import router from 'umi/router';
 
 import menuUtil from './menuData';
+import ForOThree from '@/pages/403';
 
 const { Content } = Layout;
 const systemName = '某数据系统';
@@ -250,9 +251,18 @@ class BasicLayout extends PureComponent {
   }
 
   render() {
-    const { navTheme, layout: PropsLayout, children, location } = this.props;
+    const {
+      navTheme,
+      layout: PropsLayout,
+      children,
+      location,
+      user_type
+    } = this.props;
     const { isMobile, menuData, breadcrumbList } = this.state;
     const isTop = PropsLayout === 'topmenu';
+
+    // 未在允许菜单列表中搜索到，同时用户身份类型>=3时，表示非法访问。
+    const notAllowed = breadcrumbList.length === 0 && user_type >= 3;
 
     const layout = (
       <Layout>
@@ -281,7 +291,7 @@ class BasicLayout extends PureComponent {
           />
           <Content style={this.getContentStyle()}>
             <PageHeaderWrapper breadcrumbList={breadcrumbList}>
-              {children}
+              {notAllowed ? <ForOThree /> : children}
             </PageHeaderWrapper>
           </Content>
           <Footer />
@@ -295,9 +305,7 @@ class BasicLayout extends PureComponent {
           <ContainerQuery query={query}>
             {params => (
               <Context.Provider value={this.getContext()}>
-                <div className={classNames(params)}>
-                  {breadcrumbList.length && layout}
-                </div>
+                <div className={classNames(params)}>{layout}</div>
               </Context.Provider>
             )}
           </ContainerQuery>
@@ -313,13 +321,14 @@ export default connect(
     global,
     setting,
     common: {
-      userSetting: { menu, previewMenu }
+      userSetting: { menu, previewMenu, user_type }
     }
   }) => ({
     collapsed: global.collapsed,
     layout: setting.layout,
     ...setting,
     menu,
-    previewMenu
+    previewMenu,
+    user_type
   })
 )(BasicLayout);

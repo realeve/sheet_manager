@@ -8,6 +8,7 @@ const Exception403 = () => (
     type="403"
     desc={formatMessage({ id: 'app.exception.description.403' })}
     linkElement={Link}
+    img="/img/403.svg"
     backText={formatMessage({ id: 'app.exception.back' })}
   />
 );

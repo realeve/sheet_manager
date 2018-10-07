@@ -10,9 +10,10 @@ import styles from './Articles.less';
 }))
 class Center extends PureComponent {
   render() {
-    const {
-      list: { list }
-    } = this.props;
+    // const {
+    //   list: { list }
+    // } = this.props;
+
     const IconText = ({ type, text }) => (
       <span>
         <Icon type={type} style={{ marginRight: 8 }} />
@@ -38,7 +39,7 @@ class Center extends PureComponent {
         className={styles.articleList}
         rowKey="id"
         itemLayout="vertical"
-        dataSource={list}
+        // dataSource={list}
         renderItem={item => (
           <List.Item
             key={item.id}
