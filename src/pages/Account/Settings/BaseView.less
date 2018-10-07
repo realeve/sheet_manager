@@ -1,9 +1,7 @@
 @import '~antd/lib/style/themes/default.less';
-
 .baseView {
   display: flex;
   padding-top: 12px;
-
   .left {
     max-width: 448px;
     min-width: 224px;
@@ -18,11 +16,29 @@
       line-height: 22px;
       margin-bottom: 8px;
     }
+    @avatarSize: 128px;
     .avatar {
-      width: 144px;
-      height: 144px;
-      margin-bottom: 12px;
+      width: @avatarSize;
+      height: @avatarSize;
+      border-radius: 50%;
+      box-shadow: 2px 2px 40px rgba(133, 187, 255, 0.7);
+      margin-bottom: 20px;
+      position: relative;
       overflow: hidden;
+      cursor: pointer;
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: @avatarSize;
+        height: @avatarSize;
+        border-radius: 50%;
+        border: 6px solid rgba(255, 255, 255, 0.4);
+      }
+      &:hover {
+        box-shadow: 2px 2px 40px rgba(255, 157, 139, 0.7);
+      }
       img {
         width: 100%;
       }
@@ -37,7 +53,6 @@
 @media screen and (max-width: @screen-xl) {
   .baseView {
     flex-direction: column-reverse;
-
     .right {
       padding: 20px;
       display: flex;

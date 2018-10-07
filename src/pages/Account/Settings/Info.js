@@ -108,7 +108,6 @@ class Info extends Component {
 
   render() {
     const { children, userSetting } = this.props;
-    console.log(userSetting);
     if (!userSetting.uid) {
       return '';
     }

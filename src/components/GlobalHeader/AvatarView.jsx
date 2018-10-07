@@ -37,8 +37,8 @@ function AvatarView({ userSetting, onMenuClick }) {
     <Dropdown overlay={menu}>
       <span className={`${styles.action} ${styles.account}`}>
         <Avatar
-          size="small"
-          className={userSetting.avatar}
+          // size="small"
+          className={styles.avatar}
           src={userSetting.avatar}
           alt="avatar"
         />
