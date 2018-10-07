@@ -28,16 +28,10 @@ class Info extends Component {
           defaultMessage="Security Settings"
         />
       ),
-      binding: (
+      active: (
         <FormattedMessage
-          id="app.settings.menuMap.binding"
-          defaultMessage="Account Binding"
-        />
-      ),
-      notification: (
-        <FormattedMessage
-          id="app.settings.menuMap.notification"
-          defaultMessage="New Message Notification"
+          id="app.settings.menuMap.active"
+          defaultMessage="Account actived"
         />
       )
     };
