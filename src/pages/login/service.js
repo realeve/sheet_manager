@@ -86,7 +86,8 @@ export const reLogin = async dispatch => {
     dispatch({
       type: 'common/setStore',
       payload: {
-        userSetting
+        userSetting,
+        isLogin: false
       }
     });
   }

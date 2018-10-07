@@ -1,58 +1,56 @@
-import pathToRegexp from "path-to-regexp";
+import pathToRegexp from 'path-to-regexp';
 import userTool from '@/utils/users';
 import * as lib from '@/utils/lib';
 
-const namespace = "common";
+const namespace = 'common';
 export default {
-    namespace,
-    state: {
-        userSetting: {
-            uid: '',
-            avatar: '',
-            menu: '',
-            previewMenu: [],
-            username: "",
-            fullname: "",
-            user_type: 0,
-            actived:0,
-            dept_name:''
-        },
-        inited: false,
-        curPageName: ''
+  namespace,
+  state: {
+    userSetting: {
+      uid: '',
+      avatar: '',
+      menu: '',
+      previewMenu: [],
+      username: '',
+      fullname: '',
+      user_type: 0,
+      actived: 0,
+      dept_name: ''
     },
-    reducers: {
-        setStore(state, {
-            payload
-        }) {
-            return lib.setStore({
-                state,
-                payload
-            });
-        }
-    },
-    subscriptions: {
-        setup({
-            dispatch,
-            history
-        }) {
-            return history.listen(async({
-                pathname,
-                query
-            }) => {
-                const match = pathToRegexp("/login").exec(pathname);
-                if (match && match[0] === "/login") {
-                    return;
-                }
-
-                userTool.saveLastRouter(pathname);
-
-                dispatch({
-                    type: "setStore",
-                    payload: {
-                        inited: true
-                    }
-                })
-            });
-        }
+    isLogin: false,
+    curPageName: ''
+  },
+  reducers: {
+    setStore(state, { payload }) {
+      return lib.setStore({
+        state,
+        payload
+      });
     }
+  },
+  subscriptions: {
+    setup({ dispatch, history }) {
+      return history.listen(async ({ pathname, query }) => {
+        const match = pathToRegexp('/login').exec(pathname);
+        if (match && match[0] === '/login') {
+          dispatch({
+            type: 'setStore',
+            payload: {
+              isLogin: false
+            }
+          });
+          return;
+        }
+
+        userTool.saveLastRouter(pathname);
+
+        // dispatch({
+        //   type: 'setStore',
+        //   payload: {
+        //     isLogin: true
+        //   }
+        // });
+      });
+    }
+  }
 };

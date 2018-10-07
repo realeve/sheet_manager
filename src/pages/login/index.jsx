@@ -82,7 +82,8 @@ class LoginComponent extends Component {
       this.props.dispatch({
         type: 'common/setStore',
         payload: {
-          userSetting
+          userSetting,
+          isLogin: true
         }
       });
 

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import styles from './UserLayout.less';
-import GlobalFooter from '@/layouts/Footer.jsx';
+import GlobalFooter from '@/layouts/Footer';
 import * as setting from '@/utils/setting';
 
 export default class UserLayout extends PureComponent {
