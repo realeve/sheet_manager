@@ -4,6 +4,7 @@ import { Upload, message, Icon } from 'antd';
 import { connect } from 'dva';
 import styles from './BaseView.less';
 import * as util from '@/utils/setting';
+import * as db from '@/pages/login/service';
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -18,7 +19,7 @@ function beforeUpload(file) {
     'image/webp',
     'image/bmp',
     'image/gif',
-    'image/svg'
+    'image/svg+xml'
   ].includes(file.type);
   if (!isIMAGE) {
     message.error(`${file.type}不是当前支持的图片格式`);
@@ -30,8 +31,9 @@ function beforeUpload(file) {
   return isIMAGE && isLt5M;
 }
 
-@connect(({ common: { userSetting } }) => ({
-  userSetting
+@connect(({ common: { userSetting: { uid: _id, username } } }) => ({
+  _id,
+  username
 }))
 class AvatarView extends Component {
   constructor(props) {
@@ -42,7 +44,7 @@ class AvatarView extends Component {
     };
   }
 
-  handleChange = info => {
+  handleChange = async info => {
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
       return;
@@ -50,10 +52,27 @@ class AvatarView extends Component {
     if (info.file.status === 'done') {
       const { response } = info.file;
       const { url } = response;
+      const avatar = `${util.uploadHost}${url.slice(1)}`;
       this.setState({
-        imageUrl: `${util.uploadHost}${url.slice(1)}`,
+        imageUrl: avatar,
         loading: false
       });
+      const { _id, username } = this.props;
+      const {
+        data: [{ affected_rows }]
+      } = await db.setSysUser({
+        avatar,
+        _id,
+        username
+      });
+
+      if (affected_rows) {
+        message.success('个人头像更新成功!');
+      }
+
+      // 重新登录，更新用户信息
+      db.reLogin(this.props.dispatch);
+
       // Get this url from response in real world.
       // getBase64(info.file.originFileObj, imageUrl =>
       //   this.setState({

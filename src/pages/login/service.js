@@ -1,4 +1,5 @@
 import { axios } from '@/utils/axios';
+import userTool from '@/utils/users';
 
 /**
 *   @database: { 接口管理 }
@@ -56,3 +57,36 @@ export const getSysUserIp = async username =>
       username
     }
   }).then(res => res);
+
+/**
+*   @database: { 接口管理 }
+*   @desc:     { 更新用户头像 } 
+	以下参数在建立过程中与系统保留字段冲突，已自动替换:
+	@id:_id. 参数说明：api 索引序号
+    const { avatar, _id, username } = params;
+*/
+export const setSysUser = async params =>
+  await axios({
+    url: '/31/26695416cd.json',
+    params
+  }).then(res => res);
+
+export const reLogin = async dispatch => {
+  let { data, success } = userTool.getUserSetting();
+  if (!success) {
+    return false;
+  }
+  let { values } = data;
+  let userInfo = await getSysUser(values);
+  if (userInfo.rows > 0) {
+    let userSetting = userInfo.data[0];
+    userSetting.menu = JSON.parse(userSetting.menu);
+    userTool.saveUserSetting({ values, setting: userSetting, autoLogin: true });
+    dispatch({
+      type: 'common/setStore',
+      payload: {
+        userSetting
+      }
+    });
+  }
+};
