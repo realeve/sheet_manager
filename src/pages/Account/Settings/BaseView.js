@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Form, Input, Select, Button } from 'antd';
+import { Form, Input, Select, Button, message } from 'antd';
 import { connect } from 'dva';
 import styles from './BaseView.less';
 import * as db from '@/pages/login/service';
 import AvatarView from './AvatarView';
-const R = require('ramda');
+import UserPreview from './UserPreview';
 
+const R = require('ramda');
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -47,18 +48,48 @@ class BaseView extends Component {
     return dept ? dept.id : 0;
   };
 
+  handleSubmit = async () => {
+    this.setState({
+      submitting: true
+    });
+    const {
+      form: { getFieldsValue },
+      userSetting: { username, uid: _id }
+    } = this.props;
+    const { dept_id, fullname } = getFieldsValue();
+
+    const {
+      data: [{ affected_rows }]
+    } = await db
+      .setSysUserBase({
+        fullname,
+        dept_id,
+        _id,
+        username
+      })
+      .finally(e => {
+        this.setState({ submitting: false });
+      });
+
+    if (affected_rows) {
+      message.success('个人信息更新成功!');
+    } else {
+      message.error('个人信息更新失败!');
+    }
+    db.reLogin(this.props.dispatch);
+  };
+
   render() {
     const {
       form: { getFieldDecorator },
-      userSetting: { avatar, fullname }
+      userSetting: { avatar, fullname, dept_name }
     } = this.props;
     const { depts, submitting } = this.state;
     const dept_id = this.getDeptId();
-
     return (
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>
-          <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
+          <Form layout="vertical">
             <FormItem
               label={formatMessage({ id: 'form.fullname.placeholder' })}>
               {getFieldDecorator('fullname', {
@@ -100,7 +131,10 @@ class BaseView extends Component {
               )}
             </FormItem>
 
-            <Button loading={submitting} type="primary">
+            <Button
+              loading={submitting}
+              type="primary"
+              onClick={this.handleSubmit}>
               <FormattedMessage
                 id="app.settings.basic.update"
                 defaultMessage="Update Information"
@@ -110,6 +144,7 @@ class BaseView extends Component {
         </div>
         <div className={styles.right}>
           <AvatarView avatar={avatar} />
+          <UserPreview {...{ avatar, dept_name, fullname }} />
         </div>
       </div>
     );

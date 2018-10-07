@@ -71,6 +71,7 @@ export const setSysUser = async params =>
     params
   }).then(res => res);
 
+// 重新登录，处理登录后相关数据逻辑及全局状态更新
 export const reLogin = async dispatch => {
   let { data, success } = userTool.getUserSetting();
   if (!success) {
@@ -90,3 +91,16 @@ export const reLogin = async dispatch => {
     });
   }
 };
+
+/**
+*   @database: { 接口管理 }
+*   @desc:     { 更新用户基本信息 } 
+	以下参数在建立过程中与系统保留字段冲突，已自动替换:
+	@id:_id. 参数说明：api 索引序号
+    const { fullname, dept_id, _id, username } = params;
+*/
+export const setSysUserBase = async params =>
+  await axios({
+    url: '/32/73bf9df9bb.json',
+    params
+  }).then(res => res);

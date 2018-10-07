@@ -5,12 +5,13 @@ import { connect } from 'dva';
 import styles from './BaseView.less';
 import * as util from '@/utils/setting';
 import * as db from '@/pages/login/service';
+import classNames from 'classnames';
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
+// function getBase64(img, callback) {
+//   const reader = new FileReader();
+//   reader.addEventListener('load', () => callback(reader.result));
+//   reader.readAsDataURL(img);
+// }
 
 function beforeUpload(file) {
   const isIMAGE = [
@@ -92,11 +93,12 @@ class AvatarView extends Component {
       </div>
     );
 
+    const cls = classNames('avatar-uploader', styles.avatar_edit);
     return (
       <Upload
         name="file"
         listType="picture-card"
-        className="avatar-uploader"
+        className={cls}
         showUploadList={false}
         action={util.uploadHost}
         beforeUpload={beforeUpload}
