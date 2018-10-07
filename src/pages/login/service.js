@@ -90,6 +90,7 @@ export const reLogin = async dispatch => {
         isLogin: false
       }
     });
+    userTool.saveLoginStatus(0);
   }
 };
 

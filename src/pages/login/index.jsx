@@ -87,6 +87,8 @@ class LoginComponent extends Component {
         }
       });
 
+      userTool.saveLoginStatus(1);
+
       const query = this.props.location.query;
       let nextUrl = query.redirect || userTool.readLastRouter();
 

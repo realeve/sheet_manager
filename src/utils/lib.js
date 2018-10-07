@@ -5,6 +5,7 @@ import * as setting from './setting';
 import qs from 'qs';
 import dateRanges from './ranges';
 import router from 'umi/router';
+import userTool from '@/utils/users';
 
 const R = require('ramda');
 
@@ -268,6 +269,7 @@ export const logout = ({ dispatch }) => {
       isLogin: false
     }
   });
+  userTool.saveLoginStatus(0);
 
   let { href, origin } = window.location;
   router.push({

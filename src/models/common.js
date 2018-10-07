@@ -39,17 +39,17 @@ export default {
               isLogin: false
             }
           });
+          userTool.saveLoginStatus(0);
           return;
         }
-
+        let isLogin = userTool.getLoginStatus(0);
         userTool.saveLastRouter(pathname);
-
-        // dispatch({
-        //   type: 'setStore',
-        //   payload: {
-        //     isLogin: true
-        //   }
-        // });
+        dispatch({
+          type: 'setStore',
+          payload: {
+            isLogin: isLogin === '1'
+          }
+        });
       });
     }
   }
