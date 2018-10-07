@@ -104,3 +104,14 @@ export const setSysUserBase = async params =>
     url: '/32/73bf9df9bb.json',
     params
   }).then(res => res);
+
+/**
+*   @database: { 接口管理 }
+*   @desc:     { 更新密码 } 
+    const { new, uid, old } = params;
+*/
+export const setSysUserPsw = async params =>
+  await axios({
+    url: '/4/63bc967cec.json',
+    params
+  }).then(res => res);

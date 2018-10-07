@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Form, Input, Popover, Progress, notification, Button } from 'antd';
+import { Form, Input, Popover, Progress, Button, message } from 'antd';
 import { connect } from 'dva';
 import styles from '@/pages/login/Register.less';
 import { passwordStatusMap, passwordProgressMap } from '@/pages/login/register';
+import * as lib from '@/utils/lib';
+import * as db from '@/pages/login/service';
 
-const R = require('ramda');
 const FormItem = Form.Item;
 
 @connect(({ common: { userSetting } }) => ({
@@ -95,13 +96,36 @@ class SecurityView extends Component {
     ) : null;
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
+    this.setState({
+      submitting: true
+    });
     const {
       form: { getFieldsValue },
-      userSetting: { uid, username }
+      userSetting: { uid }
     } = this.props;
-    const psw = getFieldsValue('psw');
-    console.log(psw, uid, username);
+    const { psw, psw_old } = getFieldsValue();
+    const {
+      data: [{ affected_rows }]
+    } = await db
+      .setSysUserPsw({
+        new: psw,
+        uid,
+        old: psw_old
+      })
+      .finally(e => {
+        this.setState({ submitting: false });
+      })
+      .catch(_ => {
+        message.error('密码更新失败!');
+      });
+
+    if (affected_rows) {
+      message.success('密码更新成功!');
+      lib.logout(this.props);
+    } else {
+      message.error('密码更新失败!');
+    }
   };
 
   render() {
@@ -113,7 +137,23 @@ class SecurityView extends Component {
 
     return (
       <>
-        <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
+        <Form layout="vertical">
+          <FormItem>
+            {getFieldDecorator('psw_old', {
+              rules: [
+                {
+                  required: true
+                }
+              ]
+            })(
+              <Input
+                type="password"
+                placeholder={formatMessage({
+                  id: 'form.password.old.placeholder'
+                })}
+              />
+            )}
+          </FormItem>
           <FormItem help={help}>
             <Popover
               content={
@@ -168,15 +208,13 @@ class SecurityView extends Component {
               />
             )}
           </FormItem>
-          <FormItem>
-            <Button
-              loading={submitting}
-              className={styles.submit}
-              type="primary"
-              htmlType="submit">
-              <FormattedMessage id="app.settings.menuMap.security" />
-            </Button>
-          </FormItem>
+          <Button
+            loading={submitting}
+            className={styles.submit}
+            type="primary"
+            onClick={this.handleSubmit}>
+            <FormattedMessage id="app.settings.menuMap.security" />
+          </Button>
         </Form>
       </>
     );

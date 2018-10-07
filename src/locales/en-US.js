@@ -27,6 +27,7 @@ export default {
   'form.username.placeholder': 'Username',
   'form.fullname.placeholder': 'Fullname',
   'form.email.placeholder': 'Email',
+  'form.password.old.placeholder': 'Please input old password',
   'form.password.placeholder': 'Password',
   'form.confirm-password.placeholder': 'Confirm password',
   'form.phone-number.placeholder': 'Phone number',

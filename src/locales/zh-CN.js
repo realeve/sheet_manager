@@ -29,6 +29,7 @@ export default {
   'form.username.placeholder': '用户名',
   'form.fullname.placeholder': '姓名',
   'form.email.placeholder': '邮箱',
+  'form.password.old.placeholder': '请输入原密码',
   'form.password.placeholder': '至少5位密码，区分大小写',
   'form.confirm-password.placeholder': '确认密码',
   'form.phone-number.placeholder': '位手机号',
