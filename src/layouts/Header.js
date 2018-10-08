@@ -54,10 +54,10 @@ class HeaderView extends PureComponent {
   };
 
   handleMenuClick = ({ key }) => {
-    if (key === 'userCenter') {
-      router.push('/account/center');
-      return;
-    }
+    // if (key === 'userCenter') {
+    //   router.push('/account/center');
+    //   return;
+    // }
     if (key === 'userinfo') {
       router.push('/account/settings/base');
       return;
@@ -151,10 +151,10 @@ class HeaderView extends PureComponent {
 
 export default connect(
   ({ user, global, setting, loading, common: { userSetting } }) => ({
-    currentUser: user.currentUser,
+    // currentUser: user.currentUser,
     collapsed: global.collapsed,
-    fetchingNotices: loading.effects['global/fetchNotices'],
-    notices: global.notices,
+    // fetchingNotices: loading.effects['global/fetchNotices'],
+    // notices: global.notices,
     setting,
     userSetting
   })

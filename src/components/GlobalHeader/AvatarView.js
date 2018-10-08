@@ -11,13 +11,13 @@ function AvatarView({ userSetting, onMenuClick }) {
   }
   const menu = (
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-      <Menu.Item key="userCenter">
+      {/* <Menu.Item key="userCenter">
         <Icon type="user" />
         <FormattedMessage
           id="menu.account.center"
           defaultMessage="account center"
         />
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Item key="userinfo">
         <Icon type="setting" />
         <FormattedMessage

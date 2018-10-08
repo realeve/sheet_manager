@@ -59,10 +59,10 @@ export default class GlobalHeaderRight extends PureComponent {
 
   render() {
     const {
-      currentUser,
-      fetchingNotices,
-      onNoticeVisibleChange,
-      onNoticeClear,
+      // currentUser,
+      // fetchingNotices,
+      // onNoticeVisibleChange,
+      // onNoticeClear,
       theme,
       userSetting,
       onMenuClick
@@ -75,7 +75,7 @@ export default class GlobalHeaderRight extends PureComponent {
     }
     return (
       <div className={className}>
-        <HeaderSearch
+        {/* <HeaderSearch
           className={`${styles.action} ${styles.search}`}
           defaultOpen={true}
           placeholder={formatMessage({ id: 'component.globalHeader.search' })}
@@ -85,7 +85,7 @@ export default class GlobalHeaderRight extends PureComponent {
           onPressEnter={value => {
             console.log('enter', value); // eslint-disable-line
           }}
-        />
+        /> */}
         <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
           <a
             target="_blank"
@@ -96,7 +96,7 @@ export default class GlobalHeaderRight extends PureComponent {
             <Icon type="question-circle-o" />
           </a>
         </Tooltip>
-        <NoticeIcon
+        {/* <NoticeIcon
           className={styles.action}
           count={currentUser.notifyCount}
           onItemClick={(item, tabProps) => {
@@ -130,7 +130,7 @@ export default class GlobalHeaderRight extends PureComponent {
             })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
           />
-        </NoticeIcon>
+        </NoticeIcon> */}
         <AvatarView onMenuClick={onMenuClick} userSetting={userSetting} />
         <Button
           size="small"
