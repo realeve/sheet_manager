@@ -1,13 +1,15 @@
 import React, { Component, Fragment } from 'react';
-import { formatMessage } from 'umi/locale';
-import { Switch, List } from 'antd';
+import { List } from 'antd';
 import * as db from '@/pages/login/service';
+import ActiveAction from './ActiveAction';
+const R = require('ramda');
 
-class NotificationView extends Component {
+class ActiveView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: []
+      users: [],
+      userTypes: []
     };
   }
 
@@ -22,25 +24,43 @@ class NotificationView extends Component {
     });
   };
 
+  loadUserTypes = async () => {
+    let { data } = await db.getSysUserTypes();
+
+    // 管理员权限需单独审核开通
+    this.setState({
+      userTypes: data.filter(({ id }) => id > 1)
+    });
+  };
+
   componentDidMount() {
     this.loadUsers();
+    this.loadUserTypes();
   }
 
   onChange = (checked, _id) => {
     console.log(`${_id} switch to ${checked}`);
   };
 
-  getData = () => {
-    const Action = ({ uid }) => (
-      <Switch
-        checkedChildren={formatMessage({ id: 'app.settings.active' })}
-        unCheckedChildren={formatMessage({ id: 'app.settings.unactive' })}
-        onChange={e => this.onChange(e, uid)}
-      />
-    );
+  // 用户激活后从列表移除
+  onActived = uid => {
     let { users } = this.state;
+    users = R.reject(R.propEq('_id', uid))(users);
+    this.setState({ users });
+  };
+
+  getData = () => {
+    let { users, userTypes } = this.state;
     return users.map(item =>
-      Object.assign(item, { actions: [<Action uid={item._id} />] })
+      Object.assign(item, {
+        actions: [
+          <ActiveAction
+            uid={item._id}
+            userTypes={userTypes}
+            onChange={this.onActived}
+          />
+        ]
+      })
     );
   };
 
@@ -64,4 +84,4 @@ class NotificationView extends Component {
   }
 }
 
-export default NotificationView;
+export default ActiveView;

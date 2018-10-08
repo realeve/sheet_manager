@@ -126,3 +126,25 @@ export const getSysUserUnActived = async () =>
   await axios({
     url: '/33/831c282ac2.json'
   }).then(res => res);
+
+/**
+ *   @database: { 接口管理 }
+ *   @desc:     { 用户类型列表 }
+ */
+export const getSysUserTypes = async () =>
+  await axios({
+    url: '/34/ad64451402.json'
+  }).then(res => res);
+
+/**
+*   @database: { 接口管理 }
+*   @desc:     { 用户激活 } 
+	以下参数在建立过程中与系统保留字段冲突，已自动替换:
+	@id:_id. 参数说明：api 索引序号
+    const { user_type, _id } = params;
+*/
+export const setSysUserActive = async params =>
+  await axios({
+    url: '/35/8c99b29613.json',
+    params
+  }).then(res => res);
