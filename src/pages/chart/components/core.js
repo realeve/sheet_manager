@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import elementResizeEvent from "element-resize-event";
-import chartConfig from "../utils/charts";
-const R = require("ramda");
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import elementResizeEvent from 'element-resize-event';
+import chartConfig from '../utils/charts';
+const R = require('ramda');
 
 const isEqual = (a, b) => R.equals(a, b);
 export default class EchartsReactCore extends Component {
@@ -88,7 +88,7 @@ export default class EchartsReactCore extends Component {
     } catch (_) {}
 
     // on chart ready
-    if (typeof onChartReady === "function") this.props.onChartReady(echartObj);
+    if (typeof onChartReady === 'function') this.props.onChartReady(echartObj);
     // on resize
     if (this.echartsElement) {
       elementResizeEvent(this.echartsElement, () => {
@@ -101,7 +101,7 @@ export default class EchartsReactCore extends Component {
   bindEvents = (instance, events) => {
     const _bindEvent = (eventName, func) => {
       // ignore the event config which not satisfy
-      if (typeof eventName === "string" && typeof func === "function") {
+      if (typeof eventName === 'string' && typeof func === 'function') {
         // binding event
         // instance.off(eventName); // 已经 dispose 在重建，所以无需 off 操作
         instance.on(eventName, param => {
@@ -170,14 +170,14 @@ EchartsReactCore.propTypes = {
   onEvents: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   opts: PropTypes.shape({
     devicePixelRatio: PropTypes.number,
-    renderer: PropTypes.oneOf(["canvas", "svg"]),
+    renderer: PropTypes.oneOf(['canvas', 'svg']),
     width: PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.oneOf([null, undefined, "auto"])
+      PropTypes.oneOf([null, undefined, 'auto'])
     ]),
     height: PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.oneOf([null, undefined, "auto"])
+      PropTypes.oneOf([null, undefined, 'auto'])
     ])
   })
 };
@@ -187,11 +187,11 @@ EchartsReactCore.defaultProps = {
   notMerge: false,
   lazyUpdate: false,
   style: {},
-  className: "",
+  className: '',
   theme: chartConfig.theme,
   onChartReady: () => {},
   showLoading: false,
   loadingOption: null,
   onEvents: {},
-  opts: { renderer: "svg" }
+  opts: { renderer: 'svg' }
 };

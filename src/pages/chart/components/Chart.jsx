@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Card, Tabs } from "antd";
-import * as db from "../services/chart";
-import styles from "./Chart.less";
-import ReactEcharts from "./echarts-for-react";
-import VTable from "@/components/Table.jsx";
-import lib from "../utils/lib";
+import React, { Component } from 'react';
+import { Card, Tabs } from 'antd';
+import * as db from '../services/chart';
+import styles from './Chart.less';
+import ReactEcharts from './echarts-for-react';
+import VTable from '@/components/Table.jsx';
+import lib from '../utils/lib';
 
-const R = require("ramda");
+const R = require('ramda');
 const TabPane = Tabs.TabPane;
 
 class Charts extends Component {
@@ -57,7 +57,9 @@ class Charts extends Component {
   }
 
   componentWillUnmount() {
-    this.echarts_react.dispose();
+    if (this.echarts_react) {
+      this.echarts_react.dispose();
+    }
   }
 
   render() {
@@ -70,11 +72,10 @@ class Charts extends Component {
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab="数据图表" key="1">
           <Card
-            bodyStyle={{ padding: "20px" }}
+            bodyStyle={{ padding: '20px' }}
             className={styles.exCard}
             loading={loading}
-            bordered={false}
-          >
+            bordered={false}>
             <ReactEcharts
               ref={e => {
                 this.echarts_react = e;
@@ -99,11 +100,11 @@ class Charts extends Component {
 
 Charts.defaultProps = {
   config: {
-    url: "",
+    url: '',
     params: {
       cache: 10,
-      tstart: "",
-      tend: ""
+      tstart: '',
+      tend: ''
     }
   }
 };
