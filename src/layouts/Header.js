@@ -54,10 +54,10 @@ class HeaderView extends PureComponent {
   };
 
   handleMenuClick = ({ key }) => {
-    // if (key === 'userCenter') {
-    //   router.push('/account/center');
-    //   return;
-    // }
+    if (key === 'userCenter') {
+      router.push('/account/center');
+      return;
+    }
     if (key === 'userinfo') {
       router.push('/account/settings/base');
       return;

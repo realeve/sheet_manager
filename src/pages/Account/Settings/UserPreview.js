@@ -1,20 +1,22 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, Spin } from 'antd';
 import styles from './UserPreview.less';
 
 const { Meta } = Card;
 
-export default function UserPreview({ avatar, dept_name, fullname }) {
+export default function UserPreview({ style, avatar, dept_name, fullname }) {
+  const loading = !!!avatar;
   return (
-    <div>
-      <h3>用户预览</h3>
-      <Card
-        className={styles.user_preview}
-        hoverable
-        style={{ width: 240 }}
-        cover={<img alt={fullname} src={avatar} />}>
+    <Card
+      className={styles.user_preview}
+      hoverable
+      style={style}
+      cover={<img alt={fullname} src={avatar} />}>
+      {loading ? (
+        <Spin size="large" />
+      ) : (
         <Meta title={fullname} description={dept_name} />
-      </Card>
-    </div>
+      )}
+    </Card>
   );
 }

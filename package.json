@@ -2,7 +2,9 @@
     "private": true,
     "scripts": {
         "start": "cross-env APP_TYPE=site umi dev",
-        "build": "umi build"
+        "build": "umi build",
+        "lite": "cross-env BUILD_TYPE=lite umi dev",
+        "liteapp": "cross-env BUILD_TYPE=lite umi build"
     },
     "dependencies": {
         "ant-design-pro": "^2.0.0",
@@ -44,6 +46,7 @@
     "devDependencies": {
         "antd-pro-theme-webpack-plugin": "^1.1.8",
         "babel-eslint": "^10.0.1",
+        "cross-env": "^5.2.0",
         "dva-core": "^1.4.0",
         "eslint": "^4.14.0",
         "eslint-config-umi": "^0.1.1",

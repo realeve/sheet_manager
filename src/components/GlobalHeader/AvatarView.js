@@ -9,15 +9,19 @@ function AvatarView({ userSetting, onMenuClick }) {
   if (!userSetting.fullname) {
     return <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />;
   }
+  const FULL_MODE = BUILD_TYPE !== 'lite';
+
   const menu = (
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-      {/* <Menu.Item key="userCenter">
-        <Icon type="user" />
-        <FormattedMessage
-          id="menu.account.center"
-          defaultMessage="account center"
-        />
-      </Menu.Item> */}
+      {FULL_MODE && (
+        <Menu.Item key="userCenter">
+          <Icon type="user" />
+          <FormattedMessage
+            id="menu.account.center"
+            defaultMessage="account center"
+          />
+        </Menu.Item>
+      )}
       <Menu.Item key="userinfo">
         <Icon type="setting" />
         <FormattedMessage

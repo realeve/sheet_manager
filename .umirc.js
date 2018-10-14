@@ -1,7 +1,8 @@
 // https://umijs.org/config/
-import os from 'os';
+
 import pageRoutes from './config/router.config';
 import defaultSettings from './src/defaultSettings';
+console.log(defaultSettings.primaryColor);
 export default {
   plugins: [
     [
@@ -33,7 +34,8 @@ export default {
     ]
   ],
   define: {
-    APP_TYPE: process.env.APP_TYPE || ''
+    APP_TYPE: process.env.APP_TYPE || '',
+    BUILD_TYPE: process.env.BUILD_TYPE || 'full'
   },
   // 路由配置
   routes: pageRoutes,

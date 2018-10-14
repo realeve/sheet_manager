@@ -59,10 +59,9 @@ export default class GlobalHeaderRight extends PureComponent {
 
   render() {
     const {
-      // currentUser,
-      // fetchingNotices,
-      // onNoticeVisibleChange,
-      // onNoticeClear,
+      fetchingNotices,
+      onNoticeVisibleChange,
+      onNoticeClear,
       theme,
       userSetting,
       onMenuClick
@@ -73,19 +72,30 @@ export default class GlobalHeaderRight extends PureComponent {
     if (theme === 'dark') {
       className = `${styles.right}  ${styles.dark}`;
     }
+
+    /**
+     * 是否以完整版打包发布
+     * 精简版在header不包含全局搜索，不含质量/生产相关的其它消息提示功能。
+     * */
+    const FULL_MODE = BUILD_TYPE !== 'lite';
+
     return (
       <div className={className}>
-        {/* <HeaderSearch
-          className={`${styles.action} ${styles.search}`}
-          defaultOpen={true}
-          placeholder={formatMessage({ id: 'component.globalHeader.search' })}
-          onSearch={value => {
-            console.log('input', value); // eslint-disable-line
-          }}
-          onPressEnter={value => {
-            console.log('enter', value); // eslint-disable-line
-          }}
-        /> */}
+        {FULL_MODE && (
+          <HeaderSearch
+            className={`${styles.action} ${styles.search}`}
+            defaultOpen={true}
+            placeholder={formatMessage({
+              id: 'component.globalHeader.search'
+            })}
+            onSearch={value => {
+              console.log('input', value); // eslint-disable-line
+            }}
+            onPressEnter={value => {
+              console.log('enter', value); // eslint-disable-line
+            }}
+          />
+        )}
         <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
           <a
             target="_blank"
@@ -96,41 +106,45 @@ export default class GlobalHeaderRight extends PureComponent {
             <Icon type="question-circle-o" />
           </a>
         </Tooltip>
-        {/* <NoticeIcon
-          className={styles.action}
-          count={currentUser.notifyCount}
-          onItemClick={(item, tabProps) => {
-            console.log(item, tabProps); // eslint-disable-line
-          }}
-          onClear={onNoticeClear}
-          onPopupVisibleChange={onNoticeVisibleChange}
-          loading={fetchingNotices}
-          popupAlign={{ offset: [20, -16] }}>
-          <NoticeIcon.Tab
-            list={noticeData.notification}
-            title={formatMessage({ id: 'component.globalHeader.notification' })}
-            emptyText={formatMessage({
-              id: 'component.globalHeader.notification.empty'
-            })}
-            emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
-          />
-          <NoticeIcon.Tab
-            list={noticeData.message}
-            title={formatMessage({ id: 'component.globalHeader.message' })}
-            emptyText={formatMessage({
-              id: 'component.globalHeader.message.empty'
-            })}
-            emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
-          />
-          <NoticeIcon.Tab
-            list={noticeData.event}
-            title={formatMessage({ id: 'component.globalHeader.event' })}
-            emptyText={formatMessage({
-              id: 'component.globalHeader.event.empty'
-            })}
-            emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
-          />
-        </NoticeIcon> */}
+        {FULL_MODE && (
+          <NoticeIcon
+            className={styles.action}
+            // count={currentUser.notifyCount}
+            onItemClick={(item, tabProps) => {
+              console.log(item, tabProps); // eslint-disable-line
+            }}
+            onClear={onNoticeClear}
+            onPopupVisibleChange={onNoticeVisibleChange}
+            loading={fetchingNotices}
+            popupAlign={{ offset: [20, -16] }}>
+            <NoticeIcon.Tab
+              list={noticeData.notification}
+              title={formatMessage({
+                id: 'component.globalHeader.notification'
+              })}
+              emptyText={formatMessage({
+                id: 'component.globalHeader.notification.empty'
+              })}
+              emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
+            />
+            <NoticeIcon.Tab
+              list={noticeData.message}
+              title={formatMessage({ id: 'component.globalHeader.message' })}
+              emptyText={formatMessage({
+                id: 'component.globalHeader.message.empty'
+              })}
+              emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
+            />
+            <NoticeIcon.Tab
+              list={noticeData.event}
+              title={formatMessage({ id: 'component.globalHeader.event' })}
+              emptyText={formatMessage({
+                id: 'component.globalHeader.event.empty'
+              })}
+              emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
+            />
+          </NoticeIcon>
+        )}
         <AvatarView onMenuClick={onMenuClick} userSetting={userSetting} />
         <Button
           size="small"
