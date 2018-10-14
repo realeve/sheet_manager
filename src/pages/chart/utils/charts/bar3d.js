@@ -86,12 +86,36 @@ let bar3d = config => {
     '#d73027',
     '#a50026'
   ];
+  let axisSetting = {
+    axisLine: {
+      lineStyle: {
+        color: '#aaa',
+        width: 2
+      }
+    },
+    boundaryGap: true,
+    nameTextStyle: {
+      fontSize: 16,
+      color: '#555'
+    },
+    axisLabel: {
+      textStyle: {
+        color: '#222'
+      }
+    },
+    splitLine: {
+      show: true
+    },
+    splitArea: {
+      show: false
+    }
+  };
   return {
     tooltip: {},
     visualMap: {
       max,
       inRange: {
-        color: theme.color //themeColor.COLOR_PLATE_24 //.getColor(config.xAxis.length, type)
+        color //: theme.color //themeColor.COLOR_PLATE_24 //.getColor(config.xAxis.length, type)
       },
       show: false
     },
@@ -108,14 +132,14 @@ let bar3d = config => {
     xAxis3D: {
       type: config.xAxisType,
       data: config.xAxis,
-      boundaryGap: true
+      ...axisSetting
     },
     yAxis3D: {
       type: config.yAxisType,
       data: config.yAxis,
-      boundaryGap: true
+      ...axisSetting
     },
-    zAxis3D: {},
+    zAxis3D: { ...axisSetting },
     series: [
       {
         type,
@@ -125,26 +149,12 @@ let bar3d = config => {
         }),
         scatterSize: 40,
         shading: ['color', 'lambert', 'realistic'][1],
-        label: {
-          show: false,
-          textStyle: {
-            fontSize: 16,
-            borderWidth: 1
-          }
-        },
         itemStyle: {
           opacity: 0.65
         },
         emphasis: {
-          label: {
-            textStyle: {
-              fontSize: 20,
-              color: '#900'
-            }
-          },
           itemStyle: {
             opacity: 0.9
-            // color: '#900'
           }
         }
       }
