@@ -10,9 +10,9 @@ import UserPreview from '../Settings/UserPreview';
   userSetting
 }))
 class Center extends PureComponent {
-  componentDidMount() {
-    const { dispatch } = this.props;
-  }
+  // componentDidMount() {
+  //   const { dispatch } = this.props;
+  // }
 
   onTabChange = key => {
     const { match } = this.props;
