@@ -34,6 +34,11 @@ let chartConfig = [
     key: 'z',
     title: 'Z轴在数据的索引或键值',
     default: 2
+  },
+  {
+    key: 'shading',
+    title: '渲染模式',
+    default: '0:color;1:lambert, 2:realistic'
   }
 ];
 
@@ -43,7 +48,8 @@ let getOption = config => {
     {
       x: 0,
       y: 1,
-      z: 2
+      z: 2,
+      shading: 0
     },
     option
   );
@@ -148,7 +154,7 @@ let bar3d = config => {
           data: data
         }),
         scatterSize: 40,
-        shading: ['color', 'lambert', 'realistic'][1],
+        shading: ['color', 'lambert', 'realistic'][config.shading],
         itemStyle: {
           opacity: 0.65
         },

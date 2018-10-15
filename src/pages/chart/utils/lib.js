@@ -329,11 +329,12 @@ let getRenderer = params =>
     : 'svg';
 
 let getChartHeight = (params, { series }) => {
-  let height = ['sunburst', 'sankey', 'paralell', ...chartGL].includes(
-    params.type
-  )
+  // , ...chartGL
+  let height = ['sunburst', 'sankey', 'paralell'].includes(params.type)
     ? '900px'
-    : '500px';
+    : chartGL.includes(params.type)
+      ? '700px'
+      : '500px';
   if (params.type === 'calendar') {
     if (!R.isNil(series)) {
       height = 100 + series.length * (6 * params.size + 70) + 'px';
