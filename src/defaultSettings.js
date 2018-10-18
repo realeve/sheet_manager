@@ -33,13 +33,13 @@ const colorList = [
   },
   {
     key: 'dark green',
-    color: '##1DA57A'
+    color: '#1DA57A'
   }
 ];
 
 module.exports = {
   navTheme: 'dark', // theme for nav menu
-  primaryColor: colorList[4].color, //'#1DA57A', //'#1890FF', // primary color of ant design
+  primaryColor: colorList[8].color, //'#1DA57A', //'#1890FF', // primary color of ant design
   layout: 'sidemenu', // nav menu position: sidemenu or topmenu
   contentWidth: 'Fluid', // layout of content: Fluid or Fixed, only works when layout is topmenu
   fixedHeader: false, // sticky header

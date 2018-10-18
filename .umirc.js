@@ -2,7 +2,7 @@
 
 import pageRoutes from './config/router.config';
 import defaultSettings from './src/defaultSettings';
-console.log(defaultSettings.primaryColor);
+
 export default {
   plugins: [
     [

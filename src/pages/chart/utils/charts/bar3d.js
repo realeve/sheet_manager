@@ -1,7 +1,7 @@
 import util from '../lib';
 import jStat from 'jStat';
 // import themeColor from '../themeColor';
-import theme from './theme';
+// import theme from './theme';
 const R = require('ramda');
 
 let chartConfig = [

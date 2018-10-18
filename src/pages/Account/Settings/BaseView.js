@@ -144,7 +144,10 @@ class BaseView extends Component {
         </div>
         <div className={styles.right}>
           <AvatarView avatar={avatar} />
-          <UserPreview {...{ avatar, dept_name, fullname }} />
+          <UserPreview
+            {...{ avatar, dept_name, fullname }}
+            style={{ maxHeight: 300, marginLeft: 20 }}
+          />
         </div>
       </div>
     );

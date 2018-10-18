@@ -1,5 +1,6 @@
 import { axios } from '@/utils/axios';
 import userTool from '@/utils/users';
+import * as util from '@/utils/setting';
 
 /**
 *   @database: { 接口管理 }
@@ -148,3 +149,10 @@ export const setSysUserActive = async params =>
     url: '/35/8c99b29613.json',
     params
   }).then(res => res);
+
+export const uploadFile = async data =>
+  await axios({
+    method: 'post',
+    url: util.uploadHost,
+    data
+  });
