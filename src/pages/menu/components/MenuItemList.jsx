@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { Input, Button, Popconfirm, Icon, notification } from "antd";
+import React, { Component } from 'react';
+import { Input, Button, Popconfirm, Icon, notification } from 'antd';
 
-import SortableTree from "react-sortable-tree";
-import "react-sortable-tree/style.css";
-import FileExplorerTheme from "react-sortable-tree-theme-minimal";
-import * as treeUtil from "./tree-data-utils";
+import SortableTree from 'react-sortable-tree';
+import 'react-sortable-tree/style.css';
+import FileExplorerTheme from 'react-sortable-tree-theme-minimal';
+import * as treeUtil from './tree-data-utils';
 
-import * as db from "../service";
-import styles from "../index.less";
-import MenuItem from "./MenuItem.jsx";
+import * as db from '../service';
+import styles from '../index.less';
+import MenuItem from './MenuItem.jsx';
 
 const Search = Input.Search;
-const R = require("ramda");
+const R = require('ramda');
 
 class MenuItemList extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class MenuItemList extends Component {
       treeDataLeft: [],
       shouldCopyOnOutsideDrop: false,
       menuList: [],
-      searchValue: "",
+      searchValue: '',
       externalNodeType: props.externalNodeType,
       showMenuItem: false,
       editMode: false,
@@ -50,10 +50,12 @@ class MenuItemList extends Component {
       });
       return;
     }
-
-    let treeDataLeft = R.filter(({ title }) => title.includes(searchValue))(
-      menuList
-    );
+    let treeDataLeft = R.filter(
+      ({ title, pinyin, pinyin_full }) =>
+        pinyin.includes(searchValue) ||
+        pinyin_full.includes(searchValue) ||
+        title.includes(searchValue)
+    )(menuList);
     this.setState({ treeDataLeft });
   };
 
@@ -80,8 +82,8 @@ class MenuItemList extends Component {
 
     this.setState({ treeDataLeft });
     notification.success({
-      message: "系统提示",
-      description: "菜单项删除成功."
+      message: '系统提示',
+      description: '菜单项删除成功.'
     });
   };
 
@@ -118,8 +120,8 @@ class MenuItemList extends Component {
   noticeError = () => {
     // 数据插入失败
     notification.error({
-      message: "系统提示",
-      description: "菜单项调整失败，请稍后重试."
+      message: '系统提示',
+      description: '菜单项调整失败，请稍后重试.'
     });
   };
 
@@ -152,7 +154,7 @@ class MenuItemList extends Component {
       });
       treeDataLeft = treeData;
     } else {
-      let params = R.pick("icon,title,url,pinyin,pinyin_full".split(","))(
+      let params = R.pick('icon,title,url,pinyin,pinyin_full'.split(','))(
         menuItem
       );
       params._id = menuItem.id;
@@ -171,8 +173,8 @@ class MenuItemList extends Component {
     }
 
     notification.success({
-      message: "系统提示",
-      description: "菜单项调整成功."
+      message: '系统提示',
+      description: '菜单项调整成功.'
     });
     //更新完毕后刷新相关状态的数据
     this.setState({
@@ -215,10 +217,9 @@ class MenuItemList extends Component {
                   okText="是"
                   cancelText="否"
                   icon={
-                    <Icon type="question-circle-o" style={{ color: "red" }} />
+                    <Icon type="question-circle-o" style={{ color: 'red' }} />
                   }
-                  onConfirm={() => this.removeMenuItem(treeItem)}
-                >
+                  onConfirm={() => this.removeMenuItem(treeItem)}>
                   <Button size="small" title="删除" icon="delete" />
                 </Popconfirm>
               ]
@@ -231,9 +232,9 @@ class MenuItemList extends Component {
 
     if (!editMode) {
       menuItem = {
-        title: "",
-        url: "",
-        icon: ""
+        title: '',
+        url: '',
+        icon: ''
       };
     }
 
@@ -251,7 +252,7 @@ class MenuItemList extends Component {
         <div className={styles.action}>
           <Search
             prefix={<Icon type="search" />}
-            placeholder="搜索菜单项"
+            placeholder="搜索菜单项(支持拼音检索)"
             defaultValue={searchValue}
             onChange={this.searchChange}
             onSearch={this.addMenuItem}
@@ -265,7 +266,7 @@ class MenuItemList extends Component {
 }
 
 MenuItemList.defaultProps = {
-  externalNodeType: "shareNodeType"
+  externalNodeType: 'shareNodeType'
 };
 
 export default MenuItemList;
