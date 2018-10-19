@@ -17,4 +17,15 @@ const getFlatMenuKeys = menuData => {
 const getCurKey = breadcrumbList =>
   breadcrumbList.map(({ title }) => title).join('/');
 
-export { getFlatMenuKeys, getCurKey };
+const getFlatMenu = menuData => {
+  let menus = [];
+  menuData.forEach(item => {
+    if (item.children) {
+      menus = menus.concat(getFlatMenu(item.children));
+    }
+    menus.push(item);
+  });
+  return menus;
+};
+
+export { getFlatMenuKeys, getFlatMenu, getCurKey };

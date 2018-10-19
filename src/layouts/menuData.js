@@ -1,17 +1,21 @@
 const R = require('ramda');
 let mapStateToProps = props =>
-  props.map(({ icon, title: name, url: path, children }) => {
-    let obj = {
-      icon,
-      name,
-      path,
-      exact: true
-    };
-    if (children) {
-      obj.children = mapStateToProps(children);
+  props.map(
+    ({ icon, title: name, url: path, children, pinyin, pinyin_full }) => {
+      let obj = {
+        icon,
+        name,
+        path,
+        exact: true,
+        pinyin,
+        pinyin_full
+      };
+      if (children) {
+        obj.children = mapStateToProps(children);
+      }
+      return obj;
     }
-    return obj;
-  });
+  );
 
 const getMenuData = props => {
   let data = mapStateToProps(props);

@@ -5,15 +5,18 @@ import Link from 'umi/link';
 import styles from './index.less';
 import BaseMenu from './BaseMenu';
 import * as setting from '@/utils/setting';
-import { getFlatMenuKeys, getCurKey } from './util';
+import { getFlatMenuKeys, getCurKey, getFlatMenu } from './util';
 import { urlToList } from '../_utils/pathTools';
+import MenuSearch from '@/components/HeaderSearch/menu';
+import router from 'umi/router';
 const { Sider } = Layout;
 const R = require('ramda');
+
 /**
  * 获得菜单子节点
  * @memberof SiderMenu
  */
-const getDefaultCollapsedSubMenus = ({ breadcrumbList }) => {
+const getDefaultCollapsedSubMenus = ({ breadcrumbList, menuData }) => {
   let selectedKeys = getCurKey(breadcrumbList);
   return {
     selectedKeys: [selectedKeys],
@@ -23,7 +26,9 @@ const getDefaultCollapsedSubMenus = ({ breadcrumbList }) => {
       R.tail,
       R.map(item => item.slice(1)),
       urlToList
-    )(selectedKeys)
+    )(selectedKeys),
+    menuData,
+    searchValue: ''
   };
 };
 
@@ -32,6 +37,7 @@ export default class SiderMenu extends PureComponent {
     super(props);
     this.flatMenuKeys = getFlatMenuKeys(props.menuData);
     this.state = getDefaultCollapsedSubMenus(props);
+    this.flatMenu = getFlatMenu(props.menuData);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -64,14 +70,62 @@ export default class SiderMenu extends PureComponent {
     });
   };
 
+  onSearch = value => {
+    let { menuData } = this.props;
+    const redirectRouter = func => {
+      this.timeout = setTimeout(() => {
+        func();
+      }, 800);
+    };
+
+    if (value.length === 0) {
+      this.setState({ menuData, searchValue: '' });
+      return;
+    }
+    let filterMenuData = R.filter(
+      ({ name, pinyin, pinyin_full }) =>
+        pinyin.includes(value) ||
+        pinyin_full.includes(value) ||
+        name.includes(value)
+    )(this.flatMenu);
+
+    if (filterMenuData.length === 1) {
+      const [{ path }] = filterMenuData;
+
+      if (path.length) {
+        if (path.includes('http://') || path.includes('https://')) {
+          redirectRouter(() => {
+            window.location.href = path;
+          });
+          return;
+        }
+        redirectRouter(() => {
+          router.push(path);
+        });
+      }
+    }
+
+    this.setState({
+      menuData: filterMenuData,
+      searchValue: value
+    });
+  };
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+  }
+
   render() {
     const { logo, collapsed, onCollapse, fixSiderbar, theme } = this.props;
-    const { selectedKeys, openKeys } = this.state;
+    const { selectedKeys, openKeys, searchValue } = this.state;
     const defaultProps = { selectedKeys, openKeys }; //collapsed ? {} : { selectedKeys, openKeys };
     const siderClassName = classNames(styles.sider, {
       [styles.fixSiderbar]: fixSiderbar,
       [styles.light]: theme === 'light'
     });
+
+    const { menuData, ...baseMenuDefaultProps } = this.props;
+
     return (
       <Sider
         trigger={null}
@@ -88,12 +142,21 @@ export default class SiderMenu extends PureComponent {
             <h1>{setting.systemName}</h1>
           </Link>
         </div>
+        <MenuSearch
+          theme={theme}
+          value={searchValue}
+          collapsed={collapsed}
+          onChange={this.onSearch}
+          placeholder="快速检索菜单"
+          style={{ marginTop: 5 }}
+        />
         <BaseMenu
-          {...this.props}
+          {...baseMenuDefaultProps}
+          menuData={this.state.menuData}
           mode="inline"
           handleOpenChange={this.handleOpenChange}
           onOpenChange={this.handleOpenChange}
-          style={{ padding: '16px 0', width: '100%' }}
+          style={{ padding: '10px 0 16px 0', width: '100%' }}
           {...defaultProps}
         />
       </Sider>
