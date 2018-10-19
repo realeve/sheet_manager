@@ -37,8 +37,11 @@ const getMenuData = ({ menu, previewMenu, location: { pathname } }) => {
 };
 
 const getBreadcrumbList = menuData => {
-  const { href, origin } = window.location;
-  const curMenu = href.replace(origin, '');
+  const { href, origin, search } = window.location;
+  let curMenu = href.replace(origin, '');
+  if (search.length) {
+    curMenu = curMenu.replace(search, '');
+  }
   return menuUtil.getBreadcrumbList(curMenu, menuData);
 };
 
@@ -268,7 +271,7 @@ class BasicLayout extends PureComponent {
 
     const layout = (
       <Layout>
-        {isTop && !isMobile ? null : (
+        {menuData.length === 0 || (isTop && !isMobile) ? null : (
           <SiderMenu
             logo={logo}
             theme={navTheme}

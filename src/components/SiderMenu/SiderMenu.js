@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
-import pathToRegexp from 'path-to-regexp';
 import classNames from 'classnames';
 import Link from 'umi/link';
 import styles from './index.less';
-import BaseMenu, { getMenuMatches } from './BaseMenu';
+import BaseMenu from './BaseMenu';
 import * as setting from '@/utils/setting';
 import { getFlatMenuKeys, getCurKey } from './util';
 import { urlToList } from '../_utils/pathTools';
@@ -68,12 +67,11 @@ export default class SiderMenu extends PureComponent {
   render() {
     const { logo, collapsed, onCollapse, fixSiderbar, theme } = this.props;
     const { selectedKeys, openKeys } = this.state;
-    const defaultProps = collapsed ? {} : { selectedKeys, openKeys };
+    const defaultProps = { selectedKeys, openKeys }; //collapsed ? {} : { selectedKeys, openKeys };
     const siderClassName = classNames(styles.sider, {
       [styles.fixSiderbar]: fixSiderbar,
       [styles.light]: theme === 'light'
     });
-
     return (
       <Sider
         trigger={null}
