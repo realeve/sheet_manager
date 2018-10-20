@@ -24,8 +24,9 @@ import menuUtil from './menuData';
 import ForOThree from '@/pages/403';
 import UnLogin from '@/pages/unlogin';
 
+import * as lib from '@/utils/lib';
+
 const { Content } = Layout;
-const systemName = '某数据系统';
 const R = require('ramda');
 
 const getMenuData = ({ menu, previewMenu, location: { pathname } }) => {
@@ -208,10 +209,10 @@ class BasicLayout extends PureComponent {
   getPageTitle = pathname => {
     const currRouterData = this.matchParamsPath(pathname);
     if (!currRouterData) {
-      return systemName;
+      return lib.systemName;
     }
 
-    return `${currRouterData.name} - ${systemName}`;
+    return `${currRouterData.name} - ${lib.systemName}`;
   };
 
   getLayoutStyle = () => {

@@ -27,9 +27,19 @@ export default {
           baseNavigator: false // default true, when it is true, will use `navigator.language` overwrite default
         },
         dynamicImport: {
+          webpackChunkName: true,
           loadingComponent: './components/PageLoading/Loading1.jsx'
         },
-        targets: ['ie11']
+        pwa: true,
+        fastClick: true,
+        targets: {
+          ie: 9,
+          chrome: 47,
+          firefox: 43,
+          safari: 9,
+          edge: 11,
+          ios: 9
+        }
       }
     ]
   ],
@@ -51,8 +61,7 @@ export default {
   manifest: {
     name: 'ant-design-pro',
     background_color: '#FFF',
-    description:
-      'An out-of-box UI solution for enterprise applications as a React boilerplate.',
+    description: '基于react的报表管理解决方案.',
     display: 'standalone',
     start_url: '/index.html',
     icons: [

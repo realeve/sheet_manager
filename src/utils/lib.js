@@ -11,6 +11,7 @@ const R = require('ramda');
 
 export const searchUrl = setting.searchUrl;
 export const imgUrl = setting.imgUrl;
+export const systemName = '某数据系统';
 
 export const apiHost = host;
 
