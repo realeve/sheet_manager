@@ -75,7 +75,7 @@ export default class SiderMenu extends PureComponent {
     const redirectRouter = func => {
       this.timeout = setTimeout(() => {
         func();
-      }, 800);
+      }, 500);
     };
 
     if (value.length === 0) {

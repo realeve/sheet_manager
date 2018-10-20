@@ -26,9 +26,25 @@
   }
 }
 
+@dark-text-color: #777;
 .dark {
   input {
-    color: rgba(255, 255, 255, 0.65);
+    color: @dark-text-color;
+    &::-webkit-input-placeholder {
+      color: @dark-text-color;
+    }
+  }
+  &,
+  &:hover,
+  &:focus {
+    border-bottom: 1px solid @dark-text-color;
+  }
+  &.show {
+    width: 95%;
+    margin-left: 8px;
+  }
+  :global(.ant-input-search-icon) {
+    color: @dark-text-color;
   }
 }
 
