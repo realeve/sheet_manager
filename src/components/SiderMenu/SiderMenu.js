@@ -42,7 +42,10 @@ export default class SiderMenu extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     const { pathname } = state;
-    if (props.location.pathname !== pathname) {
+    if (
+      props.location.pathname !== pathname ||
+      !R.equals(props.menuData, state.menuData)
+    ) {
       let nextState = getDefaultCollapsedSubMenus(props);
       return {
         pathname: props.location.pathname,
