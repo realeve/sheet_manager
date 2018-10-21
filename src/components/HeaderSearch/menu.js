@@ -4,7 +4,7 @@ import { Input } from 'antd';
 import classNames from 'classnames';
 import styles from './index.less';
 
-export default class HeaderSearch extends PureComponent {
+export default class MenuSearch extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     placeholder: PropTypes.string,

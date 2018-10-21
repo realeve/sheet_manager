@@ -1,11 +1,13 @@
-import React, { Component } from "react";
-import { connect } from "dva";
-import { Row, Col, Card } from "antd";
+import React, { Component } from 'react';
+import { connect } from 'dva';
+import { Row, Col, Card, Button } from 'antd';
 
-import MenuItemList from "./components/MenuItemList.jsx";
-import MenuPreview from "./components/MenuPreview.jsx";
-import MenuList from "./components/MenuList.jsx";
-import * as db from "./service";
+import MenuItemList from './components/MenuItemList.jsx';
+import MenuPreview from './components/MenuPreview.jsx';
+import MenuList from './components/MenuList.jsx';
+import ChartLink from '@/components/ChartLink';
+import * as db from './service';
+import styles from './index.less';
 
 class VTree extends Component {
   constructor(props) {
@@ -14,7 +16,8 @@ class VTree extends Component {
       menuDetail: [],
       editMode: false,
       uid: props.uid,
-      menuList: []
+      menuList: [],
+      visible: false
     };
   }
 
@@ -34,9 +37,9 @@ class VTree extends Component {
   };
 
   editMenu = async (menuDetail, mode) => {
-    if (mode === "edit") {
+    if (mode === 'edit') {
       this.setState({ menuDetail, editMode: true });
-    } else if (mode === "del") {
+    } else if (mode === 'del') {
       this.reset();
     }
   };
@@ -45,7 +48,7 @@ class VTree extends Component {
     this.setState({
       editMode: false,
       menuDetail: {
-        title: "",
+        title: '',
         detail: [],
         id: 0
       }
@@ -53,9 +56,15 @@ class VTree extends Component {
     this.initData();
   };
 
+  showCartLink = () => {
+    this.setState({
+      visible: true
+    });
+  };
+
   render() {
-    const externalNodeType = "shareNodeType";
-    const { menuDetail, editMode } = this.state;
+    const externalNodeType = 'shareNodeType';
+    const { menuDetail, editMode, visible } = this.state;
     return (
       <Card title="菜单设置">
         <Row>
@@ -79,6 +88,17 @@ class VTree extends Component {
             />
           </Col>
         </Row>
+        <div className={styles.actions}>
+          <Button onClick={this.showCartLink} type="primary">
+            图表链接生成
+          </Button>
+          <ChartLink
+            visible={visible}
+            onToggle={() => {
+              this.setState({ visible: false });
+            }}
+          />
+        </div>
       </Card>
     );
   }

@@ -44,6 +44,7 @@ export default class HeaderSearch extends PureComponent {
       searchMode: props.defaultOpen,
       value: ''
     };
+    this.input = React.createRef();
   }
 
   componentWillUnmount() {

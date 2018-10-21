@@ -195,7 +195,9 @@ class MenuItemList extends Component {
       treeDataLeft.length === 0 ? (
         <div className={styles.notSearch}>未搜索到菜单项</div>
       ) : (
-        <div style={{ height: 500 }} className={styles.container}>
+        <div
+          style={{ height: 500, marginRight: 20 }}
+          className={styles.container}>
           <SortableTree
             treeData={treeDataLeft}
             onChange={() => {}}

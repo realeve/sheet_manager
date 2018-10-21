@@ -35,10 +35,6 @@ class BaseView extends Component {
     });
   };
 
-  getViewDom = ref => {
-    this.view = ref;
-  };
-
   getDeptId = () => {
     const {
       userSetting: { dept_name }
@@ -87,7 +83,7 @@ class BaseView extends Component {
     const { depts, submitting } = this.state;
     const dept_id = this.getDeptId();
     return (
-      <div className={styles.baseView} ref={this.getViewDom}>
+      <div className={styles.baseView}>
         <div className={styles.left}>
           <Form layout="vertical">
             <FormItem
