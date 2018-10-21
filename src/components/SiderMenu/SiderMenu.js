@@ -27,8 +27,7 @@ const getDefaultCollapsedSubMenus = ({ breadcrumbList, menuData }) => {
       R.map(item => item.slice(1)),
       urlToList
     )(selectedKeys),
-    menuData,
-    searchValue: ''
+    menuData
   };
 };
 
@@ -36,20 +35,28 @@ export default class SiderMenu extends PureComponent {
   constructor(props) {
     super(props);
     this.flatMenuKeys = getFlatMenuKeys(props.menuData);
-    this.state = getDefaultCollapsedSubMenus(props);
+    const defaultState = getDefaultCollapsedSubMenus(props);
+    this.state = {
+      ...defaultState,
+      searchValue: ''
+    };
     this.flatMenu = getFlatMenu(props.menuData);
   }
 
   static getDerivedStateFromProps(props, state) {
     const { pathname } = state;
-    if (
-      props.location.pathname !== pathname ||
-      !R.equals(props.menuData, state.menuData)
-    ) {
+    if (!R.equals(props.menuData, state.menuData)) {
       let nextState = getDefaultCollapsedSubMenus(props);
       return {
         pathname: props.location.pathname,
         ...nextState
+      };
+    } else if (props.location.pathname !== pathname) {
+      let nextState = getDefaultCollapsedSubMenus(props);
+      return {
+        pathname: props.location.pathname,
+        ...nextState,
+        searchValue: ''
       };
     }
     return null;
@@ -73,14 +80,14 @@ export default class SiderMenu extends PureComponent {
     });
   };
 
-  onSearch = value => {
+  onSearch = ({ target: { value } }) => {
+    value = value.toLowerCase();
     let { menuData } = this.props;
     const redirectRouter = func => {
       this.timeout = setTimeout(() => {
         func();
       }, 500);
     };
-
     if (value.length === 0) {
       this.setState({ menuData, searchValue: '' });
       return;

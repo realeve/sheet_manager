@@ -8,54 +8,34 @@ export default class MenuSearch extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     placeholder: PropTypes.string,
-    onSearch: PropTypes.func
+    onSearch: PropTypes.func,
+    value: PropTypes.string
   };
 
   static defaultProps = {
     onSearch: () => {},
     className: '',
-    placeholder: ''
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: props.value
-    };
-  }
-
-  static getDerivedStateFromProps({ value }, state) {
-    if (value !== state.value) {
-      return {
-        value
-      };
-    }
-    return null;
-  }
-
-  onChange = ({ target: { value } }) => {
-    const { onChange } = this.props;
-    value = value.toLowerCase();
-    this.setState({ value });
-    if (onChange) {
-      onChange(value);
-    }
+    placeholder: '',
+    value: ''
   };
 
   render() {
-    const { placeholder, collapsed, style, theme } = this.props;
-    const { value } = this.state;
+    const {
+      placeholder,
+      collapsed,
+      style,
+      theme,
+      onChange,
+      value
+    } = this.props;
     const inputClass = classNames(styles[theme], {
       [styles.show]: !collapsed
     });
     return (
       <div className={inputClass} style={style}>
         <Input.Search
-          ref={node => {
-            this.input = node;
-          }}
           value={value}
-          onChange={this.onChange}
+          onChange={onChange}
           aria-label={placeholder}
           placeholder={placeholder}
         />
