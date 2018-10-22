@@ -74,7 +74,12 @@ let chartConfig = [
   },
   {
     key: 'zoom',
-    title: '是否显示缩放条',
+    title: '是否显示横向缩放条',
+    default: 0
+  },
+  {
+    key: 'zoom',
+    title: '是否显示纵向缩放条',
     default: 0
   },
   {
@@ -190,7 +195,7 @@ let symbol = {
   roundAngle: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z'
 };
 
-let getOption = options => {
+let getOption = (options) => {
   let option;
   switch (options.data.header.length) {
     case 3:
@@ -216,7 +221,7 @@ let getOption = options => {
     },
     options
   );
-  R.forEach(key => (option[key] = parseInt(option[key], 10)))([
+  R.forEach((key) => (option[key] = parseInt(option[key], 10)))([
     'x',
     'y',
     'legend'
@@ -239,9 +244,9 @@ let handleDataWithLegend = (srcData, option) => {
     data
   });
 
-  let getSeriesData = name => {
+  let getSeriesData = (name) => {
     let dataList = R.filter(R.propEq(header[option.legend], name))(data);
-    let seriesData = R.map(item => {
+    let seriesData = R.map((item) => {
       let temp = R.find(R.propEq(header[option.x], item))(dataList);
       return R.isNil(temp) ? '-' : R.prop(header[option.y])(temp);
     })(xAxis);
@@ -266,7 +271,7 @@ let handleDataNoLegend = (srcData, option) => {
   let { xAxis, xAxisType } = util.getAxis(srcData, option.x);
 
   let getSeriesData = () => {
-    let seriesData = R.map(item =>
+    let seriesData = R.map((item) =>
       R.compose(
         R.nth(option.y),
         R.find(R.propEq(option.x, item))
@@ -293,7 +298,7 @@ let handleData = (srcData, option) => {
   return handleDataNoLegend(srcData, option);
 };
 
-let handleSeriesItem = option => seriesItem => {
+let handleSeriesItem = (option) => (seriesItem) => {
   if (option.area && option.type !== 'bar') {
     seriesItem.areaStyle = {
       normal: {
@@ -342,8 +347,8 @@ let handleSeriesItem = option => seriesItem => {
 };
 
 // 堆叠百分比处理
-let handlePercentSeries = series => {
-  const handleItem = item => {
+let handlePercentSeries = (series) => {
+  const handleItem = (item) => {
     item = parseFloat(item);
     item = R.isNil(item) ? 0 : item;
     return item;
@@ -388,7 +393,7 @@ let handleMarkLine = (series, options) => {
       label: {
         normal: {
           show: true,
-          formatter: params => (marktext[i] ? marktext[i] : params.value)
+          formatter: (params) => (marktext[i] ? marktext[i] : params.value)
         }
       }
     };
@@ -419,7 +424,7 @@ let handleMarkArea = (series, options) => {
   markareatext = markareatext ? markareatext.split(',') : [];
 
   let data = markarea.map((item, i) => {
-    let yAxis = item.split('-').map(value => parseFloat(value));
+    let yAxis = item.split('-').map((value) => parseFloat(value));
     let color = util.hex2rgb(theme.color[i % theme.color.length]);
     color = `rgba(${color},0.2)`;
 
@@ -456,10 +461,10 @@ let handleMarkArea = (series, options) => {
   return series;
 };
 
-let handleBarshadow = series => {
+let handleBarshadow = (series) => {
   let { data, barMaxWidth } = series[0];
   let max = jStat.max(data);
-  data = data.map(item => max);
+  data = data.map((item) => max);
   series[0].z = 10;
   let seriesItem = {
     type: 'bar',
@@ -480,7 +485,7 @@ let handleBarshadow = series => {
   return series;
 };
 
-let getChartConfig = options => {
+let getChartConfig = (options) => {
   let option = getOption(options);
   let { data } = options;
   let { header } = data;
@@ -586,7 +591,7 @@ let getChartConfig = options => {
   };
 };
 
-let initDefaultOption = options => {
+let initDefaultOption = (options) => {
   let option = {
     type: options.type || 'bar',
     scattersize: options.scattersize || 20,
@@ -595,6 +600,7 @@ let initDefaultOption = options => {
     stack: options.stack === '1' ? true : false,
     area: options.area === '1' ? true : false,
     zoom: options.zoom === '1' ? true : false,
+    zoomv: options.zoomv === '1' ? true : false,
     reverse: options.reverse === '1' ? true : false,
     pareto: options.pareto === '1' ? true : false,
     barshadow: options.barshadow === '1' ? true : false,
@@ -642,7 +648,7 @@ const handleReverse = (config, option) => {
   if (config.type === 'boxplot') {
     option.series.forEach((item, i) => {
       if (item.type === 'scatter') {
-        option.series[i].data = option.series[i].data.map(s => s.reverse());
+        option.series[i].data = option.series[i].data.map((s) => s.reverse());
       }
     });
   }
@@ -652,8 +658,8 @@ const handleReverse = (config, option) => {
     option.series.forEach((item, i) => {
       let markArea = option.series[i].markArea;
       if (markArea && markArea.data)
-        option.series[i].markArea.data = markArea.data.map(markData =>
-          markData.map(s => {
+        option.series[i].markArea.data = markArea.data.map((markData) =>
+          markData.map((s) => {
             if (s.yAxis) {
               s.xAxis = R.clone(s.yAxis);
               Reflect.deleteProperty(s, 'yAxis');
@@ -668,7 +674,7 @@ const handleReverse = (config, option) => {
     option.series.forEach((item, i) => {
       let markLine = option.series[i].markLine;
       if (markLine && markLine.data) {
-        option.series[i].markLine.data = markLine.data.map(s => {
+        option.series[i].markLine.data = markLine.data.map((s) => {
           if (s.yAxis) {
             s.xAxis = R.clone(s.yAxis);
             Reflect.deleteProperty(s, 'yAxis');
@@ -685,7 +691,7 @@ const handleReverse = (config, option) => {
 // http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2
 // test URL: http://localhost:8000/chart/133#type=bar&x=0&y=1&smooth=1&max=100&min=70
 // http://localhost:8000/chart/145#type=line&legend=0&x=1&y=2&smooth=1&max=100&min=70
-let bar = options => {
+let bar = (options) => {
   options = initDefaultOption(options);
   let option = getChartConfig(options);
 
@@ -713,6 +719,14 @@ let bar = options => {
       realtime: true,
       start: 0,
       end: 100
+    });
+  }
+
+  if (options.zoomv) {
+    option.dataZoom.push({
+      type: 'slider',
+      yAxisIndex: 0,
+      filterMode: 'empty'
     });
   }
 

@@ -24,7 +24,7 @@ const getDefaultCollapsedSubMenus = ({ breadcrumbList, menuData }) => {
       R.init,
       R.uniq,
       R.tail,
-      R.map(item => item.slice(1)),
+      R.map((item) => item.slice(1)),
       urlToList
     )(selectedKeys),
     menuData
@@ -45,26 +45,31 @@ export default class SiderMenu extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     const { pathname } = state;
+
     if (!R.equals(props.menuData, state.menuData)) {
       let nextState = getDefaultCollapsedSubMenus(props);
       return {
         pathname: props.location.pathname,
         ...nextState
       };
-    } else if (props.location.pathname !== pathname) {
+    } else if (
+      props.nextUrl !== state.nextUrl ||
+      props.location.pathname !== pathname
+    ) {
       let nextState = getDefaultCollapsedSubMenus(props);
       return {
         pathname: props.location.pathname,
         ...nextState,
-        searchValue: ''
+        searchValue: '',
+        nextUrl: props.nextUrl
       };
     }
     return null;
   }
 
-  isMainMenu = key => {
+  isMainMenu = (key) => {
     const { menuData } = this.props;
-    return menuData.some(item => {
+    return menuData.some((item) => {
       if (key) {
         return item.key === key || item.path === key;
       }
@@ -72,9 +77,9 @@ export default class SiderMenu extends PureComponent {
     });
   };
 
-  handleOpenChange = openKeys => {
+  handleOpenChange = (openKeys) => {
     const moreThanOne =
-      openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
+      openKeys.filter((openKey) => this.isMainMenu(openKey)).length > 1;
     this.setState({
       openKeys: moreThanOne ? [openKeys.pop()] : [...openKeys]
     });
@@ -83,7 +88,7 @@ export default class SiderMenu extends PureComponent {
   onSearch = ({ target: { value } }) => {
     value = value.toLowerCase();
     let { menuData } = this.props;
-    const redirectRouter = func => {
+    const redirectRouter = (func) => {
       this.timeout = setTimeout(() => {
         func();
       }, 500);

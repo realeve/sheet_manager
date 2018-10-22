@@ -5,11 +5,11 @@ const R = require('ramda');
 
 // let uniq = arr => Array.from(new Set(arr));
 
-let uniq = arr => R.uniq(arr);
+let uniq = (arr) => R.uniq(arr);
 
 let getCopyRight = () => {
   return {
-    text: '©xx有限公司 xx部',
+    text: '©成都印钞有限公司 印钞管理部',
     borderColor: '#999',
     borderWidth: 0,
     textStyle: {
@@ -39,15 +39,30 @@ let handleDefaultOption = (option, config) => {
     }
   });
 
+  let prefix = config.prefix || '',
+    suffix = config.suffix || '';
+  let defaultLegend = {
+    type: 'scroll',
+    width: 500,
+    align: 'right',
+    textStyle: {
+      color: '#666'
+    }
+  };
+
+  if (R.isNil(option.legend)) {
+    option.legend = defaultLegend;
+  }
+
   option = Object.assign(
     {
       toolbox,
       tooltip: {},
-      legend: {},
+      legend: defaultLegend,
       title: [
         {
           left: 'center',
-          text: config.data.title
+          text: prefix + config.data.title + suffix
         },
         {
           text: config.data.source,
@@ -107,7 +122,7 @@ let handleDefaultOption = (option, config) => {
 };
 
 // 字符串转日期
-let str2Date = str => {
+let str2Date = (str) => {
   let needConvert = /^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$|^[1-9]\d{3}(0[1-9]|1[0-2])$/.test(
     str
   );
@@ -121,7 +136,7 @@ let str2Date = str => {
   return dates.join('-');
 };
 
-let str2Num = str => {
+let str2Num = (str) => {
   if (/^(|\-)[0-9]+.[0-9]+$/.test(str)) {
     return parseFloat(parseFloat(str).toFixed(3));
   }
@@ -130,13 +145,13 @@ let str2Num = str => {
   }
 };
 
-let isDate = dateStr => {
+let isDate = (dateStr) => {
   return /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/.test(
     dateStr
   );
 };
 
-let needConvertDate = dateStr => {
+let needConvertDate = (dateStr) => {
   return /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$|^[1-9]\d{3}(0[1-9]|1[0-2])$/.test(
     dateStr
   );
@@ -315,20 +330,24 @@ function rgb2hex(rgbVal) {
   return rgbVal;
 }
 
-let getLegendData = legendData =>
-  legendData.map(name => ({
+let getLegendData = (legendData) =>
+  legendData.map((name) => ({
     name: String(name),
     icon: 'circle'
   }));
 
 let chartGL = ['bar3d', 'line3d', 'scatter3d', 'surface'];
 
-let getRenderer = params =>
-  ['paralell', ...chartGL].includes(params.type) || params.histogram
+let getRenderer = (params) =>
+  params.render ||
+  (['paralell', ...chartGL].includes(params.type) || params.histogram
     ? 'canvas'
-    : 'svg';
+    : 'svg');
 
 let getChartHeight = (params, { series }) => {
+  if (params.height) {
+    return params.height + 'px';
+  }
   // , ...chartGL
   let height = ['sunburst', 'sankey', 'paralell'].includes(params.type)
     ? '900px'

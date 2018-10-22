@@ -37,12 +37,14 @@ const getMenuData = ({ menu, previewMenu, location: { pathname } }) => {
   return menuUtil.getMenuData(previewMode ? previewMenu : menu);
 };
 
-const getBreadcrumbList = menuData => {
-  const { href, origin, search } = window.location;
+const getBreadcrumbList = (menuData) => {
+  const { href, origin } = window.location;
   let curMenu = href.replace(origin, '');
-  if (search.length) {
-    curMenu = curMenu.replace(search, '');
-  }
+  // console.log(curMenu);
+  // , search
+  // if (search.length) {
+  //   curMenu = curMenu.replace(search, '');
+  // }
   return menuUtil.getBreadcrumbList(curMenu, menuData);
 };
 
@@ -87,24 +89,33 @@ class BasicLayout extends PureComponent {
       menu,
       previewMenu,
       pathname: props.location.pathname,
-      breadcrumbList: getBreadcrumbList(menuData)
+      breadcrumbList: getBreadcrumbList(menuData),
+      nextUrl: ''
     };
   }
 
   static getDerivedStateFromProps(props, curState) {
     const { menu, previewMenu } = props;
+
+    const { href, origin } = window.location;
+    let nextUrl = href.replace(origin, '');
     if (
-      R.equals(menu, curState.menu) &&
-      R.equals(previewMenu, curState.previewMenu)
+      nextUrl !== curState.nextUrl ||
+      (R.equals(menu, curState.menu) &&
+        R.equals(previewMenu, curState.previewMenu))
     ) {
       let { pathname } = props.location;
-      if (R.equals(pathname, curState.pathname)) {
-        return null;
+      if (
+        nextUrl !== curState.nextUrl ||
+        !R.equals(pathname, curState.pathname)
+      ) {
+        return {
+          pathname,
+          nextUrl,
+          breadcrumbList: getBreadcrumbList(curState.menuData)
+        };
       }
-      return {
-        pathname,
-        breadcrumbList: getBreadcrumbList(curState.menuData)
-      };
+      return null;
     }
 
     const menuData = getMenuData(props);
@@ -146,7 +157,7 @@ class BasicLayout extends PureComponent {
       });
     });
 
-    this.enquireHandler = enquireScreen(mobile => {
+    this.enquireHandler = enquireScreen((mobile) => {
       const { isMobile } = this.state;
       if (isMobile !== mobile) {
         this.setState({
@@ -186,8 +197,8 @@ class BasicLayout extends PureComponent {
    */
   getBreadcrumbNameMap(menuData) {
     const routerMap = {};
-    const mergeMenuAndRouter = data => {
-      data.forEach(menuItem => {
+    const mergeMenuAndRouter = (data) => {
+      data.forEach((menuItem) => {
         if (menuItem.children) {
           mergeMenuAndRouter(menuItem.children);
         }
@@ -199,14 +210,14 @@ class BasicLayout extends PureComponent {
     return routerMap;
   }
 
-  matchParamsPath = pathname => {
-    const pathKey = Object.keys(this.breadcrumbNameMap).find(key =>
+  matchParamsPath = (pathname) => {
+    const pathKey = Object.keys(this.breadcrumbNameMap).find((key) =>
       pathToRegexp(key).test(pathname)
     );
     return this.breadcrumbNameMap[pathKey];
   };
 
-  getPageTitle = pathname => {
+  getPageTitle = (pathname) => {
     const currRouterData = this.matchParamsPath(pathname);
     if (!currRouterData) {
       return lib.systemName;
@@ -234,7 +245,7 @@ class BasicLayout extends PureComponent {
     };
   };
 
-  handleMenuCollapse = collapsed => {
+  handleMenuCollapse = (collapsed) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'global/changeLayoutCollapsed',
@@ -264,7 +275,7 @@ class BasicLayout extends PureComponent {
       user_type,
       isLogin
     } = this.props;
-    const { isMobile, menuData, breadcrumbList } = this.state;
+    const { isMobile, menuData, breadcrumbList, nextUrl } = this.state;
     const isTop = PropsLayout === 'topmenu';
 
     // 未登录，未在允许菜单列表中搜索到且用户身份类型>=4时，表示非法访问。
@@ -280,6 +291,7 @@ class BasicLayout extends PureComponent {
             menuData={menuData}
             isMobile={isMobile}
             breadcrumbList={breadcrumbList}
+            nextUrl={nextUrl}
             {...this.props}
           />
         )}
@@ -309,7 +321,7 @@ class BasicLayout extends PureComponent {
       <React.Fragment>
         <DocumentTitle title={this.getPageTitle(location.pathname)}>
           <ContainerQuery query={query}>
-            {params => (
+            {(params) => (
               <Context.Provider value={this.getContext()}>
                 <div className={classNames(params)}>{layout}</div>
               </Context.Provider>

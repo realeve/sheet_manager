@@ -15,6 +15,27 @@ import { chartConfig as heatmap } from './charts/heatmap';
 import { chartConfig as calendar } from './charts/calendar';
 import { chartConfig as bar3d } from './charts/bar3d';
 
+const commonConfig = [
+  {
+    key: 'prefix',
+    title: '前缀，该值作为参数请求API，同时将显示在标题的前面',
+    default: ''
+  },
+  {
+    key: 'suffix',
+    title: '后缀，该值作为参数请求API，同时将显示在标题的后面',
+    default: ''
+  },
+  {
+    key: 'height',
+    title: '图表高度,默认500'
+  },
+  {
+    key: 'render',
+    title: '渲染模式，当某些图表类型渲染异常时，建议改为canvas',
+    default: '系统根据图表类型默认自动选择，可选项为 canvas 或 svg'
+  }
+];
 const config = {
   bar: {
     name: '柱状图',
@@ -85,4 +106,8 @@ const config = {
     config: bar3d
   }
 };
-export default Object.keys(config).map(type => ({ type, ...config[type] }));
+export default Object.keys(config).map((type) => {
+  let item = config[type];
+  item.config = Object.assign({}, config, commonConfig);
+  return { type, ...item };
+});
