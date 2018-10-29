@@ -37,17 +37,29 @@ let chartConfig = [{
 const getCenterConfig = legendData => {
     let len = legendData.length;
     let center = [];
+    let titlePosition = []
     switch (len) {
         case 1:
             center = [
                 ['50%', '50%']
             ];
+            titlePosition = [{
+                x: '50%',
+                y: '0%'
+            }]
             break;
         case 2:
             center = [
                 ['25%', '50%'],
                 ['75%', '50%']
             ];
+            titlePosition = [{
+                x: '25%',
+                y: '30%'
+            }, {
+                x: '75%',
+                y: '30%'
+            }]
             break;
         case 3:
             center = [
@@ -55,6 +67,16 @@ const getCenterConfig = legendData => {
                 ['50%', '50%'],
                 ['80%', '50%']
             ];
+            titlePosition = [{
+                x: '20%',
+                y: '30%'
+            }, {
+                x: '50%',
+                y: '30%'
+            }, {
+                x: '80%',
+                y: '30%'
+            }]
             break;
         case 4:
             center = [
@@ -63,6 +85,19 @@ const getCenterConfig = legendData => {
                 ['25%', '75%'],
                 ['75%', '75%']
             ];
+            titlePosition = [{
+                x: '25%',
+                y: '5%'
+            }, {
+                x: '75%',
+                y: '5%'
+            }, {
+                x: '25%',
+                y: '55%'
+            }, {
+                x: '75%',
+                y: '55%'
+            }]
             break;
         case 5:
             center = [
@@ -72,6 +107,22 @@ const getCenterConfig = legendData => {
                 ['50%', '75%'],
                 ['80%', '75%']
             ];
+            titlePosition = [{
+                x: '25%',
+                y: '5%'
+            }, {
+                x: '75%',
+                y: '5%'
+            }, {
+                x: '20%',
+                y: '55%'
+            }, {
+                x: '50%',
+                y: '55%'
+            }, {
+                x: '80%',
+                y: '55%'
+            }]
             break;
         case 6:
             center = [
@@ -82,14 +133,40 @@ const getCenterConfig = legendData => {
                 ['50%', '75%'],
                 ['80%', '75%']
             ];
+            titlePosition = [{
+                x: '20%',
+                y: '5%'
+            }, {
+                x: '50%',
+                y: '5%'
+            }, {
+                x: '80%',
+                y: '5%'
+            }, {
+                x: '20%',
+                y: '55%'
+            }, {
+                x: '50%',
+                y: '55%'
+            }, {
+                x: '80%',
+                y: '55%'
+            }]
             break;
         default:
             center = [
                 ['50%', '50%']
             ];
+            titlePosition = [{
+                x: '50%',
+                y: '0%'
+            }]
             break;
     }
-    return center;
+    return {
+        center,
+        titlePosition
+    };
 }
 
 let getRadiusLength = legendData => {
@@ -140,6 +217,8 @@ let standardPie = ({
         },
     })
 
+    let title = util.getDefaultTitle(option, config);
+
 
     if (!R.isNil(option.legend)) {
         let legendData = util.getUniqByIdx({
@@ -147,11 +226,23 @@ let standardPie = ({
             data
         });
         let radiusLen = getRadiusLength(legendData);
-        let center = getCenterConfig(legendData);
-        series = legendData.map((name, i) => {
-            let sData = R.filter(R.propEq(header[option.legend], name))(data);
-            seriesData = getSeriesData(sData)
-            return getSeriesItem(name, center[i], seriesData, radiusLen)
+        let {
+            center,
+            titlePosition
+        } = getCenterConfig(legendData);
+        series = legendData.map((title, i) => {
+            let sData = R.filter(R.propEq(header[option.legend], title))(data);
+            seriesData = getSeriesData(sData);
+            title.push({
+                text,
+                ...titlePosition[i],
+                textStyle: {
+                    fontSize: 20,
+                    fontWeight: "normal"
+                },
+                textAlign: 'center'
+            })
+            return getSeriesItem(title, center[i], seriesData, radiusLen)
         })
     } else {
         seriesData = getSeriesData(data)
@@ -175,7 +266,8 @@ let standardPie = ({
         legend: {
             show: false
         },
-        toolbox: {}
+        toolbox: {},
+        title
     };
 };
 
