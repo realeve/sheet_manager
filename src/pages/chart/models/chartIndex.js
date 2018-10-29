@@ -1,5 +1,8 @@
 import pathToRegexp from "path-to-regexp";
-import * as lib from '@/utils/lib';
+import {
+    setStore,
+    handleUrlParams
+} from '@/utils/lib';
 import * as db from '../services/chart'
 const namespace = "chart";
 export default {
@@ -11,14 +14,7 @@ export default {
         config: []
     },
     reducers: {
-        setStore(state, {
-            payload
-        }) {
-            return lib.setStore({
-                state,
-                payload
-            });
-        },
+        setStore
     },
     effects: {
         * refreshConfig({
@@ -57,7 +53,7 @@ export default {
                     id,
                     params,
                     dateRange
-                } = lib.handleUrlParams(hash);
+                } = handleUrlParams(hash);
                 dispatch({
                     type: "setStore",
                     payload: {

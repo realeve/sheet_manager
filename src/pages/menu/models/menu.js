@@ -1,8 +1,7 @@
 import pathToRegexp from "path-to-regexp";
-import * as db from "../service";
-import * as lib from '@/utils/lib';
-
-const R = require('ramda');
+import {
+    setStore
+} from '@/utils/lib';
 
 const namespace = "menu";
 export default {
@@ -12,14 +11,7 @@ export default {
         treeDataRight: []
     },
     reducers: {
-        setStore(state, {
-            payload
-        }) {
-            return lib.setStore({
-                state,
-                payload
-            });
-        }
+        setStore
     },
     effects: {
         * loadMenuList(payload, {

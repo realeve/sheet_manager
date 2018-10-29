@@ -1,6 +1,9 @@
 import pathToRegexp from "path-to-regexp";
 import * as db from "../services/table";
-import * as lib from '@/utils/lib';
+import {
+    setStore,
+    handleUrlParams
+} from '@/utils/lib';
 
 const R = require('ramda');
 
@@ -15,14 +18,7 @@ export default {
         axiosOptions: []
     },
     reducers: {
-        setStore(state, {
-            payload
-        }) {
-            return lib.setStore({
-                state,
-                payload
-            });
-        }
+        setStore
     },
     effects: {
         * updateParams(payload, {
@@ -104,7 +100,7 @@ export default {
                     id,
                     params,
                     dateRange
-                } = lib.handleUrlParams(hash);
+                } = handleUrlParams(hash);
 
                 dispatch({
                     type: "setStore",

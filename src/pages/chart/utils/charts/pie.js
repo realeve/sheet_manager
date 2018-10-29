@@ -230,8 +230,8 @@ let standardPie = ({
             center,
             titlePosition
         } = getCenterConfig(legendData);
-        series = legendData.map((title, i) => {
-            let sData = R.filter(R.propEq(header[option.legend], title))(data);
+        series = legendData.map((text, i) => {
+            let sData = R.filter(R.propEq(header[option.legend], text))(data);
             seriesData = getSeriesData(sData);
             title.push({
                 text,
@@ -242,7 +242,7 @@ let standardPie = ({
                 },
                 textAlign: 'center'
             })
-            return getSeriesItem(title, center[i], seriesData, radiusLen)
+            return getSeriesItem(text, center[i], seriesData, radiusLen)
         })
     } else {
         seriesData = getSeriesData(data)
