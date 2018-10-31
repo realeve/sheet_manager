@@ -215,6 +215,12 @@ let standardPie = ({
                 shadowColor: "rgba(0, 0, 0, 0.5)"
             }
         },
+        label: {
+            normal: {
+                show: true,
+                formatter: '{b}\n({d})%'
+            }
+        }
     })
 
     let title = util.getDefaultTitle(option, config);
