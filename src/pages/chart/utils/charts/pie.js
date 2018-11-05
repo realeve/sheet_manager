@@ -269,9 +269,9 @@ let standardPie = ({
             trigger: "item",
             formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
-        legend: {
-            show: false
-        },
+        // legend: {
+        //     show: false
+        // },
         toolbox: {},
         title
     };
