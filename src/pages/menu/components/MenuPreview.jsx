@@ -165,7 +165,6 @@ class MenuPreview extends Component {
                 <Popconfirm
                   title="确定删除该菜单项?"
                   okText="是"
-                  title="删除"
                   cancelText="否"
                   icon={
                     <Icon type="question-circle-o" style={{ color: 'red' }} />

@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
-import classNames from 'classnames';
 import Link from 'umi/link';
 import styles from './index.less';
 import BaseMenu from './BaseMenu';

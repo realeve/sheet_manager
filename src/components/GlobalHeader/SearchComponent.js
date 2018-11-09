@@ -7,8 +7,6 @@ import * as lib from '@/utils/lib';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
-const R = require('ramda');
-
 export default class GlobalHeaderRight extends PureComponent {
   getRouter = () => {
     let { pathname } = window.location;
