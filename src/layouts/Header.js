@@ -9,6 +9,9 @@ import TopNavHeader from '@/components/TopNavHeader';
 import styles from './Header.less';
 import * as lib from '@/utils/lib';
 
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
+
 const { Header } = Layout;
 
 class HeaderView extends PureComponent {
@@ -42,7 +45,7 @@ class HeaderView extends PureComponent {
     return collapsed ? 'calc(100% - 80px)' : 'calc(100% - 256px)';
   };
 
-  handleNoticeClear = type => {
+  handleNoticeClear = (type) => {
     message.success(
       `${formatMessage({ id: 'component.noticeIcon.cleared' })} ${type}`
     );
@@ -67,7 +70,7 @@ class HeaderView extends PureComponent {
     }
   };
 
-  handleNoticeVisibleChange = visible => {
+  handleNoticeVisibleChange = (visible) => {
     if (visible) {
       const { dispatch } = this.props;
       dispatch({
@@ -117,9 +120,7 @@ class HeaderView extends PureComponent {
     const isTop = layout === 'topmenu';
     const width = this.getHeadWidth();
     const HeaderDom = visible ? (
-      <Header
-        style={{ padding: 0, width }}
-        className={fixedHeader ? styles.fixedHeader : ''}>
+      <Header style={{ padding: 0, width }} className={cx({ fixedHeader })}>
         {isTop && !isMobile ? (
           <TopNavHeader
             theme={navTheme}

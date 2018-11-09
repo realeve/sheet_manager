@@ -15,13 +15,16 @@ import AvatarView from './AvatarView';
 
 import styles from './index.less';
 
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
+
 export default class GlobalHeaderRight extends PureComponent {
   getNoticeData() {
     const { notices = [] } = this.props;
     if (notices.length === 0) {
       return {};
     }
-    const newNotices = notices.map(notice => {
+    const newNotices = notices.map((notice) => {
       const newNotice = { ...notice };
       if (newNotice.datetime) {
         newNotice.datetime = moment(notice.datetime).fromNow();
@@ -67,10 +70,10 @@ export default class GlobalHeaderRight extends PureComponent {
     } = this.props;
 
     const noticeData = this.getNoticeData();
-    let className = styles.right;
-    if (theme === 'dark') {
-      className = `${styles.right}  ${styles.dark}`;
-    }
+    let className = cx({
+      right: true,
+      dark: theme === 'dark'
+    });
 
     /**
      * 是否以完整版打包发布

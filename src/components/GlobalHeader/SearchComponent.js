@@ -2,8 +2,10 @@ import React, { PureComponent } from 'react';
 import HeaderSearch from '@/components/HeaderSearch';
 import { formatMessage } from 'umi/locale';
 import styles from './index.less';
-
 import * as lib from '@/utils/lib';
+
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
 
 const R = require('ramda');
 
@@ -17,9 +19,9 @@ export default class GlobalHeaderRight extends PureComponent {
     console.log(pathname);
   }
 
-  onSearch = value => {
+  onSearch = (value) => {
     value = value.trim();
-    let splitStr = [' ', ','].find(item => value.includes(item));
+    let splitStr = [' ', ','].find((item) => value.includes(item));
     if (splitStr) {
       // 分割为数组
       let arr = value.split(splitStr);
@@ -61,7 +63,7 @@ export default class GlobalHeaderRight extends PureComponent {
     return (
       FULL_MODE && (
         <HeaderSearch
-          className={`${styles.action} ${styles.search}`}
+          className={cx('action', 'search')}
           defaultOpen={true}
           placeholder={formatMessage({
             id: 'component.globalHeader.search'

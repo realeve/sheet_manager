@@ -9,6 +9,10 @@ import { getFlatMenuKeys, getCurKey, getFlatMenu } from './util';
 import { urlToList } from '../_utils/pathTools';
 import MenuSearch from '@/components/HeaderSearch/menu';
 import router from 'umi/router';
+
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
+
 const { Sider } = Layout;
 const R = require('ramda');
 
@@ -134,9 +138,13 @@ export default class SiderMenu extends PureComponent {
     const { logo, collapsed, onCollapse, fixSiderbar, theme } = this.props;
     const { selectedKeys, openKeys, searchValue } = this.state;
     const defaultProps = { selectedKeys, openKeys }; //collapsed ? {} : { selectedKeys, openKeys };
-    const siderClassName = classNames(styles.sider, {
-      [styles.fixSiderbar]: fixSiderbar,
-      [styles.light]: theme === 'light'
+    // const siderClassName = classNames(styles.sider, {
+    //   [styles.fixSiderbar]: fixSiderbar,
+    //   [styles.light]: theme === 'light'
+    // });
+    const siderClassName = cx('sider', {
+      fixSiderbar,
+      light: theme === 'light'
     });
 
     const { menuData, ...baseMenuDefaultProps } = this.props;

@@ -3,7 +3,9 @@ import Link from 'umi/link';
 import RightContent from '../GlobalHeader/RightContent';
 import BaseMenu from '../SiderMenu/BaseMenu';
 import styles from './index.less';
-import classNames from 'classnames';
+
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
 
 export default class TopNavHeader extends PureComponent {
   constructor(props) {
@@ -33,12 +35,9 @@ export default class TopNavHeader extends PureComponent {
   render() {
     const { theme, contentWidth, logo } = this.props;
     const { maxWidth } = this.state;
-    const clsHead = classNames(styles.head, {
-      [styles.light]: theme === 'light'
-    });
-    const clsMain = classNames(styles.main, {
-      [styles.wide]: contentWidth === 'Fixed'
-    });
+    const clsHead = cx('head', { light: theme === 'light' });
+    const clsMain = cx('main', { wide: contentWidth === 'Fixed' });
+
     return (
       <div className={clsHead}>
         <div className={clsMain}>

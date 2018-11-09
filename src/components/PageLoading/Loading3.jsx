@@ -1,7 +1,8 @@
-import React from "react";
-import styles from "./Loading3.less";
-import className from "classnames";
-const cls = className(styles.circular, styles.another);
+import React from 'react';
+import styles from './Loading3.less';
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
+const cls = cx('circular', 'another');
 export default () => (
   <div className={styles.wrap}>
     <div className={styles.loader} />

@@ -5,6 +5,9 @@ import { Menu, Icon, Spin, Dropdown, Avatar } from 'antd';
 
 import styles from './AvatarView.less';
 
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
+
 function AvatarView({ userSetting, onMenuClick }) {
   if (!userSetting.fullname) {
     return <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />;
@@ -39,7 +42,7 @@ function AvatarView({ userSetting, onMenuClick }) {
 
   return (
     <Dropdown overlay={menu}>
-      <span className={`${styles.action} ${styles.account}`}>
+      <span className={cx('action','account')}>
         <Avatar
           // size="small"
           className={styles.avatar}

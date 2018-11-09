@@ -9,7 +9,8 @@ import * as treeUtil from './tree-data-utils';
 import * as db from '../service';
 import styles from '../index.less';
 
-import classNames from 'classnames';
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
 
 const R = require('ramda');
 
@@ -42,7 +43,7 @@ class MenuPreview extends Component {
   }
 
   // 菜单层级调整
-  onTreeChange = treeData => {
+  onTreeChange = (treeData) => {
     this.setState({ treeData });
     console.log('菜单项调整：', treeData);
   };
@@ -82,7 +83,7 @@ class MenuPreview extends Component {
       uid
     };
     if (!editMode) {
-      let { data } = await db.addBaseMenuList(params).catch(e => {
+      let { data } = await db.addBaseMenuList(params).catch((e) => {
         return [{ affected_rows: 0 }];
       });
       if (data[0].affected_rows === 0) {
@@ -96,7 +97,7 @@ class MenuPreview extends Component {
       });
     } else {
       params._id = menu_id;
-      let { data } = await db.setBaseMenuList(params).catch(e => {
+      let { data } = await db.setBaseMenuList(params).catch((e) => {
         return [{ affected_rows: 0 }];
       });
       if (data[0].affected_rows === 0) {
@@ -131,12 +132,12 @@ class MenuPreview extends Component {
             prefix={<Icon type="edit" />}
             placeholder="菜单名称"
             value={title}
-            onChange={e => this.setState({ title: e.target.value })}
+            onChange={(e) => this.setState({ title: e.target.value })}
           />
         </div>
 
         <div
-          className={classNames(styles.action, styles['action-submit'])}
+          className={cx('action', 'action-submit')}
           style={{ paddingLeft: 0 }}>
           <Button onClick={this.expandAll}>
             {expanded ? '全部展开' : '全部折叠'}
@@ -159,7 +160,7 @@ class MenuPreview extends Component {
             rowHeight={45}
             dndType={externalNodeType}
             shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
-            generateNodeProps={treeItem => ({
+            generateNodeProps={(treeItem) => ({
               buttons: [
                 <Popconfirm
                   title="确定删除该菜单项?"

@@ -8,6 +8,10 @@ import styles from './index.less';
 import dateRanges from '@/utils/ranges';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
+
 moment.locale('zh-cn');
 
 const TabPane = Tabs.TabPane;
@@ -51,9 +55,7 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
       </div>
       {dataSource.length === 0 && <Card title="加载中" loading={true} />}
       {dataSource.map((dataSrc, key) => (
-        <div
-          key={key}
-          className={key ? styles.tableContainer : styles.dataList}>
+        <div key={key} className={cx({ tableContainer: key, dataList: !key })}>
           <Tabs defaultActiveKey="1">
             <TabPane tab="原始数据" key="1">
               <VTable
