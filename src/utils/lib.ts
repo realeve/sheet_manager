@@ -24,30 +24,34 @@ const rules: Rules = {
   cart: /^[1-9]\d{3}[A-Za-z]\d{3}$/,
   reel: /^[1-9]\d{6}[A-Ca-c]$|^[1-9]\d{4}[A-Ca-c]$|[A-Z]\d{11}[A-Z]/
 };
-export function isCartOrReel(str: string | number): boolean {
+
+interface CartReelReg {
+  (str: string | number): boolean;
+}
+
+export const isCartOrReel: CartReelReg = (str) => {
   return (
     rules.cart.test(String(str).trim()) || rules.reel.test(String(str).trim())
   );
-}
+};
 
-export const isCart = (str: string | number) =>
-  rules.cart.test(String(str).trim());
-export const isReel = (str: string | number) =>
-  rules.reel.test(String(str).trim());
+export const isCart: CartReelReg = (str) => rules.cart.test(String(str).trim());
+export const isReel: CartReelReg = (str) => rules.reel.test(String(str).trim());
 
-export const isDateTime = (str: string | number) =>
+export const isDateTime: CartReelReg = (str) =>
   /^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d$|^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d [0-2][0-9]:[0-5][0-9](:[0-5][0-9])$|^[0-2][0-9]:[0-5][0-9](:[0-5][0-9])$/.test(
     String(str).trim()
   );
 
-export const isNumOrFloat = (str: string | number) =>
+export const isNumOrFloat: CartReelReg = (str) =>
   /^\d+(\.)\d+$|^\d+$/.test(String(str));
-export const isInt = (str: String | number) => /^\d+$/.test(String(str));
-export const isFloat = (str: string | number) =>
+export const isInt: CartReelReg = (str) => /^\d+$/.test(String(str));
+export const isFloat: CartReelReg = (str) =>
   /^\d+\.\d+$|^\d+$/.test(String(str));
-export const hasDecimal = (str: string | number) =>
-  /^\d+\.\d+$/.test(String(str));
-export const parseNumber = (str: number) => {
+export const hasDecimal: CartReelReg = (str) => /^\d+\.\d+$/.test(String(str));
+export const parseNumber: {
+  (str: number): number | string;
+} = (str) => {
   if (!hasDecimal(str)) {
     return str;
   }
@@ -58,7 +62,11 @@ export const now = () => moment().format('YYYY-MM-DD HH:mm:ss');
 export const weeks = () => moment().weeks();
 
 export const ymd = () => moment().format('YYYYMMDD');
-let getLastAlpha = (str: String) => {
+
+interface lastAlpha {
+  (str: string): string;
+}
+let getLastAlpha: lastAlpha = (str) => {
   if (str === 'A') {
     return 'Z';
   }
@@ -75,7 +83,18 @@ interface GZSetting {
   code: string;
   prod: string;
 }
-export const handleGZInfo = ({ code, prod }: GZSetting) => {
+interface GZInfo {
+  start: string;
+  end: string;
+  start2: string;
+  end2: string;
+  alpha: string;
+  alpha2: string;
+}
+interface hdGZInfo {
+  ({ code, prod }: GZSetting): GZInfo | boolean;
+}
+export const handleGZInfo: hdGZInfo = ({ code, prod }) => {
   if (code.length !== 6) {
     return false;
   }
@@ -133,12 +152,14 @@ export const handleGZInfo = ({ code, prod }: GZSetting) => {
   };
 };
 
-export let isGZ = (value: string | number) =>
+export let isGZ: CartReelReg = (value) =>
   /^[A-Za-z]{2}\d{4}$|^[A-Za-z]\d[A-Za-z]\d{3}$|^[A-Za-z]\d{2}[A-Za-z]\d{2}$|^[A-Za-z]\d{3}[A-Za-z]\d$|^[A-Za-z]\d{4}[A-Za-z]$/.test(
     String(value)
   );
 
-export let loadFile = (fileName: string, content: any) => {
+export let loadFile: {
+  (fileName: string, content: any): void;
+} = (fileName, content) => {
   var aLink = document.createElement('a');
   var blob: Blob = new Blob([content], {
     type: 'text/plain'
@@ -173,7 +194,9 @@ let dataURItoBlob = (dataURI: string) => {
  * 用法： axios({url,type:'POST',data}).then(res=>res.data);
  */
 // 将BASE64编码图像转为FormData供数据上传，用法见上方注释。
-export let dataURI2FormData = (dataURI: string) => {
+export let dataURI2FormData: {
+  (dataURI: string): FormData;
+} = (dataURI) => {
   var data: FormData = new FormData();
   var blob: Blob = dataURItoBlob(dataURI);
   data.append('file', blob);
@@ -233,7 +256,9 @@ export let dataFile2URI = async (file: File, callback: Function) => {
  * @param {数字} num
  * @param {小数位数} decimalLength
  */
-export const thouandsNum = (num: number, decimalLength: number = 2) => {
+export const thouandsNum: {
+  (num: number, len: number): string;
+} = (num, decimalLength = 2) => {
   if (String(num).length === 0) {
     return '';
   }
@@ -295,7 +320,9 @@ export const logout = ({ dispatch }: Props) => {
   });
 };
 
-export const getType = (o: any) =>
+export const getType: {
+  (o: any): string;
+} = (o) =>
   Object.prototype.toString
     .call(o)
     .match(/\w+/g)[1]
