@@ -9,12 +9,12 @@
   },
   "dependencies": {
     "ant-design-pro": "^2.0.0",
-    "antd": "^3.9.3",
+    "antd": "^3.10.5",
     "antd-pro-merge-less": "^0.0.9",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "crypto-js": "^3.1.9-1",
-    "dva": "^2.1.0",
+    "dva": "^2.4.1",
     "echarts": "^4.2.0-rc.1",
     "echarts-for-react": "^2.0.8",
     "echarts-gl": "^1.1.1",
@@ -45,7 +45,8 @@
     "react-sortable-tree-theme-full-node-drag": "^1.1.0",
     "react-sortable-tree-theme-minimal": "^0.0.14",
     "react-transition-group": "^2.4.0",
-    "umi-plugin-locale": "^2.1.1"
+    "umi-plugin-locale": "^2.1.1",
+    "update": "^0.7.4"
   },
   "devDependencies": {
     "antd-pro-theme-webpack-plugin": "^1.1.8",
