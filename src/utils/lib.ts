@@ -24,28 +24,28 @@ const rules: Rules = {
   cart: /^[1-9]\d{3}[A-Za-z]\d{3}$/,
   reel: /^[1-9]\d{6}[A-Ca-c]$|^[1-9]\d{4}[A-Ca-c]$|[A-Z]\d{11}[A-Z]/
 };
-export function isCartOrReel(str: String | number): boolean {
+export function isCartOrReel(str: string | number): boolean {
   return (
     rules.cart.test(String(str).trim()) || rules.reel.test(String(str).trim())
   );
 }
 
-export const isCart = (str: String | number) =>
+export const isCart = (str: string | number) =>
   rules.cart.test(String(str).trim());
-export const isReel = (str: String | number) =>
+export const isReel = (str: string | number) =>
   rules.reel.test(String(str).trim());
 
-export const isDateTime = (str: String | number) =>
+export const isDateTime = (str: string | number) =>
   /^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d$|^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d [0-2][0-9]:[0-5][0-9](:[0-5][0-9])$|^[0-2][0-9]:[0-5][0-9](:[0-5][0-9])$/.test(
     String(str).trim()
   );
 
-export const isNumOrFloat = (str: String | number) =>
+export const isNumOrFloat = (str: string | number) =>
   /^\d+(\.)\d+$|^\d+$/.test(String(str));
 export const isInt = (str: String | number) => /^\d+$/.test(String(str));
-export const isFloat = (str: String | number) =>
+export const isFloat = (str: string | number) =>
   /^\d+\.\d+$|^\d+$/.test(String(str));
-export const hasDecimal = (str: String | number) =>
+export const hasDecimal = (str: string | number) =>
   /^\d+\.\d+$/.test(String(str));
 export const parseNumber = (str: number) => {
   if (!hasDecimal(str)) {
@@ -62,7 +62,7 @@ let getLastAlpha = (str: String) => {
   if (str === 'A') {
     return 'Z';
   }
-  let c = str.charCodeAt(0);
+  let c: number = str.charCodeAt(0);
   return String.fromCharCode(c - 1);
 };
 
@@ -75,33 +75,32 @@ interface GZSetting {
   code: string;
   prod: string;
 }
-export const handleGZInfo = (setting: GZSetting) => {
-  let { code, prod } = setting;
+export const handleGZInfo = ({ code, prod }: GZSetting) => {
   if (code.length !== 6) {
     return false;
   }
-  let kInfo = 35;
+  let kInfo: number = 35;
   if (prod.includes('9602') || prod.includes('9603')) {
     kInfo = 40;
   }
 
-  let alphaInfo = code.match(/[A-Z]/g);
-  let numInfo = code.match(/\d/g).join('');
-  let starNum = code.slice(1, 6).indexOf(alphaInfo[1]) + 1;
-  let starInfo = code
+  let alphaInfo: Array<string> = code.match(/[A-Z]/g);
+  let numInfo: string = code.match(/\d/g).join('');
+  let starNum: number = code.slice(1, 6).indexOf(alphaInfo[1]) + 1;
+  let starInfo: string = code
     .slice(1, starNum)
     .split('')
     .fill('*')
     .join('');
-  let start = parseInt(numInfo, 10) - kInfo;
+  let start: number = parseInt(numInfo, 10) - kInfo;
 
-  let end = numInfo;
-  let needConvert = start < 0;
+  let end: string = numInfo;
+  let needConvert: boolean = start < 0;
   let start2: string = String(start + 1),
-    end2 = end;
+    end2: string = end;
 
-  let alpha = alphaInfo[0] + starInfo + alphaInfo[1];
-  let alpha2 = alpha;
+  let alpha: string = alphaInfo[0] + starInfo + alphaInfo[1];
+  let alpha2: string = alpha;
 
   if (needConvert) {
     start = 10000 + start;
@@ -139,26 +138,26 @@ export let isGZ = (value: string | number) =>
     String(value)
   );
 
-export let loadFile = (fileName, content) => {
+export let loadFile = (fileName: string, content: any) => {
   var aLink = document.createElement('a');
-  var blob: any = new Blob([content], {
+  var blob: Blob = new Blob([content], {
     type: 'text/plain'
   });
   // var evt = new Event("click");
   aLink.download = fileName;
   aLink.href = URL.createObjectURL(blob);
   aLink.click();
-  URL.revokeObjectURL(blob);
+  URL.revokeObjectURL(aLink.href);
 };
 
-let dataURItoBlob = (dataURI) => {
-  var byteString = atob(dataURI.split(',')[1]);
-  var mimeString = dataURI
+let dataURItoBlob = (dataURI: string) => {
+  var byteString: string = atob(dataURI.split(',')[1]);
+  var mimeString: string = dataURI
     .split(',')[0]
     .split(':')[1]
     .split(';')[0];
-  var ab = new ArrayBuffer(byteString.length);
-  var ia = new Uint8Array(ab);
+  var ab: ArrayBuffer = new ArrayBuffer(byteString.length);
+  var ia: Uint8Array = new Uint8Array(ab);
   for (var i = 0; i < byteString.length; i++) {
     ia[i] = byteString.charCodeAt(i);
   }
@@ -175,8 +174,8 @@ let dataURItoBlob = (dataURI) => {
  */
 // 将BASE64编码图像转为FormData供数据上传，用法见上方注释。
 export let dataURI2FormData = (dataURI: string) => {
-  var data = new FormData();
-  var blob = dataURItoBlob(dataURI);
+  var data: FormData = new FormData();
+  var blob: Blob = dataURItoBlob(dataURI);
   data.append('file', blob);
   return data;
 };
@@ -191,7 +190,7 @@ export let dataURI2FormData = (dataURI: string) => {
  * }
  */
 export let uploadBase64 = async (dataURI: string) => {
-  var data = dataURI2FormData(dataURI);
+  var data: FormData = dataURI2FormData(dataURI);
   return await http({
     method: 'POST',
     url: uploadHost,
@@ -205,7 +204,7 @@ export let uploadBase64 = async (dataURI: string) => {
  * @param {回调函数} callback
  * @desc 将file图像文件对象转换为BASE64
  */
-export let dataFile2URI = async (file, callback: any) => {
+export let dataFile2URI = async (file: File, callback: Function) => {
   if (typeof FileReader === 'undefined') {
     return {
       status: false,
@@ -219,7 +218,7 @@ export let dataFile2URI = async (file, callback: any) => {
       data: '浏览器不支持 请确保文件为图像文件'
     };
   }
-  var reader = new FileReader();
+  var reader: FileReader = new FileReader();
   reader.onload = ({ target: { result } }: any) => {
     if (typeof callback === 'function') {
       callback(result);
@@ -234,12 +233,12 @@ export let dataFile2URI = async (file, callback: any) => {
  * @param {数字} num
  * @param {小数位数} decimalLength
  */
-export const thouandsNum = (num: number, decimalLength = 2) => {
+export const thouandsNum = (num: number, decimalLength: number = 2) => {
   if (String(num).length === 0) {
     return '';
   }
 
-  let numStr = Number(num).toLocaleString();
+  let numStr: string = Number(num).toLocaleString();
   if (numStr.includes('.')) {
     let [integer, decimal] = numStr.split('.');
     return integer + '.' + decimal.padEnd(decimalLength, '0');
@@ -249,7 +248,7 @@ export const thouandsNum = (num: number, decimalLength = 2) => {
 
 // 处理url链接信息，返回组件model所需的初始数据
 export const handleUrlParams = (hash: string) => {
-  let queryStr = hash
+  let queryStr: string = hash
     .slice(1)
     .replace(/，/g, ',')
     .replace(/ /g, '');
@@ -258,15 +257,11 @@ export const handleUrlParams = (hash: string) => {
   let params = R.clone(query);
   Reflect.deleteProperty(params, 'id');
 
-  if ('String' === R.type(id)) {
-    id = [id];
-  }
-
   const [tstart, tend] = dateRanges['过去一月'];
   const [ts, te] = [tstart.format('YYYYMMDD'), tend.format('YYYYMMDD')];
 
   return {
-    id,
+    id: 'String' === R.type(id) ? [id] : id,
     params,
     dateRange: [ts, te]
   };
@@ -275,8 +270,9 @@ export const handleUrlParams = (hash: string) => {
 interface Props {
   dispatch: Dispatch;
 }
-export const logout = (props: Props) => {
-  props.dispatch({
+
+export const logout = ({ dispatch }: Props) => {
+  dispatch({
     type: 'common/setStore',
     payload: {
       userSetting: {
@@ -308,10 +304,10 @@ export const getType = (o: any) =>
 interface Store {
   payload: { any };
 }
-export const setStore = (state, store: Store) => {
+export const setStore = (state, { payload }: Store) => {
   let nextState = R.clone(state);
-  Object.keys(store.payload).forEach((key) => {
-    let val = store.payload[key];
+  Object.keys(payload).forEach((key) => {
+    let val = payload[key];
     // console.log(key, val);
     if (getType(val) == 'object') {
       nextState[key] = Object.assign({}, nextState[key], val);
