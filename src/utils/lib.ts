@@ -160,7 +160,7 @@ export let isGZ: CartReelReg = (value) =>
 export let loadFile: {
   (fileName: string, content: any): void;
 } = (fileName, content) => {
-  var aLink = document.createElement('a');
+  var aLink: HTMLAnchorElement = document.createElement('a');
   var blob: Blob = new Blob([content], {
     type: 'text/plain'
   });
