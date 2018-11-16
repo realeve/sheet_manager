@@ -1,35 +1,41 @@
-import React, { Fragment } from "react";
-import { Layout, Icon } from "antd";
-import GlobalFooter from "ant-design-pro/lib/GlobalFooter";
+import React, { Fragment } from 'react';
+import { Layout, Icon } from 'antd';
+import GlobalFooter from 'ant-design-pro/lib/GlobalFooter';
 
-import styles from "./index.less";
+import styles from './index.less';
 const { Footer } = Layout;
 const FooterView = () => (
   <Footer className={styles.footer}>
     <GlobalFooter
       links={[
         {
-          key: "Pro 首页",
-          title: "Pro 首页",
-          href: "https://pro.ant.design",
+          key: '首页',
+          title: '首页',
+          href: '/',
           blankTarget: true
         },
         {
-          key: "github",
-          title: <Icon type="github" />,
-          href: "https://github.com/ant-design/ant-design-pro",
+          key: '文档',
+          title: '文档',
+          // title: <Icon type="github" />,
+          href: '/doc',
           blankTarget: true
         },
         {
-          key: "Ant Design",
-          title: "Ant Design",
-          href: "https://ant.design",
+          key: '工艺质量交互管理',
+          title: '工艺质量交互管理',
+          href: 'http://10.8.2.133:90',
           blankTarget: true
         }
       ]}
       copyright={
         <Fragment>
-          Copyright <Icon type="copyright" /> 2018 CBPC All Rights Reserved
+          <p>
+            <Icon type="copyright" /> 2019 成都印钞有限公司 印钞管理部
+          </p>
+          <p>
+            Copyright <Icon type="copyright" /> 2019 CBPC All Rights Reserved
+          </p>
         </Fragment>
       }
     />
