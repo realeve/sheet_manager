@@ -1,7 +1,13 @@
 import util from '../lib';
 const R = require('ramda');
+interface IChart {
+  key: string;
+  title: string;
+  default?: string;
+  url?: string | Array<string>;
+}
 
-let chartConfig = [
+let chartConfig: Array<IChart> = [
   {
     key: 'x',
     title: 'X轴在数据的索引或键值',
@@ -37,7 +43,8 @@ let chartConfig = [
 ];
 
 const getCenterConfig = (legendData) => {
-  let len = legendData.length;
+  let len: number = legendData.length;
+
   let center = [];
   let titlePosition = [];
   switch (len) {
@@ -184,7 +191,7 @@ const getCenterConfig = (legendData) => {
   };
 };
 
-let getRadiusLength = (legendData) => {
+let getRadiusLength: string = (legendData: Array<T>) => {
   let len = legendData.length;
   if (len < 3) {
     return '45%';

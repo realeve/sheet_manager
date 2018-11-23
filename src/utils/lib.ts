@@ -17,8 +17,8 @@ export const systemName: string = '某数据系统';
 export const apiHost: string = host;
 
 interface Rules {
-  cart: any;
-  reel: any;
+  cart: RegExp;
+  reel: RegExp;
 }
 const rules: Rules = {
   cart: /^[1-9]\d{3}[A-Za-z]\d{3}$/,

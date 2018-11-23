@@ -8,6 +8,7 @@
     "liteapp": "cross-env BUILD_TYPE=lite umi build"
   },
   "dependencies": {
+    "@types/react": "^16.7.7",
     "ant-design-pro": "^2.0.0",
     "antd": "^3.10.5",
     "antd-pro-merge-less": "^0.0.9",

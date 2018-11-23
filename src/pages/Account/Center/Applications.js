@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import { List, Card, Icon, Dropdown, Menu, Avatar, Tooltip } from 'antd';
-import numeral from 'numeral';
 import { connect } from 'dva';
-import { formatWan } from '@/utils/utils';
 import stylesApplications from '../../List/Applications.less';
 
 @connect(({ list }) => ({
@@ -59,7 +57,7 @@ class Center extends PureComponent {
         className={stylesApplications.filterCardList}
         grid={{ gutter: 24, xxl: 3, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
         // dataSource={list}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item key={item.id}>
             <Card
               hoverable
@@ -82,12 +80,7 @@ class Center extends PureComponent {
                 avatar={<Avatar size="small" src={item.avatar} />}
                 title={item.title}
               />
-              <div className={stylesApplications.cardItemContent}>
-                <CardInfo
-                  activeUser={formatWan(item.activeUser)}
-                  newUser={numeral(item.newUser).format('0,0')}
-                />
-              </div>
+              <div className={stylesApplications.cardItemContent}>111</div>
             </Card>
           </List.Item>
         )}

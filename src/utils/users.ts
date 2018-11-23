@@ -1,21 +1,22 @@
-const _lsKey = '_userSetting';
-const _menu = '_userMenu';
-const _login = '_islogin';
+const _lsKey: string = '_userSetting';
+const _menu: string = '_userMenu';
+const _login: string = '_islogin';
 
 const R = require('ramda');
 const CryptoJS = require('crypto-js');
-const salt = btoa(encodeURI('8f5661a0527b538ea5b2566c9da779f4'));
+const salt: string = btoa(encodeURI('8f5661a0527b538ea5b2566c9da779f4'));
 
-const encodeStr = values => CryptoJS.AES.encrypt(JSON.stringify(values), salt);
+const encodeStr = (values) =>
+  CryptoJS.AES.encrypt(JSON.stringify(values), salt);
 
-const decodeStr = ciphertext => {
+const decodeStr = (ciphertext: string) => {
   // Decrypt
   const bytes = CryptoJS.AES.decrypt(ciphertext.toString(), salt);
-  const plainText = bytes.toString(CryptoJS.enc.Utf8);
+  const plainText: string = bytes.toString(CryptoJS.enc.Utf8);
   return JSON.parse(plainText);
 };
 
-const saveUserSetting = data => {
+const saveUserSetting = (data) => {
   let values = R.clone(data);
   let { menu } = values.setting;
   Reflect.deleteProperty(values.setting, 'previewMenu');
@@ -32,7 +33,7 @@ const getUserSetting = () => {
     };
   }
 
-  let menu = window.localStorage.getItem(_menu);
+  let menu: string = window.localStorage.getItem(_menu);
   let data = decodeStr(_userSetting);
   data.setting = Object.assign(data.setting, {
     menu: JSON.parse(menu),
@@ -48,7 +49,7 @@ const clearUserSetting = () => {
   window.localStorage.removeItem(_lsKey);
 };
 
-const saveLastRouter = pathname => {
+const saveLastRouter = (pathname: string) => {
   window.localStorage.setItem('_lastRouter', pathname);
 };
 
@@ -57,11 +58,11 @@ const readLastRouter = () => {
   return router == null || router === '/' ? '/menu' : router;
 };
 
-const saveLoginStatus = (status = 1) => {
-  window.localStorage.setItem(_login, status);
+const saveLoginStatus = (status: number | string = 1) => {
+  window.localStorage.setItem(_login, String(status));
 };
 
-const getLoginStatus = () => {
+const getLoginStatus: string | number = () => {
   return window.localStorage.getItem(_login) || 0;
 };
 
