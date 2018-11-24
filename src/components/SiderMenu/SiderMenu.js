@@ -21,7 +21,6 @@ const R = require('ramda');
  */
 const getDefaultCollapsedSubMenus = ({ breadcrumbList, menuData }) => {
   let selectedKeys = getCurKey(breadcrumbList);
-  console.log('传入数据', menuData);
   return {
     selectedKeys: [selectedKeys],
     openKeys: R.compose(
@@ -49,8 +48,10 @@ export default class SiderMenu extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     const { pathname } = state;
-    console.log(R.equals(props.menuData, state.menuData));
-    if (!R.equals(props.menuData, state.menuData)) {
+    if (
+      !R.equals(props.menuData, state.menuData) &&
+      state.searchValue.length === 0
+    ) {
       let nextState = getDefaultCollapsedSubMenus(props);
       return {
         pathname: props.location.pathname,
@@ -108,7 +109,10 @@ export default class SiderMenu extends PureComponent {
         name.includes(value)
     )(this.flatMenu);
 
-    console.log('筛选结果：', filterMenuData);
+    this.setState({
+      menuData: filterMenuData,
+      searchValue: value
+    });
 
     if (filterMenuData.length === 1) {
       const [{ path }] = filterMenuData;
@@ -125,11 +129,6 @@ export default class SiderMenu extends PureComponent {
         });
       }
     }
-
-    this.setState({
-      menuData: filterMenuData,
-      searchValue: value
-    });
   };
 
   componentWillUnmount() {

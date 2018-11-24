@@ -191,13 +191,23 @@ let chartConfig: interface.TChartConfig = [
   }
 ];
 
-let symbol = {
+let symbol: {
+  triangle: string;
+  roundAngle: string;
+} = {
   triangle: 'path://M0,10 L10,10 L5,0 L0,10 z',
   roundAngle: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z'
 };
 
 let getOption = (options) => {
-  let option;
+  let option: {
+    x: number;
+    y: number;
+    legend?: number;
+    type?: string;
+    smooth?: boolean;
+    [key: string]: any;
+  };
   switch (options.data.header.length) {
     case 3:
       option = {
