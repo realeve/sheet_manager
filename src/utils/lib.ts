@@ -227,7 +227,10 @@ export let uploadBase64 = async (dataURI: string) => {
  * @param {回调函数} callback
  * @desc 将file图像文件对象转换为BASE64
  */
-export let dataFile2URI = async (file: File, callback: Function) => {
+export let dataFile2URI: FileReader = async (
+  file: File,
+  callback: Function
+) => {
   if (typeof FileReader === 'undefined') {
     return {
       status: false,
@@ -272,7 +275,11 @@ export const thouandsNum: {
 };
 
 // 处理url链接信息，返回组件model所需的初始数据
-export const handleUrlParams = (hash: string) => {
+export const handleUrlParams: {
+  id: number | string;
+  params: any;
+  dateRange: Array<string>;
+} = (hash: string) => {
   let queryStr: string = hash
     .slice(1)
     .replace(/，/g, ',')

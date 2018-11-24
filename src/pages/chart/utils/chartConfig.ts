@@ -15,7 +15,11 @@ import { chartConfig as heatmap } from './charts/heatmap';
 import { chartConfig as calendar } from './charts/calendar';
 import { chartConfig as bar3d } from './charts/bar3d';
 
-const commonConfig = [
+const commonConfig: Array<{
+  key: string,
+  title: string,
+  default?: string
+}> = [
   {
     key: 'prefix',
     title: '前缀，该值作为参数请求API，同时将显示在标题的前面',

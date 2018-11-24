@@ -5,10 +5,11 @@ import * as scatter from './scatter';
 import * as histogram from './histogram';
 import * as boxplot from './boxplot';
 import * as pareto from './pareto';
+import * as interface from './interface.d';
 
 const R = require('ramda');
 
-let chartConfig = [
+let chartConfig: interface.TChartConfig = [
   {
     key: 'x',
     title: 'X轴在数据的索引或键值',

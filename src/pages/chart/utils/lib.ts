@@ -363,15 +363,14 @@ let getRenderer: string = (params: {
     ? 'canvas'
     : 'svg');
 
-// interface Iparams = {
-//     height?: string | number;
-//     type: string;
-//   }
-// interface chartHeightFun = {
-//     (params:Iparams,data:any)=>string
-// }
+interface Iparams {
+  type: string;
+  height?: string | number;
+}
 
-let getChartHeight = (params, { series }) => {
+type chartHeightFun = (params: Iparams, data: any) => string;
+
+let getChartHeight: chartHeightFun = (params: Iparams, { series }) => {
   if (params.height) {
     return params.height + 'px';
   }
@@ -392,8 +391,13 @@ let getChartHeight = (params, { series }) => {
 };
 
 // 处理minmax值至最佳刻度，需要考虑 >10 及 <10 两种场景以及负数的情况
-let handleMinMax = ({ min, max }) => {
-  let exLength = String(Math.floor(max)).length - 1;
+interface Iminmax {
+  min: number;
+  max: number;
+}
+
+let handleMinMax: Iminma = ({ min, max }): Iminmax => {
+  let exLength: number = String(Math.floor(max)).length - 1;
   if (max > 10) {
     return {
       max: Math.ceil(max / 10 ** exLength) * 10 ** exLength,
@@ -406,13 +410,17 @@ let handleMinMax = ({ min, max }) => {
   };
 };
 
-let getLegend = ({ data, legend }, selectedMode = 'single') => {
+let getLegend: {
+  show?: boolean;
+  selectedMode?: string;
+  data?: any;
+} = ({ data, legend }, selectedMode = 'single') => {
   if (R.isNil(legend)) {
     return {
       show: false
     };
   }
-  let key = data.header[legend];
+  let key: string = data.header[legend];
   let legendData = getUniqByIdx({
     key,
     data: data.data
@@ -429,7 +437,9 @@ let getAxis = ({ data, header }, key) => {
     key: header[key],
     data
   });
-  let xAxisType = lib.getType(xAxis[0]) === 'number' ? 'value' : 'category';
+  type axis = 'value' | 'category';
+  let xAxisType: axis =
+    lib.getType(xAxis[0]) === 'number' ? 'value' : 'category';
 
   if (xAxisType === 'value') {
     xAxis = R.sort((a, b) => a - b)(xAxis);
