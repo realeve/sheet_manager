@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import elementResizeEvent from 'element-resize-event';
 import chartConfig from '../utils/charts';
+
+import echarts from 'echarts';
+import 'echarts-gl';
+
 const R = require('ramda');
 
 const isEqual = (a, b) => R.equals(a, b);
 export default class EchartsReactCore extends Component {
+  echartsLib = echarts; // the echarts object.
   constructor(props) {
     super(props);
-    this.echartsLib = this.props.echarts; // the echarts object.
     this.echartsElement = React.createRef(); // null; // echarts div element
   }
 
@@ -104,7 +108,7 @@ export default class EchartsReactCore extends Component {
       if (typeof eventName === 'string' && typeof func === 'function') {
         // binding event
         // instance.off(eventName); // 已经 dispose 在重建，所以无需 off 操作
-        instance.on(eventName, param => {
+        instance.on(eventName, (param) => {
           func(param, instance);
         });
       }
@@ -146,7 +150,7 @@ export default class EchartsReactCore extends Component {
     // for render
     return (
       <div
-        ref={e => {
+        ref={(e) => {
           this.echartsElement = e;
         }}
         style={newStyle}

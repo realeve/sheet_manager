@@ -3,6 +3,15 @@ import * as lib from '@/utils/lib';
 
 const R = require('ramda');
 
+export interface IChart {
+  key?: string;
+  title: string;
+  default?: string | number;
+  url?: string | Array<string>;
+  type?: string;
+}
+export type TChartConfig = Array<IChart>;
+
 // let uniq = arr => Array.from(new Set(arr));
 
 let uniq = (arr) => R.uniq(arr);
@@ -349,8 +358,17 @@ let getLegendData = (legendData) =>
     icon: 'circle'
   }));
 
-// type tGl = 'bar3d' | 'line3d' | 'scatter3d' | 'surface'|'sunburst'| 'sankey'|'paralell';
-let chartGL = ['bar3d', 'line3d', 'scatter3d', 'surface'];
+type tGl =
+  | 'bar3d'
+  | 'line3d'
+  | 'scatter3d'
+  | 'surface'
+  | 'sunburst'
+  | 'sankey'
+  | 'paralell'
+  | 'calendar'
+  | echarts.EChartsSeriesType;
+let chartGL: Array<tGl> = ['bar3d', 'line3d', 'scatter3d', 'surface'];
 
 // type tRender = 'canvas' | 'svg';
 let getRenderer: string | any = (
@@ -366,7 +384,7 @@ let getRenderer: string | any = (
     : 'svg');
 
 interface Iparams {
-  type: string;
+  type: tGl;
   height?: string | number;
   size?: number;
 }

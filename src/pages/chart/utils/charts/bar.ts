@@ -1,15 +1,14 @@
-import util from '../lib';
+import util, { TChartConfig } from '../lib';
 import jStat from 'jStat';
 import theme from './theme';
 import * as scatter from './scatter';
 import * as histogram from './histogram';
 import * as boxplot from './boxplot';
 import * as pareto from './pareto';
-import * as interface from './interface.d';
 
 const R = require('ramda');
 
-let chartConfig: interface.TChartConfig = [
+let chartConfig: TChartConfig = [
   {
     key: 'x',
     title: 'X轴在数据的索引或键值',
@@ -501,18 +500,44 @@ let handleBarshadow = (series) => {
     data
   };
   if (barMaxWidth) {
-    seriesItem.barMaxWidth = barMaxWidth;
+    seriesItem = Object.assign(seriesItem, { barMaxWidth });
   }
   series.push(seriesItem);
   return series;
 };
 
-let getChartConfig = (options) => {
+interface IdataZoomItem {
+  type?: string;
+  realtime?: boolean;
+  start?: number;
+  end?: number;
+  xAxisIndex?: number;
+  yAxisIndex?: number;
+  filterMode?: string;
+  [key: string]: any;
+}
+interface IOptionRes {
+  xAxis: any;
+  series: any;
+  yAxis?: any;
+  legend?: any;
+  xAxisType: any;
+  [key: string]: any;
+}
+let getChartConfig: (
+  opt: any
+) => {
+  xAxis;
+  series;
+  yAxis;
+  legend;
+  dataZoom: Array<IdataZoomItem>;
+} = (options) => {
   let option = getOption(options);
   let { data } = options;
   let { header } = data;
 
-  let res = handleData(data, option);
+  let res: IOptionRes = handleData(data, option);
 
   if (options.histogram) {
     res = histogram.init(options);
@@ -529,6 +554,20 @@ let getChartConfig = (options) => {
       fontWeight: 'bold'
     }
   };
+
+  // 处理Y轴信息
+  yAxis = yAxis || {
+    name: header[option.y],
+    ...axisOption
+  };
+
+  if (options.max) {
+    yAxis.max = parseFloat(options.max);
+  }
+  if (options.min) {
+    yAxis.min = parseFloat(options.min);
+  }
+  // Y轴处理完毕
 
   if (!options.histogram && !['boxplot'].includes(options.type)) {
     let dateAxis = util.needConvertDate(R.path(['xAxis', 0], xAxis));
@@ -580,21 +619,6 @@ let getChartConfig = (options) => {
   if (option.barshadow) {
     series = handleBarshadow(series);
   }
-
-  // 处理Y轴信息
-  yAxis = yAxis || {
-    name: header[option.y],
-    ...axisOption
-  };
-
-  if (options.max) {
-    yAxis.max = parseFloat(options.max);
-  }
-  if (options.min) {
-    yAxis.min = parseFloat(options.min);
-  }
-
-  // Y轴处理完毕
 
   return {
     xAxis,
@@ -719,7 +743,9 @@ let bar = (options) => {
 
   // svg下,markarea有bug
   if (options.markarea) {
-    option.renderer = 'canvas';
+    option = Object.assign(option, {
+      renderer: 'canvas'
+    });
   }
 
   if (!options.stack) {

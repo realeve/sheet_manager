@@ -5,7 +5,6 @@ import styles from './Chart.less';
 import ReactEcharts from './echarts-for-react';
 import VTable from '@/components/Table.jsx';
 import lib from '../utils/lib';
-import { EChartsResizeOption } from 'echarts';
 
 const R = require('ramda');
 const TabPane = Tabs.TabPane;

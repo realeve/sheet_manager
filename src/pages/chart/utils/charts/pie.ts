@@ -1,8 +1,7 @@
-import util from '../lib';
-import * as interface from './interface.d';
+import util, { TChartConfig } from '../lib';
 const R = require('ramda');
 
-let chartConfig: interface.TChartConfig = [
+let chartConfig: TChartConfig = [
   {
     key: 'x',
     title: 'X轴在数据的索引或键值',
