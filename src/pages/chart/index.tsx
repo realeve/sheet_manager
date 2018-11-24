@@ -1,33 +1,33 @@
-import React from "react";
-import { connect } from "dva";
-import Chart from "./components/Chart.jsx";
-import { DatePicker, Card } from "antd";
-import styles from "./index.less";
-import dateRanges from "@/utils/ranges";
-import moment from "moment";
-import classNames from "classnames";
-import "moment/locale/zh-cn";
-moment.locale("zh-cn");
+import React from 'react';
+import { connect } from 'dva';
+import Chart from './components/Chart';
+import { DatePicker, Card } from 'antd';
+import styles from './index.less';
+import dateRanges from '@/utils/ranges';
+import moment from 'moment';
+import classNames from 'classnames';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 const RangePicker = DatePicker.RangePicker;
 
 function Charts({ dispatch, dateRange, config, loading }) {
-  const onDateChange = async (dates, dateStrings) => {
-    const [tstart, tend] = dateStrings;
+  const onDateChange = async (_, dateStrings: Array<string>) => {
+    const [tstart, tend]: Array<string> = dateStrings;
     await dispatch({
-      type: "chart/setStore",
+      type: 'chart/setStore',
       payload: { dateRange: dateStrings }
     });
 
     await dispatch({
-      type: "chart/refreshConfig",
+      type: 'chart/refreshConfig',
       payload: { tstart, tend }
     });
   };
 
-  const onLoad = curPageName => {
+  const onLoad = (curPageName) => {
     dispatch({
-      type: "common/setStore",
+      type: 'common/setStore',
       payload: {
         curPageName
       }
@@ -43,7 +43,7 @@ function Charts({ dispatch, dateRange, config, loading }) {
         onChange={onDateChange}
         defaultValue={[moment(dateRange[0]), moment(dateRange[1])]}
         locale={{
-          rangePlaceholder: ["开始日期", "结束日期"]
+          rangePlaceholder: ['开始日期', '结束日期']
         }}
       />
     </div>
@@ -63,8 +63,7 @@ function Charts({ dispatch, dateRange, config, loading }) {
       {config.map((option, idx) => (
         <div
           className={classNames({ [styles.tableContainer]: idx })}
-          key={option.url + idx}
-        >
+          key={option.url + idx}>
           <Chart onLoad={onLoad} config={option} idx={idx} />
         </div>
       ))}

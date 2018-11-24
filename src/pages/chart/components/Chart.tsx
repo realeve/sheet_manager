@@ -5,11 +5,39 @@ import styles from './Chart.less';
 import ReactEcharts from './echarts-for-react';
 import VTable from '@/components/Table.jsx';
 import lib from '../utils/lib';
+import { EChartsResizeOption } from 'echarts';
 
 const R = require('ramda');
 const TabPane = Tabs.TabPane;
+interface Iconfig {
+  url: string;
+  params: any;
+}
+interface IProp {
+  onLoad: (title: string) => void;
+  config: Array<Iconfig> | Iconfig;
+  idx: number | string;
+}
+interface IState extends Iconfig {
+  loading: boolean;
+  option: any;
+  idx: number | string;
+  [key: string]: any;
+}
+class Charts extends Component<IProp, IState> {
+  static defaultProps: Partial<IProp> = {
+    config: {
+      url: '',
+      params: {
+        cache: 10,
+        tstart: '',
+        tend: ''
+      }
+    }
+  };
 
-class Charts extends Component {
+  echarts_react = null;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +65,7 @@ class Charts extends Component {
 
   init = async () => {
     let state = await db.computeDerivedState(this.state);
-    state.dataSrc.data = state.dataSrc.data.map(item => Object.values(item));
+    state.dataSrc.data = state.dataSrc.data.map((item) => Object.values(item));
     this.setState({
       ...state
     });
@@ -45,7 +73,13 @@ class Charts extends Component {
   };
 
   componentDidUpdate({ config }) {
-    let { url, params } = this.state;
+    let {
+      url,
+      params
+    }: {
+      url: string;
+      params: any;
+    } = this.state;
     if (R.equals(config.params, params) && url === config.url) {
       return false;
     }
@@ -77,7 +111,7 @@ class Charts extends Component {
             loading={loading}
             bordered={false}>
             <ReactEcharts
-              ref={e => {
+              ref={(e) => {
                 this.echarts_react = e;
               }}
               option={option}
@@ -97,16 +131,4 @@ class Charts extends Component {
     );
   }
 }
-
-Charts.defaultProps = {
-  config: {
-    url: '',
-    params: {
-      cache: 10,
-      tstart: '',
-      tend: ''
-    }
-  }
-};
-
 export default Charts;

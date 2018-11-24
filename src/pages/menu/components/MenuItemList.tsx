@@ -8,12 +8,26 @@ import * as treeUtil from './tree-data-utils';
 
 import * as db from '../service';
 import styles from '../index.less';
-import MenuItem from './MenuItem.jsx';
+import MenuItem, { TMenuItem } from './MenuItem';
 
 const Search = Input.Search;
 const R = require('ramda');
 
-class MenuItemList extends Component {
+interface IMenuState {
+  expanded: boolean;
+  treeDataLeft: Array<any>;
+  shouldCopyOnOutsideDrop: boolean;
+  menuList: Array<any>;
+  searchValue: string;
+  externalNodeType: any;
+  showMenuItem: boolean;
+  editMode: boolean;
+  menuItem: TMenuItem | {};
+  treeIndex: number | string;
+}
+interface IMenuProps {}
+
+class MenuItemList extends Component<IMenuProps, IMenuState> {
   constructor(props) {
     super(props);
 
@@ -60,7 +74,7 @@ class MenuItemList extends Component {
   };
 
   // 菜单项搜索过滤
-  searchChange = e => {
+  searchChange = (e) => {
     const searchValue = e.target.value.trim();
     this.handleMenuLeft(searchValue, this.state.menuList);
     this.setState({ searchValue });
@@ -111,7 +125,7 @@ class MenuItemList extends Component {
     this.toggleMenuItem(true);
   };
 
-  toggleMenuItem = showMenuItem => {
+  toggleMenuItem = (showMenuItem) => {
     this.setState({
       showMenuItem
     });
@@ -125,7 +139,7 @@ class MenuItemList extends Component {
     });
   };
 
-  changeMenuItem = async menuItem => {
+  changeMenuItem = async (menuItem) => {
     let { treeDataLeft, treeIndex, editMode } = this.state;
     // 如果未做任何修改，不继续更新/增加菜单项
     if (
@@ -158,7 +172,7 @@ class MenuItemList extends Component {
         menuItem
       );
       params._id = menuItem.id;
-      await db.setBaseMenuItem(params).catch(e => {
+      await db.setBaseMenuItem(params).catch((e) => {
         this.noticeError();
       });
       // 更新结点,对于树形结构适用
@@ -181,6 +195,7 @@ class MenuItemList extends Component {
       treeDataLeft,
       menuItem
     });
+    return;
   };
 
   render() {
@@ -205,7 +220,7 @@ class MenuItemList extends Component {
             rowHeight={32}
             dndType={externalNodeType}
             shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
-            generateNodeProps={treeItem => ({
+            generateNodeProps={(treeItem) => ({
               buttons: [
                 <Button
                   size="small"

@@ -227,10 +227,7 @@ export let uploadBase64 = async (dataURI: string) => {
  * @param {回调函数} callback
  * @desc 将file图像文件对象转换为BASE64
  */
-export let dataFile2URI: FileReader = async (
-  file: File,
-  callback: Function
-) => {
+export let dataFile2URI = async (file: File, callback: Function) => {
   if (typeof FileReader === 'undefined') {
     return {
       status: false,
@@ -244,7 +241,7 @@ export let dataFile2URI: FileReader = async (
       data: '浏览器不支持 请确保文件为图像文件'
     };
   }
-  var reader: FileReader = new FileReader();
+  let reader: FileReader = new FileReader();
   reader.onload = ({ target: { result } }: any) => {
     if (typeof callback === 'function') {
       callback(result);
@@ -275,11 +272,13 @@ export const thouandsNum: {
 };
 
 // 处理url链接信息，返回组件model所需的初始数据
-export const handleUrlParams: {
+export const handleUrlParams: (
+  hash: string
+) => {
   id: number | string;
   params: any;
-  dateRange: Array<string>;
-} = (hash: string) => {
+  dateRange: [string, string];
+} = (hash) => {
   let queryStr: string = hash
     .slice(1)
     .replace(/，/g, ',')

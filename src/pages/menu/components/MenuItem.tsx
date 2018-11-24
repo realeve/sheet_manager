@@ -1,18 +1,44 @@
-import React, { Component } from "react";
-import { Modal, Button, Input, Tag, Icon } from "antd";
-import styles from "./menuitem.less";
-import IconList from "./IconList.jsx";
-import util from "@/utils/pinyin";
+import React, { Component } from 'react';
+import { Modal, Button, Input, Tag, Icon } from 'antd';
+import styles from './menuitem.less';
+import IconList from './IconList';
+import util from '@/utils/pinyin';
+const R = require('ramda');
+export type TMenuItem = {
+  icon: string;
+  title: string;
+  url: string;
+};
 
-const R = require("ramda");
+interface IState {
+  visible: boolean;
+  menuItem: TMenuItem;
+  editMode: boolean;
+  iconVisible?: boolean;
+}
+interface IProps extends IState {
+  onChange?: (state: TMenuItem) => void;
+  onCancel?: (status: boolean) => void;
+}
 
-const mapPropsToState = props => ({
+const mapPropsToState: (IProps) => IState = (props) => ({
   visible: props.visible,
   menuItem: props.menuItem,
   editMode: props.editMode
 });
 
-class MenuItem extends Component {
+class MenuItem extends Component<IProps, IState> {
+  static defaultProps: Partial<IProps> = {
+    visible: false,
+    menuItem: {
+      title: '',
+      url: '',
+      icon: ''
+    },
+    editMode: false,
+    iconVisible: false
+  };
+
   constructor(props) {
     super(props);
     this.state = mapPropsToState(props);
@@ -29,16 +55,16 @@ class MenuItem extends Component {
     return mapPropsToState(props);
   }
 
-  handleOk = e => {
+  handleOk = () => {
     this.props.onChange(this.state.menuItem);
     this.props.onCancel(false);
   };
 
-  handleCancel = e => {
+  handleCancel = () => {
     this.props.onCancel(false);
   };
 
-  toggleIconList = iconVisible => {
+  toggleIconList = (iconVisible: boolean) => {
     this.setState({
       iconVisible
     });
@@ -48,21 +74,24 @@ class MenuItem extends Component {
     this.toggleIconList(true);
   };
 
-  updateIcon = icon => {
-    let { menuItem } = this.state;
+  updateIcon = (icon: string) => {
+    let { menuItem }: { menuItem: TMenuItem } = this.state;
     menuItem = Object.assign(menuItem, { icon });
     this.setState({ menuItem });
     this.toggleIconList(false);
   };
 
-  addLink = link => {
+  addLink = (link: string) => {
     let { menuItem } = this.state;
     menuItem = Object.assign(menuItem, { url: `/${link}#id=` });
     this.setState({ menuItem });
   };
 
-  updateState = (key, e) => {
-    let { menuItem } = this.state;
+  updateState: (key: string, e: React.ChangeEvent<HTMLInputElement>) => void = (
+    key,
+    e
+  ) => {
+    let { menuItem }: { menuItem: TMenuItem } = this.state;
     let { value } = e.target;
     menuItem = Object.assign(menuItem, {
       [key]: value,
@@ -74,16 +103,15 @@ class MenuItem extends Component {
 
   render() {
     let { menuItem, editMode, iconVisible } = this.state;
-    let urlIcon = menuItem.icon === "" ? "图标" : <Icon type={menuItem.icon} />;
+    let urlIcon = menuItem.icon === '' ? '图标' : <Icon type={menuItem.icon} />;
     return (
       <Modal
-        title={editMode ? "编辑菜单项" : "新增菜单项"}
+        title={editMode ? '编辑菜单项' : '新增菜单项'}
         visible={this.state.visible}
         onOk={this.handleOk}
         onCancel={this.handleCancel}
         okText="确认"
-        cancelText="取消"
-      >
+        cancelText="取消">
         <IconList
           visible={iconVisible}
           onCancel={this.toggleIconList}
@@ -94,20 +122,20 @@ class MenuItem extends Component {
           <Input
             placeholder="标题"
             value={menuItem.title}
-            onChange={e => this.updateState("title", e)}
+            onChange={(e) => this.updateState('title', e)}
           />
         </div>
         <Input
           className={styles.input}
           placeholder="链接地址"
           value={menuItem.url}
-          onChange={e => this.updateState("url", e)}
+          onChange={(e) => this.updateState('url', e)}
         />
         <div className={styles.tags}>
-          <Tag color="#f50" onClick={() => this.addLink("chart")}>
+          <Tag color="#f50" onClick={() => this.addLink('chart')}>
             图表
           </Tag>
-          <Tag color="#108ee9" onClick={() => this.addLink("table")}>
+          <Tag color="#108ee9" onClick={() => this.addLink('table')}>
             报表
           </Tag>
         </div>
@@ -115,16 +143,5 @@ class MenuItem extends Component {
     );
   }
 }
-
-MenuItem.defaultProps = {
-  visible: false,
-  menuItem: {
-    title: "",
-    url: "",
-    icon: ""
-  },
-  editMode: false,
-  iconVisible: false
-};
 
 export default MenuItem;

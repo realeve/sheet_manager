@@ -23,7 +23,7 @@ interface Iconfig {
   prefix?: string;
   suffix?: string;
   data: any;
-  dateRange: Array<string>;
+  dateRange: [string, string];
   [key: string]: any;
 }
 let getDefaultTitle = (option, config: Iconfig) => {
@@ -134,7 +134,7 @@ let handleDefaultOption = (option, config) => {
 };
 
 // 字符串转日期
-let str2Date: string = (str: string) => {
+let str2Date: (str: string) => string = (str) => {
   let needConvert: boolean = /^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$|^[1-9]\d{3}(0[1-9]|1[0-2])$/.test(
     str
   );
@@ -148,7 +148,7 @@ let str2Date: string = (str: string) => {
   return dates.join('-');
 };
 
-let str2Num: number = (str: string) => {
+let str2Num: (str: string) => number = (str) => {
   if (/^(|\-)[0-9]+.[0-9]+$/.test(str)) {
     return parseFloat(parseFloat(str).toFixed(3));
   }
@@ -157,13 +157,13 @@ let str2Num: number = (str: string) => {
   }
 };
 
-let isDate: boolean = (dateStr: string) => {
+let isDate: (dateStr: string) => boolean = (dateStr) => {
   return /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/.test(
     dateStr
   );
 };
 
-let needConvertDate: boolean = (dateStr: string) => {
+let needConvertDate: (dateStr: string) => boolean = (dateStr) => {
   return /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$|^[1-9]\d{3}(0[1-9]|1[0-2])$/.test(
     dateStr
   );
@@ -295,7 +295,7 @@ const colors: Array<string> = [
   '#d0545f'
 ];
 
-function hex2rgb(hexVal: string): Array<string | number> {
+function hex2rgb(hexVal: string): string {
   var result = '';
   hexVal = hexVal.includes('#') ? hexVal.slice(1) : hexVal;
   switch (hexVal.length) {
@@ -320,7 +320,7 @@ function hex2rgb(hexVal: string): Array<string | number> {
   return result;
 }
 
-type arrRgb = Array<string | number>;
+type arrRgb = Array<string>;
 function rgb2hex(val: string): arrRgb {
   let rgbVal: arrRgb = val
     .replace(/rgb/, '')
@@ -349,15 +349,17 @@ let getLegendData = (legendData) =>
     icon: 'circle'
   }));
 
-type tGl = 'bar3d' | 'line3d' | 'scatter3d' | 'surface';
-let chartGL: Array<tGl> = ['bar3d', 'line3d', 'scatter3d', 'surface'];
+// type tGl = 'bar3d' | 'line3d' | 'scatter3d' | 'surface'|'sunburst'| 'sankey'|'paralell';
+let chartGL = ['bar3d', 'line3d', 'scatter3d', 'surface'];
 
-type tRender = 'canvas' | 'svg';
-let getRenderer: string = (params: {
-  render?: tRender;
+// type tRender = 'canvas' | 'svg';
+let getRenderer: string | any = (
+  params
+): {
+  render?: string;
   type: string;
   histogram?: string;
-}) =>
+} =>
   params.render ||
   (['paralell', ...chartGL].includes(params.type) || params.histogram
     ? 'canvas'
@@ -366,6 +368,7 @@ let getRenderer: string = (params: {
 interface Iparams {
   type: string;
   height?: string | number;
+  size?: number;
 }
 
 type chartHeightFun = (params: Iparams, data: any) => string;
@@ -391,12 +394,15 @@ let getChartHeight: chartHeightFun = (params: Iparams, { series }) => {
 };
 
 // 处理minmax值至最佳刻度，需要考虑 >10 及 <10 两种场景以及负数的情况
-interface Iminmax {
+let handleMinMax: (
+  params: {
+    min: number;
+    max: number;
+  }
+) => {
   min: number;
   max: number;
-}
-
-let handleMinMax: Iminma = ({ min, max }): Iminmax => {
+} = ({ min, max }) => {
   let exLength: number = String(Math.floor(max)).length - 1;
   if (max > 10) {
     return {
@@ -410,7 +416,10 @@ let handleMinMax: Iminma = ({ min, max }): Iminmax => {
   };
 };
 
-let getLegend: {
+let getLegend: (
+  params: any,
+  selectedMode: string
+) => {
   show?: boolean;
   selectedMode?: string;
   data?: any;

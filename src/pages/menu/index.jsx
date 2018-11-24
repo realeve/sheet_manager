@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Row, Col, Card, Button } from 'antd';
 
-import MenuItemList from './components/MenuItemList.jsx';
-import MenuPreview from './components/MenuPreview.jsx';
-import MenuList from './components/MenuList.jsx';
+import MenuItemList from './components/MenuItemList';
+import MenuPreview from './components/MenuPreview';
+import MenuList from './components/MenuList';
 import ChartLink from '@/components/ChartLink';
 import * as db from './service';
 import styles from './index.less';
@@ -27,7 +27,7 @@ class VTree extends Component {
 
   initData = async () => {
     let { data } = await db.getBaseMenuList();
-    let menuList = data.map(item => {
+    let menuList = data.map((item) => {
       item.detail = JSON.parse(item.detail);
       return item;
     });
