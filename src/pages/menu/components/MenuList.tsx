@@ -1,14 +1,30 @@
-import React, { Component } from "react";
-import { Button, Popconfirm, Icon, notification } from "antd";
-import { connect } from "dva";
-import styles from "./MenuList.less";
-import * as db from "../service";
-import * as lib from "@/utils/lib";
-import userTool from "@/utils/users";
+import React, { Component } from 'react';
+import { Button, Popconfirm, Icon, notification } from 'antd';
+import { connect } from 'dva';
+import styles from './MenuList.less';
+import * as db from '../service';
+import userTool from '@/utils/users';
+import { TMenuItem } from './MenuItem';
+import { TMenuList } from './MenuItemList';
 
-const R = require("ramda");
+const R = require('ramda');
 
-class MenuList extends Component {
+interface IMenuListProps {
+  onEdit?: (menuItem: TMenuItem, operateType: string) => string;
+  dispatch?: (
+    action: {
+      type: string;
+      payload: any;
+    }
+  ) => void;
+}
+
+interface IMenuListState {
+  menuList: TMenuList;
+  uid: string | number;
+}
+
+class MenuList extends Component<IMenuListProps, IMenuListState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,11 +42,16 @@ class MenuList extends Component {
     };
   }
 
-  editMenu = menuItem => {
-    this.props.onEdit(menuItem, "edit");
+  editMenu = (menuItem) => {
+    this.props.onEdit(menuItem, 'edit');
   };
 
-  setCurMenu = async ({ id: menu_id, detail: menu }) => {
+  setCurMenu: (
+    params: {
+      id: number | string;
+      detail: TMenuItem;
+    }
+  ) => void = async ({ id: menu_id, detail: menu }) => {
     const {
       data: [{ affected_rows }]
     } = await db.setSysUser({
@@ -39,8 +60,8 @@ class MenuList extends Component {
     });
 
     notification.success({
-      message: "系统提示",
-      description: "默认菜单配置成功."
+      message: '系统提示',
+      description: '默认菜单配置成功.'
     });
 
     if (!affected_rows) {
@@ -55,7 +76,7 @@ class MenuList extends Component {
     userTool.saveUserSetting(data);
 
     dispatch({
-      type: "common/setStore",
+      type: 'common/setStore',
       payload: {
         userSetting: {
           menu
@@ -66,7 +87,10 @@ class MenuList extends Component {
     // lib.logout(this.props);
   };
 
-  removeMenu = async (menuItem, idx) => {
+  removeMenu: (menuItem: TMenuItem, idx: number | string) => void = async (
+    menuItem,
+    idx
+  ) => {
     let { data } = await db.delBaseMenuList({
       _id: menuItem.id,
       uid: menuItem.uid
@@ -82,18 +106,18 @@ class MenuList extends Component {
     // });
 
     // 重置现在编辑的菜单项
-    this.props.onEdit(menuItem, "del");
+    this.props.onEdit(menuItem, 'del');
 
     notification.success({
-      message: "系统提示",
-      description: "菜单配置删除成功."
+      message: '系统提示',
+      description: '菜单配置删除成功.'
     });
   };
 
   previewMenu = async ({ detail: previewMenu }) => {
     let { dispatch } = this.props;
     dispatch({
-      type: "common/setStore",
+      type: 'common/setStore',
       payload: {
         userSetting: {
           previewMenu
@@ -105,8 +129,8 @@ class MenuList extends Component {
   noticeError = () => {
     // 数据插入失败
     notification.error({
-      message: "系统提示",
-      description: "菜单配置信息调整失败，请稍后重试."
+      message: '系统提示',
+      description: '菜单配置信息调整失败，请稍后重试.'
     });
   };
 
@@ -135,11 +159,10 @@ class MenuList extends Component {
                       icon={
                         <Icon
                           type="question-circle-o"
-                          style={{ color: "red" }}
+                          style={{ color: 'red' }}
                         />
                       }
-                      onConfirm={() => this.removeMenu(item, idx)}
-                    >
+                      onConfirm={() => this.removeMenu(item, idx)}>
                       <Button
                         shape="circle"
                         title="删除"

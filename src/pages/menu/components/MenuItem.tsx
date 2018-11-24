@@ -4,10 +4,17 @@ import styles from './menuitem.less';
 import IconList from './IconList';
 import util from '@/utils/pinyin';
 const R = require('ramda');
+
 export type TMenuItem = {
+  id: string | number;
   icon: string;
   title: string;
   url: string;
+  pinyin?: string;
+  pinyin_full?: string;
+  uid?: string | number;
+  detail: any;
+  [key: string]: any;
 };
 
 interface IState {
@@ -31,9 +38,11 @@ class MenuItem extends Component<IProps, IState> {
   static defaultProps: Partial<IProps> = {
     visible: false,
     menuItem: {
+      id: 0,
       title: '',
       url: '',
-      icon: ''
+      icon: '',
+      detail: ''
     },
     editMode: false,
     iconVisible: false

@@ -13,21 +13,33 @@ import MenuItem, { TMenuItem } from './MenuItem';
 const Search = Input.Search;
 const R = require('ramda');
 
+export type TMenuList = Array<TMenuItem>;
+
+interface IMenuItem extends TMenuItem {
+  _id?: string | number;
+}
+
 interface IMenuState {
   expanded: boolean;
-  treeDataLeft: Array<any>;
+  treeDataLeft: TMenuList;
   shouldCopyOnOutsideDrop: boolean;
-  menuList: Array<any>;
+  menuList: TMenuList;
   searchValue: string;
   externalNodeType: any;
   showMenuItem: boolean;
   editMode: boolean;
-  menuItem: TMenuItem | {};
+  menuItem: TMenuItem;
   treeIndex: number | string;
 }
-interface IMenuProps {}
+interface IMenuProps {
+  externalNodeType: string;
+}
 
 class MenuItemList extends Component<IMenuProps, IMenuState> {
+  static defaultProps: Partial<IMenuProps> = {
+    externalNodeType: 'shareNodeType'
+  };
+
   constructor(props) {
     super(props);
 
@@ -40,7 +52,7 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
       externalNodeType: props.externalNodeType,
       showMenuItem: false,
       editMode: false,
-      menuItem: {},
+      menuItem: { icon: '', title: '', url: '', id: 0, detail: '' },
       treeIndex: null
     };
   }
@@ -57,14 +69,15 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
   }
 
   // 处理左侧数据
-  handleMenuLeft = (searchValue, menuList) => {
+  handleMenuLeft = (searchValue: string, menuList: TMenuList) => {
     if (searchValue.length === 0) {
       this.setState({
         treeDataLeft: menuList
       });
       return;
     }
-    let treeDataLeft = R.filter(
+
+    let treeDataLeft: TMenuList = R.filter(
       ({ title, pinyin, pinyin_full }) =>
         pinyin.includes(searchValue) ||
         pinyin_full.includes(searchValue) ||
@@ -74,15 +87,15 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
   };
 
   // 菜单项搜索过滤
-  searchChange = (e) => {
-    const searchValue = e.target.value.trim();
+  searchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue: string = e.target.value.trim();
     this.handleMenuLeft(searchValue, this.state.menuList);
     this.setState({ searchValue });
   };
 
   // 移除菜单项
-  removeMenuItem = async ({ path }) => {
-    let { treeDataLeft } = R.clone(this.state);
+  removeMenuItem: ({ path: string }) => void = async ({ path }) => {
+    let { treeDataLeft }: { treeDataLeft: TMenuList } = R.clone(this.state);
     let { data } = await db.delBaseMenuItem(treeDataLeft[path].id);
     if (data[0].affected_rows === 0) {
       this.noticeError();
@@ -102,9 +115,9 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
   };
 
   // 编辑菜单项
-  editMenuItem = ({ path }) => {
-    let { treeDataLeft } = R.clone(this.state);
-    let { treeIndex } = treeUtil.getNodeAtPath({
+  editMenuItem: ({ path: string }) => void = ({ path }) => {
+    let { treeDataLeft }: { treeDataLeft: TMenuList } = R.clone(this.state);
+    let { treeIndex }: { treeIndex: number | string } = treeUtil.getNodeAtPath({
       treeData: treeDataLeft,
       path,
       getNodeKey: treeUtil.getNodeKey
@@ -139,8 +152,16 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
     });
   };
 
-  changeMenuItem = async (menuItem) => {
-    let { treeDataLeft, treeIndex, editMode } = this.state;
+  changeMenuItem: (menuitem: TMenuItem) => void = async (menuItem) => {
+    let {
+      treeDataLeft,
+      treeIndex,
+      editMode
+    }: {
+      treeDataLeft: TMenuList;
+      treeIndex: number | string;
+      editMode: boolean;
+    } = this.state;
     // 如果未做任何修改，不继续更新/增加菜单项
     if (
       (editMode && R.equals(menuItem, treeDataLeft[treeIndex])) ||
@@ -159,7 +180,7 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
       menuItem.id = data[0].id;
 
       // 在开头插入数据
-      let { treeData } = treeUtil.insertNode({
+      let { treeData }: { treeData: TMenuList } = treeUtil.insertNode({
         treeData: treeDataLeft,
         depth: 0,
         minimumTreeIndex: 0,
@@ -168,15 +189,16 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
       });
       treeDataLeft = treeData;
     } else {
-      let params = R.pick('icon,title,url,pinyin,pinyin_full'.split(','))(
-        menuItem
-      );
+      let params: IMenuItem = R.pick(
+        'icon,title,url,pinyin,pinyin_full'.split(',')
+      )(menuItem);
       params._id = menuItem.id;
+
       await db.setBaseMenuItem(params).catch((e) => {
         this.noticeError();
       });
       // 更新结点,对于树形结构适用
-      let node = treeDataLeft[treeIndex];
+      let node: IMenuItem = treeDataLeft[treeIndex];
 
       treeDataLeft = treeUtil.changeNodeAtPath({
         treeData: treeDataLeft,
@@ -195,7 +217,6 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
       treeDataLeft,
       menuItem
     });
-    return;
   };
 
   render() {
@@ -249,9 +270,11 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
 
     if (!editMode) {
       menuItem = {
+        id: 0,
         title: '',
         url: '',
-        icon: ''
+        icon: '',
+        detail: ''
       };
     }
 
@@ -281,9 +304,5 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
     );
   }
 }
-
-MenuItemList.defaultProps = {
-  externalNodeType: 'shareNodeType'
-};
 
 export default MenuItemList;

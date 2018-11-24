@@ -5,11 +5,11 @@ import { axios } from '@/utils/axios';
 *   @desc:     { 插入菜单项 } 
     const { icon, title, url, pinyin, pinyin_full } = params;
 */
-export const addBaseMenuItem = async (params) =>
-  await axios({
+export const addBaseMenuItem = (params) =>
+  axios({
     url: '/18/2b9eaaab97.json',
     params
-  }).then((res) => res);
+  });
 
 /**
 *   @database: { 接口管理 }
@@ -18,20 +18,20 @@ export const addBaseMenuItem = async (params) =>
 	@id:_id. 参数说明：api 索引序号
     const { icon, title, url, pinyin, pinyin_full, _id } = params;
 */
-export const setBaseMenuItem = async (params) =>
-  await axios({
+export const setBaseMenuItem = (params) =>
+  axios({
     url: '/19/5fc349508c.json',
     params
-  }).then((res) => res);
+  });
 
 /**
  *   @database: { 接口管理 }
  *   @desc:     { 查询菜单项 }
  */
-export const getBaseMenuItem = async () =>
-  await axios({
+export const getBaseMenuItem = () =>
+  axios({
     url: '/20/b5fa4e6e6e.json'
-  }).then((res) => res);
+  });
 
 /**
 *   @database: { 接口管理 }
@@ -39,33 +39,33 @@ export const getBaseMenuItem = async () =>
 	以下参数在建立过程中与系统保留字段冲突，已自动替换:
 	@id:_id. 参数说明：api 索引序号
       */
-export const delBaseMenuItem = async (_id) =>
-  await axios({
+export const delBaseMenuItem = (_id) =>
+  axios({
     url: '/21/548039aa24.json',
     params: {
       _id
     }
-  }).then((res) => res);
+  });
 
 /**
 *   @database: { 接口管理 }
 *   @desc:     { 插入菜单配置信息 } 
     const { title, detail, uid } = params;
 */
-export const addBaseMenuList = async (params) =>
-  await axios({
+export const addBaseMenuList = (params) =>
+  axios({
     url: '/22/48c41dde3b.json',
     params
-  }).then((res) => res);
+  });
 
 /**
  *   @database: { 接口管理 }
  *   @desc:     { 读取菜单配置列表 }
  */
-export const getBaseMenuList = async () =>
-  await axios({
+export const getBaseMenuList = () =>
+  axios({
     url: '/23/dc95d5f25b.json'
-  }).then((res) => res);
+  });
 
 /** 数据量较大时建议使用post模式：
 *
@@ -92,11 +92,11 @@ export const setBaseMenuList = (params) =>
 	@id:_id. 参数说明：api 索引序号
     const { _id, uid } = params;
 */
-export const delBaseMenuList = async (params) =>
-  await axios({
+export const delBaseMenuList = (params) =>
+  axios({
     url: '/25/bbbd988205.json',
     params
-  }).then((res) => res);
+  });
 
 /**
 *   @database: { 接口管理 }
@@ -105,8 +105,8 @@ export const delBaseMenuList = async (params) =>
 	@id:_id. 参数说明：api 索引序号
     const { menu_id, _id } = params;
 */
-export const setSysUser = async (params) =>
-  await axios({
+export const setSysUser = (params) =>
+  axios({
     url: '/26/0d3c8d84a5.json',
     params
-  }).then((res) => res);
+  });

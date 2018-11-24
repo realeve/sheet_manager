@@ -12,9 +12,10 @@ export default class GlobalHeaderRight extends PureComponent {
     let { pathname } = window.location;
     return pathname;
   };
+
   componentDidMount() {
     let pathname = this.getRouter();
-    console.log(pathname);
+    console.log('当前路由:', pathname);
   }
 
   onSearch = (value) => {

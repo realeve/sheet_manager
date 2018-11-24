@@ -9,12 +9,48 @@ import * as treeUtil from './tree-data-utils';
 import * as db from '../service';
 import styles from '../index.less';
 
+import { TMenuList } from './MenuItemList';
+import { TMenuItem } from './MenuItem';
+
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
 const R = require('ramda');
 
-class MenuPreview extends Component {
+interface IPreviewState {
+  expanded: boolean;
+  treeData: TMenuList;
+  shouldCopyOnOutsideDrop: boolean;
+  externalNodeType: string;
+  editMode: boolean;
+  menu_id: string | number;
+  uid?: string | number;
+  title: string;
+}
+
+interface IPreviewProps {
+  externalNodeType: string;
+  menuDetail: TMenuItem;
+  editMode: boolean;
+  treeData: TMenuList;
+  uid?: string | number;
+  onNew?: () => void;
+}
+
+class MenuPreview extends Component<IPreviewProps, IPreviewState> {
+  static defaultProps: Partial<IPreviewProps> = {
+    externalNodeType: 'shareNodeType',
+    menuDetail: {
+      id: 0,
+      detail: [],
+      title: '',
+      icon: '',
+      url: ''
+    },
+    editMode: false,
+    treeData: []
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -45,19 +81,29 @@ class MenuPreview extends Component {
   // 菜单层级调整
   onTreeChange = (treeData) => {
     this.setState({ treeData });
-    console.log('菜单项调整：', treeData);
+    // console.log('菜单项调整：', treeData);
   };
 
   // 展开所有
   expandAll = () => {
-    let { expanded, treeData } = this.state;
+    let {
+      expanded,
+      treeData
+    }: {
+      expanded: boolean;
+      treeData: TMenuList;
+    } = this.state;
     treeData = treeUtil.toggleExpandedForAll({ expanded, treeData });
     this.setState({ treeData, expanded: !expanded });
   };
 
   // 移除菜单项
   removeMenuItem = async ({ path }) => {
-    let { treeData } = R.clone(this.state);
+    let {
+      treeData
+    }: {
+      treeData: TMenuList;
+    } = R.clone(this.state);
     treeData = treeUtil.removeNodeAtPath({
       treeData,
       path,
@@ -77,11 +123,16 @@ class MenuPreview extends Component {
 
   submitMenu = async () => {
     let { treeData: detail, title, uid, editMode, menu_id } = this.state;
-    let params = {
+    let params: {
+      title: string;
+      uid: string | number;
+      detail: any;
+    } = {
       title,
       detail: JSON.stringify(detail),
       uid
     };
+
     if (!editMode) {
       let { data } = await db.addBaseMenuList(params).catch((e) => {
         return [{ affected_rows: 0 }];
@@ -96,8 +147,9 @@ class MenuPreview extends Component {
         menu_id: data[0].id
       });
     } else {
-      params._id = menu_id;
-      let { data } = await db.setBaseMenuList(params).catch((e) => {
+      let updateParam = R.clone(params);
+      updateParam._id = menu_id;
+      let { data } = await db.setBaseMenuList(updateParam).catch((e) => {
         return [{ affected_rows: 0 }];
       });
       if (data[0].affected_rows === 0) {
@@ -180,12 +232,4 @@ class MenuPreview extends Component {
     );
   }
 }
-
-MenuPreview.defaultProps = {
-  externalNodeType: 'shareNodeType',
-  menuDetail: [],
-  editMode: false,
-  treeData: []
-};
-
 export default MenuPreview;

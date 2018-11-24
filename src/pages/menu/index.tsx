@@ -9,11 +9,33 @@ import ChartLink from '@/components/ChartLink';
 import * as db from './service';
 import styles from './index.less';
 
-class VTree extends Component {
+import { TMenuList } from './components/MenuItemList';
+import { TMenuItem } from './components/MenuItem';
+
+interface ITreeProps {
+  uid: number | string;
+  loading: boolean;
+}
+
+interface ITreeState {
+  menuDetail: TMenuItem;
+  editMode: boolean;
+  uid: number | string;
+  menuList: TMenuList;
+  visible: boolean;
+}
+
+class VTree extends Component<ITreeProps, ITreeState> {
   constructor(props) {
     super(props);
     this.state = {
-      menuDetail: [],
+      menuDetail: {
+        id: 0,
+        detail: [],
+        title: '',
+        icon: '',
+        url: ''
+      },
       editMode: false,
       uid: props.uid,
       menuList: [],
@@ -48,9 +70,11 @@ class VTree extends Component {
     this.setState({
       editMode: false,
       menuDetail: {
-        title: '',
+        id: 0,
         detail: [],
-        id: 0
+        title: '',
+        icon: '',
+        url: ''
       }
     });
     this.initData();
@@ -64,7 +88,7 @@ class VTree extends Component {
 
   render() {
     const externalNodeType = 'shareNodeType';
-    const { menuDetail, editMode, visible } = this.state;
+    const { menuDetail, editMode, visible, uid } = this.state;
     return (
       <Card title="菜单设置">
         <Row>
@@ -77,13 +101,13 @@ class VTree extends Component {
               menuDetail={menuDetail}
               editMode={editMode}
               onNew={this.reset}
-              uid={this.state.uid}
+              uid={uid}
             />
           </Col>
           <Col md={8} sm={24}>
             <MenuList
               onEdit={this.editMenu}
-              uid={this.state.uid}
+              uid={uid}
               menuList={this.state.menuList}
             />
           </Col>
@@ -107,7 +131,6 @@ class VTree extends Component {
 function mapStateToProps(state) {
   return {
     loading: state.loading.models.menu,
-    ...state.table,
     uid: state.common.userSetting.uid
   };
 }
