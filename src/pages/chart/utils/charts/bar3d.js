@@ -17,7 +17,8 @@ let chartConfig = [
       '/chart#id=36/0297ce54b9&type=surface&x=1&y=0&z=2',
       '/chart#id=36/0297ce54b9&type=surface&x=1&y=0&z=2',
       '/chart#id=36/0297ce54b9&type=scatter3d&x=1&y=0&z=2',
-      '/chart#id=36/0297ce54b9&type=line3d&x=1&y=0&z=2'
+      '/chart#id=36/0297ce54b9&type=line3d&x=1&y=0&z=2',
+      '/chart#id=50/f317ed4bb9&render=canvas&type=bar3d&smooth=1&stack=1&x=0&y=1&z=2&group=3'
     ]
   },
   {
@@ -42,7 +43,7 @@ let chartConfig = [
   }
 ];
 
-let getOption = config => {
+let getOption = (config) => {
   let option = R.clone(config);
   option = Object.assign(
     {
@@ -72,7 +73,7 @@ let chartType = {
   surface: 'surface'
 };
 
-let bar3d = config => {
+let bar3d = (config) => {
   // let option = {};
   config = getOption(config);
   let { header, data } = config.data;
@@ -151,7 +152,7 @@ let bar3d = config => {
         type,
         data: util.getDataByKeys({
           keys: [header[x], header[y], header[z]],
-          data: data
+          data
         }),
         scatterSize: 40,
         shading: ['color', 'lambert', 'realistic'][config.shading],

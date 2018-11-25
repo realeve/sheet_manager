@@ -16,19 +16,20 @@ import { chartConfig as calendar } from './charts/calendar';
 import { chartConfig as bar3d } from './charts/bar3d';
 
 const commonConfig: Array<{
-  key: string,
-  title: string,
-  default?: string
+  key: string;
+  title: string;
+  default?: string;
+  url?: string | Array<string>;
 }> = [
   {
     key: 'prefix',
     title: '前缀，该值作为参数请求API，同时将显示在标题的前面',
-    default: ''
+    default: 'string'
   },
   {
     key: 'suffix',
     title: '后缀，该值作为参数请求API，同时将显示在标题的后面',
-    default: ''
+    default: 'string'
   },
   {
     key: 'height',
@@ -38,6 +39,14 @@ const commonConfig: Array<{
     key: 'render',
     title: '渲染模式，当某些图表类型渲染异常时，建议改为canvas',
     default: '系统根据图表类型默认自动选择，可选项为 canvas 或 svg'
+  },
+  {
+    key: 'group',
+    title:
+      '数据分组。当Legend,x,y不足以表达数据时，增加数据按指定列分组，避免 id=1&p=a&id=1&p=b的场景',
+    default: 'string|number',
+    url:
+      '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=0&x=1&y=2&group=3'
   }
 ];
 const config = {
