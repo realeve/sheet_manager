@@ -105,7 +105,7 @@ export default class Charts extends Component<IProp, IState> {
     let { tstart, tend } = params;
     let renderer = lib.getRenderer(params);
     let height = lib.getChartHeight(params, option);
-
+    console.log(option);
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab="数据图表" key="1">

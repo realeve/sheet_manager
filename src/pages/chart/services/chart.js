@@ -73,6 +73,7 @@ export const computeDerivedState = async ({ url, params, idx }) => {
       param = R.nth(param, dataSrc.header);
     }
     let dataList = R.groupBy(R.prop(param))(dataSrc.data);
+
     option = R.compose(
       R.map((prefix) => {
         let newParam = R.clone(params);
