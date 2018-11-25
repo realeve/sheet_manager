@@ -45,8 +45,10 @@ const commonConfig: Array<{
     title:
       '数据分组。当Legend,x,y不足以表达数据时，增加数据按指定列分组，避免 id=1&p=a&id=1&p=b的场景',
     default: 'string|number',
-    url:
-      '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=0&x=1&y=2&group=3'
+    url: [
+      '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=0&x=1&y=2&group=3',
+      '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=3&x=1&y=2&group=0'
+    ]
   }
 ];
 const config = {
