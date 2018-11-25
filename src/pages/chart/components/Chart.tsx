@@ -46,7 +46,7 @@ export default class Charts extends Component<IProp, IState> {
     super(props);
     this.state = {
       loading: false,
-      option: {},
+      option: [],
       idx: props.idx,
       ...props.config,
       dataSrc: []
@@ -114,14 +114,17 @@ export default class Charts extends Component<IProp, IState> {
             className={styles.exCard}
             loading={loading}
             bordered={false}>
-            <ReactEcharts
-              ref={(e) => {
-                this.echarts_react = e;
-              }}
-              option={option}
-              style={{ height }}
-              opts={{ renderer }}
-            />
+            {option.map((opt, key) => (
+              <ReactEcharts
+                key={key}
+                ref={(e) => {
+                  this.echarts_react = e;
+                }}
+                option={opt}
+                style={{ height, marginTop: key ? 40 : 0 }}
+                opts={{ renderer }}
+              />
+            ))}
           </Card>
         </TabPane>
         <TabPane tab="原始数据" key="2">
