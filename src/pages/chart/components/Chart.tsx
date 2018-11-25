@@ -23,7 +23,12 @@ interface IState extends Iconfig {
   idx: number | string;
   [key: string]: any;
 }
-class Charts extends Component<IProp, IState> {
+/**
+ * todo:
+ * 1.增加group选项，数据以此做切换；
+ * 2.对参数长度排序，以最长的为准做合并，避免出现 &id=a&id=a...&otherparams的情况
+ */
+export default class Charts extends Component<IProp, IState> {
   static defaultProps: Partial<IProp> = {
     config: {
       url: '',
@@ -130,4 +135,3 @@ class Charts extends Component<IProp, IState> {
     );
   }
 }
-export default Charts;

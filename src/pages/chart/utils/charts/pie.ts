@@ -185,7 +185,7 @@ const getCenterConfig = (legendData) => {
   };
 };
 
-let getRadiusLength: string = (legendData: Array<T>) => {
+let getRadiusLength: (legend: Array<any>) => string = (legendData) => {
   let len = legendData.length;
   if (len < 3) {
     return '45%';
@@ -256,7 +256,7 @@ let standardPie = ({ option, config }) => {
     });
   } else {
     seriesData = getSeriesData(data);
-    series = getSeriesItem(header[option.x], ['50%', '50%'], seriesData);
+    series[0] = getSeriesItem(header[option.x], ['50%', '50%'], seriesData);
   }
 
   // 玫瑰图

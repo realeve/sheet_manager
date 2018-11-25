@@ -49,7 +49,7 @@ function Charts({ dispatch, dateRange, config, loading }) {
     </div>
   );
 
-  if (!config.length) {
+  if (!config.length || loading) {
     return <Card loading={true} />;
   }
 
