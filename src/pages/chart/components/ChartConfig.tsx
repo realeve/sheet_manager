@@ -2,38 +2,50 @@ import React, { Component } from 'react';
 import { Card, Select, Row, Col } from 'antd';
 import styles from './Chart.less';
 import { formatMessage } from 'umi/locale';
-import { cursorTo } from 'readline';
+import { chartTypeList } from '../utils/charts';
 
 const R = require('ramda');
 const { Option } = Select;
-
+type IHeaderItem = {
+  name: string;
+  value: string;
+};
+type IHeader = Array<string> | Array<IHeaderItem>;
 interface IFiledProps {
   title: string;
   desc: string;
   value: string | number;
   onChange: (e) => void;
-  header: Array<string>;
+  header: IHeader;
+  itemMode?: boolean;
 }
 const FieldSelector: (props: IFiledProps) => JSX.Element = ({
   title,
   desc,
   value,
   onChange,
-  header
+  header,
+  itemMode
 }) => (
   <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24}>
-    <div className={styles.container}>
+    <div className={styles.selector}>
       <span>{title}</span>
       <Select
         value={value}
         size="small"
         onSelect={(value) => onChange(value)}
-        style={{ width: 180 }}>
-        {header.map((item, idx) => (
-          <Option key={String(idx)} value={String(idx)}>
-            {item}
-          </Option>
-        ))}
+        style={{ width: 120 }}>
+        {header.map((item: IHeader, idx: number) =>
+          itemMode ? (
+            <Option key={String(idx)} value={item.value}>
+              {item.name}
+            </Option>
+          ) : (
+            <Option key={String(idx)} value={String(idx)}>
+              {item}
+            </Option>
+          )
+        )}
       </Select>
     </div>
     <p className={styles.desc}>{desc}</p>
@@ -62,9 +74,15 @@ export interface IConfigState {
   [key: string]: string;
 }
 
-export type TAxisName = 'x' | 'y' | 'z' | 'legend' | 'group';
+export type TAxisName = 'type' | 'x' | 'y' | 'z' | 'legend' | 'group';
+export const getParams = R.pick(['type', 'x', 'y', 'z', 'legend', 'group']);
 
-const getParams = R.pick(['x', 'y', 'z', 'legend', 'group']);
+let getChartConfig = (type) => {
+  let chartType = chartTypeList.find((list) =>
+    list.map(({ name, value }) => type === value)
+  );
+  return chartType || [];
+};
 
 export default class ChartConfig extends Component<IConfigProps, IConfigState> {
   constructor(props) {
@@ -85,12 +103,36 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
   changeAxis = this.props.onChange;
 
   render() {
-    let { x, y, z, legend, group } = this.state;
+    let { x, y, z, legend, group, type } = this.state;
     let { header } = this.props;
+    let chartType = getChartConfig(type);
+    chartType = chartType.map(({ name, value, icon }) => {
+      return {
+        name: icon ? (
+          <div>
+            <img src={icon} style={{ width: 24, height: 24, marginRight: 5 }} />
+            {name}
+          </div>
+        ) : (
+          name
+        ),
+        value
+      };
+    });
 
     return (
       <Card className={styles.chartConfig} title="图表基础设置" bordered>
         <Row gutter={16} style={{ marginTop: 10 }}>
+          {chartType.length > 1 && (
+            <FieldSelector
+              title={formatMessage({ id: 'chart.setting.config.type' })}
+              desc="图表类型"
+              value={type}
+              onChange={(value) => this.changeAxis('type', value)}
+              header={chartType}
+              itemMode={true}
+            />
+          )}
           {x && (
             <FieldSelector
               title={formatMessage({ id: 'chart.setting.config.xAxis' })}

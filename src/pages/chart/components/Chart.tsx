@@ -4,7 +4,7 @@ import * as db from '../services/chart';
 import styles from './Chart.less';
 import ReactEcharts from './echarts-for-react';
 import VTable from '@/components/Table.jsx';
-import ChartConfig, { TAxisName, IConfigState } from './ChartConfig';
+import ChartConfig, { TAxisName, IConfigState, getParams } from './ChartConfig';
 
 import lib from '../utils/lib';
 
@@ -65,9 +65,7 @@ export default class Charts extends Component<IProp, IState> {
 
   static getDerivedStateFromProps({ config }, state) {
     let { params } = config;
-    let appendParams: IConfigState = R.pick(['x', 'y', 'z', 'legend', 'group'])(
-      params
-    );
+    let appendParams: IConfigState = getParams(params);
 
     if (R.equals(params, state.params)) {
       if (R.equals(appendParams, state.appendParams)) {
@@ -110,14 +108,9 @@ export default class Charts extends Component<IProp, IState> {
       url: string;
       params: any;
       appendParams: IConfigState;
+      option?: any;
     } = this.state;
-    let prevAppendParams: IConfigState = R.pick([
-      'x',
-      'y',
-      'z',
-      'legend',
-      'group'
-    ])(params);
+    let prevAppendParams: IConfigState = getParams(params);
 
     if (R.equals(config.params, params) && url === config.url) {
       if (R.equals(appendParams, prevAppendParams)) {

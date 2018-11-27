@@ -1,38 +1,40 @@
 .container {
-  :global(.rstcustom__rowContents) {
-    position: relative;
-    height: 100%;
-    padding: 0 5px 0 30px;
-    min-width: 230px;
-    flex: 1 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: transparent;
-    box-shadow: none;
-    border: 1px dashed rgba(0, 0, 0, 0.24); // background-color: white;
-    // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
-  :global(.rstcustom__collapseButton) {
-    top: calc(50% - 4px);
-  }
-  :global(.rstcustom__expandButton) {
-    top: calc(50% - 4px);
-    &:before {
-      content: '✚'; //"\25BC";▶
+  :global {
+    .rstcustom__rowContents {
+      position: relative;
+      height: 100%;
+      padding: 0 5px 0 30px;
+      min-width: 230px;
+      flex: 1 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: transparent;
+      box-shadow: none;
+      border: 1px dashed rgba(0, 0, 0, 0.24); // background-color: white;
+      // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-  }
-  :global(.rst__rowWrapper) {
-    padding: 5px 5px 5px 0;
-  }
-  :global(.rst__rowContents) {
-    box-shadow: none;
-    border: 1px dashed rgba(0, 0, 0, 0.24);
-    border-left: none;
-  }
-  :global(.rst__moveHandle) {
-    box-shadow: none;
+    .rstcustom__collapseButton {
+      top: calc(50% - 4px);
+    }
+    .rstcustom__expandButton {
+      top: calc(50% - 4px);
+      &:before {
+        content: '✚'; //"\25BC";▶
+      }
+    }
+    .rst__rowWrapper {
+      padding: 5px 5px 5px 0;
+    }
+    .rst__rowContents {
+      box-shadow: none;
+      border: 1px dashed rgba(0, 0, 0, 0.24);
+      border-left: none;
+    }
+    .rst__moveHandle {
+      box-shadow: none;
+    }
   }
 }
 

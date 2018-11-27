@@ -139,6 +139,35 @@ let handleDefaultOption = (option, config) => {
       // Reflect.deleteProperty(option, 'dataZoom');
     }
   }
+
+  //全局处理
+  option = handleSimpleMode(option, config);
+  return option;
+};
+
+// 简洁模式
+const handleSimpleMode = (option, config) => {
+  if (!config.simple) {
+    return option;
+  }
+
+  // Reflect.deleteProperty(option, 'toolbox');
+  let [title] = option.title;
+
+  option.title = title;
+  let { xAxis, yAxis } = option;
+  Reflect.deleteProperty(yAxis, 'name');
+  Reflect.deleteProperty(xAxis, 'name');
+  xAxis = Object.assign(xAxis, {
+    axisLine: {
+      show: false
+    },
+    axisTick: {
+      show: false
+    }
+  });
+  option = Object.assign(option, { xAxis, yAxis });
+
   return option;
 };
 

@@ -1,11 +1,13 @@
 @import '~antd/lib/style/themes/default.less';
 @pro-header-hover-bg: rgba(0, 0, 0, 0.025);
 .menu {
-  :global(.anticon) {
-    margin-right: 8px;
-  }
-  :global(.ant-dropdown-menu-item) {
-    width: 160px;
+  :global {
+    .anticon {
+      margin-right: 8px;
+    }
+    .ant-dropdown-menu-item {
+      width: 160px;
+    }
   }
 }
 
@@ -15,7 +17,7 @@
   display: inline-block;
   transition: all 0.3s;
   height: 100%;
-  > i {
+  >i {
     vertical-align: middle;
     color: @text-color;
   }
@@ -70,7 +72,7 @@
 .dark {
   .action {
     color: rgba(255, 255, 255, 0.85);
-    > i {
+    >i {
       color: rgba(255, 255, 255, 0.85);
     }
     &:hover,

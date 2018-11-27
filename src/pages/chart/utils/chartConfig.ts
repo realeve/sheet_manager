@@ -49,6 +49,14 @@ const commonConfig: Array<{
       '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=0&x=1&y=2&group=3',
       '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=3&x=1&y=2&group=0'
     ]
+  },
+  {
+    key: 'simple',
+    title: '简洁模式，移除toolbox,title,copyright,数据来源等信息',
+    default: 'string|number',
+    url: [
+      '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=3&x=1&y=2&group=0&simple=1'
+    ]
   }
 ];
 const config = {

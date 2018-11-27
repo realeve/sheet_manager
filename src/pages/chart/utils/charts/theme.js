@@ -72,7 +72,7 @@ export default {
   title: {
     itemGap: 8,
     textStyle: {
-      fontWeight: 'bold',
+      fontWeight: 'lighter',
       color: '#666',
       fontSize: 28
     },
@@ -204,7 +204,7 @@ export default {
   line: {
     smooth: false,
     symbol: 'emptyCircle',
-    symbolSize: 9,
+    symbolSize: 6,
     itemStyle: {
       normal: {
         barBorderColor: 'rgba(0,0,0,0)',

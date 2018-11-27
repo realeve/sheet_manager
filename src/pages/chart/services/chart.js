@@ -114,7 +114,7 @@ export const getDrivedState = ({ dataSrc, params, idx }) => {
   };
 };
 
-export const getOption = ({ dataSrc, params, idx }) => {
+export const getOption = ({ dataSrc, params }) => {
   let { tstart, tend } = params;
   if (dataSrc.rows) {
     // 根据地址栏参数顺序决定图表配置顺序

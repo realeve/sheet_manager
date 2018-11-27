@@ -257,6 +257,7 @@ export default {
     'copy success，please replace defaultSettings in src/models/setting.js',
   'app.setting.production.hint':
     'Setting panel shows in development environment only, please manually modify',
+  'chart.setting.config.type': 'chart Type',
   'chart.setting.config.xAxis': 'xAxis',
   'chart.setting.config.yAxis': 'yAxis',
   'chart.setting.config.zAxis': 'zAxis',
