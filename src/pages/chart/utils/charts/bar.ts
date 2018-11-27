@@ -254,7 +254,6 @@ let handleDataWithLegend = (srcData, option) => {
   let { data, header } = srcData;
   let { xAxis, xAxisType } = util.getAxis(srcData, option.x);
   let { x, y } = option;
-
   // let reverse = false;
   // if (xAxisType == 'value') {
   //   let res = util.getAxis(srcData, option.y);
@@ -290,6 +289,7 @@ let handleDataWithLegend = (srcData, option) => {
     series,
     xAxis,
     xAxisType
+    // reverse
   };
 };
 
@@ -562,7 +562,7 @@ let getChartConfig: (
     res = boxplot.init(options);
   }
 
-  let { xAxis, series, yAxis, legend, xAxisType } = res;
+  let { xAxis, series, yAxis, legend, xAxisType, reverse } = res;
 
   let axisOption = {
     nameLocation: 'center',
@@ -577,7 +577,6 @@ let getChartConfig: (
     name: header[option.y],
     ...axisOption
   };
-
   if (options.max) {
     yAxis.max = parseFloat(options.max);
   }
@@ -636,6 +635,16 @@ let getChartConfig: (
   if (option.barshadow) {
     series = handleBarshadow(series);
   }
+
+  // 更换轴后，X/Y轴信息互换
+  // if (reverse) {
+  //   xAxis.name = header[option.y];
+  //   yAxis.name = header[option.x];
+  //   let tempX = R.clone(xAxis),
+  //     tempY = R.clone(yAxis);
+  //   xAxis = tempY;
+  //   yAxis = tempX;
+  // }
 
   return {
     xAxis,

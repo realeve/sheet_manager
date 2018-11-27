@@ -138,6 +138,7 @@ export default class Charts extends Component<IProp, IState> {
       this.echarts_react.dispose();
     }
   }
+
   changeParam(axisName: TAxisName, value: string): void {
     let appendParams = R.clone(this.state.appendParams);
 
@@ -160,6 +161,7 @@ export default class Charts extends Component<IProp, IState> {
       let prevValue = appendParams[axisName];
       appendParams[res.key] = prevValue;
     }
+
     // 更新当前数据
     appendParams[axisName] = value;
     this.setState({ appendParams });
