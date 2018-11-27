@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Select, Row, Col } from 'antd';
+import { Card, Select, Switch, Row, Col } from 'antd';
 import styles from './Chart.less';
 import { formatMessage } from 'umi/locale';
 import { chartTypeList } from '../utils/charts';
@@ -7,27 +7,38 @@ import { chartTypeList } from '../utils/charts';
 const R = require('ramda');
 const { Option } = Select;
 type IHeaderItem = {
-  name: string;
+  name: string | JSX.Element;
   value: string;
 };
 type IHeader = Array<IHeaderItem | string>;
-interface IFiledProps {
+
+interface ICommonProps {
   title: string;
-  desc: string;
-  value: string | number;
+  desc?: string;
   onChange: (e) => void;
-  header: IHeader;
+  header?: IHeader;
+  [key: string]: any;
 }
+
+interface IFiledProps extends ICommonProps {
+  value: string | number;
+}
+
+interface ISwitProps extends ICommonProps {
+  value: string | number | boolean;
+}
+
 const FieldSelector: (props: IFiledProps) => JSX.Element = ({
   title,
   desc,
   value,
   onChange,
-  header
+  header,
+  style
 }) => (
-  <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24}>
+  <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
     <div className={styles.selector}>
-      <span>{title}</span>
+      <div className={styles.title}>{title}</div>
       <Select
         value={value}
         size="small"
@@ -46,6 +57,26 @@ const FieldSelector: (props: IFiledProps) => JSX.Element = ({
         )}
       </Select>
     </div>
+    {desc && <p className={styles.desc}>{desc}</p>}
+  </Col>
+);
+
+const FieldSwitch: (props: ISwitProps) => JSX.Element = ({
+  title,
+  style,
+  value,
+  onChange,
+  desc
+}) => (
+  <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
+    <div className={styles.selector}>
+      <div className={styles.title}>{title}</div>
+      <Switch
+        size="small"
+        checked={value === '1' || value === true ? true : false}
+        onChange={onChange}
+      />
+    </div>
     <p className={styles.desc}>{desc}</p>
   </Col>
 );
@@ -60,7 +91,8 @@ interface IConfigProps {
     group?: string;
     [key: string]: string;
   };
-  onChange: (key: string, val: string) => void;
+  onChange?: (key: string, val: string) => void;
+  onSwitch?: (key: string, val: boolean) => void;
 }
 
 export interface IConfigState {
@@ -72,12 +104,59 @@ export interface IConfigState {
   [key: string]: string;
 }
 
-export type TAxisName = 'type' | 'x' | 'y' | 'z' | 'legend' | 'group';
-export const getParams = R.pick(['type', 'x', 'y', 'z', 'legend', 'group']);
+export type TAxisName =
+  | 'type'
+  | 'x'
+  | 'y'
+  | 'z'
+  | 'legend'
+  | 'group'
+  | 'stack'
+  | 'simple'
+  | 'smooth'
+  | 'area'
+  | 'zoom'
+  | 'zoomv'
+  | 'reverse'
+  | 'pareto'
+  | 'barshadow'
+  | 'pictorial'
+  | 'polar'
+  | 'percent'
+  | 'histogram'
+  | 'multilegend'
+  | 'step';
+
+const switchOptions = 'simple,smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,multilegend,step'.split(
+  ','
+);
+
+const chartDesc = {
+  simple: '简洁模式，隐藏标题等信息，只显示最小信息',
+  smooth: '是否采用平滑曲线渲染',
+  stack: '堆叠曲线图或堆叠柱状图，展示某个序列的汇总信息',
+  area: '显示曲面图，在设为曲线图时生效',
+  zoom: '横向缩放条',
+  zoomv: '纵向缩放条',
+  reverse: '交换x/y轴，柱状图将转换为条形图',
+  pareto: '帕累托图，展示各指标的重要程度',
+  barshadow: '单个柱状信息下生效',
+  pictorial: '象形柱图',
+  polar: '极坐标系，需配合设置极坐标系下其它设置',
+  percent: '百分比模式，自动将数据按维度求百分比，堆叠结果的和为100%',
+  histogram: '直方图，显示数据分布情况',
+  multilegend: '是否显示多个序列',
+  step: '阶梯曲线图，在曲线图模式下生效'
+};
+
+export const getParams = R.pick([
+  ...['type', 'x', 'y', 'z', 'legend', 'group'],
+  ...switchOptions
+]);
 
 let getChartConfig = (type) => {
   let chartType = chartTypeList.find((list) =>
-    list.map(({ name, value }) => type === value)
+    list.map(({ value }) => type === value)
   );
   return chartType || [];
 };
@@ -99,10 +178,13 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
   }
 
   changeAxis = this.props.onChange;
+  directChange = this.props.onSwitch;
 
   render() {
     let { x, y, z, legend, group, type } = this.state;
     let { header } = this.props;
+
+    // 处理图表类型
     let chartType = getChartConfig(type);
     chartType = chartType.map(({ name, value, icon }) => {
       return {
@@ -124,10 +206,10 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
           {chartType.length > 1 && (
             <FieldSelector
               title={formatMessage({ id: 'chart.setting.config.type' })}
-              desc="图表类型"
               value={type}
               onChange={(value) => this.changeAxis('type', value)}
               header={chartType}
+              style={{ width: '100%' }}
             />
           )}
           {x && (
@@ -175,6 +257,15 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               header={header}
             />
           )}
+          {switchOptions.map((key) => (
+            <FieldSwitch
+              key={key}
+              title={formatMessage({ id: `chart.setting.config.${key}` })}
+              desc={chartDesc[key]}
+              value={this.state[key]}
+              onChange={(value) => this.directChange(key, value)}
+            />
+          ))}
         </Row>
       </Card>
     );

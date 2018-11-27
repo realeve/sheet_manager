@@ -167,9 +167,7 @@ export default class Charts extends Component<IProp, IState> {
     let height = lib.getChartHeight(params, option);
     let header = dataSrc.header || false;
     let tblDataSrc = R.clone(dataSrc);
-
     tblDataSrc.data = tblDataSrc.data.map((item) => Object.values(item));
-
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab="数据图表" key="1">
@@ -180,6 +178,12 @@ export default class Charts extends Component<IProp, IState> {
               onChange={(key: TAxisName, val: string) =>
                 this.changeParam(key, val)
               }
+              onSwitch={(key: TAxisName, val: boolean) => {
+                let appendParams = R.clone(this.state.appendParams);
+                appendParams[key] = val;
+                console.log(appendParams);
+                this.setState({ appendParams });
+              }}
             />
           )}
           <Card

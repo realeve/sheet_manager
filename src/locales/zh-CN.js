@@ -260,5 +260,20 @@ export default {
   'chart.setting.config.yAxis': 'y轴',
   'chart.setting.config.zAxis': 'z轴',
   'chart.setting.config.legend': '数据序列',
-  'chart.setting.config.group': '数据分组'
+  'chart.setting.config.group': '数据分组',
+  'chart.setting.config.smooth': '平滑曲线',
+  'chart.setting.config.stack': '堆叠图表',
+  'chart.setting.config.area': '面积曲线图',
+  'chart.setting.config.zoom': '横向缩放',
+  'chart.setting.config.zoomv': '纵向缩放',
+  'chart.setting.config.reverse': '交换x/y轴',
+  'chart.setting.config.pareto': '帕累托图',
+  'chart.setting.config.barshadow': '显示柱状图背景',
+  'chart.setting.config.pictorial': '象形柱图',
+  'chart.setting.config.polar': '极坐标',
+  'chart.setting.config.percent': '百分比曲面图',
+  'chart.setting.config.histogram': '直方图',
+  'chart.setting.config.multilegend': '允许多个序列',
+  'chart.setting.config.step': '阶梯数据',
+  'chart.setting.config.simple': '简洁模式'
 };

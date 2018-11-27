@@ -662,26 +662,31 @@ let getChartConfig: (
     ]
   };
 };
-
+export const chartSetting = [
+  'smooth',
+  'stack',
+  'area',
+  'zoom',
+  'zoomv',
+  'reverse',
+  'pareto',
+  'barshadow',
+  'pictorial',
+  'polar',
+  'percent',
+  'histogram',
+  'multilegend'
+];
 let initDefaultOption = (options) => {
   let option = {
     type: options.type || 'bar',
     scattersize: options.scattersize || 20,
-    scale: options.scale || 1,
-    smooth: options.smooth === '1' ? true : false,
-    stack: options.stack === '1' ? true : false,
-    area: options.area === '1' ? true : false,
-    zoom: options.zoom === '1' ? true : false,
-    zoomv: options.zoomv === '1' ? true : false,
-    reverse: options.reverse === '1' ? true : false,
-    pareto: options.pareto === '1' ? true : false,
-    barshadow: options.barshadow === '1' ? true : false,
-    pictorial: options.pictorial === '1' ? true : false,
-    polar: options.polar === '1' ? true : false,
-    percent: options.percent === '1' ? true : false,
-    histogram: options.histogram === '1' ? true : false,
-    multilegend: options.multilegend === '1' ? true : false
+    scale: options.scale || 1
   };
+  chartSetting.forEach((key) => {
+    option[key] = options[key] === true || options[key] === '1' ? true : false;
+  });
+
   return Object.assign(
     {
       type: 'bar',

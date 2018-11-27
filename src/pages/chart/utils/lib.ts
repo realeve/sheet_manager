@@ -156,8 +156,12 @@ const handleSimpleMode = (option, config) => {
 
   option.title = title;
   let { xAxis, yAxis } = option;
-  Reflect.deleteProperty(yAxis, 'name');
-  Reflect.deleteProperty(xAxis, 'name');
+  if (yAxis.name) {
+    Reflect.deleteProperty(yAxis, 'name');
+  }
+  if (xAxis.name) {
+    Reflect.deleteProperty(xAxis, 'name');
+  }
   xAxis = Object.assign(xAxis, {
     axisLine: {
       show: false
