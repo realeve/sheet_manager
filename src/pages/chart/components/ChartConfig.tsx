@@ -10,22 +10,20 @@ type IHeaderItem = {
   name: string;
   value: string;
 };
-type IHeader = Array<string> | Array<IHeaderItem>;
+type IHeader = Array<IHeaderItem | string>;
 interface IFiledProps {
   title: string;
   desc: string;
   value: string | number;
   onChange: (e) => void;
   header: IHeader;
-  itemMode?: boolean;
 }
 const FieldSelector: (props: IFiledProps) => JSX.Element = ({
   title,
   desc,
   value,
   onChange,
-  header,
-  itemMode
+  header
 }) => (
   <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24}>
     <div className={styles.selector}>
@@ -35,8 +33,8 @@ const FieldSelector: (props: IFiledProps) => JSX.Element = ({
         size="small"
         onSelect={(value) => onChange(value)}
         style={{ width: 120 }}>
-        {header.map((item: IHeader, idx: number) =>
-          itemMode ? (
+        {header.map((item: IHeaderItem | string, idx: number) =>
+          typeof item === 'object' ? (
             <Option key={String(idx)} value={item.value}>
               {item.name}
             </Option>
@@ -130,7 +128,6 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               value={type}
               onChange={(value) => this.changeAxis('type', value)}
               header={chartType}
-              itemMode={true}
             />
           )}
           {x && (
