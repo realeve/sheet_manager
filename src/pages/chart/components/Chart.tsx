@@ -4,6 +4,8 @@ import * as db from '../services/chart';
 import styles from './Chart.less';
 import ReactEcharts from './echarts-for-react';
 import VTable from '@/components/Table.jsx';
+import ChartConfig, { TAxisName, IConfigState } from './ChartConfig';
+
 import lib from '../utils/lib';
 
 const R = require('ramda');
@@ -21,11 +23,12 @@ interface IState extends Iconfig {
   loading: boolean;
   option: any;
   idx: number | string;
+  appendParams: IConfigState;
   [key: string]: any;
 }
 /**
  * todo:
- * 1.增加group选项，数据以此做切换；
+ * 1.增加group选项，数据以此做切换(2018-11-25 已完成)；
  * 2.对参数长度排序，以最长的为准做合并，避免出现 &id=a&id=a...&otherparams的情况
  */
 export default class Charts extends Component<IProp, IState> {
@@ -49,7 +52,11 @@ export default class Charts extends Component<IProp, IState> {
       option: [],
       idx: props.idx,
       ...props.config,
-      dataSrc: []
+      dataSrc: {
+        data: [],
+        rows: 0
+      },
+      appendParams: {}
     };
 
     // 创建echarts实例
@@ -58,34 +65,66 @@ export default class Charts extends Component<IProp, IState> {
 
   static getDerivedStateFromProps({ config }, state) {
     let { params } = config;
+    let appendParams: IConfigState = R.pick(['x', 'y', 'z', 'legend', 'group'])(
+      params
+    );
+
     if (R.equals(params, state.params)) {
-      return { loading: false };
+      if (R.equals(appendParams, state.appendParams)) {
+        return { loading: false };
+      }
     }
-    return {
-      params,
-      loading: true
-    };
+
+    let isInited = Object.keys(state.appendParams).length === 0;
+    appendParams = isInited ? appendParams : state.appendParams;
+    params = Object.assign(params, appendParams);
+    let newState =
+      0 == state.dataSrc.rows
+        ? {}
+        : db.getDrivedState({
+            dataSrc: state.dataSrc,
+            params,
+            idx: state.idx
+          });
+    return { appendParams, params, loading: true, ...newState };
   }
 
   init = async () => {
-    let state = await db.computeDerivedState(this.state);
-    state.dataSrc.data = state.dataSrc.data.map((item) => Object.values(item));
-    this.setState({
-      ...state
+    let { url, params, idx } = this.state;
+    let { dataSrc, option } = await db.computeDerivedState({
+      url,
+      params,
+      idx
     });
-    this.props.onLoad(state.dataSrc.title);
+    this.setState({ dataSrc, option });
+    this.props.onLoad(dataSrc.title);
   };
 
   componentDidUpdate({ config }) {
     let {
       url,
-      params
+      params,
+      appendParams,
+      option
     }: {
       url: string;
       params: any;
+      appendParams: IConfigState;
     } = this.state;
+    let prevAppendParams: IConfigState = R.pick([
+      'x',
+      'y',
+      'z',
+      'legend',
+      'group'
+    ])(params);
+
     if (R.equals(config.params, params) && url === config.url) {
-      return false;
+      if (R.equals(appendParams, prevAppendParams)) {
+        if (option.length === 0) {
+        }
+        return false;
+      }
     }
     this.init();
   }
@@ -95,20 +134,59 @@ export default class Charts extends Component<IProp, IState> {
   }
 
   componentWillUnmount() {
-    if (this.echarts_react) {
+    if (this.echarts_react && this.echarts_react.dispose) {
       this.echarts_react.dispose();
     }
   }
+  changeParam(axisName: TAxisName, value: string): void {
+    let appendParams = R.clone(this.state.appendParams);
+
+    // 是否有轴需要互换;
+    let res = {
+      key: null,
+      value: null
+    };
+    R.compose(
+      R.forEach((key) => {
+        if (appendParams[key] == value) {
+          res = { key, value };
+        }
+      }),
+      R.keys
+    )(appendParams);
+
+    if (!R.isNil(res.key)) {
+      // 旧数据
+      let prevValue = appendParams[axisName];
+      appendParams[res.key] = prevValue;
+    }
+    // 更新当前数据
+    appendParams[axisName] = value;
+    this.setState({ appendParams });
+  }
 
   render() {
-    let { loading, dataSrc, params, option } = this.state;
+    let { loading, dataSrc, params, option, appendParams } = this.state;
     let { tstart, tend } = params;
     let renderer = lib.getRenderer(params);
     let height = lib.getChartHeight(params, option);
-    console.log(option);
+    let header = dataSrc.header || false;
+    let tblDataSrc = R.clone(dataSrc);
+
+    tblDataSrc.data = tblDataSrc.data.map((item) => Object.values(item));
+
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab="数据图表" key="1">
+          {header && (
+            <ChartConfig
+              header={header}
+              params={appendParams}
+              onChange={(key: TAxisName, val: string) =>
+                this.changeParam(key, val)
+              }
+            />
+          )}
           <Card
             bodyStyle={{ padding: '20px' }}
             className={styles.exCard}
@@ -129,7 +207,7 @@ export default class Charts extends Component<IProp, IState> {
         </TabPane>
         <TabPane tab="原始数据" key="2">
           <VTable
-            dataSrc={dataSrc}
+            dataSrc={tblDataSrc}
             loading={loading}
             subTitle={`统计期间: ${tstart} 至 ${tend}`}
           />

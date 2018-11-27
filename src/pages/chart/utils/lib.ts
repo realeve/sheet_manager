@@ -465,8 +465,8 @@ let getAxis = ({ data, header }, key) => {
     data
   });
   type axis = 'value' | 'category';
-  let xAxisType: axis =
-    lib.getType(xAxis[0]) === 'number' ? 'value' : 'category';
+
+  let xAxisType: axis = lib.isNumOrFloat(xAxis[0]) ? 'value' : 'category';
 
   if (xAxisType === 'value') {
     xAxis = R.sort((a, b) => a - b)(xAxis);

@@ -254,5 +254,10 @@ export default {
   'app.setting.copyinfo':
     '拷贝成功，请到 src/defaultSettings.js 中替换默认配置',
   'app.setting.production.hint':
-    '配置栏只在开发环境用于预览，生产环境不会展现，请拷贝后手动修改配置文件'
+    '配置栏只在开发环境用于预览，生产环境不会展现，请拷贝后手动修改配置文件',
+  'chart.setting.config.xAxis': 'x轴',
+  'chart.setting.config.yAxis': 'y轴',
+  'chart.setting.config.zAxis': 'z轴',
+  'chart.setting.config.legend': '数据序列',
+  'chart.setting.config.group': '数据分组'
 };

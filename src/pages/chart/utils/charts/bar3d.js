@@ -118,7 +118,9 @@ let bar3d = (config) => {
     }
   };
   return {
-    tooltip: {},
+    tooltip: {
+      trigger: 'item'
+    },
     visualMap: {
       max,
       inRange: {
@@ -155,6 +157,13 @@ let bar3d = (config) => {
           data
         }),
         scatterSize: 40,
+        label: {
+          show: type === 'bar3D',
+          textStyle: {
+            fontSize: 12,
+            borderWidth: 1
+          }
+        },
         shading: ['color', 'lambert', 'realistic'][config.shading],
         itemStyle: {
           opacity: 0.65

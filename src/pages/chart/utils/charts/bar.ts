@@ -245,9 +245,26 @@ let getOption = (options) => {
   return option;
 };
 
+let swap = (x, y) => ({
+  x: y,
+  y: x
+});
+
 let handleDataWithLegend = (srcData, option) => {
   let { data, header } = srcData;
   let { xAxis, xAxisType } = util.getAxis(srcData, option.x);
+  let { x, y } = option;
+
+  // let reverse = false;
+  // if (xAxisType == 'value') {
+  //   let res = util.getAxis(srcData, option.y);
+  //   xAxis = res.xAxis;
+  //   xAxisType = res.xAxisType;
+  //   let swapRes = swap(x, y);
+  //   x = swapRes.x;
+  //   y = swapRes.y;
+  //   reverse = true;
+  // }
 
   let legendData = util.getUniqByIdx({
     key: header[option.legend],
@@ -257,8 +274,8 @@ let handleDataWithLegend = (srcData, option) => {
   let getSeriesData = (name) => {
     let dataList = R.filter(R.propEq(header[option.legend], name))(data);
     let seriesData = R.map((item) => {
-      let temp = R.find(R.propEq(header[option.x], item))(dataList);
-      return R.isNil(temp) ? '-' : R.prop(header[option.y])(temp);
+      let temp = R.find(R.propEq(header[x], item))(dataList);
+      return R.isNil(temp) ? '-' : R.prop(header[y])(temp);
     })(xAxis);
     return {
       data: seriesData,

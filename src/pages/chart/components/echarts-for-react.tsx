@@ -32,7 +32,7 @@ interface IChartProps {
 export default class EchartsReactCore extends Component<IChartProps, {}> {
   static defaultProps = {
     echarts: {},
-    notMerge: false,
+    notMerge: true, //路由切换时，不合并option，自动清理信息
     lazyUpdate: false,
     style: {},
     className: '',

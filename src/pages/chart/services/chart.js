@@ -64,8 +64,11 @@ export const computeDerivedState = async ({ url, params, idx }) => {
     url,
     params
   });
+  console.timeEnd(`加载图表${idx + 1}数据`);
+  return getDrivedState({ dataSrc, params, idx });
+};
 
-  console.log('增加数据分组');
+export const getDrivedState = ({ dataSrc, params, idx }) => {
   let option = [];
   if (params.group) {
     let param = params.group;
@@ -100,10 +103,10 @@ export const computeDerivedState = async ({ url, params, idx }) => {
     ];
   }
 
-  if (DEV && option.length === 1) {
-    console.log(`option=${JSON.stringify(option)}`);
+  if (DEV && option.length) {
+    console.log(`option=${JSON.stringify(option[0])}`);
   }
-  console.timeEnd(`加载图表${idx + 1}数据`);
+  //   dataSrc.data = dataSrc.data.map((item) => Object.values(item));
   return {
     dataSrc,
     option,
