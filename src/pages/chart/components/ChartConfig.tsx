@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Card, Select, Switch, Row, Col } from 'antd';
+import { Card, Select, Switch, Row, Col, Slider } from 'antd';
 import styles from './Chart.less';
 import { formatMessage } from 'umi/locale';
 import { chartTypeList } from '../utils/charts';
+import Debounce from 'lodash-decorators/debounce';
 
 const R = require('ramda');
 const { Option } = Select;
@@ -26,6 +27,11 @@ interface IFiledProps extends ICommonProps {
 
 interface ISwitProps extends ICommonProps {
   value: string | number | boolean;
+}
+
+interface ISliderProps extends ICommonProps {
+  value: number;
+  [key: string]: any;
 }
 
 const FieldSelector: (props: IFiledProps) => JSX.Element = ({
@@ -81,6 +87,23 @@ const FieldSwitch: (props: ISwitProps) => JSX.Element = ({
   </Col>
 );
 
+const FieldSlider: (props: ISliderProps) => JSX.Element = ({
+  title,
+  style,
+  value,
+  onChange,
+  desc,
+  ...exProps
+}) => (
+  <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
+    <div className={styles.switch}>
+      <div className={styles.title}>{title}</div>
+      <Slider defaultValue={value} onChange={onChange} {...exProps} />
+    </div>
+    <p className={styles.desc}>{desc}</p>
+  </Col>
+);
+
 interface IConfigProps {
   header: Array<string>;
   params: {
@@ -92,7 +115,7 @@ interface IConfigProps {
     [key: string]: string;
   };
   onChange?: (key: string, val: string) => void;
-  onSwitch?: (key: string, val: boolean) => void;
+  onSwitch?: (key: string, val: boolean | string | number) => void;
 }
 
 export interface IConfigState {
@@ -127,10 +150,21 @@ export type TAxisName =
   | 'multilegend'
   | 'step';
 
-const switchOptions = 'simple,smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,multilegend,step'.split(
+const switchOptions = 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,multilegend,step'.split(
   ','
 );
-
+const coordinateAxis = (type) =>
+  ![
+    'pie',
+    'radar',
+    'treemap',
+    'calendar',
+    'parallel',
+    'heatmap',
+    'themeriver',
+    'sankey',
+    'sunburst'
+  ].includes(type);
 const chartDesc = {
   simple: '简洁模式，隐藏标题等信息，只显示最小信息',
   smooth: '是否采用平滑曲线渲染',
@@ -149,14 +183,21 @@ const chartDesc = {
   step: '阶梯曲线图，在曲线图模式下生效'
 };
 
-export const getParams = R.pick([
-  ...['type', 'x', 'y', 'z', 'legend', 'group'],
-  ...switchOptions
-]);
+const commonSetting = [
+  'type',
+  'x',
+  'y',
+  'z',
+  'legend',
+  'group',
+  'simple',
+  'height'
+];
+export const getParams = R.pick([...commonSetting, ...switchOptions]);
 
 let getChartConfig = (type) => {
   let chartType = chartTypeList.find((list) =>
-    list.map(({ value }) => type === value)
+    R.flatten(list.map(({ value }) => value)).includes(type)
   );
   return chartType || [];
 };
@@ -168,6 +209,9 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
     this.state = state;
   }
 
+  changeAxis = this.props.onChange;
+  directChange = this.props.onSwitch;
+
   static getDerivedStateFromProps(props, state) {
     let nextState = getParams(props.params);
     let curState = getParams(state);
@@ -177,12 +221,22 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
     return nextState;
   }
 
-  changeAxis = this.props.onChange;
-  directChange = this.props.onSwitch;
+  @Debounce(600)
+  resizeChartHeight(e: number) {
+    this.directChange('height', e);
+  }
 
   render() {
     let { x, y, z, legend, group, type } = this.state;
     let { header } = this.props;
+
+    let showZ =
+      z &&
+      ['scatter3d', 'bar3d', 'line3d', 'surface', 'scatter'].includes(type);
+
+    let showX = x && coordinateAxis(type);
+    let showY = y && coordinateAxis(type);
+    let sOptions = coordinateAxis(type) ? switchOptions : ['simple'];
 
     // 处理图表类型
     let chartType = getChartConfig(type);
@@ -199,7 +253,6 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
         value
       };
     });
-
     return (
       <Card className={styles.chartConfig} title="图表基础设置" bordered>
         <Row gutter={16} style={{ marginTop: 10 }}>
@@ -212,7 +265,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               style={{ width: '100%' }}
             />
           )}
-          {x && (
+          {showX && (
             <FieldSelector
               title={formatMessage({ id: 'chart.setting.config.xAxis' })}
               desc="X轴所在数据列"
@@ -221,7 +274,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               header={header}
             />
           )}
-          {y && (
+          {showY && (
             <FieldSelector
               title={formatMessage({ id: 'chart.setting.config.yAxis' })}
               desc="Y轴所在数据列"
@@ -230,7 +283,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               header={header}
             />
           )}
-          {z && (
+          {showZ && (
             <FieldSelector
               title={formatMessage({ id: 'chart.setting.config.zAxis' })}
               desc="Z轴所在数据列"
@@ -257,7 +310,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               header={header}
             />
           )}
-          {switchOptions.map((key) => (
+          {sOptions.map((key) => (
             <FieldSwitch
               key={key}
               title={formatMessage({ id: `chart.setting.config.${key}` })}
@@ -266,6 +319,15 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               onChange={(value) => this.directChange(key, value)}
             />
           ))}
+          <FieldSlider
+            title={'图表高度'}
+            desc={this.state.height + 'px'}
+            value={parseInt(this.state.height)}
+            onChange={(value) => this.resizeChartHeight(value)}
+            max={1500}
+            min={300}
+            step={10}
+          />
         </Row>
       </Card>
     );

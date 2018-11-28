@@ -28,7 +28,8 @@ export let chartTypeList = [
   [
     {
       name: '旭日图',
-      value: 'sunburst'
+      value: 'sunburst',
+      icon: '/img/icons/sunburst.png'
     },
     {
       name: '桑基图',
