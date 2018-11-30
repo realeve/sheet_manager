@@ -503,17 +503,19 @@ let getLegend: (
   };
 };
 
+type axis = 'value' | 'category';
 // 获取指定key对应的轴数据
-let getAxis = (
+let getAxis: (
   { data, header }: { data: any; header: string[] },
   key: string
 ) => {
+  xAxis: Array<string | number>;
+  xAxisType: axis;
+} = ({ data, header }, key) => {
   let xAxis = getUniqByIdx({
     key: header[key],
     data
   });
-  type axis = 'value' | 'category';
-
   let xAxisType: axis = lib.isNumOrFloat(xAxis[0]) ? 'value' : 'category';
 
   if (xAxisType === 'value') {

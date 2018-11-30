@@ -259,7 +259,7 @@ let handleDataWithLegend = (srcData, option) => {
     header: Array<string>;
   } = srcData;
   let { xAxis, xAxisType } = util.getAxis(srcData, option.x);
-  let { x, y } = option;
+  let { x, y }: { x: string | number; y: string | number } = option;
   // let reverse = false;
   // if (xAxisType == 'value') {
   //   let res = util.getAxis(srcData, option.y);
@@ -271,14 +271,14 @@ let handleDataWithLegend = (srcData, option) => {
   //   reverse = true;
   // }
 
-  let legendData = util.getUniqByIdx({
+  let legendData: Array<string | number> = util.getUniqByIdx({
     key: header[option.legend],
     data
   });
 
-  let getSeriesData = (name) => {
+  let getSeriesData = (name: string) => {
     let dataList = R.filter(R.propEq(header[option.legend], name))(data);
-    let seriesData = R.map((item) => {
+    let seriesData: Array<string | number> = R.map((item) => {
       let temp = R.find(R.propEq(header[x], item))(dataList);
       return R.isNil(temp) ? '-' : R.prop(header[y])(temp);
     })(xAxis);
@@ -391,17 +391,16 @@ let handleSeriesItem = (option) => (seriesItem) => {
 
 // 堆叠百分比处理
 let handlePercentSeries = (series) => {
-  const handleItem = (item) => {
-    item = parseFloat(item);
-    item = R.isNil(item) ? 0 : item;
-    return item;
+  const handleItem: (item: string) => number = (item) => {
+    let val: number = parseFloat(item);
+    return R.isNil(val) ? 0 : val;
   };
 
-  let sumArr = [];
+  let sumArr: number[] = [];
   series.forEach(({ data }, i) => {
-    data.forEach((item, idx) => {
-      item = handleItem(item);
-      sumArr[idx] = R.isNil(sumArr[idx]) ? item : sumArr[idx] + item;
+    data.forEach((item: string, idx: number) => {
+      let val: number = handleItem(item);
+      sumArr[idx] = R.isNil(sumArr[idx]) ? val : sumArr[idx] + val;
     });
   });
   series.forEach(({ data }, i) => {
@@ -506,9 +505,15 @@ let handleMarkArea = (series, options) => {
 };
 
 let handleBarshadow = (series) => {
-  let { data, barMaxWidth } = series[0];
-  let max = jStat.max(data);
-  data = data.map((item) => max);
+  let {
+    data,
+    barMaxWidth
+  }: {
+    data: number[];
+    barMaxWidth: string | number;
+  } = series[0];
+  let max: number = jStat.max(data);
+  data = data.map((_) => max);
   series[0].z = 10;
   let seriesItem = {
     type: 'bar',
@@ -568,7 +573,7 @@ let getChartConfig: (
     res = boxplot.init(options);
   }
 
-  let { xAxis, series, yAxis, legend, xAxisType, reverse } = res;
+  let { xAxis, series, yAxis, legend, xAxisType } = res;
 
   let axisOption = {
     nameLocation: 'center',
@@ -668,7 +673,7 @@ let getChartConfig: (
     ]
   };
 };
-export const chartSetting = [
+export const chartSetting: string[] = [
   'smooth',
   'stack',
   'area',
@@ -684,10 +689,15 @@ export const chartSetting = [
   'multilegend'
 ];
 let initDefaultOption = (options) => {
-  let option = {
+  let option: {
+    type: string;
+    scattersize: number;
+    scale: number;
+    [key: string]: any;
+  } = {
     type: options.type || 'bar',
-    scattersize: options.scattersize || 20,
-    scale: options.scale || 1
+    scattersize: parseFloat(options.scattersize) || 20,
+    scale: parseFloat(options.scale) || 1
   };
   chartSetting.forEach((key) => {
     option[key] = options[key] === true || options[key] === '1' ? true : false;
