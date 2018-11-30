@@ -245,13 +245,19 @@ let getOption = (options) => {
   return option;
 };
 
-let swap = (x, y) => ({
+let swap: <T>(x: T, y: T) => { x: T; y: T } = (x, y) => ({
   x: y,
   y: x
 });
 
 let handleDataWithLegend = (srcData, option) => {
-  let { data, header } = srcData;
+  let {
+    data,
+    header
+  }: {
+    data: any;
+    header: Array<string>;
+  } = srcData;
   let { xAxis, xAxisType } = util.getAxis(srcData, option.x);
   let { x, y } = option;
   // let reverse = false;

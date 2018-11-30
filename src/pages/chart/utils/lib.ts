@@ -14,7 +14,7 @@ export type TChartConfig = Array<IChart>;
 
 // let uniq = arr => Array.from(new Set(arr));
 
-let uniq = (arr) => R.uniq(arr);
+let uniq: <T>(arr: Array<T>) => Array<T> = (arr) => R.uniq(arr);
 
 let getCopyRight = () => ({
   text: '©成都印钞有限公司 印钞管理部',
@@ -35,6 +35,7 @@ interface Iconfig {
   dateRange: [string, string];
   [key: string]: any;
 }
+
 let getDefaultTitle = (option, config: Iconfig) => {
   let prefix = config.prefix || '',
     suffix = config.suffix || '';
@@ -112,8 +113,8 @@ let handleDefaultOption = (option, config) => {
   );
 
   if (['bar', 'line'].includes(config.type)) {
-    let axisPointerType = 'shadow';
-    let tooltipTrigger = 'axis';
+    let axisPointerType: 'shadow' | 'cross' = 'shadow';
+    let tooltipTrigger: string = 'axis';
     switch (config.type) {
       case 'bar':
         // case "histogram":
@@ -152,7 +153,7 @@ const handleSimpleMode = (option, config) => {
   }
 
   // Reflect.deleteProperty(option, 'toolbox');
-  let [title] = option.title;
+  let [title]: string = option.title;
 
   option.title = title;
   let { xAxis, yAxis } = option;
@@ -183,7 +184,7 @@ let str2Date: (str: string) => string = (str) => {
   if (!needConvert) {
     return str;
   }
-  let dates = [str.substr(0, 4), str.substr(4, 2)];
+  let dates: Array<string> = [str.substr(0, 4), str.substr(4, 2)];
   if (str.length === 8) {
     dates[2] = str.substr(6, 2);
   }
@@ -211,9 +212,15 @@ let needConvertDate: (dateStr: string) => boolean = (dateStr) => {
   );
 };
 
-let getDataByIdx = ({ key, data }) => R.pluck(key)(data);
+let getDataByIdx: ({ key: string, data: any }) => Array<any> = ({
+  key,
+  data
+}) => R.pluck(key)(data);
 
-let getUniqByIdx = ({ key, data }) =>
+let getUniqByIdx: ({ key: string, data: any }) => Array<any> = ({
+  key,
+  data
+}) =>
   R.uniq(
     getDataByIdx({
       key,
@@ -338,7 +345,7 @@ const colors: Array<string> = [
 ];
 
 function hex2rgb(hexVal: string): string {
-  var result = '';
+  var result: string = '';
   hexVal = hexVal.includes('#') ? hexVal.slice(1) : hexVal;
   switch (hexVal.length) {
     case 3:
@@ -385,9 +392,14 @@ function rgb2hex(val: string): arrRgb {
   return rgbVal;
 }
 
-let getLegendData = (legendData) =>
+let getLegendData: <T>(
+  arr: Array<T>
+) => Array<{
+  icon: string;
+  name: T;
+}> = (legendData) =>
   legendData.map((name) => ({
-    name: String(name),
+    name,
     icon: 'circle'
   }));
 
@@ -404,13 +416,13 @@ type tGl =
 let chartGL: Array<tGl> = ['bar3d', 'line3d', 'scatter3d', 'surface'];
 
 // type tRender = 'canvas' | 'svg';
-let getRenderer: string | any = (
-  params
-): {
-  render?: string;
-  type: string;
-  histogram?: string;
-} =>
+let getRenderer: <T>(
+  params: {
+    render?: T;
+    type: string;
+    histogram?: string;
+  }
+) => string | T = (params) =>
   params.render ||
   (['paralell', ...chartGL].includes(params.type) || params.histogram
     ? 'canvas'
@@ -492,7 +504,10 @@ let getLegend: (
 };
 
 // 获取指定key对应的轴数据
-let getAxis = ({ data, header }, key) => {
+let getAxis = (
+  { data, header }: { data: any; header: string[] },
+  key: string
+) => {
   let xAxis = getUniqByIdx({
     key: header[key],
     data
