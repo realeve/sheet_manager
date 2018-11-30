@@ -227,7 +227,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
   }
 
   render() {
-    let { x, y, z, legend, group, type } = this.state;
+    let { x, y, z, legend, group, type, height } = this.state;
     let { header } = this.props;
 
     let showZ =
@@ -319,15 +319,17 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               onChange={(value) => this.directChange(key, value)}
             />
           ))}
-          <FieldSlider
-            title={'图表高度'}
-            desc={this.state.height + 'px'}
-            value={parseInt(this.state.height)}
-            onChange={(value) => this.resizeChartHeight(value)}
-            max={1500}
-            min={300}
-            step={10}
-          />
+          {height && (
+            <FieldSlider
+              title={'图表高度'}
+              desc={height + 'px'}
+              value={parseInt(height)}
+              onChange={(value) => this.resizeChartHeight(value)}
+              max={1500}
+              min={300}
+              step={10}
+            />
+          )}
         </Row>
       </Card>
     );
