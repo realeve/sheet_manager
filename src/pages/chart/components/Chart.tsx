@@ -134,7 +134,13 @@ export default class Charts extends Component<IProp, IState> {
 
   changeParam(axisName: TAxisName, value: string): void {
     let appendParams = R.clone(this.state.appendParams);
-
+    let commonKeys = ['x', 'y', 'z', 'legend', 'group'];
+    // visual可以与其它轴一同设置
+    if (axisName === 'visual') {
+      appendParams[axisName] = value;
+      this.setState({ appendParams });
+      return;
+    }
     // 是否有轴需要互换;
     let res = {
       key: null,
@@ -142,7 +148,7 @@ export default class Charts extends Component<IProp, IState> {
     };
     R.compose(
       R.forEach((key) => {
-        if (appendParams[key] == value) {
+        if (commonKeys.includes(key) && appendParams[key] == value) {
           res = { key, value };
         }
       }),
@@ -182,7 +188,6 @@ export default class Charts extends Component<IProp, IState> {
               onSwitch={(key: TAxisName, val: boolean) => {
                 let appendParams = R.clone(this.state.appendParams);
                 appendParams[key] = val;
-                console.log(appendParams);
                 this.setState({ appendParams });
               }}
             />

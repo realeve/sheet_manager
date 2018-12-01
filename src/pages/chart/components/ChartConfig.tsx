@@ -157,6 +157,7 @@ export type TAxisName =
   | 'z'
   | 'legend'
   | 'group'
+  | 'visual'
   | 'stack'
   | 'simple'
   | 'smooth'
@@ -178,10 +179,9 @@ export type TAxisName =
 const coordinateAxis = (type) =>
   ![
     'pie',
-    // 'radar',
     'treemap',
     'calendar',
-    'parallel',
+    'paralell',
     'heatmap',
     'sankey',
     'sunburst'
@@ -212,7 +212,9 @@ const chartDesc = {
   vertical: '是否采用垂直布局',
   scale: '图表矩形长宽比例',
   doughnut: '是否显示为环形图',
-  radius: '玫瑰图样式设为radius,与面积曲线图只能生效一项'
+  radius: '玫瑰图样式设为radius,与面积曲线图只能生效一项',
+  visual: '以第几个数据作为颜色索引序列',
+  size: '方格大小'
 };
 
 const commonSetting = [
@@ -223,13 +225,17 @@ const commonSetting = [
   'legend',
   'group',
   'simple',
+  'visual',
   'height'
 ];
 
 const getCommonOptions: (
   key: string,
   state: IConfigState
-) => boolean | string | number = (key, { x, y, z, legend, group, type }) => {
+) => boolean | string | number = (
+  key,
+  { x, y, z, visual, legend, group, type }
+) => {
   let res: boolean | string | number = false;
   switch (key) {
     case 'x':
@@ -244,20 +250,29 @@ const getCommonOptions: (
         ['scatter3d', 'bar3d', 'line3d', 'surface', 'scatter'].includes(type);
       break;
     case 'legend':
-      res = legend;
+      res = ['paralell'].includes(type)
+        ? true
+        : ['calendar'].includes(type)
+        ? false
+        : legend;
       break;
     case 'group':
-    default:
       res = [
         'radar',
         'themeriver',
         'sankey',
         'sunburst',
         'treemap',
-        'pie'
+        'pie',
+        'paralell'
       ].includes(type)
         ? true
         : group;
+      break;
+    case 'visual':
+      res = visual;
+      break;
+    default:
       break;
   }
 
@@ -266,7 +281,8 @@ const getCommonOptions: (
 
 const getSwitchOptions = (type) => {
   let opts =
-    coordinateAxis(type) && !['themeriver', 'radar', 'pie'].includes(type)
+    coordinateAxis(type) &&
+    !['themeriver', 'radar', 'pie', 'paralell', 'heatmap'].includes(type)
       ? 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,step'.split(
           ','
         )
@@ -276,6 +292,8 @@ const getSwitchOptions = (type) => {
       opts.push('border');
       break;
     case 'sankey':
+    case 'paralell':
+    case 'calendar':
       opts.push('vertical');
       break;
     case 'themeriver':
@@ -298,6 +316,9 @@ const getInputOptions = (type) => {
   switch (type) {
     case 'treemap':
       opts.push('scale');
+      break;
+    case 'calendar':
+      opts.push('size');
       break;
     default:
       break;
@@ -349,7 +370,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
 
     let sOptions = getSwitchOptions(type);
     let inputOptions = getInputOptions(type);
-    let commonOptions = ['x', 'y', 'z', 'legend', 'group'];
+    let commonOptions = ['x', 'y', 'z', 'legend', 'group', 'visual'];
 
     // 处理图表类型
     let chartType = getChartConfig(type);

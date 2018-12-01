@@ -186,5 +186,7 @@ export default {
   'chart.config.scale': 'aspect ratio',
   'chart.config.circleshape': 'round/polygonal background',
   'chart.config.doughnut': 'doughnut chart',
-  'chart.config.radius': 'nightingale rose'
+  'chart.config.radius': 'nightingale rose',
+  'chart.config.visual': 'color index',
+  'chart.config.size': 'grid size'
 };

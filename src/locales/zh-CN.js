@@ -186,5 +186,7 @@ export default {
   'chart.config.scale': '长宽比例',
   'chart.config.circleshape': '圆形/多边形背景',
   'chart.config.doughnut': '环形图',
-  'chart.config.radius': '南丁格尔玫瑰图'
+  'chart.config.radius': '南丁格尔玫瑰图',
+  'chart.config.visual': '颜色索引',
+  'chart.config.size': '方格大小'
 };

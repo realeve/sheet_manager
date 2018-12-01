@@ -5,7 +5,7 @@ import moment from 'moment';
 const R = require('ramda');
 
 let color = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
-let getCalendarStyle = name => ({
+let getCalendarStyle = (name) => ({
   left: 'center',
   splitLine: {
     show: false,
@@ -67,20 +67,26 @@ let chartConfig = [
     title: '方格大小',
     default: 20
   },
+  // {
+  //   key: 'orient',
+  //   title: '水平/垂直布局',
+  //   default: 'horizontal:水平,vertical:垂直'
+  // },
   {
-    key: 'orient',
-    title: '水平/垂直布局',
-    default: 'horizontal:水平,vertical:垂直'
+    key: 'vertical',
+    title: '垂直布局',
+    default: '0,关闭时水平布局'
   },
   {
     key: 'startmode',
     title: '起止时间以当前最大/最小日期还是以其对应的月份',
     default: 'day/month,默认以当天最小日期开始',
-    url: '/chart#id=17/f378da2c28&type=calendar&size=20&legend=0&startmode=day'
+    url:
+      '/chart#id=17/f378da2c28&type=calendar&size=20&group=0&startmode=day&height=400&simple=1'
   }
 ];
 
-let handleConfig = config => {
+let handleConfig = (config) => {
   let { legend, x, y, z } = config;
   let { header } = config.data;
   if (header.length > 2) {
@@ -94,7 +100,8 @@ let handleConfig = config => {
   }
 
   config.size = config.size || 20;
-  config.orient = config.orient || 'horizontal';
+  config.vertical = config.vertical || false;
+  // config.orient = config.orient || 'horizontal';
   config.startmode = config.startmode || 'day';
 
   return Object.assign(config, {
@@ -135,13 +142,6 @@ let getSeries = ({ data, x, y, legend }) => {
       keys: [header[x], key],
       data: data.data
     });
-  }
-  srcData = util.getDataByKeys({
-    keys: [header[legend], header[x], key],
-    data: data.data
-  });
-
-  if (R.isNil(legend)) {
     return [
       {
         data: srcData,
@@ -151,6 +151,11 @@ let getSeries = ({ data, x, y, legend }) => {
       }
     ];
   }
+
+  srcData = util.getDataByKeys({
+    keys: [header[legend], header[x], key],
+    data: data.data
+  });
 
   let legendData = util.getUniqByIdx({
     key: header[legend],
@@ -174,7 +179,7 @@ let getCalendar = (config, idx, range, name) => {
   return {
     range,
     cellSize: [config.size, config.size],
-    orient: config.orient,
+    orient: config.vertical ? 'vertical' : 'horizontal',
     top,
     ...getCalendarStyle(name)
   };
@@ -187,7 +192,7 @@ let getRange = (data, { startmode }) => {
       R.map(R.slice(0, 10))
     )(curData);
     curData = curData.sort((a, b) =>
-      parseInt(a.replace(/\-/g, '') - parseInt(b.replace(/\-/g, '')))
+      parseInt(a.replace(/\-/g, '') - parseInt(b.replace(/\-/g, ''), 10), 10)
     );
     return [R.head(curData), R.last(curData)];
   }
@@ -198,7 +203,7 @@ let getRange = (data, { startmode }) => {
     R.map(R.slice(0, 7))
   )(curData);
   curData = curData.sort((a, b) =>
-    parseInt(a.replace(/\-/g, '') - parseInt(b.replace(/\-/g, '')))
+    parseInt(a.replace(/\-/g, '') - parseInt(b.replace(/\-/g, ''), 10), 10)
   );
   let head = R.head(curData);
   let last = R.last(curData);
@@ -211,8 +216,11 @@ let getRange = (data, { startmode }) => {
       .format('YYYY-MM-DD')
   ];
 };
-let calendar = config => {
+let calendar = (config) => {
   config = handleConfig(config);
+  // if (R.isNil(config.legend)) {
+  //   config = Reflect.deleteProperty(config, 'legend');
+  // }
   let series = getSeries(config);
   let calendar = series.map(({ data, name }, idx) => {
     let range = getRange(data, config);
