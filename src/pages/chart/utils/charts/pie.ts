@@ -36,11 +36,21 @@ let chartConfig: TChartConfig = [
   }
 ];
 
-const getCenterConfig = (legendData) => {
+type TCenter = Array<[string, string]>;
+type TPosition = Array<{
+  x: string;
+  y: string;
+}>;
+const getCenterConfig: (
+  arr: Array<any>
+) => {
+  center: TCenter;
+  titlePosition: TPosition;
+} = (legendData) => {
   let len: number = legendData.length;
 
-  let center = [];
-  let titlePosition = [];
+  let center: TCenter = [];
+  let titlePosition: TPosition = [];
   switch (len) {
     case 1:
       center = [['50%', '50%']];
@@ -238,7 +248,7 @@ let standardPie = ({ option, config }) => {
       key: header[option.legend],
       data
     });
-    let radiusLen = getRadiusLength(legendData);
+    let radiusLen: string = getRadiusLength(legendData);
     let { center, titlePosition } = getCenterConfig(legendData);
     series = legendData.map((text, i) => {
       let sData = R.filter(R.propEq(header[option.legend], text))(data);
