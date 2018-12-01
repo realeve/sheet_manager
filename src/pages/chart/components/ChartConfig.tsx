@@ -148,11 +148,9 @@ export type TAxisName =
   | 'percent'
   | 'histogram'
   | 'multilegend'
+  | 'border'
   | 'step';
 
-const switchOptions = 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,step'.split(
-  ','
-);
 const coordinateAxis = (type) =>
   ![
     'pie',
@@ -180,7 +178,8 @@ const chartDesc = {
   percent: '百分比模式，自动将数据按维度求百分比，堆叠结果的和为100%',
   histogram: '直方图，显示数据分布情况',
   multilegend: '是否显示多个序列',
-  step: '阶梯曲线图，在曲线图模式下生效'
+  step: '阶梯曲线图，在曲线图模式下生效',
+  border: '旭日图最外层数据是否显示为细线条样式'
 };
 
 const commonSetting = [
@@ -193,7 +192,19 @@ const commonSetting = [
   'simple',
   'height'
 ];
-export const getParams = R.pick([...commonSetting, ...switchOptions]);
+
+const switchOptions = (type) => {
+  let opts = 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,step'.split(
+    ','
+  );
+  if (type == 'sunrise') {
+    opts.push('border');
+  }
+  return opts;
+};
+
+export const getParams = (params) =>
+  R.pick([...commonSetting, ...switchOptions(params.type)])(params);
 
 let getChartConfig = (type) => {
   let chartType = chartTypeList.find((list) =>
@@ -236,7 +247,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
 
     let showX = x && coordinateAxis(type);
     let showY = y && coordinateAxis(type);
-    let sOptions = coordinateAxis(type) ? switchOptions : ['simple'];
+    let sOptions = coordinateAxis(type) ? switchOptions(type) : ['simple'];
 
     // 处理图表类型
     let chartType = getChartConfig(type);

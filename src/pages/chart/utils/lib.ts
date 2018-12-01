@@ -157,21 +157,21 @@ const handleSimpleMode = (option, config) => {
 
   option.title = title;
   let { xAxis, yAxis } = option;
-  if (yAxis.name) {
+  if (yAxis && yAxis.name) {
     Reflect.deleteProperty(yAxis, 'name');
   }
-  if (xAxis.name) {
+  if (xAxis && xAxis.name) {
     Reflect.deleteProperty(xAxis, 'name');
+    xAxis = Object.assign(xAxis, {
+      axisLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
+      }
+    });
+    option = Object.assign(option, { xAxis, yAxis });
   }
-  xAxis = Object.assign(xAxis, {
-    axisLine: {
-      show: false
-    },
-    axisTick: {
-      show: false
-    }
-  });
-  option = Object.assign(option, { xAxis, yAxis });
 
   return option;
 };

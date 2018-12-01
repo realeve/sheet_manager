@@ -28,6 +28,10 @@ export default [
         component: './403'
       },
       {
+        path: '/unlogin',
+        component: './unlogin'
+      },
+      {
         path: '/404',
         component: './404'
       },

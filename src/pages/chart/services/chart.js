@@ -4,7 +4,7 @@ import { axios, DEV } from '@/utils/axios';
 import * as lib from '@/utils/lib';
 const R = require('ramda');
 
-export const fetchData = (params) => axios(params);
+// export const fetchData = (params) => axios(params);
 
 export const getQueryConfig = (url, params) => ({
   url,
