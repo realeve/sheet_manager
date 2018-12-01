@@ -30,9 +30,19 @@ let chartConfig: TChartConfig = [
       '/chart#id=6/8d5b63370c&data_type=sex;score;net_type;dom_loaded;wechat_version;answer_minutes&x=3&y=4&type=pie&legend=2&doughnut=1'
   },
   {
+    key: 'radius',
+    title: '玫瑰图样式:radius',
+    default: '不设置时为默认样式'
+  },
+  {
+    key: 'area',
+    title: '玫瑰图样式:area',
+    default: '不设置时为默认样式'
+  },
+  {
     key: 'rose',
     title: '玫瑰图样式',
-    default: 'radius/area,不设置时为默认样式'
+    default: '指定为radius或area,不设置时为默认样式'
   }
 ];
 
@@ -267,6 +277,18 @@ let standardPie = ({ option, config }) => {
   } else {
     seriesData = getSeriesData(data);
     series[0] = getSeriesItem(header[option.x], ['50%', '50%'], seriesData);
+  }
+
+  if (option.radius) {
+    series = series.map((item) => {
+      item.roseType = 'radius';
+      return item;
+    });
+  } else if (option.area) {
+    series = series.map((item) => {
+      item.roseType = 'area';
+      return item;
+    });
   }
 
   // 玫瑰图

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Card, Select, Switch, Row, Col, Slider } from 'antd';
+import { Card, Select, Switch, Row, Col, Slider, Input } from 'antd';
 import styles from './Chart.less';
 import { formatMessage } from 'umi/locale';
 import { chartTypeList } from '../utils/charts';
 import Debounce from 'lodash-decorators/debounce';
+import * as lib from '@/utils/lib';
 
 const R = require('ramda');
 const { Option } = Select;
@@ -31,6 +32,11 @@ interface ISwitProps extends ICommonProps {
 
 interface ISliderProps extends ICommonProps {
   value: number;
+  [key: string]: any;
+}
+
+interface IInputProps extends ICommonProps {
+  value: number | string;
   [key: string]: any;
 }
 
@@ -104,6 +110,23 @@ const FieldSlider: (props: ISliderProps) => JSX.Element = ({
   </Col>
 );
 
+const FieldInput: (props: IInputProps) => JSX.Element = ({
+  title,
+  style,
+  value,
+  onChange,
+  desc,
+  ...exProps
+}) => (
+  <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
+    <div className={styles.switch}>
+      <div className={styles.title}>{title}</div>
+      <Input size="small" value={value} onChange={onChange} {...exProps} />
+    </div>
+    <p className={styles.desc}>{desc}</p>
+  </Col>
+);
+
 interface IConfigProps {
   header: Array<string>;
   params: {
@@ -149,25 +172,31 @@ export type TAxisName =
   | 'histogram'
   | 'multilegend'
   | 'border'
-  | 'step';
+  | 'step'
+  | 'circleshape';
 
 const coordinateAxis = (type) =>
   ![
     'pie',
-    'radar',
+    // 'radar',
     'treemap',
     'calendar',
     'parallel',
     'heatmap',
-    'themeriver',
     'sankey',
     'sunburst'
   ].includes(type);
 const chartDesc = {
+  x: 'X轴所在数据列',
+  y: 'Y轴所在数据列',
+  z: 'Z轴所在数据列',
+  legend: 'legend序列所在数据列',
+  group: '数据分组所在数据列',
   simple: '简洁模式，隐藏标题等信息，只显示最小信息',
   smooth: '是否采用平滑曲线渲染',
   stack: '堆叠曲线图或堆叠柱状图，展示某个序列的汇总信息',
-  area: '显示曲面图，在设为曲线图时生效',
+  area: '显示曲面图',
+  circleshape: '圆形背景',
   zoom: '横向缩放条',
   zoomv: '纵向缩放条',
   reverse: '交换x/y轴，柱状图将转换为条形图',
@@ -179,7 +208,11 @@ const chartDesc = {
   histogram: '直方图，显示数据分布情况',
   multilegend: '是否显示多个序列',
   step: '阶梯曲线图，在曲线图模式下生效',
-  border: '旭日图最外层数据是否显示为细线条样式'
+  border: '不设置时,最外层数据是否显示为细线条样式',
+  vertical: '是否采用垂直布局',
+  scale: '图表矩形长宽比例',
+  doughnut: '是否显示为环形图',
+  radius: '玫瑰图样式设为radius,与面积曲线图只能生效一项'
 };
 
 const commonSetting = [
@@ -193,18 +226,91 @@ const commonSetting = [
   'height'
 ];
 
-const switchOptions = (type) => {
-  let opts = 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,step'.split(
-    ','
-  );
-  if (type == 'sunrise') {
-    opts.push('border');
+const getCommonOptions: (
+  key: string,
+  state: IConfigState
+) => boolean | string | number = (key, { x, y, z, legend, group, type }) => {
+  let res: boolean | string | number = false;
+  switch (key) {
+    case 'x':
+      res = x && coordinateAxis(type);
+      break;
+    case 'y':
+      res = y && coordinateAxis(type);
+      break;
+    case 'z':
+      res =
+        z &&
+        ['scatter3d', 'bar3d', 'line3d', 'surface', 'scatter'].includes(type);
+      break;
+    case 'legend':
+      res = legend;
+      break;
+    case 'group':
+    default:
+      res = [
+        'radar',
+        'themeriver',
+        'sankey',
+        'sunburst',
+        'treemap',
+        'pie'
+      ].includes(type)
+        ? true
+        : group;
+      break;
+  }
+
+  return res;
+};
+
+const getSwitchOptions = (type) => {
+  let opts =
+    coordinateAxis(type) && !['themeriver', 'radar', 'pie'].includes(type)
+      ? 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,step'.split(
+          ','
+        )
+      : ['simple'];
+  switch (type) {
+    case 'sunburst':
+      opts.push('border');
+      break;
+    case 'sankey':
+      opts.push('vertical');
+      break;
+    case 'themeriver':
+      opts = [...opts, ...'x,y'.split(',')];
+      break;
+    case 'radar':
+      opts = [...opts, ...'circleshape,area'.split(',')];
+      break;
+    case 'pie':
+      opts = [...opts, ...'radius,area,doughnut'.split(',')];
+      break;
+    default:
+      break;
+  }
+  return opts;
+};
+
+const getInputOptions = (type) => {
+  let opts = [];
+  switch (type) {
+    case 'treemap':
+      opts.push('scale');
+      break;
+    default:
+      break;
   }
   return opts;
 };
 
 export const getParams = (params) =>
-  R.pick([...commonSetting, ...switchOptions(params.type)])(params);
+  R.pick([
+    ...commonSetting,
+    ...getSwitchOptions(params.type),
+    ...getInputOptions(params.type)
+  ])(params);
 
 let getChartConfig = (type) => {
   let chartType = chartTypeList.find((list) =>
@@ -233,21 +339,17 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
   }
 
   @Debounce(600)
-  resizeChartHeight(e: number) {
-    this.directChange('height', e);
+  refreshVal(type: string, e: number | string) {
+    this.directChange(type, e);
   }
 
   render() {
-    let { x, y, z, legend, group, type, height } = this.state;
+    let { type, height } = this.state;
     let { header } = this.props;
 
-    let showZ =
-      z &&
-      ['scatter3d', 'bar3d', 'line3d', 'surface', 'scatter'].includes(type);
-
-    let showX = x && coordinateAxis(type);
-    let showY = y && coordinateAxis(type);
-    let sOptions = coordinateAxis(type) ? switchOptions(type) : ['simple'];
+    let sOptions = getSwitchOptions(type);
+    let inputOptions = getInputOptions(type);
+    let commonOptions = ['x', 'y', 'z', 'legend', 'group'];
 
     // 处理图表类型
     let chartType = getChartConfig(type);
@@ -264,70 +366,51 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
         value
       };
     });
+
     return (
       <Card className={styles.chartConfig} title="图表基础设置" bordered>
         <Row gutter={16} style={{ marginTop: 10 }}>
           {chartType.length > 1 && (
             <FieldSelector
-              title={formatMessage({ id: 'chart.setting.config.type' })}
+              title={formatMessage({ id: 'chart.config.type' })}
               value={type}
               onChange={(value) => this.changeAxis('type', value)}
               header={chartType}
               style={{ width: '100%' }}
             />
           )}
-          {showX && (
-            <FieldSelector
-              title={formatMessage({ id: 'chart.setting.config.xAxis' })}
-              desc="X轴所在数据列"
-              value={x}
-              onChange={(value) => this.changeAxis('x', value)}
-              header={header}
-            />
-          )}
-          {showY && (
-            <FieldSelector
-              title={formatMessage({ id: 'chart.setting.config.yAxis' })}
-              desc="Y轴所在数据列"
-              value={y}
-              onChange={(value) => this.changeAxis('y', value)}
-              header={header}
-            />
-          )}
-          {showZ && (
-            <FieldSelector
-              title={formatMessage({ id: 'chart.setting.config.zAxis' })}
-              desc="Z轴所在数据列"
-              value={z}
-              onChange={(value) => this.changeAxis('z', value)}
-              header={header}
-            />
-          )}
-          {legend && (
-            <FieldSelector
-              title={formatMessage({ id: 'chart.setting.config.legend' })}
-              desc="legend序列所在数据列"
-              value={legend}
-              onChange={(value) => this.changeAxis('legend', value)}
-              header={header}
-            />
-          )}
-          {group && (
-            <FieldSelector
-              title={formatMessage({ id: 'chart.setting.config.group' })}
-              desc="数据分组所在数据列"
-              value={group}
-              onChange={(value) => this.changeAxis('group', value)}
-              header={header}
-            />
+          {commonOptions.map(
+            (key) =>
+              getCommonOptions(key, this.state) && (
+                <FieldSelector
+                  key={key}
+                  title={formatMessage({ id: `chart.config.${key}` })}
+                  desc={chartDesc[key]}
+                  value={this.state[key]}
+                  onChange={(value) => this.changeAxis(key, value)}
+                  header={header}
+                />
+              )
           )}
           {sOptions.map((key) => (
             <FieldSwitch
               key={key}
-              title={formatMessage({ id: `chart.setting.config.${key}` })}
+              title={formatMessage({ id: `chart.config.${key}` })}
               desc={chartDesc[key]}
               value={this.state[key]}
               onChange={(value) => this.directChange(key, value)}
+            />
+          ))}
+          {inputOptions.map((key) => (
+            <FieldInput
+              key={key}
+              title={formatMessage({ id: `chart.config.${key}` })}
+              desc={chartDesc[key]}
+              value={this.state[key]}
+              onChange={(e) => {
+                e.persist();
+                this.directChange(key, e.target.value);
+              }}
             />
           ))}
           {height && (
@@ -335,7 +418,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               title={'图表高度'}
               desc={height + 'px'}
               value={parseInt(height)}
-              onChange={(value) => this.resizeChartHeight(value)}
+              onChange={(value) => this.refreshVal('height', value)}
               max={1500}
               min={300}
               step={10}
