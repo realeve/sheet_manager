@@ -282,7 +282,7 @@ const getCommonOptions: (
 const getSwitchOptions = (type) => {
   let opts =
     coordinateAxis(type) &&
-    !['themeriver', 'radar', 'pie', 'paralell', 'heatmap'].includes(type)
+    !['themeriver', 'radar', 'pie', 'paralell', 'heatmap','scatter3d', 'bar3d', 'line3d', 'surface'].includes(type)
       ? 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,step'.split(
           ','
         )
