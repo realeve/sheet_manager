@@ -31,8 +31,10 @@ interface IMenuState {
   menuItem: TMenuItem;
   treeIndex: number | string;
 }
+
 interface IMenuProps {
   externalNodeType: string;
+  [key: string]: any;
 }
 
 class MenuItemList extends Component<IMenuProps, IMenuState> {
@@ -218,6 +220,15 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
       menuItem
     });
   };
+
+  componentDidUpdate() {
+    this.props.dispatch({
+      type: 'menu/setStore',
+      payload: {
+        treeDataLeft: this.state.treeDataLeft
+      }
+    });
+  }
 
   render() {
     const {

@@ -18,7 +18,7 @@ const TabPane = Tabs.TabPane;
 const RangePicker = DatePicker.RangePicker;
 
 function Tables({ dispatch, dateRange, loading, dataSource }) {
-  const onDateChange = async (dates, dateStrings) => {
+  const onDateChange = async (_, dateStrings) => {
     dispatch({
       type: 'table/setStore',
       payload: { dateRange: dateStrings }

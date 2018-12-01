@@ -10,7 +10,7 @@ import { TMenuList } from './MenuItemList';
 const R = require('ramda');
 
 interface IMenuListProps {
-  onEdit?: (menuItem: TMenuItem, operateType: string) => string;
+  onEdit?: (menuItem: TMenuItem, operateType: 'edit' | 'del') => string;
   dispatch?: (
     action: {
       type: string;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { connect } from 'dva';
 import { Button, Input, Popconfirm, notification, Icon } from 'antd';
 
 import SortableTree from 'react-sortable-tree';
@@ -35,8 +35,27 @@ interface IPreviewProps {
   treeData: TMenuList;
   uid?: string | number;
   onNew?: () => void;
+  menuList?: any;
 }
 
+// 左侧菜单项更新时，菜单列表中对应信息一并更新
+const updateMenuItem = (detail, menuList) => {
+  return detail.map((item) => {
+    if (item.children) {
+      item.children = updateMenuItem(item.children, menuList);
+    } else {
+      let newItem = R.find(R.propEq('id', item.id))(menuList);
+      if (!R.isNil(newItem)) {
+        item = Object.assign(item, newItem);
+      }
+    }
+    return item;
+  });
+};
+
+@connect((state) => ({
+  menuList: state.menu.treeDataLeft
+}))
 class MenuPreview extends Component<IPreviewProps, IPreviewState> {
   static defaultProps: Partial<IPreviewProps> = {
     externalNodeType: 'shareNodeType',
@@ -66,13 +85,14 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState> {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    let { id, detail, title } = nextProps.menuDetail;
-    if (R.isNil(id) || R.equals(id, prevState.menu_id)) {
+    let { id: menu_id, detail, title } = nextProps.menuDetail;
+    if (R.isNil(menu_id) || R.equals(menu_id, prevState.menu_id)) {
       return null;
     }
+    let treeData = updateMenuItem(detail, nextProps.menuList);
     return {
-      treeData: detail,
-      menu_id: id,
+      treeData,
+      menu_id,
       title,
       editMode: nextProps.editMode
     };

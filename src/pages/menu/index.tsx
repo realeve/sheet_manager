@@ -15,6 +15,7 @@ import { TMenuItem } from './components/MenuItem';
 interface ITreeProps {
   uid: number | string;
   loading: boolean;
+  [key: string]: any;
 }
 
 interface ITreeState {
@@ -58,7 +59,7 @@ class VTree extends Component<ITreeProps, ITreeState> {
     });
   };
 
-  editMenu = async (menuDetail, mode) => {
+  editMenu = async (menuDetail, mode: 'edit' | 'del') => {
     if (mode === 'edit') {
       this.setState({ menuDetail, editMode: true });
     } else if (mode === 'del') {
@@ -87,13 +88,16 @@ class VTree extends Component<ITreeProps, ITreeState> {
   };
 
   render() {
-    const externalNodeType = 'shareNodeType';
+    const externalNodeType: string = 'shareNodeType';
     const { menuDetail, editMode, visible, uid } = this.state;
     return (
       <Card title="菜单设置">
         <Row>
           <Col md={8} sm={24}>
-            <MenuItemList externalNodeType={externalNodeType} />
+            <MenuItemList
+              externalNodeType={externalNodeType}
+              dispatch={this.props.dispatch}
+            />
           </Col>
           <Col md={8} sm={24}>
             <MenuPreview
