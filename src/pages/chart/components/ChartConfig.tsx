@@ -150,7 +150,7 @@ export type TAxisName =
   | 'multilegend'
   | 'step';
 
-const switchOptions = 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,multilegend,step'.split(
+const switchOptions = 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,step'.split(
   ','
 );
 const coordinateAxis = (type) =>

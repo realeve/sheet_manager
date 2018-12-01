@@ -4,7 +4,7 @@ import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
 
-const codeMessage = {
+export const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
   202: '一个请求已经进入后台排队（异步任务）。',
@@ -19,17 +19,17 @@ const codeMessage = {
   500: '服务器发生错误，请检查服务器。',
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
+  504: '网关超时。'
 };
 
-const checkStatus = response => {
+const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
   const errortext = codeMessage[response.status] || response.statusText;
   notification.error({
     message: `请求错误 ${response.status}: ${response.url}`,
-    description: errortext,
+    description: errortext
   });
   const error = new Error(errortext);
   error.name = response.status;
@@ -48,7 +48,7 @@ const cachedSave = (response, hashcode) => {
     response
       .clone()
       .text()
-      .then(content => {
+      .then((content) => {
         sessionStorage.setItem(hashcode, content);
         sessionStorage.setItem(`${hashcode}:timestamp`, Date.now());
       });
@@ -66,7 +66,7 @@ const cachedSave = (response, hashcode) => {
 export default function request(
   url,
   options = {
-    expirys: isAntdPro(),
+    expirys: isAntdPro()
   }
 ) {
   /**
@@ -80,7 +80,7 @@ export default function request(
     .digest('hex');
 
   const defaultOptions = {
-    credentials: 'include',
+    credentials: 'include'
   };
   const newOptions = { ...defaultOptions, ...options };
   if (
@@ -92,14 +92,14 @@ export default function request(
       newOptions.headers = {
         Accept: 'application/json',
         'Content-Type': 'application/json; charset=utf-8',
-        ...newOptions.headers,
+        ...newOptions.headers
       };
       newOptions.body = JSON.stringify(newOptions.body);
     } else {
       // newOptions.body is FormData
       newOptions.headers = {
         Accept: 'application/json',
-        ...newOptions.headers,
+        ...newOptions.headers
       };
     }
   }
@@ -121,8 +121,8 @@ export default function request(
   }
   return fetch(url, newOptions)
     .then(checkStatus)
-    .then(response => cachedSave(response, hashcode))
-    .then(response => {
+    .then((response) => cachedSave(response, hashcode))
+    .then((response) => {
       // DELETE and 204 do not return data by default
       // using .json will report an error.
       if (newOptions.method === 'DELETE' || response.status === 204) {
@@ -130,13 +130,13 @@ export default function request(
       }
       return response.json();
     })
-    .catch(e => {
+    .catch((e) => {
       const status = e.name;
       if (status === 401) {
         // @HACK
         /* eslint-disable no-underscore-dangle */
         window.g_app._store.dispatch({
-          type: 'login/logout',
+          type: 'login/logout'
         });
         return;
       }

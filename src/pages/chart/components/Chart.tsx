@@ -167,6 +167,7 @@ export default class Charts extends Component<IProp, IState> {
     let height = lib.getChartHeight(params, option);
     let header = dataSrc.header || false;
     let tblDataSrc = R.clone(dataSrc);
+    console.log(tblDataSrc);
     tblDataSrc.data = tblDataSrc.data.map((item) => Object.values(item));
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
