@@ -95,7 +95,7 @@ export let axios = async (option) => {
     headers: {
       Authorization: window.g_axios.token
     },
-    method: option.method ? option.method : 'get'
+    method: option.method || 'get'
   });
 
   return await http

@@ -5,7 +5,7 @@ import IconList from './IconList';
 import util from '@/utils/pinyin';
 const R = require('ramda');
 
-export type TMenuItem = {
+export interface TMenuItem  {
   id: string | number;
   icon: string;
   title: string;
