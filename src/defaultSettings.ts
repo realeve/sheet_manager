@@ -1,4 +1,4 @@
-const colorList = [
+const colorList: Array<{ key: string; color: string }> = [
   {
     key: 'dust',
     color: '#F5222D'

@@ -4,12 +4,14 @@ import * as setting from './setting';
 import { notification } from 'antd';
 import router from 'umi/router';
 
-export let DEV = setting.DEV;
+export let DEV: boolean = setting.DEV;
 
-export let host = setting.host;
-export let uploadHost = setting.uploadHost;
+export let host: string = setting.host;
+export let uploadHost: string = setting.uploadHost;
 
-export const codeMessage = {
+export const codeMessage: {
+  [key: number]: string;
+} = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
   202: '一个请求已经进入后台排队（异步任务）。',
@@ -28,7 +30,7 @@ export const codeMessage = {
 };
 
 // 判断数据类型，对于FormData使用 typeof 方法会得到 object;
-let getType = (data) =>
+let getType: (data: any) => string = (data) =>
   Object.prototype.toString
     .call(data)
     .match(/\S+/g)[1]
@@ -37,13 +39,18 @@ let getType = (data) =>
 
 const loadUserInfo = function() {
   // 业务经办人
-  let userInfo = {
+  let userInfo: {
+    name: string;
+    uid: string;
+    fullname: string;
+    org: string;
+  } = {
     name: '',
     uid: '',
     fullname: '',
     org: ''
   };
-  let user = window.localStorage.getItem('user');
+  let user: null | string = window.localStorage.getItem('user');
   if (user == null) {
     return {
       token: ''
@@ -51,17 +58,18 @@ const loadUserInfo = function() {
   }
   user = JSON.parse(user);
   window.g_axios.token = user.token;
-  let extraInfo = atob(user.token.split('.')[1]);
+  let extraInfo: string = atob(user.token.split('.')[1]);
   userInfo.uid = JSON.parse(extraInfo).extra.uid;
 
   return user;
 };
 
-let refreshNoncer = async () => {
+let refreshNoncer = () => {
   // 此时可将引用url链接作为 url 参数请求登录，作为强校验；
   // 本部分涉及用户名和密码，用户需自行在服务端用curl申请得到token，勿放置在前端;
-  let url = window.g_axios.host + 'authorize.json?user=develop&psw=111111';
-  return await http.get(url).then((res) => res.data.token);
+  let url: string =
+    window.g_axios.host + 'authorize.json?user=develop&psw=111111';
+  return http.get(url).then((res) => res.data.token);
 };
 
 const saveToken = () => {

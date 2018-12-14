@@ -1,24 +1,27 @@
-import * as lib from "../utils/lib";
-import { uploadHost } from "../utils/axios";
-import styles from "../components/Table.less";
-import * as setting from "../utils/setting";
-const R = require("ramda");
+import * as lib from '../utils/lib';
+import { uploadHost } from '../utils/axios';
+import styles from '../components/Table.less';
+import * as setting from '../utils/setting';
+const R = require('ramda');
 
-const isFilterColumn = (data, key) => {
-  let isValid = true;
+const isFilterColumn: <T>(
+  data: Array<any>,
+  key: T
+) => { uniqColumn: Array<T>; filters: boolean } = (data, key) => {
+  let isValid: boolean = true;
 
-  const handleItem = item => {
+  const handleItem: (item: string | number | null) => void = (item) => {
     if (R.isNil(item)) {
       isValid = false;
     }
     if (isValid) {
-      item = String(item).trim();
-      let isNum = lib.isNumOrFloat(item);
-      let isTime = lib.isDateTime(item);
+      let str: string = String(item).trim();
+      let isNum: boolean = lib.isNumOrFloat(str);
+      let isTime: boolean = lib.isDateTime(str);
       if (isNum || isTime) {
         isValid = false;
       }
-      if (item.includes("image")) {
+      if (str.includes('image')) {
         isValid = false;
       }
     }
@@ -29,7 +32,7 @@ const isFilterColumn = (data, key) => {
     R.map(R.prop(key))
   )(data);
 
-  R.map(handleItem)(uniqColumn);
+  R.forEach(handleItem)(uniqColumn);
 
   return {
     uniqColumn,
@@ -42,14 +45,25 @@ export function handleColumns(
   cartLinkPrefix = setting.searchUrl
 ) {
   let { data, header, rows } = dataSrc;
-  let showURL = typeof data !== "undefined" && rows > 0;
+  let showURL: boolean = typeof data !== 'undefined' && rows > 0;
   if (!rows || rows === 0) {
     return [];
   }
 
   let column = header.map((title, i) => {
-    let key = "col" + i;
-    let item = {
+    let key = 'col' + i;
+    let item: {
+      title: string;
+      dataIndex?: string;
+      sorter?: Function;
+      render?: (text: string) => any;
+      filters?: Array<{
+        text: string;
+        value: string;
+      }>;
+      onFilter?: Function;
+      filteredValue?: any;
+    } = {
       title
     };
 
@@ -58,40 +72,40 @@ export function handleColumns(
 
     let tdValue = data[0][key];
     if (lib.isNumOrFloat(tdValue)) {
-      item.sorter = (a, b) => {
-        return a[key] - b[key];
-      };
+      item.sorter = (a, b) => a[key] - b[key];
+    } else {
+      item.sorter = (a, b) => String(a[key]).localeCompare(b[key]);
     }
     if (!showURL) {
       return item;
     }
 
-    const isCart = lib.isCart(tdValue);
+    const isCart: boolean = lib.isCart(tdValue);
     if (lib.isReel(tdValue) || isCart) {
-      item.render = text => {
+      item.render = (text) => {
         let url = cartLinkPrefix;
         const attrs = {
           href: url + text,
-          target: "_blank"
+          target: '_blank'
         };
         return <a {...attrs}> {text} </a>;
       };
       return item;
     } else if (lib.isInt(tdValue) && !lib.isDateTime(tdValue)) {
-      item.render = text => parseInt(text, 10).toLocaleString();
+      item.render = (text) => parseInt(text, 10).toLocaleString();
       return item;
     } else if (lib.hasDecimal(tdValue)) {
-      item.render = text => parseFloat(text);
+      item.render = (text) => parseFloat(text);
       return item;
     } else {
-      item.render = text => {
-        text = R.isNil(text) ? "" : text;
+      item.render = (text) => {
+        text = R.isNil(text) ? '' : text;
         let isImg =
-          String(text).includes("image/") || String(text).includes("/file/");
+          String(text).includes('image/') || String(text).includes('/file/');
         let isBase64Image =
-          String(text).includes("data:image/") &&
-          String(text).includes(";base64");
-        let hostUrl = isBase64Image ? "" : uploadHost;
+          String(text).includes('data:image/') &&
+          String(text).includes(';base64');
+        let hostUrl = isBase64Image ? '' : uploadHost;
         return !isImg ? (
           text
         ) : (
@@ -107,7 +121,7 @@ export function handleColumns(
     let fInfo = isFilterColumn(data, key);
 
     if (filteredInfo && fInfo.filters) {
-      item.filters = fInfo.uniqColumn.map(text => ({
+      item.filters = fInfo.uniqColumn.map((text) => ({
         text,
         value: text
       }));
@@ -119,12 +133,12 @@ export function handleColumns(
 
   // 10列以上自动固定
   if (column.length > 10) {
-    let fixedHeaders = [0, 1];
-    fixedHeaders.forEach(id => {
+    let fixedHeaders: Array<number> = [0, 1];
+    fixedHeaders.forEach((id) => {
       if (column[id]) {
         column[id] = Object.assign(column[id], {
           width: 80,
-          fixed: "left"
+          fixed: 'left'
         });
       }
     });
@@ -134,9 +148,9 @@ export function handleColumns(
 
 export function handleFilter({ data, filters }) {
   R.compose(
-    R.forEach(key => {
+    R.forEach((key) => {
       if (filters[key] !== null && filters[key].length !== 0) {
-        data = R.filter(item => filters[key].includes(item[key]))(data);
+        data = R.filter((item) => filters[key].includes(item[key]))(data);
       }
     }),
     R.keys
@@ -146,8 +160,8 @@ export function handleFilter({ data, filters }) {
 
 export function updateColumns({ columns, filters }) {
   R.compose(
-    R.forEach(key => {
-      let idx = R.findIndex(R.propEq("dataIndex", key))(columns);
+    R.forEach((key) => {
+      let idx = R.findIndex(R.propEq('dataIndex', key))(columns);
       columns[idx].filteredValue = filters[key];
     }),
     R.keys
@@ -157,7 +171,7 @@ export function updateColumns({ columns, filters }) {
 
 export function handleSort({ dataClone, field, order }) {
   return R.sort((a, b) => {
-    if (order === "descend") {
+    if (order === 'descend') {
       return b[field] - a[field];
     }
     return a[field] - b[field];
@@ -167,19 +181,19 @@ export function handleSort({ dataClone, field, order }) {
 export const getPageData = ({ data, page, pageSize }) =>
   data.slice((page - 1) * pageSize, page * pageSize);
 
-export const handleSrcData = data => {
+export const handleSrcData = (data) => {
   if (data.length === 0) {
     return data;
   }
   data.data = data.data.map((item, i) => [i + 1, ...item]);
-  data.header = ["", ...data.header];
+  data.header = ['', ...data.header];
   if (data.rows) {
     data.data = data.data.map((item, key) => {
       let col = {
         key
       };
       item.forEach((td, idx) => {
-        col["col" + idx] = lib.parseNumber(td);
+        col['col' + idx] = lib.parseNumber(td);
       });
       return col;
     });
@@ -188,7 +202,7 @@ export const handleSrcData = data => {
 };
 
 // 根据 props 初始化state
-export const initState = props => {
+export const initState = (props) => {
   let page = 1;
   let pageSize = 15;
   let state = updateState(props, { page, pageSize });
@@ -202,8 +216,8 @@ export const initState = props => {
   };
 };
 
-// 根据 props 更新state
-export const updateState = (props, { page, pageSize, columns }) => {
+// 根据 props 更新state //, columns
+export const updateState = (props, { page, pageSize }) => {
   let { dataSrc, loading } = props;
 
   const { source, time } = dataSrc;
@@ -211,13 +225,13 @@ export const updateState = (props, { page, pageSize, columns }) => {
   let dataSource = [];
 
   if (dataSrc.rows) {
-    if (typeof dataSrc.data[0].key === "undefined") {
+    if (typeof dataSrc.data[0].key === 'undefined') {
       dataSrc.data = dataSrc.data.map((item, key) => {
         let col = {
           key
         };
         item.forEach((td, idx) => {
-          col["col" + idx] = td;
+          col['col' + idx] = td;
         });
         return col;
       });
@@ -230,8 +244,9 @@ export const updateState = (props, { page, pageSize, columns }) => {
     });
   }
 
-  let bordered = window.localStorage.getItem("_tbl_bordered");
-  bordered = R.isNil(bordered) || bordered === "0" ? false : true;
+  let borderedStr: string | null = window.localStorage.getItem('_tbl_bordered');
+  let bordered: boolean =
+    R.isNil(borderedStr) || borderedStr === '0' ? false : true;
 
   let state = {
     bordered,
@@ -245,7 +260,7 @@ export const updateState = (props, { page, pageSize, columns }) => {
     dataSearchClone: []
   };
 
-  columns = handleColumns(
+  let columns = handleColumns(
     {
       dataSrc,
       filteredInfo: {}
