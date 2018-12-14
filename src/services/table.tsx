@@ -73,9 +73,10 @@ export function handleColumns(
     let tdValue = data[0][key];
     if (lib.isNumOrFloat(tdValue)) {
       item.sorter = (a, b) => a[key] - b[key];
-    } else {
-      item.sorter = (a, b) => String(a[key]).localeCompare(b[key]);
     }
+    //  else {
+    //   item.sorter = (a, b) => String(a[key]).localeCompare(b[key]);
+    // }
     if (!showURL) {
       return item;
     }
