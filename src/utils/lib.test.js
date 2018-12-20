@@ -3,88 +3,88 @@ import dateRanges from './ranges';
 
 describe('lib模块', () => {
   test('车号与轴号有效性', () => {
-    expect(lib.isCartOrReel('1820A233')).toBe(true);
-    expect(lib.isCartOrReel('1880A233')).toBe(true);
-    expect(lib.isCartOrReel('1880a233')).toBe(true);
-    expect(lib.isCartOrReel('182A2233')).not.toBe(true);
-    expect(lib.isCartOrReel('7720015')).not.toBe(true);
-    expect(lib.isCartOrReel('7720015A')).toBe(true);
-    expect(lib.isCartOrReel('7720015a')).toBe(true);
+    expect(lib.isCartOrReel('1820A233')).toBeTruthy();
+    expect(lib.isCartOrReel('1880A233')).toBeTruthy();
+    expect(lib.isCartOrReel('1880a233')).toBeTruthy();
+    expect(lib.isCartOrReel('182A2233')).not.toBeTruthy();
+    expect(lib.isCartOrReel('7720015')).not.toBeTruthy();
+    expect(lib.isCartOrReel('7720015A')).toBeTruthy();
+    expect(lib.isCartOrReel('7720015a')).toBeTruthy();
   });
   test('车号有效性', () => {
-    expect(lib.isCart('1820A233')).toBe(true);
-    expect(lib.isCart('1880A233')).toBe(true);
-    expect(lib.isCart('1880a233')).toBe(true);
-    expect(lib.isCart('182A2233')).not.toBe(true);
-    expect(lib.isCart('7720015')).not.toBe(true);
+    expect(lib.isCart('1820A233')).toBeTruthy();
+    expect(lib.isCart('1880A233')).toBeTruthy();
+    expect(lib.isCart('1880a233')).toBeTruthy();
+    expect(lib.isCart('182A2233')).not.toBeTruthy();
+    expect(lib.isCart('7720015')).not.toBeTruthy();
   });
   test('轴号有效性', () => {
-    expect(lib.isReel('7720015')).not.toBe(true);
-    expect(lib.isReel('7720015A')).toBe(true);
-    expect(lib.isReel('7720015a')).toBe(true);
+    expect(lib.isReel('7720015')).not.toBeTruthy();
+    expect(lib.isReel('7720015A')).toBeTruthy();
+    expect(lib.isReel('7720015a')).toBeTruthy();
   });
 
   test('日期有效性', () => {
-    expect(lib.isDateTime('2018/12/25')).toBe(true);
-    expect(lib.isDateTime('20181225')).toBe(true);
-    expect(lib.isDateTime('2018-12-25')).toBe(true);
-    expect(lib.isDateTime('2018-12-25 12:13:14')).toBe(true);
+    expect(lib.isDateTime('2018/12/25')).toBeTruthy();
+    expect(lib.isDateTime('20181225')).toBeTruthy();
+    expect(lib.isDateTime('2018-12-25')).toBeTruthy();
+    expect(lib.isDateTime('2018-12-25 12:13:14')).toBeTruthy();
 
-    expect(lib.isDateTime('2018A12-25 12:13:14')).not.toBe(true);
-    expect(lib.isDateTime('2018-12-25 12:13')).not.toBe(true);
-    expect(lib.isDateTime('201801225')).not.toBe(true);
-    expect(lib.isDateTime('2018-12-25 31:22:23')).not.toBe(true);
+    expect(lib.isDateTime('2018A12-25 12:13:14')).not.toBeTruthy();
+    expect(lib.isDateTime('2018-12-25 12:13')).not.toBeTruthy();
+    expect(lib.isDateTime('201801225')).not.toBeTruthy();
+    expect(lib.isDateTime('2018-12-25 31:22:23')).not.toBeTruthy();
   });
 
   test('number', () => {
-    expect(lib.isNumOrFloat('23')).toBe(true);
-    expect(lib.isNumOrFloat('0.23')).toBe(true);
-    expect(lib.isNumOrFloat('+23')).toBe(true);
-    expect(lib.isNumOrFloat('+0.23')).toBe(true);
-    expect(lib.isNumOrFloat('-223')).toBe(true);
-    expect(lib.isNumOrFloat('-2.23')).toBe(true);
+    expect(lib.isNumOrFloat('23')).toBeTruthy();
+    expect(lib.isNumOrFloat('0.23')).toBeTruthy();
+    expect(lib.isNumOrFloat('+23')).toBeTruthy();
+    expect(lib.isNumOrFloat('+0.23')).toBeTruthy();
+    expect(lib.isNumOrFloat('-223')).toBeTruthy();
+    expect(lib.isNumOrFloat('-2.23')).toBeTruthy();
 
-    expect(lib.isNumOrFloat('-a')).not.toBe(true);
-    expect(lib.isNumOrFloat('a')).not.toBe(true);
-    expect(lib.isNumOrFloat('0.-a')).not.toBe(true);
-    expect(lib.isNumOrFloat('0a')).not.toBe(true);
+    expect(lib.isNumOrFloat('-a')).not.toBeTruthy();
+    expect(lib.isNumOrFloat('a')).not.toBeTruthy();
+    expect(lib.isNumOrFloat('0.-a')).not.toBeTruthy();
+    expect(lib.isNumOrFloat('0a')).not.toBeTruthy();
   });
 
   test('int', () => {
-    expect(lib.isInt('23')).toBe(true);
-    expect(lib.isInt('0.23')).not.toBe(true);
-    expect(lib.isInt('+23')).toBe(true);
-    expect(lib.isInt('+0.23')).not.toBe(true);
-    expect(lib.isInt('-223')).toBe(true);
-    expect(lib.isInt('-2.23')).not.toBe(true);
+    expect(lib.isInt('23')).toBeTruthy();
+    expect(lib.isInt('0.23')).not.toBeTruthy();
+    expect(lib.isInt('+23')).toBeTruthy();
+    expect(lib.isInt('+0.23')).not.toBeTruthy();
+    expect(lib.isInt('-223')).toBeTruthy();
+    expect(lib.isInt('-2.23')).not.toBeTruthy();
 
-    expect(lib.isInt('-a')).not.toBe(true);
-    expect(lib.isInt('a')).not.toBe(true);
-    expect(lib.isInt('0.-a')).not.toBe(true);
-    expect(lib.isInt('0a')).not.toBe(true);
+    expect(lib.isInt('-a')).not.toBeTruthy();
+    expect(lib.isInt('a')).not.toBeTruthy();
+    expect(lib.isInt('0.-a')).not.toBeTruthy();
+    expect(lib.isInt('0a')).not.toBeTruthy();
   });
 
   test('float', () => {
-    expect(lib.isFloat('23')).toBe(true);
-    expect(lib.isFloat('0.23')).toBe(true);
-    expect(lib.isFloat('+23')).toBe(true);
-    expect(lib.isFloat('+0.23')).toBe(true);
-    expect(lib.isFloat('-223')).toBe(true);
-    expect(lib.isFloat('-2.23')).toBe(true);
+    expect(lib.isFloat('23')).toBeTruthy();
+    expect(lib.isFloat('0.23')).toBeTruthy();
+    expect(lib.isFloat('+23')).toBeTruthy();
+    expect(lib.isFloat('+0.23')).toBeTruthy();
+    expect(lib.isFloat('-223')).toBeTruthy();
+    expect(lib.isFloat('-2.23')).toBeTruthy();
 
-    expect(lib.isFloat('-a')).not.toBe(true);
-    expect(lib.isFloat('a')).not.toBe(true);
-    expect(lib.isFloat('0.-a')).not.toBe(true);
-    expect(lib.isFloat('0a')).not.toBe(true);
+    expect(lib.isFloat('-a')).not.toBeTruthy();
+    expect(lib.isFloat('a')).not.toBeTruthy();
+    expect(lib.isFloat('0.-a')).not.toBeTruthy();
+    expect(lib.isFloat('0a')).not.toBeTruthy();
   });
 
   test('decimal', () => {
-    expect(lib.hasDecimal('3.3')).toBe(true);
-    expect(lib.hasDecimal('+3.3')).toBe(true);
-    expect(lib.hasDecimal('-3.3')).toBe(true);
-    expect(lib.hasDecimal('3')).not.toBe(true);
-    expect(lib.hasDecimal('3.a')).not.toBe(true);
-    expect(lib.hasDecimal('a.3')).not.toBe(true);
+    expect(lib.hasDecimal('3.3')).toBeTruthy();
+    expect(lib.hasDecimal('+3.3')).toBeTruthy();
+    expect(lib.hasDecimal('-3.3')).toBeTruthy();
+    expect(lib.hasDecimal('3')).not.toBeTruthy();
+    expect(lib.hasDecimal('3.a')).not.toBeTruthy();
+    expect(lib.hasDecimal('a.3')).not.toBeTruthy();
   });
 
   test('parseNumber', () => {
@@ -249,13 +249,13 @@ describe('lib模块', () => {
   });
 
   test('冠字', () => {
-    expect(lib.isGZ('AC2322')).toBe(true);
-    expect(lib.isGZ('ac2322')).toBe(true);
-    expect(lib.isGZ('AC23224')).not.toBe(true);
-    expect(lib.isGZ('A2C322')).toBe(true);
-    expect(lib.isGZ('A23C32')).toBe(true);
-    expect(lib.isGZ('A233C2')).toBe(true);
-    expect(lib.isGZ('A2333C')).toBe(true);
+    expect(lib.isGZ('AC2322')).toBeTruthy();
+    expect(lib.isGZ('ac2322')).toBeTruthy();
+    expect(lib.isGZ('AC23224')).not.toBeTruthy();
+    expect(lib.isGZ('A2C322')).toBeTruthy();
+    expect(lib.isGZ('A23C32')).toBeTruthy();
+    expect(lib.isGZ('A233C2')).toBeTruthy();
+    expect(lib.isGZ('A2333C')).toBeTruthy();
   });
 
   test('千分位数字转换', () => {

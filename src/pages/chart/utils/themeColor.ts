@@ -82,7 +82,7 @@ const COLOR_PIE_16 = [
 
 const DEFAULT_COLOR = '#1890FF';
 
-const getColor: Array<string> = (len: number, type: string) => {
+const getColor: (len: number, type: string) => Array<string> = (len, type) => {
   if (type === 'pie') {
     return len > 8 ? COLOR_PIE_16 : COLOR_PIE;
   }

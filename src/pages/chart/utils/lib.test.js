@@ -12,17 +12,17 @@ describe('图表lib', () => {
   });
 
   test('是否是日期', () => {
-    expect(lib.isDate('2018')).toBe(false);
-    expect(lib.isDate('2018-12-21')).toBe(true);
-    expect(lib.isDate('20181221')).toBe(true);
-    expect(lib.isDate('0018-12-21')).toBe(false);
+    expect(lib.isDate('2018')).toBeFalsy();
+    expect(lib.isDate('2018-12-21')).toBeTruthy();
+    expect(lib.isDate('20181221')).toBeTruthy();
+    expect(lib.isDate('0018-12-21')).toBeFalsy();
   });
 
   test('是否需要转换', () => {
-    expect(lib.needConvertDate('2018-12-21')).toBe(true);
-    expect(lib.needConvertDate('20181221')).toBe(true);
-    expect(lib.needConvertDate('201812')).toBe(true);
-    expect(lib.needConvertDate('2018-12')).toBe(true);
+    expect(lib.needConvertDate('2018-12-21')).toBeTruthy();
+    expect(lib.needConvertDate('20181221')).toBeTruthy();
+    expect(lib.needConvertDate('201812')).toBeTruthy();
+    expect(lib.needConvertDate('2018-12')).toBeTruthy();
   });
 
   test('按键值分组', () => {
@@ -103,5 +103,28 @@ describe('图表lib', () => {
       min: 20,
       max: 40
     });
+
+    expect(lib.handleMinMax({ min: 2.2, max: 3.6 })).toEqual({
+      min: 2,
+      max: 4
+    });
+
+    expect(lib.handleMinMax({ min: 320, max: 856 })).toEqual({
+      min: 300,
+      max: 900
+    });
+  });
+
+  test('数据序列格式化', () => {
+    expect(lib.getLegendData(['A品种', 'B品种'])).toEqual([
+      {
+        name: 'A品种',
+        icon: 'circle'
+      },
+      {
+        name: 'B品种',
+        icon: 'circle'
+      }
+    ]);
   });
 });
