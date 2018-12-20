@@ -121,12 +121,13 @@ let handleDefaultOption = (option, config) => {
         axisPointerType = 'shadow';
         break;
       case 'line':
-        axisPointerType = 'cross';
-        break;
       default:
-        tooltipTrigger = 'item';
         axisPointerType = 'cross';
         break;
+      // default:
+      //   tooltipTrigger = 'item';
+      //   axisPointerType = 'cross';
+      // break;
     }
     option.tooltip = {
       trigger: tooltipTrigger,
@@ -191,13 +192,14 @@ let str2Date: (str: string) => string = (str) => {
   return dates.join('-');
 };
 
-let str2Num: (str: string) => number = (str) => {
+let str2Num: (str: string) => number | string = (str) => {
   if (/^(|\-)[0-9]+.[0-9]+$/.test(str)) {
     return parseFloat(parseFloat(str).toFixed(3));
   }
   if (/^(|\-)[0-9]+$/.test(str)) {
     return parseInt(str, 10);
   }
+  return str;
 };
 
 let isDate: (dateStr: string) => boolean = (dateStr) => {
@@ -436,7 +438,7 @@ interface Iparams {
 
 type chartHeightFun = (params: Iparams, data: any) => string;
 
-let getChartHeight: chartHeightFun = (params: Iparams, { series }) => {
+let getChartHeight: chartHeightFun = (params: Iparams, option) => {
   if (params.height) {
     return params.height + 'px';
   }
@@ -447,8 +449,8 @@ let getChartHeight: chartHeightFun = (params: Iparams, { series }) => {
     ? '700px'
     : '500px';
   if (params.type === 'calendar') {
-    if (!R.isNil(series)) {
-      height = 100 + series.length * (6 * params.size + 70) + 'px';
+    if (!R.isNil(option.series)) {
+      height = 100 + option.series.length * (6 * params.size + 70) + 'px';
     } else {
       height = '800px';
     }

@@ -17,3 +17,5 @@ npm-debug.log*
 /docs/json
 /public/data/*.json
 *.log*
+
+/coverage
