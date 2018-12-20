@@ -506,7 +506,7 @@ let getLegend: (
 type axis = 'value' | 'category';
 // 获取指定key对应的轴数据
 let getAxis: (
-  { data, header }: { data: any; header: string[] },
+  param: { data: any; header: string[] },
   key: string
 ) => {
   xAxis: Array<string | number>;
