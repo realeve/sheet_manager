@@ -4,7 +4,7 @@ import * as setting from './setting';
 import qs from 'qs';
 import dateRanges from './ranges';
 import router from 'umi/router';
-import userTool from './users';
+import { saveLoginStatus } from './users';
 import { Dispatch } from 'react-redux';
 const R = require('ramda');
 
@@ -319,7 +319,7 @@ export const logout = ({ dispatch }: Props) => {
       isLogin: false
     }
   });
-  userTool.saveLoginStatus(0);
+  saveLoginStatus(0);
 
   let { href, origin } = window.location;
   router.push({

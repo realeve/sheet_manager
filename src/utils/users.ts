@@ -62,7 +62,7 @@ const saveLoginStatus = (status: number | string = 1) => {
   window.localStorage.setItem(_login, String(status));
 };
 
-const getLoginStatus: string | number = () => {
+const getLoginStatus: () => string | number = () => {
   return window.localStorage.getItem(_login) || 0;
 };
 
