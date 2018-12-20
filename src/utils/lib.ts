@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { host, uploadHost } from './axios';
 import http from 'axios';
 import * as setting from './setting';
 import qs from 'qs';
@@ -7,14 +6,13 @@ import dateRanges from './ranges';
 import router from 'umi/router';
 import userTool from './users';
 import { Dispatch } from 'react-redux';
-
 const R = require('ramda');
 
 export const searchUrl: string = setting.searchUrl;
 export const imgUrl: string = setting.imgUrl;
 export const systemName: string = '某数据系统';
 
-export const apiHost: string = host;
+export const apiHost: string = setting.host;
 
 interface Rules {
   cart: RegExp;
@@ -44,18 +42,19 @@ export const isDateTime: CartReelReg = (str) =>
   );
 
 export const isNumOrFloat: CartReelReg = (str) =>
-  /^\d+(\.)\d+$|^\d+$/.test(String(str));
-export const isInt: CartReelReg = (str) => /^\d+$/.test(String(str));
+  /^(-|\+|)\d+(\.)\d+$|^(-|\+|)\d+$/.test(String(str));
+export const isInt: CartReelReg = (str) => /^(-|\+|)\d+$/.test(String(str));
 export const isFloat: CartReelReg = (str) =>
-  /^\d+\.\d+$|^\d+$/.test(String(str));
-export const hasDecimal: CartReelReg = (str) => /^\d+\.\d+$/.test(String(str));
+  /^(-|\+|)\d+\.\d+$|^(-|\+|)\d+$/.test(String(str));
+export const hasDecimal: CartReelReg = (str) =>
+  /^(-|\+|)\d+\.\d+$/.test(String(str));
 export const parseNumber: {
   (str: number): number | string;
 } = (str) => {
   if (!hasDecimal(str)) {
     return str;
   }
-  return str.toFixed(3);
+  return typeof str === 'string' ? parseFloat(str).toFixed(3) : str.toFixed(3);
 };
 
 export const now = () => moment().format('YYYY-MM-DD HH:mm:ss');
@@ -91,13 +90,18 @@ interface GZInfo {
   alpha: string;
   alpha2: string;
 }
-interface hdGZInfo {
-  ({ code, prod }: GZSetting): GZInfo | boolean;
-}
-export const handleGZInfo: hdGZInfo = ({ code, prod }) => {
+// interface hdGZInfo {
+//   ({ code, prod }: GZSetting): GZInfo | boolean;
+// }
+export const handleGZInfo: (param: GZSetting) => GZInfo | boolean = ({
+  code,
+  prod
+}) => {
   if (code.length !== 6) {
     return false;
   }
+  code = code.toUpperCase();
+
   let kInfo: number = 35;
   if (prod.includes('9602') || prod.includes('9603')) {
     kInfo = 40;
@@ -216,7 +220,7 @@ export let uploadBase64 = async (dataURI: string) => {
   var data: FormData = dataURI2FormData(dataURI);
   return await http({
     method: 'POST',
-    url: uploadHost,
+    url: setting.uploadHost,
     data
   }).then((res) => res.data);
 };
@@ -268,7 +272,7 @@ export const thouandsNum: {
     let [integer, decimal] = numStr.split('.');
     return integer + '.' + decimal.padEnd(decimalLength, '0');
   }
-  return num + '.00';
+  return numStr + '.' + ''.padEnd(decimalLength, '0');
 };
 
 // 处理url链接信息，返回组件model所需的初始数据
@@ -335,13 +339,15 @@ export const getType: {
     .toLowerCase();
 
 interface Store {
-  payload: { any };
+  payload: any;
 }
 export const setStore = (state, { payload }: Store) => {
+  if (typeof payload === 'undefined') {
+    throw Error('需要更新的数据请设置在payload中');
+  }
   let nextState = R.clone(state);
   Object.keys(payload).forEach((key) => {
     let val = payload[key];
-    // console.log(key, val);
     if (getType(val) == 'object') {
       nextState[key] = Object.assign({}, nextState[key], val);
     } else {

@@ -30,7 +30,7 @@ export default {
           webpackChunkName: true,
           loadingComponent: './components/PageLoading/Loading1.jsx'
         },
-        pwa: true,
+        // pwa: true,
         fastClick: true,
         targets: {
           ie: 9,
