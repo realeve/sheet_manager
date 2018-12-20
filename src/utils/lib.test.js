@@ -90,8 +90,14 @@ test('parseNumber', () => {
   expect(lib.parseNumber('3')).toBe('3');
   expect(lib.parseNumber('3.223')).toBe('3.223');
   expect(lib.parseNumber('3.2235')).toBe('3.224');
+  expect(lib.parseNumber(3.2235)).toBe('3.224');
 });
 
+test('moment', () => {
+  expect(lib.ymd()).toHaveLength('YYYYMMDD'.length);
+  expect(lib.weeks()).toBeLessThanOrEqual(53);
+  expect(lib.now()).toHaveLength('YYYY-MM-DD HH:mm:ss'.length);
+});
 test('冠字起始号', () => {
   expect(
     lib.handleGZInfo({
@@ -106,6 +112,13 @@ test('冠字起始号', () => {
     end: '2344',
     end2: '2344'
   });
+
+  expect(
+    lib.handleGZInfo({
+      prod: '9602A',
+      code: 'A23'
+    })
+  ).toBeFalsy();
 
   expect(
     lib.handleGZInfo({
@@ -247,6 +260,19 @@ expect(
   end2: '0014'
 });
 
+expect(
+  lib.handleGZInfo({
+    prod: '9602A',
+    code: 'B0A014'
+  })
+).toEqual({
+  alpha: 'A*Z',
+  start: '9975',
+  end: '9999',
+  alpha2: 'B*A',
+  start2: '0000',
+  end2: '0014'
+});
 test('冠字', () => {
   expect(lib.isGZ('AC2322')).toBeTruthy();
   expect(lib.isGZ('ac2322')).toBeTruthy();
@@ -271,6 +297,16 @@ test('地址栏参数', () => {
 
   expect(lib.handleUrlParams('#id=6/8d5b63370c&data_type=score')).toEqual({
     id: ['6/8d5b63370c'],
+    params: {
+      data_type: 'score'
+    },
+    dateRange: [ts, te]
+  });
+
+  expect(
+    lib.handleUrlParams('#id=6/8d5b63370c&id=61/8d5b63370c&data_type=score')
+  ).toEqual({
+    id: ['6/8d5b63370c', '61/8d5b63370c'],
     params: {
       data_type: 'score'
     },
@@ -306,6 +342,7 @@ test('store存储测试', () => {
 
   // throw error报错
   // expect(lib.setStore({ a: 1 }, { b: 2 })).toThrow(/payload/);
+  expect(lib.setStore({ a: 1 }, { b: 2 })).toEqual({ a: 1, b: 2 });
 
   expect(0.1 + 0.2).toBeCloseTo(0.3);
 });

@@ -30,11 +30,12 @@ function arraySearch(l1, l2, shortMode) {
 }
 
 function ucfirst(l1, shortMode) {
-  if (l1.length > 0) {
-    var first = l1.substr(0, 1).toUpperCase();
-    var spare = shortMode ? '' : l1.substr(1, l1.length);
-    return first + spare;
-  }
+  // if (l1.length > 0)
+  // {
+  var first = l1.substr(0, 1).toUpperCase();
+  var spare = shortMode ? '' : l1.substr(1, l1.length);
+  return first + spare;
+  // }
 }
 
 export default {

@@ -341,9 +341,11 @@ export const getType: {
 interface Store {
   payload: any;
 }
-export const setStore = (state, { payload }: Store) => {
+export const setStore = (state, store: Store) => {
+  let { payload } = store;
   if (typeof payload === 'undefined') {
-    throw Error('需要更新的数据请设置在payload中');
+    payload = store;
+    // throw new Error('需要更新的数据请设置在payload中');
   }
   let nextState = R.clone(state);
   Object.keys(payload).forEach((key) => {
