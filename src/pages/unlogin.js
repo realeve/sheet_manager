@@ -7,6 +7,7 @@ import qs from 'qs';
 
 const redirectLogin = () => {
   let { href, origin } = window.location;
+
   router.push({
     pathname: '/login',
     search: qs.stringify({

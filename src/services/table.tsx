@@ -1,3 +1,4 @@
+import React from 'react';
 import * as lib from '../utils/lib';
 import { uploadHost } from '../utils/axios';
 import styles from '../components/Table.less';
@@ -71,6 +72,7 @@ export function handleColumns(
     // item.key = key;
 
     let tdValue = data[0][key];
+
     if (lib.isNumOrFloat(tdValue)) {
       item.sorter = (a, b) => a[key] - b[key];
     }
