@@ -222,7 +222,7 @@ export let uploadBase64 = async (dataURI: string) => {
     method: 'POST',
     url: setting.uploadHost,
     data
-  }).then((res) => res.data);
+  }); //.then((res) => res.data);
 };
 
 /**
@@ -231,29 +231,30 @@ export let uploadBase64 = async (dataURI: string) => {
  * @param {回调函数} callback
  * @desc 将file图像文件对象转换为BASE64
  */
-export let dataFile2URI = async (file: File, callback: Function) => {
-  if (typeof FileReader === 'undefined') {
-    return {
-      status: false,
-      data: '浏览器不支持 FileReader'
-    };
-  }
-  if (!/image\/\w+/.test(file.type)) {
-    //判断获取的是否为图片文件
-    return {
-      status: false,
-      data: '浏览器不支持 请确保文件为图像文件'
-    };
-  }
-  let reader: FileReader = new FileReader();
-  reader.onload = ({ target: { result } }: any) => {
-    if (typeof callback === 'function') {
-      callback(result);
-    }
-  };
-  reader.readAsDataURL(file);
-  return reader;
-};
+// export let dataFile2URI = async (file: File, callback?: Function) => {
+//   if (typeof FileReader === 'undefined') {
+//     return {
+//       status: false,
+//       data: '浏览器不支持 FileReader'
+//     };
+//   }
+//   if (!/image\/\w+/.test(file.type)) {
+//     //判断获取的是否为图片文件
+//     return {
+//       status: false,
+//       data: '浏览器不支持 请确保文件为图像文件'
+//     };
+//   }
+//   let reader: FileReader = new FileReader();
+//   reader.onload = ({ target: { result } }: any) => {
+//     if (typeof callback === 'function') {
+//       callback(result);
+//     }
+//   };
+//   reader.readAsDataURL(file);
+
+//   return reader;
+// };
 
 /**
  * 千分位格式化数字
@@ -322,12 +323,16 @@ export const logout = ({ dispatch }: Props) => {
   userTool.saveLoginStatus(0);
 
   let { href, origin } = window.location;
-  router.push({
-    pathname: '/login',
-    search: qs.stringify({
-      redirect: href.replace(origin, '')
-    })
-  });
+  try {
+    router.push({
+      pathname: '/login',
+      search: qs.stringify({
+        redirect: href.replace(origin, '')
+      })
+    });
+  } catch (e) {
+    throw new Error('路由跳转失败');
+  }
 };
 
 export const getType: {

@@ -1,4 +1,5 @@
-export let DEV: boolean = true;
+export let DEV: boolean =
+  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 export let systemName: string = '某系统名字';
 
 // 前台资源部署域名，默认头像图片资源调用域名

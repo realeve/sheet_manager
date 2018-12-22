@@ -354,4 +354,21 @@ test('loadFile', () => {
 
   expect(typeof lib.dataURI2FormData(img)).toBe('object');
   expect(typeof lib.uploadBase64(img)).toBe('object');
+  // expect(
+  //   typeof lib.dataFile2URI({
+  //     type: 'text'
+  //   })
+  // ).toEqual('object');
+
+  // expect(
+  //   typeof lib.dataFile2URI({
+  //     type: 'image/_'
+  //   })
+  // ).toBe('object');
+});
+
+test('logout', () => {
+  expect(() => {
+    lib.logout({ dispatch: console.log });
+  }).toThrowError();
 });
