@@ -75,63 +75,18 @@ test('空值', () => {
   expect(res).toMatchObject(resultObj);
 });
 
-test('超过10列数据', () => {
+test('时间日期', () => {
   let res = table.handleColumns(
     {
       dataSrc: {
         data: [
           {
-            col0: 1,
+            col0: '2018-12-21 22:00:00',
             col1: 2,
             key: 0
           },
           {
-            col0: 2,
-            col1: 4,
-            key: 1
-          },
-          {
-            col0: 2,
-            col1: 4,
-            key: 1
-          },
-          {
-            col0: 2,
-            col1: 4,
-            key: 1
-          },
-          {
-            col0: 2,
-            col1: 4,
-            key: 1
-          },
-          {
-            col0: 2,
-            col1: 4,
-            key: 1
-          },
-          {
-            col0: 2,
-            col1: 4,
-            key: 1
-          },
-          {
-            col0: 2,
-            col1: 4,
-            key: 1
-          },
-          {
-            col0: 2,
-            col1: 4,
-            key: 1
-          },
-          {
-            col0: 2,
-            col1: 4,
-            key: 1
-          },
-          {
-            col0: 2,
+            col0: '2018-12-21 22:00:00',
             col1: 4,
             key: 1
           }
@@ -144,6 +99,87 @@ test('超过10列数据', () => {
     searchUrl
   );
   expect(res).toMatchObject(resultObj);
+  res = table.handleColumns(
+    {
+      dataSrc: {
+        data: [
+          {
+            col0: '',
+            col1: 2,
+            key: 0
+          },
+          {
+            col0: '',
+            col1: 4,
+            key: 1
+          }
+        ],
+        rows: 2,
+        header: ['a', 'b']
+      },
+      filteredInfo: {}
+    },
+    searchUrl
+  );
+  expect(res).toMatchObject(resultObj);
+});
+
+test('超过10列数据', () => {
+  let res = table.handleColumns(
+    {
+      dataSrc: {
+        data: [
+          {
+            col0: 1,
+            col1: 2,
+            col2: 2,
+            col3: 2,
+            col4: 2,
+            col5: 2,
+            col6: 2,
+            col7: 2,
+            col8: 2,
+            col9: 2,
+            col10: 2,
+            col11: 2,
+            key: 0
+          },
+          {
+            col0: 3,
+            col1: 21,
+            col2: 2,
+            col3: 2,
+            col4: 2,
+            col5: 2,
+            col6: 2,
+            col7: 2,
+            col8: 2,
+            col9: 2,
+            col10: 2,
+            col11: 2,
+            key: 1
+          }
+        ],
+        rows: 2,
+        header: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
+      },
+      filteredInfo: {}
+    },
+    searchUrl
+  );
+  expect(res).toMatchObject([
+    { dataIndex: 'col0', title: 'a' },
+    { dataIndex: 'col1', title: 'b' },
+    { dataIndex: 'col2', title: 'c' },
+    { dataIndex: 'col3', title: 'd' },
+    { dataIndex: 'col4', title: 'e' },
+    { dataIndex: 'col5', title: 'f' },
+    { dataIndex: 'col6', title: 'g' },
+    { dataIndex: 'col7', title: 'h' },
+    { dataIndex: 'col8', title: 'i' },
+    { dataIndex: 'col9', title: 'j' },
+    { dataIndex: 'col10', title: 'k' }
+  ]);
 });
 
 test('小数点', () => {
