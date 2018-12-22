@@ -4,7 +4,7 @@ import * as setting from './setting';
 import qs from 'qs';
 import dateRanges from './ranges';
 import router from 'umi/router';
-import { saveLoginStatus } from './users';
+import userTool from './users';
 import { Dispatch } from 'react-redux';
 const R = require('ramda');
 
@@ -161,19 +161,19 @@ export let isGZ: CartReelReg = (value) =>
     String(value)
   );
 
-export let loadFile: {
-  (fileName: string, content: any): void;
-} = (fileName, content) => {
-  var aLink: HTMLAnchorElement = document.createElement('a');
-  var blob: Blob = new Blob([content], {
-    type: 'text/plain'
-  });
-  // var evt = new Event("click");
-  aLink.download = fileName;
-  aLink.href = URL.createObjectURL(blob);
-  aLink.click();
-  URL.revokeObjectURL(aLink.href);
-};
+// export let loadFile: {
+//   (fileName: string, content: any): void;
+// } = (fileName, content) => {
+//   var aLink: HTMLAnchorElement = document.createElement('a');
+//   var blob: Blob = new Blob([content], {
+//     type: 'text/plain'
+//   });
+//   // var evt = new Event("click");
+//   aLink.download = fileName;
+//   aLink.href = URL.createObjectURL(blob);
+//   aLink.click();
+//   URL.revokeObjectURL(aLink.href);
+// };
 
 let dataURItoBlob = (dataURI: string) => {
   var byteString: string = atob(dataURI.split(',')[1]);
@@ -319,7 +319,7 @@ export const logout = ({ dispatch }: Props) => {
       isLogin: false
     }
   });
-  saveLoginStatus(0);
+  userTool.saveLoginStatus(0);
 
   let { href, origin } = window.location;
   router.push({

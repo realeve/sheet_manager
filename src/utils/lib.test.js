@@ -347,3 +347,11 @@ test('store存储测试', () => {
   expect(0.1 + 0.2).toBeCloseTo(0.3);
 });
 // END
+test('loadFile', () => {
+  // expect(lib.loadFile('file', 'content')).toBeNull();
+  const img =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAMSURBVBhXY/j//z8ABf4C/qc1gYQAAAAASUVORK5CYII=';
+
+  expect(typeof lib.dataURI2FormData(img)).toBe('object');
+  expect(typeof lib.uploadBase64(img)).toBe('object');
+});
