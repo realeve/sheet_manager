@@ -51,6 +51,7 @@ const loadUserInfo = function() {
     org: ''
   };
   let user: null | string = window.localStorage.getItem('user');
+  console.log(user);
   if (user == null) {
     return {
       token: ''
