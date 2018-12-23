@@ -143,13 +143,13 @@ let chartConfig: TChartConfig = [
       '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&area=0&type=line&legend=2&step=start'
   },
   {
-    type: 'percent',
+    key: 'percent',
     title: '百分比堆叠图，开启该项时，帕累托选项自动关闭',
     default: 0,
     url: '/chart#id=8/26f49db157&area=1&type=line&stack=1&percent=1'
   },
   {
-    type: 'markline',
+    key: 'markline',
     title: '标记线位置',
     default:
       '主要用在对某一指标设置上限的场景,默认不设置，可设置为Y轴的具体数值，也可设置为max/min/average,分别表示最大值、最小值、平均值。当需要设置多个标记线时使用半角逗号隔开',
@@ -157,32 +157,32 @@ let chartConfig: TChartConfig = [
       '/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=line&smooth=1&markline=750000,average&marktext=上限,avg'
   },
   {
-    type: 'marktext',
+    key: 'marktext',
     title: '标记线显示文本，与markline一一对应',
     default: '如果设置了markline但未设置marktext时，显示对应数据的值。',
     url: '/chart#id=8/26f49db157&type=line&markline=1500&marktext=参考值'
   },
   {
-    type: 'markarea',
+    key: 'markarea',
     title: '标记区域',
     default:
       '标记区域需设置标记的上下限，格式为 min-max，需要设置多个标记区域时使用半角逗号隔开。如markarea=15-30,35-45'
   },
   {
-    type: 'markareatext',
+    key: 'markareatext',
     title: '标记区域显示文本，与标记区域一一对应',
     default: '如果设置了markarea但未设置markareatext时，显示对应数据的值。',
     url:
       '/chart#id=8/26f49db157&type=line&markarea=1200-2500,800-1200&markareatext=优秀值,良好值'
   },
   {
-    type: 'histogram',
+    key: 'histogram',
     title:
       '开启直方图模式，此时只允许设置legend及x轴。绘制直方图时，还将自动添加一根概率密度分布曲线。',
     default: '0,默认关闭'
   },
   {
-    type: 'multilegend',
+    key: 'multilegend',
     title: '多个序列是否能同时开启，直方图中默认为否',
     default: '1',
     url:

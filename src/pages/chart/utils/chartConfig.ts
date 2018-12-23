@@ -14,7 +14,7 @@ import { chartConfig as heatmap } from './charts/heatmap';
 
 import { chartConfig as calendar } from './charts/calendar';
 import { chartConfig as bar3d } from './charts/bar3d';
-
+const R = require('ramda');
 const commonConfig: Array<{
   key: string;
   title: string;
@@ -129,8 +129,9 @@ const config = {
     config: bar3d
   }
 };
-export default Object.keys(config).map((type) => {
-  let item = config[type];
-  item.config = Object.assign({}, config, commonConfig);
-  return { type, ...item };
+let chartsList = R.keys(config);
+export default R.values(config).map((chartItem, i) => {
+  chartItem.config = [...commonConfig, ...chartItem.config];
+  chartItem.type = chartsList[i];
+  return chartItem;
 });

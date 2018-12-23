@@ -48,8 +48,19 @@ export default [
         component: './menu'
       },
       {
+        name: 'chart',
+        icon: 'chart',
         path: '/chart',
-        component: './chart'
+        routes: [
+          {
+            path: '/chart',
+            component: './chart'
+          },
+          {
+            path: '/chart/config',
+            component: './chart/Config'
+          }
+        ]
       },
       {
         path: '/table',
