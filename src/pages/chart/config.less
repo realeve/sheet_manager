@@ -1,0 +1,49 @@
+.container {
+  max-width: 1200px;
+  .charttype {
+    margin-top: 15px;
+  }
+  ul {
+    padding: 0;
+    li {
+      margin-top: 10px;
+      .title {
+        font-weight: bold;
+      }
+      .tip {
+        font-weight: bold;
+        margin: 5px 0;
+      }
+      .desc {
+        background: #f2f4f5;
+        padding: 30px 10px 10px 15px;
+        position: relative;
+        margin-bottom: 10px;
+        &::before {
+          content: '说明';
+          position: absolute;
+          left: 15px;
+          top: 5px;
+          font-weight: bold;
+        }
+      }
+      .demoLink {
+        background: #efefff;
+        padding: 30px 10px 10px 15px;
+        position: relative;
+        margin-top: 10px;
+        &::before {
+          content: '示例链接';
+          position: absolute;
+          left: 15px;
+          top: 5px;
+          font-weight: bold;
+        }
+        a {
+          display: inline-block;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

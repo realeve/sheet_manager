@@ -1,16 +1,17 @@
-import React, { Component } from "react";
-import { Button, Row, Col, Card } from "antd";
-import * as db from "../services/tableCalc";
-import styles from "./TableCalc.less";
-import * as setting from "../utils/setting";
-import * as libMath from "../utils/math";
-import VFiledsSelector from "./FieldsSelector";
+import React, { Component } from 'react';
+import { Button, Row, Col, Card } from 'antd';
+import * as db from '../services/tableCalc';
+import styles from './TableCalc.less';
+import * as setting from '../utils/setting';
+import * as libMath from '../utils/math';
+import VFiledsSelector from './FieldsSelector';
+import { formatMessage } from 'umi/locale';
 
-import VTable from "./Table.jsx";
+import VTable from './Table.jsx';
 
 const dataOperator = libMath.dataOperator;
 
-const R = require("ramda");
+const R = require('ramda');
 class TableCalc extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +26,7 @@ class TableCalc extends Component {
     return db.updateState(props, state);
   }
 
-  fieldsChange = async fieldList => {
+  fieldsChange = async (fieldList) => {
     let { groupList, operatorList } = this.state;
     fieldList = R.sort((a, b) => a - b)(fieldList);
     if (groupList.length === 0) {
@@ -38,14 +39,14 @@ class TableCalc extends Component {
     this.saveFieldsSetting();
   };
 
-  operatorChange = async operatorList => {
+  operatorChange = async (operatorList) => {
     await this.setState({
       operatorList
     });
     this.saveFieldsSetting();
   };
 
-  groupChange = async groupList => {
+  groupChange = async (groupList) => {
     let { operatorList } = this.state;
     groupList = R.sort((a, b) => a - b)(groupList);
     if (groupList.length === 0) {
@@ -86,12 +87,12 @@ class TableCalc extends Component {
     } = this.state;
     return (
       <div>
-        <Card title="基础设置" bordered>
+        <Card title={formatMessage({ id: 'table.config.base' })} bordered>
           <Row gutter={16} style={{ marginTop: 10 }}>
             <Col span={8}>
               <VFiledsSelector
-                title="参与分组的字段"
-                desc="这些数据通常是文本类型的数据，比如日期、人员、设备等无法用于计算的数据"
+                title={formatMessage({ id: 'table.config.groupby' })}
+                desc={formatMessage({ id: 'table.config.groupby.desc' })}
                 header={fieldHeader}
                 onChange={this.fieldsChange}
                 checkedList={fieldList}
@@ -99,8 +100,8 @@ class TableCalc extends Component {
             </Col>
             <Col span={8}>
               <VFiledsSelector
-                title="参与计算的字段"
-                desc="这些数据通常是数值类型的数据，比如小数、整数等可用于计算平均值、求和。"
+                title={formatMessage({ id: 'table.config.calc' })}
+                desc={formatMessage({ id: 'table.config.calc.desc' })}
                 header={groupHeader}
                 onChange={this.groupChange}
                 checkedList={groupList}
@@ -108,18 +109,17 @@ class TableCalc extends Component {
             </Col>
             <Col span={8}>
               <VFiledsSelector
-                title="计算方式"
+                title={formatMessage({ id: 'table.config.calctype' })}
                 header={dataOperator}
                 onChange={this.operatorChange}
                 checkedList={operatorList}
               />
               <p
                 style={{
-                  borderTop: "1px solid #e9e9e9",
+                  borderTop: '1px solid #e9e9e9',
                   marginTop: 5,
                   paddingTop: 5
-                }}
-              >
+                }}>
                 计数：统计分组字段出现的次数;
                 <br />
                 中位数：按顺序排列的一组数据中居于中间位置的数;
@@ -134,7 +134,7 @@ class TableCalc extends Component {
           </Row>
           <div className={styles.action}>
             <Button type="primary" onClick={this.groupData}>
-              汇总数据
+              {formatMessage({ id: 'table.config.calculate' })}
             </Button>
             {/* <Button>重置</Button> */}
           </div>
@@ -148,15 +148,15 @@ class TableCalc extends Component {
 TableCalc.defaultProps = {
   dataSrc: {
     data: [],
-    title: "",
+    title: '',
     rows: 0,
-    time: "0ms",
+    time: '0ms',
     header: []
   },
   loading: false,
   cartLinkPrefix: setting.searchUrl,
   actions: false,
-  subTitle: ""
+  subTitle: ''
 };
 
 export default TableCalc;

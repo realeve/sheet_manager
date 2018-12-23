@@ -6,6 +6,8 @@ import ReactEcharts from './echarts-for-react';
 import VTable from '@/components/Table.jsx';
 import ChartConfig, { TAxisName, IConfigState, getParams } from './ChartConfig';
 
+import { formatMessage } from 'umi/locale';
+
 import lib from '../utils/lib';
 
 const R = require('ramda');
@@ -177,7 +179,7 @@ export default class Charts extends Component<IProp, IState> {
     tblDataSrc.data = tblDataSrc.data.map((item) => Object.values(item));
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
-        <TabPane tab="数据图表" key="1">
+        <TabPane tab={formatMessage({ id: 'chart.tab.chart' })} key="1">
           {header && (
             <ChartConfig
               header={header}
@@ -210,11 +212,15 @@ export default class Charts extends Component<IProp, IState> {
             ))}
           </Card>
         </TabPane>
-        <TabPane tab="原始数据" key="2">
+        <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="2">
           <VTable
             dataSrc={tblDataSrc}
             loading={loading}
-            subTitle={`统计期间: ${tstart} 至 ${tend}`}
+            subTitle={`${formatMessage({
+              id: 'app.daterange'
+            })}: ${tstart} ${formatMessage({
+              id: 'app.daterange.to'
+            })} ${tend}`}
           />
         </TabPane>
       </Tabs>

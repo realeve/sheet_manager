@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Select, Switch, Row, Col, Slider, Input } from 'antd';
+import { Card, Select, Switch, Row, Col, Slider, Input, Icon } from 'antd';
 import styles from './Chart.less';
 import { formatMessage } from 'umi/locale';
 import { chartTypeList } from '../utils/charts';
@@ -282,7 +282,17 @@ const getCommonOptions: (
 const getSwitchOptions = (type) => {
   let opts =
     coordinateAxis(type) &&
-    !['themeriver', 'radar', 'pie', 'paralell', 'heatmap','scatter3d', 'bar3d', 'line3d', 'surface'].includes(type)
+    ![
+      'themeriver',
+      'radar',
+      'pie',
+      'paralell',
+      'heatmap',
+      'scatter3d',
+      'bar3d',
+      'line3d',
+      'surface'
+    ].includes(type)
       ? 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,step'.split(
           ','
         )
@@ -389,7 +399,23 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
     });
 
     return (
-      <Card className={styles.chartConfig} title="图表基础设置" bordered>
+      <Card
+        className={styles.chartConfig}
+        title={
+          <div>
+            {formatMessage({ id: 'chart.config.base' })}
+            <a
+              target="_blank"
+              href="/chart/config"
+              rel="noopener noreferrer"
+              className={styles.action}
+              style={{ marginLeft: 10 }}
+              title={formatMessage({ id: 'component.globalHeader.help' })}>
+              <Icon type="question-circle-o" />
+            </a>
+          </div>
+        }
+        bordered>
         <Row gutter={16} style={{ marginTop: 10 }}>
           {chartType.length > 1 && (
             <FieldSelector

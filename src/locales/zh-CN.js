@@ -160,6 +160,29 @@ export default {
     '拷贝成功，请到 src/defaultSettings.js 中替换默认配置',
   'app.setting.production.hint':
     '配置栏只在开发环境用于预览，生产环境不会展现，请拷贝后手动修改配置文件',
+
+  'app.timerange': '起始时间',
+  'app.daterange': '统计日期',
+  'app.daterange.to': '至',
+  'table.download': '下载',
+  'table.border': '显示表格边框',
+  'table.filter': '输入任意值过滤数据',
+  'table.config.base': '基础设置',
+  'table.config.groupby': '参与分组的字段',
+  'table.config.groupby.desc':
+    '这些数据通常是文本类型的数据，比如日期、人员、设备等无法用于计算的数据',
+  'table.config.calc': '参与计算的字段',
+  'table.config.calc.desc':
+    '这些数据通常是数值类型的数据，比如小数、整数等可用于计算平均值、求和。',
+  'table.config.calctype': '计算方式',
+
+  'table.config.calculate': '汇总数据',
+
+  'chart.tab.chart': '数据图表',
+  'chart.tab.table': '原始数据',
+  'chart.tab.tableCalc': '数据汇总',
+  'chart.config.default': '图表默认配置项',
+  'chart.config.base': '图表基础设置',
   'chart.config.type': '图表类型',
   'chart.config.x': 'x轴',
   'chart.config.y': 'y轴',

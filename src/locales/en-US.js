@@ -160,6 +160,29 @@ export default {
     'copy success，please replace defaultSettings in src/models/setting.js',
   'app.setting.production.hint':
     'Setting panel shows in development environment only, please manually modify',
+
+  'app.timerange': 'Time range',
+  'app.daterange': 'Date calculated',
+  'app.daterange.to': 'to',
+  'table.download': 'download',
+  'table.border': 'show Table border',
+  'table.filter': 'input to filter data',
+  'table.config.base': 'Table base setting',
+  'table.config.groupby': 'Filelds group by',
+  'table.config.groupby.desc':
+    'These data are usually text type of data, such as dates, people, devices, and which cannot be used for calculation',
+  'table.config.calc': 'Fileds calc',
+  'table.config.calc.desc':
+    'These data are usually numeric types of data, such as decimals, integers which can be used to calculate the average, sum.',
+
+  'table.config.calctype': 'calc type',
+  'table.config.calculate': 'calc it',
+
+  'chart.tab.chart': 'Chart',
+  'chart.tab.table': 'Source Data',
+  'chart.tab.tableCalc': 'Data Calc',
+  'chart.config.default': 'Default setting',
+  'chart.config.base': 'Chart base setting',
   'chart.config.type': 'chart type',
   'chart.config.x': 'xAxis',
   'chart.config.y': 'yAxis',
@@ -171,7 +194,7 @@ export default {
   'chart.config.area': 'arealine chart',
   'chart.config.zoom': 'horizontal zoom toolbar',
   'chart.config.zoomv': 'vertical zoom toolbar',
-  'chart.config.reverse': 'reverse Xaxis/yAxis',
+  'chart.config.reverse': 'reverse xAxis/yAxis',
   'chart.config.pareto': 'pareto chart',
   'chart.config.barshadow': 'show bar chart shadow',
   'chart.config.pictorial': 'pictorial chart',

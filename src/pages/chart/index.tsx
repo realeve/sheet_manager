@@ -6,6 +6,7 @@ import styles from './index.less';
 import dateRanges from '@/utils/ranges';
 import moment from 'moment';
 import classNames from 'classnames';
+import { formatMessage } from 'umi/locale';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
@@ -36,7 +37,9 @@ function Charts({ dispatch, dateRange, config, loading }) {
 
   const DateRangePicker = () => (
     <div className={styles.setting}>
-      <label className={styles.labelDesc}>起始时间:</label>
+      <label className={styles.labelDesc}>
+        {formatMessage({ id: 'app.timerange' })}:
+      </label>
       <RangePicker
         ranges={dateRanges}
         format="YYYYMMDD"

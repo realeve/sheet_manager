@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Table,
   Pagination,
@@ -10,15 +10,16 @@ import {
   Icon,
   Form,
   Switch
-} from "antd";
-import * as db from "../services/table";
-import styles from "./Table.less";
-import * as setting from "../utils/setting";
-import Excel from "../utils/excel";
-import pdf from "../utils/pdf";
-import * as lib from "../utils/lib";
+} from 'antd';
+import * as db from '../services/table';
+import styles from './Table.less';
+import * as setting from '../utils/setting';
+import Excel from '../utils/excel';
+import pdf from '../utils/pdf';
+import * as lib from '../utils/lib';
+import { formatMessage } from 'umi/locale';
 
-const R = require("ramda");
+const R = require('ramda');
 
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -68,7 +69,7 @@ class Tables extends Component {
     this.refreshByPage(newPage);
   };
 
-  customFilter = async filters => {
+  customFilter = async (filters) => {
     // const dataSrc = this.dataSrc;
     const { columns, dataSrc } = this.state;
 
@@ -91,9 +92,9 @@ class Tables extends Component {
     this.refreshByPage();
   };
 
-  customSort = async sortedInfo => {
+  customSort = async (sortedInfo) => {
     const { field, order } = sortedInfo;
-    if (typeof field === "undefined") {
+    if (typeof field === 'undefined') {
       return;
     }
 
@@ -115,12 +116,12 @@ class Tables extends Component {
     this.customSort(sorter);
   };
 
-  handleSearchChange = async e => {
+  handleSearchChange = async (e) => {
     const keyword = e.target.value;
     let key = keyword.trim();
     let { dataClone, dataSearchClone } = this.state;
 
-    if (key === "") {
+    if (key === '') {
       if (dataSearchClone.length) {
         dataClone = dataSearchClone;
       }
@@ -130,10 +131,10 @@ class Tables extends Component {
         dataSearchClone = dataClone;
       } else {
         dataClone = dataSearchClone.filter(
-          tr =>
+          (tr) =>
             Object.values(tr)
               .slice(1)
-              .filter(td => String(td).includes(key)).length
+              .filter((td) => String(td).includes(key)).length
         );
       }
     }
@@ -148,11 +149,13 @@ class Tables extends Component {
   getExportConfig = () => {
     const { columns, dataSrc, dataClone } = this.state;
     const { title } = dataSrc;
-    const header = R.map(R.prop("title"))(columns);
+    const header = R.map(R.prop('title'))(columns);
     const filename = `${title}`;
-    const keys = header.map((item, i) => "col" + i);
+    const keys = header.map((item, i) => 'col' + i);
     const body = R.compose(
-      R.map(item => R.map(a => (lib.hasDecimal(a) ? parseFloat(a) : a))(item)),
+      R.map((item) =>
+        R.map((a) => (lib.hasDecimal(a) ? parseFloat(a) : a))(item)
+      ),
       R.map(R.props(keys))
     )(dataClone);
     return {
@@ -164,7 +167,7 @@ class Tables extends Component {
 
   downloadExcel = () => {
     const config = this.getExportConfig();
-    config.filename = config.filename + ".xlsx";
+    config.filename = config.filename + '.xlsx';
     const xlsx = new Excel(config);
     xlsx.save();
   };
@@ -174,25 +177,25 @@ class Tables extends Component {
     const { subTitle } = this.props;
     let config = this.getExportConfig();
     config = Object.assign(config, {
-      download: "open",
+      download: 'open',
       title,
-      orientation: config.header.length > 10 ? "landscape" : "portrait",
-      pageSize: config.header.length > 15 ? "A3" : "A4",
+      orientation: config.header.length > 10 ? 'landscape' : 'portrait',
+      pageSize: config.header.length > 15 ? 'A3' : 'A4',
       message: `\n${subTitle}\n${source}\n(c)成都印钞有限公司 印钞管理部`
     });
     pdf(config);
   };
 
   // 为每行增加自定义附加操作
-  appendActions = columns => {
+  appendActions = (columns) => {
     if (!this.props.actions) {
       return columns;
     }
 
     let actions = this.props.actions.map(({ title, render }, idx) => ({
       title,
-      key: "col" + (columns.length + idx),
-      dataIndex: "col" + (columns.length + idx),
+      key: 'col' + (columns.length + idx),
+      dataIndex: 'col' + (columns.length + idx),
       render: (text, record) => render(record)
     }));
     return [...columns, ...actions];
@@ -236,7 +239,7 @@ class Tables extends Component {
         <Pagination
           className="ant-table-pagination"
           showTotal={(total, range) =>
-            total ? `${range[0]}-${range[1]} 共 ${total} 条数据` : ""
+            total ? `${range[0]}-${range[1]} 共 ${total} 条数据` : ''
           }
           showSizeChanger
           onShowSizeChange={this.onShowSizeChange}
@@ -244,7 +247,7 @@ class Tables extends Component {
           current={page}
           pageSize={pageSize}
           onChange={this.refreshByPage}
-          pageSizeOptions={["5", "10", "15", "20", "30", "40", "50", "100"]}
+          pageSizeOptions={['5', '10', '15', '20', '30', '40', '50', '100']}
         />
       </>
     );
@@ -265,9 +268,9 @@ class Tables extends Component {
     );
   };
 
-  handleToggle = prop => {
-    return enable => {
-      let key = "_tbl_" + prop;
+  handleToggle = (prop) => {
+    return (enable) => {
+      let key = '_tbl_' + prop;
       window.localStorage.setItem(key, enable ? 1 : 0);
       this.setState({ [prop]: enable });
     };
@@ -299,9 +302,8 @@ class Tables extends Component {
           <Button
             style={{
               marginLeft: 0
-            }}
-          >
-            下载 <Icon type="down" />
+            }}>
+            {formatMessage({ id: 'table.download' })} <Icon type="down" />
           </Button>
         </Dropdown>
       );
@@ -311,12 +313,11 @@ class Tables extends Component {
       <Form
         layout="inline"
         className={styles.tblSetting}
-        style={{ paddingLeft: 15 }}
-      >
-        <FormItem label="表格边框">
+        style={{ paddingLeft: 15 }}>
+        <FormItem label={formatMessage({ id: 'table.border' })}>
           <Switch
             checked={this.state.bordered}
-            onChange={this.handleToggle("bordered")}
+            onChange={this.handleToggle('bordered')}
           />
         </FormItem>
       </Form>
@@ -330,7 +331,7 @@ class Tables extends Component {
             {tTitle}
             <div className={styles.search}>
               <Search
-                placeholder="输入任意值过滤数据"
+                placeholder={formatMessage({ id: 'table.filter' })}
                 onChange={this.handleSearchChange}
                 style={{
                   width: 220,
@@ -341,14 +342,13 @@ class Tables extends Component {
           </div>
         }
         style={{
-          width: "100%",
+          width: '100%',
           marginTop: 0
         }}
         bodyStyle={{
-          padding: "0px 0px 12px 0px"
+          padding: '0px 0px 12px 0px'
         }}
-        className={styles.exCard}
-      >
+        className={styles.exCard}>
         {tBody}
         <TableSetting />
       </Card>
@@ -359,15 +359,15 @@ class Tables extends Component {
 Tables.defaultProps = {
   dataSrc: {
     data: [],
-    title: "",
+    title: '',
     rows: 0,
-    time: "0ms",
+    time: '0ms',
     header: []
   },
   loading: false,
   cartLinkPrefix: setting.searchUrl,
   actions: false,
-  subTitle: ""
+  subTitle: ''
 };
 
 export default Tables;

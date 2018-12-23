@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import VTable from '@/components/Table.jsx';
 import VTableCalc from '@/components/TableCalc.jsx';
+import { formatMessage } from 'umi/locale';
 
 import { DatePicker, Card, Tabs } from 'antd';
 import styles from './index.less';
@@ -33,7 +34,9 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
 
   const DateRangePicker = () => (
     <>
-      <label className={styles.labelDesc}>起始时间:</label>
+      <label className={styles.labelDesc}>
+        {formatMessage({ id: 'app.timerange' })}:
+      </label>
       <RangePicker
         ranges={dateRanges}
         format="YYYYMMDD"
@@ -57,18 +60,26 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
       {dataSource.map((dataSrc, key) => (
         <div key={key} className={cx({ tableContainer: key, dataList: !key })}>
           <Tabs defaultActiveKey="1">
-            <TabPane tab="原始数据" key="1">
+            <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="1">
               <VTable
                 dataSrc={dataSrc}
                 loading={loading}
-                subTitle={`统计期间: ${dateRange[0]} 至 ${dateRange[1]}`}
+                subTitle={`${formatMessage({ id: 'app.daterange' })}: ${
+                  dateRange[0]
+                } ${formatMessage({
+                  id: 'app.daterange.to'
+                })} ${dateRange[1]}`}
               />
             </TabPane>
-            <TabPane tab="数据汇总" key="2">
+            <TabPane tab={formatMessage({ id: 'chart.tab.tableCalc' })} key="2">
               <VTableCalc
                 dataSrc={dataSrc}
                 loading={loading}
-                subTitle={`统计期间: ${dateRange[0]} 至 ${dateRange[1]}`}
+                subTitle={`${formatMessage({ id: 'app.daterange' })}: ${
+                  dateRange[0]
+                } ${formatMessage({
+                  id: 'app.daterange.to'
+                })} ${dateRange[1]}`}
               />
             </TabPane>
           </Tabs>

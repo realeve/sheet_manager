@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'dva';
 import { Card, Select } from 'antd';
 import configs from './utils/chartConfig';
+import styles from './config.less';
+import { formatMessage } from 'umi/locale';
+
 const R = require('ramda');
 const { Option } = Select;
 class Config extends React.Component {
@@ -18,7 +21,7 @@ class Config extends React.Component {
   render() {
     let { chartType, config } = this.state;
     return (
-      <Card title="图表默认配置项">
+      <Card title={formatMessage({ id: 'chart.config.default' })}>
         <Select
           value={chartType}
           size="small"
@@ -30,30 +33,38 @@ class Config extends React.Component {
             </Option>
           ))}
         </Select>
-        <div>
-          图表类型：{config.type}
+        <div className={styles.container}>
+          <div className={styles.charttype}>
+            图表类型：/chart/#type={config.type}&id=
+          </div>
           <ul>
             {config.config.map((item, idx) => {
               return (
-                <li key={item.key + idx} style={{ marginTop: 10 }}>
-                  <div style={{ fontWeight: 'bold' }}>
+                <li key={item.key + idx}>
+                  <div className={styles.tip}>
                     {idx + 1}.{item.key}
                     {item.type && <span>type:{item.type}</span>}
                   </div>
 
-                  <div>参数说明：{item.title}</div>
+                  <div className={styles.desc}> {item.title} </div>
                   {'undefined' !== typeof item.default && (
                     <div>默认值：{item.default}</div>
                   )}
                   {item.url && (
                     <div>
-                      {typeof item.url === 'string'
-                        ? item.url
-                        : item.url.map((url) => (
+                      <div className={styles.demoLink}>
+                        {typeof item.url === 'string' ? (
+                          <a href={item.url} target="_blank">
+                            {item.url}
+                          </a>
+                        ) : (
+                          item.url.map((url) => (
                             <a href={url} target="_blank" key={url}>
                               {url}
                             </a>
-                          ))}
+                          ))
+                        )}
+                      </div>
                     </div>
                   )}
                 </li>
