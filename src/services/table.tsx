@@ -46,10 +46,10 @@ export function handleColumns(
   cartLinkPrefix = setting.searchUrl
 ) {
   let { data, header, rows } = dataSrc;
-  let showURL: boolean = typeof data !== 'undefined' && rows > 0;
   if (!rows || rows === 0) {
     return [];
   }
+  let showURL: boolean = typeof data !== 'undefined';
 
   let column = header.map((title, i) => {
     let key = 'col' + i;
@@ -71,6 +71,10 @@ export function handleColumns(
     item.dataIndex = key;
     // item.key = key;
 
+    if (!showURL) {
+      return item;
+    }
+
     let tdValue = data[0][key];
 
     if (lib.isNumOrFloat(tdValue)) {
@@ -79,9 +83,6 @@ export function handleColumns(
     //  else {
     //   item.sorter = (a, b) => String(a[key]).localeCompare(b[key]);
     // }
-    if (!showURL) {
-      return item;
-    }
 
     const isCart: boolean = lib.isCart(tdValue);
     if (lib.isReel(tdValue) || isCart) {
@@ -128,6 +129,7 @@ export function handleColumns(
         text,
         value: text
       }));
+
       item.onFilter = (value, record) => record[key].includes(value);
       item.filteredValue = filteredInfo[key] || null;
     }
@@ -138,12 +140,12 @@ export function handleColumns(
   if (column.length > 10) {
     let fixedHeaders: Array<number> = [0, 1];
     fixedHeaders.forEach((id) => {
-      if (column[id]) {
-        column[id] = Object.assign(column[id], {
-          width: 80,
-          fixed: 'left'
-        });
-      }
+      // if (column[id]) {
+      column[id] = Object.assign(column[id], {
+        width: 80,
+        fixed: 'left'
+      });
+      // }
     });
   }
   return column;

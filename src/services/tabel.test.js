@@ -2,6 +2,8 @@ import * as table from './table';
 import React from 'react';
 import { shallow } from 'enzyme';
 import * as setting from '../utils/setting';
+const prettyFormat = require('pretty-format');
+
 const { searchUrl } = setting;
 const resultObj = [
   { dataIndex: 'col0', title: 'a' },
@@ -47,6 +49,20 @@ test('是否为数据过滤列', () => {
   let res = table.handleColumns({ dataSrc, filteredInfo: {} }, searchUrl);
   expect(res).toMatchObject(resultObj);
   expect(res[0].render(2233)).toBe('2,233');
+
+  // 测试排序
+  expect(
+    res[0].sorter(
+      {
+        col0: 3,
+        col1: 2
+      },
+      {
+        col0: 1,
+        col1: 4
+      }
+    )
+  ).toBe(2);
 });
 
 test('空值', () => {
@@ -122,6 +138,7 @@ test('时间日期', () => {
     searchUrl
   );
   expect(res).toMatchObject(resultObj);
+  expect(res[0].render(null)).toBe('');
 });
 
 test('超过10列数据', () => {
@@ -143,21 +160,6 @@ test('超过10列数据', () => {
             col10: 2,
             col11: 2,
             key: 0
-          },
-          {
-            col0: 3,
-            col1: 21,
-            col2: 2,
-            col3: 2,
-            col4: 2,
-            col5: 2,
-            col6: 2,
-            col7: 2,
-            col8: 2,
-            col9: 2,
-            col10: 2,
-            col11: 2,
-            key: 1
           }
         ],
         rows: 2,
@@ -208,11 +210,13 @@ test('车号与轴号渲染', () => {
     data: [
       {
         col0: '1820A233',
-        col1: 2
+        col1: 2,
+        key: 0
       },
       {
         col0: '1820A234',
-        col1: 4
+        col1: 4,
+        key: 1
       }
     ],
     rows: 2,
@@ -225,6 +229,18 @@ test('车号与轴号渲染', () => {
   expect(wrapper.text().trim()).toBe('1820A122');
   expect(wrapper.prop('href')).toBe(searchUrl + '1820A122');
   expect(wrapper.prop('target')).toBe('_blank');
+});
+
+test('未传入data', () => {
+  const dataSrc = {
+    rows: 2,
+    header: ['a', 'b']
+  };
+  const res = table.handleColumns({ dataSrc, filteredInfo: {} }, searchUrl);
+  expect(res).toEqual([
+    { dataIndex: 'col0', title: 'a' },
+    { dataIndex: 'col1', title: 'b' }
+  ]);
 });
 
 test('img渲染', () => {
@@ -259,6 +275,9 @@ test('img渲染', () => {
   wrapper = shallow(res[0].render('data:image/png;base64'));
   expect(wrapper.prop('src')).toBe('data:image/png;base64');
   expect(wrapper.prop('alt')).toBe('data:image/png;base64');
+
+  // other
+  expect(res[0].render('/video/url.mp4')).toBe('/video/url.mp4');
 });
 
 test('分页', () => {
@@ -300,7 +319,7 @@ test('初始化数据', () => {
 
 test('updateState', () => {
   let resObj = {
-    bordered: false,
+    bordered: true,
     columns: resultObj,
     dataClone: [{ col0: 1, col1: 2, key: 0 }, { col0: 3, col1: 4, key: 1 }],
     dataSearchClone: [],
@@ -317,18 +336,22 @@ test('updateState', () => {
     timing: '1ms',
     total: 2
   };
-  let res = table.updateState(
-    {
-      dataSrc: {
-        ...dataSrc,
-        source: 'source',
-        time: '1ms'
-      },
-      loading: true
+
+  let params = {
+    dataSrc: {
+      ...dataSrc,
+      source: 'source',
+      time: '1ms'
     },
-    { page: 1, pageSize: 2 }
-  );
+    loading: true
+  };
+  window.localStorage.setItem('_tbl_bordered', '1');
+  let res = table.updateState(params, { page: 1, pageSize: 2 });
   expect(res).toMatchObject(resObj);
+
+  window.localStorage.setItem('_tbl_bordered', '0');
+  res = table.updateState(params, { page: 1, pageSize: 2 });
+  expect(res).toMatchObject(Object.assign(resObj, { bordered: false }));
 
   // 如果数据未做原始转换
   res = table.updateState(
@@ -414,6 +437,40 @@ test('数据过滤', () => {
     }
   };
   expect(table.handleFilter(params)).toEqual([{ col0: 3, col1: 4 }]);
+  params = {
+    data,
+    filters: {
+      col0: []
+    }
+  };
+  expect(table.handleFilter(params)).toEqual(data);
+
+  let filterData = [
+    {
+      col0: '9602A',
+      col1: 2,
+      key: 0
+    },
+    {
+      col0: '9603A',
+      col1: 4,
+      key: 1
+    }
+  ];
+  let res = table.handleColumns(
+    {
+      dataSrc: {
+        data: filterData,
+        rows: 2,
+        header: ['a', 'b']
+      },
+      filteredInfo: {}
+    },
+    searchUrl
+  );
+  let { onFilter } = res[0];
+  expect(onFilter('9602A', filterData[0])).toBeTruthy();
+  expect(onFilter('9602A', filterData[1])).toBeFalsy();
 });
 
 test('更新数据列', () => {
