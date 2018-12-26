@@ -1,8 +1,7 @@
 import React from 'react';
 import Config from './Config';
 import { mount } from 'enzyme';
-import { Select } from 'antd';
-import sinon from 'sinon';
+// import sinon from 'sinon';
 import chartConfig from './utils/chartConfig';
 
 test('初始状态', () => {
@@ -23,25 +22,13 @@ test('初始状态', () => {
 
   expect(wrapper.find('.container li').length).toBeGreaterThan(10);
 
-  wrapper
-    .find(Select)
-    .last()
-    .simulate('change', 1);
+  // selector 测试无效，原因未知
+  // wrapper
+  //   .find('Select')
+  //   .last()
+  //   .simulate('select', 1);
 
-  console.log(wrapper.state().chartType);
-
-  wrapper
-    .find(Select)
-    .last()
-    .simulate('select', 1);
-
-  console.log(wrapper.state().chartType);
-  console.log(
-    wrapper
-      .find('Select')
-      .last()
-      .text()
-  );
+  // console.log(wrapper.state().chartType);
 
   // expect(wrapper.find('.charttype').text()).toContain('type=line');
 });
