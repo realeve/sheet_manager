@@ -553,12 +553,12 @@ interface IOptionRes {
   [key: string]: any;
 }
 let getChartConfig: (
-  opt: any
+  options: any
 ) => {
-  xAxis;
-  series;
-  yAxis;
-  legend;
+  xAxis: any;
+  series: any;
+  yAxis?: any;
+  legend?: any;
   dataZoom: Array<IdataZoomItem>;
 } = (options) => {
   let option = getOption(options);

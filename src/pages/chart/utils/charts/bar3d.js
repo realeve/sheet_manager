@@ -15,7 +15,6 @@ let chartConfig = [
       '/chart#id=9/a043209280&type=bar3d&x=1&y=2&z=3',
       '/chart#id=9/a043209280&type=bar3d&x=0&y=2&z=3',
       '/chart#id=36/0297ce54b9&type=surface&x=1&y=0&z=2',
-      '/chart#id=36/0297ce54b9&type=surface&x=1&y=0&z=2',
       '/chart#id=36/0297ce54b9&type=scatter3d&x=1&y=0&z=2',
       '/chart#id=36/0297ce54b9&type=line3d&x=1&y=0&z=2',
       '/chart#id=50/f317ed4bb9&render=canvas&type=bar3d&smooth=1&stack=1&x=0&y=1&z=2&group=3'
