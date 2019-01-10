@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Input, Modal } from 'antd';
-import classNames from 'classnames';
-import styles from './index.less';
-import config from '@/pages/chart/utils/chartConfig';
+import { Modal } from 'antd';
+import ChartConfig from '@/pages/chart/Config.tsx';
+
 export default class ChartLink extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
@@ -46,11 +45,12 @@ export default class ChartLink extends PureComponent {
 
     return (
       <Modal
-        title="图表链接生成"
+        title="图表配置说明"
         visible={visible}
+        width="800px"
         onOk={this.handleOk}
         onCancel={this.handleCancel}>
-        {config[0].type}
+        <ChartConfig />
       </Modal>
     );
   }

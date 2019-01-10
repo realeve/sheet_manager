@@ -118,7 +118,7 @@ class VTree extends Component<ITreeProps, ITreeState> {
         </Row>
         <div className={styles.actions}>
           <Button onClick={this.showCartLink} type="primary">
-            图表链接生成
+          图表配置说明
           </Button>
           <ChartLink
             visible={visible}

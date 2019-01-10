@@ -417,14 +417,14 @@ type tGl =
   | echarts.EChartsSeriesType;
 let chartGL: Array<tGl> = ['bar3d', 'line3d', 'scatter3d', 'surface'];
 
-// type tRender = 'canvas' | 'svg';
-let getRenderer: <T>(
+type tRender = 'canvas' | 'svg';
+let getRenderer: (
   params: {
-    render?: T;
+    render?: tRender;
     type: string;
     histogram?: string;
   }
-) => string | T = (params) =>
+) => tRender = (params) =>
   params.render ||
   (['paralell', ...chartGL].includes(params.type) || params.histogram
     ? 'canvas'

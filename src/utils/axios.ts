@@ -151,7 +151,7 @@ export let axios = async (option) => {
         } else if (status >= 404 && status < 422) {
           router.push('/404');
         }
-        const errortext = (codeMessage[status] || '') + data.errmsg;
+        const errortext = (codeMessage[status] || '') + data.msg;
         notification.error({
           message: `请求错误 ${status}: ${error.config.url}`,
           description: errortext,
