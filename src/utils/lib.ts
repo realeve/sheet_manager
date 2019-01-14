@@ -3,7 +3,7 @@ import http from 'axios';
 import * as setting from './setting';
 import qs from 'qs';
 import dateRanges from './ranges';
-import router from 'umi/lib/router';
+import router from 'umi/router';
 import userTool from './users';
 import { Dispatch } from 'react-redux';
 const R = require('ramda');
