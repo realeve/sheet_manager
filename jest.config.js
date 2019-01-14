@@ -8,5 +8,6 @@ module.exports = {
     'ts-jest': {
       useBabelrc: true
     }
-  }
+  },
+  setupFiles: ['<rootDir>/jest.setup.js']
 };

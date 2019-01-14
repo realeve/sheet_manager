@@ -7,7 +7,6 @@ import GridContent from './GridContent';
 import styles from './index.less';
 import MenuContext from '@/layouts/MenuContext';
 
-const R = require('ramda');
 const PageHeaderWrapper = ({
   children,
   contentWidth,
@@ -19,7 +18,7 @@ const PageHeaderWrapper = ({
   <div style={{ margin: '-24px -24px 0' }} className={wrapperClassName}>
     {top}
     <MenuContext.Consumer>
-      {value => (
+      {(value) => (
         <PageHeader
           wide={contentWidth === 'Fixed'}
           home={<FormattedMessage id="menu.home" defaultMessage="Home" />}
