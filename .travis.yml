@@ -1,4 +1,4 @@
 language: node_js
 sudo: required
-before_install: sudo npm i
+before_install: npm i
 script: npm test
