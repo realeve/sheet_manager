@@ -4,6 +4,7 @@ import pageRoutes from './config/router.config';
 import defaultSettings from './src/defaultSettings';
 
 export default {
+  treeShaking: true,
   plugins: [
     [
       'umi-plugin-react',
