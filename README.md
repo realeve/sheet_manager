@@ -1,6 +1,7 @@
-# 通用报表系统
+# sheet_manager
 
-![](https://travis-ci.org/realeve/sheet_manager.svg?branch=master)
+[![Build Status](https://travis-ci.org/realeve/sheet_manager.svg?branch=master)](https://travis-ci.org/realeve/sheet_manager)
+[![Coverage Status](https://coveralls.io/repos/github/realeve/sheet_manager/badge.svg?branch=master)](https://coveralls.io/github/realeve/sheet_manager?branch=master)
 [![Dependencies](https://img.shields.io/david/realeve/sheet_manager.svg)](https://david-dm.org/realeve/sheet_manager)
 [![DevDependencies](https://img.shields.io/david/dev/realeve/sheet_manager.svg)](https://david-dm.org/realeve/sheet_manager?type=dev)
 
