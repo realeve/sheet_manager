@@ -4,4 +4,4 @@ node_js:
 sudo: required
 before_script:
   - npm install
-script: npm test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+script: npm test && coveralls
