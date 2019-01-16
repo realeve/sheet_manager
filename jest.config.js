@@ -5,7 +5,7 @@ module.exports = {
   testMatch: ['**/?(*.)(spec|test|e2e).(j|t)s?(x)'],
   testURL: 'http://localhost:8000',
   collectCoverage: true,
-  coverageReporters: ['text-lcov'],
+  coverageReporters: ['lcov'],
   coveragePathIgnorePatterns: ['/node_modules/'],
   globals: {
     'ts-jest': {
