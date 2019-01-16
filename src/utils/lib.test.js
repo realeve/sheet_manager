@@ -1,6 +1,5 @@
 import * as lib from './lib';
 import dateRanges from './ranges';
-
 test('车号与轴号有效性', () => {
   expect(lib.isCartOrReel('1820A233')).toBeTruthy();
   expect(lib.isCartOrReel('1880A233')).toBeTruthy();
@@ -102,7 +101,7 @@ test('冠字起始号', () => {
   expect(
     lib.handleGZInfo({
       prod: '9602A',
-      code: 'a2344b'
+      code: 'a2344b',
     })
   ).toEqual({
     alpha: 'A****B',
@@ -110,20 +109,20 @@ test('冠字起始号', () => {
     start: '2305',
     start2: '2305',
     end: '2344',
-    end2: '2344'
+    end2: '2344',
   });
 
   expect(
     lib.handleGZInfo({
       prod: '9602A',
-      code: 'A23'
+      code: 'A23',
     })
   ).toBeFalsy();
 
   expect(
     lib.handleGZInfo({
       prod: '9602A',
-      code: 'a234b4'
+      code: 'a234b4',
     })
   ).toEqual({
     alpha: 'A***B',
@@ -131,13 +130,13 @@ test('冠字起始号', () => {
     start: '2305',
     start2: '2305',
     end: '2344',
-    end2: '2344'
+    end2: '2344',
   });
 
   expect(
     lib.handleGZInfo({
       prod: '9602A',
-      code: 'a23b44'
+      code: 'a23b44',
     })
   ).toEqual({
     alpha: 'A**B',
@@ -145,13 +144,13 @@ test('冠字起始号', () => {
     start: '2305',
     start2: '2305',
     end: '2344',
-    end2: '2344'
+    end2: '2344',
   });
 
   expect(
     lib.handleGZInfo({
       prod: '9602A',
-      code: 'a2c344'
+      code: 'a2c344',
     })
   ).toEqual({
     alpha: 'A*C',
@@ -159,13 +158,13 @@ test('冠字起始号', () => {
     start: '2305',
     start2: '2305',
     end: '2344',
-    end2: '2344'
+    end2: '2344',
   });
 
   expect(
     lib.handleGZInfo({
       prod: '9602A',
-      code: 'ac2344'
+      code: 'ac2344',
     })
   ).toEqual({
     alpha: 'AC',
@@ -173,13 +172,13 @@ test('冠字起始号', () => {
     start: '2305',
     start2: '2305',
     end: '2344',
-    end2: '2344'
+    end2: '2344',
   });
 
   expect(
     lib.handleGZInfo({
       prod: '9603A',
-      code: 'a2c344'
+      code: 'a2c344',
     })
   ).toEqual({
     alpha: 'A*C',
@@ -187,13 +186,13 @@ test('冠字起始号', () => {
     start: '2305',
     start2: '2305',
     end: '2344',
-    end2: '2344'
+    end2: '2344',
   });
 
   expect(
     lib.handleGZInfo({
       prod: '9604A',
-      code: 'a2c344'
+      code: 'a2c344',
     })
   ).toEqual({
     alpha: 'A*C',
@@ -201,13 +200,13 @@ test('冠字起始号', () => {
     start: '2310',
     start2: '2310',
     end: '2344',
-    end2: '2344'
+    end2: '2344',
   });
 
   expect(
     lib.handleGZInfo({
       prod: '9606A',
-      code: 'a2c344'
+      code: 'a2c344',
     })
   ).toEqual({
     alpha: 'A*C',
@@ -215,13 +214,13 @@ test('冠字起始号', () => {
     start: '2310',
     start2: '2310',
     end: '2344',
-    end2: '2344'
+    end2: '2344',
   });
 
   expect(
     lib.handleGZInfo({
       prod: '9606A',
-      code: 'a0c014'
+      code: 'a0c014',
     })
   ).toEqual({
     alpha: 'A*B',
@@ -229,13 +228,13 @@ test('冠字起始号', () => {
     end: '9999',
     alpha2: 'A*C',
     start2: '0000',
-    end2: '0014'
+    end2: '0014',
   });
 
   expect(
     lib.handleGZInfo({
       prod: '9602A',
-      code: 'a0c014'
+      code: 'a0c014',
     })
   ).toEqual({
     alpha: 'A*B',
@@ -243,13 +242,13 @@ test('冠字起始号', () => {
     end: '9999',
     alpha2: 'A*C',
     start2: '0000',
-    end2: '0014'
+    end2: '0014',
   });
 });
 expect(
   lib.handleGZInfo({
     prod: '9602A',
-    code: 'A0C014'
+    code: 'A0C014',
   })
 ).toEqual({
   alpha: 'A*B',
@@ -257,13 +256,13 @@ expect(
   end: '9999',
   alpha2: 'A*C',
   start2: '0000',
-  end2: '0014'
+  end2: '0014',
 });
 
 expect(
   lib.handleGZInfo({
     prod: '9602A',
-    code: 'B0A014'
+    code: 'B0A014',
   })
 ).toEqual({
   alpha: 'A*Z',
@@ -271,7 +270,7 @@ expect(
   end: '9999',
   alpha2: 'B*A',
   start2: '0000',
-  end2: '0014'
+  end2: '0014',
 });
 test('冠字', () => {
   expect(lib.isGZ('AC2322')).toBeTruthy();
@@ -298,19 +297,17 @@ test('地址栏参数', () => {
   expect(lib.handleUrlParams('#id=6/8d5b63370c&data_type=score')).toEqual({
     id: ['6/8d5b63370c'],
     params: {
-      data_type: 'score'
+      data_type: 'score',
     },
-    dateRange: [ts, te]
+    dateRange: [ts, te],
   });
 
-  expect(
-    lib.handleUrlParams('#id=6/8d5b63370c&id=61/8d5b63370c&data_type=score')
-  ).toEqual({
+  expect(lib.handleUrlParams('#id=6/8d5b63370c&id=61/8d5b63370c&data_type=score')).toEqual({
     id: ['6/8d5b63370c', '61/8d5b63370c'],
     params: {
-      data_type: 'score'
+      data_type: 'score',
     },
-    dateRange: [ts, te]
+    dateRange: [ts, te],
   });
 });
 
@@ -327,18 +324,18 @@ test('类型判断', () => {
 test('store存储测试', () => {
   expect(lib.setStore({ a: 1 }, { payload: { b: 2 } })).toEqual({
     a: 1,
-    b: 2
+    b: 2,
   });
   expect(lib.setStore({ a: 1 }, { payload: { b: 2, c: 2 } })).toEqual({
     a: 1,
     b: 2,
-    c: 2
+    c: 2,
   });
   expect(lib.setStore({ a: 1 }, { payload: { a: 2 } })).toEqual({ a: 2 });
 
-  expect(
-    lib.setStore({ a: { b: 2 } }, { payload: { a: { b: 3, c: 2 } } })
-  ).toEqual({ a: { b: 3, c: 2 } });
+  expect(lib.setStore({ a: { b: 2 } }, { payload: { a: { b: 3, c: 2 } } })).toEqual({
+    a: { b: 3, c: 2 },
+  });
 
   // throw error报错
   // expect(lib.setStore({ a: 1 }, { b: 2 })).toThrow(/payload/);
@@ -367,8 +364,8 @@ test('loadFile', () => {
   // ).toBe('object');
 });
 
-test('logout', () => {
-  expect(() => {
-    lib.logout({ dispatch: console.log });
-  }).toThrowError();
-});
+// test('logout', () => {
+//   expect(() => {
+//     lib.logout({ dispatch: console.log });
+//   }).toThrowError();
+// });

@@ -2,8 +2,8 @@ import http from 'axios';
 import qs from 'qs';
 import * as setting from './setting';
 import { notification } from 'antd';
-import router from 'umi/router';
-
+// import router from 'umi/router';
+const router = [];
 export let DEV: boolean = setting.DEV;
 
 export let host: string = setting.host;
@@ -26,11 +26,11 @@ export const codeMessage: {
   500: '服务器发生错误，请检查服务器。',
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。'
+  504: '网关超时。',
 };
 
 // 判断数据类型，对于FormData使用 typeof 方法会得到 object;
-let getType: (data: any) => string = (data) =>
+let getType: (data: any) => string = data =>
   Object.prototype.toString
     .call(data)
     .match(/\S+/g)[1]
@@ -48,13 +48,13 @@ const loadUserInfo = function() {
     name: '',
     uid: '',
     fullname: '',
-    org: ''
+    org: '',
   };
   let user: null | string = window.localStorage.getItem('user');
   // console.log(user);
   if (user == null) {
     return {
-      token: ''
+      token: '',
     };
   }
   user = JSON.parse(user);
@@ -68,26 +68,25 @@ const loadUserInfo = function() {
 let refreshNoncer = () => {
   // 此时可将引用url链接作为 url 参数请求登录，作为强校验；
   // 本部分涉及用户名和密码，用户需自行在服务端用curl申请得到token，勿放置在前端;
-  let url: string =
-    window.g_axios.host + 'authorize.json?user=develop&psw=111111';
-  return http.get(url).then((res) => res.data.token);
+  let url: string = window.g_axios.host + 'authorize.json?user=develop&psw=111111';
+  return http.get(url).then(res => res.data.token);
 };
 
 const saveToken = () => {
   window.localStorage.setItem(
     'user',
     JSON.stringify({
-      token: window.g_axios.token
+      token: window.g_axios.token,
     })
   );
 };
 
 // 自动处理token更新，data 序列化等
-export let axios = async (option) => {
+export let axios = option => {
   if (!window.g_axios) {
     window.g_axios = {
       host,
-      token: ''
+      token: '',
     };
   }
   // token为空时自动获取
@@ -95,19 +94,21 @@ export let axios = async (option) => {
     let user = loadUserInfo();
 
     if (typeof user === 'undefined' || user.token === '') {
-      window.g_axios.token = await refreshNoncer();
-      saveToken();
+      refreshNoncer().then(token => {
+        window.g_axios.token = token;
+        saveToken();
+      });
     }
   }
 
   option = Object.assign(option, {
     headers: {
-      Authorization: window.g_axios.token
+      Authorization: window.g_axios.token,
     },
-    method: option.method || 'get'
+    method: option.method || 'get',
   });
 
-  return await http
+  return http
     .create({
       baseURL: window.g_axios.host,
       timeout: 10000,
@@ -123,8 +124,8 @@ export let axios = async (option) => {
               break;
           }
           return data;
-        }
-      ]
+        },
+      ],
     })(option)
     .then(({ data }) => {
       // 刷新token
@@ -134,7 +135,7 @@ export let axios = async (option) => {
       }
       return data;
     })
-    .catch((error) => {
+    .catch(error => {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
@@ -155,7 +156,7 @@ export let axios = async (option) => {
         notification.error({
           message: `请求错误 ${status}: ${error.config.url}`,
           description: errortext,
-          duration: 10
+          duration: 10,
         });
       } else if (error.request) {
         // The request was made but no response was received

@@ -3,10 +3,11 @@ import http from 'axios';
 import * as setting from './setting';
 import qs from 'qs';
 import dateRanges from './ranges';
-import router from 'umi/router';
+// import router from 'umi/router';
 import userTool from './users';
 import { Dispatch } from 'react-redux';
 const R = require('ramda');
+const router = [];
 
 export const searchUrl: string = setting.searchUrl;
 export const imgUrl: string = setting.imgUrl;
@@ -20,37 +21,33 @@ interface Rules {
 }
 const rules: Rules = {
   cart: /^[1-9]\d{3}[A-Za-z]\d{3}$/,
-  reel: /^[1-9]\d{6}[A-Ca-c]$|^[1-9]\d{4}[A-Ca-c]$|[A-Z]\d{11}[A-Z]/
+  reel: /^[1-9]\d{6}[A-Ca-c]$|^[1-9]\d{4}[A-Ca-c]$|[A-Z]\d{11}[A-Z]/,
 };
 
 interface CartReelReg {
   (str: string | number): boolean;
 }
 
-export const isCartOrReel: CartReelReg = (str) => {
-  return (
-    rules.cart.test(String(str).trim()) || rules.reel.test(String(str).trim())
-  );
+export const isCartOrReel: CartReelReg = str => {
+  return rules.cart.test(String(str).trim()) || rules.reel.test(String(str).trim());
 };
 
-export const isCart: CartReelReg = (str) => rules.cart.test(String(str).trim());
-export const isReel: CartReelReg = (str) => rules.reel.test(String(str).trim());
+export const isCart: CartReelReg = str => rules.cart.test(String(str).trim());
+export const isReel: CartReelReg = str => rules.reel.test(String(str).trim());
 
-export const isDateTime: CartReelReg = (str) =>
+export const isDateTime: CartReelReg = str =>
   /^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d$|^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d [0-2][0-9]:[0-5][0-9](:[0-5][0-9])$|^[0-2][0-9]:[0-5][0-9](:[0-5][0-9])$/.test(
     String(str).trim()
   );
 
-export const isNumOrFloat: CartReelReg = (str) =>
+export const isNumOrFloat: CartReelReg = str =>
   /^(-|\+|)\d+(\.)\d+$|^(-|\+|)\d+$/.test(String(str));
-export const isInt: CartReelReg = (str) => /^(-|\+|)\d+$/.test(String(str));
-export const isFloat: CartReelReg = (str) =>
-  /^(-|\+|)\d+\.\d+$|^(-|\+|)\d+$/.test(String(str));
-export const hasDecimal: CartReelReg = (str) =>
-  /^(-|\+|)\d+\.\d+$/.test(String(str));
+export const isInt: CartReelReg = str => /^(-|\+|)\d+$/.test(String(str));
+export const isFloat: CartReelReg = str => /^(-|\+|)\d+\.\d+$|^(-|\+|)\d+$/.test(String(str));
+export const hasDecimal: CartReelReg = str => /^(-|\+|)\d+\.\d+$/.test(String(str));
 export const parseNumber: {
   (str: number): number | string;
-} = (str) => {
+} = str => {
   if (!hasDecimal(str)) {
     return str;
   }
@@ -65,7 +62,7 @@ export const ymd = () => moment().format('YYYYMMDD');
 interface lastAlpha {
   (str: string): string;
 }
-let getLastAlpha: lastAlpha = (str) => {
+let getLastAlpha: lastAlpha = str => {
   if (str === 'A') {
     return 'Z';
   }
@@ -90,13 +87,10 @@ interface GZInfo {
   alpha: string;
   alpha2: string;
 }
-// interface hdGZInfo {
-//   ({ code, prod }: GZSetting): GZInfo | boolean;
+// interface iFunGZInfo {
+//   (param: GZSetting): GZInfo | boolean;
 // }
-export const handleGZInfo: (param: GZSetting) => GZInfo | boolean = ({
-  code,
-  prod
-}) => {
+export const handleGZInfo: (param: GZSetting) => GZInfo | boolean = ({ code, prod }) => {
   if (code.length !== 6) {
     return false;
   }
@@ -152,11 +146,11 @@ export const handleGZInfo: (param: GZSetting) => GZInfo | boolean = ({
     start2,
     end2,
     alpha,
-    alpha2
+    alpha2,
   };
 };
 
-export let isGZ: CartReelReg = (value) =>
+export let isGZ: CartReelReg = value =>
   /^[A-Za-z]{2}\d{4}$|^[A-Za-z]\d[A-Za-z]\d{3}$|^[A-Za-z]\d{2}[A-Za-z]\d{2}$|^[A-Za-z]\d{3}[A-Za-z]\d$|^[A-Za-z]\d{4}[A-Za-z]$/.test(
     String(value)
   );
@@ -187,7 +181,7 @@ let dataURItoBlob = (dataURI: string) => {
     ia[i] = byteString.charCodeAt(i);
   }
   return new Blob([ab], {
-    type: mimeString
+    type: mimeString,
   });
 };
 
@@ -200,7 +194,7 @@ let dataURItoBlob = (dataURI: string) => {
 // 将BASE64编码图像转为FormData供数据上传，用法见上方注释。
 export let dataURI2FormData: {
   (dataURI: string): FormData;
-} = (dataURI) => {
+} = dataURI => {
   var data: FormData = new FormData();
   var blob: Blob = dataURItoBlob(dataURI);
   data.append('file', blob);
@@ -216,12 +210,12 @@ export let dataURI2FormData: {
  *      fileInfo:object // 文件描述：宽、高、url、大小、类型、名称
  * }
  */
-export let uploadBase64 = async (dataURI: string) => {
+export let uploadBase64 = (dataURI: string) => {
   var data: FormData = dataURI2FormData(dataURI);
-  return await http({
+  return http({
     method: 'POST',
     url: setting.uploadHost,
-    data
+    data,
   }); //.then((res) => res.data);
 };
 
@@ -283,7 +277,7 @@ export const handleUrlParams: (
   id: number | string;
   params: any;
   dateRange: [string, string];
-} = (hash) => {
+} = hash => {
   let queryStr: string = hash
     .slice(1)
     .replace(/，/g, ',')
@@ -299,7 +293,7 @@ export const handleUrlParams: (
   return {
     id: 'String' === R.type(id) ? [id] : id,
     params,
-    dateRange: [ts, te]
+    dateRange: [ts, te],
   };
 };
 
@@ -315,10 +309,10 @@ export const logout = ({ dispatch }: Props) => {
         uid: '',
         name: '',
         avatar: '',
-        menu: ''
+        menu: '',
       },
-      isLogin: false
-    }
+      isLogin: false,
+    },
   });
   userTool.saveLoginStatus(0);
 
@@ -327,8 +321,8 @@ export const logout = ({ dispatch }: Props) => {
     router.push({
       pathname: '/login',
       search: qs.stringify({
-        redirect: href.replace(origin, '')
-      })
+        redirect: href.replace(origin, ''),
+      }),
     });
   } catch (e) {
     throw new Error('路由跳转失败');
@@ -337,7 +331,7 @@ export const logout = ({ dispatch }: Props) => {
 
 export const getType: {
   (o: any): string;
-} = (o) =>
+} = o =>
   Object.prototype.toString
     .call(o)
     .match(/\w+/g)[1]
@@ -353,7 +347,7 @@ export const setStore = (state, store: Store) => {
     // throw new Error('需要更新的数据请设置在payload中');
   }
   let nextState = R.clone(state);
-  Object.keys(payload).forEach((key) => {
+  Object.keys(payload).forEach(key => {
     let val = payload[key];
     if (getType(val) == 'object') {
       nextState[key] = Object.assign({}, nextState[key], val);
