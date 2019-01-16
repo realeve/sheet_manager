@@ -1,8 +1,9 @@
 # 通用报表系统
 
 ![](https://travis-ci.org/realeve/sheet_manager.svg?branch=master)
-![](https://david-dm.org/realeve/sheet_manager)
-![](https://david-dm.org/realeve/sheet_manager?type=dev)
+[![Dependencies](https://img.shields.io/david/realeve/sheet_manager.svg)](https://david-dm.org/realeve/sheet_manager)
+[![DevDependencies](https://img.shields.io/david/dev/realeve/sheet_manager.svg)](https://david-dm.org/realeve/sheet_manager?type=dev)
+
 基于 umi+dva+antd+react
 
 # 功能列表
