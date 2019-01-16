@@ -1,5 +1,7 @@
 # 通用报表系统
 
+![](https://travis-ci.org/realeve/sheet_manager.svg?branch=master)
+
 基于 umi+dva+antd+react
 
 # 功能列表
