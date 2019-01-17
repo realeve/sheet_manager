@@ -1,6 +1,6 @@
 import React from 'react';
 import { formatMessage } from 'umi/locale';
-import Link from 'umi/link';
+import { Link } from 'react-router-dom';
 import Exception from 'ant-design-pro/lib/Exception';
 
 const Exception403 = () => (

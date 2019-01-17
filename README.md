@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/realeve/sheet_manager/badge.svg?branch=master)](https://coveralls.io/github/realeve/sheet_manager?branch=master)
 [![Dependencies](https://img.shields.io/david/realeve/sheet_manager.svg)](https://david-dm.org/realeve/sheet_manager)
 [![DevDependencies](https://img.shields.io/david/dev/realeve/sheet_manager.svg)](https://david-dm.org/realeve/sheet_manager?type=dev)
-
+![](https://img.shields.io/github/last-commit/realeve/sheet_manager/master.svg)
 基于 umi+dva+antd+react
 
 # 功能列表
