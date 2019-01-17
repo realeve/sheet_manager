@@ -21,3 +21,4 @@ npm-debug.log*
 /coverage
 
 /jest.config.js
+jest.config.js
