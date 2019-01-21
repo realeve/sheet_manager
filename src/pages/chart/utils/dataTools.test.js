@@ -22,7 +22,7 @@ const gexfData = `<?xml version="1.0" encoding="UTF-8"?>
         <attvalues>
           <attvalue for="modularity_class" value="0"></attvalue>
         </attvalues>
-        <viz:size value="4.0"></viz:size>
+        <viz:size value="4"></viz:size>
         <viz:position x="-418.08344" y="446.8853" z="0.0"></viz:position>
         <viz:color r="236" g="81" b="72"></viz:color>
       </node> 
@@ -70,7 +70,7 @@ test('数据处理工具', () => {
 });
 
 test('gexf', () => {
-  expect(dataTool.gexf.parse(gexfData)).toMatchObject({
+  const res = {
     links: [
       { id: '0', lineStyle: { normal: {} }, name: null, source: '1', target: '0' },
       { id: '1', lineStyle: { normal: {} }, name: null, source: '2', target: '0' },
@@ -95,5 +95,13 @@ test('gexf', () => {
         y: 446.8853,
       },
     ],
-  });
+  };
+  expect(dataTool.gexf.parse(gexfData)).toMatchObject(res);
+
+  let parser = new DOMParser();
+  let xmlData = parser.parseFromString(gexfData, 'text/xml');
+  expect(dataTool.gexf.parse(xmlData)).toMatchObject(res);
+
+  expect(dataTool.gexf.parse('')).toBeNull();
+  expect(dataTool.gexf.parse('<?xml version="1.0"')).toBeNull();
 });
