@@ -7,28 +7,27 @@ let chartConfig = [
     key: 'type',
     title: '图表类型',
     default: 'themeriver',
-    url: '/chart#id=8/26f49db157&type=themeriver'
+    url: '/chart#id=8/26f49db157&type=themeriver',
   },
   {
     key: 'x',
     title: 'X轴在数据的索引或键值',
-    default: 0
+    default: 0,
   },
   {
     key: 'y',
     title: 'Y轴在数据的索引或键值',
-    default: 1
+    default: 1,
   },
   {
     key: 'legend',
     title: '数据序列的索引或键值',
-    default:
-      '不设置时，legend/x/y默认为0，1，2;如果数据列最多只有2列，则x/y为 0/1',
-    url: '/chart#id=8/26f49db157&area=1&type=line'
-  }
+    default: '不设置时，legend/x/y默认为0，1，2;如果数据列最多只有2列，则x/y为 0/1',
+    url: '/chart#id=8/26f49db157&area=1&type=line',
+  },
 ];
 
-let themeriver = (config) => {
+let themeriver = config => {
   let { data, header } = config.data;
 
   if (header.length === 2) {
@@ -38,6 +37,9 @@ let themeriver = (config) => {
     config.legend = config.legend || 0;
     config.x = config.x || 1;
     config.y = config.y || 2;
+  } else {
+    // 异常
+    throw new Error('事件河流图数据仅允许2列或3列数据。');
   }
 
   let legendData = [];
@@ -45,12 +47,12 @@ let themeriver = (config) => {
   if (!R.isNil(config.legend)) {
     seriesData = util.getDataByKeys({
       keys: [header[config.x], header[config.y], header[config.legend]],
-      data
+      data,
     });
 
     legendData = util.getUniqByIdx({
       key: header[config.legend],
-      data
+      data,
     });
   } else {
     data = R.pluck([header[config.x], header[config.y]])(data);
@@ -65,12 +67,12 @@ let themeriver = (config) => {
         lineStyle: {
           color: 'rgba(0,0,0,0.2)',
           width: 1,
-          type: 'solid'
-        }
-      }
+          type: 'solid',
+        },
+      },
     },
     singleAxis: {
-      type: 'time'
+      type: 'time',
     },
     series: [
       {
@@ -78,17 +80,17 @@ let themeriver = (config) => {
         itemStyle: {
           emphasis: {
             shadowBlur: 20,
-            shadowColor: 'rgba(0, 0, 0, 0.8)'
-          }
+            shadowColor: 'rgba(0, 0, 0, 0.8)',
+          },
         },
-        data: seriesData
-      }
+        data: seriesData,
+      },
     ],
-    toolbox: {}
+    toolbox: {},
   };
   if (!R.isNil(config.legend)) {
     option.legend = {
-      data: util.getLegendData(legendData)
+      data: util.getLegendData(legendData),
     };
   }
   return option;

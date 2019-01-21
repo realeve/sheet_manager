@@ -53,7 +53,7 @@ export default {
   hash: true, //添加hash后缀
   treeShaking: true,
   exportStatic: {
-    htmlSuffix: true, // 静态化文件
+    // htmlSuffix: true, // 静态化文件
   },
   targets: {
     ie: 11,

@@ -65,13 +65,15 @@ const loadUserInfo = function() {
   return user;
 };
 
-let refreshNoncer = () => {
-  // 此时可将引用url链接作为 url 参数请求登录，作为强校验；
-  // 本部分涉及用户名和密码，用户需自行在服务端用curl申请得到token，勿放置在前端;
-  let url: string = window.g_axios.host + 'authorize.json?user=develop&psw=111111';
-  return http.get(url).then(res => res.data.token);
-};
+// let refreshNoncer = () => {
+// 此时可将引用url链接作为 url 参数请求登录，作为强校验；
+// 本部分涉及用户名和密码，用户需自行在服务端用curl申请得到token，勿放置在前端;
+// let url: string = window.g_axios.host + 'authorize.json?user=admin_username&psw=yourpassword';
+// return http.get(url).then(res => res.data.token);
+// };
 
+let refreshNoncer =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDM4NTI0NDcsIm5iZiI6MTU0Mzg1MjQ0NywiZXhwIjoxNTQzODU5NjQ3LCJ1cmwiOiJodHRwOlwvXC9sb2NhbGhvc3Q6OTBcL3B1YmxpY1wvbG9naW4uaHRtbCIsImV4dHJhIjp7InVpZCI6MSwiaXAiOiIwLjAuMC4wIn19.65tBJTAMZ-i2tkDDpu9DnVaroXera4h2QerH3x2fgTw';
 const saveToken = () => {
   window.localStorage.setItem(
     'user',
@@ -94,10 +96,12 @@ export let axios = option => {
     let user = loadUserInfo();
 
     if (typeof user === 'undefined' || user.token === '') {
-      refreshNoncer().then(token => {
-        window.g_axios.token = token;
-        saveToken();
-      });
+      // refreshNoncer().then(token => {
+      //   window.g_axios.token = token;
+      //   saveToken();
+      // });
+      window.g_axios.token = refreshNoncer;
+      saveToken();
     }
   }
 

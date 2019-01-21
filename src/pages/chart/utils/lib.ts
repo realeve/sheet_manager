@@ -1,5 +1,5 @@
 import gColor from './charts/gColor';
-import * as lib from '@/utils/lib';
+import * as lib from '../../../utils/lib';
 
 const R = require('ramda');
 
@@ -14,7 +14,7 @@ export type TChartConfig = Array<IChart>;
 
 // let uniq = arr => Array.from(new Set(arr));
 
-let uniq: <T>(arr: Array<T>) => Array<T> = (arr) => R.uniq(arr);
+let uniq: <T>(arr: Array<T>) => Array<T> = arr => R.uniq(arr);
 
 let getCopyRight = () => ({
   text: '©成都印钞有限公司 印钞管理部',
@@ -22,10 +22,10 @@ let getCopyRight = () => ({
   borderWidth: 0,
   textStyle: {
     fontSize: 10,
-    fontWeight: 'normal'
+    fontWeight: 'normal',
   },
   x: 'right',
-  y2: 3
+  y2: 3,
 });
 
 interface Iconfig {
@@ -45,29 +45,29 @@ let getDefaultTitle = (option, config: Iconfig) => {
     : [
         {
           left: 'center',
-          text: prefix + config.data.title + suffix
+          text: prefix + config.data.title + suffix,
         },
         {
           text: config.data.source,
           borderWidth: 0,
           textStyle: {
             fontSize: 10,
-            fontWeight: 'normal'
+            fontWeight: 'normal',
           },
           x: 5,
-          y2: 0
+          y2: 0,
         },
         {
           text: `统计时间：${config.dateRange[0]} - ${config.dateRange[1]}`,
           borderWidth: 0,
           textStyle: {
             fontSize: 10,
-            fontWeight: 'normal'
+            fontWeight: 'normal',
           },
           x: 5,
-          y2: 18
+          y2: 18,
         },
-        getCopyRight()
+        getCopyRight(),
       ];
 };
 
@@ -77,16 +77,16 @@ let handleDefaultOption = (option, config) => {
     feature: {
       dataZoom: {},
       magicType: {
-        type: ['line', 'bar', 'stack', 'tiled']
-      }
-    }
+        type: ['line', 'bar', 'stack', 'tiled'],
+      },
+    },
   };
   toolbox = Object.assign(toolbox, {
     feature: {
       saveAsImage: {
-        type: renderer === 'svg' ? 'svg' : 'png'
-      }
-    }
+        type: renderer === 'svg' ? 'svg' : 'png',
+      },
+    },
   });
 
   let defaultLegend = {
@@ -94,8 +94,8 @@ let handleDefaultOption = (option, config) => {
     width: 500,
     align: 'right',
     textStyle: {
-      color: '#666'
-    }
+      color: '#666',
+    },
   };
 
   if (R.isNil(option.legend)) {
@@ -107,7 +107,7 @@ let handleDefaultOption = (option, config) => {
       toolbox,
       tooltip: {},
       legend: defaultLegend,
-      title: getDefaultTitle(option, config)
+      title: getDefaultTitle(option, config),
     },
     option
   );
@@ -132,8 +132,8 @@ let handleDefaultOption = (option, config) => {
     option.tooltip = {
       trigger: tooltipTrigger,
       axisPointer: {
-        type: axisPointerType
-      }
+        type: axisPointerType,
+      },
     };
 
     if (config.histogram) {
@@ -165,11 +165,11 @@ const handleSimpleMode = (option, config) => {
     Reflect.deleteProperty(xAxis, 'name');
     xAxis = Object.assign(xAxis, {
       axisLine: {
-        show: false
+        show: false,
       },
       axisTick: {
-        show: false
-      }
+        show: false,
+      },
     });
     option = Object.assign(option, { xAxis, yAxis });
   }
@@ -178,7 +178,7 @@ const handleSimpleMode = (option, config) => {
 };
 
 // 字符串转日期
-let str2Date: (str: string) => string = (str) => {
+let str2Date: (str: string) => string = str => {
   let needConvert: boolean = /^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$|^[1-9]\d{3}(0[1-9]|1[0-2])$/.test(
     str
   );
@@ -192,7 +192,7 @@ let str2Date: (str: string) => string = (str) => {
   return dates.join('-');
 };
 
-let str2Num: (str: string) => number | string = (str) => {
+let str2Num: (str: string) => number | string = str => {
   if (/^(|\-)[0-9]+.[0-9]+$/.test(str)) {
     return parseFloat(parseFloat(str).toFixed(3));
   }
@@ -202,31 +202,26 @@ let str2Num: (str: string) => number | string = (str) => {
   return str;
 };
 
-let isDate: (dateStr: string) => boolean = (dateStr) => {
+let isDate: (dateStr: string) => boolean = dateStr => {
   return /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/.test(
     dateStr
   );
 };
 
-let needConvertDate: (dateStr: string) => boolean = (dateStr) => {
+let needConvertDate: (dateStr: string) => boolean = dateStr => {
   return /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$|^[1-9]\d{3}(-|)(0[1-9]|1[0-2])$/.test(
     dateStr
   );
 };
 
-let getDataByIdx: ({ key: string, data: any }) => Array<any> = ({
-  key,
-  data
-}) => R.pluck(key)(data);
+let getDataByIdx: ({ key: string, data: any }) => Array<any> = ({ key, data }) =>
+  R.pluck(key)(data);
 
-let getUniqByIdx: ({ key: string, data: any }) => Array<any> = ({
-  key,
-  data
-}) =>
+let getUniqByIdx: ({ key: string, data: any }) => Array<any> = ({ key, data }) =>
   R.uniq(
     getDataByIdx({
       key,
-      data
+      data,
     })
   );
 
@@ -343,7 +338,7 @@ const colors: Array<string> = [
   '#f89a80',
   '#f37674',
   '#e75b68',
-  '#d0545f'
+  '#d0545f',
 ];
 
 function hex2rgb(hexVal: string): string {
@@ -399,10 +394,10 @@ let getLegendData: <T>(
 ) => Array<{
   icon: string;
   name: T;
-}> = (legendData) =>
-  legendData.map((name) => ({
+}> = legendData =>
+  legendData.map(name => ({
     name,
-    icon: 'circle'
+    icon: 'circle',
   }));
 
 type tGl =
@@ -424,11 +419,9 @@ let getRenderer: (
     type: string;
     histogram?: string;
   }
-) => tRender = (params) =>
+) => tRender = params =>
   params.render ||
-  (['paralell', ...chartGL].includes(params.type) || params.histogram
-    ? 'canvas'
-    : 'svg');
+  (['paralell', ...chartGL].includes(params.type) || params.histogram ? 'canvas' : 'svg');
 
 interface Iparams {
   type: tGl;
@@ -472,12 +465,12 @@ let handleMinMax: (
   if (max > 10) {
     return {
       max: Math.ceil(max / 10 ** exLength) * 10 ** exLength,
-      min: min - (min % 10 ** exLength)
+      min: min - (min % 10 ** exLength),
     };
   }
   return {
     max: Math.ceil(max / 1) * 1,
-    min: min > 0 ? min - (min % 1) : Math.floor(min / 1) * 1
+    min: min > 0 ? min - (min % 1) : Math.floor(min / 1) * 1,
   };
 };
 
@@ -491,17 +484,17 @@ let getLegend: (
 } = ({ data, legend }, selectedMode = 'single') => {
   if (R.isNil(legend)) {
     return {
-      show: false
+      show: false,
     };
   }
   let key: string = data.header[legend];
   let legendData = getUniqByIdx({
     key,
-    data: data.data
+    data: data.data,
   });
   return {
     selectedMode,
-    data: getLegendData(legendData)
+    data: getLegendData(legendData),
   };
 };
 
@@ -516,7 +509,7 @@ let getAxis: (
 } = ({ data, header }, key) => {
   let xAxis = getUniqByIdx({
     key: header[key],
-    data
+    data,
   });
   let xAxisType: axis = lib.isNumOrFloat(xAxis[0]) ? 'value' : 'category';
 
@@ -525,7 +518,7 @@ let getAxis: (
   }
   return {
     xAxis,
-    xAxisType
+    xAxisType,
   };
 };
 
@@ -550,5 +543,5 @@ export default {
   getRenderer,
   getChartHeight,
   getAxis,
-  getDefaultTitle
+  getDefaultTitle,
 };

@@ -25,7 +25,6 @@
 var arrayProto = Array.prototype;
 var nativeMap = arrayProto.map;
 
-
 /**
  * Those data types can be cloned:
  *     Plain object, Array, TypedArray, number, string, null, undefined.
@@ -43,14 +42,12 @@ var nativeMap = arrayProto.map;
  * @return {*} new
  */
 
-
 /**
  * @memberOf module:zrender/core/util
  * @param {*} target
  * @param {*} source
  * @param {boolean} [overwrite=false]
  */
-
 
 /**
  * @param {Array} targetAndSources The first item is target, and the rests are source.
@@ -58,13 +55,11 @@ var nativeMap = arrayProto.map;
  * @return {*} target
  */
 
-
 /**
  * @param {*} target
  * @param {*} source
  * @memberOf module:zrender/core/util
  */
-
 
 /**
  * @param {*} target
@@ -73,16 +68,10 @@ var nativeMap = arrayProto.map;
  * @memberOf module:zrender/core/util
  */
 
-
-
-
-
-
 /**
  * 查询数组中元素的index
  * @memberOf module:zrender/core/util
  */
-
 
 /**
  * 构造类继承关系
@@ -92,7 +81,6 @@ var nativeMap = arrayProto.map;
  * @param {Function} baseClazz 基类
  */
 
-
 /**
  * @memberOf module:zrender/core/util
  * @param {Object|Function} target
@@ -100,12 +88,10 @@ var nativeMap = arrayProto.map;
  * @param {boolean} overlay
  */
 
-
 /**
  * Consider typed array.
  * @param {Array|TypedArray} data
  */
-
 
 /**
  * 数组或对象遍历
@@ -114,7 +100,6 @@ var nativeMap = arrayProto.map;
  * @param {Function} cb
  * @param {*} [context]
  */
-
 
 /**
  * 数组映射
@@ -125,18 +110,18 @@ var nativeMap = arrayProto.map;
  * @return {Array}
  */
 function map(obj, cb, context) {
-    if (!(obj && cb)) {
-        return;
+  if (!(obj && cb)) {
+    return;
+  }
+  if (obj.map && obj.map === nativeMap) {
+    return obj.map(cb, context);
+  } else {
+    var result = [];
+    for (var i = 0, len = obj.length; i < len; i++) {
+      result.push(cb.call(context, obj[i], i, obj));
     }
-    if (obj.map && obj.map === nativeMap) {
-        return obj.map(cb, context);
-    } else {
-        var result = [];
-        for (var i = 0, len = obj.length; i < len; i++) {
-            result.push(cb.call(context, obj[i], i, obj));
-        }
-        return result;
-    }
+    return result;
+  }
 }
 
 /**
@@ -148,7 +133,6 @@ function map(obj, cb, context) {
  * @return {Array}
  */
 
-
 /**
  * 数组过滤
  * @memberOf module:zrender/core/util
@@ -157,7 +141,6 @@ function map(obj, cb, context) {
  * @param {*} [context]
  * @return {Array}
  */
-
 
 /**
  * 数组项查找
@@ -168,7 +151,6 @@ function map(obj, cb, context) {
  * @return {*}
  */
 
-
 /**
  * @memberOf module:zrender/core/util
  * @param {Function} func
@@ -176,13 +158,17 @@ function map(obj, cb, context) {
  * @return {Function}
  */
 
-
 /**
  * @memberOf module:zrender/core/util
  * @param {Function} func
  * @return {Function}
  */
 
+/**
+ * @memberOf module:zrender/core/util
+ * @param {*} value
+ * @return {boolean}
+ */
 
 /**
  * @memberOf module:zrender/core/util
@@ -190,6 +176,11 @@ function map(obj, cb, context) {
  * @return {boolean}
  */
 
+/**
+ * @memberOf module:zrender/core/util
+ * @param {*} value
+ * @return {boolean}
+ */
 
 /**
  * @memberOf module:zrender/core/util
@@ -197,6 +188,11 @@ function map(obj, cb, context) {
  * @return {boolean}
  */
 
+/**
+ * @memberOf module:zrender/core/util
+ * @param {*} value
+ * @return {boolean}
+ */
 
 /**
  * @memberOf module:zrender/core/util
@@ -204,41 +200,17 @@ function map(obj, cb, context) {
  * @return {boolean}
  */
 
-
 /**
  * @memberOf module:zrender/core/util
  * @param {*} value
  * @return {boolean}
  */
-
-
-/**
- * @memberOf module:zrender/core/util
- * @param {*} value
- * @return {boolean}
- */
-
-
-/**
- * @memberOf module:zrender/core/util
- * @param {*} value
- * @return {boolean}
- */
-
-
-/**
- * @memberOf module:zrender/core/util
- * @param {*} value
- * @return {boolean}
- */
-
 
 /**
  * Whether is exactly NaN. Notice isNaN('a') returns true.
  * @param {*} value
  * @return {boolean}
  */
-
 
 /**
  * If value1 is not null, then return value1, otherwise judget rest of values.
@@ -247,11 +219,6 @@ function map(obj, cb, context) {
  * @return {*} Final value
  */
 
-
-
-
-
-
 /**
  * @memberOf module:zrender/core/util
  * @param {Array} arr
@@ -259,7 +226,6 @@ function map(obj, cb, context) {
  * @param {number} endIndex
  * @return {Array}
  */
-
 
 /**
  * Normalize css liked array configuration
@@ -271,20 +237,17 @@ function map(obj, cb, context) {
  * @return {Array.<number>}
  */
 
-
 /**
  * @memberOf module:zrender/core/util
  * @param {boolean} condition
  * @param {string} message
  */
 
-
 /**
  * @memberOf module:zrender/core/util
  * @param {string} str string to be trimed
  * @return {string} trimed string
  */
-
 
 /**
  * Set an object as primitive to be ignored traversing children in clone or merge
@@ -313,59 +276,61 @@ function map(obj, cb, context) {
 // http://gexf.net/1.2draft/gexf-12draft-primer.pdf
 
 function parse(xml) {
-    var doc;
-    if (typeof xml === 'string') {
-        var parser = new DOMParser();
-        doc = parser.parseFromString(xml, 'text/xml');
-    } else {
-        doc = xml;
-    }
-    if (!doc || doc.getElementsByTagName('parsererror').length) {
-        return null;
-    }
+  var doc;
+  if (typeof xml === 'string') {
+    var parser = new DOMParser();
+    doc = parser.parseFromString(xml, 'text/xml');
+  } else {
+    doc = xml;
+  }
+  if (!doc || doc.getElementsByTagName('parsererror').length) {
+    return null;
+  }
 
-    var gexfRoot = getChildByTagName(doc, 'gexf');
+  var gexfRoot = getChildByTagName(doc, 'gexf');
 
-    if (!gexfRoot) {
-        return null;
-    }
+  if (!gexfRoot) {
+    return null;
+  }
 
-    var graphRoot = getChildByTagName(gexfRoot, 'graph');
+  var graphRoot = getChildByTagName(gexfRoot, 'graph');
 
-    var attributes = parseAttributes(getChildByTagName(graphRoot, 'attributes'));
-    var attributesMap = {};
-    for (var i = 0; i < attributes.length; i++) {
-        attributesMap[attributes[i].id] = attributes[i];
-    }
+  var attributes = parseAttributes(getChildByTagName(graphRoot, 'attributes'));
+  var attributesMap = {};
+  for (var i = 0; i < attributes.length; i++) {
+    attributesMap[attributes[i].id] = attributes[i];
+  }
 
-    return {
-        nodes: parseNodes(getChildByTagName(graphRoot, 'nodes'), attributesMap),
-        links: parseEdges(getChildByTagName(graphRoot, 'edges'))
-    };
+  return {
+    nodes: parseNodes(getChildByTagName(graphRoot, 'nodes'), attributesMap),
+    links: parseEdges(getChildByTagName(graphRoot, 'edges')),
+  };
 }
 
 function parseAttributes(parent) {
-    return parent ? map(getChildrenByTagName(parent, 'attribute'), function(attribDom) {
+  return parent
+    ? map(getChildrenByTagName(parent, 'attribute'), function(attribDom) {
         return {
-            id: getAttr(attribDom, 'id'),
-            title: getAttr(attribDom, 'title'),
-            type: getAttr(attribDom, 'type')
+          id: getAttr(attribDom, 'id'),
+          title: getAttr(attribDom, 'title'),
+          type: getAttr(attribDom, 'type'),
         };
-    }) : [];
+      })
+    : [];
 }
 
 function parseNodes(parent, attributesMap) {
-    return parent ? map(getChildrenByTagName(parent, 'node'), function(nodeDom) {
-
+  return parent
+    ? map(getChildrenByTagName(parent, 'node'), function(nodeDom) {
         var id = getAttr(nodeDom, 'id');
         var label = getAttr(nodeDom, 'label');
 
         var node = {
-            id: id,
-            name: label,
-            itemStyle: {
-                normal: {}
-            }
+          id: id,
+          name: label,
+          itemStyle: {
+            normal: {},
+          },
         };
 
         var vizSizeDom = getChildByTagName(nodeDom, 'viz:size');
@@ -376,60 +341,65 @@ function parseNodes(parent, attributesMap) {
         var attvaluesDom = getChildByTagName(nodeDom, 'attvalues');
 
         if (vizSizeDom) {
-            node.symbolSize = parseFloat(getAttr(vizSizeDom, 'value'));
+          node.symbolSize = parseFloat(getAttr(vizSizeDom, 'value'));
         }
         if (vizPosDom) {
-            node.x = parseFloat(getAttr(vizPosDom, 'x'));
-            node.y = parseFloat(getAttr(vizPosDom, 'y'));
-            // z
+          node.x = parseFloat(getAttr(vizPosDom, 'x'));
+          node.y = parseFloat(getAttr(vizPosDom, 'y'));
+          // z
         }
         if (vizColorDom) {
-            node.itemStyle.normal.color = 'rgb(' + [
-                getAttr(vizColorDom, 'r') | 0,
-                getAttr(vizColorDom, 'g') | 0,
-                getAttr(vizColorDom, 'b') | 0
-            ].join(',') + ')';
+          node.itemStyle.normal.color =
+            'rgb(' +
+            [
+              getAttr(vizColorDom, 'r') | 0,
+              getAttr(vizColorDom, 'g') | 0,
+              getAttr(vizColorDom, 'b') | 0,
+            ].join(',') +
+            ')';
         }
         // if (vizShapeDom) {
         // node.shape = getAttr(vizShapeDom, 'shape');
         // }
         if (attvaluesDom) {
-            var attvalueDomList = getChildrenByTagName(attvaluesDom, 'attvalue');
+          var attvalueDomList = getChildrenByTagName(attvaluesDom, 'attvalue');
 
-            node.attributes = {};
+          node.attributes = {};
 
-            for (var j = 0; j < attvalueDomList.length; j++) {
-                var attvalueDom = attvalueDomList[j];
-                var attId = getAttr(attvalueDom, 'for');
-                var attValue = getAttr(attvalueDom, 'value');
-                var attribute = attributesMap[attId];
+          for (var j = 0; j < attvalueDomList.length; j++) {
+            var attvalueDom = attvalueDomList[j];
+            var attId = getAttr(attvalueDom, 'for');
+            var attValue = getAttr(attvalueDom, 'value');
+            var attribute = attributesMap[attId];
 
-                if (attribute) {
-                    switch (attribute.type) {
-                        case 'integer':
-                        case 'long':
-                            attValue = parseInt(attValue, 10);
-                            break;
-                        case 'float':
-                        case 'double':
-                            attValue = parseFloat(attValue);
-                            break;
-                        case 'boolean':
-                            attValue = attValue.toLowerCase() == 'true';
-                            break;
-                        default:
-                    }
-                    node.attributes[attId] = attValue;
-                }
+            if (attribute) {
+              switch (attribute.type) {
+                case 'integer':
+                case 'long':
+                  attValue = parseInt(attValue, 10);
+                  break;
+                case 'float':
+                case 'double':
+                  attValue = parseFloat(attValue);
+                  break;
+                case 'boolean':
+                  attValue = attValue.toLowerCase() === 'true';
+                  break;
+                default:
+              }
+              node.attributes[attId] = attValue;
             }
+          }
         }
 
         return node;
-    }) : [];
+      })
+    : [];
 }
 
 function parseEdges(parent) {
-    return parent ? map(getChildrenByTagName(parent, 'edge'), function(edgeDom) {
+  return parent
+    ? map(getChildrenByTagName(parent, 'edge'), function(edgeDom) {
         var id = getAttr(edgeDom, 'id');
         var label = getAttr(edgeDom, 'label');
 
@@ -437,13 +407,13 @@ function parseEdges(parent) {
         var targetId = getAttr(edgeDom, 'target');
 
         var edge = {
-            id: id,
-            name: label,
-            source: sourceId,
-            target: targetId,
-            lineStyle: {
-                normal: {}
-            }
+          id: id,
+          name: label,
+          source: sourceId,
+          target: targetId,
+          lineStyle: {
+            normal: {},
+          },
         };
 
         var lineStyle = edge.lineStyle.normal;
@@ -453,60 +423,60 @@ function parseEdges(parent) {
         // var vizShapeDom = getChildByTagName(edgeDom, 'viz:shape');
 
         if (vizThicknessDom) {
-            lineStyle.width = parseFloat(vizThicknessDom.getAttribute('value'));
+          lineStyle.width = parseFloat(vizThicknessDom.getAttribute('value'));
         }
         if (vizColorDom) {
-            lineStyle.color = 'rgb(' + [
-                getAttr(vizColorDom, 'r') | 0,
-                getAttr(vizColorDom, 'g') | 0,
-                getAttr(vizColorDom, 'b') | 0
-            ].join(',') + ')';
+          lineStyle.color =
+            'rgb(' +
+            [
+              getAttr(vizColorDom, 'r') | 0,
+              getAttr(vizColorDom, 'g') | 0,
+              getAttr(vizColorDom, 'b') | 0,
+            ].join(',') +
+            ')';
         }
         // if (vizShapeDom) {
         //     edge.shape = vizShapeDom.getAttribute('shape');
         // }
 
         return edge;
-    }) : [];
+      })
+    : [];
 }
 
 function getAttr(el, attrName) {
-    return el.getAttribute(attrName);
+  return el.getAttribute(attrName);
 }
 
 function getChildByTagName(parent, tagName) {
-    var node = parent.firstChild;
+  var node = parent.firstChild;
 
-    while (node) {
-        if (
-            node.nodeType != 1 ||
-            node.nodeName.toLowerCase() != tagName.toLowerCase()
-        ) {
-            node = node.nextSibling;
-        } else {
-            return node;
-        }
+  while (node) {
+    if (node.nodeType != 1 || node.nodeName.toLowerCase() != tagName.toLowerCase()) {
+      node = node.nextSibling;
+    } else {
+      return node;
     }
+  }
 
-    return null;
+  return null;
 }
 
 function getChildrenByTagName(parent, tagName) {
-    var node = parent.firstChild;
-    var children = [];
-    while (node) {
-        if (node.nodeName.toLowerCase() == tagName.toLowerCase()) {
-            children.push(node);
-        }
-        node = node.nextSibling;
+  var node = parent.firstChild;
+  var children = [];
+  while (node) {
+    if (node.nodeName.toLowerCase() == tagName.toLowerCase()) {
+      children.push(node);
     }
+    node = node.nextSibling;
+  }
 
-    return children;
+  return children;
 }
 
-
 var gexf = (Object.freeze || Object)({
-    parse: parse
+  parse: parse,
 });
 
 /*
@@ -538,7 +508,6 @@ var gexf = (Object.freeze || Object)({
  * @return {(number|Array.<number>}
  */
 
-
 /**
  * Convert a percent string to absolute number.
  * Returns NaN if percent is not a valid string or number
@@ -547,7 +516,6 @@ var gexf = (Object.freeze || Object)({
  * @param {number} all
  * @return {number}
  */
-
 
 /**
  * (1) Fix rounding error of float numbers.
@@ -559,12 +527,11 @@ var gexf = (Object.freeze || Object)({
  * @return {number|string}
  */
 
-
 function asc(arr) {
-    arr.sort(function(a, b) {
-        return a - b;
-    });
-    return arr;
+  arr.sort(function(a, b) {
+    return a - b;
+  });
+  return arr;
 }
 
 /**
@@ -572,12 +539,10 @@ function asc(arr) {
  * @param {number} val
  */
 
-
 /**
  * @param {string|number} val
  * @return {number}
  */
-
 
 /**
  * Minimal dicernible data precisioin according to a single pixel.
@@ -586,7 +551,6 @@ function asc(arr) {
  * @param {Array.<number>} pixelExtent
  * @return {number} precision
  */
-
 
 /**
  * Get a data of given precision, assuring the sum of percentages
@@ -600,9 +564,7 @@ function asc(arr) {
  * @return {number} percent ranging from 0 to 100
  */
 
-
 // Number.MAX_SAFE_INTEGER, ie do not support.
-
 
 /**
  * To 0 - 2 * PI, considering negative radian.
@@ -610,12 +572,10 @@ function asc(arr) {
  * @return {number}
  */
 
-
 /**
  * @param {type} radian
  * @return {boolean}
  */
-
 
 /* eslint-enable */
 
@@ -635,14 +595,12 @@ function asc(arr) {
  * @return {Date} date
  */
 
-
 /**
  * Quantity of a number. e.g. 0.1, 1, 10, 100
  *
  * @param  {number} val
  * @return {number}
  */
-
 
 /**
  * find a “nice” number approximately equal to x. Round the number if round = true,
@@ -655,7 +613,6 @@ function asc(arr) {
  * @param  {boolean} round
  * @return {number}
  */
-
 
 /**
  * BSD 3-Clause
@@ -694,11 +651,11 @@ function asc(arr) {
  * @param {Array.<number>} ascArr
  */
 function quantile(ascArr, p) {
-    var H = (ascArr.length - 1) * p + 1;
-    var h = Math.floor(H);
-    var v = +ascArr[h - 1];
-    var e = H - h;
-    return e ? v + e * (ascArr[h] - v) : v;
+  var H = (ascArr.length - 1) * p + 1;
+  var h = Math.floor(H);
+  var v = +ascArr[h - 1];
+  var e = H - h;
+  return e ? v + e * (ascArr[h] - v) : v;
 }
 
 /**
@@ -723,7 +680,6 @@ function quantile(ascArr, p) {
  *        of the interval, and Infinity can be used.
  * @return {Array.<Object>} The origin list, which has been reformed.
  */
-
 
 /**
  * parseFloat NaNs numeric-cast false positives (null|true|false|"")
@@ -780,48 +736,44 @@ function quantile(ascArr, p) {
  * }
  */
 var prepareBoxplotData = function(rawData, opt) {
-    opt = opt || [];
-    var boxData = [];
-    var outliers = [];
-    var axisData = [];
-    var boundIQR = opt.boundIQR;
-    var useExtreme = boundIQR === 'none' || boundIQR === 0;
+  opt = opt || [];
+  var boxData = [];
+  var outliers = [];
+  var axisData = [];
+  var boundIQR = opt.boundIQR;
+  var useExtreme = boundIQR === 'none' || boundIQR === 0;
 
-    for (var i = 0; i < rawData.length; i++) {
-        axisData.push(i + '');
-        var ascList = asc(rawData[i].slice());
+  for (var i = 0; i < rawData.length; i++) {
+    axisData.push(i + '');
+    var ascList = asc(rawData[i].slice());
 
-        var Q1 = quantile(ascList, 0.25);
-        var Q2 = quantile(ascList, 0.5);
-        var Q3 = quantile(ascList, 0.75);
-        var min = ascList[0];
-        var max = ascList[ascList.length - 1];
+    var Q1 = quantile(ascList, 0.25);
+    var Q2 = quantile(ascList, 0.5);
+    var Q3 = quantile(ascList, 0.75);
+    var min = ascList[0];
+    var max = ascList[ascList.length - 1];
 
-        var bound = (boundIQR == null ? 1.5 : boundIQR) * (Q3 - Q1);
+    var bound = (boundIQR == null ? 1.5 : boundIQR) * (Q3 - Q1);
 
-        var low = useExtreme ?
-            min :
-            Math.max(min, Q1 - bound);
-        var high = useExtreme ?
-            max :
-            Math.min(max, Q3 + bound);
+    var low = useExtreme ? min : Math.max(min, Q1 - bound);
+    var high = useExtreme ? max : Math.min(max, Q3 + bound);
 
-        boxData.push([low, Q1, Q2, Q3, high]);
+    boxData.push([low, Q1, Q2, Q3, high]);
 
-        for (var j = 0; j < ascList.length; j++) {
-            var dataItem = ascList[j];
-            if (dataItem < low || dataItem > high) {
-                var outlier = [i, dataItem];
-                opt.layout === 'vertical' && outlier.reverse();
-                outliers.push(outlier);
-            }
-        }
+    for (var j = 0; j < ascList.length; j++) {
+      var dataItem = ascList[j];
+      if (dataItem < low || dataItem > high) {
+        var outlier = [i, dataItem];
+        opt.layout === 'vertical' && outlier.reverse();
+        outliers.push(outlier);
+      }
     }
-    return {
-        boxData: boxData,
-        outliers: outliers,
-        axisData: axisData
-    };
+  }
+  return {
+    boxData: boxData,
+    outliers: outliers,
+    axisData: axisData,
+  };
 };
 
 /*
@@ -844,6 +796,6 @@ var prepareBoxplotData = function(rawData, opt) {
  */
 
 export default {
-    gexf,
-    prepareBoxplotData
+  gexf,
+  prepareBoxplotData,
 };
