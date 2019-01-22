@@ -1,4 +1,5 @@
 import { init } from './histogram';
+import { bar } from './bar';
 
 test('histogram', () => {
   let data = {
@@ -70,6 +71,12 @@ test('histogram', () => {
   });
 
   expect(init({ data, x: 0, legend: 1, multilegend: true })).toMatchObject({
+    legend: {
+      selectedMode: 'multiple',
+    },
+  });
+
+  expect(bar({ data, x: 0, legend: 1, multilegend: true, histogram: '1' })).toMatchObject({
     legend: {
       selectedMode: 'multiple',
     },

@@ -1,4 +1,5 @@
 import { init } from './boxplot';
+import { bar } from './bar';
 
 test('boxplot', () => {
   const config = {
@@ -24,6 +25,8 @@ test('boxplot', () => {
   };
   expect(req).toMatchObject(result);
   expect(init({ data: config.data })).toMatchObject(result);
+
+  expect(bar({ data: config.data, type: 'boxplot' })).toMatchObject(result);
 
   expect(req.series[0].tooltip.formatter({ name: 'a1', data: [0, 1, 2, 3, 4, 5] })).toContain(
     'Experiment'

@@ -100,9 +100,11 @@ export const init = option => {
           [header[xIdx]]: xName,
         })
       )(data);
-      if (dataList.length === 0) {
-        return [];
-      }
+
+      // 从逻辑上不会出现此种场景
+      // if (dataList.length === 0) {
+      //   return [];
+      // }
       return R.compose(
         R.pluck(header[yIdx]),
         R.filter(R.propEq(header[xIdx], xName))

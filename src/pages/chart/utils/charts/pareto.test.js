@@ -1,5 +1,4 @@
 import { init } from './pareto';
-
 test('pareto', () => {
   const config = {
     yAxis: { name: 'yAxisName' },
@@ -11,8 +10,7 @@ test('pareto', () => {
       },
     ],
   };
-
-  expect(init(config)).toMatchObject({
+  const result = {
     grid: { right: 50 },
     legend: { data: ['yAxisName', 'Pareto'] },
     series: [
@@ -59,5 +57,7 @@ test('pareto', () => {
         type: 'value',
       },
     ],
-  });
+  };
+
+  expect(init(config)).toMatchObject(result);
 });
