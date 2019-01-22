@@ -2,12 +2,14 @@ import http from 'axios';
 import qs from 'qs';
 import * as setting from './setting';
 import { notification } from 'antd';
-// import router from 'umi/router';
-const router = [];
+import router from './router';
+// const router = [];
 export let DEV: boolean = setting.DEV;
 
 export let host: string = setting.host;
 export let uploadHost: string = setting.uploadHost;
+let refreshNoncer =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDM4NTI0NDcsIm5iZiI6MTU0Mzg1MjQ0NywiZXhwIjoxNTQzODU5NjQ3LCJ1cmwiOiJodHRwOlwvXC9sb2NhbGhvc3Q6OTBcL3B1YmxpY1wvbG9naW4uaHRtbCIsImV4dHJhIjp7InVpZCI6MSwiaXAiOiIwLjAuMC4wIn19.65tBJTAMZ-i2tkDDpu9DnVaroXera4h2QerH3x2fgTw';
 
 export const codeMessage: {
   [key: number]: string;
@@ -37,32 +39,21 @@ let getType: (data: any) => string = data =>
     .replace(']', '')
     .toLowerCase();
 
-const loadUserInfo = function() {
-  // 业务经办人
-  let userInfo: {
-    name: string;
-    uid: string;
-    fullname: string;
-    org: string;
-  } = {
-    name: '',
-    uid: '',
-    fullname: '',
-    org: '',
-  };
-  let user: null | string = window.localStorage.getItem('user');
-  // console.log(user);
+export const loadUserInfo = user => {
   if (user == null) {
+    window.g_axios.token = refreshNoncer;
+    saveToken();
     return {
-      token: '',
+      token: refreshNoncer,
     };
+  } else {
+    user = JSON.parse(user);
+    window.g_axios.token = user.token;
+    return { token: user.token };
   }
-  user = JSON.parse(user);
-  window.g_axios.token = user.token;
-  let extraInfo: string = atob(user.token.split('.')[1]);
-  userInfo.uid = JSON.parse(extraInfo).extra.uid;
 
-  return user;
+  // let extraInfo: string = atob(user.token.split('.')[1]);
+  // userInfo.uid = JSON.parse(extraInfo).extra.uid;
 };
 
 // let refreshNoncer = () => {
@@ -72,8 +63,6 @@ const loadUserInfo = function() {
 // return http.get(url).then(res => res.data.token);
 // };
 
-let refreshNoncer =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDM4NTI0NDcsIm5iZiI6MTU0Mzg1MjQ0NywiZXhwIjoxNTQzODU5NjQ3LCJ1cmwiOiJodHRwOlwvXC9sb2NhbGhvc3Q6OTBcL3B1YmxpY1wvbG9naW4uaHRtbCIsImV4dHJhIjp7InVpZCI6MSwiaXAiOiIwLjAuMC4wIn19.65tBJTAMZ-i2tkDDpu9DnVaroXera4h2QerH3x2fgTw';
 const saveToken = () => {
   window.localStorage.setItem(
     'user',
@@ -81,6 +70,53 @@ const saveToken = () => {
       token: window.g_axios.token,
     })
   );
+};
+
+export const handleError = error => {
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    let { data, status } = error.response;
+    if (status === 401) {
+      // window.g_app._store.dispatch({
+      //   type: 'login?autoLogin=0'
+      // });
+      router.push('/unlogin');
+    } else if (status === 403) {
+      router.push('/403');
+    } else if (status <= 504 && status >= 500) {
+      router.push('/500');
+    } else if (status >= 404 && status < 422) {
+      router.push('/404');
+    }
+    const errortext = (codeMessage[status] || '') + data.msg;
+    notification.error({
+      message: `请求错误 ${status}: ${error.config.url}`,
+      description: errortext,
+      duration: 10,
+    });
+  } else if (error.request) {
+    // The request was made but no response was received
+    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+    // http.ClientRequest in node.js
+    console.log(error.request);
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    console.log('Error', error.message);
+  }
+  // console.log(error.config);
+  return Promise.reject(error);
+};
+
+export const handleData = ({ data }) => {
+  // 刷新token
+  if (typeof data.token !== 'undefined') {
+    window.g_axios.token = data.token;
+    saveToken();
+    // 移除token
+    Reflect.deleteProperty(data, 'token');
+  }
+  return data;
 };
 
 // 自动处理token更新，data 序列化等
@@ -93,16 +129,8 @@ export let axios = option => {
   }
   // token为空时自动获取
   if (window.g_axios.token === '') {
-    let user = loadUserInfo();
-
-    if (typeof user === 'undefined' || user.token === '') {
-      // refreshNoncer().then(token => {
-      //   window.g_axios.token = token;
-      //   saveToken();
-      // });
-      window.g_axios.token = refreshNoncer;
-      saveToken();
-    }
+    let user: null | string = window.localStorage.getItem('user');
+    loadUserInfo(user);
   }
 
   option = Object.assign(option, {
@@ -131,47 +159,6 @@ export let axios = option => {
         },
       ],
     })(option)
-    .then(({ data }) => {
-      // 刷新token
-      if (typeof data.token !== 'undefined') {
-        window.g_axios.token = data.token;
-        saveToken();
-      }
-      return data;
-    })
-    .catch(error => {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        let { data, status } = error.response;
-        if (status === 401) {
-          // window.g_app._store.dispatch({
-          //   type: 'login?autoLogin=0'
-          // });
-          router.push('/unlogin');
-        } else if (status === 403) {
-          router.push('/403');
-        } else if (status <= 504 && status >= 500) {
-          router.push('/500');
-        } else if (status >= 404 && status < 422) {
-          router.push('/404');
-        }
-        const errortext = (codeMessage[status] || '') + data.msg;
-        notification.error({
-          message: `请求错误 ${status}: ${error.config.url}`,
-          description: errortext,
-          duration: 10,
-        });
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.log(error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', error.message);
-      }
-      // console.log(error.config);
-      return Promise.reject(error);
-    });
+    .then(res => handleData(res))
+    .catch(error => handleError(error));
 };

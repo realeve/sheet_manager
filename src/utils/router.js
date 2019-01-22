@@ -1,5 +1,5 @@
 /* global window */
-
+window.g_history = window.g_history || [];
 export function push(...args) {
   window.g_history.push(...args);
 }
