@@ -5,7 +5,8 @@
 [![Dependencies](https://img.shields.io/david/realeve/sheet_manager.svg)](https://david-dm.org/realeve/sheet_manager)
 [![DevDependencies](https://img.shields.io/david/dev/realeve/sheet_manager.svg)](https://david-dm.org/realeve/sheet_manager?type=dev)
 ![](https://img.shields.io/github/last-commit/realeve/sheet_manager/master.svg)
-基于 umi+dva+antd+react
+
+基于 umi+dva+antd+react 的报表及图表自动化系统
 
 # 功能列表
 
