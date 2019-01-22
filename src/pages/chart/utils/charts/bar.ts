@@ -273,7 +273,7 @@ let handleDataWithLegend = (srcData, option) => {
     })(xAxis);
     return {
       data: seriesData,
-      name,
+      name: name || '',
       type: option.type,
       smooth: option.smooth,
     };
@@ -401,6 +401,8 @@ let handlePercentSeries = series => {
   return series;
 };
 
+const handleMarkText = (params, marktext, i) => (marktext[i] ? marktext[i] : params.value);
+
 // 处理标记线
 let handleMarkLine = (series, options) => {
   let { markline, marktext } = options;
@@ -421,7 +423,7 @@ let handleMarkLine = (series, options) => {
       label: {
         normal: {
           show: true,
-          formatter: params => (marktext[i] ? marktext[i] : params.value),
+          formatter: params => handleMarkText(params, marktext, i),
         },
       },
     };
@@ -845,4 +847,4 @@ let bar = options => {
   return configs;
 };
 
-export { bar, chartConfig };
+export { bar, chartConfig, handleMarkText };
