@@ -6,9 +6,8 @@ import { Button } from 'antd';
 import router from '@/utils/router';
 import qs from 'qs';
 
-const redirectLogin = () => {
-  let { href, origin } = window.location;
-
+export const redirectLogin = ({ href, origin }) => {
+  // let { href, origin } = window.location;
   router.push({
     pathname: '/login',
     search: qs.stringify({
@@ -18,7 +17,7 @@ const redirectLogin = () => {
 };
 const actions = (
   <div>
-    <Button type="primary" onClick={redirectLogin}>
+    <Button type="primary" onClick={redirectLogin(window.location)}>
       {formatMessage({ id: 'app.login.login' })}
     </Button>
   </div>

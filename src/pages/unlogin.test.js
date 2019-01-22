@@ -1,8 +1,9 @@
 import React from 'react';
 import UnLogin from './unlogin';
+import { redirectLogin } from './unlogin';
 import { mount } from 'enzyme';
 // import sinon from 'sinon';
-test('Exception500', () => {
+test('unlogin', () => {
   // const onButtonClick = sinon.spy();
   const wrapper = mount(<UnLogin />);
   expect(wrapper.find('Exception').length).toBe(1);
@@ -13,4 +14,8 @@ test('Exception500', () => {
   // wrapper.find('Button').simulate('click');
   // expect(onButtonClick).to.have.property('callCount', 1);
   // router.push在测试中会莫名报错
+});
+
+test('redirectLogin', () => {
+  expect(redirectLogin({ href: '/home', origin: 'http://localhost' })).toBeUndefined();
 });

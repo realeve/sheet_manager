@@ -8,20 +8,19 @@ let chartConfig = [
     key: 'type',
     title: '图表类型',
     default: 'paralell',
-    url: '/chart#id=15/440962596e&type=paralell&visual=0'
+    url: '/chart#id=15/440962596e&type=paralell&visual=0',
   },
   {
     key: 'sequence',
     title: 'header中各字段序列',
     default: '默认按接口中输出字段的顺序进行，最后一列为数据字段。',
-    url:
-      '/chart#id=14/52e11ab939&legend=0&type=paralell&sequence=1,2,3,4,5,6,7,8,9,10,11,12,13'
+    url: '/chart#id=14/52e11ab939&legend=0&type=paralell&sequence=1,2,3,4,5,6,7,8,9,10,11,12,13',
   },
   {
     key: 'legend',
     title: '数据序列的索引或键值',
     default: '不设置时，默认无legend',
-    url: '/chart#id=14/52e11ab939&legend=0&type=paralell'
+    url: '/chart#id=14/52e11ab939&legend=0&type=paralell',
   },
   {
     key: 'visual',
@@ -29,15 +28,15 @@ let chartConfig = [
     default: 0,
     url: [
       '/chart#id=14/52e11ab939&legend=0&type=paralell&visual=1',
-      '/chart#id=15/440962596e&type=paralell&visual=0'
-    ]
+      '/chart#id=15/440962596e&type=paralell&visual=0',
+    ],
   },
   {
     key: 'vertical',
     title: '垂直布局',
     default: '0,关闭时水平布局',
-    url: '/chart#id=15/440962596e&type=paralell&visual=0&vertical=1'
-  }
+    url: '/chart#id=15/440962596e&type=paralell&visual=0&vertical=1',
+  },
   // {
   //     key: 'blackbg',
   //     title: '是否使用黑色背景',
@@ -51,52 +50,52 @@ let getParalellBg = ({ blackbg }) =>
     ? {
         nameTextStyle: {
           color: '#aaa',
-          fontSize: 14
+          fontSize: 14,
         },
         axisLine: {
           show: true,
           lineStyle: {
-            color: '#aaa'
-          }
+            color: '#aaa',
+          },
         },
         axisTick: {
           lineStyle: {
-            color: '#999'
-          }
+            color: '#999',
+          },
         },
         splitLine: {
-          show: false
+          show: false,
         },
         axisLabel: {
           textStyle: {
-            color: '#fff'
-          }
-        }
+            color: '#fff',
+          },
+        },
       }
     : {
         nameTextStyle: {
           color: '#333',
-          fontSize: 12
+          fontSize: 12,
         },
         axisLine: {
           show: true,
           lineStyle: {
-            color: '#333'
-          }
+            color: '#333',
+          },
         },
         axisTick: {
           lineStyle: {
-            color: '#333'
-          }
+            color: '#333',
+          },
         },
         splitLine: {
-          show: false
+          show: false,
         },
         axisLabel: {
           textStyle: {
-            color: '#333'
-          }
-        }
+            color: '#333',
+          },
+        },
       };
 
 let handleSeriesItem = (config, keys, legendName, legendKey) => {
@@ -105,7 +104,7 @@ let handleSeriesItem = (config, keys, legendName, legendKey) => {
     : R.filter(R.propEq(legendKey, legendName))(config.data.data);
   let seriesItem = util.getDataByKeys({
     keys,
-    data: seriesData
+    data: seriesData,
   });
   return {
     name: R.isNil(legendName) ? '平行坐标系' : String(legendName),
@@ -113,17 +112,17 @@ let handleSeriesItem = (config, keys, legendName, legendKey) => {
     lineStyle: {
       normal: {
         width: 1,
-        opacity: 0.5
-      }
+        opacity: 0.5,
+      },
     },
     data: seriesItem,
     smooth: config.smooth,
     progressiveChunkMode: 'mod',
-    progressive: 500
+    progressive: 500,
   };
 };
 
-let getDataSequence = ({ header, sequence, legend }) => {
+export let getDataSequence = ({ header, sequence, legend }) => {
   if (R.isNil(sequence)) {
     if (R.isNil(legend)) {
       return header;
@@ -131,7 +130,7 @@ let getDataSequence = ({ header, sequence, legend }) => {
     return R.reject(R.equals(header[legend]))(header);
   }
   sequence = sequence.split(',');
-  return R.map((idx) => header[idx])(sequence);
+  return R.map(idx => header[idx])(sequence);
 };
 
 let getMinMax = (dataSequence, data, idx) => {
@@ -139,7 +138,7 @@ let getMinMax = (dataSequence, data, idx) => {
   let dataByKey = R.pluck(key)(data);
   return {
     max: jStat.max(dataByKey),
-    min: jStat.min(dataByKey)
+    min: jStat.min(dataByKey),
   };
 };
 
@@ -147,7 +146,7 @@ let getParallelAxis = (dataSequence, [seriesData], data) =>
   dataSequence.map((name, dim) => {
     let res = {
       dim,
-      name
+      name,
     };
     if (!lib.isNumOrFloat(seriesData[dim])) {
       res.type = 'category';
@@ -155,7 +154,7 @@ let getParallelAxis = (dataSequence, [seriesData], data) =>
       let minMax = util.handleMinMax(getMinMax(dataSequence, data, dim));
       res = {
         ...res,
-        ...minMax
+        ...minMax,
       };
     }
     return res;
@@ -167,11 +166,11 @@ let getVisualMap = (dataSequence, data, dimension) => ({
   calculable: true,
   ...getMinMax(dataSequence, data, dimension),
   inRange: {
-    color: ['#50a3ba', '#a2ca36', '#e92312']
-  }
+    color: ['#50a3ba', '#a2ca36', '#e92312'],
+  },
 });
 
-let paralell = (config) => {
+let paralell = config => {
   config.smooth = config.smooth === '0' ? false : true;
   config.visual = config.visual || 0;
   config.blackbg = config.blackbg === '0' ? false : true;
@@ -181,7 +180,7 @@ let paralell = (config) => {
   let dataSequence = getDataSequence({
     data,
     header,
-    legend: config.legend
+    legend: config.legend,
   });
   let legendData = [];
   let seriesData = [];
@@ -189,9 +188,9 @@ let paralell = (config) => {
     let legendKey = header[config.legend];
     legendData = util.getUniqByIdx({
       key: legendKey,
-      data
+      data,
     });
-    seriesData = legendData.map((legendName) =>
+    seriesData = legendData.map(legendName =>
       handleSeriesItem(config, dataSequence, legendName, legendKey)
     );
   } else {
@@ -221,16 +220,16 @@ let paralell = (config) => {
         type: 'value',
         nameLocation: 'start',
         nameGap: 20,
-        ...bg
+        ...bg,
       },
-      layout: config.vertical ? 'vertical' : 'horizontal'
+      layout: config.vertical ? 'vertical' : 'horizontal',
     },
     series: seriesData,
     toolbox: {},
     blendMode: 'lighter',
     legend: {
-      show: false
-    }
+      show: false,
+    },
   };
 
   if (config.blackbg) {
@@ -239,7 +238,7 @@ let paralell = (config) => {
 
   if (!R.isNil(config.legend)) {
     option.legend = {
-      data: util.getLegendData(legendData)
+      data: util.getLegendData(legendData),
     };
   }
   return option;

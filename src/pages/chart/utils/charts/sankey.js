@@ -5,24 +5,23 @@ let chartConfig = [
   {
     key: 'type',
     title: '图表类型',
-    default:
-      'sankey,桑基图，数据结构中前N列为参与可视化的字段，最后一个字段为数据列'
+    default: 'sankey,桑基图，数据结构中前N列为参与可视化的字段，最后一个字段为数据列',
   },
   {
     key: 'sequence',
     title: 'header中各字段序列',
     default: '默认按接口中输出字段的顺序进行，最后一列为数据字段。',
-    url: '/chart#id=12/e7d0f080bc&type=sankey&sequence=2,0,1,3,4,5'
+    url: '/chart#id=12/e7d0f080bc&type=sankey&sequence=2,0,1,3,4,5',
   },
   {
     key: 'vertical',
     title: '垂直布局',
     default: '默认:0，水平布局,1:垂直布局',
-    url: '/chart#id=12/e7d0f080bc&type=sankey&sequence=2,0,1,3,4,5&vertical=1'
-  }
+    url: '/chart#id=12/e7d0f080bc&type=sankey&sequence=2,0,1,3,4,5&vertical=1',
+  },
 ];
 
-const sankey = (config) => {
+const sankey = config => {
   let { data, header } = config.data;
   // let sequence = jStat.arange(header.length)
   if (config.sequence) {
@@ -30,7 +29,7 @@ const sankey = (config) => {
     if (sequence.length < header.length) {
       sequence = [...sequence, R.last(header)];
     }
-    let _header = sequence.map((idx) => header[idx]);
+    let _header = sequence.map(idx => header[idx]);
     header = R.clone(_header);
   }
 
@@ -40,21 +39,19 @@ const sankey = (config) => {
   let uniqSeglist = [],
     links = [];
 
-  sankeySeg.forEach((key) => {
+  sankeySeg.forEach(key => {
     let uniqSeg = util.getUniqByIdx({
       key,
-      data
+      data,
     });
     uniqSeglist.push(uniqSeg);
-    uniqSeg = uniqSeg.map((item) =>
-      dataList.includes(item) ? `${item}(${key})` : item
-    );
+    uniqSeg = uniqSeg.map(item => (dataList.includes(item) ? `${item}(${key})` : item));
     dataList = [...dataList, ...uniqSeg];
   });
 
   // 获取结点列表
-  dataList = dataList.map((name) => ({
-    name
+  dataList = dataList.map(name => ({
+    name,
   }));
 
   uniqSeglist.forEach((curNode, i) => {
@@ -65,21 +62,21 @@ const sankey = (config) => {
     let curSeg = header[i];
     let nextSeg = header[i + 1];
 
-    curNode.forEach((source) => {
-      nextNode.forEach((target) => {
+    curNode.forEach(source => {
+      nextNode.forEach(target => {
         let curData = R.compose(
           R.pluck(valKey),
           R.filter(
             R.whereEq({
               [curSeg]: source,
-              [nextSeg]: target
+              [nextSeg]: target,
             })
           )
         )(data);
         links.push({
           source,
           target,
-          value: R.sum(curData)
+          value: R.sum(curData),
         });
       });
     });
@@ -88,7 +85,7 @@ const sankey = (config) => {
   return {
     tooltip: {
       trigger: 'item',
-      triggerOn: 'mousemove'
+      triggerOn: 'mousemove',
     },
     series: [
       {
@@ -101,20 +98,20 @@ const sankey = (config) => {
         itemStyle: {
           normal: {
             borderWidth: 1,
-            borderColor: '#aaa'
-          }
+            borderColor: '#aaa',
+          },
         },
         label: {
-          position: orient === 'vertical' ? 'top' : 'right'
+          position: orient === 'vertical' ? 'top' : 'right',
         },
         lineStyle: {
           normal: {
             color: 'source',
-            curveness: 0.5
-          }
-        }
-      }
-    ]
+            curveness: 0.5,
+          },
+        },
+      },
+    ],
   };
 };
 
