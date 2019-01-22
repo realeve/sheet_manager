@@ -4,7 +4,7 @@ import theme from './theme';
 
 const R = require('ramda');
 
-const getOption = (seriesData, xAxisData, idx, name) => {
+const getOption = (seriesData, xAxisData, idx = 0, name = '箱线图') => {
   let { boxData, outliers } = dataTool.prepareBoxplotData(seriesData);
   let color = theme.color[idx % theme.color.length];
   let option = {
@@ -45,7 +45,7 @@ const getOption = (seriesData, xAxisData, idx, name) => {
 export const init = option => {
   let { header, data } = option.data;
   let xIdx, yIdx;
-  if (option.legend) {
+  if (!R.isNil(option.legend)) {
     xIdx = option.x || 1;
     yIdx = option.y || 2;
   } else {
@@ -73,7 +73,7 @@ export const init = option => {
     },
   };
 
-  if (!option.legend) {
+  if (R.isNil(option.legend)) {
     seriesData = xAxisData.map(name =>
       R.compose(
         R.pluck(header[yIdx]),
@@ -97,7 +97,7 @@ export const init = option => {
       let dataList = R.filter(
         R.whereEq({
           [header[option.legend]]: legendName,
-          [header[option.x]]: xName,
+          [header[xIdx]]: xName,
         })
       )(data);
       if (dataList.length === 0) {
