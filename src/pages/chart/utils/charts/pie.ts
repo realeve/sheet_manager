@@ -5,45 +5,45 @@ let chartConfig: TChartConfig = [
   {
     key: 'x',
     title: 'X轴在数据的索引或键值',
-    default: 0
+    default: 0,
   },
   {
     key: 'y',
     title: 'Y轴在数据的索引或键值',
-    default: 1
+    default: 1,
   },
   {
     key: 'legend',
     title: '数据序列的索引或键值',
-    default: '当legend存在时，legend/x/y默认为0，1，2'
+    default: '当legend存在时，legend/x/y默认为0，1，2',
   },
   {
     key: 'type',
     title: '图表类型',
-    default: 'pie'
+    default: 'pie',
   },
   {
     key: 'doughnut',
     title: '是否显示为环形图。',
     default: '0',
     url:
-      '/chart#id=6/8d5b63370c&data_type=sex;score;net_type;dom_loaded;wechat_version;answer_minutes&x=3&y=4&type=pie&legend=2&doughnut=1'
+      '/chart#id=6/8d5b63370c&data_type=sex;score;net_type;dom_loaded;wechat_version;answer_minutes&x=3&y=4&type=pie&legend=2&doughnut=1',
   },
   {
     key: 'radius',
     title: '玫瑰图样式:radius',
-    default: '不设置时为默认样式'
+    default: '不设置时为默认样式',
   },
   {
     key: 'area',
     title: '玫瑰图样式:area',
-    default: '不设置时为默认样式'
+    default: '不设置时为默认样式',
   },
   {
     key: 'rose',
     title: '玫瑰图样式',
-    default: '指定为radius或area,不设置时为默认样式'
-  }
+    default: '指定为radius或area,不设置时为默认样式',
+  },
 ];
 
 type TCenter = Array<[string, string]>;
@@ -56,7 +56,7 @@ const getCenterConfig: (
 ) => {
   center: TCenter;
   titlePosition: TPosition;
-} = (legendData) => {
+} = legendData => {
   let len: number = legendData.length;
 
   let center: TCenter = [];
@@ -67,8 +67,8 @@ const getCenterConfig: (
       titlePosition = [
         {
           x: '50%',
-          y: '0%'
-        }
+          y: '0%',
+        },
       ];
       break;
     case 2:
@@ -76,12 +76,12 @@ const getCenterConfig: (
       titlePosition = [
         {
           x: '25%',
-          y: '30%'
+          y: '30%',
         },
         {
           x: '75%',
-          y: '30%'
-        }
+          y: '30%',
+        },
       ];
       break;
     case 3:
@@ -89,16 +89,16 @@ const getCenterConfig: (
       titlePosition = [
         {
           x: '20%',
-          y: '30%'
+          y: '30%',
         },
         {
           x: '50%',
-          y: '30%'
+          y: '30%',
         },
         {
           x: '80%',
-          y: '30%'
-        }
+          y: '30%',
+        },
       ];
       break;
     case 4:
@@ -106,51 +106,45 @@ const getCenterConfig: (
       titlePosition = [
         {
           x: '25%',
-          y: '5%'
+          y: '5%',
         },
         {
           x: '75%',
-          y: '5%'
+          y: '5%',
         },
         {
           x: '25%',
-          y: '55%'
+          y: '55%',
         },
         {
           x: '75%',
-          y: '55%'
-        }
+          y: '55%',
+        },
       ];
       break;
     case 5:
-      center = [
-        ['25%', '25%'],
-        ['75%', '25%'],
-        ['20%', '75%'],
-        ['50%', '75%'],
-        ['80%', '75%']
-      ];
+      center = [['25%', '25%'], ['75%', '25%'], ['20%', '75%'], ['50%', '75%'], ['80%', '75%']];
       titlePosition = [
         {
           x: '25%',
-          y: '5%'
+          y: '5%',
         },
         {
           x: '75%',
-          y: '5%'
+          y: '5%',
         },
         {
           x: '20%',
-          y: '55%'
+          y: '55%',
         },
         {
           x: '50%',
-          y: '55%'
+          y: '55%',
         },
         {
           x: '80%',
-          y: '55%'
-        }
+          y: '55%',
+        },
       ];
       break;
     case 6:
@@ -160,33 +154,33 @@ const getCenterConfig: (
         ['80%', '25%'],
         ['20%', '75%'],
         ['50%', '75%'],
-        ['80%', '75%']
+        ['80%', '75%'],
       ];
       titlePosition = [
         {
           x: '20%',
-          y: '5%'
+          y: '5%',
         },
         {
           x: '50%',
-          y: '5%'
+          y: '5%',
         },
         {
           x: '80%',
-          y: '5%'
+          y: '5%',
         },
         {
           x: '20%',
-          y: '55%'
+          y: '55%',
         },
         {
           x: '50%',
-          y: '55%'
+          y: '55%',
         },
         {
           x: '80%',
-          y: '55%'
-        }
+          y: '55%',
+        },
       ];
       break;
     default:
@@ -194,18 +188,18 @@ const getCenterConfig: (
       titlePosition = [
         {
           x: '50%',
-          y: '0%'
-        }
+          y: '0%',
+        },
       ];
       break;
   }
   return {
     center,
-    titlePosition
+    titlePosition,
   };
 };
 
-let getRadiusLength: (legend: Array<any>) => string = (legendData) => {
+let getRadiusLength: (legend: Array<any>) => string = legendData => {
   let len = legendData.length;
   if (len < 3) {
     return '45%';
@@ -217,16 +211,16 @@ let getRadiusLength: (legend: Array<any>) => string = (legendData) => {
 
 let standardPie = ({ option, config }) => {
   option = Object.assign(option, config);
-  R.forEach((key) => (option[key] = parseInt(option[key], 10)))(['x', 'y']);
+  R.forEach(key => (option[key] = parseInt(option[key], 10)))(['x', 'y']);
 
   let { data, header } = config.data;
 
   let seriesData = [],
     series = [];
 
-  const getSeriesData = R.map((item) => ({
+  const getSeriesData = R.map(item => ({
     name: R.prop(header[option.x], item),
-    value: R.prop(header[option.y], item)
+    value: R.prop(header[option.y], item),
   }));
 
   const getSeriesItem = (name, center, data, radiusLen = '50%') => ({
@@ -240,15 +234,15 @@ let standardPie = ({ option, config }) => {
       emphasis: {
         shadowBlur: 10,
         shadowOffsetX: 0,
-        shadowColor: 'rgba(0, 0, 0, 0.5)'
-      }
+        shadowColor: 'rgba(0, 0, 0, 0.5)',
+      },
     },
     label: {
       normal: {
         show: true,
-        formatter: '{b}\n({d})%'
-      }
-    }
+        formatter: '{b}\n({d})%',
+      },
+    },
   });
 
   let title = util.getDefaultTitle(option, config);
@@ -256,22 +250,24 @@ let standardPie = ({ option, config }) => {
   if (!R.isNil(option.legend)) {
     let legendData = util.getUniqByIdx({
       key: header[option.legend],
-      data
+      data,
     });
     let radiusLen: string = getRadiusLength(legendData);
     let { center, titlePosition } = getCenterConfig(legendData);
     series = legendData.map((text, i) => {
       let sData = R.filter(R.propEq(header[option.legend], text))(data);
       seriesData = getSeriesData(sData);
-      title.push({
-        text,
-        ...titlePosition[i],
-        textStyle: {
-          fontSize: 20,
-          fontWeight: 'normal'
-        },
-        textAlign: 'center'
-      });
+      if (typeof title !== 'string') {
+        title.push({
+          text,
+          ...titlePosition[i],
+          textStyle: {
+            fontSize: 20,
+            fontWeight: 'normal',
+          },
+          textAlign: 'center',
+        });
+      }
       return getSeriesItem(text, center[i], seriesData, radiusLen);
     });
   } else {
@@ -280,12 +276,12 @@ let standardPie = ({ option, config }) => {
   }
 
   if (option.radius) {
-    series = series.map((item) => {
+    series = series.map(item => {
       item.roseType = 'radius';
       return item;
     });
   } else if (option.area) {
-    series = series.map((item) => {
+    series = series.map(item => {
       item.roseType = 'area';
       return item;
     });
@@ -293,7 +289,7 @@ let standardPie = ({ option, config }) => {
 
   // 玫瑰图
   if (['area', 'radius'].includes(option.rose)) {
-    series = series.map((item) => {
+    series = series.map(item => {
       item.roseType = option.rose;
       return item;
     });
@@ -303,38 +299,38 @@ let standardPie = ({ option, config }) => {
     series,
     tooltip: {
       trigger: 'item',
-      formatter: '{a} <br/>{b}: {c} ({d}%)'
+      formatter: '{a} <br/>{b}: {c} ({d}%)',
     },
     // legend: {
     //     show: false
     // },
     toolbox: {},
-    title
+    title,
   };
 };
 
-let pie = (config) => {
+let pie = config => {
   let option = {};
   switch (config.data.header.length) {
     case 3:
       option = {
         legend: 0,
         x: 1,
-        y: 2
+        y: 2,
       };
       break;
     case 2:
     default:
       option = {
         x: 0,
-        y: 1
+        y: 1,
       };
       break;
   }
   return standardPie({
     config,
-    option
+    option,
   });
 };
 
-export { pie, chartConfig };
+export { pie, chartConfig, getCenterConfig };

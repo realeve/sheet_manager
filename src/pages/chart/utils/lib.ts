@@ -40,35 +40,35 @@ let getDefaultTitle = (option, config: Iconfig) => {
   let prefix = config.prefix || '',
     suffix = config.suffix || '';
 
-  return option.title
-    ? option.title
-    : [
-        {
-          left: 'center',
-          text: prefix + config.data.title + suffix,
+  return (
+    option.title || [
+      {
+        left: 'center',
+        text: prefix + config.data.title + suffix,
+      },
+      {
+        text: config.data.source,
+        borderWidth: 0,
+        textStyle: {
+          fontSize: 10,
+          fontWeight: 'normal',
         },
-        {
-          text: config.data.source,
-          borderWidth: 0,
-          textStyle: {
-            fontSize: 10,
-            fontWeight: 'normal',
-          },
-          x: 5,
-          y2: 0,
+        x: 5,
+        y2: 0,
+      },
+      {
+        text: `统计时间：${config.dateRange[0]} - ${config.dateRange[1]}`,
+        borderWidth: 0,
+        textStyle: {
+          fontSize: 10,
+          fontWeight: 'normal',
         },
-        {
-          text: `统计时间：${config.dateRange[0]} - ${config.dateRange[1]}`,
-          borderWidth: 0,
-          textStyle: {
-            fontSize: 10,
-            fontWeight: 'normal',
-          },
-          x: 5,
-          y2: 18,
-        },
-        getCopyRight(),
-      ];
+        x: 5,
+        y2: 18,
+      },
+      getCopyRight(),
+    ]
+  );
 };
 
 let handleDefaultOption = (option, config) => {
