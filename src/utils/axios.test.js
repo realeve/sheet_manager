@@ -9,7 +9,7 @@ test('resolve', () =>
   axios({
     url: 'http://api.cbpc.ltd/3/e4e497e849',
   }).then(res => {
-    expect(res.rows).toGreaterThan(0);
+    expect(res.rows).toBeGreaterThan(0);
   }));
 
 test('reject', () =>
