@@ -5,45 +5,45 @@ const R = require('ramda');
 export const dataOperator: Array<{ label: string; value: number }> = [
   {
     label: '计数',
-    value: 0
+    value: 0,
   },
   {
     label: '求和',
-    value: 1
+    value: 1,
   },
   {
     label: '平均值',
-    value: 2
+    value: 2,
   },
   {
     label: '最大值',
-    value: 3
+    value: 3,
   },
   {
     label: '最小值',
-    value: 4
+    value: 4,
   },
   {
     label: '中位数',
-    value: 5
+    value: 5,
   },
   {
     label: '标准方差',
-    value: 6
+    value: 6,
   },
   {
     label: '变异系数',
-    value: 7
+    value: 7,
   },
   {
     label: '众数',
-    value: 8
-  }
+    value: 8,
+  },
 ];
 
 const group = (array, f) => {
   let groups = {};
-  array.forEach((o) => {
+  array.forEach(o => {
     let group = JSON.stringify(f(o));
     groups[group] = groups[group] || [];
     groups[group].push(o);
@@ -52,12 +52,12 @@ const group = (array, f) => {
 };
 
 // 对数据做 数据库层面的  group 计算操作
-export const groupBy = (keys) => (arr) => group(arr, R.pick(keys));
+export const groupBy = keys => arr => group(arr, R.pick(keys));
 
-export const restoreDataSrc = (dataSrc) => {
+export const restoreDataSrc = dataSrc => {
   let _dataSrc = R.clone(dataSrc);
   let { data, header } = _dataSrc;
-  data = R.map((item) => {
+  data = R.map(item => {
     delete item['key'];
     let values = R.values(item);
     let obj = {};
@@ -67,7 +67,7 @@ export const restoreDataSrc = (dataSrc) => {
     return obj;
   })(data);
   return Object.assign(_dataSrc, {
-    data
+    data,
   });
 };
 
@@ -86,11 +86,11 @@ const getOperatorHeader: <T, U>(
   header: string;
   calcType: U;
 }> = (arr, operatorLabel) => {
-  let res = arr.map((fields) =>
+  let res = arr.map(fields =>
     operatorLabel.map(({ label, value }) => ({
       fields,
       header: `${fields}(${label})`,
-      calcType: value
+      calcType: value,
     }))
   );
   return R.flatten(res);
@@ -102,7 +102,7 @@ export const groupArr = ({
   dataSrc,
   operatorList,
   fieldHeader,
-  groupHeader
+  groupHeader,
 }) => {
   let { data, rows } = dataSrc;
   if (rows === 0) {
@@ -113,7 +113,7 @@ export const groupArr = ({
 
   let headerFields = R.concat(calFieldHeader, groupFieldsHeader);
 
-  data = R.map((item) => R.pick(headerFields)(item))(data);
+  data = R.map(item => R.pick(headerFields)(item))(data);
   data = groupBy(calFieldHeader)(data);
 
   // 是否有计数操作
@@ -122,7 +122,7 @@ export const groupArr = ({
     operatorList = R.reject(R.equals(0))(operatorList);
   }
 
-  let operatorLabel = R.map((id) => dataOperator[id])(operatorList);
+  let operatorLabel = R.map(id => dataOperator[id])(operatorList);
 
   let operatorHeader = getOperatorHeader(
     groupFieldsHeader.length > 0 ? groupFieldsHeader : calFieldHeader,
@@ -133,7 +133,7 @@ export const groupArr = ({
     operatorHeader.push({
       fields: groupFieldsHeader[0] || calFieldHeader[0],
       header: '计数',
-      calcType: 0
+      calcType: 0,
     });
   }
 
@@ -143,19 +143,17 @@ export const groupArr = ({
     _header.push(header);
   });
 
-  let calData = data.map((item) =>
-    handleDataItem(item, operatorHeader, calFieldHeader)
-  );
+  let calData = data.map(item => handleDataItem(item, operatorHeader, calFieldHeader));
   calData = R.flatten(calData);
   rows = calData.length;
 
   // 将数据中的对象重新转换为数组
-  calData = calData.map((item) => _header.map((key) => item[key]));
+  calData = calData.map(item => _header.map(key => item[key]));
   calData = calData.sort((a, b) => a[0] - b[0]);
   return Object.assign({}, dataSrc, {
     data: calData,
     header: _header,
-    rows
+    rows,
   });
 };
 
@@ -163,13 +161,14 @@ const handleDataItem = (data, operator, calFields) => {
   let result = R.pick(calFields)(data[0]);
   let cachedColName = R.uniq(getCol(operator, 'fields'));
   let cache = {};
-  cachedColName.forEach((col) => {
+  cachedColName.forEach(col => {
     cache[col] = getCol(data, col);
   });
   operator.forEach(({ fields, header, calcType }) => {
-    let cacheItem = cache[fields].map((item) =>
+    let cacheItem = cache[fields].map(item =>
       lib.isFloat(item) ? parseFloat(item) : parseInt(item, 10)
     );
+
     let res = '';
     switch (calcType) {
       case 0:
