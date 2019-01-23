@@ -4,6 +4,8 @@ import { mount } from 'enzyme';
 // import sinon from 'sinon';
 import chartConfig from './utils/chartConfig';
 
+import ConfigItem from './components/ConfigItem';
+
 test('初始状态', () => {
   // sinon.spy(Config.prototype, 'onSelect');
   const wrapper = mount(<Config />);
@@ -37,4 +39,22 @@ test('初始状态', () => {
     .simulate('click');
   expect(wrapper.state().chartType).toBe(2);
   expect(wrapper.find('.charttype').text()).toContain('type=scatter');
+});
+
+test('ConfigItem组件测试', () => {
+  // 未渲染 type 项
+  expect(
+    mount(<ConfigItem idx={0} config={{ key: 'a', title: 'title', default: 0, url: 'url' }} />)
+      .find('div')
+      .first()
+      .text()
+  ).not.toContain('type:');
+
+  // 渲染 type 项
+  expect(
+    mount(<ConfigItem idx={0} config={{ key: 'a', title: 'title', default: 0, url: 'url',type:'bar' }} />)
+      .find('div')
+      .first()
+      .text()
+  ).toContain('type:bar');
 });
