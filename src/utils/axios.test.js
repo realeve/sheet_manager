@@ -7,14 +7,14 @@ let readData = () =>
 
 test('resolve', () =>
   axios({
-    url: '3/e4e497e849',
+    url: 'http://api.cbpc.ltd/3/e4e497e849',
   }).then(res => {
-    console.log(res);
+    expect(res.rows).toGreaterThan(0);
   }));
 
 test('reject', () =>
   axios({
-    url: '3/e4e497e849_err_token',
+    url: 'http://api.cbpc.ltd/3/e4e497e849_err_token',
   }).catch(e => {
     expect(e.response.data).toMatchObject({ errmsg: 'invalid api id', status: 404 });
   }));
