@@ -5,6 +5,20 @@ let readData = () =>
     url: '3/e4e497e849',
   }).then(res => res.rows);
 
+test('resolve', () =>
+  axios({
+    url: '3/e4e497e849',
+  }).then(res => {
+    console.log(res);
+  }));
+
+test('reject', () =>
+  axios({
+    url: '3/e4e497e849_err_token',
+  }).catch(e => {
+    expect(e.response.data).toMatchObject({ errmsg: 'invalid api id', status: 404 });
+  }));
+
 test('服务端数据读写', () => {
   // expect.assertions(2);
   expect(readData()).resolves.toBeGreaterThan(0);

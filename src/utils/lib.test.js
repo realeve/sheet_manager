@@ -364,8 +364,10 @@ test('loadFile', () => {
   // ).toBe('object');
 });
 
-// test('logout', () => {
-//   expect(() => {
-//     lib.logout({ dispatch: console.log });
-//   }).toThrowError();
-// });
+test('logout', () => {
+  // expect(() => {
+  //   lib.logout({ dispatch: console.log });
+  // }).toBeUndefined();
+
+  lib.logout({ dispatch: console.log });
+});

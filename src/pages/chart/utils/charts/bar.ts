@@ -289,14 +289,14 @@ let handleDataWithLegend = (srcData, option) => {
 };
 
 let handleDataNoLegend = (srcData, option) => {
-  let { data } = srcData;
+  let { data, header } = srcData;
   let { xAxis, xAxisType } = util.getAxis(srcData, option.x);
 
   let getSeriesData = () => {
     let seriesData = R.map(item =>
       R.compose(
-        R.nth(option.y),
-        R.find(R.propEq(option.x, item))
+        R.prop(header[option.y]),
+        R.find(R.propEq(header[option.x], item))
       )(data)
     )(xAxis);
     return {
@@ -378,7 +378,8 @@ let handleSeriesItem = option => seriesItem => {
 let handlePercentSeries = series => {
   const handleItem: (item: string) => number = item => {
     let val: number = parseFloat(item);
-    return R.isNil(val) ? 0 : val;
+    return isNaN(val) ? 0 : val;
+    // return R.isNil(val) ? 0 : val;
   };
 
   let sumArr: number[] = [];
@@ -407,8 +408,8 @@ const handleMarkText = (params, marktext, i) => (marktext[i] ? marktext[i] : par
 let handleMarkLine = (series, options) => {
   let { markline, marktext } = options;
 
-  markline = markline.split(',');
-  marktext = marktext ? marktext.split(',') : [];
+  markline = String(markline).split(',');
+  marktext = marktext ? String(marktext).split(',') : [];
 
   let data = markline.map((item, i) => {
     let type = ['average', 'min', 'max'].includes(item)
@@ -586,7 +587,8 @@ let getChartConfig: (
   // Y轴处理完毕
 
   if (!options.histogram && !['boxplot'].includes(options.type)) {
-    let dateAxis = util.needConvertDate(R.path(['xAxis', 0], xAxis));
+    // let dateAxis = util.needConvertDate(R.path(['xAxis', 0], xAxis));
+    let dateAxis = util.needConvertDate(R.nth(0, xAxis));
     if (dateAxis) {
       xAxis = R.map(util.str2Date)(xAxis);
     }
@@ -755,15 +757,15 @@ const handleReverse = (config, option) => {
   if (config.markline) {
     option.series.forEach((item, i) => {
       let markLine = option.series[i].markLine;
-      if (markLine && markLine.data) {
-        option.series[i].markLine.data = markLine.data.map(s => {
-          if (s.yAxis) {
-            s.xAxis = R.clone(s.yAxis);
-            Reflect.deleteProperty(s, 'yAxis');
-          }
-          return s;
-        });
-      }
+      // if (markLine && markLine.data) {
+      option.series[i].markLine.data = markLine.data.map(s => {
+        if (s.yAxis) {
+          s.xAxis = R.clone(s.yAxis);
+          Reflect.deleteProperty(s, 'yAxis');
+        }
+        return s;
+      });
+      // }
     });
   }
 
@@ -824,27 +826,32 @@ let bar = options => {
 
   // 极坐标系
   if (options.polar) {
-    if (options.reverse) {
-      configs.yAxis.nameGap = -40;
-      configs = Object.assign(configs, {
-        radiusAxis: configs.yAxis,
-        polar: {},
-        angleAxis: configs.xAxis || {},
-      });
-    } else {
-      configs = Object.assign(configs, {
-        radiusAxis: configs.yAxis || {},
-        polar: {},
-        angleAxis: configs.xAxis,
-      });
-    }
-    Reflect.deleteProperty(configs, 'dataZoom');
-    Reflect.deleteProperty(configs, 'xAxis');
-    Reflect.deleteProperty(configs, 'yAxis');
-    configs.series = R.map(R.assoc('coordinateSystem', 'polar'))(configs.series);
+    configs = handlePolar(options, configs);
   }
 
   return configs;
 };
 
-export { bar, chartConfig, handleMarkText };
+const handlePolar = (options, configs) => {
+  if (options.reverse) {
+    configs.yAxis.nameGap = -40;
+    configs = Object.assign(configs, {
+      radiusAxis: configs.yAxis,
+      polar: {},
+      angleAxis: configs.xAxis || {},
+    });
+  } else {
+    configs = Object.assign(configs, {
+      radiusAxis: configs.yAxis || {},
+      polar: {},
+      angleAxis: configs.xAxis || {},
+    });
+  }
+  Reflect.deleteProperty(configs, 'dataZoom');
+  Reflect.deleteProperty(configs, 'xAxis');
+  Reflect.deleteProperty(configs, 'yAxis');
+  configs.series = R.map(R.assoc('coordinateSystem', 'polar'))(configs.series);
+  return configs;
+};
+
+export { bar, chartConfig, handleMarkText, handlePolar, handleData };

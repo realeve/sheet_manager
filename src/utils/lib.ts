@@ -316,16 +316,16 @@ export const logout = ({ dispatch }: Props) => {
   userTool.saveLoginStatus(0);
 
   let { href, origin } = window.location;
-  try {
-    router.push({
-      pathname: '/login',
-      search: qs.stringify({
-        redirect: href.replace(origin, ''),
-      }),
-    });
-  } catch (e) {
-    throw new Error('路由跳转失败');
-  }
+  // try {
+  router.push({
+    pathname: '/login',
+    search: qs.stringify({
+      redirect: href.replace(origin, ''),
+    }),
+  });
+  // } catch (e) {
+  //   throw new Error('路由跳转失败');
+  // }
 };
 
 export const getType: {

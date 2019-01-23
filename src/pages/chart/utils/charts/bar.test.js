@@ -1,4 +1,4 @@
-import { bar, handleMarkText } from './bar';
+import { bar, handleMarkText, handlePolar, handleData } from './bar';
 
 test('bar', () => {
   let result = {
@@ -540,54 +540,44 @@ test('bar', () => {
     ],
   });
 
-  // reverse+boxplot
+  // reverse+markarea+markareatext
   expect(
     bar({
       data: {
-        header: ['c', 'a', 'b'],
+        header: ['a', 'b'],
         data: [
           {
             a: 'a1',
             b: 1,
-            c: 'legend',
           },
         ],
       },
-      legend: 0,
-      x: 1,
-      y: 2,
+      x: 0,
+      y: 1,
       reverse: '1',
       markarea: '0-1',
-      marktext: '优秀值',
+      markareatext: '优秀值',
     })
   ).toMatchObject({
+    renderer: 'canvas',
     series: [
       {
         data: [1],
         label: { normal: { position: 'insideTop', show: true } },
-        name: 'legend',
+        markArea: {
+          data: [[{ name: '优秀值', yAxis: 0 }, { xAxis: 1 }]],
+          emphasis: { label: { position: 'insideRight' } },
+          label: { color: '#aaa', fontSize: 15, position: 'insideRight' },
+          silent: false,
+        },
+        name: '',
         smooth: false,
         type: 'bar',
       },
     ],
-    xAxis: {
-      name: 'b',
-      nameGap: 30,
-      nameLocation: 'center',
-      nameTextStyle: { fontWeight: 'bold' },
-    },
-    yAxis: {
-      boundaryGap: true,
-      data: ['a1'],
-      name: 'a',
-      nameGap: 70,
-      nameLocation: 'center',
-      nameTextStyle: { fontWeight: 'bold' },
-    },
   });
 
   // area
-
   expect(
     bar({
       data: {
@@ -616,5 +606,429 @@ test('bar', () => {
         type: 'line',
       },
     ],
+  });
+});
+
+test('柱状图附加设置项', () => {
+  // barshadow
+  expect(
+    bar({
+      data: {
+        header: ['a', 'b'],
+        data: [
+          {
+            a: 'a1',
+            b: 1,
+          },
+        ],
+      },
+      x: 0,
+      y: 1,
+      barshadow: '1',
+    })
+  ).toMatchObject({
+    series: [
+      {
+        data: [1],
+        label: { normal: { position: 'insideTop', show: true } },
+        name: '',
+        smooth: false,
+        type: 'bar',
+        z: 10,
+      },
+      {
+        barGap: '-100%',
+        data: [1],
+        itemStyle: { normal: { color: 'rgba(0,0,0,0.1)' } },
+        silent: true,
+        type: 'bar',
+      },
+    ],
+  });
+
+  // barwidth+barshadow
+  expect(
+    bar({
+      data: {
+        header: ['a', 'b'],
+        data: [
+          {
+            a: 'a1',
+            b: 1,
+          },
+        ],
+      },
+      x: 0,
+      y: 1,
+      barshadow: '1',
+      barwidth: 20,
+    })
+  ).toMatchObject({
+    series: [
+      {
+        data: [1],
+        label: { normal: { position: 'insideTop', show: true } },
+        name: '',
+        smooth: false,
+        type: 'bar',
+        barMaxWidth: 20,
+        z: 10,
+      },
+      {
+        barGap: '-100%',
+        data: [1],
+        itemStyle: { normal: { color: 'rgba(0,0,0,0.1)' } },
+        silent: true,
+        barMaxWidth: 20,
+        type: 'bar',
+      },
+    ],
+  });
+
+  // scatter
+  expect(
+    bar({
+      data: {
+        header: ['a', 'b'],
+        data: [
+          {
+            a: 1,
+            b: 1,
+          },
+        ],
+      },
+      x: 0,
+      y: 1,
+      type: 'scatter',
+    })
+  ).toMatchObject({
+    series: [{ data: [1], name: '', smooth: false, symbolSize: 20, type: 'scatter' }],
+    xAxis: { data: [1], type: 'value' },
+    yAxis: {
+      name: 'b',
+    },
+  });
+
+  // dateAxis
+  expect(
+    bar({
+      data: {
+        header: ['a', 'b'],
+        data: [
+          {
+            a: '20180901',
+            b: 1,
+          },
+        ],
+      },
+      x: 0,
+      y: 1,
+    })
+  ).toMatchObject({
+    series: [
+      {
+        data: [1],
+        label: { normal: { position: 'insideTop', show: true } },
+        smooth: false,
+        type: 'bar',
+      },
+    ],
+    xAxis: {
+      boundaryGap: true,
+      data: ['2018-09-01'],
+      name: 'a',
+    },
+    yAxis: {
+      name: 'b',
+    },
+  });
+
+  // reverse+boxplot
+
+  expect(
+    bar({
+      data: {
+        header: ['a', 'b'],
+        data: [
+          {
+            b: 1,
+            a: 'x',
+          },
+          {
+            b: 2,
+            a: 'x',
+          },
+          {
+            b: 3,
+            a: 'x',
+          },
+          {
+            b: 20,
+            a: 'x',
+          },
+        ],
+      },
+      x: 0,
+      y: 1,
+      reverse: '1',
+      type: 'boxplot',
+    })
+  ).toMatchObject({
+    series: [
+      {
+        data: [[1, 1.75, 2.5, 7.25, 15.5]],
+        itemStyle: { borderColor: '#61A5E8' },
+        name: '箱线图',
+        type: 'boxplot',
+      },
+      { data: [[20, 0]], itemStyle: { color: '#61A5E8' }, name: '箱线图', type: 'scatter' },
+    ],
+    xAxis: { scale: true, type: 'value' },
+    yAxis: { data: ['x'], nameGap: 70, scale: true, type: 'category' },
+  });
+
+  // stack+percent
+  expect(
+    bar({
+      data: {
+        header: ['c', 'a', 'b'],
+        data: [
+          {
+            a: 'a1',
+            b: 0,
+            c: 'l1',
+          },
+          {
+            a: 'a1',
+            b: 3,
+            c: 'l2',
+          },
+          {
+            a: 'a2',
+            b: 0,
+            c: 'l1',
+          },
+          {
+            a: 'a2',
+            b: 0,
+            c: 'l2',
+          },
+          {
+            a: 'a3',
+            b: null,
+            c: 'l1',
+          },
+          {
+            a: 'a3',
+            b: null,
+            c: 'l2',
+          },
+          {
+            a: 'a3',
+            b: 2,
+            c: 'l2',
+          },
+        ],
+      },
+      legend: 0,
+      x: 1,
+      y: 2,
+      stack: '1',
+      percent: '1',
+    })
+  ).toMatchObject({
+    series: [
+      {
+        data: [0, '-', '-'],
+        label: { normal: { position: 'insideTop', show: true } },
+        name: 'l1',
+        smooth: false,
+        stack: 'All',
+        type: 'bar',
+      },
+      {
+        data: [100, '-', '-'],
+        label: { normal: { position: 'insideTop', show: true } },
+        name: 'l2',
+        smooth: false,
+        stack: 'All',
+        type: 'bar',
+      },
+    ],
+    xAxis: {
+      boundaryGap: true,
+      data: ['a1', 'a2', 'a3'],
+      name: 'a',
+    },
+    yAxis: {
+      name: 'b',
+    },
+  });
+
+  expect(
+    handlePolar(
+      {
+        reverse: false,
+      },
+      { yAxis: {}, series: [] }
+    )
+  ).toMatchObject({ angleAxis: {}, polar: {}, radiusAxis: {}, series: [] });
+
+  expect(
+    handlePolar(
+      {
+        reverse: false,
+      },
+      { xAxis: {}, series: [] }
+    )
+  ).toMatchObject({ angleAxis: {}, polar: {}, radiusAxis: {}, series: [] });
+
+  expect(
+    handlePolar(
+      {
+        reverse: true,
+      },
+      { yAxis: {}, series: [] }
+    )
+  ).toMatchObject({ angleAxis: {}, polar: {}, radiusAxis: {}, series: [] });
+
+  // markline+marktext
+
+  expect(
+    bar({
+      data: {
+        header: ['c', 'a', 'b'],
+        data: [
+          {
+            a: 'a1',
+            b: 1,
+            c: 'legend',
+          },
+        ],
+      },
+      legend: 0,
+      x: 1,
+      y: 2,
+      reverse: '1',
+      markline: 'average',
+    })
+  ).toMatchObject({
+    series: [
+      {
+        data: [1],
+        label: { normal: { position: 'insideTop', show: true } },
+        markLine: {
+          data: [{ type: 'average' }],
+          lineStyle: { normal: { type: 'dashed' } },
+          symbol: 'none',
+        },
+        name: 'legend',
+        smooth: false,
+        type: 'bar',
+      },
+    ],
+    xAxis: {
+      name: 'b',
+    },
+    yAxis: {
+      boundaryGap: true,
+      data: ['a1'],
+      name: 'a',
+    },
+  });
+});
+
+test('处理柱状图数据', () => {
+  expect(
+    handleData(
+      {
+        header: ['a', 'b'],
+        data: [
+          {
+            a: 'a1',
+            b: 1,
+          },
+          {
+            a: 'a2',
+            b: 2,
+          },
+        ],
+      },
+      {
+        x: 0,
+        y: 1,
+        type: 'bar',
+        smooth: false,
+      }
+    )
+  ).toMatchObject({
+    series: { data: [1, 2], smooth: false, type: 'bar' },
+    xAxis: ['a1', 'a2'],
+    xAxisType: 'category',
+  });
+
+  // reverse+boxplot+markarea+markline
+  expect(
+    bar({
+      data: {
+        header: ['a', 'b'],
+        data: [
+          {
+            b: 1,
+            a: 'x',
+          },
+          {
+            b: 2,
+            a: 'x',
+          },
+          {
+            b: 3,
+            a: 'x',
+          },
+          {
+            b: 20,
+            a: 'x',
+          },
+        ],
+      },
+      x: 0,
+      y: 1,
+      reverse: '1',
+      type: 'boxplot',
+      markarea: '0-5',
+      markline: '10',
+    })
+  ).toMatchObject({
+    renderer: 'canvas',
+    series: [
+      {
+        data: [[1, 1.75, 2.5, 7.25, 15.5]],
+        markArea: {
+          data: [[{ name: '0-5', yAxis: 0 }, { xAxis: 5 }]],
+          emphasis: { label: { position: 'insideRight' } },
+          label: { color: '#aaa', fontSize: 15, position: 'insideRight' },
+          silent: false,
+        },
+        markLine: {
+          data: [{ label: { normal: { show: true } }, xAxis: 10 }],
+          lineStyle: { normal: { type: 'dashed' } },
+          symbol: 'none',
+        },
+        name: '箱线图',
+        type: 'boxplot',
+      },
+      {
+        data: [[20, 0]],
+        markLine: {
+          data: [{ label: { normal: { show: true } }, xAxis: 10 }],
+          lineStyle: { normal: { type: 'dashed' } },
+          symbol: 'none',
+        },
+        name: '箱线图',
+        type: 'scatter',
+      },
+    ],
+    xAxis: { type: 'value' },
+    yAxis: { data: ['x'], type: 'category' },
   });
 });
