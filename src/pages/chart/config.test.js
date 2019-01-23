@@ -22,13 +22,19 @@ test('初始状态', () => {
 
   expect(wrapper.find('.container li').length).toBeGreaterThan(10);
 
-  // selector 测试无效，原因未知
-  // wrapper
-  //   .find('Select')
-  //   .last()
-  //   .simulate('select', 1);
+  // 弹出select
+  wrapper
+    .find('Select')
+    .last()
+    .simulate('click');
 
-  // console.log(wrapper.state().chartType);
-
-  // expect(wrapper.find('.charttype').text()).toContain('type=line');
+  // 选择项
+  wrapper
+    .find('Select')
+    .last()
+    .find('li')
+    .at(2)
+    .simulate('click');
+  expect(wrapper.state().chartType).toBe(2);
+  expect(wrapper.find('.charttype').text()).toContain('type=scatter');
 });
