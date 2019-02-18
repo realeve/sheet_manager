@@ -14,7 +14,7 @@ const getIcon = icon => {
   if (typeof icon === 'string' && icon.indexOf('http') === 0) {
     return <img src={icon} alt="icon" className={styles.icon} />;
   }
-  if (typeof icon === 'string') {
+  if (typeof icon === 'string' && icon.length) {
     return <Icon type={icon} />;
   }
   return icon;
@@ -49,15 +49,11 @@ export default class BaseMenu extends PureComponent {
    */
   getSubMenuOrItem = item => {
     // doc: add hideChildrenInMenu
-    if (
-      item.children &&
-      !item.hideChildrenInMenu &&
-      item.children.some(child => child.name)
-    ) {
+    if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
       return (
         <SubMenu
           title={
-            item.icon ? (
+            item.icon.length ? (
               <span>
                 {getIcon(item.icon)}
                 <span>{item.name}</span>
@@ -66,7 +62,8 @@ export default class BaseMenu extends PureComponent {
               item.name
             )
           }
-          key={item.key}>
+          key={item.key}
+        >
           {this.getNavMenuItems(item.children)}
         </SubMenu>
       );
@@ -105,7 +102,8 @@ export default class BaseMenu extends PureComponent {
                 onCollapse(true);
               }
             : undefined
-        }>
+        }
+      >
         {icon}
         <span>{name}</span>
       </Link>
@@ -130,15 +128,7 @@ export default class BaseMenu extends PureComponent {
   };
 
   render() {
-    let {
-      openKeys,
-      theme,
-      mode,
-      selectedKeys,
-      handleOpenChange,
-      style,
-      menuData
-    } = this.props;
+    let { openKeys, theme, mode, selectedKeys, handleOpenChange, style, menuData } = this.props;
     const needOpenKeys = openKeys ? { openKeys } : {};
     const defaultProps = {
       theme,
@@ -146,14 +136,15 @@ export default class BaseMenu extends PureComponent {
       selectedKeys,
       style,
       key: 'Menu',
-      className: mode === 'horizontal' ? 'top-nav-menu' : ''
+      className: mode === 'horizontal' ? 'top-nav-menu' : '',
     };
     return (
       <Menu
         onOpenChange={handleOpenChange}
         // openKeys={openKeys || ['']}
         {...needOpenKeys}
-        {...defaultProps}>
+        {...defaultProps}
+      >
         {this.getNavMenuItems(menuData)}
       </Menu>
     );
