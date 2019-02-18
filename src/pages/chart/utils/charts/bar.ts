@@ -5,6 +5,8 @@ import * as scatter from './scatter';
 import * as histogram from './histogram';
 import * as boxplot from './boxplot';
 import * as pareto from './pareto';
+import * as mathTool from '@/utils/math';
+import * as spcTool from '../spc';
 
 const R = require('ramda');
 
@@ -181,6 +183,12 @@ let chartConfig: TChartConfig = [
     default: '1',
     url: '/chart#id=11/51742ef993&type=bar&x=1&legend=0&histogram=1&multilegend=1',
   },
+  {
+    key: 'spc',
+    title: '是否启用过程质量控制图',
+    default: '0',
+    url: ['/chart/#id=73/4c6ee06417&type=line&smooth=1&spc=1&min=90', '/doc/GBT4091-2001.pdf'],
+  },
 ];
 
 let symbol: {
@@ -342,7 +350,6 @@ let handleSeriesItem = option => seriesItem => {
   // 堆叠数据需保证数据类型不为字符串
   if (option.stack) {
     seriesItem.stack = 'All';
-
     seriesItem = R.assoc('data', R.map(util.str2Num)(seriesItem.data))(seriesItem);
   }
 
@@ -772,6 +779,100 @@ const handleReverse = (config, option) => {
   return option;
 };
 
+/* 处理SPC控制图,需要注意的几个规则: http://www.gztaiyou.com/html/201272316152.html
+  规则1：超出控制线的点 
+  规则2：连续7点在中心线一侧 
+  规则3：连续7点上升或下降 
+  规则4：多于2/3的点落在图中1/3以外 
+  规则5：呈有规律变化 
+*/
+const handleSPC = (config, option) => {
+  let { data, y } = getOption(config);
+  let key = data.header[y];
+  let arr = util.getDataByIdx({
+    key,
+    data: data.data,
+  });
+  arr = arr.map(item => parseFloat(item));
+
+  let spc = mathTool.getSPC(arr);
+
+  option.series.forEach((item, i) => {
+    let markLine = {
+      lineStyle: {
+        normal: {
+          type: 'dashed',
+        },
+      },
+      symbolSize: 0,
+      label: {
+        normal: {
+          position: 'end',
+          formatter: '{b}:\n{c}',
+        },
+      },
+    };
+    let markLineData = [
+      {
+        name: 'UCL',
+        yAxis: spc.ucl,
+        lineStyle: {
+          normal: {
+            color: '#ea2333',
+          },
+        },
+      },
+      {
+        name: 'CL',
+        yAxis: spc.cl,
+      },
+      {
+        name: 'LCL',
+        yAxis: spc.lcl,
+        lineStyle: {
+          normal: {
+            color: '#ea2333',
+          },
+        },
+      },
+    ];
+
+    // markline合并配置
+    let sMarkLine = option.series[i].markLine || { data: [] };
+    sMarkLine = Object.assign(sMarkLine, markLine);
+
+    // markline合并data数据
+    sMarkLine.data = [...sMarkLine.data, ...markLineData];
+    option.series[i].markLine = sMarkLine;
+    if (option.series[i].data) {
+      let arr = option.series[i].data; //.filter(item => item != null && item != '-' && item != '');
+      option.series[i].data = spcTool.handleShewhartControlChart(arr, spc);
+    }
+  });
+
+  // 处理visualMap
+  let visualMap = {
+    show: false,
+    pieces: [
+      {
+        lte: spc.lcl,
+        color: '#ff4d68',
+      },
+      {
+        gte: spc.ucl,
+        color: '#ff4d68',
+      },
+    ],
+    outOfRange: {
+      color: theme.color[0], //['#61A5E8', 'rgba(3,4,5,0.4)'],
+    },
+  };
+
+  let srcVisualMap = option.visualMap || {};
+  option.visualMap = Object.assign(srcVisualMap, visualMap);
+  return option;
+};
+
 // http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2
 // test URL: http://localhost:8000/chart/133#type=bar&x=0&y=1&smooth=1&max=100&min=70
 // http://localhost:8000/chart/145#type=line&legend=0&x=1&y=2&smooth=1&max=100&min=70
@@ -828,6 +929,9 @@ let bar = options => {
   if (options.polar) {
     configs = handlePolar(options, configs);
   }
+  if (options.spc) {
+    configs = handleSPC(options, configs);
+  }
 
   return configs;
 };
@@ -854,4 +958,4 @@ const handlePolar = (options, configs) => {
   return configs;
 };
 
-export { bar, chartConfig, handleMarkText, handlePolar, handleData };
+export { bar, chartConfig, handleMarkText, handlePolar, handleData, handleSPC, getChartConfig };

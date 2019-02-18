@@ -1,6 +1,6 @@
 import { heatmap } from './heatmap';
 
-test('heatmap', () => {
+test('heatmap热力图测试', () => {
   expect(
     heatmap({
       data: {

@@ -343,7 +343,7 @@ test('store存储测试', () => {
 
   expect(0.1 + 0.2).toBeCloseTo(0.3);
 });
-// END
+
 test('loadFile', () => {
   // expect(lib.loadFile('file', 'content')).toBeNull();
   const img =
@@ -366,8 +366,7 @@ test('loadFile', () => {
 
 test('logout', () => {
   // expect(() => {
-  //   lib.logout({ dispatch: console.log });
-  // }).toBeUndefined();
-
-  lib.logout({ dispatch: console.log });
+  //   lib.logout({ dispatch: e => {} });
+  // }).toBeTruthy();
+  lib.logout({ dispatch: e => {} });
 });

@@ -46,16 +46,12 @@ const FieldSelector: (props: IFiledProps) => JSX.Element = ({
   value,
   onChange,
   header,
-  style
+  style,
 }) => (
   <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
     <div className={styles.selector}>
       <div className={styles.title}>{title}</div>
-      <Select
-        value={value}
-        size="small"
-        onSelect={(value) => onChange(value)}
-        style={{ width: 120 }}>
+      <Select value={value} size="small" onSelect={value => onChange(value)} style={{ width: 120 }}>
         {header.map((item: IHeaderItem | string, idx: number) =>
           typeof item === 'object' ? (
             <Option key={String(idx)} value={item.value}>
@@ -78,7 +74,7 @@ const FieldSwitch: (props: ISwitProps) => JSX.Element = ({
   style,
   value,
   onChange,
-  desc
+  desc,
 }) => (
   <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
     <div className={styles.selector}>
@@ -176,16 +172,8 @@ export type TAxisName =
   | 'step'
   | 'circleshape';
 
-const coordinateAxis = (type) =>
-  ![
-    'pie',
-    'treemap',
-    'calendar',
-    'paralell',
-    'heatmap',
-    'sankey',
-    'sunburst'
-  ].includes(type);
+const coordinateAxis = type =>
+  !['pie', 'treemap', 'calendar', 'paralell', 'heatmap', 'sankey', 'sunburst'].includes(type);
 const chartDesc = {
   x: 'X轴所在数据列',
   y: 'Y轴所在数据列',
@@ -214,25 +202,13 @@ const chartDesc = {
   doughnut: '是否显示为环形图',
   radius: '玫瑰图样式设为radius,与面积曲线图只能生效一项',
   visual: '以第几个数据作为颜色索引序列',
-  size: '方格大小'
+  size: '方格大小',
+  spc: '过程质量控制图,参考文献《GB/T 4091-2001 常规控制图》',
 };
 
-const commonSetting = [
-  'type',
-  'x',
-  'y',
-  'z',
-  'legend',
-  'group',
-  'simple',
-  'visual',
-  'height'
-];
+const commonSetting = ['type', 'x', 'y', 'z', 'legend', 'group', 'simple', 'visual', 'height'];
 
-const getCommonOptions: (
-  key: string,
-  state: IConfigState
-) => boolean | string | number = (
+const getCommonOptions: (key: string, state: IConfigState) => boolean | string | number = (
   key,
   { x, y, z, visual, legend, group, type }
 ) => {
@@ -245,27 +221,15 @@ const getCommonOptions: (
       res = y && coordinateAxis(type);
       break;
     case 'z':
-      res =
-        z &&
-        ['scatter3d', 'bar3d', 'line3d', 'surface', 'scatter'].includes(type);
+      res = z && ['scatter3d', 'bar3d', 'line3d', 'surface', 'scatter'].includes(type);
       break;
     case 'legend':
-      res = ['paralell'].includes(type)
-        ? true
-        : ['calendar'].includes(type)
-        ? false
-        : legend;
+      res = ['paralell'].includes(type) ? true : ['calendar'].includes(type) ? false : legend;
       break;
     case 'group':
-      res = [
-        'radar',
-        'themeriver',
-        'sankey',
-        'sunburst',
-        'treemap',
-        'pie',
-        'paralell'
-      ].includes(type)
+      res = ['radar', 'themeriver', 'sankey', 'sunburst', 'treemap', 'pie', 'paralell'].includes(
+        type
+      )
         ? true
         : group;
       break;
@@ -279,7 +243,7 @@ const getCommonOptions: (
   return res;
 };
 
-const getSwitchOptions = (type) => {
+const getSwitchOptions = type => {
   let opts =
     coordinateAxis(type) &&
     ![
@@ -291,9 +255,9 @@ const getSwitchOptions = (type) => {
       'scatter3d',
       'bar3d',
       'line3d',
-      'surface'
+      'surface',
     ].includes(type)
-      ? 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,step'.split(
+      ? 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,step,spc'.split(
           ','
         )
       : ['simple'];
@@ -321,7 +285,7 @@ const getSwitchOptions = (type) => {
   return opts;
 };
 
-const getInputOptions = (type) => {
+const getInputOptions = type => {
   let opts = [];
   switch (type) {
     case 'treemap':
@@ -336,15 +300,13 @@ const getInputOptions = (type) => {
   return opts;
 };
 
-export const getParams = (params) =>
-  R.pick([
-    ...commonSetting,
-    ...getSwitchOptions(params.type),
-    ...getInputOptions(params.type)
-  ])(params);
+export const getParams = params =>
+  R.pick([...commonSetting, ...getSwitchOptions(params.type), ...getInputOptions(params.type)])(
+    params
+  );
 
-let getChartConfig = (type) => {
-  let chartType = chartTypeList.find((list) =>
+let getChartConfig = type => {
+  let chartType = chartTypeList.find(list =>
     R.flatten(list.map(({ value }) => value)).includes(type)
   );
   return chartType || [];
@@ -394,7 +356,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
         ) : (
           name
         ),
-        value
+        value,
       };
     });
 
@@ -410,51 +372,53 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               rel="noopener noreferrer"
               className={styles.action}
               style={{ marginLeft: 10 }}
-              title={formatMessage({ id: 'component.globalHeader.help' })}>
+              title={formatMessage({ id: 'component.globalHeader.help' })}
+            >
               <Icon type="question-circle-o" />
             </a>
           </div>
         }
-        bordered>
+        bordered
+      >
         <Row gutter={16} style={{ marginTop: 10 }}>
           {chartType.length > 1 && (
             <FieldSelector
               title={formatMessage({ id: 'chart.config.type' })}
               value={type}
-              onChange={(value) => this.changeAxis('type', value)}
+              onChange={value => this.changeAxis('type', value)}
               header={chartType}
               style={{ width: '100%' }}
             />
           )}
           {commonOptions.map(
-            (key) =>
+            key =>
               getCommonOptions(key, this.state) && (
                 <FieldSelector
                   key={key}
                   title={formatMessage({ id: `chart.config.${key}` })}
                   desc={chartDesc[key]}
                   value={this.state[key]}
-                  onChange={(value) => this.changeAxis(key, value)}
+                  onChange={value => this.changeAxis(key, value)}
                   header={header}
                 />
               )
           )}
-          {sOptions.map((key) => (
+          {sOptions.map(key => (
             <FieldSwitch
               key={key}
               title={formatMessage({ id: `chart.config.${key}` })}
               desc={chartDesc[key]}
               value={this.state[key]}
-              onChange={(value) => this.directChange(key, value)}
+              onChange={value => this.directChange(key, value)}
             />
           ))}
-          {inputOptions.map((key) => (
+          {inputOptions.map(key => (
             <FieldInput
               key={key}
               title={formatMessage({ id: `chart.config.${key}` })}
               desc={chartDesc[key]}
               value={this.state[key]}
-              onChange={(e) => {
+              onChange={e => {
                 e.persist();
                 this.directChange(key, e.target.value);
               }}
@@ -465,7 +429,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               title={'图表高度'}
               desc={height + 'px'}
               value={parseInt(height)}
-              onChange={(value) => this.refreshVal('height', value)}
+              onChange={value => this.refreshVal('height', value)}
               max={1500}
               min={300}
               step={10}

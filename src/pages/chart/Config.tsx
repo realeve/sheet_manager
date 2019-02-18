@@ -9,7 +9,7 @@ import ConfigItem from './components/ConfigItem';
 const R = require('ramda');
 const { Option } = Select;
 
-interface configState {
+export interface configState {
   chartType: number;
   config: Array<{
     type: string;
@@ -22,7 +22,7 @@ class Config extends React.Component<{}, configState> {
     super(props);
     this.state = {
       chartType: 0,
-      config: R.head(configs)
+      config: R.head(configs),
     };
   }
   onChange(chartType: number) {
@@ -35,8 +35,9 @@ class Config extends React.Component<{}, configState> {
         <Select
           value={chartType}
           size="small"
-          onChange={(e) => this.onChange(e)}
-          style={{ width: 120 }}>
+          onChange={e => this.onChange(e)}
+          style={{ width: 120 }}
+        >
           {configs.map((item, idx) => (
             <Option key={item.type} value={idx}>
               {item.name}
@@ -45,9 +46,7 @@ class Config extends React.Component<{}, configState> {
         </Select>
         {config.type && (
           <div className={styles.container}>
-            <div className={styles.charttype}>
-              图表类型：/chart/#type={config.type}&id=
-            </div>
+            <div className={styles.charttype}>图表类型：/chart/#type={config.type}&id=</div>
             <ul>
               {config.config.map((item, idx) => (
                 <ConfigItem config={item} idx={idx} key={item.key + idx} />

@@ -16,6 +16,7 @@ test('reject', () =>
   axios({
     url: 'http://api.cbpc.ltd/3/e4e497e849_err_token',
   }).catch(e => {
+    console.log(e.response);
     expect(e.response.data).toMatchObject({ errmsg: 'invalid api id', status: 404 });
   }));
 

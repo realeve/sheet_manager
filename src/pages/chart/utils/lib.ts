@@ -1,5 +1,5 @@
 import gColor from './charts/gColor';
-import * as lib from '../../../utils/lib';
+import * as lib from '@/utils/lib';
 
 const R = require('ramda');
 
@@ -413,13 +413,11 @@ type tGl =
 let chartGL: Array<tGl> = ['bar3d', 'line3d', 'scatter3d', 'surface'];
 
 type tRender = 'canvas' | 'svg';
-let getRenderer: (
-  params: {
-    render?: tRender;
-    type: string;
-    histogram?: string;
-  }
-) => tRender = params =>
+let getRenderer: (params: {
+  render?: tRender;
+  type: string;
+  histogram?: string;
+}) => tRender = params =>
   params.render ||
   (['paralell', ...chartGL].includes(params.type) || params.histogram ? 'canvas' : 'svg');
 
@@ -452,12 +450,10 @@ let getChartHeight: chartHeightFun = (params: Iparams, option) => {
 };
 
 // 处理minmax值至最佳刻度，需要考虑 >10 及 <10 两种场景以及负数的情况
-let handleMinMax: (
-  params: {
-    min: number;
-    max: number;
-  }
-) => {
+let handleMinMax: (params: {
+  min: number;
+  max: number;
+}) => {
   min: number;
   max: number;
 } = ({ min, max }) => {

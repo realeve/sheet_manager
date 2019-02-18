@@ -1,4 +1,4 @@
-import { bar, handleMarkText, handlePolar, handleData } from './bar';
+import { bar, handleMarkText, handlePolar, handleData, handleSPC } from './bar';
 
 test('bar', () => {
   let result = {
@@ -1031,4 +1031,63 @@ test('处理柱状图数据', () => {
     xAxis: { type: 'value' },
     yAxis: { data: ['x'], type: 'category' },
   });
+});
+
+test('spc chart', () => {
+  let config = {
+    data: {
+      header: ['a', 'b'],
+      data: [
+        {
+          b: 1,
+          a: 'a',
+        },
+        {
+          b: 2,
+          a: 'b',
+        },
+        {
+          b: 3,
+          a: 'c',
+        },
+        {
+          b: 4,
+          a: 'd',
+        },
+        {
+          b: 5,
+          a: 'e',
+        },
+        {
+          b: 6,
+          a: 'r',
+        },
+        {
+          b: 7,
+          a: 'g',
+        },
+      ],
+    },
+    y: 1,
+    x: 0,
+    spc: 1,
+  };
+
+  let series = [{ markLine: { data: [] } }];
+
+  let options = handleSPC(config, {
+    series,
+    visualMap: {},
+  });
+
+  expect(options.series[0].markLine.data).toHaveLength(3);
+
+  options = handleSPC(config, {
+    series: [{}],
+  });
+
+  expect(options.series[0].markLine.data).toHaveLength(3);
+
+  options = bar(config);
+  expect(options.series[0].markLine.data).toHaveLength(3);
 });

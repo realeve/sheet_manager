@@ -12,27 +12,25 @@ let gColor = {
   '103-G-5A': 'rgb(200,200,30)',
   '9606A': '#3D7F18',
   '103-G-6A': '#3D7F18',
-  '9607A': 'rgb(255,127,104)',
-  '103-G-7A': 'rgb(255,127,104)',
-  '9607T': 'rgb(255,127,104)',
-  '103-G-7T': 'rgb(255,127,104)'
+  '9607A': '#ff4d68',
+  '103-G-7A': '#ff4d68',
+  '9607T': '#ff4d68',
+  '103-G-7T': '#ff4d68',
 };
 
-let handleColor = (option) => {
+let handleColor = option => {
   if (!option.series || !R.keys(gColor).includes(option.series[0].name)) {
     return option;
   }
   let idx = 0;
 
   let color = R.map(({ name }) =>
-    !R.isNil(gColor[name])
-      ? gColor[name]
-      : theme.color[idx++ % option.legend.data.length]
+    !R.isNil(gColor[name]) ? gColor[name] : theme.color[idx++ % option.legend.data.length]
   )(option.series);
 
   option.color = color;
   return option;
 };
 export default {
-  handleColor
+  handleColor,
 };

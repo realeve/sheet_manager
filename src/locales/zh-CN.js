@@ -8,15 +8,13 @@ export default {
   'validation.fullname.required': '请输入真实姓名！',
   'validation.fullname.wrong-format': '姓名格式错误！',
   'validation.username.required': '请输入用户名！',
-  'validation.username.wrong-format':
-    '用户名格式错误,只允许数字、大小写字母及-_',
+  'validation.username.wrong-format': '用户名格式错误,只允许数字、大小写字母及-_',
   'validation.username.existed': '用户名已存在！',
   'validation.email.required': '请输入邮箱地址！',
   'validation.email.wrong-format': '邮箱地址格式错误！',
   'validation.password.required': '请输入密码！',
   'validation.password.twice': '两次输入的密码不匹配!',
-  'validation.password.strength.msg':
-    '请至少输入 5 个字符。请不要使用容易被猜到的密码。',
+  'validation.password.strength.msg': '请至少输入 5 个字符。请不要使用容易被猜到的密码。',
   'validation.password.strength.strong': '强度：强',
   'validation.password.strength.medium': '强度：中',
   'validation.password.strength.short': '强度：太短',
@@ -110,14 +108,11 @@ export default {
   'app.settings.security.phone': '密保手机',
   'app.settings.security.phone-description': '已绑定手机：',
   'app.settings.security.question': '密保问题',
-  'app.settings.security.question-description':
-    '未设置密保问题，密保问题可有效保护账户安全',
+  'app.settings.security.question-description': '未设置密保问题，密保问题可有效保护账户安全',
   'app.settings.notification.password': '账户密码',
-  'app.settings.notification.password-description':
-    '其他用户的消息将以站内信的形式通知',
+  'app.settings.notification.password-description': '其他用户的消息将以站内信的形式通知',
   'app.settings.notification.messages': '系统消息',
-  'app.settings.notification.messages-description':
-    '系统消息将以站内信的形式通知',
+  'app.settings.notification.messages-description': '系统消息将以站内信的形式通知',
   'app.settings.notification.todo': '账户密码',
   'app.settings.notification.todo-description': '账户密码',
   'app.settings.open': '开',
@@ -156,8 +151,7 @@ export default {
   'app.setting.othersettings': '其他设置',
   'app.setting.weakmode': '色弱模式',
   'app.setting.copy': '拷贝设置',
-  'app.setting.copyinfo':
-    '拷贝成功，请到 src/defaultSettings.js 中替换默认配置',
+  'app.setting.copyinfo': '拷贝成功，请到 src/defaultSettings.js 中替换默认配置',
   'app.setting.production.hint':
     '配置栏只在开发环境用于预览，生产环境不会展现，请拷贝后手动修改配置文件',
 
@@ -203,6 +197,7 @@ export default {
   'chart.config.histogram': '直方图',
   'chart.config.multilegend': '允许多个序列',
   'chart.config.step': '阶梯数据',
+  'chart.config.spc': 'SPC',
   'chart.config.simple': '简洁模式',
   'chart.config.border': '隐藏线条样式',
   'chart.config.vertical': '垂直排列',
@@ -211,5 +206,5 @@ export default {
   'chart.config.doughnut': '环形图',
   'chart.config.radius': '南丁格尔玫瑰图',
   'chart.config.visual': '颜色索引',
-  'chart.config.size': '方格大小'
+  'chart.config.size': '方格大小',
 };

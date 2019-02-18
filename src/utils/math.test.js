@@ -143,3 +143,13 @@ test('groupArr', () => {
     header: ['data_type', 'data_count(众数)'],
   });
 });
+
+test('计算SPC', () => {
+  let res = {
+    cl: 2,
+    lcl: -2.243,
+    ucl: 6.243,
+  };
+  expect(lib.getSPC([0, 1, 2, 3, 4])).toMatchObject(res);
+  expect(lib.getSPC([0, 1, 2, 3, 4], 3)).toMatchObject(res);
+});

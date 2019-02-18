@@ -2,8 +2,9 @@ import http from 'axios';
 import qs from 'qs';
 import * as setting from './setting';
 import { notification } from 'antd';
+// import router from 'umi/router';
 import router from './router';
-// const router = [];
+
 export let DEV: boolean = setting.DEV;
 
 export let host: string = setting.host;

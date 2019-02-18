@@ -3,7 +3,9 @@ import http from 'axios';
 import * as setting from './setting';
 import qs from 'qs';
 import dateRanges from './ranges';
+// import router from 'umi/router';
 import router from './router';
+
 import userTool from './users';
 import { Dispatch } from 'react-redux';
 const R = require('ramda');
@@ -316,16 +318,13 @@ export const logout = ({ dispatch }: Props) => {
   userTool.saveLoginStatus(0);
 
   let { href, origin } = window.location;
-  // try {
   router.push({
     pathname: '/login',
     search: qs.stringify({
       redirect: href.replace(origin, ''),
     }),
   });
-  // } catch (e) {
-  //   throw new Error('路由跳转失败');
-  // }
+  return true;
 };
 
 export const getType: {

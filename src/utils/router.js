@@ -1,29 +1,5 @@
-/* global window */
-window.g_history = window.g_history || [];
-export function push(...args) {
-  window.g_history.push(...args);
-}
-
-// export function replace(...args) {
-//   window.g_history.replace(...args);
-// }
-
-// export function go(...args) {
-//   window.g_history.go(...args);
-// }
-
-// export function goBack(...args) {
-//   window.g_history.goBack(...args);
-// }
-
-// export function goForward(...args) {
-//   window.g_history.goForward(...args);
-// }
-
-export default {
-  push,
-  // replace,
-  // go,
-  // goBack,
-  // goForward,
-};
+// import router from 'umi/router';
+const router = window.g_history || [];
+// 由于umi存在bug：https://github.com/umijs/umi/issues/1862
+// 在 test 模式中，调用window.g_history，在编译/发布版本中请使用  umi/router;
+export default router;

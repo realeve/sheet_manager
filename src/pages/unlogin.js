@@ -2,7 +2,7 @@ import React from 'react';
 import { formatMessage } from 'umi/locale';
 import Exception from 'ant-design-pro/lib/Exception';
 import { Button } from 'antd';
-// import router from 'umi/router'; -- 这样会报错
+// import router from 'umi/router'; //这样会报错
 import router from '@/utils/router';
 import qs from 'qs';
 

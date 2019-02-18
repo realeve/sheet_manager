@@ -216,3 +216,29 @@ let getCol = (data, col) => R.map(R.prop(col))(data);
 // let getMin = data => R.reduce(R.min, data[0])(data);
 // let getMean = data => R.mean(data);
 // let getMedian = data => R.median(data)
+
+export interface SPC {
+  cl: number;
+  lcl: number;
+  ucl: number;
+  sigma: number;
+}
+export type GetSPC = (arr: number[], ratio?: number) => SPC;
+
+export const getSPC: GetSPC = (arr, ratio = 3) => {
+  let cl: number = 0,
+    ucl: number = 0,
+    lcl: number = 0;
+
+  let resCl: number = jStat.mean(arr);
+  cl = parseFloat(parseFloat(String(resCl)).toFixed(3));
+  let sigma: number = jStat.stdev(arr);
+  lcl = cl - ratio * sigma;
+  ucl = cl + ratio * sigma;
+  return {
+    cl,
+    ucl: parseFloat(ucl.toFixed(3)),
+    lcl: parseFloat(lcl.toFixed(3)),
+    sigma,
+  };
+};

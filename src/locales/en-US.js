@@ -23,8 +23,7 @@ export default {
   'validation.dept.required': 'Please choose your department!',
   'validation.phone-number.required': 'Please enter your phone number!',
   'validation.phone-number.wrong-format': 'Malformed phone number!',
-  'validation.verification-code.required':
-    'Please enter the verification code!',
+  'validation.verification-code.required': 'Please enter the verification code!',
   'form.username.placeholder': 'Username',
   'form.fullname.placeholder': 'Fullname',
   'form.email.placeholder': 'Email',
@@ -36,8 +35,7 @@ export default {
   'component.globalHeader.search': 'Search',
   'component.globalHeader.help': 'Help',
   'component.globalHeader.notification': 'Notification',
-  'component.globalHeader.notification.empty':
-    'You have viewed all notifications.',
+  'component.globalHeader.notification.empty': 'You have viewed all notifications.',
   'component.globalHeader.message': 'Message',
   'component.globalHeader.message.empty': 'You have viewed all messsages.',
   'component.globalHeader.event': 'Event',
@@ -125,8 +123,7 @@ export default {
   'app.settings.close': 'Close',
   'app.exception.back': 'Back to home',
   'app.exception.description.unloginTitle': 'Unlogin',
-  'app.exception.description.unlogin':
-    'Sorry,you havent login,please click button to login.',
+  'app.exception.description.unlogin': 'Sorry,you havent login,please click button to login.',
   'app.exception.description.403': "Sorry, you don't have access to this page",
   'app.exception.description.404': 'Sorry, the page you visited does not exist',
   'app.exception.description.500': 'Sorry, the server is reporting an error',
@@ -156,8 +153,7 @@ export default {
   'app.setting.othersettings': 'Other Settings',
   'app.setting.weakmode': 'Weak Mode',
   'app.setting.copy': 'Copy Setting',
-  'app.setting.copyinfo':
-    'copy success，please replace defaultSettings in src/models/setting.js',
+  'app.setting.copyinfo': 'copy success，please replace defaultSettings in src/models/setting.js',
   'app.setting.production.hint':
     'Setting panel shows in development environment only, please manually modify',
 
@@ -203,6 +199,7 @@ export default {
   'chart.config.histogram': 'histogram chart',
   'chart.config.multilegend': 'allow show multy legend',
   'chart.config.step': 'step line',
+  'chart.config.spc': 'SPC',
   'chart.config.simple': 'simplify chart setting',
   'chart.config.border': 'hide line style',
   'chart.config.vertical': 'horizontal/vertical',
@@ -211,5 +208,5 @@ export default {
   'chart.config.doughnut': 'doughnut chart',
   'chart.config.radius': 'nightingale rose',
   'chart.config.visual': 'color index',
-  'chart.config.size': 'grid size'
+  'chart.config.size': 'grid size',
 };
