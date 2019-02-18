@@ -22,7 +22,8 @@ export default {
         //   ]
         // },
         locale: {
-          enable: false, // default false
+          antd: true,
+          enable: true, //false, // default false
           default: 'zh-CN', // default zh-CN
           baseNavigator: false, // default true, when it is true, will use `navigator.language` overwrite default
         },

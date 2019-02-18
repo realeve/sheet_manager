@@ -21,7 +21,7 @@ import * as mathTool from '@/utils/math';
  *
  */
 export const handleShewhartControlChart = (src, spc) => {
-  console.log(src);
+  // console.log(src);
   let dist: DistItem[] = new Array(src.length).fill(0);
 
   dist = checkRule2(src, dist, spc);
