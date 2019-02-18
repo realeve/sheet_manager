@@ -1080,14 +1080,30 @@ test('spc chart', () => {
     visualMap: {},
   });
 
-  expect(options.series[0].markLine.data).toHaveLength(3);
+  expect(options.series[0].markLine.data).toHaveLength(7);
 
   options = handleSPC(config, {
     series: [{}],
   });
 
-  expect(options.series[0].markLine.data).toHaveLength(3);
+  expect(options.series[0].markLine.data).toHaveLength(7);
 
   options = bar(config);
-  expect(options.series[0].markLine.data).toHaveLength(3);
+  expect(options.series[0].markLine.data).toHaveLength(7);
+
+  // 对Y轴的处理
+  expect(options.yAxis).toMatchObject({
+    splitLine: {
+      show: false,
+    },
+  });
+
+  // 帕雷托图有双Y轴，需要循环处理
+  options = bar({ ...config, pareto: true });
+
+  expect(options.yAxis[0]).toMatchObject({
+    splitLine: {
+      show: false,
+    },
+  });
 });

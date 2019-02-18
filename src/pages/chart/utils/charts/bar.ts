@@ -7,6 +7,7 @@ import * as boxplot from './boxplot';
 import * as pareto from './pareto';
 import * as mathTool from '@/utils/math';
 import * as spcTool from '../spc';
+import * as lib from '@/utils/lib';
 
 const R = require('ramda');
 
@@ -812,30 +813,58 @@ const handleSPC = (config, option) => {
         },
       },
     };
-    let markLineData = [
+
+    let lines = [
       {
         name: 'UCL',
-        yAxis: spc.ucl,
-        lineStyle: {
-          normal: {
-            color: '#ea2333',
-          },
-        },
+        value: spc.ucl,
+        color: '#ea2333',
       },
+      {
+        name: 'LCL',
+        value: spc.lcl,
+        color: '#ea2333',
+      },
+      {
+        name: 'σ',
+        value: spc.cl + spc.sigma,
+        color: '#d6d6d6',
+      },
+      {
+        name: '2σ',
+        value: spc.cl + 2 * spc.sigma,
+        color: '#d6d6d6',
+      },
+      {
+        name: '-σ',
+        value: spc.cl - spc.sigma,
+        color: '#d6d6d6',
+      },
+      {
+        name: '-2σ',
+        value: spc.cl - 2 * spc.sigma,
+        color: '#d6d6d6',
+      },
+    ];
+
+    let markLineData = [
       {
         name: 'CL',
         yAxis: spc.cl,
       },
-      {
-        name: 'LCL',
-        yAxis: spc.lcl,
+    ];
+
+    lines.forEach(({ name, value: yAxis, color }) => {
+      markLineData.push({
+        name,
+        yAxis,
         lineStyle: {
           normal: {
-            color: '#ea2333',
+            color,
           },
         },
-      },
-    ];
+      });
+    });
 
     // markline合并配置
     let sMarkLine = option.series[i].markLine || { data: [] };
@@ -870,6 +899,25 @@ const handleSPC = (config, option) => {
 
   let srcVisualMap = option.visualMap || {};
   option.visualMap = Object.assign(srcVisualMap, visualMap);
+
+  // spc控制中要显示多条标记线，将坐标轴自带标记线移除
+  // 帕雷托图有双Y轴，需要循环处理
+  let axisType: string = lib.getType(option.yAxis);
+  if (axisType == 'array') {
+    option.yAxis = option.yAxis.map(item =>
+      Object.assign(item, {
+        splitLine: {
+          show: false,
+        },
+      })
+    );
+  } else if (axisType == 'object') {
+    option.yAxis = Object.assign(option.yAxis, {
+      splitLine: {
+        show: false,
+      },
+    });
+  }
   return option;
 };
 
