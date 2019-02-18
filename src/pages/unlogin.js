@@ -17,7 +17,7 @@ export const redirectLogin = ({ href, origin }) => {
 };
 const actions = (
   <div>
-    <Button type="primary" onClick={redirectLogin(window.location)}>
+    <Button type="primary" onClick={() => redirectLogin(window.location)}>
       {formatMessage({ id: 'app.login.login' })}
     </Button>
   </div>
