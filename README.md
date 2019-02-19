@@ -8,6 +8,12 @@
 
 基于 umi+dva+antd+react 的报表及图表自动化系统
 
+---
+
+# 文档
+
+[https://github.com/realeve/doc_sheet_manager](https://github.com/realeve/doc_sheet_manager)
+
 # 功能列表
 
 ## 👌 1. table 组件
@@ -29,12 +35,52 @@ http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&typ
 多张图表拼合
 http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=line&smooth=1&id=6/8d5b63370c&data_type=dom_loaded&x=3&y=4&legend=2&type=line&smooth=1
 
-## 编译选项
+---
+
+# 编译选项
+
+## 安装依赖
+
+> cnpm i
+
+关于 cnpm [请参考这里 https://npm.taobao.org/](https://npm.taobao.org/)
+
+## 开发模式
+
+> npm start
+
+## 开发模式(精简版)
+
+只含菜单模块、用户管理、报表模块、图表模块
 
 > npm run lite
 
-开发模式精简版(只含菜单模块、用户管理、报表模块、图表模块)
+## 编译发布
+
+> npm run build
+
+## 编译发布(精简版)
 
 > npm run liteapp
 
-编译发布模式，精简版
+## 自动化测试
+
+> npm t
+
+## 测试单个文件
+
+如测试 ./src/utils/lib.testjs
+
+> umi test ./src/utils/lib.test.js
+
+### 提交 git
+
+提交前需要将 jest.config.js 中 **coverageReporters: ['text-lcov']** 的注释取消掉，以例 travis 运行自动化测试
+
+> git commit -m '更新内容'
+
+## 清除 github 缓存
+
+> git rm -r --cached .
+>
+> git add .
