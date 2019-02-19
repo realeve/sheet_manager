@@ -65,7 +65,7 @@ http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&typ
 
 ## 自动化测试
 
-> npm t
+> umi test
 
 ## 测试单个文件
 

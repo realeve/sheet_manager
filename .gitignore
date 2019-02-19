@@ -19,6 +19,3 @@ npm-debug.log*
 *.log*
 
 /coverage
-
-/jest.config.js
-/jest.setup.js
