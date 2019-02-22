@@ -1,14 +1,12 @@
 import http from 'axios';
 import qs from 'qs';
-import * as setting from './setting';
+import { host } from './setting';
+
 import { notification } from 'antd';
 // import router from 'umi/router';
 import router from './router';
+export { DEV, host, uploadHost } from './setting';
 
-export let DEV: boolean = setting.DEV;
-
-export let host: string = setting.host;
-export let uploadHost: string = setting.uploadHost;
 let refreshNoncer =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDM4NTI0NDcsIm5iZiI6MTU0Mzg1MjQ0NywiZXhwIjoxNTQzODU5NjQ3LCJ1cmwiOiJodHRwOlwvXC9sb2NhbGhvc3Q6OTBcL3B1YmxpY1wvbG9naW4uaHRtbCIsImV4dHJhIjp7InVpZCI6MSwiaXAiOiIwLjAuMC4wIn19.65tBJTAMZ-i2tkDDpu9DnVaroXera4h2QerH3x2fgTw';
 
@@ -31,6 +29,22 @@ export const codeMessage: {
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
 };
+
+export const _commonData = {
+  rows: 1,
+  data: [{ affected_rows: 1, id: Math.ceil(Math.random() * 100) }],
+  time: 20,
+  ip: '127.0.0.1',
+  title: '数据更新/插入/删除返回值',
+};
+
+// 导出数据，随机时长
+export const mock = (path: string | any, time: number = Math.random() * 2000) =>
+  new Promise(resolve => {
+    setTimeout(() => {
+      resolve(typeof path === 'string' ? require(path) : path);
+    }, time);
+  });
 
 // 判断数据类型，对于FormData使用 typeof 方法会得到 object;
 let getType: (data: any) => string = data =>
@@ -143,7 +157,7 @@ export let axios = option => {
 
   return http
     .create({
-      baseURL: window.g_axios.host,
+      baseURL: host,
       timeout: 10000,
       transformRequest: [
         function(data) {
@@ -160,6 +174,6 @@ export let axios = option => {
         },
       ],
     })(option)
-    .then(res => handleData(res))
-    .catch(error => handleError(error));
+    .then(handleData)
+    .catch(handleError);
 };

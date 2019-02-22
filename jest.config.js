@@ -7,6 +7,10 @@ module.exports = {
   testURL: 'http://localhost:8000',
   collectCoverage: true,
   coverageReporters: ['text-lcov'],
+  // moduleNameMapper: {
+  //   '^umi-utils$': '<rootDir>/node_modules/umi-utils/lib',
+  //   '^umi(.*)$': '<rootDir>/node_modules/umi/lib$1',
+  // },
   globals: {
     'ts-jest': {
       useBabelrc: true,

@@ -1,0 +1,23 @@
+{
+  "data": [{
+    "username": "uzi",
+    "attack": 95,
+    "hp": 80,
+    "mp": 70,
+    "defence": 98,
+    "kda": 53
+  }, {
+    "username": "deft",
+    "attack": 90,
+    "hp": 82,
+    "mp": 73,
+    "defence": 91,
+    "kda": 42
+  }],
+  "rows": 2,
+  "ip": "0.0.0.0",
+  "header": ["username", "attack", "hp", "mp", "defence", "kda"],
+  "title": "雷达图数据示意",
+  "time": "14.795ms",
+  "source": "数据来源：接口管理"
+}

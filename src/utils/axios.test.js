@@ -1,4 +1,4 @@
-import { axios, handleError, loadUserInfo, handleData } from './axios';
+import { axios, handleError, loadUserInfo, handleData, mock } from './axios';
 
 let readData = () =>
   axios({
@@ -16,7 +16,7 @@ test('reject', () =>
   axios({
     url: 'http://api.cbpc.ltd/3/e4e497e849_err_token',
   }).catch(e => {
-    console.log(e.response);
+    // console.log(e.response);
     expect(e.response.data).toMatchObject({ errmsg: 'invalid api id', status: 404 });
   }));
 
@@ -45,23 +45,21 @@ test('post', () => {
   ).resolves.toBeGreaterThan(0);
 });
 
-test('401', () => {
-  // expect.assertions(1);
-  expect(
-    axios({
-      method: 'post',
-      data: {
-        id: 3,
-        nonce: 'e4e497e8494',
-      },
-    })
-  ).rejects.toMatchObject({ status: 404 });
+test('401', async () => {
+  let data = await axios({
+    method: 'post',
+    data: {
+      id: 3,
+      nonce: 'e4e497e84943',
+    },
+  });
+  expect(data).toMatchObject({ errmsg: 'invalid api id', status: 404 });
 });
 
 test('错误处理', () => {
   let req = {
     config: {
-      url: 'www.cdyc.cbpm',
+      url: 'http://127.0.0.1/_err_url',
     },
     response: {
       data: {
@@ -147,4 +145,15 @@ test('handleData', () => {
   let data = { token: 'token', rows: 1 };
   expect(handleData({ data })).toMatchObject({ rows: 1 });
   expect(handleData({ data: { rows: 1 } })).toMatchObject({ rows: 1 });
+});
+
+test('mock', async () => {
+  let data = await mock({ rows: 1 });
+  expect(data).toMatchObject({ rows: 1 });
+
+  let requireData = await mock('./setting.ts');
+  expect(requireData.host).toContain('http');
+
+  data = await mock('@/mock/10_51ccc896d2.json');
+  expect(data).toMatchObject({ rows: 2 });
 });
