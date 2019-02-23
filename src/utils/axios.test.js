@@ -2,7 +2,7 @@ import { axios, handleError, loadUserInfo, handleData, mock } from './axios';
 
 let readData = () =>
   axios({
-    url: '3/e4e497e849',
+    url: 'http://api.cbpc.ltd/3/e4e497e849',
   }).then(res => res.rows);
 
 test('resolve', () =>
