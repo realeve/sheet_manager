@@ -734,6 +734,8 @@ const handleReverse = (config, option) => {
   option.grid = {
     left: 100,
   };
+  // console.log(config, option);
+
   option.yAxis.nameGap = 70;
 
   // 箱线图的散点需要交换顺序
@@ -969,19 +971,19 @@ let bar = options => {
     configs = pareto.init(option);
   }
 
-  // 极坐标系
-  if (options.polar) {
-    configs = handlePolar(options, configs);
-  }
   if (options.spc) {
     configs = handleSPC(options, configs);
   }
 
   // 交换x/y
-  if (options.reverse && R.isNil(options.histogram)) {
+  if (options.reverse && !options.histogram) {
     option = handleReverse(options, option);
   }
 
+  // 极坐标系
+  if (options.polar) {
+    configs = handlePolar(options, configs);
+  }
   return configs;
 };
 
