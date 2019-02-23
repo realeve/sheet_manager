@@ -37,6 +37,7 @@ test('post', () => {
   expect(
     axios({
       method: 'post',
+      url: 'http://api.cbpc.ltd/',
       data: {
         id: 3,
         nonce: 'e4e497e849',
@@ -48,6 +49,7 @@ test('post', () => {
 test('401', async () => {
   let data = await axios({
     method: 'post',
+    url: 'http://api.cbpc.ltd/',
     data: {
       id: 3,
       nonce: 'e4e497e84943',
