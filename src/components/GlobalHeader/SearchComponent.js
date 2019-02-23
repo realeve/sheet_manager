@@ -3,6 +3,8 @@ import HeaderSearch from '@/components/HeaderSearch';
 import { formatMessage } from 'umi/locale';
 import styles from './index.less';
 import * as lib from '@/utils/lib';
+import Debounce from 'lodash-decorators/debounce';
+import Bind from 'lodash-decorators/bind';
 
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
@@ -18,9 +20,11 @@ export default class GlobalHeaderRight extends PureComponent {
     console.log('当前路由:', pathname);
   }
 
-  onSearch = (value) => {
-    value = value.trim();
-    let splitStr = [' ', ','].find((item) => value.includes(item));
+  @Bind()
+  @Debounce(400)
+  onSearch(value) {
+    value = value.trim().toUpperCase();
+    let splitStr = [' ', ','].find(item => value.includes(item));
     if (splitStr) {
       // 分割为数组
       let arr = value.split(splitStr);
@@ -45,9 +49,8 @@ export default class GlobalHeaderRight extends PureComponent {
       return;
     }
 
-    console.log('input', value); // eslint-disable-line
-  };
-
+    console.log('全局搜索', value); // eslint-disable-line
+  }
   // onPressEnter = value => {
   //   console.log('input', value); // eslint-disable-line
   // };
@@ -65,7 +68,7 @@ export default class GlobalHeaderRight extends PureComponent {
           className={cx('action', 'search')}
           defaultOpen={true}
           placeholder={formatMessage({
-            id: 'component.globalHeader.search'
+            id: 'component.globalHeader.search',
           })}
           onSearch={this.onSearch}
           // onPressEnter={this.onPressEnter}

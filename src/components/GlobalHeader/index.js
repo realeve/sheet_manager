@@ -4,12 +4,14 @@ import Link from 'umi/link';
 import Debounce from 'lodash-decorators/debounce';
 import styles from './index.less';
 import RightContent from './RightContent';
+import Bind from 'lodash-decorators/bind';
 
 export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
     this.triggerResizeEvent.cancel();
   }
   /* eslint-disable*/
+  @Bind()
   @Debounce(600)
   triggerResizeEvent() {
     // eslint-disable-line

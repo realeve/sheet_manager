@@ -7,7 +7,7 @@ import styles from './Center.less';
 
 import UserPreview from '../Settings/UserPreview';
 @connect(({ common: { userSetting } }) => ({
-  userSetting
+  userSetting,
 }))
 class Center extends PureComponent {
   // componentDidMount() {
@@ -17,14 +17,14 @@ class Center extends PureComponent {
   onTabChange = key => {
     const { match } = this.props;
     switch (key) {
-      case 'articles':
-        router.push(`${match.url}/articles`);
+      case 'myarticle':
+        router.push(`${match.url}/myarticle`);
         break;
-      case 'applications':
-        router.push(`${match.url}/applications`);
+      case 'aboutme':
+        router.push(`${match.url}/aboutme`);
         break;
-      case 'projects':
-        router.push(`${match.url}/projects`);
+      case 'hot':
+        router.push(`${match.url}/hot`);
         break;
       default:
         break;
@@ -36,33 +36,33 @@ class Center extends PureComponent {
 
     const operationTabList = [
       {
-        key: 'articles',
+        key: 'myarticle',
         tab: (
           <span>
-            文章 <span style={{ fontSize: 14 }}>(8)</span>
+            我发布的事项 <span style={{ fontSize: 14 }}>(8)</span>
           </span>
-        )
+        ),
       },
       {
-        key: 'applications',
+        key: 'aboutme',
         tab: (
           <span>
-            应用 <span style={{ fontSize: 14 }}>(8)</span>
+            由我完成的事项 <span style={{ fontSize: 14 }}>(8)</span>
           </span>
-        )
+        ),
       },
       {
-        key: 'projects',
+        key: 'hot',
         tab: (
           <span>
-            项目 <span style={{ fontSize: 14 }}>(8)</span>
+            近期热点 <span style={{ fontSize: 14 }}>(8)</span>
           </span>
-        )
-      }
+        ),
+      },
     ];
 
     const {
-      userSetting: { avatar, fullname, dept_name }
+      userSetting: { avatar, fullname, dept_name },
     } = this.props;
 
     return (
@@ -81,7 +81,8 @@ class Center extends PureComponent {
               tabList={operationTabList}
               activeTabKey={location.pathname.replace(`${match.path}/`, '')}
               onTabChange={this.onTabChange}
-              loading={listLoading}>
+              loading={listLoading}
+            >
               {children}
             </Card>
           </Col>

@@ -39,7 +39,7 @@ interface IMenuProps {
 
 class MenuItemList extends Component<IMenuProps, IMenuState> {
   static defaultProps: Partial<IMenuProps> = {
-    externalNodeType: 'shareNodeType'
+    externalNodeType: 'shareNodeType',
   };
 
   constructor(props) {
@@ -55,7 +55,7 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
       showMenuItem: false,
       editMode: false,
       menuItem: { icon: '', title: '', url: '', id: 0, detail: '' },
-      treeIndex: null
+      treeIndex: null,
     };
   }
 
@@ -74,7 +74,7 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
   handleMenuLeft = (searchValue: string, menuList: TMenuList) => {
     if (searchValue.length === 0) {
       this.setState({
-        treeDataLeft: menuList
+        treeDataLeft: menuList,
       });
       return;
     }
@@ -106,13 +106,13 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
     treeDataLeft = treeUtil.removeNodeAtPath({
       treeData: treeDataLeft,
       path,
-      getNodeKey: treeUtil.getNodeKey
+      getNodeKey: treeUtil.getNodeKey,
     });
 
     this.setState({ treeDataLeft });
     notification.success({
       message: '系统提示',
-      description: '菜单项删除成功.'
+      description: '菜单项删除成功.',
     });
   };
 
@@ -122,12 +122,12 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
     let { treeIndex }: { treeIndex: number | string } = treeUtil.getNodeAtPath({
       treeData: treeDataLeft,
       path,
-      getNodeKey: treeUtil.getNodeKey
+      getNodeKey: treeUtil.getNodeKey,
     });
     this.setState({
       menuItem: treeDataLeft[treeIndex],
       treeIndex,
-      editMode: true
+      editMode: true,
     });
 
     this.toggleMenuItem(true);
@@ -135,14 +135,14 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
 
   addMenuItem = () => {
     this.setState({
-      editMode: false
+      editMode: false,
     });
     this.toggleMenuItem(true);
   };
 
-  toggleMenuItem = (showMenuItem) => {
+  toggleMenuItem = showMenuItem => {
     this.setState({
-      showMenuItem
+      showMenuItem,
     });
   };
 
@@ -150,15 +150,15 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
     // 数据插入失败
     notification.error({
       message: '系统提示',
-      description: '菜单项调整失败，请稍后重试.'
+      description: '菜单项调整失败，请稍后重试.',
     });
   };
 
-  changeMenuItem: (menuitem: TMenuItem) => void = async (menuItem) => {
+  changeMenuItem: (menuitem: TMenuItem) => void = async menuItem => {
     let {
       treeDataLeft,
       treeIndex,
-      editMode
+      editMode,
     }: {
       treeDataLeft: TMenuList;
       treeIndex: number | string;
@@ -187,16 +187,14 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
         depth: 0,
         minimumTreeIndex: 0,
         newNode: menuItem,
-        getNodeKey: treeUtil.getNodeKey
+        getNodeKey: treeUtil.getNodeKey,
       });
       treeDataLeft = treeData;
     } else {
-      let params: IMenuItem = R.pick(
-        'icon,title,url,pinyin,pinyin_full'.split(',')
-      )(menuItem);
+      let params: IMenuItem = R.pick('icon,title,url,pinyin,pinyin_full'.split(','))(menuItem);
       params._id = menuItem.id;
 
-      await db.setBaseMenuItem(params).catch((e) => {
+      await db.setBaseMenuItem(params).catch(e => {
         this.noticeError();
       });
       // 更新结点,对于树形结构适用
@@ -206,18 +204,18 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
         treeData: treeDataLeft,
         path: [treeIndex],
         getNodeKey: treeUtil.getNodeKey,
-        newNode: { ...node, ...menuItem }
+        newNode: { ...node, ...menuItem },
       });
     }
 
     notification.success({
       message: '系统提示',
-      description: '菜单项调整成功.'
+      description: '菜单项调整成功.',
     });
     //更新完毕后刷新相关状态的数据
     this.setState({
       treeDataLeft,
-      menuItem
+      menuItem,
     });
   };
 
@@ -225,26 +223,19 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
     this.props.dispatch({
       type: 'menu/setStore',
       payload: {
-        treeDataLeft: this.state.treeDataLeft
-      }
+        treeDataLeft: this.state.treeDataLeft,
+      },
     });
   }
 
   render() {
-    const {
-      shouldCopyOnOutsideDrop,
-      treeDataLeft,
-      searchValue,
-      externalNodeType
-    } = this.state;
+    const { shouldCopyOnOutsideDrop, treeDataLeft, searchValue, externalNodeType } = this.state;
 
     const TreeList = () =>
       treeDataLeft.length === 0 ? (
         <div className={styles.notSearch}>未搜索到菜单项</div>
       ) : (
-        <div
-          style={{ height: 500, marginRight: 20 }}
-          className={styles.container}>
+        <div style={{ height: 500, marginRight: 20 }} className={styles.container}>
           <SortableTree
             treeData={treeDataLeft}
             onChange={() => {}}
@@ -252,7 +243,7 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
             rowHeight={32}
             dndType={externalNodeType}
             shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
-            generateNodeProps={(treeItem) => ({
+            generateNodeProps={treeItem => ({
               buttons: [
                 <Button
                   size="small"
@@ -265,13 +256,12 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
                   title="确定删除该菜单项?"
                   okText="是"
                   cancelText="否"
-                  icon={
-                    <Icon type="question-circle-o" style={{ color: 'red' }} />
-                  }
-                  onConfirm={() => this.removeMenuItem(treeItem)}>
+                  icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                  onConfirm={() => this.removeMenuItem(treeItem)}
+                >
                   <Button size="small" title="删除" icon="delete" />
-                </Popconfirm>
-              ]
+                </Popconfirm>,
+              ],
             })}
           />
         </div>
@@ -285,7 +275,7 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
         title: '',
         url: '',
         icon: '',
-        detail: ''
+        detail: '',
       };
     }
 

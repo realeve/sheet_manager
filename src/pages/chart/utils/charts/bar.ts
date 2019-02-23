@@ -798,7 +798,7 @@ const handleSPC = (config, option) => {
 
   let spc = mathTool.getSPC(arr);
 
-  option.series.forEach((item, i) => {
+  option.series.forEach((_, i: number) => {
     let markLine = {
       lineStyle: {
         normal: {
@@ -814,7 +814,7 @@ const handleSPC = (config, option) => {
       },
     };
 
-    let lines = [
+    let lines: Array<{ name: string; value: number; color: string }> = [
       {
         name: 'UCL',
         value: spc.ucl,
@@ -847,7 +847,7 @@ const handleSPC = (config, option) => {
       },
     ];
 
-    let markLineData = [
+    let markLineData: Array<{ name: string; yAxis: number; lineStyle?: any }> = [
       {
         name: 'CL',
         yAxis: spc.cl,
@@ -945,10 +945,6 @@ let bar = options => {
     });
   }
 
-  if (options.reverse) {
-    option = handleReverse(options, option);
-  }
-
   if (options.zoom) {
     option.dataZoom.push({
       realtime: true,
@@ -979,6 +975,11 @@ let bar = options => {
   }
   if (options.spc) {
     configs = handleSPC(options, configs);
+  }
+
+  // 交换x/y
+  if (options.reverse && R.isNil(options.histogram)) {
+    option = handleReverse(options, option);
   }
 
   return configs;

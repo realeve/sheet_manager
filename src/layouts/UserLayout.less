@@ -1,16 +1,20 @@
 @import '../../node_modules/antd/lib/style/themes/default.less';
+
 .container {
   overflow: auto;
   background-image: url(/img/5.jpg);
   background-size: cover;
   background-position: center center;
+
   &::after {
-    background: linear-gradient( 60deg, rgba(193, 27, 173, 0.37), rgba(73, 67, 183, 0.95));
+    background: linear-gradient(60deg, rgba(193, 27, 173, 0.37), rgba(73, 67, 183, 0.95));
     opacity: 0.7;
   }
+
   &::before {
     background: rgba(0, 0, 0, 0.5);
   }
+
   &::before,
   &::after {
     position: absolute;
@@ -22,6 +26,7 @@
     top: 0;
     content: '';
   }
+
   .content {
     display: flex;
     flex-direction: column;
@@ -30,16 +35,20 @@
     height: 100vh;
     z-index: 2;
     position: relative;
+
     .top {
       text-align: center;
+
       .header {
         height: 44px;
         line-height: 44px;
+
         .logo {
           height: 50px;
           vertical-align: top;
           margin-right: 16px;
         }
+
         .title {
           font-size: 33px;
           color: rgba(255, 255, 255, 0.85);
@@ -49,6 +58,7 @@
           top: 2px;
         }
       }
+
       .desc {
         font-size: 14px;
         color: rgba(255, 255, 255, 0.6);
@@ -57,6 +67,7 @@
         text-align: center;
       }
     }
+
     .main {
       // width: 470px;
       margin: 0 auto;
@@ -68,18 +79,20 @@
       margin-top: 50px;
     }
   }
+
   .footer {
-    position: absolute;
     bottom: 0px;
     width: 100%;
     text-align: center;
     background: none;
     color: rgba(255, 255, 255, 0.8);
   }
+
   :global {
     .ant-layout-footer {
       .footer;
     }
+
     .antd-pro-global-footer-links a {
       color: rgba(255, 255, 255, 0.6);
     }
@@ -90,9 +103,11 @@
   .container {
     .content {
       padding: 24px 0 12px 0;
+
       .main {
         padding: 25px;
       }
+
       :global(.ant-layout-footer) {
         position: relative;
       }

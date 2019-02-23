@@ -4,7 +4,8 @@ import styles from './Chart.less';
 import { formatMessage } from 'umi/locale';
 import { chartTypeList } from '../utils/charts';
 import Debounce from 'lodash-decorators/debounce';
-import * as lib from '@/utils/lib';
+import Bind from 'lodash-decorators/bind';
+// import * as lib from '@/utils/lib';
 
 const R = require('ramda');
 const { Option } = Select;
@@ -243,7 +244,8 @@ const getCommonOptions: (key: string, state: IConfigState) => boolean | string |
   return res;
 };
 
-const getSwitchOptions = type => {
+const getSwitchOptions = (options: any = {}) => {
+  const type = options.type;
   let opts =
     coordinateAxis(type) &&
     ![
@@ -279,6 +281,12 @@ const getSwitchOptions = type => {
     case 'pie':
       opts = [...opts, ...'radius,area,doughnut'.split(',')];
       break;
+    case 'bar':
+    case 'line':
+      if (!R.isNil(options.histogram)) {
+        opts = R.reject(R.equals('reverse'))(opts);
+      }
+      break;
     default:
       break;
   }
@@ -301,9 +309,7 @@ const getInputOptions = type => {
 };
 
 export const getParams = params =>
-  R.pick([...commonSetting, ...getSwitchOptions(params.type), ...getInputOptions(params.type)])(
-    params
-  );
+  R.pick([...commonSetting, ...getSwitchOptions(params), ...getInputOptions(params.type)])(params);
 
 let getChartConfig = type => {
   let chartType = chartTypeList.find(list =>
@@ -331,7 +337,8 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
     return nextState;
   }
 
-  @Debounce(600)
+  @Bind()
+  @Debounce(500)
   refreshVal(type: string, e: number | string) {
     this.directChange(type, e);
   }
@@ -340,7 +347,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
     let { type, height } = this.state;
     let { header } = this.props;
 
-    let sOptions = getSwitchOptions(type);
+    let sOptions = getSwitchOptions(this.props.params);
     let inputOptions = getInputOptions(type);
     let commonOptions = ['x', 'y', 'z', 'legend', 'group', 'visual'];
 
@@ -396,7 +403,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
                 <FieldSelector
                   key={key}
                   title={formatMessage({ id: `chart.config.${key}` })}
-                  desc={chartDesc[key]}
+                  desc={chartDesc[key] + `(${key})`}
                   value={this.state[key]}
                   onChange={value => this.changeAxis(key, value)}
                   header={header}
@@ -407,7 +414,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
             <FieldSwitch
               key={key}
               title={formatMessage({ id: `chart.config.${key}` })}
-              desc={chartDesc[key]}
+              desc={chartDesc[key] + `(${key})`}
               value={this.state[key]}
               onChange={value => this.directChange(key, value)}
             />
@@ -416,7 +423,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
             <FieldInput
               key={key}
               title={formatMessage({ id: `chart.config.${key}` })}
-              desc={chartDesc[key]}
+              desc={chartDesc[key] + `(${key})`}
               value={this.state[key]}
               onChange={e => {
                 e.persist();

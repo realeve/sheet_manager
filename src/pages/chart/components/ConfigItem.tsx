@@ -23,7 +23,7 @@ export default function configItem(props: configItemProps) {
       </div>
 
       <div className={styles.desc}> {title} </div>
-      {defaultVal && <div>默认值：{defaultVal}</div>}
+      {!R.isNil(defaultVal) && <div>默认值：{defaultVal}</div>}
       {!R.isNil(url) && (
         <div>
           <div className={styles.demoLink}>
@@ -32,7 +32,7 @@ export default function configItem(props: configItemProps) {
                 {url}
               </a>
             ) : (
-              url.map((u) => (
+              url.map(u => (
                 <a href={u} target="_blank" key={u}>
                   {u}
                 </a>

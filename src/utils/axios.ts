@@ -39,7 +39,8 @@ export const _commonData = {
 };
 
 // 导出数据，随机时长
-export const mock = (path: string | any, time: number = Math.random() * 2000) =>
+export type MockFn = <T>(path: string | T, time: number) => Promise<T>;
+export const mock: MockFn = (path, time = Math.random() * 2000) =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve(typeof path === 'string' ? require(path) : path);

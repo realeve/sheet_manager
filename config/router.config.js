@@ -6,17 +6,17 @@ export default [
     routes: [
       {
         path: '/login',
-        component: './login'
+        component: './login',
       },
       {
         path: '/login/register',
-        component: './login/register'
+        component: './login/register',
       },
       {
         path: '/login/forget',
-        component: './login/forget'
-      }
-    ]
+        component: './login/forget',
+      },
+    ],
   },
   // app
   {
@@ -25,27 +25,27 @@ export default [
     routes: [
       {
         path: '/403',
-        component: './403'
+        component: './403',
       },
       {
         path: '/unlogin',
-        component: './unlogin'
+        component: './unlogin',
       },
       {
         path: '/404',
-        component: './404'
+        component: './404',
       },
       {
         path: '/500',
-        component: './500'
+        component: './500',
       },
       {
         path: '/',
-        redirect: '/menu'
+        redirect: '/menu',
       },
       {
         path: '/menu',
-        component: './menu'
+        component: './menu',
       },
       {
         name: 'chart',
@@ -54,17 +54,17 @@ export default [
         routes: [
           {
             path: '/chart',
-            component: './chart'
+            component: './chart',
           },
           {
             path: '/chart/config',
-            component: './chart/Config'
-          }
-        ]
+            component: './chart/Config',
+          },
+        ],
       },
       {
         path: '/table',
-        component: './table'
+        component: './table',
       },
       {
         name: 'account',
@@ -78,21 +78,21 @@ export default [
             routes: [
               {
                 path: '/account/center',
-                redirect: '/account/center/articles'
+                redirect: '/account/center/myarticle',
               },
               {
-                path: '/account/center/articles',
-                component: './Account/Center/Articles'
+                path: '/account/center/myarticle',
+                component: './Account/Center/Articles',
               },
               {
-                path: '/account/center/applications',
-                component: './Account/Center/Applications'
+                path: '/account/center/aboutme',
+                component: './Account/Center/Aboutme',
               },
               {
-                path: '/account/center/projects',
-                component: './Account/Center/Projects'
-              }
-            ]
+                path: '/account/center/hot',
+                component: './Account/Center/Hot',
+              },
+            ],
           },
           {
             path: '/account/settings',
@@ -101,24 +101,24 @@ export default [
             routes: [
               {
                 path: '/account/settings',
-                redirect: '/account/settings/base'
+                redirect: '/account/settings/base',
               },
               {
                 path: '/account/settings/base',
-                component: './Account/Settings/BaseView'
+                component: './Account/Settings/BaseView',
               },
               {
                 path: '/account/settings/security',
-                component: './Account/Settings/SecurityView'
+                component: './Account/Settings/SecurityView',
               },
               {
                 path: '/account/settings/active',
-                component: './Account/Settings/ActiveView'
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+                component: './Account/Settings/ActiveView',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];

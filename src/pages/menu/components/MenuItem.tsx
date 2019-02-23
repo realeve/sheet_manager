@@ -5,7 +5,7 @@ import IconList from './IconList';
 import util from '@/utils/pinyin';
 const R = require('ramda');
 
-export interface TMenuItem  {
+export interface TMenuItem {
   id: string | number;
   icon: string;
   title: string;
@@ -15,7 +15,7 @@ export interface TMenuItem  {
   uid?: string | number;
   detail: any;
   [key: string]: any;
-};
+}
 
 interface IState {
   visible: boolean;
@@ -28,10 +28,10 @@ interface IProps extends IState {
   onCancel?: (status: boolean) => void;
 }
 
-const mapPropsToState: (IProps) => IState = (props) => ({
+const mapPropsToState: (IProps) => IState = props => ({
   visible: props.visible,
   menuItem: props.menuItem,
-  editMode: props.editMode
+  editMode: props.editMode,
 });
 
 class MenuItem extends Component<IProps, IState> {
@@ -42,10 +42,10 @@ class MenuItem extends Component<IProps, IState> {
       title: '',
       url: '',
       icon: '',
-      detail: ''
+      detail: '',
     },
     editMode: false,
-    iconVisible: false
+    iconVisible: false,
   };
 
   constructor(props) {
@@ -75,7 +75,7 @@ class MenuItem extends Component<IProps, IState> {
 
   toggleIconList = (iconVisible: boolean) => {
     this.setState({
-      iconVisible
+      iconVisible,
     });
   };
 
@@ -96,16 +96,20 @@ class MenuItem extends Component<IProps, IState> {
     this.setState({ menuItem });
   };
 
-  updateState: (key: string, e: React.ChangeEvent<HTMLInputElement>) => void = (
-    key,
-    e
-  ) => {
+  updateState: (key: string, e: React.ChangeEvent<HTMLInputElement>) => void = (key, e) => {
     let { menuItem }: { menuItem: TMenuItem } = this.state;
     let { value } = e.target;
+    let pinyinDetail = {};
+    if (key === 'title') {
+      pinyinDetail = {
+        pinyin: util.toPinYin(value).toLowerCase(),
+        pinyin_full: util.toPinYinFull(value).toLowerCase(),
+      };
+    }
+
     menuItem = Object.assign(menuItem, {
       [key]: value,
-      pinyin: util.toPinYin(value).toLowerCase(),
-      pinyin_full: util.toPinYinFull(value).toLowerCase()
+      ...pinyinDetail,
     });
     this.setState({ menuItem });
   };
@@ -120,25 +124,22 @@ class MenuItem extends Component<IProps, IState> {
         onOk={this.handleOk}
         onCancel={this.handleCancel}
         okText="确认"
-        cancelText="取消">
-        <IconList
-          visible={iconVisible}
-          onCancel={this.toggleIconList}
-          onOk={this.updateIcon}
-        />
+        cancelText="取消"
+      >
+        <IconList visible={iconVisible} onCancel={this.toggleIconList} onOk={this.updateIcon} />
         <div className={styles.title}>
           <Button onClick={this.chooseIcon}>{urlIcon}</Button>
           <Input
             placeholder="标题"
             value={menuItem.title}
-            onChange={(e) => this.updateState('title', e)}
+            onChange={e => this.updateState('title', e)}
           />
         </div>
         <Input
           className={styles.input}
           placeholder="链接地址"
           value={menuItem.url}
-          onChange={(e) => this.updateState('url', e)}
+          onChange={e => this.updateState('url', e)}
         />
         <div className={styles.tags}>
           <Tag color="#f50" onClick={() => this.addLink('chart')}>

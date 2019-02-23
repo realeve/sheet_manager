@@ -4,7 +4,7 @@ import GlobalFooter from 'ant-design-pro/lib/GlobalFooter';
 
 import styles from './index.less';
 const { Footer } = Layout;
-const FooterView = () => (
+const FooterView = ({ color }) => (
   <Footer className={styles.footer}>
     <GlobalFooter
       links={[
@@ -12,28 +12,27 @@ const FooterView = () => (
           key: '首页',
           title: '首页',
           href: '/',
-          blankTarget: true
+          blankTarget: true,
         },
         {
           key: '文档',
           title: '文档',
-          // title: <Icon type="github" />,
           href: '/doc',
-          blankTarget: true
+          blankTarget: true,
         },
         {
           key: '工艺质量交互管理',
           title: '工艺质量交互管理',
           href: 'http://10.8.2.133:90',
-          blankTarget: true
-        }
+          blankTarget: true,
+        },
       ]}
       copyright={
         <Fragment>
-          <p>
+          <p style={{ color: color || 'rgba(0,0,0,0.45)' }}>
             <Icon type="copyright" /> 2019 成都印钞有限公司 印钞管理部
           </p>
-          <p>
+          <p style={{ color: color || 'rgba(0,0,0,0.45)' }}>
             Copyright <Icon type="copyright" /> 2019 CBPC All Rights Reserved
           </p>
         </Fragment>

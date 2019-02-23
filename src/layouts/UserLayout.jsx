@@ -19,7 +19,7 @@ export default class UserLayout extends PureComponent {
             <div className={styles.desc}>让数据栩栩如生</div>
           </div>
           <div className={styles.main}>{children}</div>
-          <GlobalFooter className={styles.footer} />
+          <GlobalFooter className={styles.footer} color="rgba(255, 255, 255, 0.6)" />
         </div>
       </div>
     );
