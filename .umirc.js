@@ -53,9 +53,10 @@ export default {
   // publicPath: 'http://localhost:70/sheet/',
   hash: true, //添加hash后缀
   treeShaking: true,
-  exportStatic: {
-    // htmlSuffix: true, // 静态化文件
-  },
+  // exportStatic: {
+  //   htmlSuffix: false, // 静态化文件
+  // },
+  exportStatic: false,
   targets: {
     ie: 11,
     chrome: 49,
@@ -76,7 +77,7 @@ export default {
     javascriptEnabled: true,
   },
   manifest: {
-    name: 'ant-design-pro',
+    name: 'sheet_manager',
     background_color: '#FFF',
     description: '基于react的报表管理解决方案.',
     display: 'standalone',
