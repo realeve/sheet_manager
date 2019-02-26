@@ -1,6 +1,6 @@
 import moment from 'moment';
 import http from 'axios';
-import * as setting from './setting';
+import { uploadHost } from './setting';
 import qs from 'qs';
 import dateRanges from './ranges';
 // import router from 'umi/router';
@@ -10,11 +10,13 @@ import userTool from './users';
 import { Dispatch } from 'react-redux';
 const R = require('ramda');
 
-export const searchUrl: string = setting.searchUrl;
-export const imgUrl: string = setting.imgUrl;
-export const systemName: string = '某数据系统';
+export { searchUrl, imgUrl, systemName, host as apiHost } from './setting';
 
-export const apiHost: string = setting.host;
+// export const searchUrl: string = setting.searchUrl;
+// export const imgUrl: string = setting.imgUrl;
+// export const systemName: string = setting.systemName;
+
+// export const apiHost: string = setting.host;
 
 interface Rules {
   cart: RegExp;
@@ -215,7 +217,7 @@ export let uploadBase64 = (dataURI: string) => {
   var data: FormData = dataURI2FormData(dataURI);
   return http({
     method: 'POST',
-    url: setting.uploadHost,
+    url: uploadHost,
     data,
   }); //.then((res) => res.data);
 };

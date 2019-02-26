@@ -240,7 +240,7 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
     const userSetting = this.props.userSetting;
 
     // 普通用户（非超管，管理员）不允许编辑菜单
-    if (userSetting.user_type < 3) {
+    if (userSetting.user_type > 2) {
       router.push('/403');
     }
     const TreeList = () =>

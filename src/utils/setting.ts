@@ -1,28 +1,37 @@
 export let DEV: boolean = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
-export let systemName: string = '某系统名字';
 
 // 前台资源部署域名，默认头像图片资源调用域名
-let company = {
-  chengdu: 'http://10.8.1.25',
-  kunshan: 'http://10.56.37.153',
+let config = {
+  chengdu: {
+    api: 'http://10.8.1.25',
+    footer: '成都印钞有限公司 印钞管理部',
+    systemName: '质量信息管理平台',
+  },
+  kunshan: {
+    api: 'http://10.56.37.153',
+    footer: '昆山钞票纸业有限公司 企划信息部',
+    systemName: '通用报表管理系统',
+  },
 };
 
-// const BUILD_TYPE = 'lite';
+export const CUR_COMPANY = 'kunshan';
 
-let domain: string = company.kunshan;
+export let { systemName } = config[CUR_COMPANY];
+let domain: string = config[CUR_COMPANY].api;
+export let AUTHOR = config[CUR_COMPANY].footer;
 
 // 后台api部署域名
-let host: string = `${domain}:100/api/`;
+let host: string = domain + `:100/api/`;
 
 // 人员信息管理，头像信息上传路径
-let uploadHost: string = `${domain}:100/public/upload/`;
+let uploadHost: string = domain + `:100/public/upload/`;
 
-// if (DEV) {
-//   // 上传代码时取消此处的判断
-//   domain = '';
-//   host = 'http://localhost:90/api/';
-//   uploadHost = '//localhost:90/public/upload/';
-// }
+if (DEV) {
+  // 上传代码时取消此处的判断
+  domain = '';
+  host = 'http://localhost:90/api/';
+  uploadHost = '//localhost:90/public/upload/';
+}
 
 export { domain, host, uploadHost };
 

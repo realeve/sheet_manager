@@ -1,6 +1,7 @@
 .header {
   display: flex;
   justify-content: space-between; // width: 55%;
+
   .tips {
     .title {
       font-size: 24px;
@@ -14,10 +15,12 @@
 
 .exCard {
   width: 100%;
+
   :global {
     .ant-card-head {
       padding: 0 12px;
     }
+
     .ant-card-head-title {
       padding-bottom: 0;
     }
@@ -25,41 +28,50 @@
 }
 
 .chartConfig {
-  margin: 10px;
+  margin: -1px;
+
   .selector {
     width: 100%;
     margin-top: 8px;
     display: flex;
     align-items: center;
+
     .title {
       font-weight: bold;
       margin-right: 15px;
       width: 100px;
     }
+
     @chooseHeight: 36px;
+
     :global {
       .ant-select-selection--single {
         height: @chooseHeight;
       }
+
       .ant-select-selection__rendered {
         line-height: @chooseHeight;
       }
     }
   }
+
   .switch {
     margin-top: 8px;
     width: 100%;
+
     .title {
       font-weight: bold;
       margin-right: 15px;
       width: 100px;
     }
   }
+
   :global {
     .ant-card-body {
       padding-top: 0;
     }
   }
+
   .desc {
     margin: 5px 0;
     color: #8b8d9a;

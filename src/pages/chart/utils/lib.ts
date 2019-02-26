@@ -1,6 +1,6 @@
 import gColor from './charts/gColor';
 import * as lib from '@/utils/lib';
-
+import { AUTHOR } from '@/utils/setting';
 const R = require('ramda');
 
 export interface IChart {
@@ -17,7 +17,7 @@ export type TChartConfig = Array<IChart>;
 let uniq: <T>(arr: Array<T>) => Array<T> = arr => R.uniq(arr);
 
 let getCopyRight = () => ({
-  text: '©成都印钞有限公司 印钞管理部',
+  text: '©' + AUTHOR,
   borderColor: '#999',
   borderWidth: 0,
   textStyle: {

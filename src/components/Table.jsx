@@ -1,16 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Table,
-  Pagination,
-  Card,
-  Button,
-  Input,
-  Menu,
-  Dropdown,
-  Icon,
-  Form,
-  Switch
-} from 'antd';
+import { Table, Pagination, Card, Button, Input, Menu, Dropdown, Icon, Form, Switch } from 'antd';
 import * as db from '../services/table';
 import styles from './Table.less';
 import * as setting from '../utils/setting';
@@ -45,7 +34,7 @@ class Tables extends Component {
     const dataSourceNew = db.getPageData({
       data: dataClone,
       page,
-      pageSize
+      pageSize,
     });
 
     if (R.equals(dataSourceNew, dataSource)) {
@@ -53,46 +42,43 @@ class Tables extends Component {
     }
     this.setState({
       dataSource: dataSourceNew,
-      page
+      page,
     });
   };
 
   // 分页数量调整
   onShowSizeChange = async (current, nextPageSize) => {
-    let newPage = Math.max(
-      Math.floor((this.state.pageSize * current) / nextPageSize),
-      1
-    );
+    let newPage = Math.max(Math.floor((this.state.pageSize * current) / nextPageSize), 1);
     await this.setState({
-      pageSize: nextPageSize
+      pageSize: nextPageSize,
     });
     this.refreshByPage(newPage);
   };
 
-  customFilter = async (filters) => {
+  customFilter = async filters => {
     // const dataSrc = this.dataSrc;
     const { columns, dataSrc } = this.state;
 
     let dataClone = db.handleFilter({
       data: dataSrc.data,
-      filters
+      filters,
     });
 
     let newColumn = db.updateColumns({
       columns,
-      filters
+      filters,
     });
 
     await this.setState({
       dataClone,
       columns: newColumn,
       filteredInfo: filters,
-      total: dataClone.length
+      total: dataClone.length,
     });
     this.refreshByPage();
   };
 
-  customSort = async (sortedInfo) => {
+  customSort = async sortedInfo => {
     const { field, order } = sortedInfo;
     if (typeof field === 'undefined') {
       return;
@@ -101,12 +87,12 @@ class Tables extends Component {
     let dataClone = db.handleSort({
       dataClone: this.state.dataClone,
       field,
-      order
+      order,
     });
 
     await this.setState({
       sortedInfo,
-      dataClone
+      dataClone,
     });
     this.refreshByPage();
   };
@@ -116,7 +102,7 @@ class Tables extends Component {
     this.customSort(sorter);
   };
 
-  handleSearchChange = async (e) => {
+  handleSearchChange = async e => {
     const keyword = e.target.value;
     let key = keyword.trim();
     let { dataClone, dataSearchClone } = this.state;
@@ -131,16 +117,16 @@ class Tables extends Component {
         dataSearchClone = dataClone;
       } else {
         dataClone = dataSearchClone.filter(
-          (tr) =>
+          tr =>
             Object.values(tr)
               .slice(1)
-              .filter((td) => String(td).includes(key)).length
+              .filter(td => String(td).includes(key)).length
         );
       }
     }
     await this.setState({
       dataClone,
-      dataSearchClone
+      dataSearchClone,
     });
 
     this.refreshByPage();
@@ -153,15 +139,13 @@ class Tables extends Component {
     const filename = `${title}`;
     const keys = header.map((item, i) => 'col' + i);
     const body = R.compose(
-      R.map((item) =>
-        R.map((a) => (lib.hasDecimal(a) ? parseFloat(a) : a))(item)
-      ),
+      R.map(item => R.map(a => (lib.hasDecimal(a) ? parseFloat(a) : a))(item)),
       R.map(R.props(keys))
     )(dataClone);
     return {
       filename,
       header,
-      body
+      body,
     };
   };
 
@@ -181,13 +165,13 @@ class Tables extends Component {
       title,
       orientation: config.header.length > 10 ? 'landscape' : 'portrait',
       pageSize: config.header.length > 15 ? 'A3' : 'A4',
-      message: `\n${subTitle}\n${source}\n(c)成都印钞有限公司 印钞管理部`
+      message: `\n${subTitle}\n${source}\n(c)${setting.AUTHOR}`,
     });
     pdf(config);
   };
 
   // 为每行增加自定义附加操作
-  appendActions = (columns) => {
+  appendActions = columns => {
     if (!this.props.actions) {
       return columns;
     }
@@ -196,7 +180,7 @@ class Tables extends Component {
       title,
       key: 'col' + (columns.length + idx),
       dataIndex: 'col' + (columns.length + idx),
-      render: (text, record) => render(record)
+      render: (text, record) => render(record),
     }));
     return [...columns, ...actions];
   };
@@ -211,7 +195,7 @@ class Tables extends Component {
       total,
       page,
       pageSize,
-      bordered
+      bordered,
     } = this.state;
 
     let scroll = {};
@@ -238,9 +222,7 @@ class Tables extends Component {
         />
         <Pagination
           className="ant-table-pagination"
-          showTotal={(total, range) =>
-            total ? `${range[0]}-${range[1]} 共 ${total} 条数据` : ''
-          }
+          showTotal={(total, range) => (total ? `${range[0]}-${range[1]} 共 ${total} 条数据` : '')}
           showSizeChanger
           onShowSizeChange={this.onShowSizeChange}
           total={total}
@@ -268,8 +250,8 @@ class Tables extends Component {
     );
   };
 
-  handleToggle = (prop) => {
-    return (enable) => {
+  handleToggle = prop => {
+    return enable => {
       let key = '_tbl_' + prop;
       window.localStorage.setItem(key, enable ? 1 : 0);
       this.setState({ [prop]: enable });
@@ -301,8 +283,9 @@ class Tables extends Component {
         <Dropdown overlay={menu}>
           <Button
             style={{
-              marginLeft: 0
-            }}>
+              marginLeft: 0,
+            }}
+          >
             {formatMessage({ id: 'table.download' })} <Icon type="down" />
           </Button>
         </Dropdown>
@@ -310,15 +293,9 @@ class Tables extends Component {
     };
 
     const TableSetting = () => (
-      <Form
-        layout="inline"
-        className={styles.tblSetting}
-        style={{ paddingLeft: 15 }}>
+      <Form layout="inline" className={styles.tblSetting} style={{ paddingLeft: 15 }}>
         <FormItem label={formatMessage({ id: 'table.border' })}>
-          <Switch
-            checked={this.state.bordered}
-            onChange={this.handleToggle('bordered')}
-          />
+          <Switch checked={this.state.bordered} onChange={this.handleToggle('bordered')} />
         </FormItem>
       </Form>
     );
@@ -335,7 +312,7 @@ class Tables extends Component {
                 onChange={this.handleSearchChange}
                 style={{
                   width: 220,
-                  height: 35
+                  height: 35,
                 }}
               />
             </div>
@@ -343,12 +320,13 @@ class Tables extends Component {
         }
         style={{
           width: '100%',
-          marginTop: 0
+          marginTop: 0,
         }}
         bodyStyle={{
-          padding: '0px 0px 12px 0px'
+          padding: '0px 0px 12px 0px',
         }}
-        className={styles.exCard}>
+        className={styles.exCard}
+      >
         {tBody}
         <TableSetting />
       </Card>
@@ -362,12 +340,12 @@ Tables.defaultProps = {
     title: '',
     rows: 0,
     time: '0ms',
-    header: []
+    header: [],
   },
   loading: false,
   cartLinkPrefix: setting.searchUrl,
   actions: false,
-  subTitle: ''
+  subTitle: '',
 };
 
 export default Tables;

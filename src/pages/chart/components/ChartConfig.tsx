@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Card, Select, Switch, Row, Col, Slider, Input, Icon } from 'antd';
+import { Card, Select, Switch, Row, Col, Slider, Input, Icon, Button } from 'antd';
 import styles from './Chart.less';
 import { formatMessage } from 'umi/locale';
 import { chartTypeList } from '../utils/charts';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
+
+import Animate from 'rc-animate';
+
 // import * as lib from '@/utils/lib';
 
 const R = require('ramda');
@@ -144,6 +147,7 @@ export interface IConfigState {
   z: string;
   legend: string;
   group: string;
+  showPanel?: boolean;
   [key: string]: string;
 }
 
@@ -322,6 +326,8 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
   constructor(props) {
     super(props);
     let state: IConfigState = getParams(this.props.params);
+    state.showPanel = false;
+
     this.state = state;
   }
 
@@ -329,10 +335,11 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
   directChange = this.props.onSwitch;
 
   static getDerivedStateFromProps(props, state) {
+    const { showPanel } = state;
     let nextState = getParams(props.params);
     let curState = getParams(state);
     if (R.equals(nextState, curState)) {
-      return null;
+      return { showPanel };
     }
     return nextState;
   }
@@ -343,8 +350,14 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
     this.directChange(type, e);
   }
 
+  showConfig() {
+    this.setState((prevState, props) => ({
+      showPanel: !prevState.showPanel,
+    }));
+  }
+
   render() {
-    let { type, height } = this.state;
+    let { type, height, showPanel } = this.state;
     let { header } = this.props;
 
     let sOptions = getSwitchOptions(this.props.params);
@@ -367,9 +380,69 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
       };
     });
 
+    const configDetail = showPanel && (
+      <Row gutter={16} style={{ marginTop: 10 }}>
+        {chartType.length > 1 && (
+          <FieldSelector
+            title={formatMessage({ id: 'chart.config.type' })}
+            value={type}
+            onChange={value => this.changeAxis('type', value)}
+            header={chartType}
+            style={{ width: '100%' }}
+          />
+        )}
+        {commonOptions.map(
+          key =>
+            getCommonOptions(key, this.state) && (
+              <FieldSelector
+                key={key}
+                title={formatMessage({ id: `chart.config.${key}` })}
+                desc={chartDesc[key] + `(${key})`}
+                value={this.state[key]}
+                onChange={value => this.changeAxis(key, value)}
+                header={header}
+              />
+            )
+        )}
+        {sOptions.map(key => (
+          <FieldSwitch
+            key={key}
+            title={formatMessage({ id: `chart.config.${key}` })}
+            desc={chartDesc[key] + `(${key})`}
+            value={this.state[key]}
+            onChange={value => this.directChange(key, value)}
+          />
+        ))}
+        {inputOptions.map(key => (
+          <FieldInput
+            key={key}
+            title={formatMessage({ id: `chart.config.${key}` })}
+            desc={chartDesc[key] + `(${key})`}
+            value={this.state[key]}
+            onChange={e => {
+              e.persist();
+              this.directChange(key, e.target.value);
+            }}
+          />
+        ))}
+        {height && (
+          <FieldSlider
+            title={'图表高度'}
+            desc={height + 'px'}
+            value={parseInt(height)}
+            onChange={value => this.refreshVal('height', value)}
+            max={1500}
+            min={300}
+            step={10}
+          />
+        )}
+      </Row>
+    );
+
     return (
       <Card
         className={styles.chartConfig}
+        size="small"
         title={
           <div>
             {formatMessage({ id: 'chart.config.base' })}
@@ -385,64 +458,14 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
             </a>
           </div>
         }
-        bordered
+        extra={
+          <Button type="primary" shape="circle" icon="setting" onClick={() => this.showConfig()} />
+        }
+        headStyle={{ borderBottom: '1px solid #e8e8e8' }}
+        bordered={false}
+        hoverable
       >
-        <Row gutter={16} style={{ marginTop: 10 }}>
-          {chartType.length > 1 && (
-            <FieldSelector
-              title={formatMessage({ id: 'chart.config.type' })}
-              value={type}
-              onChange={value => this.changeAxis('type', value)}
-              header={chartType}
-              style={{ width: '100%' }}
-            />
-          )}
-          {commonOptions.map(
-            key =>
-              getCommonOptions(key, this.state) && (
-                <FieldSelector
-                  key={key}
-                  title={formatMessage({ id: `chart.config.${key}` })}
-                  desc={chartDesc[key] + `(${key})`}
-                  value={this.state[key]}
-                  onChange={value => this.changeAxis(key, value)}
-                  header={header}
-                />
-              )
-          )}
-          {sOptions.map(key => (
-            <FieldSwitch
-              key={key}
-              title={formatMessage({ id: `chart.config.${key}` })}
-              desc={chartDesc[key] + `(${key})`}
-              value={this.state[key]}
-              onChange={value => this.directChange(key, value)}
-            />
-          ))}
-          {inputOptions.map(key => (
-            <FieldInput
-              key={key}
-              title={formatMessage({ id: `chart.config.${key}` })}
-              desc={chartDesc[key] + `(${key})`}
-              value={this.state[key]}
-              onChange={e => {
-                e.persist();
-                this.directChange(key, e.target.value);
-              }}
-            />
-          ))}
-          {height && (
-            <FieldSlider
-              title={'图表高度'}
-              desc={height + 'px'}
-              value={parseInt(height)}
-              onChange={value => this.refreshVal('height', value)}
-              max={1500}
-              min={300}
-              step={10}
-            />
-          )}
-        </Row>
+        <Animate transitionName="fade">{configDetail}</Animate>
       </Card>
     );
   }

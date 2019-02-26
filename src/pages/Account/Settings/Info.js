@@ -23,7 +23,7 @@ class Info extends Component {
     };
 
     // 超管及普通管理员有激活权限,其它人没有
-    if (userSetting.user_type >= 3) {
+    if (userSetting.user_type == 1) {
       menuMap.active = (
         <FormattedMessage id="app.settings.menuMap.active" defaultMessage="Account actived" />
       );

@@ -29,7 +29,7 @@ export default {
         },
         dynamicImport: {
           webpackChunkName: true,
-          loadingComponent: './components/PageLoading/Loading1.jsx',
+          loadingComponent: './components/PageLoading/Loading2.jsx',
         },
         // pwa: true,
         fastClick: true,
@@ -79,7 +79,7 @@ export default {
   manifest: {
     name: 'sheet_manager',
     background_color: '#FFF',
-    description: '基于react的报表管理解决方案.',
+    description: '基于react的通用报表管理解决方案.',
     display: 'standalone',
     start_url: '/index.html',
     icons: [
