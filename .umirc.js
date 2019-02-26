@@ -82,15 +82,16 @@ export default {
     description: '基于react的通用报表管理解决方案.',
     display: 'standalone',
     start_url: '/index.html',
-    icons: [
-      {
-        src: '/favicon.png',
-        sizes: '48x48',
-        type: 'image/png',
-      },
-    ],
+    // icons: [
+    //   {
+    //     src: '/logo.svg',
+    //     sizes: '48x48',
+    //     type: 'image/svg',
+    //   },
+    // ],
   },
   cssnano: {
     mergeRules: false,
   },
+  autoprefixer: { flexbox: true },
 };

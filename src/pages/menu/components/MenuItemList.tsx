@@ -256,7 +256,7 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
             dndType={externalNodeType}
             shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
             generateNodeProps={treeItem => {
-              if (treeItem.uid != userSetting.uid) {
+              if (treeItem.node.uid != userSetting.uid) {
                 return null;
               }
               return {
