@@ -9,37 +9,31 @@ import styles from './index.less';
 const { Item } = Menu;
 
 @connect(({ common: { userSetting } }) => ({
-  userSetting
+  userSetting,
 }))
 class Info extends Component {
   constructor(props) {
     super(props);
-    const { match, location } = props;
+    const { match, location, userSetting } = props;
     const menuMap = {
-      base: (
-        <FormattedMessage
-          id="app.settings.menuMap.basic"
-          defaultMessage="Basic Settings"
-        />
-      ),
+      base: <FormattedMessage id="app.settings.menuMap.basic" defaultMessage="Basic Settings" />,
       security: (
-        <FormattedMessage
-          id="app.settings.menuMap.security"
-          defaultMessage="Security Settings"
-        />
+        <FormattedMessage id="app.settings.menuMap.security" defaultMessage="Security Settings" />
       ),
-      active: (
-        <FormattedMessage
-          id="app.settings.menuMap.active"
-          defaultMessage="Account actived"
-        />
-      )
     };
+
+    // 超管及普通管理员有激活权限,其它人没有
+    if (userSetting.user_type >= 3) {
+      menuMap.active = (
+        <FormattedMessage id="app.settings.menuMap.active" defaultMessage="Account actived" />
+      );
+    }
+
     const key = location.pathname.replace(`${match.path}/`, '');
     this.state = {
       mode: 'inline',
       menuMap,
-      selectKey: menuMap[key] ? key : 'base'
+      selectKey: menuMap[key] ? key : 'base',
     };
   }
 
@@ -64,9 +58,7 @@ class Info extends Component {
 
   getmenu = () => {
     const { menuMap } = this.state;
-    return Object.keys(menuMap).map(item => (
-      <Item key={item}>{menuMap[item]}</Item>
-    ));
+    return Object.keys(menuMap).map(item => <Item key={item}>{menuMap[item]}</Item>);
   };
 
   getRightTitle = () => {
@@ -77,7 +69,7 @@ class Info extends Component {
   selectKey = ({ key }) => {
     router.push(`/account/settings/${key}`);
     this.setState({
-      selectKey: key
+      selectKey: key,
     });
   };
 
@@ -96,7 +88,7 @@ class Info extends Component {
         mode = 'horizontal';
       }
       this.setState({
-        mode
+        mode,
       });
     });
   };
@@ -113,12 +105,10 @@ class Info extends Component {
           className={styles.main}
           ref={ref => {
             this.main = ref;
-          }}>
+          }}
+        >
           <div className={styles.leftmenu}>
-            <Menu
-              mode={mode}
-              selectedKeys={[selectKey]}
-              onClick={this.selectKey}>
+            <Menu mode={mode} selectedKeys={[selectKey]} onClick={this.selectKey}>
               {this.getmenu()}
             </Menu>
           </div>

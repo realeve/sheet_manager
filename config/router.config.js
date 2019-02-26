@@ -41,7 +41,7 @@ export default [
       },
       {
         path: '/',
-        redirect: '/menu',
+        redirect: '/account/settings/base',
       },
       {
         path: '/menu',

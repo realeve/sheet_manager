@@ -4,7 +4,7 @@ export let systemName: string = '某系统名字';
 // 前台资源部署域名，默认头像图片资源调用域名
 let company = {
   chengdu: 'http://10.8.1.25',
-  kunshan: 'http://10.56.37.152',
+  kunshan: 'http://10.56.37.153',
 };
 
 // const BUILD_TYPE = 'lite';
@@ -15,7 +15,7 @@ let domain: string = company.kunshan;
 let host: string = `${domain}:100/api/`;
 
 // 人员信息管理，头像信息上传路径
-let uploadHost: string = `${domain}:100/upload/`;
+let uploadHost: string = `${domain}:100/public/upload/`;
 
 // if (DEV) {
 //   // 上传代码时取消此处的判断

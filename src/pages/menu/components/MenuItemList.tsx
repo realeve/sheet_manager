@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Button, Popconfirm, Icon, notification } from 'antd';
+import { connect } from 'dva';
 
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
@@ -9,6 +10,8 @@ import * as treeUtil from './tree-data-utils';
 import * as db from '../service';
 import styles from '../index.less';
 import MenuItem, { TMenuItem } from './MenuItem';
+
+import router from 'umi/router';
 
 const Search = Input.Search;
 const R = require('ramda');
@@ -37,6 +40,7 @@ interface IMenuProps {
   [key: string]: any;
 }
 
+@connect(({ common: { userSetting } }) => ({ userSetting }))
 class MenuItemList extends Component<IMenuProps, IMenuState> {
   static defaultProps: Partial<IMenuProps> = {
     externalNodeType: 'shareNodeType',
@@ -174,6 +178,9 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
 
     if (!editMode) {
       // 新增数据
+
+      menuItem.uid = this.props.userSetting.uid;
+
       let { data } = await db.addBaseMenuItem(menuItem);
       if (data[0].affected_rows === 0) {
         this.noticeError();
@@ -230,7 +237,12 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
 
   render() {
     const { shouldCopyOnOutsideDrop, treeDataLeft, searchValue, externalNodeType } = this.state;
+    const userSetting = this.props.userSetting;
 
+    // 普通用户（非超管，管理员）不允许编辑菜单
+    if (userSetting.user_type < 3) {
+      router.push('/403');
+    }
     const TreeList = () =>
       treeDataLeft.length === 0 ? (
         <div className={styles.notSearch}>未搜索到菜单项</div>
@@ -243,26 +255,31 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
             rowHeight={32}
             dndType={externalNodeType}
             shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
-            generateNodeProps={treeItem => ({
-              buttons: [
-                <Button
-                  size="small"
-                  icon="edit"
-                  title="编辑"
-                  style={{ marginRight: 5 }}
-                  onClick={() => this.editMenuItem(treeItem)}
-                />,
-                <Popconfirm
-                  title="确定删除该菜单项?"
-                  okText="是"
-                  cancelText="否"
-                  icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                  onConfirm={() => this.removeMenuItem(treeItem)}
-                >
-                  <Button size="small" title="删除" icon="delete" />
-                </Popconfirm>,
-              ],
-            })}
+            generateNodeProps={treeItem => {
+              if (treeItem.uid != userSetting.uid) {
+                return null;
+              }
+              return {
+                buttons: [
+                  <Button
+                    size="small"
+                    icon="edit"
+                    title="编辑"
+                    style={{ marginRight: 5 }}
+                    onClick={() => this.editMenuItem(treeItem)}
+                  />,
+                  <Popconfirm
+                    title="确定删除该菜单项?"
+                    okText="是"
+                    cancelText="否"
+                    icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                    onConfirm={() => this.removeMenuItem(treeItem)}
+                  >
+                    <Button size="small" title="删除" icon="delete" />
+                  </Popconfirm>,
+                ],
+              };
+            }}
           />
         </div>
       );
