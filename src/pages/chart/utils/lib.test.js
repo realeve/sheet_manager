@@ -1,5 +1,5 @@
 import lib from './lib';
-import { AUTHOR } from './setting';
+import { AUTHOR } from '@/utils/setting';
 test('uniq data', () => {
   expect(lib.uniq([1, 2, 3, 4, 3, 3, 2, 1, 4])).toEqual([1, 2, 3, 4]);
 });
