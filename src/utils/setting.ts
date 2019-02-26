@@ -17,9 +17,9 @@ let config = {
 export const CUR_COMPANY = 'kunshan';
 
 export let { systemName } = config[CUR_COMPANY];
-let domain: string = config[CUR_COMPANY].api;
 export let AUTHOR = config[CUR_COMPANY].footer;
 
+let domain: string = config[CUR_COMPANY].api;
 // 后台api部署域名
 let host: string = domain + `:100/api/`;
 
