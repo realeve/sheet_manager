@@ -16,7 +16,10 @@ let config = {
 
 export const CUR_COMPANY = 'kunshan';
 
-export let { systemName } = config[CUR_COMPANY];
+let defaultTitle = window.localStorage.getItem('_userMenuTitle');
+
+export let systemName = defaultTitle || config[CUR_COMPANY].systemName;
+
 export let AUTHOR = config[CUR_COMPANY].footer;
 
 let domain: string = config[CUR_COMPANY].api;

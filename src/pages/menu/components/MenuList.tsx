@@ -11,12 +11,7 @@ const R = require('ramda');
 
 interface IMenuListProps {
   onEdit?: (menuItem: TMenuItem, operateType: 'edit' | 'del') => string;
-  dispatch?: (
-    action: {
-      type: string;
-      payload: any;
-    }
-  ) => void;
+  dispatch?: (action: { type: string; payload: any }) => void;
 }
 
 interface IMenuListState {
@@ -29,7 +24,7 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
     super(props);
     this.state = {
       menuList: props.menuList,
-      uid: props.uid
+      uid: props.uid,
     };
   }
 
@@ -38,30 +33,29 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
       return null;
     }
     return {
-      menuList: nextProps.menuList
+      menuList: nextProps.menuList,
     };
   }
 
-  editMenu = (menuItem) => {
+  editMenu = menuItem => {
     this.props.onEdit(menuItem, 'edit');
   };
 
-  setCurMenu: (
-    params: {
-      id: number | string;
-      detail: TMenuItem;
-    }
-  ) => void = async ({ id: menu_id, detail: menu }) => {
+  setCurMenu: (params: { id: number | string; detail: TMenuItem; title: string }) => void = async ({
+    id: menu_id,
+    detail: menu,
+    title,
+  }) => {
     const {
-      data: [{ affected_rows }]
+      data: [{ affected_rows }],
     } = await db.setSysUser({
       menu_id,
-      _id: this.state.uid
+      _id: this.state.uid,
     });
 
     notification.success({
       message: '系统提示',
-      description: '默认菜单配置成功.'
+      description: '默认菜单配置成功.',
     });
 
     if (!affected_rows) {
@@ -73,27 +67,27 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
 
     let { data } = userTool.getUserSetting();
     data.setting.menu = menu;
-    userTool.saveUserSetting(data);
+    userTool.saveUserSetting(data, title);
+
+    // 刷新
+    window.location.reload();
 
     dispatch({
       type: 'common/setStore',
       payload: {
         userSetting: {
-          menu
-        }
-      }
+          menu,
+        },
+      },
     });
 
     // lib.logout(this.props);
   };
 
-  removeMenu: (menuItem: TMenuItem, idx: number | string) => void = async (
-    menuItem,
-    idx
-  ) => {
+  removeMenu: (menuItem: TMenuItem, idx: number | string) => void = async (menuItem, idx) => {
     let { data } = await db.delBaseMenuList({
       _id: menuItem.id,
-      uid: menuItem.uid
+      uid: menuItem.uid,
     });
     if (data[0].affected_rows === 0) {
       this.noticeError();
@@ -110,7 +104,7 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
 
     notification.success({
       message: '系统提示',
-      description: '菜单配置删除成功.'
+      description: '菜单配置删除成功.',
     });
   };
 
@@ -120,9 +114,9 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
       type: 'common/setStore',
       payload: {
         userSetting: {
-          previewMenu
-        }
-      }
+          previewMenu,
+        },
+      },
     });
   };
 
@@ -130,7 +124,7 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
     // 数据插入失败
     notification.error({
       message: '系统提示',
-      description: '菜单配置信息调整失败，请稍后重试.'
+      description: '菜单配置信息调整失败，请稍后重试.',
     });
   };
 
@@ -156,19 +150,10 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
                       title="确定删除该菜单配置?"
                       okText="是"
                       cancelText="否"
-                      icon={
-                        <Icon
-                          type="question-circle-o"
-                          style={{ color: 'red' }}
-                        />
-                      }
-                      onConfirm={() => this.removeMenu(item, idx)}>
-                      <Button
-                        shape="circle"
-                        title="删除"
-                        type="danger"
-                        icon="delete"
-                      />
+                      icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                      onConfirm={() => this.removeMenu(item, idx)}
+                    >
+                      <Button shape="circle" title="删除" type="danger" icon="delete" />
                     </Popconfirm>
                   </>
                 )}
@@ -196,7 +181,7 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
 
 function mapStateToProps(state) {
   return {
-    ...state.common
+    ...state.common,
   };
 }
 
