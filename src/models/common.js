@@ -10,7 +10,7 @@ export default {
       uid: '',
       avatar: '',
       menu: '',
-      menuTitle: '',
+      menu_title: '',
       previewMenu: [],
       username: '',
       fullname: '',

@@ -19,7 +19,7 @@ class LoginComponent extends Component {
     autoLogin: true,
     avatar: '',
     submitting: false,
-    ip: ''
+    ip: '',
   };
 
   onSubmit = (_, values) => {
@@ -29,7 +29,7 @@ class LoginComponent extends Component {
   changeAutoLogin = e => {
     let { checked } = e.target;
     this.setState({
-      autoLogin: checked
+      autoLogin: checked,
     });
     if (!checked) {
       userTool.clearUserSetting();
@@ -46,18 +46,18 @@ class LoginComponent extends Component {
 
   async login(values) {
     this.setState({
-      submitting: true
+      submitting: true,
     });
     let userInfo = await db
       .getSysUser(values)
       .finally(e => {
         this.setState({
-          submitting: false
+          submitting: false,
         });
       })
       .catch(e => {
         this.setState({
-          notice: '系统错误，登录失败'
+          notice: '系统错误，登录失败',
         });
         return;
       });
@@ -67,12 +67,12 @@ class LoginComponent extends Component {
       let userSetting = userInfo.data[0];
       if (userSetting.actived === 0) {
         this.setState({
-          notice: '帐户未激活，请联系管理员'
+          notice: '帐户未激活，请联系管理员',
         });
         return;
       } else {
         this.setState({
-          notice: ''
+          notice: '',
         });
       }
 
@@ -83,10 +83,11 @@ class LoginComponent extends Component {
         type: 'common/setStore',
         payload: {
           userSetting,
-          isLogin: true
-        }
+          isLogin: true,
+        },
       });
 
+      window.localStorage.setItem('_userMenuTitle', userSetting.menu_title);
       userTool.saveLoginStatus(1);
 
       const query = this.props.location.query;
@@ -97,7 +98,7 @@ class LoginComponent extends Component {
     }
 
     this.setState({
-      notice: '账号或密码错误！'
+      notice: '账号或密码错误！',
     });
   }
 
@@ -106,13 +107,13 @@ class LoginComponent extends Component {
     let avatar = '/img/avatar.svg';
     if (!success || !data.autoLogin) {
       this.setState({
-        avatar
+        avatar,
       });
       return;
     }
 
     this.setState({
-      avatar: data.setting.avatar
+      avatar: data.setting.avatar,
     });
 
     const query = this.props.location.query;
@@ -130,7 +131,7 @@ class LoginComponent extends Component {
 
   forgetPsw = () => {
     const {
-      location: { query }
+      location: { query },
     } = this.props;
 
     let pathname = `/login/forget`;
@@ -139,15 +140,15 @@ class LoginComponent extends Component {
       query,
       state: {
         account: 'guest',
-        forget: true
-      }
+        forget: true,
+      },
     });
   };
 
   render() {
     const { autoLogin, avatar, submitting } = this.state;
     const {
-      location: { search }
+      location: { search },
     } = this.props;
     return (
       <Login defaultActiveKey={this.state.type} onSubmit={this.onSubmit}>
@@ -180,9 +181,7 @@ class LoginComponent extends Component {
           <Submit loading={submitting}>
             <FormattedMessage id="app.login.login" />
           </Submit>
-          <Link
-            style={{ float: 'right', marginBottom: 12 }}
-            to={`/login/register${search}`}>
+          <Link style={{ float: 'right', marginBottom: 12 }} to={`/login/register${search}`}>
             <FormattedMessage id="app.login.signup" />
           </Link>
         </div>
@@ -193,7 +192,7 @@ class LoginComponent extends Component {
 
 function mapStateToProps(state) {
   return {
-    ...state.common
+    ...state.common,
   };
 }
 
