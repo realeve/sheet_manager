@@ -216,7 +216,8 @@ export default class Charts extends Component<IProp, IState> {
             dataSrc={tblDataSrc}
             loading={loading}
             subTitle={
-              tblDataSrc.dates.length &&
+              dataSrc.dates &&
+              dataSrc.dates.length > 0 &&
               `${formatMessage({
                 id: 'app.daterange',
               })}: ${tstart} ${formatMessage({

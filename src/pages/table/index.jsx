@@ -64,7 +64,7 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
                 dataSrc={dataSrc}
                 loading={loading}
                 subTitle={
-                  dataSrc.dates.length &&
+                  dataSrc.dates.length > 0 &&
                   `${formatMessage({ id: 'app.daterange' })}: ${dateRange[0]} ${formatMessage({
                     id: 'app.daterange.to',
                   })} ${dateRange[1]}`
