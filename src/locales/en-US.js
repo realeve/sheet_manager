@@ -19,6 +19,7 @@ export default {
   'validation.password.strength.short': 'Strength: too short',
   'validation.confirm-password.required': 'Please confirm your password!',
   'validation.permission': 'User Permission',
+  'validation.menu': 'Default Menu',
   'validation.dept': 'Please choose your department',
   'validation.dept.required': 'Please choose your department!',
   'validation.phone-number.required': 'Please enter your phone number!',

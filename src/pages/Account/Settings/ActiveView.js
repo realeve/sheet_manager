@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { List } from 'antd';
 import * as db from '@/pages/login/service';
+import * as dbMenu from '@/pages/menu/service';
 import ActiveAction from './ActiveAction';
 const R = require('ramda');
 
@@ -9,7 +10,8 @@ class ActiveView extends Component {
     super(props);
     this.state = {
       users: [],
-      userTypes: []
+      userTypes: [],
+      menuList: [],
     };
   }
 
@@ -19,19 +21,24 @@ class ActiveView extends Component {
       users: data.map(({ _id, fullname: title, dept_name: description }) => ({
         _id,
         title,
-        description
-      }))
+        description,
+      })),
     });
   };
 
   loadUserTypes = async () => {
     let { data } = await db.getSysUserTypes();
+    let { data: menuList } = await dbMenu.getBaseMenuList();
+    // 管理员权限需单独审核开通
 
     // 管理员权限需单独审核开通
     this.setState({
-      userTypes: data.filter(({ id }) => id > 1)
+      userTypes: data.filter(({ id }) => id > 1),
+      menuList: menuList.map(({ id, title: value }) => ({ id, value })),
     });
   };
+
+  loadMenuList = async () => {};
 
   componentDidMount() {
     this.loadUsers();
@@ -50,7 +57,7 @@ class ActiveView extends Component {
   };
 
   getData = () => {
-    let { users, userTypes } = this.state;
+    let { users, userTypes, menuList } = this.state;
     return users.map(item =>
       Object.assign(item, {
         actions: [
@@ -58,8 +65,9 @@ class ActiveView extends Component {
             uid={item._id}
             userTypes={userTypes}
             onChange={this.onActived}
-          />
-        ]
+            menuList={menuList}
+          />,
+        ],
       })
     );
   };
@@ -72,10 +80,7 @@ class ActiveView extends Component {
           dataSource={this.getData()}
           renderItem={item => (
             <List.Item actions={item.actions}>
-              <List.Item.Meta
-                title={item.title}
-                description={item.description}
-              />
+              <List.Item.Meta title={item.title} description={item.description} />
             </List.Item>
           )}
         />

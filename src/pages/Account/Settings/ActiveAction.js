@@ -12,7 +12,8 @@ class ActiveAction extends Component {
       userTypes: props.userTypes,
       user_type: 0,
       loading: false,
-      checked: false
+      checked: false,
+      menu_id: 1,
     };
   }
 
@@ -22,17 +23,18 @@ class ActiveAction extends Component {
       return;
     }
     let {
-      data: [{ affected_rows }]
+      data: [{ affected_rows }],
     } = await db
       .setSysUserActive({
         user_type: this.state.user_type,
-        _id
+        menu_id: this.state.menu_id,
+        _id,
       })
       .finally(_ => {
         this.setState({
           loading: false,
           user_type: 0,
-          checked: false
+          checked: false,
         });
       });
 
@@ -46,21 +48,40 @@ class ActiveAction extends Component {
 
   changeUserType = user_type => {
     this.setState({ user_type });
-    console.log(user_type);
+    // console.log(user_type);
+  };
+
+  changeMenu = menu_id => {
+    this.setState({ menu_id });
   };
 
   render() {
-    let { uid, userTypes } = this.props;
+    let { uid, userTypes, menuList } = this.props;
 
     return (
       <>
         <Select
           size="small"
+          style={{ width: 200, marginRight: 10 }}
+          onChange={this.changeMenu}
+          placeholder={formatMessage({
+            id: 'validation.menu',
+          })}
+        >
+          {menuList.map(({ id, value }) => (
+            <Option value={id} key={id}>
+              {value}
+            </Option>
+          ))}
+        </Select>
+        <Select
+          size="small"
           style={{ width: 100, marginRight: 10 }}
           onChange={this.changeUserType}
           placeholder={formatMessage({
-            id: 'validation.permission'
-          })}>
+            id: 'validation.permission',
+          })}
+        >
           {userTypes.map(({ id, value }) => (
             <Option value={id} key={id}>
               {value}

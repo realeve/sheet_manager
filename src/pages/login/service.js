@@ -7,10 +7,10 @@ import * as util from '@/utils/setting';
 *   @desc:     { 用户登录 } 
     const { uid, psw } = params;
 */
-export const getSysUser = (params) =>
+export const getSysUser = params =>
   axios({
     url: '/5/209a76b78d.json',
-    params
+    params,
   });
 
 /**
@@ -19,19 +19,19 @@ export const getSysUser = (params) =>
  */
 export const getSysDept = () =>
   axios({
-    url: '/27/9b520a55df.json'
+    url: '/27/9b520a55df.json',
   });
 
 /**
  *   @database: { 接口管理 }
  *   @desc:     { 当前用户名是否存在 }
  */
-export const getSysUserExist = (username) =>
+export const getSysUserExist = username =>
   axios({
     url: '/28/9c38509a7f.json',
     params: {
-      username
-    }
+      username,
+    },
   });
 
 /**
@@ -39,10 +39,10 @@ export const getSysUserExist = (username) =>
 *   @desc:     { 用户注册 } 
     const { username, fullname, psw, avatar, user_type, dept_id, menu_id, actived } = params;
 */
-export const addSysUser = (params) =>
+export const addSysUser = params =>
   axios({
     url: '/29/607526f43d.json',
-    params
+    params,
   });
 
 export const getIp = () => axios({ url: '/ip' });
@@ -51,12 +51,12 @@ export const getIp = () => axios({ url: '/ip' });
  *   @database: { 接口管理 }
  *   @desc:     { 获取帐户注册时ip }
  */
-export const getSysUserIp = (username) =>
+export const getSysUserIp = username =>
   axios({
     url: '/30/9cb633ba86.json',
     params: {
-      username
-    }
+      username,
+    },
   });
 
 /**
@@ -66,14 +66,14 @@ export const getSysUserIp = (username) =>
 	@id:_id. 参数说明：api 索引序号
     const { avatar, _id, username } = params;
 */
-export const setSysUser = (params) =>
+export const setSysUser = params =>
   axios({
     url: '/31/26695416cd.json',
-    params
+    params,
   });
 
 // 重新登录，处理登录后相关数据逻辑及全局状态更新
-export const reLogin = async (dispatch) => {
+export const reLogin = async dispatch => {
   let { data, success } = userTool.getUserSetting();
   if (!success) {
     return false;
@@ -88,8 +88,8 @@ export const reLogin = async (dispatch) => {
       type: 'common/setStore',
       payload: {
         userSetting,
-        isLogin: false
-      }
+        isLogin: false,
+      },
     });
     userTool.saveLoginStatus(0);
   }
@@ -102,10 +102,10 @@ export const reLogin = async (dispatch) => {
 	@id:_id. 参数说明：api 索引序号
     const { fullname, dept_id, _id, username } = params;
 */
-export const setSysUserBase = (params) =>
+export const setSysUserBase = params =>
   axios({
     url: '/32/73bf9df9bb.json',
-    params
+    params,
   });
 
 /**
@@ -113,10 +113,10 @@ export const setSysUserBase = (params) =>
 *   @desc:     { 更新密码 } 
     const { new, uid, old } = params;
 */
-export const setSysUserPsw = (params) =>
+export const setSysUserPsw = params =>
   axios({
     url: '/4/63bc967cec.json',
-    params
+    params,
   });
 
 /**
@@ -125,7 +125,7 @@ export const setSysUserPsw = (params) =>
  */
 export const getSysUserUnActived = () =>
   axios({
-    url: '/33/831c282ac2.json'
+    url: '/33/831c282ac2.json',
   });
 
 /**
@@ -134,7 +134,7 @@ export const getSysUserUnActived = () =>
  */
 export const getSysUserTypes = () =>
   axios({
-    url: '/34/ad64451402.json'
+    url: '/34/ad64451402.json',
   });
 
 /**
@@ -142,17 +142,17 @@ export const getSysUserTypes = () =>
 *   @desc:     { 用户激活 } 
 	以下参数在建立过程中与系统保留字段冲突，已自动替换:
 	@id:_id. 参数说明：api 索引序号
-    const { user_type, _id } = params;
+    const { user_type, _id ,menu_id} = params;
 */
-export const setSysUserActive = (params) =>
+export const setSysUserActive = params =>
   axios({
     url: '/35/8c99b29613.json',
-    params
+    params,
   });
 
-export const uploadFile = (data) =>
+export const uploadFile = data =>
   axios({
     method: 'post',
     url: util.uploadHost,
-    data
+    data,
   });

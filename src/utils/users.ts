@@ -21,7 +21,7 @@ const decodeStr = (ciphertext: string) => {
 const saveUserSetting = (data, menuTitle = systemName) => {
   let values = R.clone(data);
   let { menu } = values.setting;
-  console.log(data, '_menuTitle');
+  // console.log(data, '_menuTitle');
   Reflect.deleteProperty(values.setting, 'previewMenu');
   Reflect.deleteProperty(values.setting, 'menu');
   window.localStorage.setItem(_lsKey, encodeStr(values));

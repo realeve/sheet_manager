@@ -10,7 +10,7 @@ import * as db from '@/pages/login/service';
 const FormItem = Form.Item;
 
 @connect(({ common: { userSetting } }) => ({
-  userSetting
+  userSetting,
 }))
 @Form.create()
 class SecurityView extends Component {
@@ -18,7 +18,7 @@ class SecurityView extends Component {
     visible: false,
     help: '',
     confirmDirty: false,
-    submitting: false
+    submitting: false,
   };
 
   getPasswordStatus = () => {
@@ -35,14 +35,14 @@ class SecurityView extends Component {
 
   checkConfirm = (rule, value, callback) => {
     const {
-      form: { getFieldValue }
+      form: { getFieldValue },
     } = this.props;
     if (value && value !== getFieldValue('psw')) {
       callback(formatMessage({ id: 'validation.password.twice' }));
     } else {
       callback();
       this.setState({
-        visible: false
+        visible: false,
       });
     }
   };
@@ -52,16 +52,16 @@ class SecurityView extends Component {
     if (!value) {
       this.setState({
         help: formatMessage({ id: 'validation.password.required' }),
-        visible: !!value
+        visible: !!value,
       });
       callback('error');
     } else {
       this.setState({
-        help: ''
+        help: '',
       });
       if (!visible) {
         this.setState({
-          visible: !!value
+          visible: !!value,
         });
       }
       if (value.length < 5) {
@@ -71,7 +71,7 @@ class SecurityView extends Component {
         if (value && confirmDirty) {
           form.validateFields(['confirm'], { force: true });
           this.setState({
-            visible: false
+            visible: false,
           });
         }
         callback();
@@ -98,20 +98,20 @@ class SecurityView extends Component {
 
   handleSubmit = async () => {
     this.setState({
-      submitting: true
+      submitting: true,
     });
     const {
       form: { getFieldsValue },
-      userSetting: { uid }
+      userSetting: { uid },
     } = this.props;
     const { psw, psw_old } = getFieldsValue();
     const {
-      data: [{ affected_rows }]
+      data: [{ affected_rows }],
     } = await db
       .setSysUserPsw({
         new: psw,
         uid,
-        old: psw_old
+        old: psw_old,
       })
       .finally(e => {
         this.setState({ submitting: false });
@@ -130,7 +130,7 @@ class SecurityView extends Component {
 
   render() {
     const {
-      form: { getFieldDecorator }
+      form: { getFieldDecorator },
     } = this.props;
 
     const { help, visible, submitting } = this.state;
@@ -142,14 +142,15 @@ class SecurityView extends Component {
             {getFieldDecorator('psw_old', {
               rules: [
                 {
-                  required: true
-                }
-              ]
+                  required: true,
+                },
+              ],
             })(
               <Input
                 type="password"
+                style={{ maxWidth: 400 }}
                 placeholder={formatMessage({
-                  id: 'form.password.old.placeholder'
+                  id: 'form.password.old.placeholder',
                 })}
               />
             )}
@@ -167,19 +168,21 @@ class SecurityView extends Component {
               }
               overlayStyle={{ width: 240 }}
               placement="right"
-              visible={visible}>
+              visible={visible}
+            >
               {getFieldDecorator('psw', {
                 rules: [
                   {
-                    validator: this.checkPassword
-                  }
-                ]
+                    validator: this.checkPassword,
+                  },
+                ],
               })(
                 <Input
                   // size="large"
                   type="password"
+                  style={{ maxWidth: 400 }}
                   placeholder={formatMessage({
-                    id: 'form.password.placeholder'
+                    id: 'form.password.placeholder',
                   })}
                 />
               )}
@@ -191,19 +194,20 @@ class SecurityView extends Component {
                 {
                   required: true,
                   message: formatMessage({
-                    id: 'validation.confirm-password.required'
-                  })
+                    id: 'validation.confirm-password.required',
+                  }),
                 },
                 {
-                  validator: this.checkConfirm
-                }
-              ]
+                  validator: this.checkConfirm,
+                },
+              ],
             })(
               <Input
                 // size="large"
                 type="password"
+                style={{ maxWidth: 400 }}
                 placeholder={formatMessage({
-                  id: 'form.confirm-password.placeholder'
+                  id: 'form.confirm-password.placeholder',
                 })}
               />
             )}
@@ -212,7 +216,8 @@ class SecurityView extends Component {
             loading={submitting}
             className={styles.submit}
             type="primary"
-            onClick={this.handleSubmit}>
+            onClick={this.handleSubmit}
+          >
             <FormattedMessage id="app.settings.menuMap.security" />
           </Button>
         </Form>

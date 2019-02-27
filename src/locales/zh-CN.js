@@ -20,6 +20,7 @@ export default {
   'validation.password.strength.short': '强度：太短',
   'validation.confirm-password.required': '请确认密码！',
   'validation.permission': '用户权限',
+  'validation.menu': '默认菜单',
   'validation.dept': '选择部门',
   'validation.dept.required': '请选择部门!',
   'validation.phone-number.required': '请输入手机号！',
