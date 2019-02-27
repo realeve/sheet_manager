@@ -215,11 +215,14 @@ export default class Charts extends Component<IProp, IState> {
           <VTable
             dataSrc={tblDataSrc}
             loading={loading}
-            subTitle={`${formatMessage({
-              id: 'app.daterange',
-            })}: ${tstart} ${formatMessage({
-              id: 'app.daterange.to',
-            })} ${tend}`}
+            subTitle={
+              tblDataSrc.dates.length &&
+              `${formatMessage({
+                id: 'app.daterange',
+              })}: ${tstart} ${formatMessage({
+                id: 'app.daterange.to',
+              })} ${tend}`
+            }
           />
         </TabPane>
       </Tabs>
