@@ -13,13 +13,13 @@ export const getQueryConfig = (url, params) => ({
     tstart2: params.tstart,
     tend2: params.tend,
     tstart3: params.tstart,
-    tend3: params.tend
-  }
+    tend3: params.tend,
+  },
 });
 
 const decodeUrlParam = ({ url, params, idx }) => {
   let param = {};
-  let handleKey = (key) => {
+  let handleKey = key => {
     let item = params[key];
     if (R.type(item) !== 'Array') {
       param[key] = item;
@@ -48,13 +48,13 @@ export const decodeHash = ({ tid, query, tstart, tend }) =>
         tstart2: tstart,
         tend2: tend,
         tstart3: tstart,
-        tend3: tend
+        tend3: tend,
       },
-      idx
+      idx,
     });
     return {
       url,
-      params
+      params,
     };
   });
 
@@ -62,7 +62,7 @@ export const computeDerivedState = async ({ url, params, idx }) => {
   console.time(`加载图表${idx + 1}数据`);
   let dataSrc = await axios({
     url,
-    params
+    params,
   });
   console.timeEnd(`加载图表${idx + 1}数据`);
   return getDrivedState({ dataSrc, params, idx });
@@ -78,7 +78,7 @@ export const getDrivedState = ({ dataSrc, params, idx }) => {
     let dataList = R.groupBy(R.prop(param))(dataSrc.data);
 
     option = R.compose(
-      R.map((prefix) => {
+      R.map(prefix => {
         let newParam = R.clone(params);
         let newDataSrc = R.clone(dataSrc);
         newDataSrc.data = dataList[prefix];
@@ -88,7 +88,7 @@ export const getDrivedState = ({ dataSrc, params, idx }) => {
         return getOption({
           dataSrc: newDataSrc,
           params: newParam,
-          idx
+          idx,
         });
       }),
       R.keys
@@ -98,8 +98,8 @@ export const getDrivedState = ({ dataSrc, params, idx }) => {
       getOption({
         dataSrc,
         params,
-        idx
-      })
+        idx,
+      }),
     ];
   }
 
@@ -110,7 +110,7 @@ export const getDrivedState = ({ dataSrc, params, idx }) => {
   return {
     dataSrc,
     option,
-    loading: false
+    loading: false,
   };
 };
 
@@ -121,23 +121,24 @@ export const getOption = ({ dataSrc, params }) => {
     let config = R.clone(params);
     config = Object.assign(config, {
       data: dataSrc,
-      dateRange: [tstart, tend]
+      dateRange: [tstart, tend],
     });
     let { type } = config;
     type = type || 'bar';
 
     const opt = dataSrc.data.length === 0 ? {} : chartOption[type](config);
-    return util.handleDefaultOption(opt, config);
+    const showDateRange = dataSrc.dates.length > 0;
+    return util.handleDefaultOption(opt, config, showDateRange);
   }
 
   return {
     tooltip: {},
     xAxis: {
-      type: 'category'
+      type: 'category',
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
     },
-    series: []
+    series: [],
   };
 };

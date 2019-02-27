@@ -36,10 +36,14 @@ interface Iconfig {
   [key: string]: any;
 }
 
-let getDefaultTitle = (option, config: Iconfig) => {
+let getDefaultTitle = (option, config: Iconfig, showDateRange: bool = true) => {
   let prefix = config.prefix || '',
     suffix = config.suffix || '';
-
+  if (option.title) {
+    if (!showDateRange) {
+      option.title = R.reject(item => item.text.includes('统计时间'))(option.title);
+    }
+  }
   return (
     option.title || [
       {
@@ -65,13 +69,14 @@ let getDefaultTitle = (option, config: Iconfig) => {
         },
         x: 5,
         y2: 18,
+        show: showDateRange,
       },
       getCopyRight(),
     ]
   );
 };
 
-let handleDefaultOption = (option, config) => {
+let handleDefaultOption = (option, config, showDateRange = true) => {
   let renderer = getRenderer(config);
   let toolbox = option.toolbox || {
     feature: {
@@ -107,7 +112,7 @@ let handleDefaultOption = (option, config) => {
       toolbox,
       tooltip: {},
       legend: defaultLegend,
-      title: getDefaultTitle(option, config),
+      title: getDefaultTitle(option, config, showDateRange),
     },
     option
   );

@@ -81,7 +81,7 @@ test('默认参数配置处理', () => {
         dateRange: ['20180101', '20180201'],
       }
     )
-  ).toEqual({
+  ).toMatchObject({
     legend: {
       align: 'right',
       textStyle: { color: '#666' },
@@ -92,6 +92,19 @@ test('默认参数配置处理', () => {
     toolbox: { feature: { saveAsImage: { type: 'svg' } } },
     tooltip: {},
   });
+
+  let chartHaveNoneRange = lib.handleDefaultOption(
+    { title: [{ text: '统计时间' }] },
+    {
+      data: {
+        title: '图表标题',
+        source: '数据来源：测试数据库',
+      },
+      dateRange: ['20180101', '20180201'],
+    },
+    false
+  );
+  expect(chartHaveNoneRange.title).toHaveLength(0);
 
   expect(
     lib.handleDefaultOption(
@@ -104,7 +117,7 @@ test('默认参数配置处理', () => {
         dateRange: ['20180101', '20180201'],
       }
     )
-  ).toEqual({
+  ).toMatchObject({
     legend: {},
     title,
     toolbox: { feature: { saveAsImage: { type: 'svg' } } },
@@ -123,7 +136,7 @@ test('默认参数配置处理', () => {
         type: 'line',
       }
     )
-  ).toEqual({
+  ).toMatchObject({
     legend: {},
     title,
     toolbox: { feature: { saveAsImage: { type: 'svg' } } },
@@ -141,7 +154,7 @@ test('默认参数配置处理', () => {
         type: 'bar',
       }
     )
-  ).toEqual({
+  ).toMatchObject({
     legend: {},
     title,
     toolbox: { feature: { saveAsImage: { type: 'svg' } } },
@@ -161,7 +174,7 @@ test('默认参数配置处理', () => {
         histogram: '1',
       }
     )
-  ).toEqual({
+  ).toMatchObject({
     legend: {},
     title,
     toolbox: { feature: { saveAsImage: { type: 'png' } } },
@@ -182,7 +195,7 @@ test('默认参数配置处理', () => {
         simple: false,
       }
     )
-  ).toEqual({
+  ).toMatchObject({
     legend: {},
     title,
     toolbox: { feature: { saveAsImage: { type: 'png' } } },
@@ -203,7 +216,7 @@ test('默认参数配置处理', () => {
         simple: false,
       }
     )
-  ).toEqual({
+  ).toMatchObject({
     legend: {},
     title,
     toolbox: { feature: { saveAsImage: { type: 'png' } } },
@@ -234,7 +247,7 @@ test('默认参数配置处理', () => {
         simple: true,
       }
     )
-  ).toEqual({
+  ).toMatchObject({
     legend: {},
     title: { left: 'center', text: '图表标题' },
     toolbox: { feature: { saveAsImage: { type: 'png' } } },
@@ -267,7 +280,7 @@ test('默认参数配置处理', () => {
         simple: true,
       }
     )
-  ).toEqual({
+  ).toMatchObject({
     legend: {},
     title: { left: 'center', text: '图表标题' },
     toolbox: { feature: { saveAsImage: { type: 'png' } } },
@@ -295,7 +308,7 @@ test('默认参数配置处理', () => {
         simple: true,
       }
     )
-  ).toEqual({
+  ).toMatchObject({
     legend: {},
     title: { left: 'center', text: '图表标题' },
     toolbox: { feature: { saveAsImage: { type: 'png' } } },

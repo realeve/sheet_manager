@@ -40,9 +40,9 @@ export default class Charts extends Component<IProp, IState> {
       params: {
         cache: 10,
         tstart: '',
-        tend: ''
-      }
-    }
+        tend: '',
+      },
+    },
   };
 
   echarts_react = null;
@@ -56,9 +56,9 @@ export default class Charts extends Component<IProp, IState> {
       ...props.config,
       dataSrc: {
         data: [],
-        rows: 0
+        rows: 0,
       },
-      appendParams: {}
+      appendParams: {},
     };
 
     // 创建echarts实例
@@ -84,7 +84,7 @@ export default class Charts extends Component<IProp, IState> {
         : db.getDrivedState({
             dataSrc: state.dataSrc,
             params,
-            idx: state.idx
+            idx: state.idx,
           });
     return { appendParams, params, loading: true, ...newState };
   }
@@ -94,7 +94,7 @@ export default class Charts extends Component<IProp, IState> {
     let { dataSrc, option } = await db.computeDerivedState({
       url,
       params,
-      idx
+      idx,
     });
     this.setState({ dataSrc, option });
     this.props.onLoad(dataSrc.title);
@@ -105,7 +105,7 @@ export default class Charts extends Component<IProp, IState> {
       url,
       params,
       appendParams,
-      option
+      option,
     }: {
       url: string;
       params: any;
@@ -146,10 +146,10 @@ export default class Charts extends Component<IProp, IState> {
     // 是否有轴需要互换;
     let res = {
       key: null,
-      value: null
+      value: null,
     };
     R.compose(
-      R.forEach((key) => {
+      R.forEach(key => {
         if (commonKeys.includes(key) && appendParams[key] == value) {
           res = { key, value };
         }
@@ -176,7 +176,7 @@ export default class Charts extends Component<IProp, IState> {
     let header = dataSrc.header || false;
     let tblDataSrc = R.clone(dataSrc);
 
-    tblDataSrc.data = tblDataSrc.data.map((item) => Object.values(item));
+    tblDataSrc.data = tblDataSrc.data.map(item => Object.values(item));
     return (
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab={formatMessage({ id: 'chart.tab.chart' })} key="1">
@@ -184,9 +184,7 @@ export default class Charts extends Component<IProp, IState> {
             <ChartConfig
               header={header}
               params={appendParams}
-              onChange={(key: TAxisName, val: string) =>
-                this.changeParam(key, val)
-              }
+              onChange={(key: TAxisName, val: string) => this.changeParam(key, val)}
               onSwitch={(key: TAxisName, val: boolean) => {
                 let appendParams = R.clone(this.state.appendParams);
                 appendParams[key] = val;
@@ -198,11 +196,12 @@ export default class Charts extends Component<IProp, IState> {
             bodyStyle={{ padding: '20px' }}
             className={styles.exCard}
             loading={loading}
-            bordered={false}>
+            bordered={false}
+          >
             {option.map((opt, key) => (
               <ReactEcharts
                 key={key}
-                ref={(e) => {
+                ref={e => {
                   this.echarts_react = e;
                 }}
                 option={opt}
@@ -217,9 +216,9 @@ export default class Charts extends Component<IProp, IState> {
             dataSrc={tblDataSrc}
             loading={loading}
             subTitle={`${formatMessage({
-              id: 'app.daterange'
+              id: 'app.daterange',
             })}: ${tstart} ${formatMessage({
-              id: 'app.daterange.to'
+              id: 'app.daterange.to',
             })} ${tend}`}
           />
         </TabPane>

@@ -22,28 +22,26 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
   const onDateChange = async (_, dateStrings) => {
     dispatch({
       type: 'table/setStore',
-      payload: { dateRange: dateStrings }
+      payload: { dateRange: dateStrings },
     });
     dispatch({
-      type: 'table/updateParams'
+      type: 'table/updateParams',
     });
     dispatch({
-      type: 'table/refreshData'
+      type: 'table/refreshData',
     });
   };
 
   const DateRangePicker = () => (
     <>
-      <label className={styles.labelDesc}>
-        {formatMessage({ id: 'app.timerange' })}:
-      </label>
+      <label className={styles.labelDesc}>{formatMessage({ id: 'app.timerange' })}:</label>
       <RangePicker
         ranges={dateRanges}
         format="YYYYMMDD"
         onChange={onDateChange}
         defaultValue={[moment(dateRange[0]), moment(dateRange[1])]}
         locale={{
-          rangePlaceholder: ['开始日期', '结束日期']
+          rangePlaceholder: ['开始日期', '结束日期'],
         }}
       />
     </>
@@ -56,6 +54,7 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
           <DateRangePicker />
         </div>
       </div>
+
       {dataSource.length === 0 && <Card title="加载中" loading={true} />}
       {dataSource.map((dataSrc, key) => (
         <div key={key} className={cx({ tableContainer: key, dataList: !key })}>
@@ -64,11 +63,12 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
               <VTable
                 dataSrc={dataSrc}
                 loading={loading}
-                subTitle={`${formatMessage({ id: 'app.daterange' })}: ${
-                  dateRange[0]
-                } ${formatMessage({
-                  id: 'app.daterange.to'
-                })} ${dateRange[1]}`}
+                subTitle={
+                  dataSrc.dates.length > 0 &&
+                  `${formatMessage({ id: 'app.daterange' })}: ${dateRange[0]} ${formatMessage({
+                    id: 'app.daterange.to',
+                  })} ${dateRange[1]}`
+                }
               />
             </TabPane>
             <TabPane tab={formatMessage({ id: 'chart.tab.tableCalc' })} key="2">
@@ -78,7 +78,7 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
                 subTitle={`${formatMessage({ id: 'app.daterange' })}: ${
                   dateRange[0]
                 } ${formatMessage({
-                  id: 'app.daterange.to'
+                  id: 'app.daterange.to',
                 })} ${dateRange[1]}`}
               />
             </TabPane>
@@ -92,7 +92,8 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
 function mapStateToProps(state) {
   return {
     loading: state.loading.models.table,
-    ...state.table
+    // showDateRange: state.common.showDateRange,
+    ...state.table,
   };
 }
 

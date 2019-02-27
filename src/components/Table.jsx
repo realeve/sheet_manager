@@ -160,12 +160,13 @@ class Tables extends Component {
     let { title, source } = this.state.dataSrc;
     const { subTitle } = this.props;
     let config = this.getExportConfig();
+    let queryTime = '下载时间：' + lib.now();
     config = Object.assign(config, {
       download: 'open',
       title,
       orientation: config.header.length > 10 ? 'landscape' : 'portrait',
       pageSize: config.header.length > 15 ? 'A3' : 'A4',
-      message: `\n${subTitle}\n${source}\n(c)${setting.AUTHOR}`,
+      message: `\n${subTitle || ''}\n${queryTime}\n${source}\n(c) ${setting.AUTHOR}`,
     });
     pdf(config);
   };

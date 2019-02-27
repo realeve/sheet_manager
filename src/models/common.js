@@ -19,6 +19,7 @@ export default {
       dept_name: '',
     },
     isLogin: false,
+    // showDateRange: true,
     curPageName: '',
   },
   reducers: {
