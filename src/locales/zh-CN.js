@@ -208,4 +208,6 @@ export default {
   'chart.config.radius': '南丁格尔玫瑰图',
   'chart.config.visual': '颜色索引',
   'chart.config.size': '方格大小',
+  'chart.config.max': 'Y轴最大值',
+  'chart.config.min': 'Y轴最小值',
 };

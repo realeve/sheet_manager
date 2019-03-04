@@ -16,11 +16,13 @@ import { heatmap } from './heatmap';
 import { calendar } from './calendar';
 import { bar3d } from './bar3d';
 
+import { bullet } from './bullet';
+
 export let chartTypeList = [
   [
     { name: '柱形图', value: 'bar', icon: '/img/icons/bar.png' },
     { name: '曲线图', value: 'line', icon: '/img/icons/line.png' },
-    { name: '散点图', value: 'scatter', icon: '/img/icons/scatter.png' }
+    { name: '散点图', value: 'scatter', icon: '/img/icons/scatter.png' },
   ],
   [{ name: '箱线图', value: 'boxplot', icon: '/img/icons/boxplot.png' }],
   [{ name: '饼图', value: 'pie', icon: '/img/icons/pie.png' }],
@@ -29,18 +31,18 @@ export let chartTypeList = [
     {
       name: '旭日图',
       value: 'sunburst',
-      icon: '/img/icons/sunburst.png'
+      icon: '/img/icons/sunburst.png',
     },
     {
       name: '桑基图',
       value: 'sankey',
-      icon: '/img/icons/sankey.png'
+      icon: '/img/icons/sankey.png',
     },
     {
       name: '树图',
       value: 'treemap',
-      icon: '/img/icons/treemap.png'
-    }
+      icon: '/img/icons/treemap.png',
+    },
   ],
   [{ name: '事件河流图', value: 'themeriver' }],
   [{ name: '平行坐标系', value: 'paralell', icon: '/img/icons/scatter.png' }],
@@ -50,26 +52,27 @@ export let chartTypeList = [
     {
       name: '3维柱状图',
       value: 'bar3d',
-      icon: '/img/icons/bar.png'
+      icon: '/img/icons/bar.png',
     },
     {
       name: '3维曲线图',
       value: 'line3d',
-      icon: '/img/icons/line.png'
+      icon: '/img/icons/line.png',
     },
     {
       name: '3维散点图',
       value: 'scatter3d',
-      icon: '/img/icons/scatter.png'
+      icon: '/img/icons/scatter.png',
     },
     {
       name: '3维曲面图',
-      value: 'surface'
-    }
-  ]
+      value: 'surface',
+    },
+  ],
 ];
 export default {
   bar,
+  bullet,
   line: bar,
   scatter: bar,
   boxplot: bar,
@@ -86,5 +89,5 @@ export default {
   bar3d,
   line3d: bar3d,
   scatter3d: bar3d,
-  surface: bar3d
+  surface: bar3d,
 };

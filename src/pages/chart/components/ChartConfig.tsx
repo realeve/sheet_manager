@@ -178,7 +178,9 @@ export type TAxisName =
   | 'circleshape';
 
 const coordinateAxis = type =>
-  !['pie', 'treemap', 'calendar', 'paralell', 'heatmap', 'sankey', 'sunburst'].includes(type);
+  !['pie', 'treemap', 'calendar', 'paralell', 'heatmap', 'sankey', 'sunburst', 'bullet'].includes(
+    type
+  );
 const chartDesc = {
   x: 'X轴所在数据列',
   y: 'Y轴所在数据列',
@@ -209,6 +211,8 @@ const chartDesc = {
   visual: '以第几个数据作为颜色索引序列',
   size: '方格大小',
   spc: '过程质量控制图,参考文献《GB/T 4091-2001 常规控制图》',
+  max: 'Y轴最大值',
+  min: 'Y轴最小值',
 };
 
 const commonSetting = ['type', 'x', 'y', 'z', 'legend', 'group', 'simple', 'visual', 'height'];
@@ -291,6 +295,9 @@ const getSwitchOptions = (options: any = {}) => {
         opts = R.reject(R.equals('reverse'))(opts);
       }
       break;
+    case 'bullet':
+      opts = ['simple', 'reverse'];
+      break;
     default:
       break;
   }
@@ -305,6 +312,9 @@ const getInputOptions = type => {
       break;
     case 'calendar':
       opts.push('size');
+      break;
+    case 'bullet':
+      opts.push('max');
       break;
     default:
       break;

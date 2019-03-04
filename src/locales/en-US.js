@@ -210,4 +210,6 @@ export default {
   'chart.config.radius': 'nightingale rose',
   'chart.config.visual': 'color index',
   'chart.config.size': 'grid size',
+  'chart.config.max': 'maximum of yAxis',
+  'chart.config.min': 'minimum of yAxis',
 };
