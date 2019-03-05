@@ -1,5 +1,5 @@
 import * as lib from './bullet';
-
+// umi test ./src/pages/chart/utils/charts/bullet.test.js
 const renderAPI = { value: () => 100, coord: ([x, y]) => [x, y], visual: () => '#f22' };
 const renderDst = src => ({
   type: 'group',
@@ -69,7 +69,7 @@ test('堆叠数据处理', () => {
         ...indexStyle,
         name: '低于差',
         data: [60],
-        itemStyle: { color: '#ff736e' },
+        itemStyle: { color: '#d3d3d3' },
       },
       {
         ...indexStyle,
@@ -162,7 +162,7 @@ test('堆叠数据处理', () => {
       { icon: 'circle', name: '中' },
       { icon: 'circle', name: '优' },
     ],
-    selected: [{ 低于差: false }, { 差: false }, { 良: false }, { 中: false }, { 优: false }],
+    selectedMode: false,
   });
 
   expect({ xAxis: dst1.xAxis, yAxis: dst1.yAxis }).toMatchObject({
@@ -206,5 +206,7 @@ test('堆叠数据处理', () => {
     { seriesName: '优', value: 10 },
   ]);
   expect(html).toContain('<strong style="color:#f67;"> (良) </strong><br><br>');
-  expect(html).toContain('目标值:70<br>实际值:75<br>低于差:60<br>差:70<br>良:80<br>优:90');
+  expect(html).toContain(
+    '目标值: 70<br>实际值: 75<br>低于差: 0 ~ 60<br>差: 60 ~ 70<br>良: 70 ~ 80<br>优: 80 ~ 90'
+  );
 });

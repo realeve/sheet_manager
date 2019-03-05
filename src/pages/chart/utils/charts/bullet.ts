@@ -72,7 +72,7 @@ const handleStackData = option => {
   levelText = ['低于' + levelText[0], ...levelText];
   let max: number | string = option.max;
 
-  let levelColor: string[] = ['#ff736e', '#FFA39E', '#FFD591', '#91D5FF', '#A7E8B4'];
+  let levelColor: string[] = ['#d3d3d3', '#FFA39E', '#FFD591', '#91D5FF', '#A7E8B4'];
 
   const indexStyle: BarStyle = {
     type: 'bar',
@@ -219,17 +219,26 @@ const bullet = option => {
             levels[idx].value += levels[idx - 1].value;
           }
         });
-        let curLevel = -1;
+        let curLevel: number = -1;
         levels.forEach((item, idx) => {
           if (actual.value >= item.value) {
             curLevel = idx;
           }
         });
 
-        let curText = levels[curLevel + 1].seriesName;
+        let curText: string = levels[curLevel + 1].seriesName;
 
-        let detail = [target, actual, ...levels]
-          .map(({ seriesName, value }) => `${seriesName}:${value}`)
+        let levelDst = R.clone(levels).map((item, idx) => {
+          if (idx === 0) {
+            item.value = `0 ~ ${levels[idx].value}`;
+          } else {
+            item.value = `${levels[idx - 1].value} ~ ${levels[idx].value}`;
+          }
+          return item;
+        });
+
+        let detail: string = [target, actual, ...levelDst]
+          .map(({ seriesName, value }) => `${seriesName}: ${value}`)
           .join('<br>');
         return `${target.name}<strong style="color:#f67;"> (${curText}) </strong><br><br>
         ${detail} 
@@ -241,9 +250,7 @@ const bullet = option => {
         name,
         icon: 'circle',
       })),
-      selected: levelText.map(key => ({
-        [key]: false,
-      })),
+      selectedMode: false,
     },
     yAxis: reverse ? configY : configX,
     xAxis: reverse ? configX : configY,
