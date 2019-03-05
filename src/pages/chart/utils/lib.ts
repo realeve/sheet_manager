@@ -36,7 +36,7 @@ interface Iconfig {
   [key: string]: any;
 }
 
-let getDefaultTitle = (option, config: Iconfig, showDateRange: bool = true) => {
+let getDefaultTitle = (option, config: Iconfig, showDateRange: boolean = true) => {
   let prefix = config.prefix || '',
     suffix = config.suffix || '';
   if (option.title) {
@@ -49,6 +49,7 @@ let getDefaultTitle = (option, config: Iconfig, showDateRange: bool = true) => {
       {
         left: 'center',
         text: prefix + config.data.title + suffix,
+        y: 0,
       },
       {
         text: config.data.source,

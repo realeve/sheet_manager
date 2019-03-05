@@ -251,6 +251,7 @@ const bullet = option => {
         icon: 'circle',
       })),
       selectedMode: false,
+      top: 40,
     },
     yAxis: reverse ? configY : configX,
     xAxis: reverse ? configX : configY,
