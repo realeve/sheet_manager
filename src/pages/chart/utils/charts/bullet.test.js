@@ -197,4 +197,13 @@ test('堆叠数据处理', () => {
       y2: 120,
     })
   );
+  let html = dst1.tooltip.formatter([
+    { seriesName: '目标值', value: 70 },
+    { seriesName: '实际值', value: 75 },
+    { seriesName: '差', value: 60 },
+    { seriesName: '良', value: 10 },
+    { seriesName: '优', value: 10 },
+  ]);
+  expect(html).toContain('<strong style="color:#f67;"> (优) </strong><br><br>');
+  expect(html).toContain('目标值:70<br>实际值:75<br>差:60<br>良:70<br>优:80');
 });

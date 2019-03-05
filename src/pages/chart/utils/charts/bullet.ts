@@ -1,4 +1,5 @@
 import util, { TChartConfig } from '../lib';
+import * as R from 'ramda';
 
 export interface BarStyle {
   type: string;
@@ -44,6 +45,10 @@ let chartConfig: TChartConfig = [
     title: '各指标等级，依次为差,良,中,优，用逗号隔开',
     default:
       '3,4,5,6 表示3-6列分别为差至优的等级。在接口中的别名分别对应展示的文字(第3列起默认为差/良/中/优)。如果评价等级只有3级，如设为3,4,5，别名设置为差、良、优',
+    url: [
+      '/chart#id=75/be3010cfeb&type=bullet&level=3,4,5',
+      '/chart#id=75/be3010cfeb&type=bullet&level=3,4,5,6',
+    ],
   },
   {
     key: 'max',
@@ -202,6 +207,33 @@ const bullet = option => {
       trigger: 'axis',
       axisPointer: {
         type: 'shadow',
+      },
+      formatter(params) {
+        let [target, actual, ...levels] = params;
+        levels = levels.map(({ seriesName, value }) => ({
+          seriesName,
+          value,
+        }));
+        levels.forEach((_, idx) => {
+          if (idx) {
+            levels[idx].value += levels[idx - 1].value;
+          }
+        });
+        let curLevel = -1;
+        levels.forEach((item, idx) => {
+          if (actual.value >= item.value) {
+            curLevel = idx;
+          }
+        });
+
+        let curText = levels[curLevel + 1].seriesName;
+
+        let detail = [target, actual, ...levels]
+          .map(({ seriesName, value }) => `${seriesName}:${value}`)
+          .join('<br>');
+        return `${target.name}<strong style="color:#f67;"> (${curText}) </strong><br><br>
+        ${detail} 
+        `;
       },
     },
     legend: {
