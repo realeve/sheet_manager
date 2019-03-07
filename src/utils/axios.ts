@@ -7,6 +7,17 @@ import { notification } from 'antd';
 import router from './router';
 export { DEV, host, uploadHost } from './setting';
 
+export interface GlobalAxios {
+  host: string;
+  token: string;
+}
+
+declare global {
+  interface Window {
+    g_axios: GlobalAxios;
+  }
+}
+
 let refreshNoncer =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDM4NTI0NDcsIm5iZiI6MTU0Mzg1MjQ0NywiZXhwIjoxNTQzODU5NjQ3LCJ1cmwiOiJodHRwOlwvXC9sb2NhbGhvc3Q6OTBcL3B1YmxpY1wvbG9naW4uaHRtbCIsImV4dHJhIjp7InVpZCI6MSwiaXAiOiIwLjAuMC4wIn19.65tBJTAMZ-i2tkDDpu9DnVaroXera4h2QerH3x2fgTw';
 
@@ -48,12 +59,18 @@ export const mock: MockFn = (path, time = Math.random() * 2000) =>
   });
 
 // 判断数据类型，对于FormData使用 typeof 方法会得到 object;
-let getType: (data: any) => string = data =>
-  Object.prototype.toString
-    .call(data)
-    .match(/\S+/g)[1]
-    .replace(']', '')
-    .toLowerCase();
+const getType: (data: any) => string = data => {
+  let type: string = typeof data;
+  if (type === 'undefined') {
+    return 'undefined';
+  }
+  if (data) {
+    type = data.constructor.name;
+  } else if (type === 'object') {
+    type = Object.prototype.toString.call(data).slice(8, -1);
+  }
+  return type.toLowerCase();
+};
 
 export const loadUserInfo = user => {
   if (user == null) {
@@ -62,11 +79,11 @@ export const loadUserInfo = user => {
     return {
       token: refreshNoncer,
     };
-  } else {
-    user = JSON.parse(user);
-    window.g_axios.token = user.token;
-    return { token: user.token };
   }
+
+  user = JSON.parse(user);
+  window.g_axios.token = user.token;
+  return { token: user.token };
 
   // let extraInfo: string = atob(user.token.split('.')[1]);
   // userInfo.uid = JSON.parse(extraInfo).extra.uid;
@@ -137,12 +154,10 @@ export const handleData = ({ data }) => {
 
 // 自动处理token更新，data 序列化等
 export let axios = option => {
-  if (!window.g_axios) {
-    window.g_axios = {
-      host,
-      token: '',
-    };
-  }
+  window.g_axios = window.g_axios || {
+    host,
+    token: '',
+  };
   // token为空时自动获取
   if (window.g_axios.token === '') {
     let user: null | string = window.localStorage.getItem('user');
