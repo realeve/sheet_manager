@@ -1,4 +1,4 @@
-import { axios, handleError, loadUserInfo, handleData, mock } from './axios';
+import { axios, handleError, loadUserInfo, handleData, mock, getType } from './axios';
 
 let readData = () =>
   axios({
@@ -153,9 +153,14 @@ test('mock', async () => {
   let data = await mock({ rows: 1 });
   expect(data).toMatchObject({ rows: 1 });
 
-  let requireData = await mock('./setting.ts');
-  expect(requireData.host).toContain('http');
+  // mock增加require后会报循环调用的错误，同时打包会存在问题，故取消，只允许传数据
+  // let requireData = await mock('./setting.ts');
+  // expect(requireData.host).toContain('http');
 
-  data = await mock('@/mock/10_51ccc896d2.json');
-  expect(data).toMatchObject({ rows: 2 });
+  // data = await mock('@/mock/10_51ccc896d2.json');
+  // expect(data).toMatchObject({ rows: 2 });
+});
+
+test('gettype', () => {
+  expect(getType({})).toBe('object');
 });

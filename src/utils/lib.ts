@@ -291,7 +291,7 @@ export const handleUrlParams: (
   params: any;
   dateRange: [string, string];
 } = hash => {
-  let query = parseUrl();
+  let query = parseUrl(hash);
   let { id } = query;
   let params = R.clone(query);
   Reflect.deleteProperty(params, 'id');

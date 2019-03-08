@@ -6,8 +6,6 @@ import jStat from 'jStat';
 import * as R from 'ramda';
 import qs from 'qs';
 
-const R = require('ramda');
-
 const isFilterColumn: <T>(
   data: Array<any>,
   key: T

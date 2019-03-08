@@ -62,12 +62,16 @@ export const getType: (data: any) => string = data => {
   if (type === 'undefined') {
     return 'undefined';
   }
-  if (data) {
-    type = data.constructor.name;
-  } else if (type === 'object') {
-    type = Object.prototype.toString.call(data).slice(8, -1);
-  }
-  return type.toLowerCase();
+  // if (data) {
+  //   type = data.constructor.name;
+  // } else if (type === 'object') {
+  //   type = Object.prototype.toString.call(data).slice(8, -1).toLowerCase();
+  // }
+  // return type.toLowerCase();
+  return Object.prototype.toString
+    .call(data)
+    .slice(8, -1)
+    .toLowerCase();
 };
 
 export const loadUserInfo = user => {
