@@ -3,16 +3,21 @@ import { Table, Pagination, Card, Button, Input, Menu, Dropdown, Icon, Form, Swi
 import * as db from '../services/table';
 import styles from './Table.less';
 import * as setting from '../utils/setting';
-import Excel from '../utils/excel';
 import pdf from '../utils/pdf';
 import * as lib from '../utils/lib';
 import { formatMessage } from 'umi/locale';
+import * as Excel from '@/utils/exceljs';
+import { connect } from 'dva';
 
 const R = require('ramda');
 
 const Search = Input.Search;
 const FormItem = Form.Item;
 
+@connect(({ common: { userSetting: { dept_name, fullname } } }) => ({
+  dept_name,
+  fullname,
+}))
 class Tables extends Component {
   constructor(props) {
     super(props);
@@ -134,7 +139,7 @@ class Tables extends Component {
 
   getExportConfig = () => {
     const { columns, dataSrc, dataClone } = this.state;
-    const { title } = dataSrc;
+    const { title, source } = dataSrc;
     const header = R.map(R.prop('title'))(columns);
     const filename = `${title}`;
     const keys = header.map((item, i) => 'col' + i);
@@ -142,7 +147,11 @@ class Tables extends Component {
       R.map(item => R.map(a => (lib.hasDecimal(a) ? parseFloat(a) : a))(item)),
       R.map(R.props(keys))
     )(dataClone);
+    const { dept_name, fullname } = this.props;
+    const creator = `${dept_name} ${fullname}`;
     return {
+      creator,
+      source,
       filename,
       header,
       body,
@@ -151,8 +160,7 @@ class Tables extends Component {
 
   downloadExcel = () => {
     const config = this.getExportConfig();
-    const xlsx = new Excel(config);
-    xlsx.save();
+    Excel.save(config);
   };
 
   downloadPdf = () => {

@@ -59,7 +59,7 @@ export const mock: MockFn = (path, time = Math.random() * 2000) =>
   });
 
 // 判断数据类型，对于FormData使用 typeof 方法会得到 object;
-const getType: (data: any) => string = data => {
+export const getType: (data: any) => string = data => {
   let type: string = typeof data;
   if (type === 'undefined') {
     return 'undefined';

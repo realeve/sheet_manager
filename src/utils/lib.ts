@@ -8,8 +8,10 @@ import router from './router';
 
 import userTool from './users';
 import { Dispatch } from 'react-redux';
+import * as axios from './axios';
 const R = require('ramda');
 
+export const getType = axios.getType;
 export { searchUrl, imgUrl, systemName, host as apiHost } from './setting';
 
 // export const searchUrl: string = setting.searchUrl;
@@ -328,14 +330,6 @@ export const logout = ({ dispatch }: Props) => {
   });
   return true;
 };
-
-export const getType: {
-  (o: any): string;
-} = o =>
-  Object.prototype.toString
-    .call(o)
-    .match(/\w+/g)[1]
-    .toLowerCase();
 
 interface Store {
   payload: any;
