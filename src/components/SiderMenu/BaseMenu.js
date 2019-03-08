@@ -121,7 +121,8 @@ export default class BaseMenu extends PureComponent {
   };
 
   conversionPath = path => {
-    if (path && path.indexOf('http') === 0) {
+    // bug fix 20190309
+    if (path && path.indexOf('http') >= 0) {
       return path;
     }
     return `/${path || ''}`.replace(/\/+/g, '/');
