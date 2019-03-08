@@ -1,11 +1,9 @@
 import http from 'axios';
 import qs from 'qs';
 import { host } from './setting';
-
 import { notification } from 'antd';
 // import router from 'umi/router';
 import router from './router';
-export { DEV, host, uploadHost } from './setting';
 
 export interface GlobalAxios {
   host: string;
@@ -54,7 +52,7 @@ export type MockFn = <T>(path: string | T, time: number) => Promise<T>;
 export const mock: MockFn = (path, time = Math.random() * 2000) =>
   new Promise(resolve => {
     setTimeout(() => {
-      resolve(typeof path === 'string' ? require(path) : path);
+      resolve(path);
     }, time);
   });
 

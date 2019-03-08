@@ -1,6 +1,7 @@
 import util from '../utils/lib';
 import chartOption from '../utils/charts';
-import { axios, DEV } from '@/utils/axios';
+import { axios } from '@/utils/axios';
+import { DEV } from '@/utils/setting';
 import * as lib from '@/utils/lib';
 const R = require('ramda');
 

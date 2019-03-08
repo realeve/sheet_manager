@@ -26,7 +26,7 @@ class TableCalc extends Component {
     return db.updateState(props, state);
   }
 
-  fieldsChange = async (fieldList) => {
+  fieldsChange = async fieldList => {
     let { groupList, operatorList } = this.state;
     fieldList = R.sort((a, b) => a - b)(fieldList);
     if (groupList.length === 0) {
@@ -34,19 +34,19 @@ class TableCalc extends Component {
     }
     await this.setState({
       fieldList,
-      operatorList
+      operatorList,
     });
     this.saveFieldsSetting();
   };
 
-  operatorChange = async (operatorList) => {
+  operatorChange = async operatorList => {
     await this.setState({
-      operatorList
+      operatorList,
     });
     this.saveFieldsSetting();
   };
 
-  groupChange = async (groupList) => {
+  groupChange = async groupList => {
     let { operatorList } = this.state;
     groupList = R.sort((a, b) => a - b)(groupList);
     if (groupList.length === 0) {
@@ -54,7 +54,7 @@ class TableCalc extends Component {
     }
     await this.setState({
       groupList,
-      operatorList
+      operatorList,
     });
     this.saveFieldsSetting();
   };
@@ -63,10 +63,7 @@ class TableCalc extends Component {
   saveFieldsSetting = () => {
     let { groupList, operatorList, fieldList, dataSrc } = this.state;
     let key = setting.lsKeys.calSetting + dataSrc.api_id;
-    window.localStorage.setItem(
-      key,
-      JSON.stringify({ groupList, operatorList, fieldList })
-    );
+    window.localStorage.setItem(key, JSON.stringify({ groupList, operatorList, fieldList }));
   };
 
   groupData = () => {
@@ -83,7 +80,7 @@ class TableCalc extends Component {
       groupList,
       dataSource,
       loading,
-      subTitle
+      subTitle,
     } = this.state;
     return (
       <div>
@@ -118,8 +115,9 @@ class TableCalc extends Component {
                 style={{
                   borderTop: '1px solid #e9e9e9',
                   marginTop: 5,
-                  paddingTop: 5
-                }}>
+                  paddingTop: 5,
+                }}
+              >
                 计数：统计分组字段出现的次数;
                 <br />
                 中位数：按顺序排列的一组数据中居于中间位置的数;
@@ -139,7 +137,12 @@ class TableCalc extends Component {
             {/* <Button>重置</Button> */}
           </div>
         </Card>
-        <VTable dataSrc={dataSource} loading={loading} subTitle={subTitle} />
+        <VTable
+          dataSrc={dataSource}
+          loading={loading}
+          subTitle={subTitle}
+          merge={this.props.merge}
+        />
       </div>
     );
   }
@@ -151,12 +154,13 @@ TableCalc.defaultProps = {
     title: '',
     rows: 0,
     time: '0ms',
-    header: []
+    header: [],
   },
   loading: false,
   cartLinkPrefix: setting.searchUrl,
   actions: false,
-  subTitle: ''
+  subTitle: '',
+  merge: false,
 };
 
 export default TableCalc;

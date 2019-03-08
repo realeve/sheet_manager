@@ -1,8 +1,11 @@
 import React from 'react';
 import * as lib from '../utils/lib';
-import { uploadHost } from '../utils/axios';
 import styles from '../components/Table.less';
 import * as setting from '../utils/setting';
+import jStat from 'jStat';
+import * as R from 'ramda';
+import qs from 'qs';
+
 const R = require('ramda');
 
 const isFilterColumn: <T>(
@@ -11,7 +14,7 @@ const isFilterColumn: <T>(
 ) => { uniqColumn: Array<T>; filters: boolean } = (data, key) => {
   let isValid: boolean = true;
 
-  const handleItem: (item: string | number | null) => void = (item) => {
+  const handleItem: (item: string | number | null) => void = item => {
     if (R.isNil(item)) {
       isValid = false;
     }
@@ -37,14 +40,11 @@ const isFilterColumn: <T>(
 
   return {
     uniqColumn,
-    filters: isValid
+    filters: isValid,
   };
 };
 
-export function handleColumns(
-  { dataSrc, filteredInfo },
-  cartLinkPrefix = setting.searchUrl
-) {
+export function handleColumns({ dataSrc, filteredInfo }, cartLinkPrefix = setting.searchUrl) {
   let { data, header, rows } = dataSrc;
   if (!rows || rows === 0) {
     return [];
@@ -65,7 +65,7 @@ export function handleColumns(
       onFilter?: Function;
       filteredValue?: any;
     } = {
-      title
+      title,
     };
 
     item.dataIndex = key;
@@ -86,38 +86,32 @@ export function handleColumns(
 
     const isCart: boolean = lib.isCart(tdValue);
     if (lib.isReel(tdValue) || isCart) {
-      item.render = (text) => {
+      item.render = text => {
         let url = cartLinkPrefix;
         const attrs = {
           href: url + text,
-          target: '_blank'
+          target: '_blank',
         };
         return <a {...attrs}> {text} </a>;
       };
       return item;
     } else if (lib.isInt(tdValue) && !lib.isDateTime(tdValue)) {
-      item.render = (text) => parseInt(text, 10).toLocaleString();
+      item.render = text => parseInt(text, 10).toLocaleString();
       return item;
     } else if (lib.hasDecimal(tdValue)) {
-      item.render = (text) => parseFloat(text);
+      item.render = text => parseFloat(text);
       return item;
     } else {
-      item.render = (text) => {
+      item.render = text => {
         text = R.isNil(text) ? '' : text;
-        let isImg =
-          String(text).includes('image/') || String(text).includes('/file/');
+        let isImg = String(text).includes('image/') || String(text).includes('/file/');
         let isBase64Image =
-          String(text).includes('data:image/') &&
-          String(text).includes(';base64');
-        let hostUrl = isBase64Image ? '' : uploadHost;
+          String(text).includes('data:image/') && String(text).includes(';base64');
+        let hostUrl = isBase64Image ? '' : setting.uploadHost;
         return !isImg ? (
           text
         ) : (
-          <img
-            className={styles.imgContent}
-            src={`${hostUrl}${text}`}
-            alt={text}
-          />
+          <img className={styles.imgContent} src={`${hostUrl}${text}`} alt={text} />
         );
       };
     }
@@ -125,9 +119,9 @@ export function handleColumns(
     let fInfo = isFilterColumn(data, key);
 
     if (filteredInfo && fInfo.filters) {
-      item.filters = fInfo.uniqColumn.map((text) => ({
+      item.filters = fInfo.uniqColumn.map(text => ({
         text,
-        value: text
+        value: text,
       }));
 
       item.onFilter = (value, record) => record[key].includes(value);
@@ -139,11 +133,11 @@ export function handleColumns(
   // 10列以上自动固定
   if (column.length > 10) {
     let fixedHeaders: Array<number> = [0, 1];
-    fixedHeaders.forEach((id) => {
+    fixedHeaders.forEach(id => {
       // if (column[id]) {
       column[id] = Object.assign(column[id], {
         width: 80,
-        fixed: 'left'
+        fixed: 'left',
       });
       // }
     });
@@ -153,9 +147,9 @@ export function handleColumns(
 
 export function handleFilter({ data, filters }) {
   R.compose(
-    R.forEach((key) => {
+    R.forEach(key => {
       if (filters[key] !== null && filters[key].length !== 0) {
-        data = R.filter((item) => filters[key].includes(item[key]))(data);
+        data = R.filter(item => filters[key].includes(item[key]))(data);
       }
     }),
     R.keys
@@ -165,9 +159,24 @@ export function handleFilter({ data, filters }) {
 
 export function updateColumns({ columns, filters }) {
   R.compose(
-    R.forEach((key) => {
+    R.forEach(key => {
       let idx = R.findIndex(R.propEq('dataIndex', key))(columns);
-      columns[idx].filteredValue = filters[key];
+      if (idx > -1) {
+        columns[idx].filteredValue = filters[key];
+      } else {
+        // 有嵌套表格
+        columns.forEach((item, idx) => {
+          if (item.dataIndex == key) {
+            columns[idx].filteredValue = filters[key];
+          } else if (lib.getType(item.children) == 'array') {
+            item.children.forEach((child, childIdx) => {
+              if (childIdx.dataIndex == key) {
+                columns[idx][childIdx].filteredValue = filters[key];
+              }
+            });
+          }
+        });
+      }
     }),
     R.keys
   )(filters);
@@ -186,7 +195,7 @@ export function handleSort({ dataClone, field, order }) {
 export const getPageData = ({ data, page, pageSize }) =>
   data.slice((page - 1) * pageSize, page * pageSize);
 
-export const handleSrcData = (data) => {
+export const handleSrcData = data => {
   if (data.length === 0) {
     return data;
   }
@@ -195,7 +204,7 @@ export const handleSrcData = (data) => {
   if (data.rows) {
     data.data = data.data.map((item, key) => {
       let col = {
-        key
+        key,
       };
       item.forEach((td, idx) => {
         col['col' + idx] = lib.parseNumber(td);
@@ -207,7 +216,7 @@ export const handleSrcData = (data) => {
 };
 
 // 根据 props 初始化state
-export const initState = (props) => {
+export const initState = props => {
   let page = 1;
   let pageSize = 15;
   let state = updateState(props, { page, pageSize });
@@ -217,12 +226,47 @@ export const initState = (props) => {
     pageSize,
     filteredInfo: {},
     sortedInfo: {},
-    ...state
+    ...state,
   };
 };
 
+// 表头合并处理
+export const mergeConfig = columns => {
+  let params = lib.parseUrl();
+  if (!params.merge) {
+    return columns;
+  }
+  if (lib.getType(params.merge) == 'string') {
+    params.merge = [params.merge];
+  }
+  if (lib.getType(params.mergetext) == 'string') {
+    params.mergetext = [params.mergetext];
+  }
+  params.merge = params.merge.map(item =>
+    item
+      .split('-')
+      .map(cell => parseInt(cell, 10))
+      .sort()
+  );
+  // 逆序排列
+  params.merge.sort((a, b) => b[0] - a[0]);
+  let mergeColumns = R.clone(columns);
+
+  params.merge.forEach(([start, end], idx) => {
+    // 将起始点合并
+    mergeColumns[start] = {
+      title: params.mergetext[idx],
+      children: R.slice(start, end + 1)(mergeColumns),
+    };
+
+    // 移除后续数据
+    mergeColumns = R.remove(start + 1, end - start)(mergeColumns);
+  });
+  return mergeColumns;
+};
+
 // 根据 props 更新state //, columns
-export const updateState = (props, { page, pageSize }) => {
+export const updateState = (props, { page, pageSize }, merge = true) => {
   let { dataSrc, loading } = props;
 
   const { source, time } = dataSrc;
@@ -233,7 +277,7 @@ export const updateState = (props, { page, pageSize }) => {
     if (typeof dataSrc.data[0].key === 'undefined') {
       dataSrc.data = dataSrc.data.map((item, key) => {
         let col = {
-          key
+          key,
         };
         item.forEach((td, idx) => {
           col['col' + idx] = td;
@@ -245,13 +289,12 @@ export const updateState = (props, { page, pageSize }) => {
     dataSource = getPageData({
       data: dataSrc.data,
       page,
-      pageSize
+      pageSize,
     });
   }
 
   let borderedStr: string | null = window.localStorage.getItem('_tbl_bordered');
-  let bordered: boolean =
-    R.isNil(borderedStr) || borderedStr === '0' ? false : true;
+  let bordered: boolean = R.isNil(borderedStr) || borderedStr === '0' ? false : true;
 
   let state = {
     bordered,
@@ -262,19 +305,24 @@ export const updateState = (props, { page, pageSize }) => {
     dataSrc,
     loading,
     dataClone: dataSrc.data,
-    dataSearchClone: []
+    dataSearchClone: [],
   };
 
   let columns = handleColumns(
     {
       dataSrc,
-      filteredInfo: {}
+      filteredInfo: {},
     },
     props.cartLinkPrefix
   );
 
+  // 合并单元格展示
+  if (merge) {
+    columns = mergeConfig(columns);
+  }
+
   return {
     ...state,
-    columns
+    columns,
   };
 };

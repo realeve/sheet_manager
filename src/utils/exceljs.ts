@@ -4,71 +4,7 @@ import * as R from 'ramda';
 import jStat from 'jStat';
 import lib from '@/pages/chart/utils/lib';
 import { AUTHOR } from './setting';
-import qs from 'qs';
-import * as util from './lib';
-
-export interface TableSetting {
-  prefix?: string;
-  suffix?: string;
-  interval?: string;
-  autoid?: string | boolean;
-  merge?: string;
-  mergetext: string;
-  [key: string]: any;
-}
-
-export interface Config {
-  creator?: string;
-  lastModifiedBy?: string;
-  created?: string;
-  modified?: string;
-  lastPrinted?: string;
-  params?: TableSetting;
-  [key: string]: any;
-}
-
-const handleMerge: (merge: string, autoid: boolean) => string[] = (merge, autoid) => {
-  let mergeType: string = util.getType(merge);
-  switch (mergeType) {
-    case 'string':
-      merge = [merge];
-      break;
-    default:
-      break;
-  }
-
-  // 先处理merge字段
-  // merge字段定义 2-3,2-5,7-8
-  return merge.map((item: string) => {
-    let arr = item.split('-').sort();
-    arr = arr.map(col => parseInt(col, 10) + (autoid ? 2 : 1));
-    return arr;
-  });
-};
-const getParams = (hash = window.location.hash) => {
-  let queryStr: string = hash
-    .toLowerCase()
-    .slice(1)
-    .replace(/，/g, ',')
-    .replace(/ /g, '');
-  let params = qs.parse(queryStr);
-  params.interval = params.interval || 5; //隔行背景色
-  params.interval = Math.max(parseInt(params.interval, 10), 2);
-  params.merge = handleMerge(params.merge || [], params.autoid);
-  switch (util.getType(params.mergetext)) {
-    case 'undefined':
-      params.mergetext = [''];
-      break;
-    case 'string':
-      params.mergetext = [params.mergetext];
-      break;
-    default:
-      break;
-  }
-
-  params.autoid = params.autoid == '1' || true; // 填充第一列序号
-  return params;
-};
+import { Config, getParams } from './excelConfig';
 
 const initWorkSheet = (config: Config) => {
   let workbook = new Excel.Workbook(config);
@@ -136,7 +72,7 @@ export const getColumn = config => {
 
 const createWorkBook = (config: Config) => {
   let { worksheet, workbook } = initWorkSheet(config);
-  let params = getParams();
+  let { params } = config;
   let columns = getColumn(config);
   if (params.autoid) {
     columns = [
@@ -146,15 +82,18 @@ const createWorkBook = (config: Config) => {
       },
       ...columns,
     ];
+
     config.body = config.body.map((item, idx) => [idx + 1, ...item]);
   }
 
   // 先添加表头
   worksheet.columns = columns;
+
   const needHandleMerge = params.merge.length;
   if (needHandleMerge) {
     // 复制一列数据到第2列作为表头内容
     let newRow = R.map(R.prop('header'))(columns);
+
     config.body = [newRow, ...config.body];
   }
 
@@ -165,9 +104,6 @@ const createWorkBook = (config: Config) => {
   if (needHandleMerge) {
     const row = worksheet.getRow(1);
 
-    // 记录合并单元格
-    let mergedRows = [];
-
     params.merge.forEach(([start, end], idx) => {
       worksheet.mergeCells(1, start, 1, end);
       // 合并后居中
@@ -175,12 +111,10 @@ const createWorkBook = (config: Config) => {
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
       // 填充文字
       cell.value = params.mergetext[idx];
-
-      mergedRows = [...mergedRows, ...jStat.arange(start, end + 1)].sort();
     });
     row.eachCell(function(cell, idx) {
       // 不需合并的单元格
-      if (!mergedRows.includes(idx)) {
+      if (!params.mergedRows.includes(idx)) {
         worksheet.mergeCells(1, idx, 2, idx); //合并两行
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
       }
@@ -243,7 +177,9 @@ const handleFilename: (name: string, param: any) => string = (filename, param) =
 };
 
 export const save = (config: Config) => {
-  config.params = getParams();
+  // 将配置项置于组件入口，不依赖于url地址栏，方便复用
+  config.params = getParams(config.params);
+
   config.filename = handleFilename(config.filename, config.params);
 
   config = Object.assign({}, config, {

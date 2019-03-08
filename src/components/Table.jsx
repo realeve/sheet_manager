@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Pagination, Card, Button, Input, Menu, Dropdown, Icon, Form, Switch } from 'antd';
-import * as db from '../services/table';
+import * as db from '@/services/table';
 import styles from './Table.less';
 import * as setting from '../utils/setting';
 import pdf from '../utils/pdf';
@@ -30,7 +30,7 @@ class Tables extends Component {
     if (R.equals(props.dataSrc, dataSrc)) {
       return { loading: props.loading };
     }
-    return db.updateState(props, { page, pageSize, columns });
+    return db.updateState(props, { page, pageSize, columns }, props.merge);
   }
 
   // 页码更新
@@ -138,15 +138,14 @@ class Tables extends Component {
   };
 
   getExportConfig = () => {
-    const { columns, dataSrc, dataClone } = this.state;
-    const { title, source } = dataSrc;
-    const header = R.map(R.prop('title'))(columns);
+    const { title, source, header } = R.clone(this.state.dataSrc);
     const filename = `${title}`;
     const keys = header.map((item, i) => 'col' + i);
     const body = R.compose(
       R.map(item => R.map(a => (lib.hasDecimal(a) ? parseFloat(a) : a))(item)),
       R.map(R.props(keys))
-    )(dataClone);
+    )(this.state.dataClone);
+
     const { dept_name, fullname } = this.props;
     const creator = `${dept_name} ${fullname}`;
     return {
@@ -155,6 +154,7 @@ class Tables extends Component {
       filename,
       header,
       body,
+      params: R.clone(this.props.config),
     };
   };
 
@@ -354,6 +354,13 @@ Tables.defaultProps = {
   cartLinkPrefix: setting.searchUrl,
   actions: false,
   subTitle: '',
+  config: {
+    prefix: '',
+    suffix: '',
+    autoid: true,
+    interval: 5,
+  },
+  merge: true,
 };
 
 export default Tables;

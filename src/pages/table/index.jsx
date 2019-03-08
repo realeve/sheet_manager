@@ -11,6 +11,8 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 
 import classNames from 'classnames/bind';
+import * as lib from '@/utils/lib';
+
 const cx = classNames.bind(styles);
 
 moment.locale('zh-cn');
@@ -47,6 +49,9 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
     </>
   );
 
+  // 表头合并相关设置信息
+  let params = lib.parseUrl();
+
   return (
     <>
       <div className={styles.header}>
@@ -63,6 +68,7 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
               <VTable
                 dataSrc={dataSrc}
                 loading={loading}
+                config={params}
                 subTitle={
                   dataSrc.dates.length > 0 &&
                   `${formatMessage({ id: 'app.daterange' })}: ${dateRange[0]} ${formatMessage({
@@ -75,6 +81,7 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
               <VTableCalc
                 dataSrc={dataSrc}
                 loading={loading}
+                merge={false}
                 subTitle={`${formatMessage({ id: 'app.daterange' })}: ${
                   dateRange[0]
                 } ${formatMessage({

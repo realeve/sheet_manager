@@ -275,6 +275,14 @@ export const thouandsNum: {
   return numStr + '.' + ''.padEnd(decimalLength, '0');
 };
 
+export const parseUrl = (hash = window.location.hash) => {
+  let queryStr: string = hash
+    .slice(1)
+    .replace(/，/g, ',')
+    .replace(/ /g, '');
+  return qs.parse(queryStr);
+};
+
 // 处理url链接信息，返回组件model所需的初始数据
 export const handleUrlParams: (
   hash: string
@@ -283,11 +291,7 @@ export const handleUrlParams: (
   params: any;
   dateRange: [string, string];
 } = hash => {
-  let queryStr: string = hash
-    .slice(1)
-    .replace(/，/g, ',')
-    .replace(/ /g, '');
-  let query = qs.parse(queryStr);
+  let query = parseUrl();
   let { id } = query;
   let params = R.clone(query);
   Reflect.deleteProperty(params, 'id');

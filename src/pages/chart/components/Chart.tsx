@@ -224,6 +224,7 @@ export default class Charts extends Component<IProp, IState> {
                 id: 'app.daterange.to',
               })} ${tend}`
             }
+            merge={false}
           />
         </TabPane>
       </Tabs>
