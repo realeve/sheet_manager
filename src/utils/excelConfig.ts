@@ -1,5 +1,5 @@
 import jStat from 'jStat';
-
+import * as R from 'ramda';
 /**
  * @param prefix 前缀
  * @param suffix 后续
@@ -62,6 +62,7 @@ export interface MergeRes {
 export const handleMerge: (config: SrcConfig) => MergeRes = config => {
   let { merge, mergetext, autoid } = config;
   let mergeStrArr: string[] = [];
+
   switch (typeof merge) {
     case 'string':
       mergeStrArr = [merge];
@@ -70,6 +71,7 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
       mergeStrArr = [];
       break;
     default:
+      mergeStrArr = merge;
       break;
   }
 
@@ -92,6 +94,7 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
       mergetextArr = [mergetext];
       break;
     default:
+      mergetextArr = mergetext;
       break;
   }
 
@@ -128,8 +131,6 @@ const initQueryParam: (params: BasicConfig) => BasicConfig = params => {
 export const getParams: DstConfig | any = (config: SrcConfig) => {
   let params: BasicConfig = initQueryParam(config);
   let mergeParam: MergeRes = handleMerge(params);
-  return {
-    ...params,
-    ...mergeParam,
-  };
+  console.log(mergeParam);
+  return Object.assign(params, mergeParam);
 };
