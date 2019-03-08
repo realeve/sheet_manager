@@ -131,6 +131,5 @@ const initQueryParam: (params: BasicConfig) => BasicConfig = params => {
 export const getParams: DstConfig | any = (config: SrcConfig) => {
   let params: BasicConfig = initQueryParam(config);
   let mergeParam: MergeRes = handleMerge(params);
-  console.log(mergeParam);
   return Object.assign(params, mergeParam);
 };
