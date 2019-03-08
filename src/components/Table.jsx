@@ -151,7 +151,6 @@ class Tables extends Component {
 
   downloadExcel = () => {
     const config = this.getExportConfig();
-    config.filename = config.filename + '.xlsx';
     const xlsx = new Excel(config);
     xlsx.save();
   };
