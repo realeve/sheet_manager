@@ -50,7 +50,7 @@ function Tables({ dispatch, dateRange, loading, dataSource }) {
   );
 
   // 表头合并相关设置信息
-  let params = lib.parseUrl();
+  let params = lib.parseUrl(window.location.hash);
 
   return (
     <>

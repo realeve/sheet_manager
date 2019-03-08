@@ -4,7 +4,7 @@ import * as R from 'ramda';
 import jStat from 'jStat';
 import lib from '@/pages/chart/utils/lib';
 import { AUTHOR } from './setting';
-import { Config, getParams } from './excelConfig';
+import { getParams, Config, BasicConfig, DstConfig } from './excelConfig';
 
 const initWorkSheet = (config: Config) => {
   let workbook = new Excel.Workbook(config);
@@ -159,7 +159,7 @@ const setCellBorder = (worksheet, params) => {
   }
 };
 
-const handleFilename: (name: string, param: any) => string = (filename, param) => {
+const handleFilename: (name: string, param: DstConfig) => string = (filename, param) => {
   filename = filename || document.title;
   if (param.prefix) {
     filename = param.prefix + filename;
@@ -176,23 +176,39 @@ const handleFilename: (name: string, param: any) => string = (filename, param) =
   return filename.replace(/[^a-zA-Z0-9_\u00A1-\uFFFF\.,\-_ !\(\)]/g, '');
 };
 
-export const save = (config: Config) => {
+export interface CommonConfig {
+  body: any[];
+  creator: string;
+  filename: string;
+  header: string[];
+  [key: string]: any;
+}
+export interface SaveSetting extends CommonConfig {
+  params: BasicConfig;
+}
+
+export interface ConvertSetting extends CommonConfig {
+  params: DstConfig;
+}
+export const save: (config: SaveSetting) => void = ({ params, ...config }) => {
   // 将配置项置于组件入口，不依赖于url地址栏，方便复用
-  config.params = getParams(config.params);
+  let newConfig: ConvertSetting = R.clone(config);
+  newConfig.params = getParams(params);
 
-  config.filename = handleFilename(config.filename, config.params);
+  newConfig.filename = handleFilename(newConfig.filename, newConfig.params);
 
-  config = Object.assign({}, config, {
+  newConfig = Object.assign({}, newConfig, {
     created: new Date(),
     modified: new Date(),
     lastPrinted: new Date(),
     lastModifiedBy: config.creater,
   });
-  let workbook = createWorkBook(config);
+
+  let workbook = createWorkBook(newConfig);
 
   workbook.xlsx
     .writeBuffer()
-    .then(function(buffer) {
+    .then(buffer => {
       saveAs(
         new Blob([buffer], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

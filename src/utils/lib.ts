@@ -275,7 +275,12 @@ export const thouandsNum: {
   return numStr + '.' + ''.padEnd(decimalLength, '0');
 };
 
-export const parseUrl = (hash = window.location.hash) => {
+// hash = window.location.hash;
+/**
+ * @parms hash 地址信息
+ * @returns 格式化的查询信息
+ */
+export const parseUrl = hash => {
   let queryStr: string = hash
     .slice(1)
     .replace(/，/g, ',')

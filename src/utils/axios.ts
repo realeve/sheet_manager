@@ -48,7 +48,7 @@ export const _commonData = {
 };
 
 // 导出数据，随机时长
-export type MockFn = <T>(path: string | T, time: number) => Promise<T>;
+export type MockFn = <T>(path: T, time: number) => Promise<T>;
 export const mock: MockFn = (path, time = Math.random() * 2000) =>
   new Promise(resolve => {
     setTimeout(() => {
@@ -62,16 +62,16 @@ export const getType: (data: any) => string = data => {
   if (type === 'undefined') {
     return 'undefined';
   }
-  // if (data) {
-  //   type = data.constructor.name;
-  // } else if (type === 'object') {
-  //   type = Object.prototype.toString.call(data).slice(8, -1).toLowerCase();
-  // }
-  // return type.toLowerCase();
-  return Object.prototype.toString
-    .call(data)
-    .slice(8, -1)
-    .toLowerCase();
+  if (data) {
+    type = data.constructor.name;
+  }
+  if (type.toLowerCase() === 'object') {
+    type = Object.prototype.toString
+      .call(data)
+      .slice(8, -1)
+      .toLowerCase();
+  }
+  return type.toLowerCase();
 };
 
 export const loadUserInfo = user => {

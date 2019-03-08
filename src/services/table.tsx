@@ -2,9 +2,7 @@ import React from 'react';
 import * as lib from '../utils/lib';
 import styles from '../components/Table.less';
 import * as setting from '../utils/setting';
-import jStat from 'jStat';
 import * as R from 'ramda';
-import qs from 'qs';
 
 const isFilterColumn: <T>(
   data: Array<any>,
@@ -159,17 +157,21 @@ export function updateColumns({ columns, filters }) {
   R.compose(
     R.forEach(key => {
       let idx = R.findIndex(R.propEq('dataIndex', key))(columns);
+      const filterVal = filters[key];
       if (idx > -1) {
-        columns[idx].filteredValue = filters[key];
+        columns[idx].filteredValue = filterVal;
       } else {
         // 有嵌套表格
         columns.forEach((item, idx) => {
-          if (item.dataIndex == key) {
-            columns[idx].filteredValue = filters[key];
-          } else if (lib.getType(item.children) == 'array') {
+          console.log(item, item.dataIndex);
+          console.log(key, item.dataIndex == key);
+          // if (item.dataIndex == key) {
+          //   columns[idx].filteredValue = filterVal;
+          // } else
+          if (lib.getType(item.children) == 'array') {
             item.children.forEach((child, childIdx) => {
-              if (childIdx.dataIndex == key) {
-                columns[idx][childIdx].filteredValue = filters[key];
+              if (child.dataIndex == key) {
+                columns[idx].children[childIdx].filteredValue = filterVal;
               }
             });
           }
@@ -229,9 +231,9 @@ export const initState = props => {
 };
 
 // 表头合并处理
-export const mergeConfig = columns => {
-  let params = lib.parseUrl();
-  if (!params.merge) {
+export const mergeConfig = (columns, params) => {
+  // let params = lib.parseUrl();
+  if (R.isNil(params) || R.isNil(params.merge)) {
     return columns;
   }
   if (lib.getType(params.merge) == 'string') {
@@ -239,6 +241,8 @@ export const mergeConfig = columns => {
   }
   if (lib.getType(params.mergetext) == 'string') {
     params.mergetext = [params.mergetext];
+  } else if (typeof params.mergetext === 'undefined') {
+    params.mergetext = [];
   }
   params.merge = params.merge.map(item =>
     item
@@ -248,6 +252,8 @@ export const mergeConfig = columns => {
   );
   // 逆序排列
   params.merge.sort((a, b) => b[0] - a[0]);
+  params.mergetext.reverse(); // 文字也需要逆序
+
   let mergeColumns = R.clone(columns);
 
   params.merge.forEach(([start, end], idx) => {
@@ -316,7 +322,7 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
 
   // 合并单元格展示
   if (merge) {
-    columns = mergeConfig(columns);
+    columns = mergeConfig(columns, props.config);
   }
 
   return {

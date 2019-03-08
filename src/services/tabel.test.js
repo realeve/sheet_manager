@@ -1,4 +1,3 @@
-import React from 'react';
 import * as table from './table';
 import { shallow } from 'enzyme';
 import * as setting from '../utils/setting';
@@ -329,10 +328,12 @@ test('updateState', () => {
       time: '1ms',
     },
     loading: true,
+    config: { merge: [] },
   };
   window.localStorage.setItem('_tbl_bordered', '1');
-  let res = table.updateState(params, { page: 1, pageSize: 2 });
+  let res = table.updateState(params, { page: 1, pageSize: 2 }, true);
   expect(res).toMatchObject(resObj);
+  expect(table.updateState(params, { page: 1, pageSize: 2 }, false)).toMatchObject(resObj);
 
   window.localStorage.setItem('_tbl_bordered', '0');
   res = table.updateState(params, { page: 1, pageSize: 2 });
@@ -474,8 +475,78 @@ test('更新数据列', () => {
       col0: [3],
     },
   };
-  expect(table.updateColumns(params)).toEqual([
+  expect(table.updateColumns(params)).toMatchObject([
     { a: 1, dataIndex: 'col0', filteredValue: [3] },
     { a: 2, dataIndex: 'col1' },
+  ]);
+
+  expect(
+    table.updateColumns({
+      columns: [
+        {
+          title: 'a',
+          children: [
+            {
+              dataIndex: 'col0',
+              a: 1,
+            },
+            {
+              dataIndex: 'col1',
+              a: 3,
+            },
+          ],
+        },
+        {
+          dataIndex: 'col2',
+          a: 3,
+        },
+      ],
+      filters: {
+        col0: [3],
+      },
+    })
+  ).toMatchObject([
+    {
+      children: [{ a: 1, dataIndex: 'col0', filteredValue: [3] }, { a: 3, dataIndex: 'col1' }],
+      title: 'a',
+    },
+    {
+      dataIndex: 'col2',
+      a: 3,
+    },
+  ]);
+});
+
+test('列合并', () => {
+  let col = [
+    {
+      a: 1,
+    },
+    { a: 2 },
+    { a: 3 },
+    { a: 4 },
+    { a: 5 },
+  ];
+  let req = table.mergeConfig(col, {
+    merge: ['1-2'],
+    mergetext: ['merge'],
+  });
+  let res = [{ a: 1 }, { children: [{ a: 2 }, { a: 3 }], title: 'merge' }, { a: 4 }, { a: 5 }];
+  expect(req).toMatchObject(res);
+  expect(
+    table.mergeConfig(col, {
+      merge: '1-2',
+      mergetext: 'merge',
+    })
+  ).toMatchObject(res);
+  expect(
+    table.mergeConfig(col, {
+      merge: ['0-1', '3-4'],
+      mergetext: ['merge', 'merge2'],
+    })
+  ).toMatchObject([
+    { children: [{ a: 1 }, { a: 2 }], title: 'merge' },
+    { a: 3 },
+    { children: [{ a: 4 }, { a: 5 }], title: 'merge2' },
   ]);
 });

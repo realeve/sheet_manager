@@ -1,15 +1,39 @@
-import qs from 'qs';
-import * as util from './lib';
 import jStat from 'jStat';
 
-export interface TableSetting {
+/**
+ * @param prefix 前缀
+ * @param suffix 后续
+ * @param interval 间隔多少个单元格高亮背景
+ * @param autoid 导出数据自动追加编号
+ */
+export interface BasicConfig {
   prefix?: string;
   suffix?: string;
-  interval?: string;
+  interval?: string | number;
   autoid?: string | boolean;
-  merge?: string;
-  mergetext?: string;
-  mergedRows?: number[];
+  [key: string]: any;
+}
+
+/**
+ * @param prefix 前缀
+ * @param suffix 后续
+ * @param interval 间隔多少个单元格高亮背景
+ * @param autoid 导出数据自动追加编号
+ * @param merge 需要合并的单元格定义,如：2-3,2-5,7-8
+ * @param mergetext 合并单元格对应的文本
+ * @param mergedRows 自动计算的结果，有哪些列被合并
+ */
+export interface SrcConfig extends BasicConfig {
+  merge?: string[] | string;
+  mergetext?: string[] | string;
+  [key: string]: any;
+}
+
+type mergeItem = number[];
+/**
+ * 将TableSetting转换为数据导出所需的格式
+ */
+export interface DstConfig extends BasicConfig, MergeRes {
   [key: string]: any;
 }
 
@@ -19,48 +43,60 @@ export interface Config {
   created?: string;
   modified?: string;
   lastPrinted?: string;
-  params?: TableSetting;
+  params: DstConfig;
   [key: string]: any;
 }
 
 export interface MergeRes {
-  merge: string[];
-  mergetext: string[];
+  merge?: mergeItem[] | [];
+  mergetext?: string[];
+  mergedRows?: number[];
 }
-
-export const handleMerge: (param: TableSetting) => MergeRes = ({ merge, mergetext, autoid }) => {
-  merge = merge || [];
-  mergetext = mergetext || [];
-
-  let mergeType: string = util.getType(merge);
-  switch (mergeType) {
+/**
+ * 处理merge字段
+ * @param config 默认配置项，定义为 TableSetting
+ * @return mergetext string[]
+ * @return merge [number,number] 单元格合并设置
+ * @return mergedRows [number] 哪些行需要合并
+ */
+export const handleMerge: (config: SrcConfig) => MergeRes = config => {
+  let { merge, mergetext, autoid } = config;
+  let mergeStrArr: string[] = [];
+  switch (typeof merge) {
     case 'string':
-      merge = [merge];
+      mergeStrArr = [merge];
+      break;
+    case 'undefined':
+      mergeStrArr = [];
       break;
     default:
       break;
   }
 
-  // 先处理merge字段
-  // merge字段定义 2-3,2-5,7-8
-  let mergeArr = merge.map((item: string) => {
-    let arr = item.split('-').sort();
-    return arr.map(col => parseInt(col, 10) + (autoid ? 2 : 1));
+  let mergeArr: mergeItem[] = mergeStrArr.map((item: string) => {
+    let arr = item
+      .split('-')
+      .map((col: string): number => parseInt(col, 10) + 1 + (autoid ? 1 : 0))
+      .sort();
+    if (arr.length === 1) {
+      return [arr[0], arr[0]];
+    }
+    return arr;
   });
-
-  switch (util.getType(mergetext)) {
+  let mergetextArr: string[] = [];
+  switch (typeof mergetext) {
     case 'undefined':
-      mergetext = [''];
+      mergetextArr = [''];
       break;
     case 'string':
-      mergetext = [mergetext];
+      mergetextArr = [mergetext];
       break;
     default:
       break;
   }
 
   // 记录合并单元格
-  let mergedRows = [];
+  let mergedRows: number[] = [];
   mergeArr.forEach(([start, end]) => {
     mergedRows = [...mergedRows, ...jStat.arange(start, end + 1)].sort();
   });
@@ -68,20 +104,32 @@ export const handleMerge: (param: TableSetting) => MergeRes = ({ merge, mergetex
   mergeArr = mergeArr.sort((a, b) => a[0] - b[0]);
 
   return {
-    mergetext,
+    mergetext: mergetextArr,
     merge: mergeArr,
     mergedRows,
   };
 };
 
-const initQueryParam = params => {
+/**
+ * 初始化查询参数
+ */
+const initQueryParam: (params: BasicConfig) => BasicConfig = params => {
   params.interval = params.interval || 5; //隔行背景色
-  params.interval = Math.max(parseInt(params.interval, 10), 2);
-  params.autoid = !params.autoid == '0'; // 填充第一列序号
+  params.interval = Math.max(parseInt(String(params.interval), 10), 2);
+  params.autoid = params.autoid != '0'; // 填充第一列序号
   return params;
 };
 
-export const getParams = config => {
-  let params = initQueryParam(config);
-  return Object.assign(params, handleMerge(params));
+/**
+ * 根据配置项初始化文件导出所需参数
+ * @params config 地址栏配置信息如prefix,suffix等
+ * @returns TableSetting
+ */
+export const getParams: DstConfig | any = (config: SrcConfig) => {
+  let params: BasicConfig = initQueryParam(config);
+  let mergeParam: MergeRes = handleMerge(params);
+  return {
+    ...params,
+    ...mergeParam,
+  };
 };
