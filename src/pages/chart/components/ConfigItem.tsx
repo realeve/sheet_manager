@@ -25,20 +25,18 @@ export default function configItem(props: configItemProps) {
       <div className={styles.desc}> {title} </div>
       {!R.isNil(defaultVal) && <div>默认值：{defaultVal}</div>}
       {!R.isNil(url) && (
-        <div>
-          <div className={styles.demoLink}>
-            {typeof url === 'string' ? (
-              <a href={url} target="_blank">
-                {url}
+        <div className={styles.demoLink}>
+          {typeof url === 'string' ? (
+            <a href={url} target="_blank">
+              {url}
+            </a>
+          ) : (
+            url.map(u => (
+              <a href={u} target="_blank" key={u}>
+                {u}
               </a>
-            ) : (
-              url.map(u => (
-                <a href={u} target="_blank" key={u}>
-                  {u}
-                </a>
-              ))
-            )}
-          </div>
+            ))
+          )}
         </div>
       )}
     </li>

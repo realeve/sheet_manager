@@ -18,7 +18,7 @@ export default {
     setStore,
   },
   effects: {
-    *updateParams(payload, { put, call, select }) {
+    *updateParams(_, { put, call, select }) {
       const { dateRange, params, tid } = yield select(state => state[namespace]);
       if (R.isNil(tid)) {
         return;
@@ -36,7 +36,7 @@ export default {
         },
       });
     },
-    *refreshData(payload, { call, put, select }) {
+    *refreshData(_, { call, put, select }) {
       const { axiosOptions, dataSource } = yield select(state => state[namespace]);
 
       let curPageName = '';
@@ -75,6 +75,7 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, hash }) => {
         const match = pathToRegexp('/' + namespace).exec(pathname);
+        console.log(match, pathname);
         if (!match) {
           return;
         }

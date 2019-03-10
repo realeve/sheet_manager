@@ -8,6 +8,8 @@ import MenuList from './components/MenuList';
 import ChartLink from '@/components/ChartLink';
 import * as db from './service';
 import styles from './index.less';
+import ChartConfig from '../chart/Config';
+import TableConfig from '../table/Config';
 
 import { TMenuList } from './components/MenuItemList';
 import { TMenuItem } from './components/MenuItem';
@@ -24,6 +26,7 @@ interface ITreeState {
   uid: number | string;
   menuList: TMenuList;
   visible: boolean;
+  tableVisible: boolean;
 }
 
 class VTree extends Component<ITreeProps, ITreeState> {
@@ -35,12 +38,13 @@ class VTree extends Component<ITreeProps, ITreeState> {
         detail: [],
         title: '',
         icon: '',
-        url: ''
+        url: '',
       },
       editMode: false,
       uid: props.uid,
       menuList: [],
-      visible: false
+      visible: false,
+      tableVisible: false,
     };
   }
 
@@ -50,12 +54,12 @@ class VTree extends Component<ITreeProps, ITreeState> {
 
   initData = async () => {
     let { data } = await db.getBaseMenuList();
-    let menuList = data.map((item) => {
+    let menuList = data.map(item => {
       item.detail = JSON.parse(item.detail);
       return item;
     });
     this.setState({
-      menuList
+      menuList,
     });
   };
 
@@ -75,29 +79,32 @@ class VTree extends Component<ITreeProps, ITreeState> {
         detail: [],
         title: '',
         icon: '',
-        url: ''
-      }
+        url: '',
+      },
     });
     this.initData();
   };
 
   showCartLink = () => {
     this.setState({
-      visible: true
+      visible: true,
+    });
+  };
+
+  showTableLink = () => {
+    this.setState({
+      tableVisible: true,
     });
   };
 
   render() {
     const externalNodeType: string = 'shareNodeType';
-    const { menuDetail, editMode, visible, uid } = this.state;
+    const { menuDetail, editMode, visible, uid, tableVisible } = this.state;
     return (
       <Card title="菜单设置">
         <Row>
           <Col md={8} sm={24}>
-            <MenuItemList
-              externalNodeType={externalNodeType}
-              dispatch={this.props.dispatch}
-            />
+            <MenuItemList externalNodeType={externalNodeType} dispatch={this.props.dispatch} />
           </Col>
           <Col md={8} sm={24}>
             <MenuPreview
@@ -109,21 +116,30 @@ class VTree extends Component<ITreeProps, ITreeState> {
             />
           </Col>
           <Col md={8} sm={24}>
-            <MenuList
-              onEdit={this.editMenu}
-              uid={uid}
-              menuList={this.state.menuList}
-            />
+            <MenuList onEdit={this.editMenu} uid={uid} menuList={this.state.menuList} />
           </Col>
         </Row>
         <div className={styles.actions}>
           <Button onClick={this.showCartLink} type="primary">
-          图表配置说明
+            图表配置说明
           </Button>
+          <Button onClick={this.showTableLink} type="default" style={{ marginLeft: 20 }}>
+            报表配置说明
+          </Button>
+
           <ChartLink
             visible={visible}
+            panelComponent={<ChartConfig />}
             onToggle={() => {
               this.setState({ visible: false });
+            }}
+          />
+
+          <ChartLink
+            visible={tableVisible}
+            panelComponent={<TableConfig />}
+            onToggle={() => {
+              this.setState({ tableVisible: false });
             }}
           />
         </div>
@@ -135,7 +151,7 @@ class VTree extends Component<ITreeProps, ITreeState> {
 function mapStateToProps(state) {
   return {
     loading: state.loading.models.menu,
-    uid: state.common.userSetting.uid
+    uid: state.common.userSetting.uid,
   };
 }
 

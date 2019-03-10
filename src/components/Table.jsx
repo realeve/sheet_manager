@@ -312,7 +312,19 @@ class Tables extends Component {
         bordered={false}
         title={
           <div className={styles.header}>
-            <Action />
+            <div>
+              <Action />
+              <a
+                target="_blank"
+                href="/table/config"
+                rel="noopener noreferrer"
+                className={styles.action}
+                style={{ marginLeft: 10 }}
+                title=""
+              >
+                <Icon type="question-circle-o" />
+              </a>
+            </div>
             {tTitle}
             <div className={styles.search}>
               <Search
