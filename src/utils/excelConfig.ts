@@ -1,5 +1,5 @@
 import jStat from 'jStat';
-import * as R from 'ramda';
+// import * as R from 'ramda';
 /**
  * @param prefix 前缀
  * @param suffix 后续
@@ -81,7 +81,7 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
       .map((col: string): number => parseInt(col, 10) + 1 + (autoid ? 1 : 0))
       .sort();
     if (arr.length === 1) {
-      return [arr[0], arr[0]];
+      return [arr[0], arr[0] + 1];
     }
     return arr;
   });
@@ -116,7 +116,7 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
 /**
  * 初始化查询参数
  */
-const initQueryParam: (params: BasicConfig) => BasicConfig = params => {
+export const initQueryParam: (params: BasicConfig) => BasicConfig = params => {
   params.interval = params.interval || 5; //隔行背景色
   params.interval = Math.max(parseInt(String(params.interval), 10), 2);
   params.autoid = params.autoid != '0'; // 填充第一列序号

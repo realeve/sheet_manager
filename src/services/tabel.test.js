@@ -515,6 +515,57 @@ test('更新数据列', () => {
       a: 3,
     },
   ]);
+
+  // expect(
+  //   table.updateColumns({
+  //     columns: [
+  //       {
+  //         title: 'a',
+  //         children: [
+  //           {
+  //             dataIndex: 'col0',
+  //             a: 1,
+  //             children: [
+  //               {
+  //                 dataIndex: 'col1',
+  //                 a: 1,
+  //               },
+  //               {
+  //                 dataIndex: 'col2',
+  //                 a: 3,
+  //               },
+  //             ],
+  //           },
+  //           {
+  //             dataIndex: 'col3',
+  //             a: 3,
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         dataIndex: 'col4',
+  //         a: 3,
+  //       },
+  //     ],
+  //     filters: {
+  //       col0: [3],
+  //     },
+  //   })
+  // ).toMatchObject([
+  //   {
+  //     children: [
+  //       {
+  //         a: 1,
+  //         children: [{ a: 1, dataIndex: 'col1' }, { a: 3, dataIndex: 'col2' }],
+  //         dataIndex: 'col0',
+  //         filteredValue: [3],
+  //       },
+  //       { a: 3, dataIndex: 'col3' },
+  //     ],
+  //     title: 'a',
+  //   },
+  //   { a: 3, dataIndex: 'col4' },
+  // ]);
 });
 
 test('列合并', () => {

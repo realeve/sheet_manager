@@ -10,7 +10,7 @@ describe('拼音测试', () => {
   });
 
   test('unknown', () => {
-    expect(pinyin.toPinYin('囧,')).toBe('');
+    expect(pinyin.toPinYin('囧,')).toBe('J');
     expect(pinyin.toPinYin('tkk 汉  字')).toBe('tkk-H-Z');
     expect(pinyin.toPinYin('012ab-AB')).toBe('012ab-AB');
     expect(pinyin.toPinYin('●')).toBe('');

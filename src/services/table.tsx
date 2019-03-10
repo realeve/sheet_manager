@@ -163,9 +163,11 @@ export function updateColumns({ columns, filters }) {
       } else {
         // 有嵌套表格
         columns.forEach((item, idx) => {
-          if (item.dataIndex == key) {
-            columns[idx].filteredValue = filterVal;
-          } else if (lib.getType(item.children) == 'array') {
+          // if (item.dataIndex == key) {
+          //   columns[idx].filteredValue = filterVal;
+          // } else
+
+          if (lib.getType(item.children) == 'array') {
             item.children.forEach((child, childIdx) => {
               if (child.dataIndex == key) {
                 columns[idx].children[childIdx].filteredValue = filterVal;
