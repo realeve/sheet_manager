@@ -590,6 +590,14 @@ test('列合并', () => {
       mergetext: 'merge',
     })
   ).toMatchObject(res);
+
+  expect(
+    table.mergeConfig(col, {
+      merge: '1',
+      mergetext: 'merge',
+    })
+  ).toMatchObject(res);
+
   expect(
     table.mergeConfig(col, {
       merge: ['0-1', '3-4'],

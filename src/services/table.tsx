@@ -243,6 +243,11 @@ export const mergeConfig = (columns, params) => {
   } else if (typeof params.mergetext === 'undefined') {
     params.mergetext = [];
   }
+
+  //  合并列宽
+  params.mergesize = params.mergesize || '2';
+  params.mergesize = parseInt(params.mergesize, 10);
+
   params.merge = params.merge.map(item =>
     item
       .split('-')
@@ -257,6 +262,7 @@ export const mergeConfig = (columns, params) => {
 
   params.merge.forEach(([start, end], idx) => {
     // 将起始点合并
+    end = end || start + params.mergesize - 1;
     mergeColumns[start] = {
       title: params.mergetext[idx],
       children: R.slice(start, end + 1)(mergeColumns),

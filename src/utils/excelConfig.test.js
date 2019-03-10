@@ -8,16 +8,19 @@ test('表头合并', () => {
   ).toMatchObject({
     interval: 2,
     autoid: true,
+    mergesize: '2',
   });
 
   expect(
     lib.initQueryParam({
       interval: 3,
       autoid: '0',
+      mergesize: '3',
     })
   ).toMatchObject({
     interval: 3,
     autoid: false,
+    mergesize: '3',
   });
 
   // 参数合并
@@ -37,6 +40,7 @@ test('表头合并', () => {
   config = {
     merge: '0',
     mergetext: 'test',
+    mergesize: '2',
     autoid: false,
   };
 
@@ -56,6 +60,7 @@ test('表头合并', () => {
     merge: '0',
     mergetext: 'test',
     autoid: true,
+    mergesize: '2',
   };
 
   expect(lib.handleMerge(config)).toMatchObject({

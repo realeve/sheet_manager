@@ -22,10 +22,12 @@ export interface BasicConfig {
  * @param merge 需要合并的单元格定义,如：2-3,2-5,7-8
  * @param mergetext 合并单元格对应的文本
  * @param mergedRows 自动计算的结果，有哪些列被合并
+ * @param mergesize 合并列宽，默认为2
  */
 export interface SrcConfig extends BasicConfig {
   merge?: string[] | string;
   mergetext?: string[] | string;
+  mergesize?: string;
   [key: string]: any;
 }
 
@@ -60,7 +62,7 @@ export interface MergeRes {
  * @return mergedRows [number] 哪些行需要合并
  */
 export const handleMerge: (config: SrcConfig) => MergeRes = config => {
-  let { merge, mergetext, autoid } = config;
+  let { merge, mergetext, autoid, mergesize } = config;
   let mergeStrArr: string[] = [];
 
   switch (typeof merge) {
@@ -81,7 +83,7 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
       .map((col: string): number => parseInt(col, 10) + 1 + (autoid ? 1 : 0))
       .sort();
     if (arr.length === 1) {
-      return [arr[0], arr[0] + 1];
+      return [arr[0], arr[0] + (parseInt(mergesize, 10) - 1)];
     }
     return arr;
   });
@@ -117,9 +119,10 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
  * 初始化查询参数
  */
 export const initQueryParam: (params: BasicConfig) => BasicConfig = params => {
-  params.interval = params.interval || 5; //隔行背景色
+  params.interval = params.interval || '5'; //隔行背景色
   params.interval = Math.max(parseInt(String(params.interval), 10), 2);
   params.autoid = params.autoid != '0'; // 填充第一列序号
+  params.mergesize = params.mergesize || '2';
   return params;
 };
 
