@@ -39,12 +39,12 @@ export default [
         path: '/500',
         component: './500',
       },
-      // {
-      //   path: '/',
-      //   redirect: '/account/settings/base',
-      // },
       {
         path: '/',
+        redirect: '/account/settings/base',
+      },
+      {
+        path: '/home',
         component: './Home',
       },
       {

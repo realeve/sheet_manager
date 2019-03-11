@@ -1,4 +1,6 @@
 import React from 'react';
+import * as setting from '@/utils/setting';
+
 export const Banner20DataSource = {
   wrapper: { className: 'banner2' },
   BannerAnim: {
@@ -9,10 +11,10 @@ export const Banner20DataSource = {
         page: { className: 'home-page banner2-page' },
         textWrapper: { className: 'banner2-text-wrapper' },
         bg: { className: 'bg bg0' },
-        title: { className: 'banner2-title', children: '质量数据平台' },
+        title: { className: 'banner2-title', children: '通用数据报表与图表生成系统' },
         content: {
           className: 'banner2-content',
-          children: '一个高效的数据系统解决方案',
+          children: '一个高效的数据系统解决方案，提供报表及图表模块化操作',
         },
         button: { className: 'banner2-button', children: '登录' },
       },
@@ -27,7 +29,7 @@ export const Banner30DataSource = {
       {
         name: 'nameEn',
         className: 'banner3-name-en',
-        children: 'Seeking Experience & Engineering Conference',
+        children: '让数据栩栩如生',
       },
       {
         name: 'slogan',
@@ -58,7 +60,7 @@ export const Banner30DataSource = {
         className: 'banner3-time',
         children: (
           <span>
-            <p>2019.09</p>
+            <p>{setting.AUTHOR}</p>
           </span>
         ),
       },

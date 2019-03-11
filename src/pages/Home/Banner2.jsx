@@ -1,9 +1,8 @@
 import React from 'react';
-import { Button, Icon } from 'antd';
+import { Icon } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import TweenOne, { TweenOneGroup } from 'rc-tween-one';
 import BannerAnim, { Element } from 'rc-banner-anim';
-import router from 'umi/router';
 import 'rc-banner-anim/assets/index.css';
 // const BgElement = Element.BgElement;
 
