@@ -1,0 +1,94 @@
+@import './pages/Home/less/antMotionStyle.less';
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.colorWeak {
+  filter: invert(80%);
+}
+
+.ant-layout {
+  min-height: 100vh;
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.globalSpin {
+  width: 100%;
+  margin: 40px 0 !important;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+.fade-exit {
+  opacity: 0;
+}
+
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active,
+.fade-exit.fade-exit-active {
+  opacity: 1;
+  transition: opacity 1150ms ease-in;
+}
+
+.ani-left-enter {
+  z-index: 1;
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.ani-left-enter.ani-left-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.4s ease-out;
+}
+
+.ani-left-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ani-left-exit.ani-left-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.4s ease-out;
+}
+
+.ani-right-enter {
+  transform: translateX(100%);
+}
+
+.ani-right-enter.ani-right-enter-active {
+  transform: translateX(0);
+  transition: all 0.4s ease-out;
+}
+
+.ani-right-exit {
+  z-index: 1;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ani-right-exit.ani-right-exit-active {
+  opacity: 1;
+  transform: translateX(-100%);
+  transition: all 0.4s ease-out;
+}

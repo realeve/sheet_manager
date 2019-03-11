@@ -76,20 +76,13 @@ export default {
   lessLoaderOptions: {
     javascriptEnabled: true,
   },
-  manifest: {
-    name: 'sheet_manager',
-    background_color: '#FFF',
-    description: '基于react的通用报表管理解决方案.',
-    display: 'standalone',
-    start_url: '/index.html',
-    // icons: [
-    //   {
-    //     src: '/logo.svg',
-    //     sizes: '48x48',
-    //     type: 'image/svg',
-    //   },
-    // ],
-  },
+  // manifest: {
+  //   name: 'sheet_manager',
+  //   background_color: '#FFF',
+  //   description: '基于react的通用报表管理解决方案.',
+  //   display: 'standalone',
+  //   start_url: '/index.html',
+  // },
   cssnano: {
     mergeRules: false,
   },

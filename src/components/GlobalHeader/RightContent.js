@@ -76,7 +76,7 @@ export default class GlobalHeaderRight extends PureComponent {
      * 精简版在header不包含全局搜索，不含质量/生产相关的其它消息提示功能。
      * */
     // const FULL_MODE = BUILD_TYPE !== 'lite';
-    const FULL_MODE = CUR_COMPANY === 'chengdu';
+    const FULL_MODE = BUILD_TYPE !== 'lite' && CUR_COMPANY === 'chengdu';
 
     return (
       <div className={className}>

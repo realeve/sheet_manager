@@ -4,7 +4,11 @@ import UserLayout from './UserLayout';
 
 class MainLayout extends React.PureComponent {
   render() {
-    return this.props.location.pathname.includes('/login') ? (
+    let pathname = this.props.location.pathname;
+    if (pathname === '/') {
+      return this.props.children;
+    }
+    return pathname.includes('/login') ? (
       <UserLayout {...this.props} />
     ) : (
       <BasicLayout {...this.props} />

@@ -2,7 +2,7 @@ export default [
   // 登录
   {
     path: '/login',
-    component: '../layouts/UserLayout',
+    component: '../layouts/',
     routes: [
       {
         path: '/login',
@@ -21,7 +21,7 @@ export default [
   // app
   {
     path: '/',
-    component: '../layouts/BasicLayout',
+    component: '../layouts/',
     routes: [
       {
         path: '/403',
@@ -39,9 +39,13 @@ export default [
         path: '/500',
         component: './500',
       },
+      // {
+      //   path: '/',
+      //   redirect: '/account/settings/base',
+      // },
       {
         path: '/',
-        redirect: '/account/settings/base',
+        component: './Home',
       },
       {
         path: '/menu',
