@@ -12,7 +12,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 const avatarSize = 256;
 @connect(({ common: { userSetting: { uid: _id, username } } }) => ({
   _id,
-  username
+  username,
 }))
 class AvatarView extends Component {
   constructor(props) {
@@ -25,9 +25,9 @@ class AvatarView extends Component {
       crop: {
         x: 10,
         y: 10,
-        aspect: 1
+        aspect: 1,
       },
-      file: null
+      file: null,
     };
   }
 
@@ -42,7 +42,7 @@ class AvatarView extends Component {
         let src = reader.result;
         this.setState({
           src,
-          file: null
+          file: null,
         });
       },
       false
@@ -53,7 +53,7 @@ class AvatarView extends Component {
 
   onImageLoaded = image => {
     this.setState({
-      image
+      image,
     });
   };
 
@@ -76,7 +76,7 @@ class AvatarView extends Component {
       x: cX,
       y: cY,
       width: cWidth,
-      height: cHeight
+      height: cHeight,
     };
   };
 
@@ -96,13 +96,13 @@ class AvatarView extends Component {
     // As Base64 string
     const imageUrl = canvas.toDataURL('image/jpeg');
     this.setState({
-      imageUrl
+      imageUrl,
     });
 
     canvas.toBlob(file => {
       file.name = fileName;
       this.setState({
-        file
+        file,
       });
     }, 'image/jpeg');
   };
@@ -114,7 +114,7 @@ class AvatarView extends Component {
       'image/webp',
       'image/bmp',
       'image/gif',
-      'image/svg+xml'
+      'image/svg+xml',
     ].includes(file.type);
     if (!isIMAGE) {
       message.error(`${file.type}不是当前支持的图片格式`);
@@ -136,7 +136,7 @@ class AvatarView extends Component {
     const formData = new FormData();
     formData.append('file', file);
     this.setState({
-      loading: true
+      loading: true,
     });
 
     db.uploadFile(formData)
@@ -150,15 +150,15 @@ class AvatarView extends Component {
     const avatar = `${util.uploadHost}${url.slice(1)}`;
     this.setState({
       imageUrl: avatar,
-      loading: false
+      loading: false,
     });
     const { _id, username } = this.props;
     const {
-      data: [{ affected_rows }]
+      data: [{ affected_rows }],
     } = await db.setSysUser({
       avatar,
       _id,
-      username
+      username,
     });
 
     if (affected_rows) {
@@ -190,7 +190,7 @@ class AvatarView extends Component {
 
     const cls = classNames('avatar-uploader', styles.avatar_edit);
     return (
-      <div style={{ width: 400 }}>
+      <div className={styles.avatarView}>
         <Upload
           name="file"
           listType="picture-card"
@@ -198,14 +198,12 @@ class AvatarView extends Component {
           showUploadList={false}
           action={util.uploadHost}
           beforeUpload={this.beforeUpload}
-          onChange={this.handleChange}>
+          onChange={this.handleChange}
+        >
           {imageUrl ? (
             <>
               <div className={styles.avatar_title}>
-                <FormattedMessage
-                  id="app.settings.basic.avatar"
-                  defaultMessage="Change avatar"
-                />
+                <FormattedMessage id="app.settings.basic.avatar" defaultMessage="Change avatar" />
               </div>
               <div className={styles.avatar}>
                 <img src={imageUrl} alt="avatar" />
@@ -228,7 +226,8 @@ class AvatarView extends Component {
           type="primary"
           onClick={this.handleUpload}
           disabled={!this.state.file}
-          loading={loading}>
+          loading={loading}
+        >
           {loading ? '上传中' : '上传头像'}
         </Button>
       </div>

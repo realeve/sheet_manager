@@ -1,16 +1,21 @@
+@import '~antd/lib/style/themes/default.less';
+
 .header {
   display: flex;
   justify-content: space-between;
   width: 100%;
+
   .tips {
     .title {
       font-size: 24px;
     }
+
     .subTitle {
       text-align: center;
       margin: 10px 0;
     }
   }
+
   .search {
     display: flex;
     justify-content: flex-end;
@@ -23,6 +28,7 @@
     .ant-card-head {
       padding: 0 12px;
     }
+
     .ant-card-head-title {
       padding-bottom: 0;
     }
@@ -33,27 +39,59 @@
   width: 200px;
 }
 
+.hide {
+  display: none;
+}
+
 @media (max-width: 768px) {
-  .hide {
-    display: none;
-  }
   .header {
     button {
       .hide;
     }
+
     .tips {
       .title {
-        font-size: 16px;
+        font-size: 20px;
       }
+
       .subTitle {
         margin: 5px 0;
       }
     }
+
     .search {
       .hide;
     }
   }
+
   .tblSetting {
     .hide;
+  }
+}
+
+@media screen and (max-width: @screen-sm) {
+
+  .action {
+    .hide;
+  }
+
+  .header {
+    justify-content: center;
+
+    .title {
+      font-size: 20px;
+    }
+  }
+
+
+
+  :global {
+    .ant-card-head {
+      min-height: unset;
+
+      .ant-card-head-title {
+        padding-top: 0;
+      }
+    }
   }
 }

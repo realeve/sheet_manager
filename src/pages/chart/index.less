@@ -1,12 +1,16 @@
+@import '~antd/lib/style/themes/default.less';
+
 .header {
   display: flex;
   justify-content: flex-end;
   margin: 0 0 10px 0;
+
   .dateRange {
     display: flex;
     justify-content: flex-end;
     flex-direction: row;
     align-items: center;
+
     :global(.ant-calendar-picker) {
       width: 220px;
     }
@@ -15,6 +19,7 @@
 
 .setting {
   margin-top: -100px;
+
   .labelDesc {
     margin-right: 12px;
   }
@@ -22,4 +27,17 @@
 
 .tableContainer {
   margin-top: 40px;
+}
+
+@media screen and (max-width: @screen-sm) {
+
+  .setting {
+    margin-top: 0;
+  }
+
+  :global {
+    .echarts-for-react {
+      min-height: 680px;
+    }
+  }
 }

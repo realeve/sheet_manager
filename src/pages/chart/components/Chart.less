@@ -1,3 +1,5 @@
+@import '~antd/lib/style/themes/default.less';
+
 .header {
   display: flex;
   justify-content: space-between; // width: 55%;
@@ -76,5 +78,13 @@
     margin: 5px 0;
     color: #8b8d9a;
     font-size: 10px;
+  }
+}
+
+
+@media screen and (max-width: @screen-sm) {
+
+  .chartConfig {
+    display: none;
   }
 }

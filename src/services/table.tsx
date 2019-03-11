@@ -303,7 +303,7 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
   }
 
   let borderedStr: string | null = window.localStorage.getItem('_tbl_bordered');
-  let bordered: boolean = R.isNil(borderedStr) || borderedStr === '0' ? false : true;
+  let bordered: boolean = borderedStr === '0' ? false : true; // R.isNil(borderedStr) ||
 
   let state = {
     bordered,
