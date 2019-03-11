@@ -8,7 +8,7 @@ import styles from './AvatarView.less';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
-function AvatarView({ userSetting, onMenuClick }) {
+function AvatarView({ userSetting, onMenuClick, theme }) {
   if (!userSetting.fullname) {
     return <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />;
   }
@@ -19,18 +19,12 @@ function AvatarView({ userSetting, onMenuClick }) {
       {FULL_MODE && (
         <Menu.Item key="userCenter">
           <Icon type="user" />
-          <FormattedMessage
-            id="menu.account.center"
-            defaultMessage="account center"
-          />
+          <FormattedMessage id="menu.account.center" defaultMessage="account center" />
         </Menu.Item>
       )}
       <Menu.Item key="userinfo">
         <Icon type="setting" />
-        <FormattedMessage
-          id="menu.account.settings"
-          defaultMessage="account settings"
-        />
+        <FormattedMessage id="menu.account.settings" defaultMessage="account settings" />
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout">
@@ -40,16 +34,19 @@ function AvatarView({ userSetting, onMenuClick }) {
     </Menu>
   );
 
+  let textStyle = theme === 'dark' ? { color: 'rgba(255, 255, 255, 0.85)' } : {};
   return (
     <Dropdown overlay={menu}>
-      <span className={cx('action','account')}>
+      <span className={cx('action', 'account')}>
         <Avatar
           // size="small"
           className={styles.avatar}
           src={userSetting.avatar}
           alt="avatar"
         />
-        <span className={styles.name}>{userSetting.fullname}</span>
+        <span className={styles.name} style={textStyle}>
+          {userSetting.fullname}
+        </span>
       </span>
     </Dropdown>
   );

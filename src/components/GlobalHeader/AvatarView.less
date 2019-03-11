@@ -1,10 +1,12 @@
 @import '~antd/lib/style/themes/default.less';
 @pro-header-hover-bg: rgba(0, 0, 0, 0.025);
+
 .menu {
   :global {
     .anticon {
       margin-right: 8px;
     }
+
     .ant-dropdown-menu-item {
       width: 160px;
     }
@@ -17,13 +19,16 @@
   display: inline-block;
   transition: all 0.3s;
   height: 100%;
+
   >i {
     vertical-align: middle;
     color: @text-color;
   }
+
   &:hover {
     background: @pro-header-hover-bg;
   }
+
   :global(&.ant-popover-open) {
     background: @pro-header-hover-bg;
   }
@@ -37,6 +42,7 @@
   //   vertical-align: middle;
   // }
   @avatarSize: 36px;
+
   .avatar {
     margin-right: 10px;
     color: @primary-color;
@@ -50,6 +56,7 @@
     position: relative;
     overflow: hidden;
     cursor: pointer;
+
     &::after {
       content: '';
       position: absolute;
@@ -60,9 +67,11 @@
       border-radius: 50%;
       border: 2px solid rgba(255, 255, 255, 0.4);
     }
+
     &:hover {
       box-shadow: 2px 2px 10px rgba(255, 157, 139, 0.7);
     }
+
     img {
       width: 100%;
     }
@@ -72,23 +81,29 @@
 .dark {
   .action {
     color: rgba(255, 255, 255, 0.85);
+
     >i {
       color: rgba(255, 255, 255, 0.85);
     }
+
     &:hover,
     &:global(.ant-popover-open) {
       background: @primary-color;
     }
+
     :global(.ant-badge) {
       color: rgba(255, 255, 255, 0.85);
     }
+
   }
+
 }
 
 @media only screen and (max-width: @screen-md) {
   .name {
     display: none;
   }
+
   .account {
     .avatar {
       margin-right: 0;

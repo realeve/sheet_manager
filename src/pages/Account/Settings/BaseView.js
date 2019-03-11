@@ -5,14 +5,14 @@ import { connect } from 'dva';
 import styles from './BaseView.less';
 import * as db from '@/pages/login/service';
 import AvatarView from './AvatarView';
-import UserPreview from './UserPreview';
+// import UserPreview from './UserPreview';
 
 const R = require('ramda');
 const FormItem = Form.Item;
 const { Option } = Select;
 
 @connect(({ common: { userSetting } }) => ({
-  userSetting
+  userSetting,
 }))
 @Form.create()
 class BaseView extends Component {
@@ -20,7 +20,7 @@ class BaseView extends Component {
     super(props);
     this.state = {
       depts: [],
-      submitting: false
+      submitting: false,
     };
   }
   componentDidMount() {
@@ -30,14 +30,14 @@ class BaseView extends Component {
   loadDepts = async () => {
     db.getSysDept().then(({ data: depts }) => {
       this.setState({
-        depts
+        depts,
       });
     });
   };
 
   getDeptId = () => {
     const {
-      userSetting: { dept_name }
+      userSetting: { dept_name },
     } = this.props;
     const { depts } = this.state;
     let dept = R.find(R.propEq('value', dept_name))(depts);
@@ -46,22 +46,22 @@ class BaseView extends Component {
 
   handleSubmit = async () => {
     this.setState({
-      submitting: true
+      submitting: true,
     });
     const {
       form: { getFieldsValue },
-      userSetting: { username, uid: _id }
+      userSetting: { username, uid: _id },
     } = this.props;
     const { dept_id, fullname } = getFieldsValue();
 
     const {
-      data: [{ affected_rows }]
+      data: [{ affected_rows }],
     } = await db
       .setSysUserBase({
         fullname,
         dept_id,
         _id,
-        username
+        username,
       })
       .finally(e => {
         this.setState({ submitting: false });
@@ -78,7 +78,7 @@ class BaseView extends Component {
   render() {
     const {
       form: { getFieldDecorator },
-      userSetting: { avatar, fullname, dept_name }
+      userSetting: { avatar, fullname, dept_name },
     } = this.props;
     const { depts, submitting } = this.state;
     const dept_id = this.getDeptId();
@@ -86,19 +86,15 @@ class BaseView extends Component {
       <div className={styles.baseView}>
         <div className={styles.left}>
           <Form layout="vertical">
-            <FormItem
-              label={formatMessage({ id: 'form.fullname.placeholder' })}>
+            <FormItem label={formatMessage({ id: 'form.fullname.placeholder' })}>
               {getFieldDecorator('fullname', {
                 rules: [
                   {
                     required: true,
-                    message: formatMessage(
-                      { id: 'validation.fullname.required' },
-                      {}
-                    )
-                  }
+                    message: formatMessage({ id: 'validation.fullname.required' }, {}),
+                  },
                 ],
-                initialValue: fullname
+                initialValue: fullname,
               })(<Input />)}
             </FormItem>
             <FormItem label={formatMessage({ id: 'validation.dept' })}>
@@ -107,17 +103,18 @@ class BaseView extends Component {
                   {
                     required: true,
                     message: formatMessage({
-                      id: 'validation.dept.required'
-                    })
-                  }
+                      id: 'validation.dept.required',
+                    }),
+                  },
                 ],
-                initialValue: dept_id
+                initialValue: dept_id,
               })(
                 <Select
                   size="large"
                   placeholder={formatMessage({
-                    id: 'validation.dept'
-                  })}>
+                    id: 'validation.dept',
+                  })}
+                >
                   {depts.map(({ id, value }) => (
                     <Option value={id} key={id}>
                       {value}
@@ -127,10 +124,7 @@ class BaseView extends Component {
               )}
             </FormItem>
 
-            <Button
-              loading={submitting}
-              type="primary"
-              onClick={this.handleSubmit}>
+            <Button loading={submitting} type="primary" onClick={this.handleSubmit}>
               <FormattedMessage
                 id="app.settings.basic.update"
                 defaultMessage="Update Information"
@@ -140,10 +134,10 @@ class BaseView extends Component {
         </div>
         <div className={styles.right}>
           <AvatarView avatar={avatar} />
-          <UserPreview
+          {/* <UserPreview
             {...{ avatar, dept_name, fullname }}
             style={{ maxHeight: 300, marginLeft: 20 }}
-          />
+          /> */}
         </div>
       </div>
     );

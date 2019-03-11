@@ -39,9 +39,8 @@ export default {
     moment()
       .subtract(1, 'year')
       .startOf('month'),
-    moment()
-      .subtract(1, 'year')
-      .endOf('month'),
+    moment().subtract(1, 'year'),
+    // .endOf('month'),
   ],
   过去一月: [moment().subtract(1, 'month'), moment()],
   上月: [

@@ -1,16 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  Select,
-  message,
-  Drawer,
-  List,
-  Switch,
-  Divider,
-  Icon,
-  Button,
-  Alert,
-  Tooltip
-} from 'antd';
+import { Select, message, Drawer, List, Switch, Divider, Icon, Button, Alert, Tooltip } from 'antd';
 import { formatMessage } from 'umi/locale';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { connect } from 'dva';
@@ -25,8 +14,9 @@ const Body = ({ children, title, style }) => (
   <div
     style={{
       ...style,
-      marginBottom: 24
-    }}>
+      marginBottom: 24,
+    }}
+  >
     <h3 className={styles.title}>{title}</h3>
     {children}
   </div>
@@ -35,18 +25,12 @@ const Body = ({ children, title, style }) => (
 @connect(({ setting }) => ({ setting }))
 class SettingDrawer extends PureComponent {
   state = {
-    collapse: false
+    collapse: false,
   };
 
   getLayoutSetting = () => {
     const {
-      setting: {
-        contentWidth,
-        fixedHeader,
-        layout,
-        autoHideHeader,
-        fixSiderbar
-      }
+      setting: { contentWidth, fixedHeader, layout, autoHideHeader, fixSiderbar },
     } = this.props;
     return [
       {
@@ -56,7 +40,8 @@ class SettingDrawer extends PureComponent {
             value={contentWidth}
             size="small"
             onSelect={value => this.changeSetting('contentWidth', value)}
-            style={{ width: 80 }}>
+            style={{ width: 80 }}
+          >
             {layout === 'sidemenu' ? null : (
               <Option value="Fixed">
                 {formatMessage({ id: 'app.setting.content-width.fixed' })}
@@ -66,7 +51,7 @@ class SettingDrawer extends PureComponent {
               {formatMessage({ id: 'app.setting.content-width.fluid' })}
             </Option>
           </Select>
-        )
+        ),
       },
       {
         title: formatMessage({ id: 'app.setting.fixedheader' }),
@@ -76,7 +61,7 @@ class SettingDrawer extends PureComponent {
             checked={!!fixedHeader}
             onChange={checked => this.changeSetting('fixedHeader', checked)}
           />
-        )
+        ),
       },
       {
         title: formatMessage({ id: 'app.setting.hideheader' }),
@@ -88,7 +73,7 @@ class SettingDrawer extends PureComponent {
             checked={!!autoHideHeader}
             onChange={checked => this.changeSetting('autoHideHeader', checked)}
           />
-        )
+        ),
       },
       {
         title: formatMessage({ id: 'app.setting.fixedsidebar' }),
@@ -100,8 +85,8 @@ class SettingDrawer extends PureComponent {
             checked={!!fixSiderbar}
             onChange={checked => this.changeSetting('fixSiderbar', checked)}
           />
-        )
-      }
+        ),
+      },
     ];
   };
 
@@ -118,7 +103,7 @@ class SettingDrawer extends PureComponent {
       const { dispatch } = this.props;
       dispatch({
         type: 'setting/changeSetting',
-        payload: this.state
+        payload: this.state,
       });
     });
   };
@@ -130,16 +115,12 @@ class SettingDrawer extends PureComponent {
 
   renderLayoutSettingItem = item => {
     const action = React.cloneElement(item.action, {
-      disabled: item.disabled
+      disabled: item.disabled,
     });
     return (
-      <Tooltip
-        title={item.disabled ? item.disabledReason : ''}
-        placement="left">
+      <Tooltip title={item.disabled ? item.disabledReason : ''} placement="left">
         <List.Item actions={[action]}>
-          <span style={{ opacity: item.disabled ? '0.5' : '' }}>
-            {item.title}
-          </span>
+          <span style={{ opacity: item.disabled ? '0.5' : '' }}>{item.title}</span>
         </List.Item>
       </Tooltip>
     );
@@ -152,7 +133,7 @@ class SettingDrawer extends PureComponent {
     return (
       <Drawer
         visible={collapse}
-        width={300}
+        // width={300}
         onClose={this.togglerContent}
         placement="right"
         handler={
@@ -161,15 +142,16 @@ class SettingDrawer extends PureComponent {
               type={collapse ? 'close' : 'setting'}
               style={{
                 color: '#fff',
-                fontSize: 20
+                fontSize: 20,
               }}
             />
           </div>
         }
         onHandleClick={this.togglerContent}
         style={{
-          zIndex: 999
-        }}>
+          zIndex: 999,
+        }}
+      >
         <div className={styles.content}>
           <Body title={formatMessage({ id: 'app.setting.pagestyle' })}>
             <BlockChecbox
@@ -177,13 +159,13 @@ class SettingDrawer extends PureComponent {
                 {
                   key: 'dark',
                   url: '/img/dark.svg',
-                  title: formatMessage({ id: 'app.setting.pagestyle.dark' })
+                  title: formatMessage({ id: 'app.setting.pagestyle.dark' }),
                 },
                 {
                   key: 'light',
                   url: '/img/light.svg',
-                  title: formatMessage({ id: 'app.setting.pagestyle.light' })
-                }
+                  title: formatMessage({ id: 'app.setting.pagestyle.light' }),
+                },
               ]}
               value={navTheme}
               onChange={value => this.changeSetting('navTheme', value)}
@@ -204,13 +186,13 @@ class SettingDrawer extends PureComponent {
                 {
                   key: 'sidemenu',
                   url: '/img/sidemenu.svg',
-                  title: formatMessage({ id: 'app.setting.sidemenu' })
+                  title: formatMessage({ id: 'app.setting.sidemenu' }),
                 },
                 {
                   key: 'topmenu',
                   url: '/img/topmenu.svg',
-                  title: formatMessage({ id: 'app.setting.topmenu' })
-                }
+                  title: formatMessage({ id: 'app.setting.topmenu' }),
+                },
               ]}
               value={layout}
               onChange={value => this.changeSetting('layout', value)}
@@ -232,17 +214,17 @@ class SettingDrawer extends PureComponent {
                   size="small"
                   checked={!!colorWeak}
                   onChange={checked => this.changeSetting('colorWeak', checked)}
-                />
-              ]}>
+                />,
+              ]}
+            >
               {formatMessage({ id: 'app.setting.weakmode' })}
             </List.Item>
           </Body>
           <Divider />
           <CopyToClipboard
             text={JSON.stringify(omit(setting, ['colorWeak']), null, 2)}
-            onCopy={() =>
-              message.success(formatMessage({ id: 'app.setting.copyinfo' }))
-            }>
+            onCopy={() => message.success(formatMessage({ id: 'app.setting.copyinfo' }))}
+          >
             <Button block icon="copy">
               {formatMessage({ id: 'app.setting.copy' })}
             </Button>
@@ -256,7 +238,8 @@ class SettingDrawer extends PureComponent {
                 <a
                   href="https://u.ant.design/pro-v2-default-settings"
                   target="_blank"
-                  rel="noopener noreferrer">
+                  rel="noopener noreferrer"
+                >
                   src/defaultSettings.js
                 </a>
               </div>
