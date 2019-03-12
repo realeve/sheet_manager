@@ -125,6 +125,7 @@ export default {
         type: 'setStore',
         payload: {
           selectList,
+          selectValue: {},
         },
       });
     },
