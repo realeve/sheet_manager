@@ -96,6 +96,19 @@ export default function tableConfig() {
             </div>
           </li>
           <li>
+            <div className={styles.tip}>通用参数5:菜单折叠</div>
+            <div className={styles.desc}>menufold </div>
+            <div>默认值：0,设为1时折叠菜单，适用于报表内容较多，需要显示更多内容</div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&menufold=1"
+                target="_blank"
+              >
+                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&menufold=1
+              </a>
+            </div>
+          </li>
+          <li>
             <div className={styles.tip}>专用参数1.表头合并</div>
             <div className={styles.desc}>merge </div>
             <div>默认值：不设置，此时不合并表头</div>

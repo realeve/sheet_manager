@@ -298,13 +298,11 @@ export const handleUrlParams: (
   dateRange: [string, string];
 } = (hash, split = false) => {
   let query = parseUrl(hash);
-  let { id } = query;
   let params = R.clone(query);
-  Reflect.deleteProperty(params, 'id');
 
   // 2019-03 默认开始时间
   params.cache = params.cache || ['5'];
-  let defaultDate = 13;
+  let defaultDate: number = 13;
   if (params.daterange) {
     defaultDate = parseInt(params.daterange, 10);
     Reflect.deleteProperty(params, 'daterange');
@@ -317,13 +315,20 @@ export const handleUrlParams: (
   // 以逗号或分号分割参数
   if (split) {
     Object.keys(params).forEach(key => {
-      if (params[key].includes(',')) {
-        params[key] = params[key].split(',');
-      } else if (params[key].includes(';')) {
-        params[key] = params[key].split(';');
+      let item: string | string[] = params[key];
+      if (typeof item !== 'string') {
+        item = item[0];
+      }
+
+      if (item.includes(',')) {
+        params[key] = item.split(',');
+      } else if (item.includes(';')) {
+        params[key] = item.split(';');
       }
     });
   }
+  let { id } = params;
+  Reflect.deleteProperty(params, 'id');
 
   return {
     id: 'String' === R.type(id) ? [id] : id,

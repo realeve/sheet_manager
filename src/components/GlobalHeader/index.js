@@ -5,7 +5,6 @@ import Debounce from 'lodash-decorators/debounce';
 import styles from './index.less';
 import RightContent from './RightContent';
 import Bind from 'lodash-decorators/bind';
-
 export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
     this.triggerResizeEvent.cancel();
@@ -26,6 +25,7 @@ export default class GlobalHeader extends PureComponent {
   };
   render() {
     const { collapsed, isMobile, logo } = this.props;
+
     return (
       <div className={styles.header}>
         {isMobile && (

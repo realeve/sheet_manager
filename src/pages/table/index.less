@@ -1,7 +1,7 @@
 .header {
   display: flex;
   justify-content: flex-end;
-  margin: -65px 0 30px 0;
+  margin: -80px 0 20px 0;
 
 }
 
@@ -14,6 +14,7 @@
   justify-content: flex-end;
   flex-direction: row;
   align-items: center;
+  padding-top: 30px;
 
   :global(.ant-calendar-picker) {
     width: 220px;
@@ -25,10 +26,34 @@
   padding: 10px;
 }
 
+// .tabs {}
+
+:global {
+  .ant-tabs {
+    &-bar {
+      margin-bottom: 7px;
+    }
+
+    &-nav &-tab {
+      padding: 0px 16px 6px 16px;
+    }
+  }
+
+  .ant-card-head {
+    min-height: unset;
+    padding-left: 20px;
+
+    &-title {
+      padding: 6px 0;
+    }
+  }
+}
+
 .tableContainer {
   margin-top: 40px;
   .dataList;
 }
+
 
 @media (max-width: 768px) {
   .hide {
@@ -39,6 +64,10 @@
     display: flex;
     justify-content: flex-start;
     margin: 10px 0;
+  }
+
+  .dateRange {
+    padding-top: 0px;
   }
 }
 

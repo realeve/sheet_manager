@@ -18,6 +18,14 @@ export default {
   },
   reducers: {
     setStore,
+    clearSelectList(state) {
+      return {
+        ...state,
+        selectList: [],
+        params: [],
+        axiosOptions: [],
+      };
+    },
   },
   effects: {
     *updateParams(_, { put, call, select }) {
@@ -148,6 +156,8 @@ export default {
 
         // 处理URL参数，对参数中包含逗号的做数组分割
         let { id, params, dateRange } = handleUrlParams(hash, true);
+
+        dispatch({ type: 'clearSelectList' });
 
         dispatch({
           type: 'setStore',

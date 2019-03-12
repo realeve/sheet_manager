@@ -16,13 +16,13 @@ const { Header } = Layout;
 
 class HeaderView extends PureComponent {
   state = {
-    visible: true
+    visible: true,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (!props.autoHideHeader && !state.visible) {
       return {
-        visible: true
+        visible: true,
       };
     }
     return null;
@@ -45,14 +45,12 @@ class HeaderView extends PureComponent {
     return collapsed ? 'calc(100% - 80px)' : 'calc(100% - 256px)';
   };
 
-  handleNoticeClear = (type) => {
-    message.success(
-      `${formatMessage({ id: 'component.noticeIcon.cleared' })} ${type}`
-    );
+  handleNoticeClear = type => {
+    message.success(`${formatMessage({ id: 'component.noticeIcon.cleared' })} ${type}`);
     const { dispatch } = this.props;
     dispatch({
       type: 'global/clearNotices',
-      payload: type
+      payload: type,
     });
   };
 
@@ -85,25 +83,24 @@ class HeaderView extends PureComponent {
     if (!autoHideHeader) {
       return;
     }
-    const scrollTop =
-      document.body.scrollTop + document.documentElement.scrollTop;
+    const scrollTop = document.body.scrollTop + document.documentElement.scrollTop;
     if (!this.ticking) {
       requestAnimationFrame(() => {
         if (this.oldScrollTop > scrollTop) {
           this.setState({
-            visible: true
+            visible: true,
           });
           this.scrollTop = scrollTop;
           return;
         }
         if (scrollTop > 300 && visible) {
           this.setState({
-            visible: false
+            visible: false,
           });
         }
         if (scrollTop < 300 && !visible) {
           this.setState({
-            visible: true
+            visible: true,
           });
         }
         this.oldScrollTop = scrollTop;
@@ -150,10 +147,8 @@ class HeaderView extends PureComponent {
   }
 }
 
-export default connect(
-  ({ user, global, setting, loading, common: { userSetting } }) => ({
-    collapsed: global.collapsed,
-    setting,
-    userSetting
-  })
-)(HeaderView);
+export default connect(({ global, setting, common: { userSetting } }) => ({
+  collapsed: global.collapsed,
+  setting,
+  userSetting,
+}))(HeaderView);

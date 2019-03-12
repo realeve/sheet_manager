@@ -26,11 +26,22 @@
 .exCard {
   :global {
     .ant-card-head {
-      padding: 0 12px;
+      padding: 0;
+
+      &-title {
+        padding: 0;
+      }
     }
 
-    .ant-card-head-title {
-      padding-bottom: 0;
+    .ant-table {
+      &-footer {
+        padding: 5px 16px;
+        background: #fff;
+      }
+
+      &-pagination {
+        margin: 10px 0 4px 0;
+      }
     }
   }
 }
@@ -82,8 +93,6 @@
       font-size: 20px;
     }
   }
-
-
 
   :global {
     .ant-card-head {

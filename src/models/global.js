@@ -1,54 +1,59 @@
+import qs from 'qs';
 export default {
   namespace: 'global',
 
   state: {
     collapsed: false,
-    notices: []
+    notices: [],
   },
 
   effects: {
     *clearNotices({ payload }, { put, select }) {
       yield put({
         type: 'saveClearedNotices',
-        payload
+        payload,
       });
-      const count = yield select((state) => state.global.notices.length);
+      const count = yield select(state => state.global.notices.length);
       yield put({
         type: 'user/changeNotifyCount',
-        payload: count
+        payload: count,
       });
-    }
+    },
   },
 
   reducers: {
     changeLayoutCollapsed(state, { payload }) {
       return {
         ...state,
-        collapsed: payload
+        collapsed: payload,
       };
     },
     saveNotices(state, { payload }) {
       return {
         ...state,
-        notices: payload
+        notices: payload,
       };
     },
     saveClearedNotices(state, { payload }) {
       return {
         ...state,
-        notices: state.notices.filter((item) => item.type !== payload)
+        notices: state.notices.filter(item => item.type !== payload),
       };
-    }
+    },
   },
 
   subscriptions: {
-    setup({ history }) {
+    setup({ dispatch, history }) {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
-      return history.listen(({ pathname, search }) => {
+      return history.listen(({ pathname, search, hash }) => {
+        let params = qs.parse(hash.slice(1));
+        let menuFold = params.menufold && params.menufold !== '0';
+        dispatch({ type: 'changeLayoutCollapsed', payload: menuFold });
+
         if (typeof window.ga !== 'undefined') {
           window.ga('send', 'pageview', pathname + search);
         }
       });
-    }
-  }
+    },
+  },
 };

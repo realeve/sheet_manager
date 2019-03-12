@@ -1,7 +1,7 @@
 @import "~antd/lib/style/themes/default.less";
 
 .content {
-  margin: 24px 24px 0;
+  margin: 12px 12px 0;
 }
 
 @media screen and (max-width: @screen-sm) {
@@ -12,15 +12,24 @@
 }
 
 :global {
-  .ant-breadcrumb {
-    margin-bottom: 16px;
-  }
+  .antd-pro-page-header {
+    &-pageHeader &-breadcrumb {
+      margin-bottom: 8px;
+    }
 
-  .antd-pro-page-header-title {
-    font-size: 20px;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.85);
-    margin-bottom: 16px;
+    &-pageHeader {
+      background: #fff;
+      padding: 16px 32px 0 32px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    &-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.85);
+      margin-bottom: 16px;
+    }
+
   }
 
   .ant-breadcrumb-separator {
@@ -28,9 +37,4 @@
     color: rgba(0, 0, 0, 0.45);
   }
 
-  .antd-pro-page-header-pageHeader {
-    background: #fff;
-    padding: 16px 32px 0 32px;
-    border-bottom: 1px solid #e8e8e8;
-  }
 }

@@ -87,13 +87,19 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, axiosOpt
         </div>
       </div>
     ) : (
-      <Card title={formatMessage({ id: 'app.querycondition' })} style={{ marginBottom: 10 }}>
+      <Card
+        title={formatMessage({ id: 'app.querycondition' })}
+        bodyStyle={{
+          padding: '5px 20px',
+        }}
+        style={{ marginBottom: 10 }}
+      >
         <Row>
-          <Col span={8}>
+          <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
             <DateRangePicker refresh={false} />
           </Col>
           {data.map(({ key, data: selectorData, title }, idx) => (
-            <Col span={8} className={styles.selectContainer} key={key}>
+            <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer} key={key}>
               <span className={styles.title}>{title}:</span>
               <Select
                 className={styles.selector}
@@ -108,7 +114,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, axiosOpt
               </Select>
             </Col>
           ))}
-          <Col span={8} className={styles.selectContainer}>
+          <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
             <Button type="primary" onClick={refresh}>
               {formatMessage({ id: 'app.query' })}
             </Button>
@@ -122,7 +128,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, axiosOpt
       <SelectList data={selectList} />
 
       {dataSource.map((dataSrc, key) => (
-        <div key={key} className={cx({ tableContainer: key, dataList: !key })}>
+        <div key={key} className={cx({ tableContainer: key, dataList: !key, tabs: true })}>
           <Tabs defaultActiveKey="1">
             <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="1">
               <VTable

@@ -37,7 +37,7 @@ const getMenuData = ({ menu, previewMenu, location: { pathname } }) => {
   return menuUtil.getMenuData(previewMode ? previewMenu : menu);
 };
 
-const getBreadcrumbList = (menuData) => {
+const getBreadcrumbList = menuData => {
   const { href, origin } = window.location;
   let curMenu = href.replace(origin, '');
   // console.log(curMenu);
@@ -50,27 +50,27 @@ const getBreadcrumbList = (menuData) => {
 
 const query = {
   'screen-xs': {
-    maxWidth: 575
+    maxWidth: 575,
   },
   'screen-sm': {
     minWidth: 576,
-    maxWidth: 767
+    maxWidth: 767,
   },
   'screen-md': {
     minWidth: 768,
-    maxWidth: 991
+    maxWidth: 991,
   },
   'screen-lg': {
     minWidth: 992,
-    maxWidth: 1199
+    maxWidth: 1199,
   },
   'screen-xl': {
     minWidth: 1200,
-    maxWidth: 1599
+    maxWidth: 1599,
   },
   'screen-xxl': {
-    minWidth: 1600
-  }
+    minWidth: 1600,
+  },
 };
 
 class BasicLayout extends PureComponent {
@@ -90,7 +90,7 @@ class BasicLayout extends PureComponent {
       previewMenu,
       pathname: props.location.pathname,
       breadcrumbList: getBreadcrumbList(menuData),
-      nextUrl: ''
+      nextUrl: '',
     };
   }
 
@@ -101,18 +101,14 @@ class BasicLayout extends PureComponent {
     let nextUrl = href.replace(origin, '');
     if (
       nextUrl !== curState.nextUrl ||
-      (R.equals(menu, curState.menu) &&
-        R.equals(previewMenu, curState.previewMenu))
+      (R.equals(menu, curState.menu) && R.equals(previewMenu, curState.previewMenu))
     ) {
       let { pathname } = props.location;
-      if (
-        nextUrl !== curState.nextUrl ||
-        !R.equals(pathname, curState.pathname)
-      ) {
+      if (nextUrl !== curState.nextUrl || !R.equals(pathname, curState.pathname)) {
         return {
           pathname,
           nextUrl,
-          breadcrumbList: getBreadcrumbList(curState.menuData)
+          breadcrumbList: getBreadcrumbList(curState.menuData),
         };
       }
       return null;
@@ -123,7 +119,7 @@ class BasicLayout extends PureComponent {
     return {
       menu,
       menuData,
-      breadcrumbList
+      breadcrumbList,
     };
   }
 
@@ -140,8 +136,8 @@ class BasicLayout extends PureComponent {
     dispatch({
       type: 'common/setStore',
       payload: {
-        userSetting: data.setting
-      }
+        userSetting: data.setting,
+      },
     });
 
     // dispatch({
@@ -149,19 +145,19 @@ class BasicLayout extends PureComponent {
     // });
 
     dispatch({
-      type: 'setting/getSetting'
+      type: 'setting/getSetting',
     });
     this.renderRef = requestAnimationFrame(() => {
       this.setState({
-        rendering: false
+        rendering: false,
       });
     });
 
-    this.enquireHandler = enquireScreen((mobile) => {
+    this.enquireHandler = enquireScreen(mobile => {
       const { isMobile } = this.state;
       if (isMobile !== mobile) {
         this.setState({
-          isMobile: mobile
+          isMobile: mobile,
         });
       }
     });
@@ -187,7 +183,7 @@ class BasicLayout extends PureComponent {
     const { location } = this.props;
     return {
       location,
-      breadcrumbNameMap: this.breadcrumbNameMap
+      breadcrumbNameMap: this.breadcrumbNameMap,
     };
   }
 
@@ -197,8 +193,8 @@ class BasicLayout extends PureComponent {
    */
   getBreadcrumbNameMap(menuData) {
     const routerMap = {};
-    const mergeMenuAndRouter = (data) => {
-      data.forEach((menuItem) => {
+    const mergeMenuAndRouter = data => {
+      data.forEach(menuItem => {
         if (menuItem.children) {
           mergeMenuAndRouter(menuItem.children);
         }
@@ -210,14 +206,14 @@ class BasicLayout extends PureComponent {
     return routerMap;
   }
 
-  matchParamsPath = (pathname) => {
-    const pathKey = Object.keys(this.breadcrumbNameMap).find((key) =>
+  matchParamsPath = pathname => {
+    const pathKey = Object.keys(this.breadcrumbNameMap).find(key =>
       pathToRegexp(key).test(pathname)
     );
     return this.breadcrumbNameMap[pathKey];
   };
 
-  getPageTitle = (pathname) => {
+  getPageTitle = pathname => {
     const currRouterData = this.matchParamsPath(pathname);
     if (!currRouterData) {
       return lib.systemName;
@@ -231,7 +227,7 @@ class BasicLayout extends PureComponent {
     const { fixSiderbar, collapsed, layout } = this.props;
     if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
       return {
-        paddingLeft: collapsed ? '80px' : '256px'
+        paddingLeft: collapsed ? '80px' : '256px',
       };
     }
     return null;
@@ -241,15 +237,16 @@ class BasicLayout extends PureComponent {
     const { fixedHeader } = this.props;
     return {
       margin: '24px 24px 0',
-      paddingTop: fixedHeader ? 64 : 0
+      paddingTop: fixedHeader ? 64 : 0,
     };
   };
 
-  handleMenuCollapse = (collapsed) => {
+  handleMenuCollapse = collapsed => {
     const { dispatch } = this.props;
+    console.log(collapsed, '手工调整');
     dispatch({
       type: 'global/changeLayoutCollapsed',
-      payload: collapsed
+      payload: collapsed,
     });
   };
 
@@ -257,24 +254,14 @@ class BasicLayout extends PureComponent {
     // Do not render SettingDrawer in production
     // unless it is deployed in preview.pro.ant.design as demo
     const { rendering } = this.state;
-    if (
-      rendering ||
-      (process.env.NODE_ENV === 'production' && APP_TYPE !== 'site')
-    ) {
+    if (rendering || (process.env.NODE_ENV === 'production' && APP_TYPE !== 'site')) {
       return null;
     }
     return <SettingDrawer />;
   }
 
   render() {
-    const {
-      navTheme,
-      layout: PropsLayout,
-      children,
-      location,
-      user_type,
-      isLogin
-    } = this.props;
+    const { navTheme, layout: PropsLayout, children, location, user_type, isLogin } = this.props;
     const { isMobile, menuData, breadcrumbList, nextUrl } = this.state;
     const isTop = PropsLayout === 'topmenu';
 
@@ -287,7 +274,7 @@ class BasicLayout extends PureComponent {
           <SiderMenu
             logo={logo}
             theme={navTheme}
-            onCollapse={this.handleMenuCollapse}
+            onCollapse={() => this.handleMenuCollapse}
             menuData={menuData}
             isMobile={isMobile}
             breadcrumbList={breadcrumbList}
@@ -298,11 +285,12 @@ class BasicLayout extends PureComponent {
         <Layout
           style={{
             ...this.getLayoutStyle(),
-            minHeight: '100vh'
-          }}>
+            minHeight: '100vh',
+          }}
+        >
           <Header
             menuData={menuData}
-            handleMenuCollapse={this.handleMenuCollapse}
+            handleMenuCollapse={() => this.handleMenuCollapse}
             logo={logo}
             isMobile={isMobile}
             {...this.props}
@@ -321,7 +309,7 @@ class BasicLayout extends PureComponent {
       <React.Fragment>
         <DocumentTitle title={this.getPageTitle(location.pathname)}>
           <ContainerQuery query={query}>
-            {(params) => (
+            {params => (
               <Context.Provider value={this.getContext()}>
                 <div className={classNames(params)}>{layout}</div>
               </Context.Provider>
@@ -340,8 +328,8 @@ export default connect(
     setting,
     common: {
       userSetting: { menu, previewMenu, user_type },
-      isLogin
-    }
+      isLogin,
+    },
   }) => ({
     collapsed: global.collapsed,
     layout: setting.layout,
@@ -349,6 +337,6 @@ export default connect(
     menu,
     previewMenu,
     user_type,
-    isLogin
+    isLogin,
   })
 )(BasicLayout);

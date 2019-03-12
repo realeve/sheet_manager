@@ -222,7 +222,7 @@ class Tables extends Component {
           dataSource={dataSource}
           rowKey="key"
           pagination={false}
-          size="middle"
+          size="small"
           bordered={bordered}
           scroll={scroll}
           onChange={this.handleChange}
@@ -343,7 +343,7 @@ class Tables extends Component {
           marginTop: 0,
         }}
         bodyStyle={{
-          padding: '0px 0px 12px 0px',
+          padding: '0px',
         }}
         className={styles.exCard}
       >

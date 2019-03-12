@@ -291,13 +291,22 @@ test('千分位数字转换', () => {
 });
 
 test('地址栏参数', () => {
-  const [tstart, tend] = dateRanges['过去一月'];
+  const [tstart, tend] = dateRanges['昨天'];
   const [ts, te] = [tstart.format('YYYYMMDD'), tend.format('YYYYMMDD')];
 
-  expect(lib.handleUrlParams('#id=6/8d5b63370c&data_type=score')).toEqual({
+  expect(lib.handleUrlParams('#id=6/8d5b63370c&data_type=score&daterange=13')).toEqual({
     id: ['6/8d5b63370c'],
     params: {
       data_type: 'score',
+      cache: ['5'],
+    },
+    dateRange: [ts, te],
+  });
+  expect(lib.handleUrlParams('#id=6/8d5b63370c&data_type=score&cache=0')).toEqual({
+    id: ['6/8d5b63370c'],
+    params: {
+      data_type: 'score',
+      cache: '0',
     },
     dateRange: [ts, te],
   });
@@ -306,6 +315,23 @@ test('地址栏参数', () => {
     id: ['6/8d5b63370c', '61/8d5b63370c'],
     params: {
       data_type: 'score',
+      cache: ['5'],
+    },
+    dateRange: [ts, te],
+  });
+  expect(lib.handleUrlParams('#id=6/8d5b63370c,61/8d5b63370c&data_type=score', true)).toEqual({
+    id: ['6/8d5b63370c', '61/8d5b63370c'],
+    params: {
+      data_type: 'score',
+      cache: ['5'],
+    },
+    dateRange: [ts, te],
+  });
+  expect(lib.handleUrlParams('#id=6/8d5b63370c;61/8d5b63370c&data_type=score', true)).toEqual({
+    id: ['6/8d5b63370c', '61/8d5b63370c'],
+    params: {
+      data_type: 'score',
+      cache: ['5'],
     },
     dateRange: [ts, te],
   });
