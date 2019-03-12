@@ -18,7 +18,7 @@ export const getQueryConfig = (url, params) => ({
   },
 });
 
-const decodeUrlParam = ({ url, params, idx }) => {
+const decodeUrlParam = ({ params, idx }) => {
   let param = {};
   let handleKey = key => {
     let item = params[key];
@@ -27,8 +27,8 @@ const decodeUrlParam = ({ url, params, idx }) => {
     } else {
       param[key] = item[idx] ? item[idx] : R.last(item);
     }
-    if (param[key].includes(';')) {
-      param[key] = param[key].split(';');
+    if (String(param[key]).includes(';')) {
+      param[key] = String(param[key]).split(';');
     }
   };
   R.compose(

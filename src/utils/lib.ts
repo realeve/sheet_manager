@@ -301,7 +301,16 @@ export const handleUrlParams: (
   let params = R.clone(query);
   Reflect.deleteProperty(params, 'id');
 
-  const [tstart, tend] = dateRanges['过去一月'];
+  // 2019-03 默认开始时间
+  params.cache = params.cache || ['5'];
+  let defaultDate = 13;
+  if (params.daterange) {
+    defaultDate = parseInt(params.daterange, 10);
+    Reflect.deleteProperty(params, 'daterange');
+  }
+  let datename = Object.keys(dateRanges)[defaultDate];
+
+  const [tstart, tend] = dateRanges[datename];
   const [ts, te] = [tstart.format('YYYYMMDD'), tend.format('YYYYMMDD')];
 
   return {

@@ -8,28 +8,28 @@ export default {
     dateRange: [],
     tid: [],
     query: {},
-    config: []
+    config: [],
   },
   reducers: {
     setStore,
     clearQuery(state) {
       return {
         ...state,
-        query: {}
+        query: {},
       };
-    }
+    },
   },
   effects: {
-    *refreshConfig({ payload }, { call, put, select }) {
-      const res = yield select((state) => state[namespace]);
+    *refreshConfig({ payload }, { put, select }) {
+      const res = yield select(state => state[namespace]);
       const config = db.decodeHash({ ...payload, ...res });
       yield put({
         type: 'setStore',
         payload: {
-          config
-        }
+          config,
+        },
       });
-    }
+    },
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -40,7 +40,7 @@ export default {
         }
 
         dispatch({
-          type: 'clearQuery'
+          type: 'clearQuery',
         });
 
         let { id, params, dateRange } = handleUrlParams(hash);
@@ -49,8 +49,8 @@ export default {
           payload: {
             dateRange,
             tid: id,
-            query: params
-          }
+            query: params,
+          },
         });
 
         let [tstart, tend] = dateRange;
@@ -59,10 +59,10 @@ export default {
           type: 'refreshConfig',
           payload: {
             tstart,
-            tend
-          }
+            tend,
+          },
         });
       });
-    }
-  }
+    },
+  },
 };

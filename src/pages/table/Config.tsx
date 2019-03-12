@@ -8,7 +8,38 @@ export default function tableConfig() {
       <div className={styles.container}>
         <ul>
           <li>
-            <div className={styles.tip}>1.表头合并</div>
+            <div className={styles.tip}>通用参数1：数据缓存</div>
+            <div className={styles.desc}>cache </div>
+            <div>
+              默认值：5,该参数同样适用于图表模块，默认缓存数据时长为5分钟，如果无需缓存请加入参数
+              &cache=0
+            </div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&autoid=0&cache=0"
+                target="_blank"
+              >
+                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&autoid=0&cache=0
+              </a>
+            </div>
+          </li>
+          <li>
+            <div className={styles.tip}>通用参数2：日期范围</div>
+            <div className={styles.desc}>daterange </div>
+            <div>
+              默认值：13。该参数同样适用于图表模块，有效范围0-14，分别表示日期选择器中的快捷日期选择项（去年、今年、上半年、下半年、上季、本季、去年同期、过去一月、上月、本月、7天前、上周、本周、昨天、今天）
+            </div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&daterange=12"
+                target="_blank"
+              >
+                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&daterange=12
+              </a>
+            </div>
+          </li>
+          <li>
+            <div className={styles.tip}>专用参数1.表头合并</div>
             <div className={styles.desc}>merge </div>
             <div>默认值：不设置，此时不合并表头</div>
 

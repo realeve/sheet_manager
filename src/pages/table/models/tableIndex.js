@@ -75,7 +75,6 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, hash }) => {
         const match = pathToRegexp('/' + namespace).exec(pathname);
-        console.log(match, pathname);
         if (!match) {
           return;
         }

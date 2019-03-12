@@ -41,9 +41,11 @@ http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&typ
 
 ## 安装依赖
 
-> cnpm i
+<!-- > cnpm i
 
-关于 cnpm [请参考这里 https://npm.taobao.org/](https://npm.taobao.org/)
+关于 cnpm [请参考这里 https://npm.taobao.org/](https://npm.taobao.org/) -->
+
+> yarn install
 
 ## 开发模式
 
