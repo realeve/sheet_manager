@@ -12,7 +12,7 @@ let config = {
     api: 'http://10.56.37.153',
     footer: '昆山钞票纸业有限公司 企划信息部',
     systemName: '通用报表管理系统',
-    uploadHost: 'http://10.56.37.153:100/public/upload/',
+    uploadHost: 'http://10.56.37.153:100/upload/',
   },
 };
 
@@ -33,12 +33,12 @@ let host: string = domain + `:100/`;
 // 人员信息管理，头像信息上传路径
 let uploadHost: string = config[CUR_COMPANY].uploadHost;
 
-// if (DEV) {
-//   // 上传代码时取消此处的判断
-//   domain = '';
-//   host = 'http://localhost:90/api/';
-//   uploadHost = '//localhost:90/public/upload/';
-// }
+if (DEV) {
+  // 上传代码时取消此处的判断
+  domain = '';
+  host = 'http://localhost:90/api/';
+  uploadHost = '//localhost:90/public/upload/';
+}
 
 export { domain, host, uploadHost };
 
