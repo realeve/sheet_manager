@@ -86,6 +86,9 @@ export default {
       });
       axiosOptions = axiosOptions.map(item => {
         item.params = { ...item.params, ...selectValue };
+        Reflect.deleteProperty(item.params, 'select');
+        Reflect.deleteProperty(item.params, 'cascade');
+        Reflect.deleteProperty(item.params, 'selectkey');
         return item;
       });
 
@@ -126,17 +129,12 @@ export default {
       });
     },
     *refreshData(_, { call, put, select }) {
-      const { axiosOptions, dataSource, selectValue } = yield select(state => state[namespace]);
+      const { axiosOptions, dataSource } = yield select(state => state[namespace]);
 
       let curPageName = '';
-
       for (let idx = 0; idx < axiosOptions.length; idx++) {
         let param = axiosOptions[idx];
         let { url } = param;
-        param.params = { ...selectValue, ...param.params };
-        Reflect.deleteProperty(param.params, 'select');
-        Reflect.deleteProperty(param.params, 'cascade');
-        Reflect.deleteProperty(param.params, 'selectkey');
         dataSource[idx] = yield call(db.fetchData, param);
         // 将apiid绑定在接口上，方便对数据设置存储
         dataSource[idx].api_id = url.replace('/array', '');

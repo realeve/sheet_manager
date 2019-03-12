@@ -39,12 +39,7 @@ function Tables({
 
     // 立即刷新数据
     if (refresh) {
-      dispatch({
-        type: 'table/updateParams',
-      });
-      dispatch({
-        type: 'table/refreshData',
-      });
+      refreshData();
     }
   };
 
@@ -81,8 +76,11 @@ function Tables({
     });
   };
 
-  const refreshData = () => {
-    dispatch({
+  const refreshData = async () => {
+    await dispatch({
+      type: 'table/updateParams',
+    });
+    await dispatch({
       type: 'table/refreshData',
     });
   };
