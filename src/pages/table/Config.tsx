@@ -42,11 +42,13 @@ export default function tableConfig() {
             <div className={styles.tip}>通用参数3：查询条件接口id</div>
             <div className={styles.desc}>select , selectkey </div>
             <div>
-              select设置为条件的接口id，查询字段为name,value的形式;
+              select设置为条件的接口id，查询字段为name:value的形式;
               <br />
               selectkey为对应的查询条件参数，该参数与值将作为查询请求[selectkey]:value同原参数一并向服务端请求
               <br />
               可以设置为多个查询条件，每个条件对应一个key值
+              <br />
+              参数间可用逗号或分号隔开，系统将自动分割为数组
             </div>
             <div className={styles.demoLink}>
               <a
@@ -54,6 +56,42 @@ export default function tableConfig() {
                 target="_blank"
               >
                 /table#id=6/8d5b63370c&data_type=score&select=77/51bbce6074&selectkey=prod
+              </a>
+              <a
+                href="/table#id=6/8d5b63370c&data_type=score&select=77/51bbce6074,77/51bbce6074&selectkey=prod,prod2"
+                target="_blank"
+              >
+                /table#id=6/8d5b63370c&data_type=score&select=77/51bbce6074,77/51bbce6074&selectkey=prod,prod2
+              </a>
+            </div>
+          </li>
+          <li>
+            <div className={styles.tip}>通用参数4：级联查询</div>
+            <div className={styles.desc}>cascade </div>
+            <div>
+              适用于有条件查询的情况下，下一级选择项依赖于上一级选择项。
+              <br />
+              默认为0或不设置时，直接渲染出所有选择条件
+              <br />
+              设置为1时，从第2个select之后的选择项，都依赖于上一级的参数，如：
+              <br />
+              &select=api1,api2,api3,api4&selectkey=key1,key2,key3,key4&cascade=1
+              <br />
+              此时api2的选择项渲染参数为 www.example.com/api/api2?key1=值,api3的选择项渲染参数为
+              www.example.com/api/api3?key2=值,以此类推
+            </div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=6/8d5b63370c&data_type=score&select=77/51bbce6074&selectkey=prod&select=77/51bbce6074&selectkey=prod2"
+                target="_blank"
+              >
+                /table#id=6/8d5b63370c&data_type=score&select=77/51bbce6074&selectkey=prod
+              </a>
+              <a
+                href="/table#id=400/239115b144&select=401/f14b661ec8,401/f14b661ec8,401/f14b661ec8&selectkey=prod,prod2,prod3&cascade=1"
+                target="_blank"
+              >
+                /table#id=400/239115b144&select=401/f14b661ec8,401/f14b661ec8,401/f14b661ec8&selectkey=prod,prod2,prod3&cascade=1
               </a>
             </div>
           </li>

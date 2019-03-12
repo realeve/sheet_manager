@@ -97,7 +97,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, axiosOpt
               <span className={styles.title}>{title}:</span>
               <Select
                 className={styles.selector}
-                value={axiosOptions[idx].params[key]}
+                value={axiosOptions[0].params[key]}
                 onSelect={value => onChange(value, idx, key)}
               >
                 {selectorData.map(({ name, value }) => (
@@ -108,7 +108,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, axiosOpt
               </Select>
             </Col>
           ))}
-          <Col span={8}>
+          <Col span={8} className={styles.selectContainer}>
             <Button type="primary" onClick={refresh}>
               {formatMessage({ id: 'app.query' })}
             </Button>
@@ -121,9 +121,6 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, axiosOpt
     <>
       <SelectList data={selectList} />
 
-      {dataSource.length === 0 && (
-        <Card title={formatMessage({ id: 'app.loading' })} loading={true} />
-      )}
       {dataSource.map((dataSrc, key) => (
         <div key={key} className={cx({ tableContainer: key, dataList: !key })}>
           <Tabs defaultActiveKey="1">

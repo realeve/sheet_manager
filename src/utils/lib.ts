@@ -290,12 +290,13 @@ export const parseUrl = hash => {
 
 // 处理url链接信息，返回组件model所需的初始数据
 export const handleUrlParams: (
-  hash: string
+  hash: string,
+  split?: boolean
 ) => {
   id: number | string;
   params: any;
   dateRange: [string, string];
-} = hash => {
+} = (hash, split = false) => {
   let query = parseUrl(hash);
   let { id } = query;
   let params = R.clone(query);
@@ -312,6 +313,17 @@ export const handleUrlParams: (
 
   const [tstart, tend] = dateRanges[datename];
   const [ts, te] = [tstart.format('YYYYMMDD'), tend.format('YYYYMMDD')];
+
+  // 以逗号或分号分割参数
+  if (split) {
+    Object.keys(params).forEach(key => {
+      if (params[key].includes(',')) {
+        params[key] = params[key].split(',');
+      } else if (params[key].includes(';')) {
+        params[key] = params[key].split(';');
+      }
+    });
+  }
 
   return {
     id: 'String' === R.type(id) ? [id] : id,

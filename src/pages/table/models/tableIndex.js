@@ -5,6 +5,7 @@ import { setStore, handleUrlParams } from '@/utils/lib';
 const R = require('ramda');
 
 const namespace = 'table';
+const needCascade = params => !(R.isNil(params.cascade) || params.cascade[0] === '0');
 export default {
   namespace,
   state: {
@@ -42,41 +43,64 @@ export default {
       {
         payload: { idx, data },
       },
-      { put, select }
+      { put, select, call }
     ) {
-      let { axiosOptions } = yield select(state => state[namespace]);
+      let { axiosOptions, params, selectList } = yield select(state => state[namespace]);
 
-      let { params } = axiosOptions[idx];
-      params = Object.assign({}, R.clone(params), data);
-      Reflect.deleteProperty(params, 'select');
-      Reflect.deleteProperty(params, 'selectkey');
+      // 需要级联
+      if (needCascade(params)) {
+        let cascadeIdx = parseInt(params.cascade, 10);
+        let nextIdx = idx + 1;
+        // 在cascade所指向的索引后续的条件中，均需要级联
+        if (cascadeIdx <= nextIdx && nextIdx < params.select.length) {
+          // 取下一级选择项的Url
+          let url = params.select[nextIdx];
+          let { title, data: selectData } = yield call(db.fetchData, {
+            url,
+            params: { cache: 5, ...data },
+          });
+          selectList[nextIdx] = {
+            title,
+            data: selectData,
+            key: params.selectkey[nextIdx],
+          };
+        }
+      }
 
-      axiosOptions[idx].params = params;
+      let option = R.clone(axiosOptions);
+      option = option.map(item => {
+        Reflect.deleteProperty(item.params, 'select');
+        Reflect.deleteProperty(item.params, 'selectkey');
+        item.params = Object.assign({}, R.clone(item.params), data);
+        return item;
+      });
+
       yield put({
         type: 'setStore',
         payload: {
-          axiosOptions,
+          axiosOptions: option,
         },
       });
     },
     // 初始化选择器
     *initSelector(_, { call, put, select }) {
-      const { axiosOptions } = yield select(state => state[namespace]);
+      const { params } = yield select(state => state[namespace]);
+      if (R.isNil(params.select)) {
+        return;
+      }
+      // 数据初始化长度,在级联选择时，只初始化第N级选择器,
+      // cascade参数用于在第N级开始做级联选择，在此之前的select直接渲染
+      let initLength = needCascade(params) ? parseInt(params.cascade[0], 10) : params.select.length;
 
       let selectList = [];
-
-      for (let idx = 0; idx < axiosOptions.length; idx++) {
-        let param = axiosOptions[idx];
-        let { params } = param;
-        // 如果有select，只渲染选择项，不做数据初始化
-        if (params.select) {
-          let { title, data } = yield call(db.fetchData, { url: params.select + '.json?cache=5' });
-          selectList[idx] = {
-            title,
-            data,
-            key: params.selectkey,
-          };
-        }
+      for (let idx = 0; idx < initLength; idx++) {
+        let url = params.select[idx];
+        let { title, data } = yield call(db.fetchData, { url, params: { cache: 5 } });
+        selectList[idx] = {
+          title,
+          data,
+          key: params.selectkey[idx],
+        };
       }
 
       yield put({
@@ -121,7 +145,9 @@ export default {
         if (!match) {
           return;
         }
-        let { id, params, dateRange } = handleUrlParams(hash);
+
+        // 处理URL参数，对参数中包含逗号的做数组分割
+        let { id, params, dateRange } = handleUrlParams(hash, true);
 
         dispatch({
           type: 'setStore',
