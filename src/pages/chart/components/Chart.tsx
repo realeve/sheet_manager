@@ -211,7 +211,7 @@ export default class Charts extends Component<IProp, IState> {
             ))}
           </Card>
         </TabPane>
-        <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="2">
+        <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="2" style={{ padding: 15 }}>
           <VTable
             dataSrc={tblDataSrc}
             loading={loading}

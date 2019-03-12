@@ -22,7 +22,15 @@ moment.locale('zh-cn');
 const TabPane = Tabs.TabPane;
 const RangePicker = DatePicker.RangePicker;
 
-function Tables({ dispatch, dateRange, loading, dataSource, selectList, axiosOptions }) {
+function Tables({
+  dispatch,
+  dateRange,
+  loading,
+  dataSource,
+  selectList,
+  axiosOptions,
+  selectValue,
+}) {
   const onDateChange = async (dateStrings, refresh) => {
     dispatch({
       type: 'table/setStore',
@@ -63,7 +71,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, axiosOpt
 
   const onChange = (value, idx, key) => {
     dispatch({
-      type: 'table/updateAxiosOption',
+      type: 'table/refreshSelector',
       payload: {
         idx,
         data: {
@@ -73,7 +81,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, axiosOpt
     });
   };
 
-  const refresh = () => {
+  const refreshData = () => {
     dispatch({
       type: 'table/refreshData',
     });
@@ -103,7 +111,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, axiosOpt
               <span className={styles.title}>{title}:</span>
               <Select
                 className={styles.selector}
-                value={axiosOptions[0].params[key]}
+                value={selectValue[key]}
                 onSelect={value => onChange(value, idx, key)}
               >
                 {selectorData.map(({ name, value }) => (
@@ -115,7 +123,11 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, axiosOpt
             </Col>
           ))}
           <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
-            <Button type="primary" onClick={refresh}>
+            <Button
+              type="primary"
+              onClick={() => refreshData()}
+              disabled={Object.keys(selectValue).length < selectList.length}
+            >
               {formatMessage({ id: 'app.query' })}
             </Button>
           </Col>
