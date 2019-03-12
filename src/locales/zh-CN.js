@@ -156,9 +156,12 @@ export default {
   'app.setting.production.hint':
     '配置栏只在开发环境用于预览，生产环境不会展现，请拷贝后手动修改配置文件',
 
-  'app.timerange': '起始时间',
+  'app.timerange': '起始日期',
   'app.daterange': '统计日期',
   'app.daterange.to': '至',
+  'app.query': '查询',
+  'app.querycondition': '查询条件',
+  'app.loading': '加载中',
   'table.download': '下载',
   'table.border': '显示表格边框',
   'table.filter': '输入任意值过滤数据',

@@ -2,17 +2,21 @@
   display: flex;
   justify-content: flex-end;
   margin: -65px 0 30px 0;
-  .labelDesc {
-    padding-right: 10px;
-  }
-  .dateRange {
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: row;
-    align-items: center;
-    :global(.ant-calendar-picker) {
-      width: 220px;
-    }
+
+}
+
+.labelDesc {
+  padding-right: 10px;
+}
+
+.dateRange {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  align-items: center;
+
+  :global(.ant-calendar-picker) {
+    width: 220px;
   }
 }
 
@@ -30,9 +34,35 @@
   .hide {
     display: none;
   }
+
   .header {
     display: flex;
     justify-content: flex-start;
     margin: 10px 0;
+  }
+}
+
+.selectContainer {
+  height: 32px;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+
+  .title {
+    text-align: right;
+    padding-right: 10px;
+    position: relative;
+
+    &::before {
+      content: '*';
+      color: #e23;
+      position: absolute;
+      left: -8px;
+      top: 1px;
+    }
+  }
+
+  .selector {
+    width: 120px;
   }
 }

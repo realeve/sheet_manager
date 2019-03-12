@@ -176,7 +176,7 @@ export let axios = option => {
   return http
     .create({
       baseURL: host,
-      timeout: 10000,
+      timeout: 30 * 1000,
       transformRequest: [
         function(data) {
           let dataType = getType(data);

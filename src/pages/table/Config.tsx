@@ -39,6 +39,25 @@ export default function tableConfig() {
             </div>
           </li>
           <li>
+            <div className={styles.tip}>通用参数3：查询条件接口id</div>
+            <div className={styles.desc}>select , selectkey </div>
+            <div>
+              select设置为条件的接口id，查询字段为name,value的形式;
+              <br />
+              selectkey为对应的查询条件参数，该参数与值将作为查询请求[selectkey]:value同原参数一并向服务端请求
+              <br />
+              可以设置为多个查询条件，每个条件对应一个key值
+            </div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=6/8d5b63370c&data_type=score&select=77/51bbce6074&selectkey=prod&select=77/51bbce6074&selectkey=prod2"
+                target="_blank"
+              >
+                /table#id=6/8d5b63370c&data_type=score&select=77/51bbce6074&selectkey=prod
+              </a>
+            </div>
+          </li>
+          <li>
             <div className={styles.tip}>专用参数1.表头合并</div>
             <div className={styles.desc}>merge </div>
             <div>默认值：不设置，此时不合并表头</div>
