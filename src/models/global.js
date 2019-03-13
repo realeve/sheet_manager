@@ -23,6 +23,7 @@ export default {
 
   reducers: {
     changeLayoutCollapsed(state, { payload }) {
+      console.log(state);
       return {
         ...state,
         collapsed: payload,
@@ -45,11 +46,15 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
-      return history.listen(({ pathname, search, hash }) => {
-        let params = qs.parse(hash.slice(1));
-        let menuFold = params.menufold && params.menufold !== '0';
-        dispatch({ type: 'changeLayoutCollapsed', payload: menuFold });
+      let params = qs.parse(history.location.hash.slice(1));
+      if (history.location.hash.length === 0) {
+        params = qs.parse(history.location.search.slice(1));
+      }
+      let menuFold = params.menufold && params.menufold !== '0';
+      menuFold = menuFold || false;
+      dispatch({ type: 'changeLayoutCollapsed', payload: menuFold });
 
+      return history.listen(({ pathname, search }) => {
         if (typeof window.ga !== 'undefined') {
           window.ga('send', 'pageview', pathname + search);
         }

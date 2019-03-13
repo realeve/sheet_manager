@@ -81,6 +81,7 @@ export default {
         updateTheme(primaryColor);
       }
       updateColorWeak(colorWeak);
+
       return {
         ...state,
         ...setting,

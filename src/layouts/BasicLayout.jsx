@@ -169,6 +169,7 @@ class BasicLayout extends PureComponent {
     this.breadcrumbNameMap = this.getBreadcrumbNameMap(this.state.menuData);
     const { isMobile } = this.state;
     const { collapsed } = this.props;
+    console.log(collapsed);
     if (isMobile && !preProps.isMobile && !collapsed) {
       this.handleMenuCollapse(false);
     }
@@ -242,6 +243,7 @@ class BasicLayout extends PureComponent {
   };
 
   handleMenuCollapse = collapsed => {
+    console.log(collapsed);
     const { dispatch } = this.props;
     console.log(collapsed, '手工调整');
     dispatch({
@@ -274,7 +276,7 @@ class BasicLayout extends PureComponent {
           <SiderMenu
             logo={logo}
             theme={navTheme}
-            onCollapse={() => this.handleMenuCollapse}
+            onCollapse={this.handleMenuCollapse}
             menuData={menuData}
             isMobile={isMobile}
             breadcrumbList={breadcrumbList}
@@ -290,7 +292,7 @@ class BasicLayout extends PureComponent {
         >
           <Header
             menuData={menuData}
-            handleMenuCollapse={() => this.handleMenuCollapse}
+            onCollapse={this.handleMenuCollapse}
             logo={logo}
             isMobile={isMobile}
             {...this.props}

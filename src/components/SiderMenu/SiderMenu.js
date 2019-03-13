@@ -27,10 +27,10 @@ const getDefaultCollapsedSubMenus = ({ breadcrumbList, menuData }) => {
       R.init,
       R.uniq,
       R.tail,
-      R.map((item) => item.slice(1)),
+      R.map(item => item.slice(1)),
       urlToList
     )(selectedKeys),
-    menuData
+    menuData,
   };
 };
 
@@ -41,40 +41,34 @@ export default class SiderMenu extends PureComponent {
     const defaultState = getDefaultCollapsedSubMenus(props);
     this.state = {
       ...defaultState,
-      searchValue: ''
+      searchValue: '',
     };
     this.flatMenu = getFlatMenu(props.menuData);
   }
 
   static getDerivedStateFromProps(props, state) {
     const { pathname } = state;
-    if (
-      !R.equals(props.menuData, state.menuData) &&
-      state.searchValue.length === 0
-    ) {
+    if (!R.equals(props.menuData, state.menuData) && state.searchValue.length === 0) {
       let nextState = getDefaultCollapsedSubMenus(props);
       return {
         pathname: props.location.pathname,
-        ...nextState
+        ...nextState,
       };
-    } else if (
-      props.nextUrl !== state.nextUrl ||
-      props.location.pathname !== pathname
-    ) {
+    } else if (props.nextUrl !== state.nextUrl || props.location.pathname !== pathname) {
       let nextState = getDefaultCollapsedSubMenus(props);
       return {
         pathname: props.location.pathname,
         ...nextState,
         searchValue: '',
-        nextUrl: props.nextUrl
+        nextUrl: props.nextUrl,
       };
     }
     return null;
   }
 
-  isMainMenu = (key) => {
+  isMainMenu = key => {
     const { menuData } = this.props;
-    return menuData.some((item) => {
+    return menuData.some(item => {
       if (key) {
         return item.key === key || item.path === key;
       }
@@ -82,18 +76,17 @@ export default class SiderMenu extends PureComponent {
     });
   };
 
-  handleOpenChange = (openKeys) => {
-    const moreThanOne =
-      openKeys.filter((openKey) => this.isMainMenu(openKey)).length > 1;
+  handleOpenChange = openKeys => {
+    const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
     this.setState({
-      openKeys: moreThanOne ? [openKeys.pop()] : [...openKeys]
+      openKeys: moreThanOne ? [openKeys.pop()] : [...openKeys],
     });
   };
 
   onSearch = ({ target: { value } }) => {
     value = value.toLowerCase();
     let { menuData } = this.props;
-    const redirectRouter = (func) => {
+    const redirectRouter = func => {
       this.timeout = setTimeout(() => {
         func();
       }, 500);
@@ -104,14 +97,12 @@ export default class SiderMenu extends PureComponent {
     }
     let filterMenuData = R.filter(
       ({ name, pinyin, pinyin_full }) =>
-        pinyin.includes(value) ||
-        pinyin_full.includes(value) ||
-        name.includes(value)
+        pinyin.includes(value) || pinyin_full.includes(value) || name.includes(value)
     )(this.flatMenu);
 
     this.setState({
       menuData: filterMenuData,
-      searchValue: value
+      searchValue: value,
     });
 
     if (filterMenuData.length === 1) {
@@ -138,6 +129,7 @@ export default class SiderMenu extends PureComponent {
   render() {
     const { logo, collapsed, onCollapse, fixSiderbar, theme } = this.props;
     const { selectedKeys, openKeys, searchValue } = this.state;
+    console.log(collapsed);
     const defaultProps = { selectedKeys, openKeys }; //collapsed ? {} : { selectedKeys, openKeys };
     // const siderClassName = classNames(styles.sider, {
     //   [styles.fixSiderbar]: fixSiderbar,
@@ -145,7 +137,7 @@ export default class SiderMenu extends PureComponent {
     // });
     const siderClassName = cx('sider', {
       fixSiderbar,
-      light: theme === 'light'
+      light: theme === 'light',
     });
 
     const { menuData, ...baseMenuDefaultProps } = this.props;
@@ -159,7 +151,8 @@ export default class SiderMenu extends PureComponent {
         onCollapse={onCollapse}
         width={256}
         theme={theme}
-        className={siderClassName}>
+        className={siderClassName}
+      >
         <div className={styles.logo} id="logo">
           <Link to="/">
             <img src={logo} alt="logo" />
