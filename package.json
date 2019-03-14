@@ -83,6 +83,7 @@
     "eslint-plugin-import": "^2.6.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-react-hooks": "^1.5.1",
     "husky": "^0.12.0",
     "jest": "^24.4.0",
     "pretty-format": "^23.6.0",

@@ -132,6 +132,15 @@ export default class Charts extends Component<IProp, IState> {
     if (this.echarts_react && this.echarts_react.dispose) {
       this.echarts_react.dispose();
     }
+    this.setState = () => ({
+      loading: false,
+      option: [],
+      dataSrc: {
+        data: [],
+        rows: 0,
+      },
+      appendParams: {},
+    });
   }
 
   changeParam(axisName: TAxisName, value: string): void {

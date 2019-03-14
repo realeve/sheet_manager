@@ -4,10 +4,15 @@
         "APP_TYPE": true,
         "BUILD_TYPE": true
     },
+    "plugins": [
+        "react-hooks"
+    ],
     "rules": {
         "experimentalDecorators": false,
         "react/jsx-filename-extension": [1, {
             "extensions": [".js", ".jsx"]
-        }]
+        }],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warning"
     }
 }

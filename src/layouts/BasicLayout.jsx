@@ -169,7 +169,6 @@ class BasicLayout extends PureComponent {
     this.breadcrumbNameMap = this.getBreadcrumbNameMap(this.state.menuData);
     const { isMobile } = this.state;
     const { collapsed } = this.props;
-    console.log(collapsed);
     if (isMobile && !preProps.isMobile && !collapsed) {
       this.handleMenuCollapse(false);
     }
