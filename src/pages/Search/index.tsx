@@ -4,7 +4,7 @@ import Exception from 'ant-design-pro/lib/Exception';
 import { Link } from 'react-router-dom';
 import CartDetail from './CartDetail';
 
-function SearchPage({ reelnumber, cartnumber, type }) {
+function SearchPage({ reel, cart, type }) {
   if (type === 'unknown') {
     return (
       <Exception
@@ -16,7 +16,7 @@ function SearchPage({ reelnumber, cartnumber, type }) {
       />
     );
   } else if (type === 'cart') {
-    return <CartDetail cartnumber={cartnumber} />;
+    return <CartDetail cart={cart} />;
   }
   return <h1>3232adf</h1>;
 }

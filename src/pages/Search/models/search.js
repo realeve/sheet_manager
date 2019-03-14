@@ -1,13 +1,13 @@
 import pathToRegexp from 'path-to-regexp';
 import { setStore, isReel, isCart } from '@/utils/lib';
-import { dispatch } from 'rxjs/internal/observable/range';
+import { createArrayTypeNode } from 'typescript';
 
 const namespace = 'search';
 export default {
   namespace,
   state: {
-    cartnumber: '',
-    reelnumber: '',
+    cart: '',
+    reel: '',
     type: 'unknown',
   },
   reducers: {
@@ -21,28 +21,22 @@ export default {
           return;
         }
         let number = hash.slice(1);
+        let key;
         if (isReel(number)) {
-          dispatch({
-            type: 'setStore',
-            payload: {
-              reelnumber: number,
-              type: 'reel',
-            },
-          });
+          key = 'reel';
         } else if (isCart(number)) {
-          dispatch({
-            type: 'setStore',
-            payload: {
-              cartnumber: number,
-              type: 'cart',
-            },
-          });
+          key = 'cart';
         } else {
-          dispatch({
-            type: 'setStore',
-            payload: { invalid: 'unknown' },
-          });
+          key = 'unknown';
         }
+
+        dispatch({
+          type: 'setStore',
+          payload: {
+            [key]: number,
+            type: key,
+          },
+        });
       });
     },
   },

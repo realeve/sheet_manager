@@ -1,9 +1,9 @@
 import { connect } from 'dva';
 import ProdList from './components/ProdList';
-function SearchPage({ cartnumber }) {
+function SearchPage({ cart }) {
   return (
     <div>
-      <ProdList cart={cartnumber} />
+      <ProdList cart={cart} />
     </div>
   );
 }

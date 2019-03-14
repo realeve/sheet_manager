@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as db from '../db';
-
-import { Card, Badge } from 'antd';
+import moment from 'moment';
+import { Card, Badge, Icon } from 'antd';
 import styles from './ProdList.less';
 
 const weekList: string[] = ['日', '一', '二', '三', '四', '五', '六'];
@@ -66,69 +66,99 @@ export default function SearchPage({ cart }) {
                     <div className={styles.proc}>
                       {idx + 1}.{ProcName}：<a href={`#${mid}`}>{MachineName}</a>
                     </div>
-                    <Badge status="error" className={styles['margin-left-10']}>
-                      {WorkClassName}
-                    </Badge>
-                    <Badge status="success" className={styles['margin-left-10']}>
-                      星期{weekList[weekName]}
-                    </Badge>
+                    <Badge count={WorkClassName} className={styles.workclass} />
+                    <Badge
+                      count={'星期' + weekList[weekName]}
+                      className={styles.workclass}
+                      style={{ backgroundColor: '#337ab7' }}
+                    />
                   </div>
                   <h4>{StartDate}</h4>
                 </div>
                 <div className={styles.detail}>
                   <ul>
                     <li>
-                      <strong>品种</strong>
+                      <strong>
+                        <Icon type="tags" /> 品种
+                      </strong>
                       {ProductName}
                     </li>
                     <li>
-                      <strong>机长</strong>
+                      <strong>
+                        <Icon type="user" /> 机长
+                      </strong>
                       {CaptainName}
                     </li>
                     <li>
-                      <strong>完工时间</strong>
+                      <strong>
+                        <Icon type="clock-circle" /> 完工时间
+                      </strong>
                       {EndDate}
                     </li>
                     <li>
-                      <strong>班组</strong>
+                      <strong>
+                        <Icon type="team" /> 班组
+                      </strong>
                       {TeamName}
                     </li>
                     <li>
-                      <strong>产量</strong>
+                      <strong>
+                        <Icon type="ordered-list" /> 产量
+                      </strong>
                       {PrintNum}
                     </li>
                     <li>
-                      <strong>锁车状态</strong>
+                      <strong>
+                        <Icon type="lock" /> 锁车状态
+                      </strong>
                       {lockStatus}
                     </li>
                     {checkStatus && (
                       <li>
-                        <strong>人工复查</strong>
+                        <strong>
+                          <Icon type="eye" /> 人工复查
+                        </strong>
                         {checkStatus}
                       </li>
                     )}
                     {payOperator && (
                       <li>
-                        <strong>付出方</strong>
+                        <strong>
+                          <Icon type="upload" /> 付出方
+                        </strong>
                         {payOperator}
                       </li>
                     )}
                     {rcvOperator && (
                       <li>
-                        <strong>接收方(当前位置)</strong>
+                        <strong>
+                          <Icon type="environment" theme="twoTone" twoToneColor="#eb2f96" /> 接收方
+                        </strong>
                         {rcvOperator}
                       </li>
                     )}
                     {rcvUser && (
                       <li>
-                        <strong>付出人员</strong>
+                        <strong>
+                          <Icon type="barcode" /> 付出人员
+                        </strong>
                         {rcvUser}
                       </li>
                     )}
                     {WorkInfo && (
                       <li>
-                        <strong>原始记录</strong>
-                        <div>{WorkInfo}</div>
+                        <strong>
+                          <Icon type="edit" /> 原始记录
+                        </strong>
+                        <div>
+                          <div>{WorkInfo}</div>
+                          <span style={{ float: 'right' }}>
+                            <Icon type="edit" style={{ color: '#337ab7' }} /> {CaptainName} 发表于{' '}
+                            {moment(EndDate)
+                              .startOf('hour')
+                              .fromNow()}
+                          </span>
+                        </div>
                       </li>
                     )}
                   </ul>
