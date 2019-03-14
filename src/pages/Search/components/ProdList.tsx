@@ -150,7 +150,7 @@ export default function SearchPage({ cart }) {
                         <strong>
                           <Icon type="edit" /> 原始记录
                         </strong>
-                        <div>
+                        <div className={styles.loginfo}>
                           <div>{WorkInfo}</div>
                           <span style={{ float: 'right' }}>
                             <Icon type="edit" style={{ color: '#337ab7' }} /> {CaptainName} 发表于{' '}
