@@ -82,6 +82,10 @@ export default [
         ],
       },
       {
+        path: '/search',
+        component: './Search',
+      },
+      {
         name: 'account',
         icon: 'user',
         path: '/account',
