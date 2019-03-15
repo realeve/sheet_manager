@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import * as db from '../../db';
-import { Card } from 'antd';
-import styles from './ProdList.less';
-import SimpleTable from '../SimpleTable';
+import CardTable from '../CardTable';
 import SimpleChart from '../SimpleChart';
 import * as R from 'ramda';
+import * as styles from './ProdList.less';
+import { Card } from 'antd';
 
 export default function CartsOneDay({ cart }) {
   // 载入状态
@@ -40,20 +40,9 @@ export default function CartsOneDay({ cart }) {
 
   return (
     <>
+      <CardTable title="码后核查记录" data={cartInfo} loading={loading} />
       <Card
-        title={`当日核查质量记录`}
-        bodyStyle={{
-          padding: '20px',
-        }}
-        hoverable
-        style={{ marginBottom: 10 }}
-        className={styles.cart}
-        loading={loading}
-      >
-        <SimpleTable data={cartInfo} />
-      </Card>
-      <Card
-        title={`当日核查质量记录`}
+        title="当日核查记录"
         bodyStyle={{
           padding: '20px',
         }}

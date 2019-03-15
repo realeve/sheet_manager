@@ -10,6 +10,5 @@ export default function SimpleChart({ data, params, ...props }) {
     } = getDrivedState({ dataSrc: data, params });
     setState(option);
   }, params);
-
   return <Chart renderer="svg" option={state} {...props} />;
 }

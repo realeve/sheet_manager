@@ -3,7 +3,7 @@ import styles from './simpleTable.less';
 import { getType } from '@/utils/lib';
 import * as R from 'ramda';
 
-export default function CartsOneDay({ data }) {
+export default function SimpleTable({ data, ...props }) {
   if (data.rows == 0) {
     return <h3>未检索到相关数据</h3>;
   }
@@ -14,7 +14,7 @@ export default function CartsOneDay({ data }) {
   }
 
   return (
-    <table className={styles['table-simple']}>
+    <table className={styles['table-simple']} {...props}>
       <thead>
         <tr>
           {data.header.map(th => (
