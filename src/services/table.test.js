@@ -214,13 +214,17 @@ test('车号与轴号渲染', () => {
     rows: 2,
     header: ['a', 'b'],
   };
-  const res = table.handleColumns({ dataSrc, filteredInfo: {} }, searchUrl);
+  let res = table.handleColumns({ dataSrc, filteredInfo: {} }, searchUrl);
 
   // 第0个节点渲染正常
   let wrapper = shallow(res[0].render('1820A122'));
   expect(wrapper.text().trim()).toBe('1820A122');
   expect(wrapper.prop('href')).toBe(searchUrl + '1820A122');
   expect(wrapper.prop('target')).toBe('_blank');
+
+  res = table.handleColumns({ dataSrc, filteredInfo: {} }, searchUrl, true);
+  wrapper = shallow(res[0].render('1820A122'));
+  expect(wrapper.prop('target')).toBeUndefined();
 });
 
 test('未传入data', () => {
@@ -354,6 +358,22 @@ test('updateState', () => {
     { page: 1, pageSize: 2 }
   );
   expect(res).toMatchObject(resObj);
+
+  expect(
+    table.updateState(
+      {
+        dataSrc: {
+          data: [{ a: 1, b: 2 }, { a: 3, b: 4 }],
+          rows: 2,
+          header: ['a', 'b'],
+          source: 'source',
+          time: '1ms',
+        },
+        loading: true,
+      },
+      { page: 1, pageSize: 2 }
+    )
+  ).toMatchObject(resObj);
 
   res = table.updateState(
     {
