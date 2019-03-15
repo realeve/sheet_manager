@@ -295,7 +295,7 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
   if (dataSrc.rows) {
     if (typeof handledData[0].key === 'undefined') {
       if (lib.getType(handledData[0]) === 'object') {
-        handledData = handledData.map(item => dataSrc.header.map(key => item[key]));
+        handledData = R.map(R.props(dataSrc.header), handledData);
       }
 
       dataSrc.data = handledData.map((item, key) => {
