@@ -226,7 +226,13 @@ class Tables extends Component {
           bordered={bordered}
           scroll={scroll}
           onChange={this.handleChange}
-          footer={() => `${source} (共耗时${timing})`}
+          footer={() =>
+            !this.props.simple && (
+              <p style={{ padding: '5px 16px' }}>
+                {source} (共耗时{timing})
+              </p>
+            )
+          }
         />
         <Pagination
           className="ant-table-pagination"
@@ -299,45 +305,56 @@ class Tables extends Component {
         </Dropdown>
       );
     };
+    let notSimple = !this.props.simple;
 
-    const TableSetting = () => (
-      <Form layout="inline" className={styles.tblSetting} style={{ paddingLeft: 15 }}>
-        <FormItem label={formatMessage({ id: 'table.border' })}>
-          <Switch checked={this.state.bordered} onChange={this.handleToggle('bordered')} />
-        </FormItem>
-      </Form>
+    const TableSetting = () =>
+      !notSimple ? (
+        !!this.props.showDownload && (
+          <div style={{ marginTop: 10 }}>
+            <Action />
+          </div>
+        )
+      ) : (
+        <Form layout="inline" className={styles.tblSetting} style={{ paddingLeft: 15 }}>
+          <FormItem label={formatMessage({ id: 'table.border' })}>
+            <Switch checked={this.state.bordered} onChange={this.handleToggle('bordered')} />
+          </FormItem>
+        </Form>
+      );
+
+    let tableTitle = notSimple && (
+      <div className={styles.header}>
+        <div>
+          <Action />
+          <a
+            target="_blank"
+            href="/table/config"
+            rel="noopener noreferrer"
+            className={styles.action}
+            style={{ marginLeft: 10 }}
+            title=""
+          >
+            <Icon type="question-circle-o" />
+          </a>
+        </div>
+        {tTitle}
+        <div className={styles.search}>
+          <Search
+            placeholder={formatMessage({ id: 'table.filter' })}
+            onChange={this.handleSearchChange}
+            style={{
+              width: 220,
+              height: 35,
+            }}
+          />
+        </div>
+      </div>
     );
+
     return (
       <Card
         bordered={false}
-        title={
-          <div className={styles.header}>
-            <div>
-              <Action />
-              <a
-                target="_blank"
-                href="/table/config"
-                rel="noopener noreferrer"
-                className={styles.action}
-                style={{ marginLeft: 10 }}
-                title=""
-              >
-                <Icon type="question-circle-o" />
-              </a>
-            </div>
-            {tTitle}
-            <div className={styles.search}>
-              <Search
-                placeholder={formatMessage({ id: 'table.filter' })}
-                onChange={this.handleSearchChange}
-                style={{
-                  width: 220,
-                  height: 35,
-                }}
-              />
-            </div>
-          </div>
-        }
+        title={tableTitle}
         style={{
           width: '100%',
           marginTop: 0,

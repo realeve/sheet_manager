@@ -41,8 +41,11 @@
       list-style: none;
 
       li {
-        display: flex;
+        &:hover {
+          background-color: #eef1f5;
+        }
 
+        display: flex;
         border-bottom: 1px dotted #DFDFDF;
 
         &:last-child {
@@ -70,4 +73,14 @@
     }
   }
 
+  .btnDanger {
+    color: #fff;
+    background-color: #ff4d4f;
+    border-color: #ff4d4f;
+
+    &:hover {
+      background-color: #ec222c;
+      border-color: #ec222c;
+    }
+  }
 }

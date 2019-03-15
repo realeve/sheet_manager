@@ -65,17 +65,17 @@ export const decodeHash = ({ tid, query, selectValue, dateRange: [tstart, tend] 
     };
   });
 
-export const computeDerivedState = async ({ url, params, idx }) => {
-  console.time(`加载图表${idx + 1}数据`);
+export const computeDerivedState = async ({ url, params }) => {
+  console.time(`加载图表数据开始`);
   let dataSrc = await axios({
     url,
     params,
   });
-  console.timeEnd(`加载图表${idx + 1}数据`);
-  return getDrivedState({ dataSrc, params, idx });
+  console.timeEnd(`加载图表数据完成`);
+  return getDrivedState({ dataSrc, params });
 };
 
-export const getDrivedState = ({ dataSrc, params, idx }) => {
+export const getDrivedState = ({ dataSrc, params }) => {
   let option = [];
   if (params.group) {
     let param = params.group;
@@ -95,7 +95,6 @@ export const getDrivedState = ({ dataSrc, params, idx }) => {
         return getOption({
           dataSrc: newDataSrc,
           params: newParam,
-          idx,
         });
       }),
       R.keys
@@ -105,7 +104,6 @@ export const getDrivedState = ({ dataSrc, params, idx }) => {
       getOption({
         dataSrc,
         params,
-        idx,
       }),
     ];
   }
@@ -117,7 +115,6 @@ export const getDrivedState = ({ dataSrc, params, idx }) => {
   return {
     dataSrc,
     option,
-    loading: false,
   };
 };
 

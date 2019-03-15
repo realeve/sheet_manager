@@ -40,7 +40,11 @@ const isFilterColumn: <T>(
   };
 };
 
-export function handleColumns({ dataSrc, filteredInfo }, cartLinkPrefix = setting.searchUrl) {
+export function handleColumns(
+  { dataSrc, filteredInfo },
+  cartLinkPrefix = setting.searchUrl,
+  simpleMode = false
+) {
   let { data, header, rows } = dataSrc;
   if (!rows || rows === 0) {
     return [];
@@ -84,10 +88,15 @@ export function handleColumns({ dataSrc, filteredInfo }, cartLinkPrefix = settin
     if (lib.isReel(tdValue) || isCart) {
       item.render = text => {
         let url = cartLinkPrefix;
-        const attrs = {
+        let attrs: {
+          href: string;
+          target?: string;
+        } = {
           href: url + text,
-          target: '_blank',
         };
+        if (!simpleMode) {
+          attrs.target = '_blank';
+        }
         return <a {...attrs}> {text} </a>;
       };
       return item;
@@ -217,7 +226,7 @@ export const handleSrcData = data => {
 // 根据 props 初始化state
 export const initState = props => {
   let page = 1;
-  let pageSize = 15;
+  let pageSize = props.pagesize || 15;
   let state = updateState(props, { page, pageSize });
 
   return {
@@ -281,10 +290,15 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
   const { source, time } = dataSrc;
 
   let dataSource = [];
+  let handledData = R.clone(dataSrc.data);
 
   if (dataSrc.rows) {
-    if (typeof dataSrc.data[0].key === 'undefined') {
-      dataSrc.data = dataSrc.data.map((item, key) => {
+    if (typeof handledData[0].key === 'undefined') {
+      if (lib.getType(handledData[0]) === 'object') {
+        handledData = handledData.map(item => dataSrc.header.map(key => item[key]));
+      }
+
+      dataSrc.data = handledData.map((item, key) => {
         let col = {
           key,
         };
@@ -322,7 +336,8 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
       dataSrc,
       filteredInfo: {},
     },
-    props.cartLinkPrefix
+    props.cartLinkPrefix,
+    !!props.simple
   );
 
   // 合并单元格展示

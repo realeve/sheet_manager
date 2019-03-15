@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Card, Tabs } from 'antd';
 import * as db from '../services/chart';
 import styles from './Chart.less';
-import ReactEcharts from './echarts-for-react';
 import VTable from '@/components/Table.jsx';
 import ChartConfig, { TAxisName, IConfigState, getParams } from './ChartConfig';
-
+import ChartComponent from './ChartComponent';
 import { formatMessage } from 'umi/locale';
 
 import lib from '../utils/lib';
@@ -60,9 +59,6 @@ export default class Charts extends Component<IProp, IState> {
       },
       appendParams: {},
     };
-
-    // 创建echarts实例
-    this.echarts_react = React.createRef();
   }
 
   static getDerivedStateFromProps({ config }, state) {
@@ -90,11 +86,10 @@ export default class Charts extends Component<IProp, IState> {
   }
 
   init = async () => {
-    let { url, params, idx } = this.state;
+    let { url, params } = this.state;
     let { dataSrc, option } = await db.computeDerivedState({
       url,
       params,
-      idx,
     });
     this.setState({ dataSrc, option });
     this.props.onLoad(dataSrc.title);
@@ -129,9 +124,6 @@ export default class Charts extends Component<IProp, IState> {
   }
 
   componentWillUnmount() {
-    if (this.echarts_react && this.echarts_react.dispose) {
-      this.echarts_react.dispose();
-    }
     this.setState = () => ({
       loading: false,
       option: [],
@@ -208,14 +200,11 @@ export default class Charts extends Component<IProp, IState> {
             bordered={false}
           >
             {option.map((opt, key) => (
-              <ReactEcharts
+              <ChartComponent
                 key={key}
-                ref={e => {
-                  this.echarts_react = e;
-                }}
                 option={opt}
+                renderer={renderer}
                 style={{ height, marginTop: key ? 40 : 0 }}
-                opts={{ renderer }}
               />
             ))}
           </Card>

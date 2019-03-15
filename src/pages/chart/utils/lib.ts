@@ -159,10 +159,6 @@ const handleSimpleMode = (option, config) => {
     return option;
   }
 
-  // Reflect.deleteProperty(option, 'toolbox');
-  let [title]: string = option.title;
-
-  option.title = title;
   let { xAxis, yAxis } = option;
   if (yAxis && yAxis.name) {
     Reflect.deleteProperty(yAxis, 'name');
@@ -178,6 +174,22 @@ const handleSimpleMode = (option, config) => {
       },
     });
     option = Object.assign(option, { xAxis, yAxis });
+  }
+
+  if (config.simple == '1') {
+    // Reflect.deleteProperty(option, 'toolbox');
+    let [title]: string = option.title;
+    option.title = title;
+  } else if (config.simple == '2') {
+    option.title = {};
+    option.toolbox = {};
+    option.grid = {
+      left: 35,
+      right: 10,
+      top: 10,
+      bottom: 20,
+    };
+    Reflect.deleteProperty(option, 'dataZoom');
   }
 
   return option;
@@ -418,7 +430,7 @@ type tGl =
   | echarts.EChartsSeriesType;
 let chartGL: Array<tGl> = ['bar3d', 'line3d', 'scatter3d', 'surface'];
 
-type tRender = 'canvas' | 'svg';
+export type tRender = 'canvas' | 'svg';
 let getRenderer: (params: {
   render?: tRender;
   type: string;
