@@ -213,12 +213,15 @@ class Tables extends Component {
     // if (pageSize > 15) {
     //   scroll.y = 700;
     // }
-
+    let tableColumn = this.appendActions(columns);
+    if (this.props.beforeRender) {
+      tableColumn = this.props.beforeRender(tableColumn);
+    }
     return (
       <>
         <Table
           loading={loading}
-          columns={this.appendActions(columns)}
+          columns={tableColumn}
           dataSource={dataSource}
           rowKey="key"
           pagination={false}
@@ -322,7 +325,23 @@ class Tables extends Component {
         </Form>
       );
 
-    let tableTitle = notSimple && (
+    let SearchFilter = (
+      <div className={styles.search}>
+        <Search
+          placeholder={formatMessage({ id: 'table.filter' })}
+          onChange={this.handleSearchChange}
+          size="small"
+          style={{
+            width: 170,
+          }}
+        />
+      </div>
+    );
+    let tableTitle = !notSimple ? (
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+        {SearchFilter}
+      </div>
+    ) : (
       <div className={styles.header}>
         <div>
           <Action />
@@ -338,16 +357,7 @@ class Tables extends Component {
           </a>
         </div>
         {tTitle}
-        <div className={styles.search}>
-          <Search
-            placeholder={formatMessage({ id: 'table.filter' })}
-            onChange={this.handleSearchChange}
-            style={{
-              width: 220,
-              height: 35,
-            }}
-          />
-        </div>
+        {SearchFilter}
       </div>
     );
 

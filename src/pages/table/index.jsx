@@ -3,12 +3,10 @@ import { connect } from 'dva';
 import VTable from '@/components/Table.jsx';
 import VTableCalc from '@/components/TableCalc.jsx';
 import { formatMessage } from 'umi/locale';
-
-import { DatePicker, Card, Tabs, Select, Row, Col, Button } from 'antd';
+import { Card, Tabs, Select, Row, Col, Button } from 'antd';
 import styles from './index.less';
-import dateRanges from '@/utils/ranges';
-import moment from 'moment';
-import 'moment/locale/zh-cn';
+
+import DatePicker from '@/components/DatePicker';
 
 import classNames from 'classnames/bind';
 import * as lib from '@/utils/lib';
@@ -16,21 +14,9 @@ import * as lib from '@/utils/lib';
 const cx = classNames.bind(styles);
 
 const { Option } = Select;
-
-moment.locale('zh-cn');
-
 const TabPane = Tabs.TabPane;
-const RangePicker = DatePicker.RangePicker;
 
-function Tables({
-  dispatch,
-  dateRange,
-  loading,
-  dataSource,
-  selectList,
-  axiosOptions,
-  selectValue,
-}) {
+function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectValue }) {
   const onDateChange = async (dateStrings, refresh) => {
     dispatch({
       type: 'table/setStore',
@@ -44,21 +30,11 @@ function Tables({
   };
 
   const DateRangePicker = ({ refresh }) => (
-    <>
-      <label className={styles.labelDesc}>{formatMessage({ id: 'app.timerange' })}:</label>
-      <RangePicker
-        ranges={dateRanges}
-        format="YYYYMMDD"
-        onChange={(_, dateStrings) => {
-          onDateChange(dateStrings, refresh);
-        }}
-        defaultValue={[moment(dateRange[0]), moment(dateRange[1])]}
-        style={{ width: 190 }}
-        locale={{
-          rangePlaceholder: ['开始日期', '结束日期'],
-        }}
-      />
-    </>
+    <DatePicker
+      className={refresh ? styles.setting : null}
+      value={dateRange}
+      onChange={dateStrings => onDateChange(dateStrings, refresh)}
+    />
   );
 
   // 表头合并相关设置信息

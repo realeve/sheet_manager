@@ -107,21 +107,6 @@ export default function CodeInfo({ cart }) {
       </div>
       <SimpleTable data={state} />
       <Row gutter={20}>
-        <Col span={12} md={12} lg={8}>
-          <Card
-            bordered={false}
-            bodyStyle={{
-              padding: 0,
-            }}
-          >
-            <SimpleChart
-              data={errDetail}
-              params={params}
-              beforeRender={beforeRender}
-              style={{ height: 150 }}
-            />
-          </Card>
-        </Col>
         <Col span={12} md={12} lg={16}>
           <Row gutter={10} className={styles.card}>
             {fakeImg.map((url, idx) => (
@@ -145,6 +130,21 @@ export default function CodeInfo({ cart }) {
               </Col>
             ))}
           </Row>
+        </Col>
+        <Col span={12} md={12} lg={8}>
+          <Card
+            bordered={false}
+            bodyStyle={{
+              padding: 0,
+            }}
+          >
+            <SimpleChart
+              data={errDetail}
+              params={params}
+              beforeRender={beforeRender}
+              style={{ height: 150 }}
+            />
+          </Card>
         </Col>
       </Row>
       <div className={styles.title}>

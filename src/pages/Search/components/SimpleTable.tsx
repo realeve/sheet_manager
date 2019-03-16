@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './simpleTable.less';
 import { getType } from '@/utils/lib';
+import { Skeleton } from 'antd';
 import * as R from 'ramda';
 
-export default function SimpleTable({ data, ...props }) {
+export default function SimpleTable({ data, loading, ...props }) {
   if (data.rows == 0) {
     return <h3>未检索到相关数据</h3>;
   }
@@ -13,7 +14,9 @@ export default function SimpleTable({ data, ...props }) {
     dataSrc = dataSrc.map(item => data.header.map(key => item[key]));
   }
 
-  return (
+  return loading ? (
+    <Skeleton active />
+  ) : (
     <table className={styles['table-simple']} {...props}>
       <thead>
         <tr>

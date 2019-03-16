@@ -1,22 +1,17 @@
 import React from 'react';
 import { connect } from 'dva';
 import Chart from './components/Chart';
-import { DatePicker, Card, Select, Row, Col, Button } from 'antd';
+import { Card, Select, Row, Col, Button } from 'antd';
 import styles from './index.less';
 import styleTable from '@/pages/table/index.less';
-import dateRanges from '@/utils/ranges';
-import moment from 'moment';
 import classNames from 'classnames';
 import { formatMessage } from 'umi/locale';
-import 'moment/locale/zh-cn';
-moment.locale('zh-cn');
+import DatePicker from '@/components/DatePicker';
 
 const { Option } = Select;
-const RangePicker = DatePicker.RangePicker;
 
 function Charts({ dispatch, dateRange, config, loading, selectList, selectValue }) {
   const onDateChange = async (dateStrings: Array<string>, refresh: boolean = true) => {
-    // const [tstart, tend]: Array<string> = dateStrings;
     await dispatch({
       type: 'chart/setStore',
       payload: { dateRange: dateStrings },
@@ -36,21 +31,11 @@ function Charts({ dispatch, dateRange, config, loading, selectList, selectValue 
   };
 
   const DateRangePicker = ({ refresh }) => (
-    <div className={refresh ? styles.setting : null}>
-      <label className={styles.labelDesc}>{formatMessage({ id: 'app.timerange' })}:</label>
-      <RangePicker
-        ranges={dateRanges}
-        format="YYYYMMDD"
-        onChange={(_, dateStrings) => {
-          onDateChange(dateStrings, refresh);
-        }}
-        defaultValue={[moment(dateRange[0]), moment(dateRange[1])]}
-        style={{ width: 190 }}
-        locale={{
-          rangePlaceholder: ['开始日期', '结束日期'],
-        }}
-      />
-    </div>
+    <DatePicker
+      className={refresh ? styles.setting : null}
+      value={dateRange}
+      onChange={dateStrings => onDateChange(dateStrings, refresh)}
+    />
   );
 
   const refreshData = () => {

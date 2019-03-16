@@ -179,16 +179,20 @@ export const getMahoudataLog = cart =>
  *   @database: { 接口管理 }
  *   @desc:     { OCR信息查询 }
  */
-export const getViewPrintOcr = cart =>
-  DEV
+export const getViewPrintOcr = async cart => {
+  let res = await (DEV
     ? mock(require('@/mock/422_0361b10a4e.json'))
     : axios({
         url: '/422/0361b10a4e.json',
         params: {
           cart,
         },
-      });
-
+      }));
+  if (res.rows) {
+    res.data[0]['小开作废率'] = Number(res.data[0]['小开作废率']).toFixed(3) + '‰';
+  }
+  return res;
+};
 /**
  *   @database: { 质量信息系统 }
  *   @desc:     { 印钞特抽信息 }
