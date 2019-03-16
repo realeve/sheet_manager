@@ -21,7 +21,7 @@ export default function CartInfo({ cartInfo }) {
     <Card
       title={`车号信息`}
       bodyStyle={{
-        padding: '20px 20px 10px 20px',
+        padding: '10px 20px',
       }}
       hoverable
       style={{ marginBottom: 10 }}

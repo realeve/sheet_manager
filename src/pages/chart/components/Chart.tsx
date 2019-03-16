@@ -194,7 +194,9 @@ export default class Charts extends Component<IProp, IState> {
             />
           )}
           <Card
-            bodyStyle={{ padding: '20px' }}
+            bodyStyle={{
+              padding: '10px 20px',
+            }}
             className={styles.exCard}
             loading={loading}
             bordered={false}

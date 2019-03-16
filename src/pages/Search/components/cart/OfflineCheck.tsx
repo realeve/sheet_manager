@@ -25,7 +25,7 @@ export default function OffineCheck({ cart }) {
       <Card
         hoverable
         bodyStyle={{
-          padding: '20px 20px 10px 20px',
+          padding: '10px 20px',
         }}
         style={{ marginBottom: 10 }}
       >

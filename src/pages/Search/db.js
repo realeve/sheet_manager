@@ -1,6 +1,6 @@
 import { axios, mock } from '@/utils/axios';
 import { DEV } from '@/utils/setting';
-
+import * as R from 'ramda';
 /**
  *   @database: { MES_MAIN }
  *   @desc:     { 机台作业追溯 }
@@ -146,15 +146,20 @@ export const getImagedata = mahouid =>
  *   @database: { 质量信息系统 }
  *   @desc:     { 人工图像判废结果 }
  */
-export const getViewPrintHechaImageCheck = cart =>
-  DEV
-    ? mock(require('@/mock/420_ce6e8bb0ec.json'))
-    : axios({
+export const getViewPrintHechaImageCheck = async cart => {
+  let res = DEV
+    ? await mock(require('@/mock/420_ce6e8bb0ec.json'))
+    : await axios({
         url: '/420/ce6e8bb0ec.json',
         params: {
           cart,
         },
       });
+  let src = R.clone(res);
+  src.header = res.header.slice(4);
+  src.data[0] = R.props(src.header)(res.data[0]);
+  return src;
+};
 
 /**
  *   @database: { 质量信息系统 }

@@ -3,39 +3,8 @@
     margin-left: 10px;
   }
 
-
-  .title {
-    border-bottom: 1px solid #cdcdcd;
-    margin-bottom: 22px;
-    color: #444;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .proc {
-      border-bottom: 1px solid #747474;
-      display: inline-block;
-      margin: 0 0 -1px 0;
-      font: 400 16px/36px "Open Sans", sans-serif;
-      padding: 0 5px 0 0;
-      border-bottom-color: #e7505a;
-      text-transform: uppercase;
-      font-weight: 600;
-      font-size: 16px;
-
-      a {
-        text-shadow: none;
-        color: #337ab7;
-      }
-    }
-
-    h4 {
-      font-weight: normal;
-    }
-  }
-
   .detail {
-    padding-bottom: 20px;
+    padding: 10px 0 20px 0;
 
     ul {
       list-style: none;
@@ -81,6 +50,67 @@
     &:hover {
       background-color: #ec222c;
       border-color: #ec222c;
+    }
+  }
+}
+
+
+.title {
+  border-bottom: 1px solid #cdcdcd;
+  color: #444;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .text {
+    border-bottom: 1px solid #747474;
+    display: inline-block;
+    margin: 0 0 -1px 0;
+    font: 400 16px/36px "Open Sans", sans-serif;
+    padding: 0 5px 0 0;
+    border-bottom-color: #e7505a;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 16px;
+
+    a {
+      text-shadow: none;
+      color: #337ab7;
+    }
+  }
+
+  h4 {
+    font-weight: normal;
+  }
+}
+
+.card {
+  :global {
+    .ant-card {
+      &-cover {
+        overflow: hidden;
+
+        img {
+          transition: all 0.6s;
+
+          &:hover {
+            transform: scale(1.4);
+          }
+        }
+      }
+
+      &-meta {
+        text-align: center;
+
+        &-title {
+          margin-top: 8px;
+          font-size: 14px;
+        }
+
+        &-description {
+          margin: 0px 0 6px 0;
+        }
+      }
     }
   }
 }

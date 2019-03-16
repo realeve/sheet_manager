@@ -50,7 +50,7 @@ export default function ProdList({ cart, onRefresh }) {
       <Card
         title={`生产信息(${cartName})`}
         bodyStyle={{
-          padding: '20px',
+          padding: '10px 20px',
         }}
         hoverable
         style={{ marginBottom: 10 }}
@@ -80,7 +80,7 @@ export default function ProdList({ cart, onRefresh }) {
                 <div>
                   <div className={styles.title}>
                     <div>
-                      <div className={styles.proc}>
+                      <div className={styles.text}>
                         {idx + 1}.{ProcName}：
                         <a
                           href="javascript:;"

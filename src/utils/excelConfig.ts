@@ -1,5 +1,4 @@
-import jStat from 'jStat';
-// import * as R from 'ramda';
+import * as R from 'ramda';
 /**
  * @param prefix 前缀
  * @param suffix 后续
@@ -103,7 +102,7 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
   // 记录合并单元格
   let mergedRows: number[] = [];
   mergeArr.forEach(([start, end]) => {
-    mergedRows = [...mergedRows, ...jStat.arange(start, end + 1)].sort();
+    mergedRows = [...mergedRows, ...R.range(start, end + 1)].sort();
   });
 
   mergeArr = mergeArr.sort((a, b) => a[0] - b[0]);

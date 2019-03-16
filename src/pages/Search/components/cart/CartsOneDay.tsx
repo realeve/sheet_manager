@@ -44,7 +44,7 @@ export default function CartsOneDay({ cart }) {
       <Card
         title="当日核查记录"
         bodyStyle={{
-          padding: '20px',
+          padding: '10px 20px',
         }}
         hoverable
         style={{ marginBottom: 10 }}

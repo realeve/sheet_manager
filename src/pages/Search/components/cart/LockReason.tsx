@@ -22,7 +22,7 @@ export default function LockReason({ cart }) {
     <Card
       title={`锁车原因`}
       bodyStyle={{
-        padding: '20px',
+        padding: '10px 20px',
       }}
       hoverable
       style={{ marginBottom: 10 }}

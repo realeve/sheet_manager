@@ -9,7 +9,9 @@ export default function CardTable({ data, loading, title }) {
       <Card
         title={title}
         bodyStyle={{
-          padding: '20px',
+          padding: '10px 20px',
+          maxHeight: 300,
+          overflowY: 'auto',
         }}
         hoverable
         style={{ marginBottom: 10 }}
