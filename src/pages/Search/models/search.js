@@ -1,6 +1,19 @@
 import pathToRegexp from 'path-to-regexp';
-import { setStore, isReel, isCart } from '@/utils/lib';
-import { createArrayTypeNode } from 'typescript';
+import { setStore, isReel, isCart, isGZ } from '@/utils/lib';
+
+export const getProdType = number => {
+  let key;
+  if (isReel(number)) {
+    key = 'reel';
+  } else if (isCart(number)) {
+    key = 'cart';
+  } else if (isGz(number)) {
+    key = 'gz';
+  } else {
+    key = 'unknown';
+  }
+  return key;
+};
 
 const namespace = 'search';
 export default {
@@ -22,16 +35,7 @@ export default {
           return;
         }
         let number = hash.slice(1);
-        let key;
-        if (isReel(number)) {
-          key = 'reel';
-        } else if (isCart(number)) {
-          key = 'cart';
-        } else if (isGz(number)) {
-          key = 'gz';
-        } else {
-          key = 'unknown';
-        }
+        let key = getProdType(number);
 
         dispatch({
           type: 'setStore',
