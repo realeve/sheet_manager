@@ -1,28 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Col, Card, Tabs } from 'antd';
-import * as db from '../../db';
 import SimpleTable from '../SimpleTable';
+import { useFetch } from '@/pages/Search/utils/useFetch';
 const TabPane = Tabs.TabPane;
 
 export default function OnlineCount({ cart }) {
-  const [state, setState] = useState({ rows: 0 });
-  const [loading, setLoading] = useState(false);
-
-  let loadData = async () => {
-    setLoading(true);
-    let res = await db.getQmRectifyMaster(cart);
-    setState(res);
-    setLoading(false);
-  };
-  useEffect(() => {
-    loadData();
-  }, [cart]);
-
-  const [showSilk, setShowSilk] = useState(false);
-  useEffect(() => {
-    // 显示丝印
-    setShowSilk(cart[2] === '8');
-  }, [cart]);
+  const { loading, ...state } = useFetch({ params: cart, api: 'getQmRectifyMaster' });
+  let showSilk = cart[2] === '8';
 
   return (
     <Col span={24}>

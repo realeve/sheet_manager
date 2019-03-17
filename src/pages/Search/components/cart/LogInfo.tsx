@@ -5,8 +5,8 @@ import VTable from '@/components/Table';
 const TabPane = Tabs.TabPane;
 
 export default function OnlineCount({ cart }) {
-  const [state, setState] = useState({ rows: 0 });
-  const [loading, setLoading] = useState(false);
+  // const [state, setState] = useState({ rows: 0 });
+  // const [loading, setLoading] = useState(false);
 
   // let loadData = async () => {
   //   setLoading(true);
@@ -18,11 +18,7 @@ export default function OnlineCount({ cart }) {
   //   loadData();
   // }, [cart]);
 
-  const [showSilk, setShowSilk] = useState(false);
-  useEffect(() => {
-    // 显示丝印
-    setShowSilk(cart[2] === '8');
-  }, [cart]);
+  let showSilk = cart[2] === '8';
 
   return (
     <Col span={24}>

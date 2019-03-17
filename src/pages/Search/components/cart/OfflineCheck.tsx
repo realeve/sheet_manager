@@ -1,24 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Col, Card, Tabs } from 'antd';
-import * as db from '../../db';
+import { useFetch } from '@/pages/Search/utils/useFetch';
 import VTable from '@/components/Table';
 const TabPane = Tabs.TabPane;
 
 export default function OffineCheck({ cart }) {
-  const [offset, setOffset] = useState({});
-  const [intag, setIntag] = useState({});
-  const [loading, setLoading] = useState(false);
-  let loadData = async () => {
-    setLoading(true);
-    let res2 = await db.getViewScoreIntaglio(cart);
-    setOffset(res2);
-    let res1 = await db.getViewScoreOffset(cart);
-    setIntag(res1);
-    setLoading(false);
-  };
-  useEffect(() => {
-    loadData();
-  }, [cart]);
+  const { loading, ...offset } = useFetch({ params: cart, api: 'getViewScoreOffset' });
+  const { loading: loading2, ...intag } = useFetch({ params: cart, api: 'getViewScoreIntaglio' });
 
   return (
     <Col span={24}>
@@ -34,7 +22,7 @@ export default function OffineCheck({ cart }) {
             <VTable dataSrc={offset} loading={loading} simple={true} pagesize={5} />
           </TabPane>
           <TabPane tab="凹印离线检测" key="2">
-            <VTable dataSrc={intag} loading={loading} simple={true} pagesize={5} />
+            <VTable dataSrc={intag} loading={loading2} simple={true} pagesize={5} />
           </TabPane>
         </Tabs>
       </Card>

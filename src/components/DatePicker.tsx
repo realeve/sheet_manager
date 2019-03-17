@@ -15,7 +15,7 @@ export default function DatePick({
   onChange,
   ...props
 }: {
-  value?: Moment[];
+  value?: string[];
   [key: string]: any;
 }) {
   let tstart, tend;

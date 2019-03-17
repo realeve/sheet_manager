@@ -1,35 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import * as db from '../../db';
 import moment from 'moment';
 import { Card, Badge, Icon } from 'antd';
 import styles from './ProdList.less';
 import * as R from 'ramda';
+import { useFetch } from '@/pages/Search/utils/useFetch';
 
 import CartsByDate from './CartsByDate';
 
 const weekList: string[] = ['日', '一', '二', '三', '四', '五', '六'];
 
 export default function ProdList({ cart, onRefresh }) {
-  // 载入状态
-  const [loading, setLoading] = useState(false);
-  // 生产数据
-  const [prodDetail, setProdDetail] = useState([]);
-  useEffect(() => {
-    getProdDetail();
-  }, [cart]);
-
-  const getProdDetail = async () => {
-    setLoading(true);
-    setVisible(false);
-    let { data } = await db.getVCbpcCartlist(cart);
-    setProdDetail(data);
-    onRefresh(data.length ? R.last(data) : {});
-    setLoading(false);
-  };
-
+  const [visible, setVisible] = useState(false);
   const [cartDetail, setCartDetail] = useState({ mid: 0, tstart: '', machine: '' });
 
-  const [visible, setVisible] = useState(false);
+  let callback = ({ data, rows }) => {
+    setVisible(false);
+    onRefresh(rows ? R.last(data) : {});
+  };
+  const { loading, data: prodDetail, rows } = useFetch({
+    params: cart,
+    api: 'getVCbpcCartlist',
+    callback,
+  });
 
   // 显示当天生产的其它车号
   useEffect(() => {
@@ -43,7 +35,7 @@ export default function ProdList({ cart, onRefresh }) {
     setCartDetail({ mid: 0, tstart: '', machine: '' });
   };
 
-  let cartName: string = prodDetail.length ? prodDetail[0].CartNumber : '载入中';
+  let cartName: string = rows ? prodDetail[0].CartNumber : '载入中';
   return (
     <>
       <CartsByDate {...cartDetail} visible={visible} onToggle={onToggle} />

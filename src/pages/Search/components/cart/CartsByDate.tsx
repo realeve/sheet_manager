@@ -4,23 +4,37 @@ import VTable from '@/components/Table';
 import { Modal } from 'antd';
 import DatePicker from '@/components/DatePicker';
 import styles from './ProdList.less';
-export default function CartsByDate({ mid, tstart, visible, onToggle, machine }) {
-  // 载入状态
-  const [loading, setLoading] = useState(false);
-  const [dates, setDates] = useState([tstart, tstart]);
 
+export default function CartsByDate({
+  mid,
+  tstart,
+  visible,
+  onToggle,
+  machine,
+}: {
+  mid: number | string;
+  tstart: string;
+  visible: boolean;
+  onToggle?: any;
+  machine: string;
+}) {
+  const [loading, setLoading] = useState(false);
   const [state, setState] = useState({ data: [], header: [] });
-  const updateMachine = async ([tstart, tend]) => {
+  const updateMachine = async ([tstart, tend]: string[]) => {
     setLoading(true);
     let res = await db.getVCbpcCartlistByMachine({ mid, tstart, tend });
     setLoading(false);
     setState(res);
   };
+
   useEffect(() => {
-    if (mid > 0) {
-      updateMachine([tstart, tstart]);
+    if (mid == 0 || !visible) {
+      return;
     }
-  }, [mid, tstart]);
+    updateMachine([tstart, tstart]);
+  }, [visible]);
+
+  const [dates, setDates] = useState([tstart, tstart]);
   const onDateChange = async e => {
     setDates(e);
     updateMachine(e);

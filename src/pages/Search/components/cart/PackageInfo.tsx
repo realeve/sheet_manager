@@ -1,34 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Col, Card, Tabs } from 'antd';
-import * as db from '../../db';
 import SimpleTable from '../SimpleTable';
 import VTable from '@/components/Table';
+import { useFetch } from '@/pages/Search/utils/useFetch';
 
 const TabPane = Tabs.TabPane;
 
 export default function HechaInfo({ cart }) {
-  const [state, setState] = useState({ rows: 0 });
-  const [loading, setLoading] = useState(false);
-  let loadData = async () => {
-    setLoading(true);
-    let res = await db.getViewPrintOcr(cart);
-    setState(res);
-    setLoading(false);
-  };
-  useEffect(() => {
-    loadData();
-  }, [cart]);
-
-  const [ananyData, setAnanyData] = useState({ data: [], rows: [] });
-  let loadAnayData = async () => {
-    setLoading(true);
-    let res = await db.getNoteaysdata(cart);
-    setAnanyData(res);
-    setLoading(false);
-  };
-  useEffect(() => {
-    loadAnayData();
-  }, [cart]);
+  const { loading, ...state } = useFetch({ params: cart, api: 'getViewPrintOcr' });
+  const { loading: loading2, ...ananyData } = useFetch({ params: cart, api: 'getNoteaysdata' });
 
   const beforeRender = option =>
     option.map(item => {
@@ -54,7 +34,7 @@ export default function HechaInfo({ cart }) {
           <TabPane tab="特抽信息" key="2">
             <VTable
               dataSrc={ananyData}
-              loading={loading}
+              loading={loading2}
               beforeRender={beforeRender}
               simple={true}
               pagesize={5}

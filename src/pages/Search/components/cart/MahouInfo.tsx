@@ -5,7 +5,7 @@ import SimpleTable from '../SimpleTable';
 import { Col, Row, Card } from 'antd';
 import * as R from 'ramda';
 import styles from './ProdList.less';
-import * as lib from '../../lib';
+import * as lib from '@/pages/Search/utils/lib';
 const { Meta } = Card;
 
 export default function CodeInfo({ cart }) {

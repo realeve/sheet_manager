@@ -4,7 +4,15 @@ import { getType } from '@/utils/lib';
 import { Skeleton } from 'antd';
 import * as R from 'ramda';
 
-export default function SimpleTable({ data, loading, ...props }) {
+export default function SimpleTable({
+  data,
+  loading,
+  ...props
+}: {
+  data: any;
+  loading?: boolean;
+  [key: string]: any;
+}) {
   if (data.rows == 0) {
     return <h3>未检索到相关数据</h3>;
   }
