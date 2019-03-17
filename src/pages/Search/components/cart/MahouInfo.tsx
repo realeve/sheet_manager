@@ -91,7 +91,7 @@ export default function CodeInfo({ cart }) {
       option.yAxis.show = false;
       option.grid.left = 0;
     }
-    return option;
+    return { ...option, color: ['#e74c3c'] };
   };
 
   return (

@@ -108,9 +108,10 @@ export const getDrivedState = ({ dataSrc, params }) => {
     ];
   }
 
-  if (DEV && option.length) {
-    console.log(`option=${JSON.stringify(option[0])}`);
-  }
+  // if (DEV && option.length) {
+  //   console.log(`option=${JSON.stringify(option[0])}`);
+  // }
+
   //   dataSrc.data = dataSrc.data.map((item) => Object.values(item));
   return {
     dataSrc,

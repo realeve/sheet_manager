@@ -30,12 +30,13 @@ export default function CodeInfo({ cart }) {
       }}
       bordered={false}
       loading={state.loading}
+      style={{ height: 180 }}
     >
       <SimpleChart
         data={state}
         params={params}
         beforeRender={beforeRender}
-        style={{ height: 300 }}
+        style={{ height: 180 }}
       />
     </Card>
   );

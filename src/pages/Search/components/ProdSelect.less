@@ -1,0 +1,67 @@
+@import '~antd/lib/style/themes/default.less';
+
+.queryBtn {
+  color: #fff;
+  background-color: #ff4d4f;
+  border-color: #ff4d4f;
+
+  &:hover {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+    color: #fff;
+  }
+}
+
+@containerWidth: 400px;
+
+.prodcontainer {
+  width: @containerWidth;
+
+  :global {
+    .ant-popover {
+      &-message-title {
+        padding-left: 0;
+      }
+    }
+
+    .ant-radio-button {
+      &-wrapper {
+
+        &:hover {
+          border: 1px solid @primary-color;
+        }
+
+        &-checked {
+          background-color: @primary-color;
+          color: @white;
+        }
+      }
+    }
+  }
+
+  .title {
+    font-weight: normal;
+    border-bottom: 1px #e7e7e7 solid;
+
+    span {
+      border-bottom: 1px solid #e7505a;
+      display: inline-block;
+      margin: 0 0 -1px 0;
+      padding: 0 5px 0 0;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 16px;
+    }
+  }
+
+  .block {
+    font-size: 14px;
+    color: #2C3E50;
+    border-bottom: 1px #e7e7e7 solid;
+    padding-bottom: 10px;
+  }
+
+  .form-control {
+    margin: 10px 0;
+  }
+}

@@ -87,7 +87,11 @@ export default function ProdList({ cart, onRefresh }) {
                           {MachineName}
                         </a>
                       </div>
-                      <Badge count={WorkClassName} className={styles.workclass} />
+                      <Badge
+                        count={WorkClassName}
+                        className={styles.workclass}
+                        style={{ backgroundColor: '#e74c3c' }}
+                      />
                       <Badge
                         count={'星期' + weekList[weekName]}
                         className={styles.workclass}

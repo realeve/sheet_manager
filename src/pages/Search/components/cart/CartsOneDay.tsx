@@ -29,11 +29,13 @@ export default function CartsOneDay({ cart }) {
   let { res: state, res2: cartInfo } = handleData(mahouData);
 
   const params = { type: 'line', simple: '2', x: 1, y: 2, smooth: true };
+  const beforeRender = option => ({ ...option, color: ['#e74c3c'] });
+
   return (
     <>
       <CardTable title="码后核查记录" data={cartInfo} loading={loading} />
       <Card
-        title="当日核查记录"
+        title="码后好品率"
         bodyStyle={{
           padding: '10px 20px',
         }}
@@ -42,7 +44,12 @@ export default function CartsOneDay({ cart }) {
         className={styles.cart}
         loading={loading}
       >
-        <SimpleChart data={state} params={params} style={{ height: 240 }} />
+        <SimpleChart
+          data={state}
+          params={params}
+          beforeRender={beforeRender}
+          style={{ height: 240 }}
+        />
       </Card>
     </>
   );

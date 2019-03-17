@@ -7,6 +7,7 @@ export default {
   namespace,
   state: {
     cart: '',
+    prod: null,
     reel: '',
     type: 'unknown',
   },
@@ -26,6 +27,8 @@ export default {
           key = 'reel';
         } else if (isCart(number)) {
           key = 'cart';
+        } else if (isGz(number)) {
+          key = 'gz';
         } else {
           key = 'unknown';
         }

@@ -2,8 +2,9 @@ import React from 'react';
 import { Card, Icon, Button } from 'antd';
 import styles from './ProdList.less';
 import * as R from 'ramda';
+import ProdSelect from '../ProdSelect';
 
-export default function CartInfo({ cartInfo }) {
+export default function CartInfo({ cartInfo, onChange }) {
   let {
     CartNumber,
     ProductName,
@@ -27,6 +28,7 @@ export default function CartInfo({ cartInfo }) {
       style={{ marginBottom: 10 }}
       className={styles.cart}
       loading={loading}
+      extra={<ProdSelect cart={CartNumber} onChange={onChange} />}
     >
       <div className={styles.detail}>
         <ul>
