@@ -103,6 +103,17 @@ class LoginComponent extends Component {
   }
 
   componentDidMount() {
+    // 生产网数据处理
+    db.ip().then(ip => {
+      if (ip.slice(0, 4) !== '10.9') {
+        return;
+      }
+      this.setState({
+        notice: '生产网测试用户：用户名：jitai，密码：12345',
+        ip,
+      });
+    });
+
     let { data, success } = userTool.getUserSetting();
     let avatar = '/img/avatar.svg';
     if (!success || !data.autoLogin) {

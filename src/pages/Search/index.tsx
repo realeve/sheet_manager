@@ -15,8 +15,8 @@ function SearchPage({ type, cart, prod }) {
         backText="返回首页"
       />
     );
-  } else if (type === 'cart') {
-    return <CartDetail cart={cart} prod={prod} />;
+  } else if (['cart', 'gz'].includes(type)) {
+    return <CartDetail />;
   }
   console.log(type, cart);
   return <h1>3232adf</h1>;

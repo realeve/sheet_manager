@@ -9,7 +9,7 @@ import PackageInfo from './components/cart/PackageInfo';
 import LogInfo from './components/cart/LogInfo';
 import * as R from 'ramda';
 
-function CartDetail({ cart, dispatch }) {
+function CartDetail({ dispatch, ...params }) {
   // 用于冠字查车号
   const onRefresh = params => {
     if (R.isNil(params.cart) || params.cart === '') {
@@ -24,9 +24,11 @@ function CartDetail({ cart, dispatch }) {
     });
   };
 
+  const { cart } = params;
+
   return (
     <Row gutter={10}>
-      <BasicInfo cart={cart} onRefresh={onRefresh} />
+      <BasicInfo {...params} onRefresh={onRefresh} />
       <OnlineCount cart={cart} />
       <OfflineCheck cart={cart} />
       <HechaInfo cart={cart} />

@@ -44,10 +44,12 @@ export default function CodeInfo({ cart }) {
         status: srcData['判废结果' + idx],
       }));
 
+      res.rows = 1;
       res.header = R.slice(3, 16)(src.header);
       res.data[0] = R.props(res.header)(srcData);
       res.data[0][0] = Number(res.data[0][0]).toFixed(2);
     }
+
     setMacInfo(macDetail);
     setHechaId(hechaId);
     setErrDetail({ ...src, ...errDetail });

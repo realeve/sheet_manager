@@ -4,12 +4,13 @@ import { Card, Badge, Icon } from 'antd';
 import styles from './ProdList.less';
 import * as R from 'ramda';
 import { useFetch } from '@/pages/Search/utils/useFetch';
+import * as lib from '@/utils/lib';
 
 import CartsByDate from './CartsByDate';
 
 const weekList: string[] = ['日', '一', '二', '三', '四', '五', '六'];
 
-export default function ProdList({ cart, onRefresh }) {
+export default function ProdList({ onRefresh, ...params }) {
   const [visible, setVisible] = useState(false);
   const [cartDetail, setCartDetail] = useState({ mid: 0, tstart: '', machine: '' });
 
@@ -17,13 +18,31 @@ export default function ProdList({ cart, onRefresh }) {
     setVisible(false);
     onRefresh(rows ? R.last(data) : {});
   };
-  const { loading, data: prodDetail, rows } = useFetch({
-    params: cart,
-    api: 'getVCbpcCartlist',
-    callback,
-    init: [cart],
-  });
+  let res;
+  let { cart, type } = params;
+  if (type == 'cart') {
+    res = useFetch({
+      params: cart,
+      api: 'getVCbpcCartlist',
+      callback,
+      init: [cart],
+    });
+  } else {
+    let gzRes = lib.handleGZInfo({ code: params.cart, prod: params.prod });
+    if (gzRes && typeof gzRes !== 'boolean') {
+      res = useFetch({
+        params: {
+          prod: params.prod,
+          ...gzRes,
+        },
+        api: 'getCartinfoByGZ',
+        callback,
+        init: [params],
+      });
+    }
+  }
 
+  const { loading, data: prodDetail, rows } = res;
   // 显示当天生产的其它车号
   useEffect(() => {
     if (cartDetail.mid > 0) {

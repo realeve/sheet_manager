@@ -29,29 +29,29 @@ export default function LogInfo({ cart }) {
         style={{ marginBottom: 10 }}
       >
         <Tabs defaultActiveKey="1">
-          <TabPane tab="大张未检查询" key="7">
-            <VTable dataSrc={res7} loading={res7.loading} {...defaultTableSetting} />
-          </TabPane>
-          <TabPane tab="人工漏判" key="1">
-            <VTable dataSrc={res5} loading={res5.loading} {...defaultTableSetting} />
-          </TabPane>
-          <TabPane tab="票面原始记录" key="2">
+          <TabPane tab="票面原始记录" key="1">
             <VTable dataSrc={res1} loading={res1.loading} {...defaultTableSetting} />
           </TabPane>
-          <TabPane tab="印码大张废" key="3">
-            <VTable dataSrc={res2} loading={res2.loading} {...defaultTableSetting} />
-          </TabPane>
-          <TabPane tab="号码三合一" key="4">
+          <TabPane tab="号码三合一" key="2">
             <VTable dataSrc={res3} loading={res3.loading} {...defaultTableSetting} />
           </TabPane>
-          <TabPane tab="OCR识码原始记录" key="5">
+          <TabPane tab="OCR识码原始记录" key="3">
             <VTable dataSrc={res4} loading={res4.loading} {...defaultTableSetting} />
           </TabPane>
           {showSilk && (
-            <TabPane tab="丝印判废" key="6">
+            <TabPane tab="丝印判废" key="4">
               <VTable dataSrc={res6} loading={res6.loading} {...defaultTableSetting} />
             </TabPane>
           )}
+          <TabPane tab="大张未检查询" key="5">
+            <VTable dataSrc={res7} loading={res7.loading} {...defaultTableSetting} />
+          </TabPane>
+          <TabPane tab="人工漏判" key="6">
+            <VTable dataSrc={res5} loading={res5.loading} {...defaultTableSetting} />
+          </TabPane>
+          <TabPane tab="印码大张废" key="7">
+            <VTable dataSrc={res2} loading={res2.loading} {...defaultTableSetting} />
+          </TabPane>
         </Tabs>
       </Card>
     </Col>

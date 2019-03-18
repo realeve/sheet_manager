@@ -8,9 +8,9 @@ import ExchangeLog from './ExchangeLog';
 import ProcAdjustList from './ProcAdjustList';
 
 import * as R from 'ramda';
-export default function SearchPage({ cart, onRefresh }) {
+export default function SearchPage({ onRefresh, ...params }) {
   const [cartInfo, setCartInfo] = useState({});
-
+  const { cart } = params;
   const updateCartInfo = cartInfo => {
     if (R.isNil(cartInfo.CartNumber)) {
       return;
@@ -29,7 +29,7 @@ export default function SearchPage({ cart, onRefresh }) {
   return (
     <>
       <Col span={16} lg={16} md={24} sm={24} xs={24}>
-        <ProdList cart={cart} onRefresh={updateCartInfo} />
+        <ProdList {...params} onRefresh={updateCartInfo} />
         <ProcAdjustList cart={cart} />
       </Col>
       <Col span={8} lg={8} md={24} sm={24} xs={24}>

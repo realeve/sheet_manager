@@ -3,17 +3,86 @@ import { DEV } from '@/utils/setting';
 import * as R from 'ramda';
 /**
  *   @database: { MES_MAIN }
- *   @desc:     { 机台作业追溯 }
+ *   @desc:     { 机台作业追溯,机台作业和MES系统合并数据 }
  */
-export const getVCbpcCartlist = cart =>
+export const getVCbpcCartlist = async cart => {
+  if (DEV) {
+    return mock(require('@/mock/415_9bdb2caa53.json'));
+  }
+  let res1 = await getViewCartfinder(cart);
+  let res2 = await axios({
+    url: '/415/9bdb2caa53.json',
+    params: {
+      cart,
+    },
+  });
+  return mergeMesAntJTZY(res1, res2);
+};
+
+let mergeMesAntJTZY = (res1, res2) => {
+  if (res1.rows === 0) {
+    return res2;
+  }
+  res1.data = [...res1.data, ...res2.data];
+  return res1;
+};
+
+/** 冠字查车号 
+*   @database: { MES_MAIN }
+*   @desc:     { 冠字信息追溯 } 
+    const { prod, alpha, start, end, alpha2, start2, end2 } = params;
+ * step1:MES中冠字查车号，查到车号后请求作业系统生产信息合并输出
+ * step2:MES中无冠字车号信息，从机台作业请求到车号，再请求MES车号信息 
+*/
+export const getCartinfoByGZ = async params => {
+  if (DEV) {
+    return mock(require('@/mock/415_9bdb2caa53.json'));
+  }
+  let cart = '';
+  // 先在MES中查询数据
+  let res2 = await axios({
+    url: '/436/9480add1f2.json',
+    params,
+  });
+
+  if (res2.rows > 0) {
+    cart = R.last(res2.data)['CartNumber'];
+    let res1 = await getViewCartfinder(cart);
+    return mergeMesAntJTZY(res1, res2);
+  }
+
+  // MES中无数据，在机台作业中先查询
+  let res1 = await axios({
+    url: '/437/1a5ba9765d.json',
+    params,
+  });
+  if (res1.rows === 0) {
+    return res1;
+  }
+  cart = R.last(res2.data)['CartNumber'];
+  let res3 = await axios({
+    url: '/415/9bdb2caa53.json',
+    params: {
+      cart,
+    },
+  });
+  return mergeMesAntJTZY(res1, res3);
+};
+
+/**
+ *   @database: { 机台作业 }
+ *   @desc:     { 机台作业生产信息查询 }
+ */
+export const getViewCartfinder = cart =>
   DEV
-    ? mock(require('@/mock/415_9bdb2caa53.json'))
+    ? mock(require('@/mock/435_a11dfa47fb.json'))
     : axios({
-        url: '/415/9bdb2caa53.json',
+        url: '/435/a11dfa47fb.json',
         params: {
           cart,
         },
       });
+
 /**
  *   @database: { 质量信息系统 }
  *   @desc:     { 锁车原因查询 }

@@ -7,7 +7,7 @@ import { useFetch } from '@/pages/Search/utils/useFetch';
 export default function LockReason({ cart }) {
   const { data, loading, rows } = useFetch({ params: cart, api: 'getLockReason', init: [cart] });
   let lockReason = [R.last(data)];
-  return (
+  return !rows ? null : (
     <Card
       title={`锁车原因`}
       bodyStyle={{
@@ -19,44 +19,40 @@ export default function LockReason({ cart }) {
       loading={loading}
     >
       <ul>
-        {!rows ? (
-          <Empty />
-        ) : (
-          lockReason.map(({ locktype, username, reason, rec_time }, idx) => (
-            <li key={idx}>
-              <div>
-                <div className={styles.detail}>
-                  <ul>
-                    <li>
-                      <strong>
-                        <Icon type="ordered-list" /> 类型
-                      </strong>
-                      {locktype}
-                    </li>
-                    <li>
-                      <strong>
-                        <Icon type="user" /> 操作员
-                      </strong>
-                      {username}
-                    </li>
-                    <li>
-                      <strong>
-                        <Icon type="clock-circle" /> 锁车时间
-                      </strong>
-                      {rec_time}
-                    </li>
-                    <li>
-                      <strong>
-                        <Icon type="edit" /> 锁车原因
-                      </strong>
-                      {reason}
-                    </li>
-                  </ul>
-                </div>
+        {lockReason.map(({ locktype, username, reason, rec_time }, idx) => (
+          <li key={idx}>
+            <div>
+              <div className={styles.detail}>
+                <ul>
+                  <li>
+                    <strong>
+                      <Icon type="ordered-list" /> 类型
+                    </strong>
+                    {locktype}
+                  </li>
+                  <li>
+                    <strong>
+                      <Icon type="user" /> 操作员
+                    </strong>
+                    {username}
+                  </li>
+                  <li>
+                    <strong>
+                      <Icon type="clock-circle" /> 锁车时间
+                    </strong>
+                    {rec_time}
+                  </li>
+                  <li>
+                    <strong>
+                      <Icon type="edit" /> 锁车原因
+                    </strong>
+                    {reason}
+                  </li>
+                </ul>
               </div>
-            </li>
-          ))
-        )}
+            </div>
+          </li>
+        ))}
       </ul>
     </Card>
   );

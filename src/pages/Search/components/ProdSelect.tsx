@@ -34,7 +34,6 @@ function ProdSelect({ cart, dispatch }) {
         cart: state,
       },
     });
-    console.log('更新查询信息');
   };
 
   const container = (

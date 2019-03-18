@@ -156,3 +156,8 @@ export const uploadFile = data =>
     url: util.uploadHost,
     data,
   });
+
+export const ip = () =>
+  axios({
+    url: '/ip',
+  }).then(res => res.ip);
