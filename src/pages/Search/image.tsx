@@ -34,7 +34,7 @@ function SearchPage({ cart }) {
   let checkList = ['所有图像', '票面', '丝印', '号码'];
 
   const onFilter = item => R.isNil(code) || item.code.includes(code);
-  const titleRender = item => (
+  const titleRender = ({ data: item }) => (
     <div>
       <p>
         相机：{item.camera} / 第{item.pos}开
@@ -70,13 +70,13 @@ function SearchPage({ cart }) {
         </div>
         <ul className={styles.content}>
           {[0, 1].includes(filter) && (
-            <ImageItem data={R.filter(onFilter, hecha)} type="hecha" title={titleRender} />
+            <ImageItem data={R.filter(onFilter, hecha)} type="hecha" ImageTitle={titleRender} />
           )}
           {[0, 2].includes(filter) && (
-            <ImageItem data={R.filter(onFilter, silk)} title={titleRender} type="silk" />
+            <ImageItem data={R.filter(onFilter, silk)} ImageTitle={titleRender} type="silk" />
           )}
           {[0, 3].includes(filter) && (
-            <ImageItem data={R.filter(onFilter, codeList)} type="code" title={titleRender} />
+            <ImageItem data={R.filter(onFilter, codeList)} type="code" ImageTitle={titleRender} />
           )}
         </ul>
       </div>

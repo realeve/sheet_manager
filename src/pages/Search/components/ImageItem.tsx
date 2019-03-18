@@ -1,13 +1,15 @@
 import React from 'react';
 import styles from '../Image.less';
 
-export default function ImageItem({ data, type, title }) {
+export default function ImageItem({ data, type, ImageTitle }) {
   return data.map((item, idx) => (
     <li key={type + idx} className={styles.imgCard}>
       <div className={styles.wrap}>
         <img src={`data:image/jpg;base64,${item.image}`} alt={item.code} />
       </div>
-      <div className={styles.desc}>{title(item)}</div>
+      <div className={styles.desc}>
+        <ImageTitle data={item} />
+      </div>
     </li>
   ));
 }
