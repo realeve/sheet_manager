@@ -13,24 +13,31 @@
       flex: 1;
       height: 32px;
       font-size: 14px;
-      padding-top: 9px;
 
       .item {
-        color: #949494;
+        background-color: #FFFFFF;
+        border: 1px solid #ECECEC;
+        color: #888888;
         cursor: pointer;
-        margin: 0 6px;
-        padding: 0 6px;
-        transition: all .3s ease-in-out;
-        position: relative;
+        font: 400 12px/32px "Roboto", sans-serif;
+        margin: 0 5px 10px 5px;
         overflow: visible;
+        padding: 0 17px;
+        position: relative;
         display: inline-block;
-        align-items: center;
+        transition: color .3s ease-in-out, border-color .3s ease-in-out;
+
+        &-active {
+          color: #FFFFFF;
+          background-color: #049372;
+          border-color: #049372;
+          cursor: default;
+        }
 
         &:hover {
-          color: @white;
-          background-color: @primary-color;
-          border-radius: 4px;
+          color: #434343;
         }
+
       }
     }
 
@@ -39,4 +46,61 @@
     }
   }
 
+
+  .content {
+    display: inline-flex;
+    flex-wrap: wrap;
+    list-style: none;
+
+    li {
+      background: #e6e6e6;
+      margin: 5px;
+      font-size: 12px;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+
+      .wrap {
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        top: 0;
+        transition: transform .3s;
+
+        img {
+          display: block;
+          border: 0;
+          width: 100%;
+          max-width: 320px;
+          height: auto;
+          transition: transform 0.3s;
+        }
+      }
+
+      @title-height: 40px;
+
+      &:hover {
+        img {
+          transform: translateY(-20px)
+        }
+
+        .desc {
+          transform: translateY(-@title-height)
+        }
+      }
+
+      .desc {
+        width: 100%;
+        position: absolute;
+        z-index: 2;
+        transform: translateY(0px);
+        transition: transform .3s;
+        height: @title-height;
+        color: #fff;
+        text-align: center;
+        line-height: 18px;
+        background: #282727;
+      }
+    }
+  }
 }

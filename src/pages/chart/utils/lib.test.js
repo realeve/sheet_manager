@@ -321,6 +321,70 @@ test('默认参数配置处理', () => {
   });
 });
 
+expect(
+  lib.handleDefaultOption(
+    {
+      legend: {},
+      xAxis: {
+        name: 'xAxisName',
+        otherParam: {},
+      },
+    },
+    {
+      data: {
+        title: '图表标题',
+        source: '数据来源：测试数据库',
+      },
+      dateRange: ['20180101', '20180201'],
+      type: 'bar',
+      histogram: '1',
+      simple: 2,
+    }
+  )
+).toMatchObject({
+  legend: {},
+  title: {},
+  toolbox: {},
+  tooltip: {},
+  xAxis: {
+    axisLine: { show: false },
+    axisTick: { show: false },
+    otherParam: {},
+  },
+});
+
+expect(
+  lib.handleDefaultOption(
+    {
+      legend: {},
+      xAxis: {
+        name: 'xAxisName',
+        otherParam: {},
+      },
+    },
+    {
+      data: {
+        title: '图表标题',
+        source: '数据来源：测试数据库',
+      },
+      dateRange: ['20180101', '20180201'],
+      type: 'bar',
+      histogram: '1',
+      simple: 3,
+    }
+  )
+).toMatchObject({
+  legend: {},
+  title: {},
+  toolbox: {},
+  tooltip: {},
+  xAxis: {
+    axisLine: { show: false },
+    axisTick: { show: false },
+    otherParam: {},
+  },
+});
+
 test('字符串转日期', () => {
   expect(lib.str2Date('20181221')).toBe('2018-12-21');
   expect(lib.str2Date('2018-12-21')).toBe('2018-12-21');
@@ -366,7 +430,7 @@ test('处理色彩信息', () => {
   ).toEqual({
     series: [{ name: '9602A' }, { name: 'unknown' }],
     legend: { data: ['9602A', 'unknown'] },
-    color: ['#7ECF51', '#61A5E8'],
+    color: ['#7ECF51', '#1890FF'],
   });
 });
 

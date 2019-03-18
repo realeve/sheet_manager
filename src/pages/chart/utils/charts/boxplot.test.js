@@ -15,7 +15,7 @@ test('boxplot', () => {
     series: [
       {
         data: [[1, 1.75, 2.5, 3.25, 4]],
-        itemStyle: { borderColor: '#61A5E8' },
+        // itemStyle: { borderColor: '#61A5E8' },
         name: '箱线图',
         type: 'boxplot',
       },
@@ -51,7 +51,7 @@ test('boxplot', () => {
     series: [
       {
         data: [[1, 1.75, 2.5, 3.25, 4]],
-        itemStyle: { borderColor: '#61A5E8' },
+        // itemStyle: { borderColor: '#61A5E8' },
         name: 'a',
         type: 'boxplot',
       },
@@ -77,11 +77,16 @@ test('boxplot', () => {
     series: [
       {
         data: [[1, 1.75, 2.5, 12.25, 28]],
-        itemStyle: { borderColor: '#61A5E8' },
+        // itemStyle: { borderColor: '#61A5E8' },
         name: 'a',
         type: 'boxplot',
       },
-      { data: [[0, 40]], itemStyle: { color: '#61A5E8' }, name: 'a', type: 'scatter' },
+      {
+        data: [[0, 40]],
+        // itemStyle: { color: '#61A5E8' },
+        name: 'a',
+        type: 'scatter',
+      },
     ],
   });
 
@@ -102,11 +107,16 @@ test('boxplot', () => {
     series: [
       {
         data: [[1, 1.75, 2.5, 12.25, 28]],
-        itemStyle: { borderColor: '#61A5E8' },
+        // itemStyle: { borderColor: '#61A5E8' },
         name: 'a',
         type: 'boxplot',
       },
-      { data: [[0, 40]], itemStyle: { color: '#61A5E8' }, name: 'a', type: 'scatter' },
+      {
+        data: [[0, 40]],
+        // itemStyle: { color: '#61A5E8' },
+        name: 'a',
+        type: 'scatter',
+      },
     ],
   });
 });

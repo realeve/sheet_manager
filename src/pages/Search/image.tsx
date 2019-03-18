@@ -1,24 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
-import { Card, Input } from 'antd';
+import { Card, Input, Tooltip } from 'antd';
 import styles from './Image.less';
+import { useFetch } from './utils/useFetch';
+import ImageItem from './components/ImageItem';
+import classNames from 'classnames/bind';
+import * as R from 'ramda';
+const cx = classNames.bind(styles);
 
 function SearchPage({ cart }) {
   const [code, setCode] = useState(null);
+  const [filter, setFilter] = useState(0);
+  const { data: hecha } = useFetch({ params: cart, api: 'getQfmWipJobsHechaImage', init: [cart] });
+  const { data: silk } = useFetch({ params: cart, api: 'getWipJobsSilkImage', init: [cart] });
+  const { data: codeList } = useFetch({ params: cart, api: 'getWipJobsCodeImage', init: [cart] });
+
+  const [imgnum, setImgnum] = useState([0, 0, 0, 0]);
+
+  useEffect(() => {
+    setImgnum([
+      hecha.length + silk.length + codeList.length,
+      hecha.length,
+      silk.length,
+      codeList.length,
+    ]);
+  }, [hecha, silk, codeList]);
 
   const onChange = e => {
-    let cart = e.target.value.trim().toUpperCase();
-    setCode(cart);
-    console.log(cart);
+    let code = e.target.value.trim().toUpperCase();
+    setCode(code);
   };
+
+  let checkList = ['所有图像', '票面', '丝印', '号码'];
+
+  const onFilter = item => R.isNil(code) || item.code.includes(code);
+  const titleRender = item => (
+    <div>
+      <p>
+        相机：{item.camera} / 第{item.pos}开
+      </p>
+      <p>印码号：{item.code}</p>
+    </div>
+  );
 
   return (
     <Card>
       <div className={styles.imgsearch}>
         <div className={styles.title}>
           <div className={styles.container}>
-            <div className={styles.item}>所有图像</div>/<div className={styles.item}>票面</div>/
-            <div className={styles.item}>丝印</div>/<div className={styles.item}>号码</div>
+            {checkList.map((name, i) => (
+              <Tooltip placement="top" title={imgnum[i]} key={name}>
+                <div
+                  className={cx({ item: true, 'item-active': filter === i })}
+                  onClick={() => setFilter(i)}
+                >
+                  {name}
+                </div>
+              </Tooltip>
+            ))}
           </div>
           <Input.Search
             value={code}
@@ -29,6 +68,17 @@ function SearchPage({ cart }) {
             maxLength={8}
           />
         </div>
+        <ul className={styles.content}>
+          {[0, 1].includes(filter) && (
+            <ImageItem data={R.filter(onFilter, hecha)} type="hecha" title={titleRender} />
+          )}
+          {[0, 2].includes(filter) && (
+            <ImageItem data={R.filter(onFilter, silk)} title={titleRender} type="silk" />
+          )}
+          {[0, 3].includes(filter) && (
+            <ImageItem data={R.filter(onFilter, codeList)} type="code" title={titleRender} />
+          )}
+        </ul>
       </div>
     </Card>
   );

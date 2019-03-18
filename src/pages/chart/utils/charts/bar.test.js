@@ -777,11 +777,16 @@ test('柱状图附加设置项', () => {
     series: [
       {
         data: [[1, 1.75, 2.5, 7.25, 15.5]],
-        itemStyle: { borderColor: '#61A5E8' },
+        // itemStyle: { borderColor: '#61A5E8' },
         name: '箱线图',
         type: 'boxplot',
       },
-      { data: [[20, 0]], itemStyle: { color: '#61A5E8' }, name: '箱线图', type: 'scatter' },
+      {
+        data: [[20, 0]],
+        // itemStyle: { color: '#61A5E8' },
+        name: '箱线图',
+        type: 'scatter',
+      },
     ],
     xAxis: { scale: true, type: 'value' },
     yAxis: { data: ['x'], nameGap: 70, scale: true, type: 'category' },
