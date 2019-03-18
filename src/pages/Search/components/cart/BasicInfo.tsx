@@ -5,6 +5,8 @@ import CartInfo from './CartInfo';
 import LockReason from './LockReason';
 import CartsOneDay from './CartsOneDay';
 import ExchangeLog from './ExchangeLog';
+import ProcAdjustList from './ProcAdjustList';
+
 import * as R from 'ramda';
 export default function SearchPage({ cart, onRefresh }) {
   const [cartInfo, setCartInfo] = useState({});
@@ -28,6 +30,7 @@ export default function SearchPage({ cart, onRefresh }) {
     <>
       <Col span={16} lg={16} md={24} sm={24} xs={24}>
         <ProdList cart={cart} onRefresh={updateCartInfo} />
+        <ProcAdjustList cart={cart} />
       </Col>
       <Col span={8} lg={8} md={24} sm={24} xs={24}>
         <CartInfo cartInfo={cartInfo} />

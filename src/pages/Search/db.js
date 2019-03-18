@@ -304,3 +304,59 @@ export const getWipJobsCodeSrc = cart =>
           cart,
         },
       });
+
+/**
+ *   @database: { 小张核查 }
+ *   @desc:     { 印码识码信息查询 }
+ */
+export const getWipJobsRectifyCode = cart =>
+  DEV
+    ? mock(require('@/mock/432_a3094edd8b.json'))
+    : axios({
+        url: '/432/a3094edd8b.json',
+        params: {
+          cart,
+        },
+      });
+
+/**
+ *   @database: { 小张核查 }
+ *   @desc:     { 丝印原始记录 }
+ */
+export const getQfmWipJobsSilk = cart =>
+  DEV
+    ? mock(require('@/mock/431_5527a0d74e.json'))
+    : axios({
+        url: '/431/5527a0d74e.json',
+        params: {
+          cart,
+        },
+      });
+
+/**
+ *   @database: { 质量信息系统 }
+ *   @desc:     { 工艺调整记录 }
+ */
+export const getProcAdjustLog = cart =>
+  DEV
+    ? mock(require('@/mock/433_6c3298675c.json'))
+    : axios({
+        url: '/433/6c3298675c.json',
+        params: {
+          cart,
+        },
+      });
+
+/**
+ *   @database: { 全幅面 }
+ *   @desc:     { 印码大张未检数据查询 }
+ */
+export const getQfmWipJobsUncheck = cart =>
+  DEV
+    ? mock(require('@/mock/434_3c096724a7.json'))
+    : axios({
+        url: '/434/3c096724a7.json',
+        params: {
+          cart,
+        },
+      });

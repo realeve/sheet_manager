@@ -44,7 +44,7 @@ export default function HechaInfo({ cart }) {
               pagesize={5}
             />
           </TabPane>
-          <TabPane tab="装箱记录" key="3" />
+          {/* <TabPane tab="装箱记录" key="3" /> */}
         </Tabs>
       </Card>
     </Col>

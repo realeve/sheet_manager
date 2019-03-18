@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Col, Card, Tabs } from 'antd';
 import { useFetch } from '@/pages/Search/utils/useFetch';
 import VTable from '@/components/Table';
@@ -10,6 +10,8 @@ export default function LogInfo({ cart }) {
   const res3 = useFetch({ params: cart, api: 'getWipJobsCodeSrc', init: [cart] });
   const res4 = useFetch({ params: cart, api: 'getOcrContrastResult', init: [cart] });
   const res5 = useFetch({ params: cart, api: 'getQfmWipJobsLeak', init: [cart] });
+  const res6 = useFetch({ params: cart, api: 'getQfmWipJobsSilk', init: [cart] });
+  const res7 = useFetch({ params: cart, api: 'getQfmWipJobsUncheck', init: [cart] });
 
   let showSilk = cart && cart[2] === '8';
 
@@ -27,6 +29,9 @@ export default function LogInfo({ cart }) {
         style={{ marginBottom: 10 }}
       >
         <Tabs defaultActiveKey="1">
+          <TabPane tab="大张未检查询" key="7">
+            <VTable dataSrc={res7} loading={res7.loading} {...defaultTableSetting} />
+          </TabPane>
           <TabPane tab="人工漏判" key="1">
             <VTable dataSrc={res5} loading={res5.loading} {...defaultTableSetting} />
           </TabPane>
@@ -40,9 +45,13 @@ export default function LogInfo({ cart }) {
             <VTable dataSrc={res3} loading={res3.loading} {...defaultTableSetting} />
           </TabPane>
           <TabPane tab="OCR识码原始记录" key="5">
-            <VTable dataSrc={res4} loading={res3.loading} {...defaultTableSetting} />
+            <VTable dataSrc={res4} loading={res4.loading} {...defaultTableSetting} />
           </TabPane>
-          {showSilk && <TabPane tab="5.丝印判废" key="6" />}
+          {showSilk && (
+            <TabPane tab="丝印判废" key="6">
+              <VTable dataSrc={res6} loading={res6.loading} {...defaultTableSetting} />
+            </TabPane>
+          )}
         </Tabs>
       </Card>
     </Col>
