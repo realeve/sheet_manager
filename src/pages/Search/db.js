@@ -234,3 +234,73 @@ export const getQmRectifyMasterChange = cart =>
           cart,
         },
       });
+
+/**
+ *   @database: { 全幅面 }
+ *   @desc:     { 人工漏判小开列表 }
+ */
+export const getQfmWipJobsLeak = cart =>
+  DEV
+    ? mock(require('@/mock/426_1110c3beee.json'))
+    : axios({
+        url: '/426/1110c3beee.json',
+        params: {
+          cart,
+        },
+      });
+
+/**
+ *   @database: { 全幅面 }
+ *   @desc:     { 印码大张废列表 }
+ */
+export const getQfmWipJobsCodeFake = cart =>
+  DEV
+    ? mock(require('@/mock/427_83e210ff42.json'))
+    : axios({
+        url: '/427/83e210ff42.json',
+        params: {
+          cart,
+        },
+      });
+
+/**
+ *   @database: { 全幅面 }
+ *   @desc:     { 码后机检原始数据 }
+ */
+export const getQfmWipJobsMahouSrc = cart =>
+  DEV
+    ? mock(require('@/mock/428_9713336765.json'))
+    : axios({
+        url: '/428/9713336765.json',
+        params: {
+          cart,
+        },
+      });
+
+/**
+ *   @database: { 全幅面 }
+ *   @desc:     { OCR原始数据 }
+ */
+export const getOcrContrastResult = cart =>
+  DEV
+    ? mock(require('@/mock/429_f4bdde145a.json'))
+    : axios({
+        url: '/429/f4bdde145a.json',
+        params: {
+          cart,
+        },
+      });
+
+/**
+ *   @database: { 号码三合一 }
+ *   @desc:     { 号码三合一原始数据 }
+ */
+export const getWipJobsCodeSrc = cart =>
+  DEV
+    ? mock(require('@/mock/430_7a36766779.json'))
+    : axios({
+        url: '/430/7a36766779.json',
+        params: {
+          cart,
+        },
+      });

@@ -4,10 +4,10 @@ import { Card, Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
 import { useFetch } from '@/pages/Search/utils/useFetch';
 
-export default function OffineCheck({ cart }) {
-  const state = useFetch({ params: cart, api: 'getUdtPsExchange' });
+export default function ExchangeLog({ cart }) {
+  const state = useFetch({ params: cart, api: 'getUdtPsExchange', init: [cart] });
   // 检封工序
-  const packageInfo = useFetch({ params: cart, api: 'getQmRectifyMasterChange' });
+  const packageInfo = useFetch({ params: cart, api: 'getQmRectifyMasterChange', init: [cart] });
 
   return (
     <Card

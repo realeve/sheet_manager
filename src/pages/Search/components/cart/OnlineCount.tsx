@@ -5,8 +5,8 @@ import { useFetch } from '@/pages/Search/utils/useFetch';
 const TabPane = Tabs.TabPane;
 
 export default function OnlineCount({ cart }) {
-  const { loading, ...state } = useFetch({ params: cart, api: 'getQmRectifyMaster' });
-  let showSilk = cart[2] === '8';
+  const { loading, ...state } = useFetch({ params: cart, api: 'getQmRectifyMaster', init: [cart] });
+  let showSilk = cart && cart[2] === '8';
 
   return (
     <Col span={24}>

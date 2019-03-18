@@ -21,6 +21,7 @@ export default function ProdList({ cart, onRefresh }) {
     params: cart,
     api: 'getVCbpcCartlist',
     callback,
+    init: [cart],
   });
 
   // 显示当天生产的其它车号

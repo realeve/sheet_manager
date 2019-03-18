@@ -4,29 +4,37 @@ import styles from './ProdSelect.less';
 import router from 'umi/router';
 import * as R from 'ramda';
 import { getProdType } from '../models/search';
+import { connect } from 'dva';
 
-// import { useFetch } from '@/pages/Search/utils/useFetch';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-export default function ProdSelect({ cart, onChange }) {
+function ProdSelect({ cart, dispatch }) {
   const [prod, setProd] = useState(null);
   const [state, setState] = useState(cart);
+  useEffect(() => {
+    setState(cart);
+  }, [cart]);
 
-  // const state = useFetch({ params: cart, api: 'getQaInspectSlaveCode' });
   const prodList = ['9602A', '9603A', '9604A', '9606T', '9607T'];
 
   const confirm = () => {
     let type: string = getProdType(state);
     if (type === 'unknown' || (type === 'gz' && R.isNil(prod))) {
       return;
-    }
-    if (type === 'reel') {
+    } else if (type === 'reel') {
       router.push('#' + state);
       return;
     }
-    // 查询冠字或车号
-    onChange({ type, prod, cart: state });
+    dispatch({
+      type: 'search/setStore',
+      payload: {
+        type,
+        prod,
+        cart: state,
+      },
+    });
+    console.log('更新查询信息');
   };
 
   const container = (
@@ -57,7 +65,7 @@ export default function ProdSelect({ cart, onChange }) {
             size="small"
             placeholder="输入冠字或车号信息(A0A001)"
             allowClear
-            defaultValue={state}
+            defaultValue={cart}
             value={state}
             onChange={e => setState(e.target.value.trim().toUpperCase())}
             style={{ width: 270 }}
@@ -84,3 +92,7 @@ export default function ProdSelect({ cart, onChange }) {
     </Popconfirm>
   );
 }
+
+export default connect(({ search }) => ({
+  ...search,
+}))(ProdSelect);

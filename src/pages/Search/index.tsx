@@ -4,7 +4,7 @@ import Exception from 'ant-design-pro/lib/Exception';
 import { Link } from 'react-router-dom';
 import CartDetail from './CartDetail';
 
-function SearchPage({ type }) {
+function SearchPage({ type, cart, prod }) {
   if (type === 'unknown') {
     return (
       <Exception
@@ -16,11 +16,14 @@ function SearchPage({ type }) {
       />
     );
   } else if (type === 'cart') {
-    return <CartDetail />;
+    return <CartDetail cart={cart} prod={prod} />;
   }
+  console.log(type, cart);
   return <h1>3232adf</h1>;
 }
 
-export default connect(({ search: { type } }) => ({
+export default connect(({ search: { type, cart, prod } }) => ({
   type,
+  cart,
+  prod,
 }))(SearchPage);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as db from '../../db';
 import SimpleChart from '../SimpleChart';
 import SimpleTable from '../SimpleTable';
-import { Col, Row, Card } from 'antd';
+import { Col, Row, Card, Empty } from 'antd';
 import * as R from 'ramda';
 import styles from './ProdList.less';
 import * as lib from '@/pages/Search/utils/lib';
@@ -23,14 +23,14 @@ export default function CodeInfo({ cart }) {
   const getProdDetail = async () => {
     setLoading(true);
     let src = await db.getMahoudataLog(cart);
-    let errDetail = { header: [], data: [], rows: 9 };
-    let res = { header: [], data: [], rows: 1 };
+    let errDetail = { header: [], data: [], rows: 0 };
+    let res = { header: [], data: [], rows: 0 };
     let hechaId = 0;
     let macDetail = [];
     if (src.rows) {
       let srcData = src.data[0];
       hechaId = srcData.id;
-
+      errDetail.rows = 9;
       errDetail.header = ['client', 'err'];
       errDetail.data = R.map(key => ({ client: key, err: Number(srcData[key]) }))(
         src.header.slice(-9)
@@ -63,6 +63,7 @@ export default function CodeInfo({ cart }) {
 
   const getFakeImg = async () => {
     if (!hechaId) {
+      setFakeImg([]);
       return;
     }
     let { data } = await db.getImagedata(hechaId);
@@ -86,7 +87,7 @@ export default function CodeInfo({ cart }) {
     barwidth: 20,
   };
   const beforeRender = option => {
-    if (option.series.length) {
+    if (option.series && option.series.length) {
       option.series[0].label.normal.position = 'top';
       option.yAxis.show = false;
       option.grid.left = 0;
@@ -94,7 +95,9 @@ export default function CodeInfo({ cart }) {
     return { ...option, color: ['#e74c3c'] };
   };
 
-  return (
+  return state.rows === 0 ? (
+    <Empty />
+  ) : (
     <Card
       bodyStyle={{
         padding: 0,
@@ -120,12 +123,14 @@ export default function CodeInfo({ cart }) {
                   style={{ width: 180 }}
                   cover={<img alt="缺陷图像" src={url} />}
                 >
-                  <Meta
-                    title={`宏区编号 ${macInfo[idx].mac} / 第 ${macInfo[idx].position} 开`}
-                    description={`${macInfo[idx].count}条(${lib.getFakeStatus(
-                      macInfo[idx].status
-                    )})`}
-                  />
+                  {macInfo.length > 0 && (
+                    <Meta
+                      title={`宏区编号 ${macInfo[idx].mac} / 第 ${macInfo[idx].position} 开`}
+                      description={`${macInfo[idx].count}条(${lib.getFakeStatus(
+                        macInfo[idx].status
+                      )})`}
+                    />
+                  )}
                 </Card>
               </Col>
             ))}

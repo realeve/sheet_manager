@@ -4,7 +4,7 @@ import styles from './ProdList.less';
 import * as R from 'ramda';
 import ProdSelect from '../ProdSelect';
 
-export default function CartInfo({ cartInfo, onChange }) {
+export default function CartInfo({ cartInfo }) {
   let {
     CartNumber,
     ProductName,
@@ -28,7 +28,7 @@ export default function CartInfo({ cartInfo, onChange }) {
       style={{ marginBottom: 10 }}
       className={styles.cart}
       loading={loading}
-      extra={<ProdSelect cart={CartNumber} onChange={onChange} />}
+      extra={<ProdSelect />}
     >
       <div className={styles.detail}>
         <ul>

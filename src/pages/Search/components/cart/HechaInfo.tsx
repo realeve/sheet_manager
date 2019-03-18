@@ -23,7 +23,6 @@ export default function HechaInfo({ cart }) {
             <Col span={12}>
               <CodeInfo cart={cart} />
             </Col>
-            <Col span={12}>其它号码信息</Col>
           </TabPane>
         </Tabs>
       </Card>

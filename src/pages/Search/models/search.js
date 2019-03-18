@@ -7,7 +7,7 @@ export const getProdType = number => {
     key = 'reel';
   } else if (isCart(number)) {
     key = 'cart';
-  } else if (isGz(number)) {
+  } else if (isGZ(number)) {
     key = 'gz';
   } else {
     key = 'unknown';

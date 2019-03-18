@@ -7,14 +7,19 @@ import HechaInfo from './components/cart/HechaInfo';
 import OnlineCount from './components/cart/OnlineCount';
 import PackageInfo from './components/cart/PackageInfo';
 import LogInfo from './components/cart/LogInfo';
+import * as R from 'ramda';
 
-function SearchPage({ cart, dispatch }) {
+function CartDetail({ cart, dispatch }) {
   // 用于冠字查车号
-  const onRefresh = cart => {
+  const onRefresh = params => {
+    if (R.isNil(params.cart) || params.cart === '') {
+      return;
+    }
+
     dispatch({
       type: 'search/setStore',
       payload: {
-        cart,
+        ...params,
       },
     });
   };
@@ -33,4 +38,4 @@ function SearchPage({ cart, dispatch }) {
 
 export default connect(({ search }) => ({
   ...search,
-}))(SearchPage);
+}))(CartDetail);

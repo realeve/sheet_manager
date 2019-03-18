@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CardTable from '../CardTable';
 import SimpleChart from '../SimpleChart';
 import * as R from 'ramda';
 import * as styles from './ProdList.less';
-import { Card } from 'antd';
+import { Card, Empty } from 'antd';
 import { useFetch } from '@/pages/Search/utils/useFetch';
 
 // 处理返回数据
@@ -25,8 +25,15 @@ let handleData = res => {
 };
 
 export default function CartsOneDay({ cart }) {
-  const { loading, ...mahouData } = useFetch({ params: cart, api: 'getMahoudata' });
-  let { res: state, res2: cartInfo } = handleData(mahouData);
+  const { loading, ...mahouData } = useFetch({ params: cart, api: 'getMahoudata', init: [cart] });
+  const [state, setState] = useState({ rows: 0, data: [], header: [] });
+  const [cartInfo, setCartInfo] = useState({ rows: 0, data: [], header: [] });
+
+  useEffect(() => {
+    let { res, res2 } = handleData(mahouData);
+    setState(res);
+    setCartInfo(res2);
+  }, [mahouData]);
 
   const params = { type: 'line', simple: '2', x: 1, y: 2, smooth: true };
   const beforeRender = option => ({ ...option, color: ['#e74c3c'] });
@@ -35,7 +42,7 @@ export default function CartsOneDay({ cart }) {
     <>
       <CardTable title="码后核查记录" data={cartInfo} loading={loading} />
       <Card
-        title="码后好品率"
+        title="码后好品率曲线图"
         bodyStyle={{
           padding: '10px 20px',
         }}
@@ -44,12 +51,16 @@ export default function CartsOneDay({ cart }) {
         className={styles.cart}
         loading={loading}
       >
-        <SimpleChart
-          data={state}
-          params={params}
-          beforeRender={beforeRender}
-          style={{ height: 240 }}
-        />
+        {state.rows === 0 ? (
+          <Empty />
+        ) : (
+          <SimpleChart
+            data={state}
+            params={params}
+            beforeRender={beforeRender}
+            style={{ height: 240 }}
+          />
+        )}
       </Card>
     </>
   );

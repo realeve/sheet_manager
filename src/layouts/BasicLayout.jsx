@@ -242,9 +242,9 @@ class BasicLayout extends PureComponent {
   };
 
   handleMenuCollapse = collapsed => {
-    console.log(collapsed);
+    // console.log(collapsed);
     const { dispatch } = this.props;
-    console.log(collapsed, '手工调整');
+    // console.log(collapsed, '手工调整');
     dispatch({
       type: 'global/changeLayoutCollapsed',
       payload: collapsed,

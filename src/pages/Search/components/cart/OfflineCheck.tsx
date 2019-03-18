@@ -5,8 +5,16 @@ import VTable from '@/components/Table';
 const TabPane = Tabs.TabPane;
 
 export default function OffineCheck({ cart }) {
-  const { loading, ...offset } = useFetch({ params: cart, api: 'getViewScoreOffset' });
-  const { loading: loading2, ...intag } = useFetch({ params: cart, api: 'getViewScoreIntaglio' });
+  const { loading, ...offset } = useFetch({
+    params: cart,
+    api: 'getViewScoreOffset',
+    init: [cart],
+  });
+  const { loading: loading2, ...intag } = useFetch({
+    params: cart,
+    api: 'getViewScoreIntaglio',
+    init: [cart],
+  });
 
   return (
     <Col span={24}>

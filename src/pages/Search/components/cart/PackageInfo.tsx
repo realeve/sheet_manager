@@ -7,8 +7,12 @@ import { useFetch } from '@/pages/Search/utils/useFetch';
 const TabPane = Tabs.TabPane;
 
 export default function HechaInfo({ cart }) {
-  const { loading, ...state } = useFetch({ params: cart, api: 'getViewPrintOcr' });
-  const { loading: loading2, ...ananyData } = useFetch({ params: cart, api: 'getNoteaysdata' });
+  const { loading, ...state } = useFetch({ params: cart, api: 'getViewPrintOcr', init: [cart] });
+  const { loading: loading2, ...ananyData } = useFetch({
+    params: cart,
+    api: 'getNoteaysdata',
+    init: [cart],
+  });
 
   const beforeRender = option =>
     option.map(item => {

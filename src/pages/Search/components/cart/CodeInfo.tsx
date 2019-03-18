@@ -4,7 +4,7 @@ import { Card } from 'antd';
 import { useFetch } from '@/pages/Search/utils/useFetch';
 
 export default function CodeInfo({ cart }) {
-  const state = useFetch({ params: cart, api: 'getQaInspectSlaveCode' });
+  const state = useFetch({ params: cart, api: 'getQaInspectSlaveCode', init: [cart] });
   const params = {
     type: 'bar',
     simple: '2',
@@ -14,14 +14,22 @@ export default function CodeInfo({ cart }) {
     x: 1,
     y: 2,
     smooth: true,
-    reverse: true,
+    // reverse: true,
   };
 
-  const beforeRender = option =>
-    Object.assign(option, {
-      grid: { left: 80, right: 10, top: 5, bottom: 20 },
+  const beforeRender = option => {
+    if (option.series && option.series.length) {
+      option.series = option.series.map(item => {
+        item.label.normal.position = 'top';
+        return item;
+      });
+    }
+
+    return Object.assign(option, {
+      grid: { left: 20, right: 10, top: 10, bottom: 20 },
       legend: { top: 10 },
     });
+  };
 
   return (
     <Card

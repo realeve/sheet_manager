@@ -140,7 +140,6 @@ export default class SiderMenu extends PureComponent {
     });
 
     const { menuData, ...baseMenuDefaultProps } = this.props;
-
     return (
       <Sider
         trigger={null}

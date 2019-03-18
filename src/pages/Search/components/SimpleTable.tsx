@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './simpleTable.less';
 import { getType } from '@/utils/lib';
-import { Skeleton } from 'antd';
+import { Skeleton, Empty } from 'antd';
 import * as R from 'ramda';
 
 export default function SimpleTable({
@@ -14,7 +14,7 @@ export default function SimpleTable({
   [key: string]: any;
 }) {
   if (data.rows == 0) {
-    return <h3>未检索到相关数据</h3>;
+    return <Empty />;
   }
   let dataSrc = R.clone(data.data);
   // 处理数据结构

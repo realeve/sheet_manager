@@ -1,11 +1,11 @@
 import React from 'react';
-import { Card, Icon } from 'antd';
+import { Card, Icon, Empty } from 'antd';
 import styles from './ProdList.less';
 import * as R from 'ramda';
 import { useFetch } from '@/pages/Search/utils/useFetch';
 
 export default function LockReason({ cart }) {
-  const { data, loading, rows } = useFetch({ params: cart, api: 'getLockReason' });
+  const { data, loading, rows } = useFetch({ params: cart, api: 'getLockReason', init: [cart] });
   let lockReason = [R.last(data)];
   return (
     <Card
@@ -20,7 +20,7 @@ export default function LockReason({ cart }) {
     >
       <ul>
         {!rows ? (
-          <li>未查询到锁车原因</li>
+          <Empty />
         ) : (
           lockReason.map(({ locktype, username, reason, rec_time }, idx) => (
             <li key={idx}>
