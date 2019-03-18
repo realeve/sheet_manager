@@ -30,7 +30,8 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, hash }) => {
-        const match = pathToRegexp('/' + namespace).exec(pathname);
+        // const match = pathToRegexp('/' + namespace).exec(pathname);
+        const match = pathname.includes(`/${namespace}`);
         if (!match) {
           return;
         }

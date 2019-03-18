@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as db from '../db';
+import * as db from './db';
 export interface DbJson {
   data: any[];
   header: string[];

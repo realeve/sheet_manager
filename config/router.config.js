@@ -83,7 +83,12 @@ export default [
       },
       {
         path: '/search',
-        component: './Search',
+        icon: 'search',
+        path: '/search',
+        routes: [
+          { path: '/search', component: './Search' },
+          { path: '/search/image', component: './Search/image' },
+        ],
       },
       {
         name: 'account',

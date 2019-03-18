@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as db from '../../db';
+import * as db from '../../utils/db';
 import SimpleChart from '../SimpleChart';
 import SimpleTable from '../SimpleTable';
 import { Col, Row, Card, Empty } from 'antd';

@@ -68,6 +68,7 @@ function ProdSelect({ cart, dispatch }) {
             value={state}
             onChange={e => setState(e.target.value.trim().toUpperCase())}
             style={{ width: 270 }}
+            maxLength={8}
           />
         </Col>
       </Row>

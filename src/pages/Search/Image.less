@@ -1,0 +1,42 @@
+@import '~antd/lib/style/themes/default.less';
+
+.imgsearch {
+  .title {
+    margin-bottom: 5px;
+    text-align: center;
+    font: 400 12px/21px sans-serif;
+    color: #DADADA;
+    display: flex;
+    justify-content: center;
+
+    .container {
+      flex: 1;
+      height: 32px;
+      font-size: 14px;
+      padding-top: 9px;
+
+      .item {
+        color: #949494;
+        cursor: pointer;
+        margin: 0 6px;
+        padding: 0 6px;
+        transition: all .3s ease-in-out;
+        position: relative;
+        overflow: visible;
+        display: inline-block;
+        align-items: center;
+
+        &:hover {
+          color: @white;
+          background-color: @primary-color;
+          border-radius: 4px;
+        }
+      }
+    }
+
+    .search {
+      justify-content: flex-end;
+    }
+  }
+
+}

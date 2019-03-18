@@ -6,6 +6,8 @@ import * as lib from '@/utils/lib';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 
+import router from 'umi/router';
+
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
@@ -36,16 +38,22 @@ export default class GlobalHeaderRight extends PureComponent {
       return;
     }
 
+    let { pathname } = window.location;
+
     if (lib.isCart(value)) {
-      console.log('车号', value);
+      if (pathname == '/search/image') {
+        router.push('/search/image#' + value);
+      } else {
+        router.push('/search#' + value);
+      }
       return;
     }
     if (lib.isGZ(value)) {
-      console.log('冠字', value);
+      router.push('/search#' + value);
       return;
     }
     if (lib.isReel(value)) {
-      console.log('轴号', value);
+      router.push('/search#' + value);
       return;
     }
 

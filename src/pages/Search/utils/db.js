@@ -429,3 +429,45 @@ export const getQfmWipJobsUncheck = cart =>
           cart,
         },
       });
+
+/**
+ *   @database: { 号码三合一 }
+ *   @desc:     { 号码实废图像信息查询 }
+ */
+export const getWipJobsCodeImage = cart =>
+  DEV
+    ? mock(require('@/mock/440_4b255e8000.json'))
+    : axios({
+        url: '/440/4b255e8000.json',
+        params: {
+          cart,
+          blob: 'image',
+        },
+      });
+
+/**
+ *   @database: { 小张核查 }
+ *   @desc:     { 丝印实废图像信息查询 }
+ */
+export const getWipJobsSilkImage = cart =>
+  DEV
+    ? mock(require('@/mock/439_e6ccdf08a7.json'))
+    : axios({
+        url: '/439/e6ccdf08a7.json',
+        params: {
+          cart,
+          blob: 'image',
+        },
+      });
+
+/**
+ *   @database: { 全幅面 }
+ *   @desc:     { 票面实废图像信息查询 } 
+ */
+export const getQfmWipJobsHechaImage = cart => DEV ? mock(require(
+  '@/mock/438_49a52af747.json')) : axios({
+  url: '/438/49a52af747.json',
+  params: {
+    cart
+  },
+});

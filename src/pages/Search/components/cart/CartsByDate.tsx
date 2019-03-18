@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as db from '../../db';
+import * as db from '../../utils/db';
 import VTable from '@/components/Table';
 import { Modal } from 'antd';
 import DatePicker from '@/components/DatePicker';
