@@ -1,8 +1,10 @@
 import React from 'react';
-import { Card, Icon, Button } from 'antd';
+import { Card, Icon } from 'antd';
 import styles from './ProdList.less';
 import * as R from 'ramda';
 import ProdSelect from '../ProdSelect';
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
 
 export default function CartInfo({ cartInfo }) {
   let {
@@ -96,9 +98,12 @@ export default function CartInfo({ cartInfo }) {
           )}
         </ul>
         <div style={{ float: 'right' }}>
-          <Button type="danger" className={styles.btnDanger}>
+          <a
+            className={cx(['ant', 'ant-btn', styles.btnDanger])}
+            href={`/search/image#${CartNumber}`}
+          >
             实废图像
-          </Button>
+          </a>
         </div>
       </div>
     </Card>

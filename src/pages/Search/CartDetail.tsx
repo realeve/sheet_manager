@@ -15,7 +15,6 @@ function CartDetail({ dispatch, ...params }) {
     if (R.isNil(params.cart) || params.cart === '') {
       return;
     }
-
     dispatch({
       type: 'search/setStore',
       payload: {
@@ -24,16 +23,19 @@ function CartDetail({ dispatch, ...params }) {
     });
   };
 
-  const { cart } = params;
-
+  const { cart, type } = params;
   return (
     <Row gutter={10}>
       <BasicInfo {...params} onRefresh={onRefresh} />
-      <OnlineCount cart={cart} />
-      <OfflineCheck cart={cart} />
-      <HechaInfo cart={cart} />
-      <LogInfo cart={cart} />
-      <PackageInfo cart={cart} />
+      {type == 'cart' && (
+        <>
+          <OnlineCount cart={cart} />
+          <OfflineCheck cart={cart} />
+          <HechaInfo cart={cart} />
+          <LogInfo cart={cart} />
+          <PackageInfo cart={cart} />
+        </>
+      )}
     </Row>
   );
 }

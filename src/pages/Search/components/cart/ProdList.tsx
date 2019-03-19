@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { Card, Badge, Icon } from 'antd';
+import { Card, Badge, Icon, Empty } from 'antd';
 import styles from './ProdList.less';
 import * as R from 'ramda';
-import { useFetch } from '@/pages/Search/utils/useFetch';
 import * as lib from '@/utils/lib';
+import * as db from '@/pages/Search/utils/db';
 
 import CartsByDate from './CartsByDate';
 
@@ -13,34 +13,44 @@ const weekList: string[] = ['日', '一', '二', '三', '四', '五', '六'];
 export default function ProdList({ onRefresh, ...params }) {
   const [visible, setVisible] = useState(false);
   const [cartDetail, setCartDetail] = useState({ mid: 0, tstart: '', machine: '' });
+  const [res, setRes] = useState({ loading: true, rows: 0, data: [] });
 
   let callback = ({ data, rows }) => {
     setVisible(false);
     onRefresh(rows ? R.last(data) : {});
   };
-  let res;
+
   let { cart, type } = params;
-  if (type == 'cart') {
-    res = useFetch({
-      params: cart,
-      api: 'getVCbpcCartlist',
-      callback,
-      init: [cart],
-    });
-  } else {
-    let gzRes = lib.handleGZInfo({ code: params.cart, prod: params.prod });
-    if (gzRes && typeof gzRes !== 'boolean') {
-      res = useFetch({
-        params: {
-          prod: params.prod,
-          ...gzRes,
-        },
-        api: 'getCartinfoByGZ',
-        callback,
-        init: [params],
-      });
+
+  useEffect(() => {
+    if (type !== 'cart') {
+      return;
     }
-  }
+
+    db.getVCbpcCartlist(cart).then(res => {
+      setRes(res);
+      callback(res);
+    });
+  }, [cart]);
+
+  useEffect(() => {
+    if (type !== 'gz' || R.isNil(params.prod)) {
+      return;
+    }
+
+    let gzRes = lib.handleGZInfo({ code: params.cart, prod: params.prod });
+    if (typeof gzRes === 'boolean') {
+      return;
+    }
+
+    db.getCartinfoByGZ({
+      prod: params.prod,
+      ...gzRes,
+    }).then(res => {
+      setRes(res);
+      callback(res);
+    });
+  }, [params.cart, params.prod]);
 
   const { loading, data: prodDetail, rows } = res;
   // 显示当天生产的其它车号
@@ -55,12 +65,12 @@ export default function ProdList({ onRefresh, ...params }) {
     setCartDetail({ mid: 0, tstart: '', machine: '' });
   };
 
-  let cartName: string = rows ? prodDetail[0].CartNumber : '载入中';
+  let cartName: string = rows ? `(${prodDetail[0].CartNumber})` : '';
   return (
     <>
       <CartsByDate {...cartDetail} visible={visible} onToggle={onToggle} />
       <Card
-        title={`生产信息(${cartName})`}
+        title={`生产信息${cartName}`}
         bodyStyle={{
           padding: '10px 20px',
         }}

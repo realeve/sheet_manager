@@ -3,13 +3,12 @@ import { Button, Popconfirm, Row, Col, Input, Radio } from 'antd';
 import styles from './ProdSelect.less';
 import router from 'umi/router';
 import * as R from 'ramda';
-import { getProdType } from '../models/search';
 import { connect } from 'dva';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-function ProdSelect({ cart, dispatch }) {
+function ProdSelect({ cart, dispatch, type }) {
   const [prod, setProd] = useState(null);
   const [state, setState] = useState(cart);
   useEffect(() => {
@@ -19,7 +18,6 @@ function ProdSelect({ cart, dispatch }) {
   const prodList = ['9602A', '9603A', '9604A', '9606T', '9607T'];
 
   const confirm = () => {
-    let type: string = getProdType(state);
     if (type === 'unknown' || (type === 'gz' && R.isNil(prod))) {
       return;
     } else if (type === 'reel') {

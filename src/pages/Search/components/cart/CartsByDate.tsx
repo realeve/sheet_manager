@@ -40,6 +40,12 @@ export default function CartsByDate({
     updateMachine(e);
   };
 
+  useEffect(() => {
+    if (tstart.length) {
+      setDates([tstart, tstart]);
+    }
+  }, [tstart]);
+
   return (
     <Modal
       title={
@@ -47,7 +53,7 @@ export default function CartsByDate({
           <h3>
             {machine} {dates[0] === '' ? tstart : dates.join('至')} 生产记录
           </h3>
-          <DatePicker value={[tstart]} onChange={onDateChange} />
+          <DatePicker value={dates[0] === '' ? [tstart] : dates} onChange={onDateChange} />
         </div>
       }
       visible={visible}

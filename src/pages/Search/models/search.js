@@ -41,7 +41,7 @@ export default {
         dispatch({
           type: 'setStore',
           payload: {
-            [key]: number,
+            [key === 'gz' ? 'cart' : key]: number,
             type: key,
           },
         });

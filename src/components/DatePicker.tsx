@@ -40,6 +40,7 @@ export default function DatePick({
         size="small"
         onChange={(_, dateStrings) => onChange(dateStrings)}
         defaultValue={[moment(tstart), moment(tend)]}
+        value={[tstart, tend]}
         style={{ width: 190 }}
         locale={{
           rangePlaceholder: ['开始日期', '结束日期'],

@@ -10,7 +10,7 @@ import ProcAdjustList from './ProcAdjustList';
 import * as R from 'ramda';
 export default function SearchPage({ onRefresh, ...params }) {
   const [cartInfo, setCartInfo] = useState({});
-  const { cart } = params;
+  const { cart, type } = params;
   const updateCartInfo = cartInfo => {
     if (R.isNil(cartInfo.CartNumber)) {
       return;
@@ -26,17 +26,24 @@ export default function SearchPage({ onRefresh, ...params }) {
       });
     }
   };
+  let visible = type == 'cart';
+
   return (
     <>
       <Col span={16} lg={16} md={24} sm={24} xs={24}>
         <ProdList {...params} onRefresh={updateCartInfo} />
-        <ProcAdjustList cart={cart} />
+        {visible && <ProcAdjustList cart={cart} />}
       </Col>
+
       <Col span={8} lg={8} md={24} sm={24} xs={24}>
         <CartInfo cartInfo={cartInfo} />
-        <LockReason cart={cart} />
-        <ExchangeLog cart={cart} />
-        <CartsOneDay cart={cart} />
+        {visible && (
+          <>
+            <LockReason cart={cart} />
+            <ExchangeLog cart={cart} />
+            <CartsOneDay cart={cart} />
+          </>
+        )}
       </Col>
     </>
   );
