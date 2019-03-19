@@ -4,11 +4,12 @@ import styles from './ProdSelect.less';
 import router from 'umi/router';
 import * as R from 'ramda';
 import { connect } from 'dva';
+import * as lib from '../models/search.js';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-function ProdSelect({ cart, dispatch, type }) {
+function ProdSelect({ cart, dispatch }) {
   const [prod, setProd] = useState(null);
   const [state, setState] = useState(cart);
   useEffect(() => {
@@ -17,21 +18,29 @@ function ProdSelect({ cart, dispatch, type }) {
 
   const prodList = ['9602A', '9603A', '9604A', '9606T', '9607T'];
 
-  const confirm = () => {
+  const confirm = cart => {
+    let type = lib.getProdType(cart);
     if (type === 'unknown' || (type === 'gz' && R.isNil(prod))) {
       return;
     } else if (type === 'reel') {
-      router.push('#' + state);
+      router.push('#' + cart);
       return;
     }
+    // console.log(cart);
     dispatch({
       type: 'search/setStore',
       payload: {
         type,
         prod,
-        cart: state,
+        cart,
       },
     });
+  };
+
+  const searchChange = value => {
+    let val = value.trim().toUpperCase();
+    setState(val);
+    confirm(val);
   };
 
   const container = (
@@ -64,7 +73,7 @@ function ProdSelect({ cart, dispatch, type }) {
             allowClear
             defaultValue={cart}
             value={state}
-            onChange={e => setState(e.target.value.trim().toUpperCase())}
+            onChange={e => searchChange(e.target.value)}
             style={{ width: 270 }}
             maxLength={8}
           />
@@ -84,7 +93,7 @@ function ProdSelect({ cart, dispatch, type }) {
       trigger="hover"
       title={container}
       icon={null}
-      onConfirm={confirm}
+      onConfirm={() => confirm(state)}
     >
       <Button>冠号查询</Button>
     </Popconfirm>

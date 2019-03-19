@@ -31,6 +31,7 @@ function SearchPage({ cart }) {
     setCode(code);
   };
 
+  // 添加涂布
   let checkList = ['所有图像', '票面', '丝印', '号码'];
 
   const onFilter = item => R.isNil(code) || item.code.includes(code);

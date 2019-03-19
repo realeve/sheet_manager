@@ -1,5 +1,4 @@
 import { axios } from '@/utils/axios';
-
 const R = require('ramda');
 
 export const fetchData = ({ url, params }) =>
@@ -42,6 +41,7 @@ export const handleParams = ({ tid, params, dateRange }) => {
     paramKeys.forEach(key => {
       item.params[key] = params[key][idx];
     });
-    return JSON.parse(JSON.stringify(item));
+    return R.clone(item);
+    // return JSON.parse(JSON.stringify(item));
   });
 };

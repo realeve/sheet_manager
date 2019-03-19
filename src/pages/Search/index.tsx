@@ -1,29 +1,26 @@
 import React from 'react';
 import { connect } from 'dva';
 import Exception from 'ant-design-pro/lib/Exception';
-import { Link } from 'react-router-dom';
 import CartDetail from './CartDetail';
+import ProdSelect from './components/ProdSelect';
 
-function SearchPage({ type, cart, prod }) {
+function SearchPage({ type }) {
   if (type === 'unknown') {
     return (
       <Exception
         type="403"
-        desc="目前只支持车号及轴号查询追溯"
-        linkElement={Link}
+        title="信息追溯"
+        desc="点击以下按钮查询车号或轴号信息"
+        linkElement={ProdSelect}
         img="/img/403.svg"
-        backText="返回首页"
       />
     );
   } else if (['cart', 'gz'].includes(type)) {
     return <CartDetail />;
   }
-  console.log(type, cart);
-  return <h1>3232adf</h1>;
+  return <h1>轴号查询</h1>;
 }
 
-export default connect(({ search: { type, cart, prod } }) => ({
+export default connect(({ search: { type } }) => ({
   type,
-  cart,
-  prod,
 }))(SearchPage);
