@@ -69,15 +69,24 @@ function SearchPage({ cart }) {
           />
         </div>
         <ul className={styles.content}>
-          {[0, 1].includes(filter) && (
-            <ImageItem data={R.filter(onFilter, hecha)} type="hecha" ImageTitle={titleRender} />
-          )}
-          {[0, 2].includes(filter) && (
-            <ImageItem data={R.filter(onFilter, silk)} ImageTitle={titleRender} type="silk" />
-          )}
-          {[0, 3].includes(filter) && (
-            <ImageItem data={R.filter(onFilter, codeList)} type="code" ImageTitle={titleRender} />
-          )}
+          <ImageItem
+            visible={[0, 3].includes(filter)}
+            data={R.filter(onFilter, codeList)}
+            type="code"
+            ImageTitle={titleRender}
+          />
+          <ImageItem
+            visible={[0, 2].includes(filter)}
+            data={R.filter(onFilter, silk)}
+            ImageTitle={titleRender}
+            type="silk"
+          />
+          <ImageItem
+            visible={[0, 1].includes(filter)}
+            data={R.filter(onFilter, hecha)}
+            type="hecha"
+            ImageTitle={titleRender}
+          />
         </ul>
       </div>
     </Card>
