@@ -8,7 +8,7 @@ import classNames from 'classnames/bind';
 import * as R from 'ramda';
 const cx = classNames.bind(styles);
 
-function SearchPage({ cart }) {
+function ImageSearch({ cart }) {
   const [code, setCode] = useState(null);
   const [filter, setFilter] = useState(0);
   const { data: hecha } = useFetch({ params: cart, api: 'getQfmWipJobsHechaImage', init: [cart] });
@@ -32,7 +32,7 @@ function SearchPage({ cart }) {
   };
 
   // 添加涂布
-  let checkList = ['所有图像', '票面', '丝印', '号码'];
+  let checkList = ['所有图像', '票面', '丝印', '号码', '涂布'];
 
   const onFilter = item => R.isNil(code) || item.code.includes(code);
   const titleRender = ({ data: item }) => (
@@ -96,4 +96,4 @@ function SearchPage({ cart }) {
 
 export default connect(({ search: { cart } }) => ({
   cart,
-}))(SearchPage);
+}))(ImageSearch);

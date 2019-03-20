@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Icon } from 'antd';
 import styles from './ProdList.less';
 import * as R from 'ramda';
-import ProdSelect from '../ProdSelect';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
@@ -30,7 +29,7 @@ export default function CartInfo({ cartInfo }) {
       style={{ marginBottom: 10 }}
       className={styles.cart}
       loading={loading}
-      extra={<ProdSelect />}
+      // extra={<ProdSelect />}
     >
       <div className={styles.detail}>
         <ul>

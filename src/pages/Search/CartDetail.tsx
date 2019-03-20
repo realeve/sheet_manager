@@ -8,6 +8,8 @@ import OnlineCount from './components/cart/OnlineCount';
 import PackageInfo from './components/cart/PackageInfo';
 import LogInfo from './components/cart/LogInfo';
 import * as R from 'ramda';
+import styles from './CartDetail.less';
+import ProdSelect from './components/ProdSelect';
 
 function CartDetail({ dispatch, ...params }) {
   // 用于冠字查车号
@@ -25,18 +27,23 @@ function CartDetail({ dispatch, ...params }) {
 
   const { cart, type } = params;
   return (
-    <Row gutter={10}>
-      <BasicInfo {...params} onRefresh={onRefresh} />
-      {type == 'cart' && (
-        <>
-          <OnlineCount cart={cart} />
-          <OfflineCheck cart={cart} />
-          <HechaInfo cart={cart} />
-          <LogInfo cart={cart} />
-          <PackageInfo cart={cart} />
-        </>
-      )}
-    </Row>
+    <>
+      <div className={styles.header}>
+        <ProdSelect />
+      </div>
+      <Row gutter={10}>
+        <BasicInfo {...params} onRefresh={onRefresh} />
+        {type == 'cart' && (
+          <>
+            <OnlineCount cart={cart} />
+            <OfflineCheck cart={cart} />
+            <HechaInfo cart={cart} />
+            <LogInfo cart={cart} />
+            <PackageInfo cart={cart} />
+          </>
+        )}
+      </Row>
+    </>
   );
 }
 
