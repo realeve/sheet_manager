@@ -462,12 +462,15 @@ export const getWipJobsSilkImage = cart =>
 
 /**
  *   @database: { 全幅面 }
- *   @desc:     { 票面实废图像信息查询 } 
+ *   @desc:     { 票面实废图像信息查询 }
  */
-export const getQfmWipJobsHechaImage = cart => DEV ? mock(require(
-  '@/mock/438_49a52af747.json')) : axios({
-  url: '/438/49a52af747.json',
-  params: {
-    cart
-  },
-});
+export const getQfmWipJobsHechaImage = cart =>
+  DEV
+    ? mock(require('@/mock/438_49a52af747.json'))
+    : axios({
+        url: '/438/49a52af747.json',
+        params: {
+          cart,
+          blob: 'image',
+        },
+      });

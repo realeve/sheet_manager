@@ -11,20 +11,23 @@ const cx = classNames.bind(styles);
 function ImageSearch({ cart }) {
   const [code, setCode] = useState(null);
   const [filter, setFilter] = useState(0);
-  const { data: hecha } = useFetch({ params: cart, api: 'getQfmWipJobsHechaImage', init: [cart] });
+  const res = useFetch({ params: cart, api: 'getQfmWipJobsHechaImage', init: [cart] });
   const { data: silk } = useFetch({ params: cart, api: 'getWipJobsSilkImage', init: [cart] });
   const { data: codeList } = useFetch({ params: cart, api: 'getWipJobsCodeImage', init: [cart] });
+  let hecha = R.filter(R.propEq('type', 'mahou'))(res.data);
+  let tubu = R.filter(R.propEq('type', 'tubu'))(res.data);
 
   const [imgnum, setImgnum] = useState([0, 0, 0, 0]);
 
   useEffect(() => {
     setImgnum([
-      hecha.length + silk.length + codeList.length,
+      hecha.length + silk.length + codeList.length + tubu.length,
       hecha.length,
       silk.length,
       codeList.length,
+      tubu.length,
     ]);
-  }, [hecha, silk, codeList]);
+  }, [hecha, silk, codeList, tubu]);
 
   const onChange = e => {
     let code = e.target.value.trim().toUpperCase();
@@ -86,6 +89,12 @@ function ImageSearch({ cart }) {
             visible={[0, 1].includes(filter)}
             data={R.filter(onFilter, hecha)}
             type="hecha"
+            ImageTitle={titleRender}
+          />
+          <ImageItem
+            visible={[0, 4].includes(filter)}
+            data={tubu}
+            type="tubu"
             ImageTitle={titleRender}
           />
         </ul>
