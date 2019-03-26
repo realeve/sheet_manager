@@ -138,7 +138,7 @@ class Tables extends Component {
   };
 
   getExportConfig = () => {
-    const { title, source, header } = R.clone(this.state.dataSrc);
+    const { title, source, header, ...props } = R.clone(this.state.dataSrc);
     const filename = `${title}`;
     const keys = header.map((item, i) => 'col' + i);
     const body = R.compose(
@@ -148,13 +148,18 @@ class Tables extends Component {
 
     const { dept_name, fullname } = this.props;
     const creator = `${dept_name} ${fullname}`;
+
+    // 将外部数据接口中的merge配置信息注入替换
+    let params = R.clone(this.props.config);
+    params = Object.assign({}, params, R.pick(['merge', 'mergesize', 'mergetext'], props));
+
     return {
       creator,
       source,
       filename,
       header,
       body,
-      params: R.clone(this.props.config),
+      params,
     };
   };
 

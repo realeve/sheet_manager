@@ -5,6 +5,7 @@ import jStat from 'jStat';
 import lib from '@/pages/chart/utils/lib';
 import { AUTHOR } from './setting';
 import { getParams, Config, BasicConfig, DstConfig } from './excelConfig';
+import { getStringWidth } from '@/utils/lib';
 
 const initWorkSheet = (config: Config) => {
   let workbook = new Excel.Workbook(config);
@@ -60,13 +61,12 @@ export const getColumn = config => {
   return R.clone(config.header).map((header, key) => {
     let rows = lib.getUniqByIdx({ key, data: config.body });
     let wordLength = R.compose(
-      R.max(header.length),
+      R.max(getStringWidth(header.length)),
       jStat.max,
-      R.map(item => String(item).length)
+      R.map(getStringWidth)
     )(rows);
 
-    // 一个文字宽度2.1
-    return { header, width: wordLength * 2.1 };
+    return { header, width: wordLength * 2.3 };
   });
 };
 
@@ -105,6 +105,16 @@ const createWorkBook = (config: Config) => {
     const row = worksheet.getRow(1);
 
     params.merge.forEach(([start, end], idx) => {
+      // 如果合并的内容超过配置时，放弃合并
+      if (columns.length < end) {
+        // 对应列不需要合并，行需要合并
+        for (let i = start; i <= columns.length; i++) {
+          worksheet.mergeCells(1, i, 2, i); //合并两行
+          row.getCell(i).alignment = { vertical: 'middle', horizontal: 'center' };
+        }
+        return;
+      }
+
       worksheet.mergeCells(1, start, 1, end);
       // 合并后居中
       let cell = row.getCell(start);

@@ -386,3 +386,11 @@ export const setStore = (state, store: Store) => {
   });
   return nextState;
 };
+
+export const isChineseWord = str => new RegExp(/[\u00A1-\uFFFF]/).test(str);
+
+// 中文宽1，其余宽0.7
+export const getStringWidth = str =>
+  String(str)
+    .split('')
+    .reduce((x, y) => x + (isChineseWord(y) ? 1 : 0.7), 0);

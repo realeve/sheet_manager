@@ -239,8 +239,17 @@ export const initState = props => {
 };
 
 // 表头合并处理
-export const mergeConfig = (columns, params) => {
-  // let params = lib.parseUrl();
+interface defaultData {
+  merge?: string;
+  mergesize?: string;
+  mergetext?: string;
+}
+export const mergeConfig = (columns, config, dataSrc: defaultData = {}) => {
+  // 如果使用外部接口，返回了配置信息则启用外部数据引入的配置
+  let params = R.clone(config);
+
+  params = Object.assign({}, params, R.pick(['merge', 'mergesize', 'mergetext'], dataSrc));
+
   if (R.isNil(params) || R.isNil(params.merge)) {
     return columns;
   }
@@ -272,6 +281,11 @@ export const mergeConfig = (columns, params) => {
   params.merge.forEach(([start, end], idx) => {
     // 将起始点合并
     end = end || start + params.mergesize - 1;
+
+    // 如果合并列大于给定的总列数，停止合并
+    if (end > columns.length) {
+      return;
+    }
     mergeColumns[start] = {
       title: params.mergetext[idx],
       children: R.slice(start, end + 1)(mergeColumns),
@@ -280,6 +294,7 @@ export const mergeConfig = (columns, params) => {
     // 移除后续数据
     mergeColumns = R.remove(start + 1, end - start)(mergeColumns);
   });
+
   return mergeColumns;
 };
 
@@ -342,7 +357,7 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
 
   // 合并单元格展示
   if (merge) {
-    columns = mergeConfig(columns, props.config);
+    columns = mergeConfig(columns, props.config, dataSrc);
   }
 
   return {

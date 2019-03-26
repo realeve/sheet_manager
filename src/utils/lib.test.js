@@ -396,3 +396,11 @@ test('logout', () => {
   // }).toBeTruthy();
   lib.logout({ dispatch: e => {} });
 });
+
+test('中文测试', () => {
+  expect(lib.isChineseWord('张')).toBeTruthy();
+  expect(lib.isChineseWord('3')).toBeFalsy();
+
+  expect(lib.getStringWidth('张三')).toBe(2);
+  expect(lib.getStringWidth('张三a')).toBe(2.7);
+});

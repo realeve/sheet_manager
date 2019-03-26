@@ -165,7 +165,11 @@ export default function tableConfig() {
               /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&merge=0&mergetext=合并后的新表头
             </a>
 
-            <div>设置为其它值时，系统按此值合并列</div>
+            <div>
+              设置为其它值时，系统按此值合并列
+              <br />
+              当合并列的长度大于给定数据的表头宽度时，超出部分所在的设置将放弃表头合并
+            </div>
             <div className={styles.demoLink}>
               <a
                 href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&merge=0&mergesize=3&mergetext=合并后的新表头"
@@ -231,7 +235,9 @@ export default function tableConfig() {
                 /table#id=76/dd3cf2e48e&data_type=score&data_type=sex
               </a>
             </div>
-            <div>当id中包含http字样时，载入外部数据。</div>
+            <div>
+              当id中包含http字样时，载入外部数据，如果请求的外部数据包含了merge,mergesize,mergetext相关设置时系统沿用外部数据源的设置替换当前配置。
+            </div>
             <div className={styles.demoLink}>
               <a
                 href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex"

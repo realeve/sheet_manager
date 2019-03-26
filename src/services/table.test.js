@@ -620,9 +620,36 @@ test('列合并', () => {
 
   expect(
     table.mergeConfig(col, {
+      merge: ['0-1', '3-6'],
+      mergetext: ['merge', 'merge2'],
+    })
+  ).toMatchObject([
+    { children: [{ a: 1 }, { a: 2 }], title: 'merge' },
+    { a: 3 },
+    { a: 4 },
+    { a: 5 },
+  ]);
+
+  expect(
+    table.mergeConfig(col, {
       merge: ['0-1', '3-4'],
       mergetext: ['merge', 'merge2'],
     })
+  ).toMatchObject([
+    { children: [{ a: 1 }, { a: 2 }], title: 'merge' },
+    { a: 3 },
+    { children: [{ a: 4 }, { a: 5 }], title: 'merge2' },
+  ]);
+
+  expect(
+    table.mergeConfig(
+      col,
+      {
+        merge: ['0-1'],
+        mergetext: ['merge'],
+      },
+      { merge: ['0-1', '3-4'], mergetext: ['merge', 'merge2'], mergesize: 2 }
+    )
   ).toMatchObject([
     { children: [{ a: 1 }, { a: 2 }], title: 'merge' },
     { a: 3 },
