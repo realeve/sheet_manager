@@ -6,7 +6,7 @@ module.exports = {
   testMatch: ['**/?(*.)(spec|test|e2e).(j|t)s?(x)'],
   testURL: 'http://localhost:8000',
   collectCoverage: true,
-  coverageReporters: ['text-lcov'],
+  // coverageReporters: ['text-lcov'],
   globals: {
     'ts-jest': {
       useBabelrc: true,

@@ -132,7 +132,7 @@ export const getOption = ({ dataSrc, params }) => {
     type = type || 'bar';
 
     const opt = dataSrc.data.length === 0 ? {} : chartOption[type](config);
-    const showDateRange = dataSrc.dates.length > 0;
+    const showDateRange = dataSrc.dates && dataSrc.dates.length > 0;
     return util.handleDefaultOption(opt, config, showDateRange);
   }
 

@@ -148,7 +148,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectVa
                 dataSrc={dataSrc}
                 loading={loading}
                 config={param}
-                subTitle={dataSrc.dates.length > 0 && staticRanges(dateRange)}
+                subTitle={dataSrc.dates && dataSrc.dates.length > 0 && staticRanges(dateRange)}
               />
             </TabPane>
             <TabPane tab={formatMessage({ id: 'chart.tab.tableCalc' })} key="2">
@@ -156,7 +156,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectVa
                 dataSrc={dataSrc}
                 loading={loading}
                 merge={false}
-                subTitle={dataSrc.dates.length > 0 && staticRanges(dateRange)}
+                subTitle={dataSrc.dates && dataSrc.dates.length > 0 && staticRanges(dateRange)}
               />
             </TabPane>
           </Tabs>

@@ -16,9 +16,10 @@ export const handleParams = ({ tid, params, dateRange }) => {
     tend2: tend,
     tstart3: tstart,
     tend3: tend,
+    mode: 'array',
   };
   let option = tid.map(url => ({
-    url: url + '/array',
+    url,
     params: param,
   }));
   let paramKeys = Object.keys(params);

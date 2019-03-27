@@ -137,11 +137,15 @@ export function handleColumns(
 
   // 10列以上自动固定
   if (column.length > 10) {
-    let fixedHeaders: Array<number> = [0, 1];
+    column = column.map(item => {
+      item.width = 50;
+      return item;
+    });
+
+    let fixedHeaders: Array<number> = column[0].title == 'id' ? [0, 1] : [0];
     fixedHeaders.forEach(id => {
       // if (column[id]) {
       column[id] = Object.assign(column[id], {
-        width: 80,
         fixed: 'left',
       });
       // }
