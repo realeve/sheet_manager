@@ -8,6 +8,7 @@ import { getFlatMenuKeys, getCurKey, getFlatMenu } from './util';
 import { urlToList } from '../_utils/pathTools';
 import MenuSearch from '@/components/HeaderSearch/menu';
 import router from 'umi/router';
+import SystemMenu from './SystemMenu';
 
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
@@ -151,10 +152,7 @@ export default class SiderMenu extends PureComponent {
         className={siderClassName}
       >
         <div className={styles.logo} id="logo">
-          <Link to="/">
-            <img src={logo} alt="logo" />
-            <h1>{setting.systemName}</h1>
-          </Link>
+          <SystemMenu logo={logo} />
         </div>
         <MenuSearch
           theme={theme}

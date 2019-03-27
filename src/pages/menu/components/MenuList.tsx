@@ -70,13 +70,14 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
     userTool.saveUserSetting(data, title);
 
     // 刷新
-    window.location.reload();
+    // window.location.reload();
 
     dispatch({
       type: 'common/setStore',
       payload: {
         userSetting: {
           menu,
+          menu_title: title,
         },
       },
     });

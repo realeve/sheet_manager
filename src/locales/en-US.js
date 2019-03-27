@@ -45,6 +45,7 @@ export default {
   'component.noticeIcon.cleared': 'Cleared',
   'component.noticeIcon.empty': 'No notifications',
   menu: 'Menu',
+  'menu.toggle': 'Click to toggle system',
   'menu.home': 'Home',
   'menu.profile': 'Profile',
   'menu.profile.basic': 'Basic Profile',

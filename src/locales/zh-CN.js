@@ -73,6 +73,7 @@ let lang = {
     },
   },
   menu: {
+    toggle: '点击切换系统',
     home: '首页',
     profile: '详情页',
     'profile.basic': '基础详情页',

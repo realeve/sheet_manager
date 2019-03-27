@@ -37,11 +37,14 @@ const getUserSetting = () => {
     };
   }
 
+  let menu_title = window.localStorage.getItem(_menuTitle);
+
   let menu: string = window.localStorage.getItem(_menu);
   let data = decodeStr(_userSetting);
   data.setting = Object.assign(data.setting, {
     menu: JSON.parse(menu),
     previewMenu: [],
+    menu_title,
   });
   return {
     data,
