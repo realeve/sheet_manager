@@ -88,7 +88,7 @@ class TableCalc extends Component {
           <Row gutter={16} style={{ marginTop: 10 }}>
             <Col span={8}>
               <VFiledsSelector
-                title={formatMessage({ id: 'table.config.groupby' })}
+                title={formatMessage({ id: 'table.config.groupby.seg' })}
                 desc={formatMessage({ id: 'table.config.groupby.desc' })}
                 header={fieldHeader}
                 onChange={this.fieldsChange}
@@ -97,7 +97,7 @@ class TableCalc extends Component {
             </Col>
             <Col span={8}>
               <VFiledsSelector
-                title={formatMessage({ id: 'table.config.calc' })}
+                title={formatMessage({ id: 'table.config.calc.seg' })}
                 desc={formatMessage({ id: 'table.config.calc.desc' })}
                 header={groupHeader}
                 onChange={this.groupChange}

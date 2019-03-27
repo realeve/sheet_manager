@@ -61,7 +61,7 @@ export const getColumn = config => {
   return R.clone(config.header).map((header, key) => {
     let rows = lib.getUniqByIdx({ key, data: config.body });
     let wordLength = R.compose(
-      R.max(getStringWidth(header.length)),
+      R.max(getStringWidth(header)),
       jStat.max,
       R.map(getStringWidth)
     )(rows);

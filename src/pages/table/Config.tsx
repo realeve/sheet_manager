@@ -109,6 +109,19 @@ export default function tableConfig() {
             </div>
           </li>
           <li>
+            <div className={styles.tip}>通用参数6:日期类型</div>
+            <div className={styles.desc}>datetype </div>
+            <div>
+              默认值：date,可选项为 year|month|date ，设定后默认向后台发起YYYY | YYYYMM | YYYYMMDD
+              的日期请求
+            </div>
+            <div className={styles.demoLink}>
+              <a href="/table#id=http://localhost:90/76/dd3cf2e48e&datetype=month" target="_blank">
+                /table#id=http://localhost:90/76/dd3cf2e48e&datetype=month
+              </a>
+            </div>
+          </li>
+          <li>
             <div className={styles.tip}>专用参数1.表头合并</div>
             <div className={styles.desc}>merge </div>
             <div>默认值：不设置，此时不合并表头</div>

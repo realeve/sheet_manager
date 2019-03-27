@@ -310,7 +310,26 @@ export const handleUrlParams: (
   let datename = Object.keys(dateRanges)[defaultDate];
 
   const [tstart, tend] = dateRanges[datename];
-  const [ts, te] = [tstart.format('YYYYMMDD'), tend.format('YYYYMMDD')];
+
+  // 处理默认日期类型（20190327）
+  let formatType = 'YYYYMMDD';
+
+  let dateType = params.datetype || 'date';
+  switch (dateType) {
+    case 'month':
+      formatType = 'YYYYMM';
+      break;
+    case 'year':
+      formatType = 'YYYY';
+      break;
+    case 'date':
+    default:
+      formatType = 'YYYYMMDD';
+      break;
+  }
+  Reflect.deleteProperty(params, 'datetype');
+
+  const [ts, te] = [tstart.format(formatType), tend.format(formatType)];
 
   // 以逗号或分号分割参数
   if (split) {

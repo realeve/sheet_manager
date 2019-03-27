@@ -294,6 +294,29 @@ test('地址栏参数', () => {
   const [tstart, tend] = dateRanges['昨天'];
   const [ts, te] = [tstart.format('YYYYMMDD'), tend.format('YYYYMMDD')];
 
+  expect(lib.handleUrlParams('#id=6/8d5b63370c&datetype=month')).toEqual({
+    id: ['6/8d5b63370c'],
+    params: { cache: ['5'] },
+    dateRange: [tstart.format('YYYYMM'), tend.format('YYYYMM')],
+  });
+
+  expect(lib.handleUrlParams('#id=6/8d5b63370c&datetype=year')).toEqual({
+    id: ['6/8d5b63370c'],
+    params: { cache: ['5'] },
+    dateRange: [tstart.format('YYYY'), tend.format('YYYY')],
+  });
+  expect(lib.handleUrlParams('#id=6/8d5b63370c&datetype=day')).toEqual({
+    id: ['6/8d5b63370c'],
+    params: { cache: ['5'] },
+    dateRange: [ts, te],
+  });
+
+  expect(lib.handleUrlParams('#id=6/8d5b63370c')).toEqual({
+    id: ['6/8d5b63370c'],
+    params: { cache: ['5'] },
+    dateRange: [ts, te],
+  });
+
   expect(lib.handleUrlParams('#id=6/8d5b63370c&data_type=score&daterange=13')).toEqual({
     id: ['6/8d5b63370c'],
     params: {

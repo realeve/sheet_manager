@@ -5,6 +5,7 @@ import VTableCalc from '@/components/TableCalc.jsx';
 import { formatMessage } from 'umi/locale';
 import { Card, Tabs, Select, Row, Col, Button } from 'antd';
 import styles from './index.less';
+import moment from 'moment';
 
 import DatePicker from '@/components/DatePicker';
 
@@ -16,7 +17,7 @@ const cx = classNames.bind(styles);
 const { Option } = Select;
 const TabPane = Tabs.TabPane;
 
-function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectValue }) {
+function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectValue, dateFormat }) {
   const onDateChange = async (dateStrings, refresh) => {
     dispatch({
       type: 'table/setStore',
@@ -108,6 +109,32 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectVa
         </Row>
       </Card>
     );
+  const staticRanges = ([tstart, tend]) => {
+    let format = '';
+    switch (dateFormat) {
+      case 'YYYYMMDD':
+        format = 'YYYY年M月D日';
+        break;
+      case 'YYYYMM':
+        format = 'YYYY年M月';
+        break;
+      case 'YYYY':
+      default:
+        format = 'YYYY年';
+        break;
+    }
+
+    return (
+      `${formatMessage({ id: 'app.daterange.name' })}: ${moment(tstart, dateFormat).format(
+        format
+      )}` +
+      (tstart === tend
+        ? ''
+        : ` ${formatMessage({
+            id: 'app.daterange.to',
+          })} ${moment(tend, dateFormat).format(format)}`)
+    );
+  };
 
   return (
     <>
@@ -121,12 +148,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectVa
                 dataSrc={dataSrc}
                 loading={loading}
                 config={param}
-                subTitle={
-                  dataSrc.dates.length > 0 &&
-                  `${formatMessage({ id: 'app.daterange' })}: ${dateRange[0]} ${formatMessage({
-                    id: 'app.daterange.to',
-                  })} ${dateRange[1]}`
-                }
+                subTitle={dataSrc.dates.length > 0 && staticRanges(dateRange)}
               />
             </TabPane>
             <TabPane tab={formatMessage({ id: 'chart.tab.tableCalc' })} key="2">
@@ -134,11 +156,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectVa
                 dataSrc={dataSrc}
                 loading={loading}
                 merge={false}
-                subTitle={`${formatMessage({ id: 'app.daterange' })}: ${
-                  dateRange[0]
-                } ${formatMessage({
-                  id: 'app.daterange.to',
-                })} ${dateRange[1]}`}
+                subTitle={dataSrc.dates.length > 0 && staticRanges(dateRange)}
               />
             </TabPane>
           </Tabs>
@@ -151,8 +169,8 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectVa
 function mapStateToProps(state) {
   return {
     loading: state.loading.models.table,
-    // showDateRange: state.common.showDateRange,
     ...state.table,
+    dateFormat: state.common.dateFormat,
   };
 }
 

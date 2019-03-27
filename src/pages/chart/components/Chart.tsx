@@ -219,7 +219,7 @@ export default class Charts extends Component<IProp, IState> {
               dataSrc.dates &&
               dataSrc.dates.length > 0 &&
               `${formatMessage({
-                id: 'app.daterange',
+                id: 'app.daterange.name',
               })}: ${tstart} ${formatMessage({
                 id: 'app.daterange.to',
               })} ${tend}`

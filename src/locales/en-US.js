@@ -159,7 +159,7 @@ export default {
     'Setting panel shows in development environment only, please manually modify',
 
   'app.timerange': 'Time range',
-  'app.daterange': 'Date calculated',
+  'app.daterange.name': 'Date calculated',
   'app.daterange.to': 'to',
   'app.query': 'Query',
   'app.querycondition': 'Query condition',
@@ -168,10 +168,10 @@ export default {
   'table.border': 'show Table border',
   'table.filter': 'input to filter data',
   'table.config.base': 'Table base setting',
-  'table.config.groupby': 'Filelds group by',
+  'table.config.groupby.seg': 'Filelds group by',
   'table.config.groupby.desc':
     'These data are usually text type of data, such as dates, people, devices, and which cannot be used for calculation',
-  'table.config.calc': 'Fileds calc',
+  'table.config.calc.seg': 'Fileds calc',
   'table.config.calc.desc':
     'These data are usually numeric types of data, such as decimals, integers which can be used to calculate the average, sum.',
 
