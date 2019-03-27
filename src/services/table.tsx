@@ -101,7 +101,7 @@ export function handleColumns(
       };
       return item;
     } else if (lib.isInt(tdValue) && !lib.isDateTime(tdValue)) {
-      item.render = text => parseInt(text, 10).toLocaleString();
+      item.render = text => Number(text).toLocaleString();
       return item;
     } else if (lib.hasDecimal(tdValue)) {
       item.render = text => parseFloat(text);
@@ -268,12 +268,12 @@ export const mergeConfig = (columns, config, dataSrc: defaultData = {}) => {
 
   //  合并列宽
   params.mergesize = params.mergesize || '2';
-  params.mergesize = parseInt(params.mergesize, 10);
+  params.mergesize = Number(params.mergesize);
 
   params.merge = params.merge.map(item =>
     item
       .split('-')
-      .map(cell => parseInt(cell, 10))
+      .map(cell => Number(cell))
       .sort()
   );
   // 逆序排列

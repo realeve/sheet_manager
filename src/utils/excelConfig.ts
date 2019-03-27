@@ -79,10 +79,10 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
   let mergeArr: mergeItem[] = mergeStrArr.map((item: string) => {
     let arr = item
       .split('-')
-      .map((col: string): number => parseInt(col, 10) + 1 + (autoid ? 1 : 0))
+      .map((col: string): number => Number(col) + 1 + (autoid ? 1 : 0))
       .sort();
     if (arr.length === 1) {
-      return [arr[0], arr[0] + (parseInt(mergesize, 10) - 1)];
+      return [arr[0], arr[0] + (Number(mergesize) - 1)];
     }
     return arr;
   });
@@ -119,7 +119,7 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
  */
 export const initQueryParam: (params: BasicConfig) => BasicConfig = params => {
   params.interval = params.interval || '5'; //隔行背景色
-  params.interval = Math.max(parseInt(String(params.interval), 10), 2);
+  params.interval = Math.max(Number(String(params.interval)), 2);
   params.autoid = params.autoid != '0'; // 填充第一列序号
   params.mergesize = params.mergesize || '2';
   return params;
