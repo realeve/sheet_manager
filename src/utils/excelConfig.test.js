@@ -7,19 +7,19 @@ test('表头合并', () => {
     })
   ).toMatchObject({
     interval: 2,
-    autoid: true,
+    autoid: false,
     mergesize: '2',
   });
 
   expect(
     lib.initQueryParam({
       interval: 3,
-      autoid: '0',
+      autoid: '1',
       mergesize: '3',
     })
   ).toMatchObject({
     interval: 3,
-    autoid: false,
+    autoid: true,
     mergesize: '3',
   });
 

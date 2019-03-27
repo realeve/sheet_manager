@@ -122,6 +122,9 @@ const createWorkBook = (config: Config) => {
       // 填充文字
       cell.value = params.mergetext[idx];
     });
+    console.log('报错');
+    console.log(params, params.mergedRows);
+
     row.eachCell(function(cell, idx) {
       // 不需合并的单元格
       if (!params.mergedRows.includes(idx)) {

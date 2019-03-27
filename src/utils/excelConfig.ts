@@ -80,7 +80,7 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
     let arr = item
       .split('-')
       .map((col: string): number => Number(col) + 1 + (autoid ? 1 : 0))
-      .sort();
+      .sort((a, b) => a - b);
     if (arr.length === 1) {
       return [arr[0], arr[0] + (Number(mergesize) - 1)];
     }
@@ -120,7 +120,7 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
 export const initQueryParam: (params: BasicConfig) => BasicConfig = params => {
   params.interval = params.interval || '5'; //隔行背景色
   params.interval = Math.max(Number(String(params.interval)), 2);
-  params.autoid = params.autoid != '0'; // 填充第一列序号
+  params.autoid = !R.isNil(params.autoid) && params.autoid != '0'; // 填充第一列序号
   params.mergesize = params.mergesize || '2';
   return params;
 };
