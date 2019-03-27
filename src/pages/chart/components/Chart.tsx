@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import { Card, Tabs } from 'antd';
 import * as db from '../services/chart';
 import styles from './Chart.less';
@@ -6,6 +7,7 @@ import VTable from '@/components/Table.jsx';
 import ChartConfig, { TAxisName, IConfigState, getParams } from './ChartConfig';
 import ChartComponent from './ChartComponent';
 import { formatMessage } from 'umi/locale';
+import moment from 'moment';
 
 import lib from '../utils/lib';
 
@@ -19,6 +21,7 @@ interface IProp {
   onLoad: (title: string) => void;
   config: Array<Iconfig> | Iconfig;
   idx: number | string;
+  dateFormat?: string;
 }
 interface IState extends Iconfig {
   loading: boolean;
@@ -32,7 +35,7 @@ interface IState extends Iconfig {
  * 1.增加group选项，数据以此做切换(2018-11-25 已完成)；
  * 2.对参数长度排序，以最长的为准做合并，避免出现 &id=a&id=a...&otherparams的情况
  */
-export default class Charts extends Component<IProp, IState> {
+class Charts extends Component<IProp, IState> {
   static defaultProps: Partial<IProp> = {
     config: {
       url: '',
@@ -42,6 +45,7 @@ export default class Charts extends Component<IProp, IState> {
         tend: '',
       },
     },
+    dateFormat: 'YYYYMMDD',
   };
 
   echarts_react = null;
@@ -169,6 +173,34 @@ export default class Charts extends Component<IProp, IState> {
     this.setState({ appendParams });
   }
 
+  staticRanges = ([tstart, tend]) => {
+    let format = '';
+    switch (this.props.dateFormat) {
+      case 'YYYYMMDD':
+        format = 'YYYY年M月D日';
+        break;
+      case 'YYYYMM':
+        format = 'YYYY年M月';
+        break;
+      case 'YYYY':
+      default:
+        format = 'YYYY年';
+        break;
+    }
+
+    return (
+      `${formatMessage({ id: 'app.daterange.name' })}: ${moment(
+        tstart,
+        this.props.dateFormat
+      ).format(format)}` +
+      (tstart === tend
+        ? ''
+        : ` ${formatMessage({
+            id: 'app.daterange.to',
+          })} ${moment(tend, this.props.dateFormat).format(format)}`)
+    );
+  };
+
   render() {
     let { loading, dataSrc, params, option, appendParams } = this.state;
     let { tstart, tend } = params;
@@ -216,13 +248,7 @@ export default class Charts extends Component<IProp, IState> {
             dataSrc={tblDataSrc}
             loading={loading}
             subTitle={
-              dataSrc.dates &&
-              dataSrc.dates.length > 0 &&
-              `${formatMessage({
-                id: 'app.daterange.name',
-              })}: ${tstart} ${formatMessage({
-                id: 'app.daterange.to',
-              })} ${tend}`
+              dataSrc.dates && dataSrc.dates.length > 0 && this.staticRanges([tstart, tend])
             }
             merge={false}
           />
@@ -231,3 +257,11 @@ export default class Charts extends Component<IProp, IState> {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    dateFormat: state.common.dateFormat,
+  };
+}
+
+export default connect(mapStateToProps)(Charts);
