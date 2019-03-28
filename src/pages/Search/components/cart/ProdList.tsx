@@ -95,6 +95,8 @@ export default function ProdList({ onRefresh, ...params }) {
                 weekName,
                 EndDate,
                 mid,
+                remark,
+                remark_type,
               },
               idx
             ) => (
@@ -169,6 +171,18 @@ export default function ProdList({ onRefresh, ...params }) {
                                 .startOf('hour')
                                 .fromNow()}
                             </span>
+                          </div>
+                        </li>
+                      )}
+                      {remark && (
+                        <li style={{ background: '#ffc9ce' }}>
+                          <strong>
+                            <Icon type="edit" />
+                            机台关注
+                          </strong>
+                          <div className={styles.loginfo}>
+                            <div>{remark_type}:</div>
+                            <div>{remark}</div>
                           </div>
                         </li>
                       )}

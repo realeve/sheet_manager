@@ -212,7 +212,7 @@ class Tables extends Component {
     } = this.state;
 
     let scroll = {};
-    let len = Object.values(dataSource[0]).length;
+    let len = R.isNil(dataSource[0]) ? 0 : Object.values(dataSource[0]).length;
     if (len > 10) {
       scroll = {
         x: len * 50 + 200,
