@@ -109,7 +109,7 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
   mergeArr = mergeArr.sort((a, b) => a[0] - b[0]);
 
   // 纵向合并
-  let mergeVConfig = getType(mergev) === 'undefined' ? [] : handleMergeV(mergev);
+  let mergeVConfig = getType(mergev) === 'undefined' ? [] : splitParam2Arr(mergev);
 
   return {
     mergetext: mergetextArr,
@@ -120,31 +120,31 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
 };
 
 // 处理纵向列合并配置项;
-export const handleMergeV = mergev => {
-  let mergeVConfig = [];
-  switch (getType(mergev)) {
+export const splitParam2Arr = param => {
+  let config = [];
+  switch (getType(param)) {
     case 'string':
-      if (mergev.includes(';')) {
-        mergeVConfig = mergev.split(';');
-      } else if (mergev.includes(',')) {
-        mergeVConfig = mergev.split(',');
-      } else if (mergev.includes('-')) {
-        let [start, end] = mergev.split('-');
-        mergeVConfig = R.range(Number(start), Number(end) + 1);
+      if (param.includes(';')) {
+        config = param.split(';');
+      } else if (param.includes(',')) {
+        config = param.split(',');
+      } else if (param.includes('-')) {
+        let [start, end] = param.split('-');
+        config = R.range(Number(start), Number(end) + 1);
       } else {
-        return [Number(mergev)];
+        return [Number(param)];
       }
       break;
     case 'array':
-      mergeVConfig = mergev;
+      config = param;
       break;
     case 'number':
-      return [mergev];
+      return [param];
   }
-  mergeVConfig = mergeVConfig.map(handleMergeV);
-  mergeVConfig = R.flatten(mergeVConfig);
-  mergeVConfig = mergeVConfig.map(item => Number(item)).sort((a, b) => a - b);
-  return mergeVConfig;
+  config = config.map(splitParam2Arr);
+  config = R.flatten(config);
+  config = config.map(item => Number(item)).sort((a, b) => a - b);
+  return config;
 };
 
 /**

@@ -66,7 +66,7 @@ export const getColumn = config => {
       R.map(getStringWidth)
     )(rows);
 
-    return { header, width: wordLength * 2.3 };
+    return { header, width: Math.min(wordLength * 2.3, 50) };
   });
 };
 

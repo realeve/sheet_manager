@@ -92,12 +92,12 @@ test('表头合并', () => {
 });
 
 test('纵向列合并', () => {
-  expect(lib.handleMergeV('1,2,3,4')).toMatchObject([1, 2, 3, 4]);
-  expect(lib.handleMergeV('1;2;3;4')).toMatchObject([1, 2, 3, 4]);
-  expect(lib.handleMergeV('1-4')).toMatchObject([1, 2, 3, 4]);
-  expect(lib.handleMergeV('1')).toMatchObject([1]);
-  expect(lib.handleMergeV(1)).toMatchObject([1]);
-  expect(lib.handleMergeV([1])).toMatchObject([1]);
-  expect(lib.handleMergeV(undefined)).toMatchObject([]);
-  expect(lib.handleMergeV('1,2,7-9')).toMatchObject([1, 2, 7, 8, 9]);
+  expect(lib.splitParam2Arr('1,2,3,4')).toMatchObject([1, 2, 3, 4]);
+  expect(lib.splitParam2Arr('1;2;3;4')).toMatchObject([1, 2, 3, 4]);
+  expect(lib.splitParam2Arr('1-4')).toMatchObject([1, 2, 3, 4]);
+  expect(lib.splitParam2Arr('1')).toMatchObject([1]);
+  expect(lib.splitParam2Arr(1)).toMatchObject([1]);
+  expect(lib.splitParam2Arr([1])).toMatchObject([1]);
+  expect(lib.splitParam2Arr(undefined)).toMatchObject([]);
+  expect(lib.splitParam2Arr('1,2,7-9')).toMatchObject([1, 2, 7, 8, 9]);
 });
