@@ -199,7 +199,7 @@ export default function tableConfig() {
             <div>
               excel报表导出时需要纵向合并的列，系统将根据上下列自动运算
               <br />
-              可设置格式为： 1,3,4,5 1-5
+              可设置格式为： 1,3,4,5代表[1,3,4,5] 1,3-5 代表[1,3,4,5] 1-5代表[1,2,3,4,5]
             </div>
             <div className={styles.demoLink}>
               <a
