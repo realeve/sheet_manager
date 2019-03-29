@@ -4,6 +4,7 @@ import { host } from './setting';
 import { notification } from 'antd';
 // import router from 'umi/router';
 import router from './router';
+import * as R from 'ramda';
 
 export interface GlobalAxios {
   host: string;
@@ -57,22 +58,24 @@ export const mock: MockFn = (path, time = Math.random() * 2000) =>
   });
 
 // 判断数据类型，对于FormData使用 typeof 方法会得到 object;
-export const getType: (data: any) => string = data => {
-  let type: string = typeof data;
-  if (type === 'undefined') {
-    return 'undefined';
-  }
-  if (data) {
-    type = data.constructor.name;
-  }
-  if (type.toLowerCase() === 'object') {
-    type = Object.prototype.toString
-      .call(data)
-      .slice(8, -1)
-      .toLowerCase();
-  }
-  return type.toLowerCase();
-};
+// export const getType: (data: any) => string = data => {
+//   let type: string = typeof data;
+//   if (type === 'undefined') {
+//     return 'undefined';
+//   }
+//   if (data) {
+//     type = data.constructor.name;
+//   }
+//   if (type.toLowerCase() === 'object') {
+//     type = Object.prototype.toString
+//       .call(data)
+//       .slice(8, -1)
+//       .toLowerCase();
+//   }
+//   return type.toLowerCase();
+// };
+
+export const getType: (data: any) => string = data => R.type(data).toLowerCase();
 
 export const loadUserInfo = user => {
   if (user == null) {

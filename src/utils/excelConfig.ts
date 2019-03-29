@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import { getType } from './axios';
 /**
  * @param prefix 前缀
  * @param suffix 后续
@@ -61,7 +62,7 @@ export interface MergeRes {
  * @return mergedRows [number] 哪些行需要合并
  */
 export const handleMerge: (config: SrcConfig) => MergeRes = config => {
-  let { merge, mergetext, autoid, mergesize } = config;
+  let { merge, mergetext, autoid, mergesize, mergev } = config;
   let mergeStrArr: string[] = [];
 
   switch (typeof merge) {
@@ -107,11 +108,43 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
 
   mergeArr = mergeArr.sort((a, b) => a[0] - b[0]);
 
+  // 纵向合并
+  let mergeVConfig = getType(mergev) === 'undefined' ? [] : handleMergeV(mergev);
+
   return {
     mergetext: mergetextArr,
     merge: mergeArr,
     mergedRows,
+    mergev: mergeVConfig,
   };
+};
+
+// 处理纵向列合并配置项;
+export const handleMergeV = mergev => {
+  let mergeVConfig = [];
+  switch (getType(mergev)) {
+    case 'string':
+      if (mergev.includes(';')) {
+        mergeVConfig = mergev.split(';');
+      } else if (mergev.includes(',')) {
+        mergeVConfig = mergev.split(',');
+      } else if (mergev.includes('-')) {
+        let [start, end] = mergev.split('-');
+        mergeVConfig = R.range(Number(start), Number(end) + 1);
+      } else {
+        return [Number(mergev)];
+      }
+      break;
+    case 'array':
+      mergeVConfig = mergev;
+      break;
+    case 'number':
+      return [mergev];
+  }
+  mergeVConfig = mergeVConfig.map(handleMergeV);
+  mergeVConfig = R.flatten(mergeVConfig);
+  mergeVConfig = mergeVConfig.map(item => Number(item)).sort((a, b) => a - b);
+  return mergeVConfig;
 };
 
 /**

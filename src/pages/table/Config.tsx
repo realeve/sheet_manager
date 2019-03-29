@@ -192,9 +192,26 @@ export default function tableConfig() {
               </a>
             </div>
           </li>
-
           <li>
-            <div className={styles.tip}>4.导出报表间隔背景</div>
+            <div className={styles.tip}>3.excel报表列合并</div>
+            <div className={styles.desc}>mergev </div>
+            <div>默认值：不设置时不做合并。如设置mergev为0,1,2时，相当于合并第1至3列</div>
+            <div>
+              excel报表导出时需要纵向合并的列，系统将根据上下列自动运算
+              <br />
+              可设置格式为： 1,3,4,5 1-5
+            </div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=400/239115b144&select=401/f14b661ec8&selectkey=prod&cascade=1&mergev=1,3,4,5"
+                target="_blank"
+              >
+                /table#id=400/239115b144&select=401/f14b661ec8&selectkey=prod&cascade=1&mergev=1,3,4,5
+              </a>
+            </div>
+          </li>
+          <li>
+            <div className={styles.tip}>5.导出报表间隔背景</div>
             <div className={styles.desc}>interval </div>
             <div>默认值：5，不设置时每5列显示一行加深背景</div>
             <div className={styles.demoLink}>
@@ -217,7 +234,7 @@ export default function tableConfig() {
           </li>
 
           <li>
-            <div className={styles.tip}>5.导出报表是否自动添加序号</div>
+            <div className={styles.tip}>6.导出报表是否自动添加序号</div>
             <div className={styles.desc}>autoid </div>
             <div>默认值：true，仅当autoid=0时，导出的数据才不添加序列列，与原数据保持一致</div>
             <div className={styles.demoLink}>
@@ -240,7 +257,7 @@ export default function tableConfig() {
           </li>
 
           <li>
-            <div className={styles.tip}>6.使用其它系统的接口</div>
+            <div className={styles.tip}>7.使用其它系统的接口</div>
             <div className={styles.desc}>id </div>
             <div>默认值：默认使用系统配置的接口管理id做索引，</div>
             <div className={styles.demoLink}>

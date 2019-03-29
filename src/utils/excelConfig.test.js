@@ -69,6 +69,13 @@ test('表头合并', () => {
     mergetext: ['test'],
   });
 
+  expect(lib.handleMerge({ ...config, mergev: '1' })).toMatchObject({
+    merge: [[2, 3]],
+    mergedRows: [2, 3],
+    mergetext: ['test'],
+    mergev: [1],
+  });
+
   expect(
     lib.getParams({
       autoid: '0',
@@ -82,4 +89,15 @@ test('表头合并', () => {
     mergedRows: [1, 2],
     mergetext: ['test'],
   });
+});
+
+test('纵向列合并', () => {
+  expect(lib.handleMergeV('1,2,3,4')).toMatchObject([1, 2, 3, 4]);
+  expect(lib.handleMergeV('1;2;3;4')).toMatchObject([1, 2, 3, 4]);
+  expect(lib.handleMergeV('1-4')).toMatchObject([1, 2, 3, 4]);
+  expect(lib.handleMergeV('1')).toMatchObject([1]);
+  expect(lib.handleMergeV(1)).toMatchObject([1]);
+  expect(lib.handleMergeV([1])).toMatchObject([1]);
+  expect(lib.handleMergeV(undefined)).toMatchObject([]);
+  expect(lib.handleMergeV('1,2,7-9')).toMatchObject([1, 2, 7, 8, 9]);
 });

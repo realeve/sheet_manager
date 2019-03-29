@@ -122,14 +122,42 @@ const createWorkBook = (config: Config) => {
       // 填充文字
       cell.value = params.mergetext[idx];
     });
-    console.log('报错');
-    console.log(params, params.mergedRows);
+    // console.log('报错');
+    // console.log(params, params.mergedRows);
 
     row.eachCell(function(cell, idx) {
       // 不需合并的单元格
       if (!params.mergedRows.includes(idx)) {
         worksheet.mergeCells(1, idx, 2, idx); //合并两行
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      }
+    });
+  }
+
+  // 纵向合并数据：20190329
+  if (params.mergev.length) {
+    let { mergev } = params;
+    let offset = needHandleMerge ? 3 : 2;
+    // 对指定的列做合并处理
+    mergev.forEach(key => {
+      // 获取数据项
+      let rows = lib.getDataByIdx({ key, data: config.body });
+
+      let start = 0;
+      for (let end = 1; end < rows.length; end++) {
+        if (rows[end] != rows[start]) {
+          // 超过1行时，纵向合并数据。否则不合并
+          if (end - start > 1) {
+            // 第key+1 列，合并第 start+1,end+1
+            worksheet.mergeCells(start + offset, key + 1, end + offset - 1, key + 1);
+
+            const row = worksheet.getRow(start + offset);
+            let cell = row.getCell(key + 1);
+            cell.alignment = { vertical: 'middle', horizontal: 'center' };
+          }
+          // 向右移动新的起始指针
+          start = end;
+        }
       }
     });
   }
