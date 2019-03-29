@@ -52,15 +52,19 @@ class Tables extends Component {
   };
 
   // 分页数量调整
-  onShowSizeChange = async (current, nextPageSize) => {
+  onShowSizeChange = (current, nextPageSize) => {
     let newPage = Math.max(Math.floor((this.state.pageSize * current) / nextPageSize), 1);
-    await this.setState({
-      pageSize: nextPageSize,
-    });
-    this.refreshByPage(newPage);
+    this.setState(
+      {
+        pageSize: nextPageSize,
+      },
+      () => {
+        this.refreshByPage(newPage);
+      }
+    );
   };
 
-  customFilter = async filters => {
+  customFilter = filters => {
     // const dataSrc = this.dataSrc;
     const { columns, dataSrc } = this.state;
 
@@ -74,16 +78,20 @@ class Tables extends Component {
       filters,
     });
 
-    await this.setState({
-      dataClone,
-      columns: newColumn,
-      filteredInfo: filters,
-      total: dataClone.length,
-    });
-    this.refreshByPage();
+    this.setState(
+      {
+        dataClone,
+        columns: newColumn,
+        filteredInfo: filters,
+        total: dataClone.length,
+      },
+      () => {
+        this.refreshByPage();
+      }
+    );
   };
 
-  customSort = async sortedInfo => {
+  customSort = sortedInfo => {
     const { field, order } = sortedInfo;
     if (typeof field === 'undefined') {
       return;
@@ -95,11 +103,15 @@ class Tables extends Component {
       order,
     });
 
-    await this.setState({
-      sortedInfo,
-      dataClone,
-    });
-    this.refreshByPage();
+    this.setState(
+      {
+        sortedInfo,
+        dataClone,
+      },
+      () => {
+        this.refreshByPage();
+      }
+    );
   };
 
   handleChange = (pagination, filters, sorter) => {
@@ -107,7 +119,7 @@ class Tables extends Component {
     this.customSort(sorter);
   };
 
-  handleSearchChange = async e => {
+  handleSearchChange = e => {
     const keyword = e.target.value;
     let key = keyword.trim();
     let { dataClone, dataSearchClone } = this.state;
@@ -129,12 +141,15 @@ class Tables extends Component {
         );
       }
     }
-    await this.setState({
-      dataClone,
-      dataSearchClone,
-    });
-
-    this.refreshByPage();
+    this.setState(
+      {
+        dataClone,
+        dataSearchClone,
+      },
+      () => {
+        this.refreshByPage();
+      }
+    );
   };
 
   getExportConfig = () => {

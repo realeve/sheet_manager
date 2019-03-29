@@ -10,7 +10,12 @@ import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
 const { RangePicker } = DatePicker;
-
+const getDefaultDates: (string) => [Moment, Moment] = dateFormat => {
+  let defaultVal = dateRanges['昨天'];
+  let tstart = moment(defaultVal[0], dateFormat);
+  let tend = moment(defaultVal[1], dateFormat);
+  return [tstart, tend];
+};
 function DatePick({
   value,
   onChange,
@@ -22,14 +27,14 @@ function DatePick({
   value?: string[];
   [key: string]: any;
 }) {
-  const [dates, setDates] = useState([]);
+  const [dates, setDates] = useState(getDefaultDates(dateFormat));
 
   useEffect(() => {
     let tstart, tend;
     if (R.isNil(value) || value.length == 0) {
-      let defaultVal = dateRanges['昨天'];
-      tstart = moment(defaultVal[0], dateFormat);
-      tend = moment(defaultVal[1], dateFormat);
+      let res = getDefaultDates(dateFormat);
+      tstart = res[0];
+      tend = res[1];
     } else if (value.length == 1) {
       tstart = moment(value[0], dateFormat);
       tend = moment(value[0], dateFormat);
@@ -46,16 +51,14 @@ function DatePick({
 
   const [ranges, setRanges] = useState(dateRanges);
   useEffect(() => {
-    let range = R.clone(dateRanges);
-    Object.keys(ranges).map(key => {
-      range[key][0] = moment(moment(range[key][0], dateFormat).format(dateFormat));
-      range[key][1] = moment(moment(range[key][1], dateFormat).format(dateFormat));
+    let range = {};
+    Object.keys(dateRanges).map(key => {
+      range[key] = dateRanges[key].map(item => moment(moment(item, dateFormat).format(dateFormat)));
     });
     setRanges(range);
   }, [dateRanges]);
 
   const onRangeChange = (_, dateString) => {
-    console.log(dateString);
     onChange(dateString);
   };
 

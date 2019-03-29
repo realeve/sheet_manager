@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import VTable from '@/components/Table.jsx';
 import VTableCalc from '@/components/TableCalc.jsx';
 import { formatMessage } from 'umi/locale';
-import { Card, Tabs, Select, Row, Col, Button } from 'antd';
+import { Card, Tabs, Row, Col, Button } from 'antd';
 import styles from './index.less';
 import moment from 'moment';
 
@@ -12,9 +12,10 @@ import DatePicker from '@/components/DatePicker';
 import classNames from 'classnames/bind';
 import * as lib from '@/utils/lib';
 
+import PinyinSelect from '@/components/PinyinSelect';
+
 const cx = classNames.bind(styles);
 
-const { Option } = Select;
 const TabPane = Tabs.TabPane;
 
 function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectValue, dateFormat }) {
@@ -84,17 +85,14 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectVa
           {data.map(({ key, data: selectorData, title }, idx) => (
             <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer} key={key}>
               <span className={styles.title}>{title}:</span>
-              <Select
+              <PinyinSelect
+                style={{ width: 150 }}
                 className={styles.selector}
                 value={selectValue[key]}
                 onSelect={value => onChange(value, idx, key)}
-              >
-                {selectorData.map(({ name, value }) => (
-                  <Option key={name} value={value}>
-                    {name}
-                  </Option>
-                ))}
-              </Select>
+                options={selectorData}
+                placeholder="拼音首字母过滤"
+              />
             </Col>
           ))}
           <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>

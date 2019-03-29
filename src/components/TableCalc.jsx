@@ -26,37 +26,49 @@ class TableCalc extends Component {
     return db.updateState(props, state);
   }
 
-  fieldsChange = async fieldList => {
+  fieldsChange = fieldList => {
     let { groupList, operatorList } = this.state;
     fieldList = R.sort((a, b) => a - b)(fieldList);
     if (groupList.length === 0) {
       operatorList = [0];
     }
-    await this.setState({
-      fieldList,
-      operatorList,
-    });
-    this.saveFieldsSetting();
+    this.setState(
+      {
+        fieldList,
+        operatorList,
+      },
+      () => {
+        this.saveFieldsSetting();
+      }
+    );
   };
 
-  operatorChange = async operatorList => {
-    await this.setState({
-      operatorList,
-    });
-    this.saveFieldsSetting();
+  operatorChange = operatorList => {
+    this.setState(
+      {
+        operatorList,
+      },
+      () => {
+        this.saveFieldsSetting();
+      }
+    );
   };
 
-  groupChange = async groupList => {
+  groupChange = groupList => {
     let { operatorList } = this.state;
     groupList = R.sort((a, b) => a - b)(groupList);
     if (groupList.length === 0) {
       operatorList = [0];
     }
-    await this.setState({
-      groupList,
-      operatorList,
-    });
-    this.saveFieldsSetting();
+    this.setState(
+      {
+        groupList,
+        operatorList,
+      },
+      () => {
+        this.saveFieldsSetting();
+      }
+    );
   };
 
   // 将分组字段，计算字段存储至本地

@@ -92,6 +92,7 @@ class BasicLayout extends PureComponent {
       breadcrumbList: getBreadcrumbList(menuData),
       nextUrl: '',
     };
+    // this.renderRef = React.createRef();
   }
 
   static getDerivedStateFromProps(props, curState) {
@@ -147,11 +148,12 @@ class BasicLayout extends PureComponent {
     dispatch({
       type: 'setting/getSetting',
     });
-    this.renderRef = requestAnimationFrame(() => {
-      this.setState({
-        rendering: false,
-      });
-    });
+
+    // this.renderRef = requestAnimationFrame(() => {
+    //   this.setState({
+    //     rendering: false,
+    //   });
+    // });
 
     this.enquireHandler = enquireScreen(mobile => {
       const { isMobile } = this.state;
@@ -175,7 +177,7 @@ class BasicLayout extends PureComponent {
   }
 
   componentWillUnmount() {
-    cancelAnimationFrame(this.renderRef);
+    // cancelAnimationFrame(this.renderRef);
     unenquireScreen(this.enquireHandler);
   }
 
