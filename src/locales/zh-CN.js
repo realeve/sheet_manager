@@ -57,7 +57,7 @@ let lang = {
   },
   component: {
     globalHeader: {
-      search: '站内搜索',
+      search: '车号/冠字/轴号搜索',
       help: '使用文档',
       notification: '通知',
       'notification.empty': '你已查看所有通知',
