@@ -11,12 +11,3 @@ configure({
 process.on('unhandledRejection', error => {
   console.log('enzyme错误：', error);
 });
-
-// jest 24.x.x 版本会丢失 console
-// if (!console || console.log) {
-//   console.log = jest.fn(input => {
-//     process.stdout.write(`${input} \n`);
-//   });
-//   console.warn = console.log;
-//   console.error = console.log;
-// }

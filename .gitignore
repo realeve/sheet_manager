@@ -20,7 +20,6 @@ npm-debug.log*
 
 /coverage
 
-/jest.config.js
-/jest.setup.js
+/jest.config.js 
 /sql
 /src/mock/*.json
