@@ -134,31 +134,37 @@ const createWorkBook = (config: Config) => {
     });
   }
 
+  const mergeCol = (start, end, key) => {
+    // 超过1行时，纵向合并数据。否则不合并
+    if (end - start <= 1) {
+      return;
+    }
+
+    let offset = needHandleMerge ? 3 : 2;
+    // 第key+1 列，合并第 start+1,end+1
+    worksheet.mergeCells(start + offset, key + 1, end + offset - 1, key + 1);
+    const row = worksheet.getRow(start + offset);
+    let cell = row.getCell(key + 1);
+    // 垂直、水平居中、自动换行
+    cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+  };
+
   // 纵向合并数据：20190329
   if (params.mergev.length) {
     let { mergev } = params;
-    let offset = needHandleMerge ? 3 : 2;
     // 对指定的列做合并处理
     mergev.forEach(key => {
       // 获取数据项
       let rows = lib.getDataByIdx({ key, data: config.body });
-
       let start = 0;
       for (let end = 1; end < rows.length; end++) {
         if (rows[end] != rows[start]) {
-          // 超过1行时，纵向合并数据。否则不合并
-          if (end - start > 1) {
-            // 第key+1 列，合并第 start+1,end+1
-            worksheet.mergeCells(start + offset, key + 1, end + offset - 1, key + 1);
-
-            const row = worksheet.getRow(start + offset);
-            let cell = row.getCell(key + 1);
-            cell.alignment = { vertical: 'middle', horizontal: 'center' };
-          }
+          mergeCol(start, end, key);
           // 向右移动新的起始指针
           start = end;
         }
       }
+      mergeCol(start, rows.length, key);
     });
   }
 
@@ -176,7 +182,8 @@ const setCellBorder = (worksheet, params) => {
     row.height = 20;
     for (let j: number = 1; j <= worksheet.columnCount; j++) {
       let cell = row.getCell(j);
-      // cell.alignment = { wrapText: true };
+      // 自动换行
+      cell.alignment = { wrapText: true };
       cell.border = {
         top: { style: 'thin' },
         left: { style: 'thin' },
