@@ -1,7 +1,54 @@
 import pathToRegexp from 'path-to-regexp';
 import userTool from '@/utils/users';
 import { setStore, handleUrlParams } from '@/utils/lib';
+import { axios } from '@/utils/axios';
 import qs from 'qs';
+import * as R from 'ramda';
+
+const needCascade = params => !(R.isNil(params.cascade) || params.cascade[0] === '0');
+export function* getSelectList(params, call) {
+  if (R.isNil(params.select)) {
+    return [];
+  }
+  // 数据初始化长度,在级联选择时，只初始化第N级选择器,
+  // cascade参数用于在第N级开始做级联选择，在此之前的select直接渲染
+  let initLength = needCascade(params) ? parseInt(params.cascade[0], 10) : params.select.length;
+
+  let selectList = [];
+  for (let idx = 0; idx < initLength; idx++) {
+    let url = params.select[idx];
+    let { title, data } = yield call(axios, { url, params: { cache: 5 } });
+    selectList[idx] = {
+      title,
+      data,
+      key: params.selectkey[idx],
+    };
+  }
+  return selectList;
+}
+
+export function* getCascadeSelectList(params, selectList, idx, data, call) {
+  // 需要级联
+  if (needCascade(params)) {
+    let cascadeIdx = parseInt(params.cascade, 10);
+    let nextIdx = idx + 1;
+    // 在cascade所指向的索引后续的条件中，均需要级联
+    if (cascadeIdx <= nextIdx && nextIdx < params.select.length) {
+      // 取下一级选择项的Url
+      let url = params.select[nextIdx];
+      let { title, data: selectData } = yield call(axios, {
+        url,
+        params: { cache: 5, ...data },
+      });
+      selectList[nextIdx] = {
+        title,
+        data: selectData,
+        key: params.selectkey[nextIdx],
+      };
+    }
+  }
+  return selectList;
+}
 
 const namespace = 'common';
 export default {
@@ -27,6 +74,8 @@ export default {
     dateRange: [],
     tid: [],
     query: {},
+    selectList: [],
+    selectValue: {},
   },
   reducers: {
     setStore,
@@ -34,7 +83,40 @@ export default {
       return {
         ...state,
         query: {},
+        selectList: [],
+        selectValue: {},
       };
+    },
+  },
+  effects: {
+    // 条件选择项更新查询参数
+    *refreshSelector(
+      {
+        payload: { idx, data },
+      },
+      { put, select, call }
+    ) {
+      let { query, selectList } = yield select(state => state.common);
+      selectList = yield getCascadeSelectList(query, selectList, idx, data, call);
+      yield put({
+        type: 'setStore',
+        payload: {
+          selectList,
+          selectValue: data,
+        },
+      });
+    },
+    // 初始化选择器
+    *initSelector(_, { call, put, select }) {
+      const { query } = yield select(state => state.common);
+      let selectList = yield getSelectList(query, call);
+      yield put({
+        type: 'setStore',
+        payload: {
+          selectList,
+          selectValue: {},
+        },
+      });
     },
   },
   subscriptions: {
@@ -94,6 +176,10 @@ export default {
           },
         });
 
+        dispatch({
+          type: 'initSelector',
+        });
+
         const match = pathToRegexp('/login').exec(pathname);
         if (match && match[0] === '/login') {
           dispatch({
@@ -105,6 +191,7 @@ export default {
           userTool.saveLoginStatus(0);
           return;
         }
+
         let isLogin = userTool.getLoginStatus(0);
         userTool.saveLastRouter(pathname);
         dispatch({

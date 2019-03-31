@@ -6,7 +6,7 @@ import { connect } from 'dva';
 import DatePicker from './DatePicker';
 import PinyinSelect from './PinyinSelect';
 
-function QueryCondition({ data, dateRange, selectValue, onSelectChange, onQuery, dispatch }) {
+function QueryCondition({ selectValue, selectList, dateRange, onQuery, dispatch }) {
   const onDateChange = async (dateStrings: Array<string>, refresh: boolean = true) => {
     await dispatch({
       type: 'common/setStore',
@@ -17,6 +17,18 @@ function QueryCondition({ data, dateRange, selectValue, onSelectChange, onQuery,
     }
   };
 
+  const onSelectChange = (value, idx, key) => {
+    dispatch({
+      type: 'common/refreshSelector',
+      payload: {
+        idx,
+        data: {
+          [key]: value,
+        },
+      },
+    });
+  };
+
   const DateRangePicker = ({ refresh }) => (
     <DatePicker
       className={refresh ? styles.setting : null}
@@ -25,7 +37,7 @@ function QueryCondition({ data, dateRange, selectValue, onSelectChange, onQuery,
     />
   );
 
-  return data.length === 0 ? (
+  return selectList.length === 0 ? (
     <div className={styles.header}>
       <div className={styles.dateRange}>
         <DateRangePicker refresh={true} />
@@ -43,7 +55,7 @@ function QueryCondition({ data, dateRange, selectValue, onSelectChange, onQuery,
         <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
           <DateRangePicker refresh={false} />
         </Col>
-        {data.map(({ key, data: selectorData, title }, idx) => (
+        {selectList.map(({ key, data: selectorData, title }, idx) => (
           <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer} key={key}>
             <span className={styles.title}>{title}:</span>
             <PinyinSelect
@@ -60,7 +72,7 @@ function QueryCondition({ data, dateRange, selectValue, onSelectChange, onQuery,
           <Button
             type="primary"
             onClick={onQuery}
-            disabled={Object.keys(selectValue).length < data.length}
+            disabled={Object.keys(selectValue).length < selectList.length}
           >
             {formatMessage({ id: 'app.query' })}
           </Button>
@@ -70,6 +82,8 @@ function QueryCondition({ data, dateRange, selectValue, onSelectChange, onQuery,
   );
 }
 
-export default connect(({ common: { dateRange } }) => ({
+export default connect(({ common: { dateRange, selectValue, selectList } }) => ({
   dateRange,
+  selectValue,
+  selectList,
 }))(QueryCondition);

@@ -14,27 +14,9 @@ const cx = classNames.bind(styles);
 
 const TabPane = Tabs.TabPane;
 
-function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectValue, dateFormat }) {
+function Tables({ dispatch, dateRange, loading, dataSource, dateFormat }) {
   // 表头合并相关设置信息
   let param = lib.parseUrl(window.location.hash);
-
-  const onChange = (value, idx, key) => {
-    console.log({
-      idx,
-      data: {
-        [key]: value,
-      },
-    });
-    dispatch({
-      type: 'table/refreshSelector',
-      payload: {
-        idx,
-        data: {
-          [key]: value,
-        },
-      },
-    });
-  };
 
   const refreshData = async () => {
     await dispatch({
@@ -74,12 +56,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, selectList, selectVa
 
   return (
     <>
-      <QueryCondition
-        data={selectList}
-        selectValue={selectValue}
-        onSelectChange={onChange}
-        onQuery={refreshData}
-      />
+      <QueryCondition onQuery={refreshData} />
 
       {dataSource.map((dataSrc, key) => {
         let subTitle = dataSrc.dates && dataSrc.dates.length > 0 && staticRanges(dateRange);

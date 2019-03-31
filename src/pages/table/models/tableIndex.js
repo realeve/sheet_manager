@@ -1,79 +1,25 @@
 import pathToRegexp from 'path-to-regexp';
 import * as db from '../services/table';
 import { setStore } from '@/utils/lib';
-
-const R = require('ramda');
+import * as R from 'ramda';
 
 const namespace = 'table';
-const needCascade = params => !(R.isNil(params.cascade) || params.cascade[0] === '0');
-
-export function* getSelectList(params, call) {
-  if (R.isNil(params.select)) {
-    return [];
-  }
-  // 数据初始化长度,在级联选择时，只初始化第N级选择器,
-  // cascade参数用于在第N级开始做级联选择，在此之前的select直接渲染
-  let initLength = needCascade(params) ? parseInt(params.cascade[0], 10) : params.select.length;
-
-  let selectList = [];
-  for (let idx = 0; idx < initLength; idx++) {
-    let url = params.select[idx];
-    let { title, data } = yield call(db.fetchData, { url, params: { cache: 5 } });
-    selectList[idx] = {
-      title,
-      data,
-      key: params.selectkey[idx],
-    };
-  }
-  return selectList;
-}
-
-export function* getCascadeSelectList(params, selectList, idx, data, call) {
-  // 需要级联
-  if (needCascade(params)) {
-    let cascadeIdx = parseInt(params.cascade, 10);
-    let nextIdx = idx + 1;
-    // 在cascade所指向的索引后续的条件中，均需要级联
-    if (cascadeIdx <= nextIdx && nextIdx < params.select.length) {
-      // 取下一级选择项的Url
-      let url = params.select[nextIdx];
-      let { title, data: selectData } = yield call(db.fetchData, {
-        url,
-        params: { cache: 5, ...data },
-      });
-      selectList[nextIdx] = {
-        title,
-        data: selectData,
-        key: params.selectkey[nextIdx],
-      };
-    }
-  }
-  return selectList;
-}
 
 export default {
   namespace,
   state: {
     dataSource: [],
     axiosOptions: [],
-    selectList: [],
-    selectValue: {},
   },
   reducers: {
     setStore,
-    clearSelectList(state) {
-      return {
-        ...state,
-        selectList: [],
-        axiosOptions: [],
-        dataSource: [], // url变更时，数据变更
-      };
+    initState() {
+      return { dataSource: [], axiosOptions: [] };
     },
   },
   effects: {
     *updateParams(_, { put, call, select }) {
-      const { selectValue } = yield select(state => state[namespace]);
-      const { dateRange, tid, query } = yield select(state => state.common);
+      let { dateRange, tid, query, selectValue } = yield select(state => state.common);
       if (R.isNil(tid)) {
         return;
       }
@@ -97,37 +43,7 @@ export default {
         },
       });
     },
-    // 条件选择项更新查询参数
-    *refreshSelector(
-      {
-        payload: { idx, data },
-      },
-      { put, select, call }
-    ) {
-      const { query } = yield select(state => state.common);
-      let { selectList } = yield select(state => state[namespace]);
-      selectList = yield getCascadeSelectList(query, selectList, idx, data, call);
-      yield put({
-        type: 'setStore',
-        payload: {
-          selectList,
-          selectValue: data,
-        },
-      });
-    },
 
-    // 初始化选择器
-    *initSelector(_, { call, put, select }) {
-      const { query } = yield select(state => state.common);
-      let selectList = yield getSelectList(query, call);
-      yield put({
-        type: 'setStore',
-        payload: {
-          selectList,
-          selectValue: {},
-        },
-      });
-    },
     *refreshData({ payload }, { call, put, select }) {
       const { tid, query } = yield select(state => state.common);
       if (!R.isNil(payload)) {
@@ -138,7 +54,6 @@ export default {
       }
 
       const { axiosOptions, dataSource } = yield select(state => state[namespace]);
-
       let curPageName = '';
       for (let idx = 0; idx < axiosOptions.length; idx++) {
         let param = axiosOptions[idx];
@@ -155,6 +70,7 @@ export default {
           curPageName,
         },
       });
+
       yield put({
         type: 'setStore',
         payload: {
@@ -171,14 +87,13 @@ export default {
           return;
         }
 
-        dispatch({ type: 'clearSelectList' });
-
+        // 初始化数据
         dispatch({
-          type: 'updateParams',
+          type: 'initState',
         });
 
         dispatch({
-          type: 'initSelector',
+          type: 'updateParams',
         });
 
         dispatch({

@@ -66,12 +66,12 @@ export const decodeHash = ({ tid, query, selectValue, dateRange: [tstart, tend] 
   });
 
 export const computeDerivedState = async ({ url, params }) => {
-  console.time(`加载图表数据开始`);
+  console.time(`加载图表`, url);
   let dataSrc = await axios({
     url,
     params,
   });
-  console.timeEnd(`加载图表数据完成`);
+  console.timeEnd(`加载图表`, url);
   return getDrivedState({ dataSrc, params });
 };
 

@@ -230,7 +230,7 @@ class Charts extends Component<IProp, IState> {
               padding: '10px 20px',
             }}
             className={styles.exCard}
-            loading={loading}
+            // loading={loading}
             bordered={false}
           >
             {option.map((opt, key) => (
