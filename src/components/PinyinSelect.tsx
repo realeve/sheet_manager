@@ -12,12 +12,29 @@ export interface IProps {
   placeholder?: string;
   options: [OptionItem];
   value?: number | string;
-  onChange?: Function;
+  onChange?: any;
   className?: any;
+  [key: string]: any;
 }
+export interface OptionProps {
+  disabled?: boolean;
+  value?: string | number;
+  title?: string;
+  children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
 export default function InputSelect(props: IProps) {
-  const onFilter = (searchText: string, { props: { value, children: text } }) => {
-    text = text.trim().toLowerCase();
+  const onFilter:
+    | boolean
+    | ((inputValue: string, option: React.ReactElement<OptionProps>) => any) = (
+    searchText: string,
+    { props: { value, children: text } }
+  ) => {
+    text = String(text)
+      .trim()
+      .toLowerCase();
     searchText = searchText.trim().toLowerCase();
     return [
       text,

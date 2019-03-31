@@ -1,6 +1,6 @@
 import pathToRegexp from 'path-to-regexp';
 import * as db from '../services/table';
-import { setStore, handleUrlParams } from '@/utils/lib';
+import { setStore } from '@/utils/lib';
 
 const R = require('ramda');
 
@@ -54,10 +54,7 @@ export function* getCascadeSelectList(params, selectList, idx, data, call) {
 export default {
   namespace,
   state: {
-    dateRange: [],
-    tid: [],
     dataSource: [],
-    params: [],
     axiosOptions: [],
     selectList: [],
     selectValue: {},
@@ -68,19 +65,20 @@ export default {
       return {
         ...state,
         selectList: [],
-        params: [],
         axiosOptions: [],
+        dataSource: [], // url变更时，数据变更
       };
     },
   },
   effects: {
     *updateParams(_, { put, call, select }) {
-      const { dateRange, params, tid, selectValue } = yield select(state => state[namespace]);
+      const { selectValue } = yield select(state => state[namespace]);
+      const { dateRange, tid, query } = yield select(state => state.common);
       if (R.isNil(tid)) {
         return;
       }
       let axiosOptions = yield call(db.handleParams, {
-        params,
+        params: query,
         tid,
         dateRange,
       });
@@ -106,8 +104,9 @@ export default {
       },
       { put, select, call }
     ) {
-      let { params, selectList } = yield select(state => state[namespace]);
-      selectList = yield getCascadeSelectList(params, selectList, idx, data, call);
+      const { query } = yield select(state => state.common);
+      let { selectList } = yield select(state => state[namespace]);
+      selectList = yield getCascadeSelectList(query, selectList, idx, data, call);
       yield put({
         type: 'setStore',
         payload: {
@@ -119,8 +118,8 @@ export default {
 
     // 初始化选择器
     *initSelector(_, { call, put, select }) {
-      const { params } = yield select(state => state[namespace]);
-      let selectList = yield getSelectList(params, call);
+      const { query } = yield select(state => state.common);
+      let selectList = yield getSelectList(query, call);
       yield put({
         type: 'setStore',
         payload: {
@@ -129,7 +128,15 @@ export default {
         },
       });
     },
-    *refreshData(_, { call, put, select }) {
+    *refreshData({ payload }, { call, put, select }) {
+      const { tid, query } = yield select(state => state.common);
+      if (!R.isNil(payload)) {
+        // 首次加载数据
+        if (!(payload.isInit && tid && tid.length && R.isNil(query.select))) {
+          return;
+        }
+      }
+
       const { axiosOptions, dataSource } = yield select(state => state[namespace]);
 
       let curPageName = '';
@@ -158,26 +165,13 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname, hash }) => {
+      return history.listen(({ pathname }) => {
         const match = pathToRegexp('/' + namespace).exec(pathname);
         if (!match) {
           return;
         }
 
-        // 处理URL参数，对参数中包含逗号的做数组分割
-        let { id, params, dateRange } = handleUrlParams(hash, true);
-
         dispatch({ type: 'clearSelectList' });
-
-        dispatch({
-          type: 'setStore',
-          payload: {
-            dateRange,
-            tid: id,
-            params,
-            dataSource: [], // url变更时，数据变更
-          },
-        });
 
         dispatch({
           type: 'updateParams',
@@ -187,11 +181,12 @@ export default {
           type: 'initSelector',
         });
 
-        if (id && id.length && R.isNil(params.select)) {
-          dispatch({
-            type: 'refreshData',
-          });
-        }
+        dispatch({
+          type: 'refreshData',
+          payload: {
+            isInit: true,
+          },
+        });
       });
     },
   },
