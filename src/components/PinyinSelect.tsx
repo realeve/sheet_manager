@@ -49,7 +49,7 @@ export default function InputSelect(props: IProps) {
     <Select
       {...prop}
       showSearch
-      placeholder={placeholder}
+      // placeholder={placeholder}
       optionFilterProp="children"
       onChange={onChange}
       value={value}

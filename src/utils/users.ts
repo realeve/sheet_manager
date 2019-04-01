@@ -24,6 +24,7 @@ const saveUserSetting = (data, menuTitle = systemName) => {
   // console.log(data, '_menuTitle');
   Reflect.deleteProperty(values.setting, 'previewMenu');
   Reflect.deleteProperty(values.setting, 'menu');
+
   window.localStorage.setItem(_lsKey, encodeStr(values));
   window.localStorage.setItem(_menu, JSON.stringify(menu));
   window.localStorage.setItem(_menuTitle, menuTitle);

@@ -8,6 +8,7 @@ let config = {
     systemName: '质量信息管理平台',
     uploadHost: 'http://cdn.cdyc.cbpm:100/upload/',
     host: 'http://10.8.2.133:8000',
+    org: 'CDYC',
   },
   kunshan: {
     api: 'http://10.56.37.153:100/',
@@ -15,6 +16,7 @@ let config = {
     footer: '昆山钞票纸业有限公司 企划信息部',
     systemName: '通用报表管理系统',
     uploadHost: 'http://10.56.37.153:100/upload/',
+    org: 'KSCZ',
   },
 };
 
@@ -27,6 +29,8 @@ let defaultTitle = window.localStorage.getItem('_userMenuTitle');
 export let systemName = defaultTitle || config[CUR_COMPANY].systemName;
 
 export let AUTHOR = config[CUR_COMPANY].footer;
+
+export let ORG = config[CUR_COMPANY].org;
 
 let domain: string = config[CUR_COMPANY].api;
 // 后台api部署域名

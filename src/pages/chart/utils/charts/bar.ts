@@ -563,7 +563,7 @@ let getChartConfig: (
 
   let res: IOptionRes = handleData(data, option);
 
-  if (options.histogram) {
+  if (options.histogram && !options.polar) {
     res = histogram.init(options);
   } else if (options.type === 'boxplot') {
     res = boxplot.init(options);
@@ -737,6 +737,13 @@ const handleReverse = (config, option) => {
   // console.log(config, option);
 
   option.yAxis.nameGap = 70;
+
+  option.series.forEach((_, i) => {
+    if (!R.isNil(option.series[i].yAxisIndex)) {
+      option.series[i].xAxisIndex = option.series[i].yAxisIndex;
+      Reflect.deleteProperty(option.series[i], 'yAxisIndex');
+    }
+  });
 
   // 箱线图的散点需要交换顺序
   if (config.type === 'boxplot') {
@@ -967,7 +974,7 @@ let bar = options => {
   let configs = util.handleColor(option);
 
   // 帕累托图
-  if (!options.percent && options.pareto) {
+  if (!options.percent && !options.polar && options.pareto) {
     configs = pareto.init(option);
   }
 

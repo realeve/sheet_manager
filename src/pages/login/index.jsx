@@ -10,6 +10,8 @@ import styles from './index.less';
 import * as db from './service';
 import userTool from '@/utils/users';
 import Link from 'umi/link';
+import PinyinSelect from '@/components/PinyinSelect';
+import { ORG } from '@/utils/setting';
 
 const { UserName, Password, Submit } = Login;
 
@@ -20,6 +22,8 @@ class LoginComponent extends Component {
     avatar: '',
     submitting: false,
     ip: '',
+    depts: [],
+    dept: null,
   };
 
   onSubmit = (_, values) => {
@@ -44,10 +48,14 @@ class LoginComponent extends Component {
     }
   };
 
-  async login(values) {
+  async login(param) {
     this.setState({
       submitting: true,
     });
+
+    // todo 20190401 此处提供uid读取接口
+    let values = { ...param, dept: this.state.dept, org: ORG, uid: '54000000' };
+
     let userInfo = await db
       .getSysUser(values)
       .finally(e => {
@@ -102,20 +110,28 @@ class LoginComponent extends Component {
     });
   }
 
-  componentDidMount() {
-    // 生产网数据处理
-    db.ip().then(ip => {
+  loadDepts = async () => {
+    db.getSysDept().then(({ data: depts, ip }) => {
+      depts = depts.map(({ value, value: name }) => ({ name, value }));
+      this.setState({
+        ip,
+        depts,
+      });
       if (ip.slice(0, 4) !== '10.9') {
         return;
       }
       this.setState({
         notice: '生产网测试用户：用户名：jitai，密码：12345',
-        ip,
       });
     });
+  };
+
+  componentDidMount() {
+    this.loadDepts();
 
     let { data, success } = userTool.getUserSetting();
     let avatar = '/img/avatar.svg';
+
     if (!success || !data.autoLogin) {
       this.setState({
         avatar,
@@ -125,6 +141,7 @@ class LoginComponent extends Component {
 
     this.setState({
       avatar: data.setting.avatar,
+      dept: data.values.dept,
     });
 
     const query = this.props.location.query;
@@ -133,12 +150,6 @@ class LoginComponent extends Component {
     }
     this.login(data.values);
   }
-
-  handleLoginIp = async () => {
-    let { ip } = await db.getIp();
-    this.setState({ ip });
-    db.getSysUserIp();
-  };
 
   forgetPsw = () => {
     const {
@@ -157,7 +168,7 @@ class LoginComponent extends Component {
   };
 
   render() {
-    const { autoLogin, avatar, submitting } = this.state;
+    const { autoLogin, avatar, submitting, depts, dept } = this.state;
     const {
       location: { search },
     } = this.props;
@@ -177,6 +188,17 @@ class LoginComponent extends Component {
               closable
             />
           )}
+          <div style={{ marginTop: 20, marginBottom: 20 }}>
+            <PinyinSelect
+              style={{ width: 220 }}
+              size="large"
+              className={styles.selector}
+              value={dept}
+              onSelect={dept => this.setState({ dept })}
+              options={depts}
+              placeholder="选择所在部门"
+            />
+          </div>
           <UserName name="username" placeholder="用户名" autoComplete="false" />
           <Password name="password" placeholder="密码" autoComplete="false" />
         </div>

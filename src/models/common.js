@@ -69,7 +69,6 @@ export default {
       dateFormat: 'YYYYMMDD',
     },
     isLogin: false,
-    // showDateRange: true,
     curPageName: '',
     dateRange: [],
     tid: [],

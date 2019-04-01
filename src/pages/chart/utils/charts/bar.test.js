@@ -270,22 +270,7 @@ test('bar', () => {
   });
 
   // pareto
-  expect(
-    bar({
-      data: {
-        header: ['a', 'b'],
-        data: [
-          {
-            a: 'a1',
-            b: 1,
-          },
-        ],
-      },
-      x: 0,
-      y: 1,
-      pareto: '1',
-    })
-  ).toMatchObject({
+  let paretoResult = {
     legend: { data: ['b', 'Pareto'] },
     series: [
       {
@@ -342,6 +327,106 @@ test('bar', () => {
         type: 'value',
       },
     ],
+  };
+
+  expect(
+    bar({
+      data: {
+        header: ['a', 'b'],
+        data: [
+          {
+            a: 'a1',
+            b: 1,
+          },
+        ],
+      },
+      x: 0,
+      y: 1,
+      pareto: '1',
+    })
+  ).toMatchObject(paretoResult);
+
+  expect(
+    bar({
+      data: {
+        header: ['a', 'b'],
+        data: [
+          {
+            a: 'a1',
+            b: 1,
+          },
+        ],
+      },
+      x: 0,
+      y: 1,
+      pareto: '1',
+      reverse: '1',
+    })
+  ).toMatchObject({
+    dataZoom: [
+      { end: 100, realtime: true, start: 0, type: 'inside', xAxisIndex: 0 },
+      { end: 100, realtime: true, start: 0, type: 'inside', yAxisIndex: 0 },
+    ],
+    grid: { left: 100 },
+    legend: { data: ['b', 'Pareto'] },
+    series: [
+      {
+        data: [1],
+        label: { normal: { position: 'insideTop', show: true } },
+        name: 'b',
+        smooth: false,
+        type: 'bar',
+      },
+      {
+        data: ['100.00'],
+        lineStyle: {
+          normal: {
+            shadowBlur: 0,
+            shadowColor: 'rgba(0,0,0,0)',
+            shadowOffsetX: 0,
+            shadowOffsetY: 0,
+            type: 'solid',
+            width: 2,
+          },
+        },
+        markLine: {
+          data: [{ label: { normal: { show: false } }, name: '80%', yAxis: 80 }],
+          lineStyle: { normal: { type: 'dot' } },
+          symbol: 'none',
+        },
+        name: 'Pareto',
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: '4',
+        type: 'line',
+        xAxisIndex: 1,
+      },
+    ],
+    xAxis: [
+      { name: 'b', nameGap: 30, nameLocation: 'center', nameTextStyle: { fontWeight: 'bold' } },
+      {
+        axisLabel: { interval: 'auto', margin: 10, show: true, textStyle: { fontSize: 16 } },
+        axisTick: { show: false },
+        max: 100,
+        min: 0,
+        name: '帕累托(%)',
+        nameGap: 36,
+        nameLocation: 'middle',
+        nameTextStyle: { fontSize: 16 },
+        position: 'right',
+        scale: true,
+        splitArea: { show: false },
+        type: 'value',
+      },
+    ],
+    yAxis: {
+      boundaryGap: true,
+      data: ['a1'],
+      name: 'a',
+      nameGap: 70,
+      nameLocation: 'center',
+      nameTextStyle: { fontWeight: 'bold' },
+    },
   });
 
   // polar
