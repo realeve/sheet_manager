@@ -82,7 +82,6 @@ function QueryCondition({
             <span className={styles.title}>{title}:</span>
             <PinyinSelect
               style={{ width: 150 }}
-              className={styles.selector}
               value={selectValue[key]}
               onSelect={value => onSelectChange(value, idx, key)}
               options={selectorData}

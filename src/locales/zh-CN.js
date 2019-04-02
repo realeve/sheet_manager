@@ -267,5 +267,9 @@ let lang = {
       min: 'Y轴最小值',
     },
   },
+  form: {
+    submit: '提交',
+    reset: '重置',
+  },
 };
 export default convertLang(lang);

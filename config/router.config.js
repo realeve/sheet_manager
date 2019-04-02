@@ -52,6 +52,17 @@ export default [
         component: './menu',
       },
       {
+        name: 'form',
+        icon: 'form',
+        path: '/form',
+        routes: [
+          {
+            path: '/form/page1',
+            component: './Form/page1',
+          },
+        ],
+      },
+      {
         name: 'chart',
         icon: 'chart',
         path: '/chart',

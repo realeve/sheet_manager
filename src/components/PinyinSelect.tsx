@@ -10,7 +10,7 @@ export type OptionItem = {
 
 export interface IProps {
   placeholder?: string;
-  options: [OptionItem];
+  options: [OptionItem] | any[];
   value?: number | string;
   onChange?: any;
   className?: any;
@@ -25,7 +25,7 @@ export interface OptionProps {
   style?: React.CSSProperties;
 }
 
-export default function InputSelect(props: IProps) {
+export default function PinyinSelect(props: IProps) {
   const onFilter:
     | boolean
     | ((inputValue: string, option: React.ReactElement<OptionProps>) => any) = (
@@ -49,7 +49,6 @@ export default function InputSelect(props: IProps) {
     <Select
       {...prop}
       showSearch
-      // placeholder={placeholder}
       optionFilterProp="children"
       onChange={onChange}
       value={value}

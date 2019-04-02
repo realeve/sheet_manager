@@ -1,4 +1,5 @@
-export default {
+import { convertLang } from './langUtil';
+let lang = {
   'navbar.lang': '中文',
   'layout.user.link.help': 'help',
   'layout.user.link.privacy': 'privacy',
@@ -216,4 +217,10 @@ export default {
   'chart.config.size': 'grid size',
   'chart.config.max': 'maximum of yAxis',
   'chart.config.min': 'minimum of yAxis',
+  form: {
+    submit: 'Submit',
+    reset: 'Reset',
+  },
 };
+
+export default convertLang(lang);
