@@ -1,4 +1,4 @@
-export let DEV: boolean = false; // process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+export let DEV: boolean = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 // 前台资源部署域名，默认头像图片资源调用域名
 export let config = {
@@ -20,7 +20,7 @@ export let config = {
     systemName: '通用报表管理系统',
     uploadHost: 'http://10.56.37.153:100/upload/',
     org: 'KSCZ',
-    useUAP: true, // 使用代理身份认证登录
+    useUAP: false, // 使用代理身份认证登录
     uapLoginUrl: 'http://10.8.1.27:4040/api/login', // 登录URL
   },
 };
