@@ -73,9 +73,11 @@ class LoginComponent extends Component {
       })
       .catch(e => {
         this.setState({
-          notice: '系统错误，登录失败',
+          notice: '系统错误，登录失败，请稍后重试',
         });
-        return;
+        return {
+          rows: -1,
+        };
       });
     const autoLogin = this.state.autoLogin;
 
@@ -111,11 +113,11 @@ class LoginComponent extends Component {
 
       router.push(nextUrl);
       return;
+    } else if (userInfo.rows == 0) {
+      this.setState({
+        notice: '账号或密码错误！',
+      });
     }
-
-    this.setState({
-      notice: '账号或密码错误！',
-    });
   }
 
   loadDepts = async () => {
