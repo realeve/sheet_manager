@@ -1,12 +1,21 @@
 import React from 'react';
-import { Card, Row, Col, Button } from 'antd';
+import { Card, Row, Col, Button, Input } from 'antd';
 import styles from '@/pages/table/index.less';
 import { formatMessage } from 'umi/locale';
 import { connect } from 'dva';
 import DatePicker from './DatePicker';
 import PinyinSelect from './PinyinSelect';
+const { TextArea } = Input;
 
-function QueryCondition({ selectValue, selectList, dateRange, onQuery, dispatch }) {
+function QueryCondition({
+  selectValue,
+  selectList,
+  textAreaList,
+  textAreaValue,
+  dateRange,
+  onQuery,
+  dispatch,
+}) {
   const onDateChange = async (dateStrings: Array<string>, refresh: boolean = true) => {
     await dispatch({
       type: 'common/setStore',
@@ -29,6 +38,17 @@ function QueryCondition({ selectValue, selectList, dateRange, onQuery, dispatch 
     });
   };
 
+  const onTextChange = (value, key) => {
+    dispatch({
+      type: 'common/setStore',
+      payload: {
+        textAreaValue: {
+          [key]: value,
+        },
+      },
+    });
+  };
+
   const DateRangePicker = ({ refresh }) => (
     <DatePicker
       className={refresh ? styles.setting : null}
@@ -37,7 +57,9 @@ function QueryCondition({ selectValue, selectList, dateRange, onQuery, dispatch 
     />
   );
 
-  return selectList.length === 0 ? (
+  let showExtraCondition: boolean = textAreaList.length || selectList.length;
+
+  return !showExtraCondition ? (
     <div className={styles.header}>
       <div className={styles.dateRange}>
         <DateRangePicker refresh={true} />
@@ -68,11 +90,25 @@ function QueryCondition({ selectValue, selectList, dateRange, onQuery, dispatch 
             />
           </Col>
         ))}
+        {textAreaList.map(({ key, title }) => (
+          <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer} key={key}>
+            <span className={styles.title}>{title}:</span>
+            <TextArea
+              style={{ maxWidth: 300, marginRight: 10 }}
+              autosize={{ minRows: 1, maxRows: 2 }}
+              value={textAreaValue[key]}
+              onChange={e => onTextChange(e.target.value, key)}
+            />
+          </Col>
+        ))}
         <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
           <Button
             type="primary"
             onClick={onQuery}
-            disabled={Object.keys(selectValue).length < selectList.length}
+            disabled={
+              Object.keys(selectValue).length < selectList.length ||
+              Object.keys(textAreaValue).length < textAreaList.length
+            }
           >
             {formatMessage({ id: 'app.query' })}
           </Button>
@@ -82,8 +118,12 @@ function QueryCondition({ selectValue, selectList, dateRange, onQuery, dispatch 
   );
 }
 
-export default connect(({ common: { dateRange, selectValue, selectList } }) => ({
-  dateRange,
-  selectValue,
-  selectList,
-}))(QueryCondition);
+export default connect(
+  ({ common: { dateRange, selectValue, selectList, textAreaList, textAreaValue } }) => ({
+    dateRange,
+    selectValue,
+    selectList,
+    textAreaList,
+    textAreaValue,
+  })
+)(QueryCondition);

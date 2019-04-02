@@ -1,6 +1,6 @@
 import pathToRegexp from 'path-to-regexp';
 import * as db from '../services/table';
-import { setStore } from '@/utils/lib';
+import { setStore, handleTextVal } from '@/utils/lib';
 import * as R from 'ramda';
 
 const namespace = 'table';
@@ -19,7 +19,10 @@ export default {
   },
   effects: {
     *updateParams(_, { put, call, select }) {
-      let { dateRange, tid, query, selectValue } = yield select(state => state.common);
+      let { dateRange, tid, query, selectValue, textAreaValue } = yield select(
+        state => state.common
+      );
+
       if (R.isNil(tid)) {
         return;
       }
@@ -28,11 +31,16 @@ export default {
         tid,
         dateRange,
       });
+
+      let inputValue = handleTextVal(textAreaValue);
+
       axiosOptions = axiosOptions.map(item => {
-        item.params = { ...item.params, ...selectValue };
+        item.params = { ...item.params, ...selectValue, ...inputValue };
         Reflect.deleteProperty(item.params, 'select');
-        Reflect.deleteProperty(item.params, 'cascade');
         Reflect.deleteProperty(item.params, 'selectkey');
+        Reflect.deleteProperty(item.params, 'cascade');
+        Reflect.deleteProperty(item.params, 'textarea');
+        Reflect.deleteProperty(item.params, 'textareakey');
         return item;
       });
 

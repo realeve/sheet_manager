@@ -17,7 +17,9 @@ export default {
   },
   effects: {
     *refreshData({ payload }, { put, select }) {
-      let { dateRange, tid, query, selectValue } = yield select(state => state.common);
+      let { dateRange, tid, query, selectValue, textAreaValue } = yield select(
+        state => state.common
+      );
       if (!R.isNil(payload)) {
         // 首次加载数据
         if (!(payload.isInit && tid && tid.length && R.isNil(query.select))) {
@@ -25,7 +27,9 @@ export default {
         }
       }
 
-      let config = db.decodeHash({ selectValue, dateRange, tid, query });
+      let inputValue = handleTextVal(textAreaValue);
+
+      let config = db.decodeHash({ selectValue, dateRange, tid, query, inputValue });
       yield put({
         type: 'setStore',
         payload: {

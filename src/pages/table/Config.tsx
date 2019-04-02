@@ -122,6 +122,40 @@ export default function tableConfig() {
             </div>
           </li>
           <li>
+            <div className={styles.tip}>通用参数7:文本查询条件——标题</div>
+            <div className={styles.desc}>textarea </div>
+            <div>
+              默认值：设置该参数后，条件查询中将渲染textarea，设置多个时用逗号或分号分开，每个textarea对应一个参数值(textareakey)
+            </div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=76/dd3cf2e48e&data_type=score&textarea=冠字信息&textareakey=gzinfo"
+                target="_blank"
+              >
+                /table#id=76/dd3cf2e48e&data_type=score&textarea=冠字信息&textareakey=gzinfo
+              </a>
+            </div>
+          </li>
+          <li>
+            <div className={styles.tip}>通用参数8:文本查询条件——参数值</div>
+            <div className={styles.desc}>textareakey </div>
+            <div>
+              默认值：设置后将textarea中的内容作为值，以当前key为参数发起查询请求，设置多个参数时以逗号或分号分开。内容中如果含逗号、分号或换行符(从Excel中直接复制)时，系统将自动分割为数组发起请求，否则以字符串发起请求。
+              <br />
+              <br />
+              如：参数值 param1 对应的textarea内容为 1820A011,1820A012 时，对应ajax请求参数将转换为
+              &param1[]=1820A011&param1[]=1820A012
+            </div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=76/dd3cf2e48e&data_type=score&textarea=冠字信息&textareakey=gzinfo"
+                target="_blank"
+              >
+                /table#id=76/dd3cf2e48e&data_type=score&textarea=冠字信息&textareakey=gzinfo
+              </a>
+            </div>
+          </li>
+          <li>
             <div className={styles.tip}>专用参数1.表头合并</div>
             <div className={styles.desc}>merge </div>
             <div>默认值：不设置，此时不合并表头</div>

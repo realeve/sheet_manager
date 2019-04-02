@@ -413,3 +413,29 @@ export const getStringWidth = str =>
   String(str)
     .split('')
     .reduce((x, y) => x + (isChineseWord(y) ? 1 : 0.7), 0);
+
+// 将带,;及换行符的字符串转换为数组文本
+export const str2Arr: (str: string) => string[] = str => {
+  str = String(str);
+  let res = [];
+  if (str.includes(',')) {
+    res = str.split(',');
+  } else if (str.includes(';')) {
+    res = str.split(';');
+  } else if (str.includes('\n')) {
+    res = str.split('\n');
+  } else {
+    res = [str];
+  }
+  return R.filter(item => item.trim().length > 0)(res);
+};
+
+// 去除对象值中内容为空的
+export const handleTextVal = arr => {
+  let inputValue = {};
+  Object.entries(arr).forEach(([key, val]: [string, string]) => {
+    let value = str2Arr(val);
+    inputValue[key] = value.length == 1 ? value[0] : value;
+  });
+  return inputValue;
+};

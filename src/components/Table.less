@@ -103,3 +103,29 @@
     }
   }
 }
+
+
+.selectContainer {
+  height: 32px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+
+  .title {
+    text-align: right;
+    padding-right: 10px;
+    position: relative;
+
+    &::before {
+      content: '*';
+      color: #e23;
+      position: absolute;
+      left: -8px;
+      top: 1px;
+    }
+  }
+
+  .selector {
+    width: 120px;
+  }
+}

@@ -1,6 +1,6 @@
 import pathToRegexp from 'path-to-regexp';
 import userTool from '@/utils/users';
-import { setStore, handleUrlParams } from '@/utils/lib';
+import { setStore, handleUrlParams, str2Arr } from '@/utils/lib';
 import { axios } from '@/utils/axios';
 import qs from 'qs';
 import * as R from 'ramda';
@@ -75,6 +75,8 @@ export default {
     query: {},
     selectList: [],
     selectValue: {},
+    textAreaList: [],
+    textAreaValue: {},
   },
   reducers: {
     setStore,
@@ -84,6 +86,8 @@ export default {
         query: {},
         selectList: [],
         selectValue: {},
+        textAreaList: [],
+        textAreaValue: {},
       };
     },
   },
@@ -157,14 +161,28 @@ export default {
         if (params.select) {
           ['select', 'selectkey'].forEach(key => {
             if (typeof params[key] === 'string') {
-              if (params[key].includes(',')) {
-                params[key] = params[key].split(',');
-              } else if (params[key].includes(';')) {
-                params[key] = params[key].split(';');
-              }
+              params[key] = str2Arr(params[key]);
             }
           });
         }
+
+        if (params.textarea) {
+          ['textarea', 'textareakey'].forEach(key => {
+            if (typeof params[key] === 'string') {
+              params[key] = str2Arr(params[key]);
+            }
+          });
+          dispatch({
+            type: 'setStore',
+            payload: {
+              textAreaList: params.textarea.map((title, idx) => ({
+                title,
+                key: params.textareakey[idx],
+              })),
+            },
+          });
+        }
+
         // /chart#id=6/8d5b63370c&id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&select=77/51bbce6074,77/51bbce6074,77/51bbce6074&selectkey=prod,prod2,prod3&cascade=1
         dispatch({
           type: 'setStore',
