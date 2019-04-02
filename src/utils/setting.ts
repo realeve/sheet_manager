@@ -1,7 +1,7 @@
-export let DEV: boolean = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+export let DEV: boolean = false; // process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 // 前台资源部署域名，默认头像图片资源调用域名
-let config = {
+export let config = {
   chengdu: {
     api: 'http://cdn.cdyc.cbpm:100',
     footer: '成都印钞有限公司 印钞管理部',
@@ -9,6 +9,9 @@ let config = {
     uploadHost: 'http://cdn.cdyc.cbpm:100/upload/',
     host: 'http://10.8.2.133:8000',
     org: 'CDYC',
+    useUAP: true, // 使用代理身份认证登录
+    uapLoginUrl: 'http://10.8.1.27:4040/api/login', // 登录URL
+    uapUserList: 'http://10.8.1.25:100/rtx/rtx_CDYC.xml', //代理身份登录中用户列表信息
   },
   kunshan: {
     api: 'http://10.56.37.153:100/',
@@ -17,6 +20,8 @@ let config = {
     systemName: '通用报表管理系统',
     uploadHost: 'http://10.56.37.153:100/upload/',
     org: 'KSCZ',
+    useUAP: true, // 使用代理身份认证登录
+    uapLoginUrl: 'http://10.8.1.27:4040/api/login', // 登录URL
   },
 };
 
@@ -31,6 +36,7 @@ export let systemName = defaultTitle || config[CUR_COMPANY].systemName;
 export let AUTHOR = config[CUR_COMPANY].footer;
 
 export let ORG = config[CUR_COMPANY].org;
+export let useUAP = config[CUR_COMPANY].useUAP;
 
 let domain: string = config[CUR_COMPANY].api;
 // 后台api部署域名

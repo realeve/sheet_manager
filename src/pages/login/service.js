@@ -1,16 +1,35 @@
 import { axios } from '@/utils/axios';
 import userTool from '@/utils/users';
 import * as util from '@/utils/setting';
-
+let { config, CUR_COMPANY } = util;
+let curConfig = config[CUR_COMPANY];
 /**
 *   @database: { 接口管理 }
 *   @desc:     { 用户登录 } 
-    const { uid, psw } = params;
+    const { username, password } = params;
 */
 export const getSysUser = params =>
   axios({
-    url: '/5/209a76b78d.json',
+    url: curConfig.useUAP ? curConfig.uapLoginUrl : '/5/209a76b78d.json',
     params,
+  }).then(res => {
+    // 采用原接口管理的信息
+    if (!curConfig.useUAP) {
+      return res;
+    }
+
+    // 采用代理需要对结果做处理
+    let {
+      data: [{ success, detail: data }],
+    } = res;
+    let rows = 0;
+    if (success) {
+      rows = 1;
+    }
+    return {
+      rows,
+      data,
+    };
   });
 
 /**
@@ -37,12 +56,16 @@ export const getSysUserExist = username =>
 /**
 *   @database: { 接口管理 }
 *   @desc:     { 用户注册 } 
-    const { username, fullname, psw, avatar, user_type, dept_id, menu_id, actived } = params;
+    const { username, fullname, psw, avatar, user_type, dept_id, menu_id, actived, ip, sys_id, sys_uid } = params;
 */
 export const addSysUser = params =>
   axios({
     url: '/29/607526f43d.json',
-    params,
+    params: {
+      ...params,
+      sys_uid: 0,
+      sys_id: 1,
+    },
   });
 
 export const getIp = () => axios({ url: '/ip' });

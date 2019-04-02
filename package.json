@@ -61,7 +61,8 @@
     "react-transition-group": "^2.4.0",
     "sinon": "^7.2.2",
     "umi": "^2.6.1",
-    "umi-plugin-locale": "^2.1.1"
+    "umi-plugin-locale": "^2.1.1",
+    "x2js": "^3.2.6"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",

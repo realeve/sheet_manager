@@ -11,7 +11,8 @@ import * as db from './service';
 import userTool from '@/utils/users';
 import Link from 'umi/link';
 import PinyinSelect from '@/components/PinyinSelect';
-import { ORG } from '@/utils/setting';
+import { ORG, useUAP } from '@/utils/setting';
+import * as rtx from '@/utils/rtx';
 
 const { UserName, Password, Submit } = Login;
 
@@ -24,6 +25,7 @@ class LoginComponent extends Component {
     ip: '',
     depts: [],
     dept: null,
+    userList: [],
   };
 
   onSubmit = (_, values) => {
@@ -54,7 +56,13 @@ class LoginComponent extends Component {
     });
 
     // todo 20190401 此处提供uid读取接口
-    let values = { ...param, dept: this.state.dept, org: ORG, uid: '54000000' };
+    let values = { ...param, dept: this.state.dept, org: ORG, uid: 0 };
+
+    // 是否启用统一认证登录
+    if (useUAP) {
+      let { uid } = rtx.getUserDetail(this.state.userList, param.username);
+      values.uid = uid;
+    }
 
     let userInfo = await db
       .getSysUser(values)
@@ -124,6 +132,11 @@ class LoginComponent extends Component {
         notice: '生产网测试用户：用户名：jitai，密码：12345',
       });
     });
+
+    if (useUAP) {
+      let userList = await rtx.init();
+      this.setState({ userList });
+    }
   };
 
   componentDidMount() {
