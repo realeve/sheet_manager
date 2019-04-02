@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSetState } from 'react-use';
 import { axios } from '@/utils/axios';
 import { notification, Card, Input, Row, Col, Button, InputNumber, DatePicker } from 'antd';
@@ -16,8 +16,8 @@ moment.locale('zh-cn');
 const { TextArea } = Input;
 
 function FormCreater({ uid }) {
-  let [state, setState] = useSetState({ type: 'new' });
-
+  let [state, setState] = useSetState();
+  let [formType, setFormType] = useState('new');
   // 设置表单初始数据
   const setFormData = data => {
     // ...
@@ -25,8 +25,7 @@ function FormCreater({ uid }) {
 
   // 获取初始数据
   const getFormData = () => {
-    // ....
-    return {};
+    return state;
   };
 
   // 从配置项中获取url
@@ -43,7 +42,7 @@ function FormCreater({ uid }) {
     let { insert, update } = config;
 
     // 是否新增数据
-    let isAdd = state.type === 'new';
+    let isAdd = formType === 'new';
 
     let method = isAdd ? insert : update;
     let { callback } = method;
@@ -53,7 +52,8 @@ function FormCreater({ uid }) {
       url: getUrl(method),
       data: callback ? callback(params) : params,
     };
-
+    console.log(axiosConfig);
+    return;
     let {
       data: [{ affected_rows }],
     } = await axios(axiosConfig);
@@ -97,8 +97,8 @@ function FormCreater({ uid }) {
     notity(affected_rows);
   };
 
-  const onChange = (value, key) => {
-    setState({ [key]: value });
+  const onChange = (value, key, callback = e => String(e).trim()) => {
+    setState({ [key]: callback(value) });
   };
 
   const onReset = () => {
@@ -110,7 +110,7 @@ function FormCreater({ uid }) {
       {config.detail.map(({ title: mainTitle, detail }, idx) => (
         <Card title={`${idx + 1}.${mainTitle}`} style={{ marginBottom: 20 }} key={mainTitle}>
           <Row gutter={15}>
-            {detail.map(({ title, key, type, placeholder, block, ...props }) => (
+            {detail.map(({ title, key, type, placeholder, regExp, callback, block, ...props }) => (
               <Col span={8} md={8} sm={12} xs={24} className={styles['form-item']} key={key}>
                 <span className={styles.title}>{title}</span>
                 <div className={styles.element}>
@@ -118,8 +118,9 @@ function FormCreater({ uid }) {
                     <Input
                       style={{ width: 150 }}
                       value={state[key]}
-                      onChange={e => onChange(e.target.value, key)}
+                      onChange={e => onChange(e.target.value, key, callback)}
                       placeholder={placeholder}
+                      {...props}
                     />
                   )}
                   {type === 'input.textarea' && (
@@ -129,6 +130,7 @@ function FormCreater({ uid }) {
                       value={state[key]}
                       onChange={e => onChange(e.target.value, key)}
                       placeholder={placeholder}
+                      {...props}
                     />
                   )}
                   {type === 'input.number' && (
@@ -139,6 +141,7 @@ function FormCreater({ uid }) {
                       placeholder={placeholder}
                       value={state[key]}
                       onChange={value => onChange(value, key)}
+                      {...props}
                     />
                   )}
                   {type === 'datepicker' && (
@@ -146,6 +149,7 @@ function FormCreater({ uid }) {
                       value={moment(state[key] || moment(), props.datetype || 'YYYY-MM-DD')}
                       defaultValue={moment()}
                       onChange={(_, value) => onChange(value, key)}
+                      {...props}
                     />
                   )}
                   {type === 'select' && (
@@ -153,6 +157,7 @@ function FormCreater({ uid }) {
                       url={props.url}
                       value={state[key]}
                       onChange={value => onChange(value, key)}
+                      {...props}
                     />
                   )}
                   {block && <label className={styles.block}>{block}</label>}

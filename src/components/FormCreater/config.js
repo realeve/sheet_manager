@@ -22,6 +22,10 @@ export default {
           key: 'cart_number',
           regExp: 'cart', // 'cart'|'reel'|'gz'| RegExp
           placeholder: '请输入8位车号信息',
+          maxLength: 8,
+          callback(val) {
+            return val.trim().toUpperCase();
+          },
         },
         {
           title: '部门',
