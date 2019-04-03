@@ -1,16 +1,23 @@
 export default {
   name: '业务名称',
-  insert: {
-    url: '122/adsf78234.json',
-    extra: {
-      rec_time: true,
-      uid: true,
+  api: {
+    insert: {
+      url: '122/adsf78234.json',
+      param: ['rec_time', 'uid'],
+    },
+    update: {
+      url: '123/asdfasdf.json',
+      param: ['_id'],
+    },
+    delete: {
+      url: '112/a1234asdf.json',
+      param: ['_id'],
+    },
+    query: {
+      url: '114/ad3adsf4d.json',
+      param: ['cart_number'],
     },
   },
-  update: '123/asdfasdf.json',
-  delete: '112/a1234asdf.json',
-  query: '114/ad3adsf4d.json',
-  uniqKey: ['cart_number'],
   detail: [
     {
       title: '基础数据',

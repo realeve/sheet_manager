@@ -270,6 +270,7 @@ let lang = {
   form: {
     submit: '提交',
     reset: '重置',
+    delete: '删除',
   },
 };
 export default convertLang(lang);

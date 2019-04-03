@@ -220,6 +220,7 @@ let lang = {
   form: {
     submit: 'Submit',
     reset: 'Reset',
+    delete: 'Delete',
   },
 };
 

@@ -4,6 +4,7 @@ import { setStore, handleUrlParams, str2Arr } from '@/utils/lib';
 import { axios } from '@/utils/axios';
 import qs from 'qs';
 import * as R from 'ramda';
+import { handleOptions } from '@/components/FormCreater/lib';
 
 const needCascade = params => !(R.isNil(params.cascade) || params.cascade[0] === '0');
 export function* getSelectList(params, call) {
@@ -20,7 +21,7 @@ export function* getSelectList(params, call) {
     let { title, data } = yield call(axios, { url, params: { cache: 5 } });
     selectList[idx] = {
       title,
-      data,
+      data: handleOptions(data),
       key: params.selectkey[idx],
     };
   }

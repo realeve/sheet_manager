@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
-import { axios } from '@/utils/axios';
+import { connect } from 'dva';
 import {
   notification,
   Card,
@@ -14,55 +14,32 @@ import {
   Rate,
 } from 'antd';
 import styles from './index.less';
-import * as R from 'ramda';
-import { connect } from 'dva';
+import classNames from 'classnames/bind';
 import PinyinSelector from './PinyinSelector';
 import RadioSelector from './RadioSelector';
 import RadioButton from './RadioButton';
 import CheckSelector from './CheckSelector';
-
+import { axios } from '@/utils/axios';
+import { handler, validRequire, getPostData, onValidate, getRuleMsg } from './lib';
 import { formatMessage } from 'umi/locale';
-import * as lib from '@/utils/lib';
+import * as R from 'ramda';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import classNames from 'classnames/bind';
-moment.locale('zh-cn');
 const cx = classNames.bind(styles);
-
 const { TextArea } = Input;
 
-const handler = {
-  toUpper(str) {
-    return String(str)
-      .trim()
-      .toUpperCase();
-  },
-  toLower(str) {
-    return String(str)
-      .trim()
-      .toLowerCase();
-  },
-  trim(str) {
-    let type = lib.getType(str);
-    if (type === 'boolean') {
-      return Number(str);
-    } else if (type === 'string') {
-      return str.trim();
-    } else if (type === 'array') {
-      return str.join(',');
-    }
-    return str;
-  },
-};
+moment.locale('zh-cn');
 
-function FormCreater({ uid, config }) {
+function FormCreater({ uid, config, dispatch }) {
   let [state, setState] = useSetState();
-  let [formType, setFormType] = useState('new');
+  let [editMethod, setEditMethod] = useState('insert');
   let [validateState, setValidateState] = useSetState();
 
   // 初始化空数据，获取必填字段
   let [fields, setFields] = useState({});
   let [requiredFileds, setRequiredFileds] = useState([]);
+
+  // config改变后初始化表单数据
   useEffect(() => {
     let requiredFileds = [];
     let fields = {};
@@ -82,48 +59,41 @@ function FormCreater({ uid, config }) {
 
     setFields(fields);
     setRequiredFileds(requiredFileds);
+    dispatch({
+      type: 'common/setStore',
+      payload: {
+        curPageName: config.name,
+      },
+    });
   }, [config]);
 
+  // 表单字段当前状态判断
   const [formstatus, setFormstatus] = useState(false);
   useEffect(() => {
     // 必填字段状态校验
-    let required = validRequire();
+    let required = validRequire(requiredFileds, state);
     let validStatus = Object.values(validateState).filter(item => !item).length == 0;
     setFormstatus(validStatus && required);
   }, [state]);
 
+  // 当前数据提交状态，提交时禁止重复提交
   const [submitting, setSubmitting] = useState(false);
 
-  // 设置表单初始数据
-  const setFormData = data => {
-    setState(data);
-  };
-
-  // 获取初始数据
-  const getFormData = () => {
-    return {
-      ...fields,
-      ...state,
-    };
-  };
-
-  // 从配置项中获取url
-  let getUrl = obj => {
-    if (typeof obj === 'string') {
-      return obj;
-    }
-    return obj.url;
-  };
-
-  // 校验 required
-  const validRequire = () => {
-    let status: boolean = true;
-    requiredFileds.forEach(key => {
-      if (R.isNil(state[key])) {
-        status = false;
-      }
-    });
-    return status;
+  const formInstance = {
+    set(data) {
+      // 设置表单初始数据
+      setState(data);
+    },
+    get() {
+      // 获取初始数据
+      return {
+        ...fields,
+        ...state,
+      };
+    },
+    reset() {
+      setState(fields);
+    },
   };
 
   // 提交数据
@@ -132,7 +102,7 @@ function FormCreater({ uid, config }) {
       return;
     }
     // 必填数据是否填写
-    let status = validRequire();
+    let status = validRequire(requiredFileds, state);
     if (!status) {
       notification.error({
         message: '系统提示',
@@ -140,29 +110,8 @@ function FormCreater({ uid, config }) {
       });
     }
 
-    let params = getFormData();
-    let { insert, update } = config;
-
-    // 是否新增数据
-    let isAdd = formType === 'new';
-
-    let method = isAdd ? insert : update;
-    let { extra } = method;
-    let extraParam: { [key: string]: any } = {};
-    if (R.type(extra) === 'Object') {
-      if (extra.uid) {
-        extraParam.uid = uid;
-      }
-      if (extra.rec_time) {
-        extraParam.rec_time = lib.now();
-      }
-    }
-
-    let axiosConfig = {
-      method: 'post',
-      url: getUrl(method),
-      data: { ...params, ...extraParam },
-    };
+    let params = formInstance.get();
+    let axiosConfig = getPostData({ config, params, editMethod, uid });
     console.log(axiosConfig);
     return;
     setSubmitting(true);
@@ -189,68 +138,25 @@ function FormCreater({ uid, config }) {
   // 索引字段(通过校验后)改变时，如车号等，载入初始数据用于更新
   const loadHistoryData = async () => {
     let { uniqKey, query: url } = config;
-    let formData = getFormData();
+    let formData = formInstance.get();
     let params = R.pick(uniqKey, formData);
 
     let {
       data: [initData],
     } = await axios({ url, params });
-    setFormData(initData);
+    formInstance.set(initData);
   };
 
   // 根据索引字段删除数据，建议用一个字段作为索引
   const onDelete = async () => {
     let { uniqKey, delete: url } = config;
-    let formData = getFormData();
+    let formData = formInstance.get();
     let params = R.pick(uniqKey, formData);
 
     let {
       data: [affected_rows],
     } = await axios({ url, params });
     notity(affected_rows);
-  };
-
-  // 数据有效性校验
-  const onValidate = (value, rule) => {
-    if (R.isNil(rule)) {
-      return true;
-    }
-    let pattern = rule;
-    let status: boolean = true;
-
-    if (lib.getType(rule) === 'object') {
-      pattern = rule.type;
-    }
-
-    // 执行自定义 regExp
-    if (pattern.includes('/')) {
-      let reg = new RegExp(eval(rule));
-      status = reg.test(value);
-    }
-
-    switch (pattern) {
-      case 'cart':
-        status = lib.isCart(value);
-        break;
-      case 'reel':
-        status = lib.isReel(value);
-        break;
-      case 'gz':
-        status = lib.isGZ(value);
-        break;
-      case 'number':
-        status = lib.isNumOrFloat(value);
-        break;
-      case 'int':
-        status = lib.isInt(value);
-        break;
-      case 'float':
-        status = lib.isFloat(value);
-        break;
-      default:
-        break;
-    }
-    return status;
   };
 
   const onChange = (val: any, key: string, props: { [key: string]: any } = {}) => {
@@ -271,37 +177,7 @@ function FormCreater({ uid, config }) {
   };
 
   const onReset = () => {
-    setState(fields);
-  };
-
-  // 生成校验提示文字
-  const getRuleMsg = (rule, title) => {
-    if (rule.msg) {
-      return rule.msg;
-    }
-    let msg = title + '验证失败';
-    switch (rule.type || rule) {
-      case 'cart':
-        msg = title + '不是有效的车号';
-        break;
-
-      case 'reel':
-        msg = title + '不是有效的轴号';
-        break;
-
-      case 'gz':
-        msg = title + '不是有效的冠字号';
-        break;
-
-      case 'int':
-      case 'float':
-      case 'number':
-        msg = title + '不是有效的数字类型';
-        break;
-      default:
-        break;
-    }
-    return msg;
+    formInstance.reset();
   };
 
   return (
@@ -398,7 +274,7 @@ function FormCreater({ uid, config }) {
                     <CheckSelector
                       value={state[key]}
                       url={props.url}
-                      onChange={e => onChange(e, key)}
+                      onChange={value => onChange(value, key)}
                       defaultOption={defaultOption}
                       {...props}
                     />
@@ -440,6 +316,15 @@ function FormCreater({ uid, config }) {
                   loading={submitting}
                 >
                   {formatMessage({ id: 'form.submit' })}
+                </Button>
+                <Button
+                  type="danger"
+                  onClick={onDelete}
+                  disabled={!formstatus}
+                  style={{ marginLeft: 20 }}
+                  loading={submitting}
+                >
+                  {formatMessage({ id: 'form.delete' })}
                 </Button>
               </Col>
             )}
