@@ -45,9 +45,14 @@ export const isDateTime: CartReelReg = str =>
     String(str).trim()
   );
 
+// 数字
 export const isNumOrFloat: CartReelReg = str =>
   /^(-|\+|)\d+(\.)\d+$|^(-|\+|)\d+$/.test(String(str));
-export const isInt: CartReelReg = str => /^(-|\+|)\d+$/.test(String(str));
+
+// 整数
+export const isInt: CartReelReg = str => /^-?[1-9]\d*$/.test(String(str));
+
+// 浮点
 export const isFloat: CartReelReg = str => /^(-|\+|)\d+\.\d+$|^(-|\+|)\d+$/.test(String(str));
 export const hasDecimal: CartReelReg = str => /^(-|\+|)\d+\.\d+$/.test(String(str));
 export const parseNumber: {
