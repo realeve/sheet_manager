@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
 import { axios } from '@/utils/axios';
-import { notification, Card, Input, Row, Col, Button, InputNumber, DatePicker } from 'antd';
+import {
+  notification,
+  Card,
+  Input,
+  Row,
+  Col,
+  Button,
+  Switch,
+  Radio,
+  InputNumber,
+  DatePicker,
+} from 'antd';
 import styles from './index.less';
-import config from './config';
 import * as R from 'ramda';
 import { connect } from 'dva';
 import PinyinSelector from '../PinyinSelector';
@@ -11,7 +21,9 @@ import { formatMessage } from 'umi/locale';
 import * as lib from '@/utils/lib';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import classNames from 'classnames/bind';
 moment.locale('zh-cn');
+const cx = classNames.bind(styles);
 
 const { TextArea } = Input;
 
@@ -27,23 +39,65 @@ const handler = {
       .toLowerCase();
   },
   trim(str) {
-    return String(str).trim();
+    let type = lib.getType(str);
+    if (type === 'boolean') {
+      return Number(str);
+    } else if (type === 'string') {
+      return str.trim();
+    } else if (type === 'array') {
+      return str.join(',');
+    }
+    return str;
   },
 };
 
-function FormCreater({ uid }) {
+function FormCreater({ uid, config }) {
   let [state, setState] = useSetState();
   let [formType, setFormType] = useState('new');
-  // let [validateState,setValidateState] = useSetState();
+  let [validateState, setValidateState] = useSetState();
+
+  // 初始化空数据，获取必填字段
+  let [fields, setFields] = useState({});
+  let [requiredFileds, setRequiredFileds] = useState([]);
+  useEffect(() => {
+    let requiredFileds = [];
+    let fields = {};
+    config.detail.forEach(({ detail }) => {
+      detail.forEach(item => {
+        if (item.rule && item.rule.required) {
+          requiredFileds.push(item.key);
+        }
+        fields[item.key] = '';
+        // 如果有日期选择组件，记录初始化数据
+        if (item.type === 'datepicker') {
+          setState({ [item.key]: moment().format(item.datetype || 'YYYY-MM-DD') });
+        }
+        setValidateState({ [item.key]: true });
+      });
+    });
+
+    setFields(fields);
+    setRequiredFileds(requiredFileds);
+  }, [config]);
+
+  const [formstatus, setFormstatus] = useState(false);
+  useEffect(() => {
+    // 必填字段状态校验
+    let required = validRequire();
+    setFormstatus(formstatus && required);
+  }, [state]);
 
   // 设置表单初始数据
   const setFormData = data => {
-    // ...
+    setState(data);
   };
 
   // 获取初始数据
   const getFormData = () => {
-    return state;
+    return {
+      ...fields,
+      ...state,
+    };
   };
 
   // 从配置项中获取url
@@ -54,13 +108,27 @@ function FormCreater({ uid }) {
     return obj.url;
   };
 
+  // 校验 required
+  const validRequire = () => {
+    let status: boolean = true;
+    requiredFileds.forEach(key => {
+      if (R.isNil(state[key])) {
+        status = false;
+      }
+    });
+    return status;
+  };
+
   // 提交数据
   const onsubmit = async () => {
     // 必填数据是否填写
-    // let isRequired: boolean = validateRequired(key);
-    // if (!isRequired) {
-    //   return false;
-    // }
+    let status = validRequire();
+    if (!status) {
+      notification.error({
+        message: '系统提示',
+        description: '必填字段校验失败',
+      });
+    }
 
     let params = getFormData();
     let { insert, update } = config;
@@ -130,11 +198,7 @@ function FormCreater({ uid }) {
     notity(affected_rows);
   };
 
-  const validateRequired = key => {
-    let value = state[key];
-    return R.isNil(value);
-  };
-
+  // 数据有效性校验
   const onValidate = (value, rule) => {
     if (R.isNil(rule)) {
       return true;
@@ -147,7 +211,7 @@ function FormCreater({ uid }) {
     }
 
     // 执行自定义 regExp
-    if (rule.includes('/')) {
+    if (pattern.includes('/')) {
       let reg = new RegExp(eval(rule));
       status = reg.test(value);
     }
@@ -185,15 +249,46 @@ function FormCreater({ uid }) {
     } else if (tolower) {
       value = handler.toLower(val);
     }
-
-    let status = onValidate(value, rule);
-    console.log(status);
-
     setState({ [key]: value });
+
+    // 录入状态判断
+    let status = onValidate(value, rule);
+    setValidateState({ [key]: status });
+    setFormstatus(status);
   };
 
   const onReset = () => {
-    console.log(state);
+    setState(fields);
+  };
+
+  // 生成校验提示文字
+  const getRuleMsg = (rule, title) => {
+    if (rule.msg) {
+      return rule.msg;
+    }
+    let msg = title + '验证失败';
+    switch (rule.type || rule) {
+      case 'cart':
+        msg = title + '不是有效的车号';
+        break;
+
+      case 'reel':
+        msg = title + '不是有效的轴号';
+        break;
+
+      case 'gz':
+        msg = title + '不是有效的冠字号';
+        break;
+
+      case 'int':
+      case 'float':
+      case 'number':
+        msg = title + '不是有效的数字类型';
+        break;
+      default:
+        break;
+    }
+    return msg;
   };
 
   return (
@@ -203,8 +298,14 @@ function FormCreater({ uid }) {
           <Row gutter={15}>
             {detail.map(({ title, key, type, block, ...props }) => (
               <Col span={8} md={8} sm={12} xs={24} className={styles['form-item']} key={key}>
-                <span className={styles.title}>{title}</span>
-                <div className={styles.element}>
+                <span
+                  className={cx('title', {
+                    required: props.rule && props.rule.required,
+                  })}
+                >
+                  {title}
+                </span>
+                <div className={cx({ 'has-error': !validateState[key] }, 'element')}>
                   {type === 'input' && (
                     <Input
                       style={{ width: 180 }}
@@ -235,7 +336,6 @@ function FormCreater({ uid }) {
                   {type === 'datepicker' && (
                     <DatePicker
                       value={moment(state[key] || moment(), props.datetype || 'YYYY-MM-DD')}
-                      defaultValue={moment()}
                       onChange={(_, value) => onChange(value, key)}
                       {...props}
                     />
@@ -243,21 +343,39 @@ function FormCreater({ uid }) {
                   {type === 'select' && (
                     <PinyinSelector
                       url={props.url}
-                      value={state[key]}
+                      value={state[key] ? state[key].split(',') : []}
                       onChange={value => onChange(value, key)}
                       {...props}
                     />
                   )}
-                  {block && <label className={styles.block}>{block}</label>}
+                  {type === 'switch' && (
+                    <Switch
+                      defaultChecked
+                      checked={Boolean(state[key])}
+                      {...props}
+                      onChange={value => onChange(value, key)}
+                    />
+                  )}
+
+                  {!validateState[key] && props.rule ? (
+                    <label className="ant-form-explain">{getRuleMsg(props.rule, title)}</label>
+                  ) : (
+                    block && <label className="ant-form-explain">{block}</label>
+                  )}
                 </div>
               </Col>
             ))}
             {idx === config.detail.length - 1 && (
               <Col span={24} className={styles.submit}>
-                <Button type="default" onClick={onReset}>
+                <Button type="default" onClick={onReset} disabled={!formstatus}>
                   {formatMessage({ id: 'form.reset' })}
                 </Button>
-                <Button type="primary" onClick={onsubmit} style={{ marginLeft: 20 }}>
+                <Button
+                  type="primary"
+                  onClick={onsubmit}
+                  disabled={!formstatus}
+                  style={{ marginLeft: 20 }}
+                >
                   {formatMessage({ id: 'form.submit' })}
                 </Button>
               </Col>

@@ -15,20 +15,28 @@ export default function PinyinSelector({ url, value, onChange, ...props }) {
 
   const [optVal, setOptVal] = useState();
   useEffect(() => {
-    let detail = R.find(item => item.value == value)(options);
-    if (R.isNil(detail)) {
+    let detail = R.filter(item => value.includes(item.name))(options);
+
+    if (detail.length === 0) {
       return;
     }
-    setOptVal(detail.name);
+    let val = detail.map(({ name }) => name);
+    setOptVal(val);
   }, [options, value]);
+
+  const onSelectChange = value => {
+    let detail = R.filter(item => value.includes(item.value) || value.includes(item.name))(options);
+    onChange(detail.map(({ name }) => name));
+  };
 
   return (
     <PinyinSelect
       style={{ width: 150 }}
       value={optVal}
-      onChange={onChange}
+      onChange={e => onSelectChange(e)}
       options={options}
       placeholder="拼音首字母过滤"
+      mode="multiple"
       {...props}
     />
   );

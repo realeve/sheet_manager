@@ -26,13 +26,14 @@ export default {
           },
           placeholder: '请输入8位车号信息',
           maxLength: 8,
-          toupper: 'true',
+          toupper: 'true', //tolower|toupper
         },
         {
           title: '部门',
           type: 'select',
           url: '77/51bbce6074.json',
           key: 'dept_id',
+          rule: { required: true },
         },
         {
           title: '数量1',
@@ -48,6 +49,7 @@ export default {
           type: 'datepicker',
           key: 'rec_date',
           datetype: 'YYYY-MM-DD',
+          rule: { required: true },
         },
       ],
     },
@@ -71,6 +73,12 @@ export default {
           rule: 'float',
           block: '(单位：大张)',
           placeholder: '某指标2数量',
+        },
+        {
+          title: '白/中班',
+          type: 'switch',
+          key: 'param3',
+          block: '选中表示白班',
         },
         {
           title: '备注',
