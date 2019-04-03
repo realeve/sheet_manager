@@ -9,14 +9,18 @@ import {
   Col,
   Button,
   Switch,
-  Radio,
   InputNumber,
   DatePicker,
+  Rate,
 } from 'antd';
 import styles from './index.less';
 import * as R from 'ramda';
 import { connect } from 'dva';
-import PinyinSelector from '../PinyinSelector';
+import PinyinSelector from './PinyinSelector';
+import RadioSelector from './RadioSelector';
+import RadioButton from './RadioButton';
+import CheckSelector from './CheckSelector';
+
 import { formatMessage } from 'umi/locale';
 import * as lib from '@/utils/lib';
 import moment from 'moment';
@@ -84,8 +88,11 @@ function FormCreater({ uid, config }) {
   useEffect(() => {
     // 必填字段状态校验
     let required = validRequire();
-    setFormstatus(formstatus && required);
+    let validStatus = Object.values(validateState).filter(item => !item).length == 0;
+    setFormstatus(validStatus && required);
   }, [state]);
+
+  const [submitting, setSubmitting] = useState(false);
 
   // 设置表单初始数据
   const setFormData = data => {
@@ -121,6 +128,9 @@ function FormCreater({ uid, config }) {
 
   // 提交数据
   const onsubmit = async () => {
+    if (submitting) {
+      return;
+    }
     // 必填数据是否填写
     let status = validRequire();
     if (!status) {
@@ -155,9 +165,11 @@ function FormCreater({ uid, config }) {
     };
     console.log(axiosConfig);
     return;
+    setSubmitting(true);
     let {
       data: [{ affected_rows }],
     } = await axios(axiosConfig);
+    setSubmitting(false);
     notity(affected_rows);
   };
 
@@ -242,6 +254,7 @@ function FormCreater({ uid, config }) {
   };
 
   const onChange = (val: any, key: string, props: { [key: string]: any } = {}) => {
+    console.log(key, val);
     let value = handler.trim(val);
     let { toupper, tolower, rule } = props;
     if (toupper) {
@@ -250,7 +263,7 @@ function FormCreater({ uid, config }) {
       value = handler.toLower(val);
     }
     setState({ [key]: value });
-
+    console.log(value);
     // 录入状态判断
     let status = onValidate(value, rule);
     setValidateState({ [key]: status });
@@ -296,7 +309,7 @@ function FormCreater({ uid, config }) {
       {config.detail.map(({ title: mainTitle, detail }, idx) => (
         <Card title={`${idx + 1}.${mainTitle}`} style={{ marginBottom: 20 }} key={mainTitle}>
           <Row gutter={15}>
-            {detail.map(({ title, key, type, block, ...props }) => (
+            {detail.map(({ title, key, type, block, defaultOption, ...props }) => (
               <Col span={8} md={8} sm={12} xs={24} className={styles['form-item']} key={key}>
                 <span
                   className={cx('title', {
@@ -343,8 +356,15 @@ function FormCreater({ uid, config }) {
                   {type === 'select' && (
                     <PinyinSelector
                       url={props.url}
-                      value={state[key] ? state[key].split(',') : []}
+                      value={
+                        props.mode === 'multiple'
+                          ? state[key]
+                            ? state[key].split(',')
+                            : []
+                          : state[key]
+                      }
                       onChange={value => onChange(value, key)}
+                      defaultOption={defaultOption}
                       {...props}
                     />
                   )}
@@ -352,9 +372,51 @@ function FormCreater({ uid, config }) {
                     <Switch
                       defaultChecked
                       checked={Boolean(state[key])}
-                      {...props}
                       onChange={value => onChange(value, key)}
+                      {...props}
                     />
+                  )}
+                  {type === 'radio.button' && (
+                    <RadioButton
+                      value={state[key]}
+                      url={props.url}
+                      onChange={e => onChange(e.target.value, key)}
+                      defaultOption={defaultOption}
+                      {...props}
+                    />
+                  )}
+                  {type === 'radio' && (
+                    <RadioSelector
+                      value={state[key]}
+                      url={props.url}
+                      onChange={e => onChange(e.target.value, key)}
+                      defaultOption={defaultOption}
+                      {...props}
+                    />
+                  )}
+                  {type === 'check' && (
+                    <CheckSelector
+                      value={state[key]}
+                      url={props.url}
+                      onChange={e => onChange(e, key)}
+                      defaultOption={defaultOption}
+                      {...props}
+                    />
+                  )}
+                  {type === 'rate' && (
+                    <span>
+                      <Rate
+                        tooltips={props.desc}
+                        value={state[key] === '' ? 0 : state[key]}
+                        onChange={value => onChange(value, key)}
+                        {...props}
+                      />
+                      {state[key] ? (
+                        <span className="ant-rate-text">{props.desc[state[key] - 1]}</span>
+                      ) : (
+                        ''
+                      )}
+                    </span>
                   )}
 
                   {!validateState[key] && props.rule ? (
@@ -375,6 +437,7 @@ function FormCreater({ uid, config }) {
                   onClick={onsubmit}
                   disabled={!formstatus}
                   style={{ marginLeft: 20 }}
+                  loading={submitting}
                 >
                   {formatMessage({ id: 'form.submit' })}
                 </Button>

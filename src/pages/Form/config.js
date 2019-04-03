@@ -34,6 +34,27 @@ export default {
           url: '77/51bbce6074.json',
           key: 'dept_id',
           rule: { required: true },
+          mode: 'multiple',
+        },
+        {
+          title: '部门1',
+          type: 'select',
+          // url: '77/51bbce6074.json',
+          defaultOption: [
+            { name: '2A', value: 2 },
+            { name: '3A', value: 3 },
+            { name: '4A', value: 4 },
+            { name: '5A', value: 5 },
+          ],
+          key: 'dept_id1',
+        },
+
+        {
+          title: '单选部门',
+          type: 'select',
+          url: '77/51bbce6074.json',
+          key: 'dept_id2',
+          rule: { required: true },
         },
         {
           title: '数量1',
@@ -85,6 +106,55 @@ export default {
           type: 'input.textarea',
           key: 'remark',
           placeholder: '请在此填入备注信息',
+        },
+        {
+          title: '品种1',
+          type: 'radio.button',
+          key: 'prod_id',
+          url: '34/ad64451402.json',
+          rule: { required: true },
+        },
+        {
+          title: '品种2',
+          type: 'radio',
+          key: 'prod_id2',
+          url: '34/ad64451402.json',
+        },
+        {
+          title: '品种3',
+          type: 'check',
+          key: 'prod_id3',
+          url: '34/ad64451402.json',
+        },
+        {
+          title: '评分',
+          type: 'rate',
+          key: 'grade',
+          desc: ['低于较差值', '较差值', '中间值', '良好值', '优秀值'],
+        },
+        {
+          title: '品种4',
+          type: 'check',
+          key: 'prod_id4',
+          // url: '34/ad64451402.json', // 自定义选择项，不从接口读取
+          defaultOption: [
+            { name: '2A', value: 2 },
+            { name: '3A', value: 3 },
+            { name: '4A', value: 4 },
+            { name: '5A', value: 5 },
+          ],
+        },
+        {
+          title: '字段5',
+          type: 'radio.button',
+          key: 'param5',
+          defaultOption: [
+            { name: '2A', value: 2 },
+            { name: '3A', value: 3 },
+            { name: '4A', value: 4 },
+            { name: '5A', value: 5 },
+          ],
+          rule: { required: true },
         },
       ],
     },
