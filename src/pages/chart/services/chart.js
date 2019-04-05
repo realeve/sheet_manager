@@ -43,8 +43,8 @@ export const decodeHash = ({ tid, query, selectValue, dateRange: [tstart, tend],
     Reflect.deleteProperty(query, 'selectkey');
     Reflect.deleteProperty(query, 'cascade');
     Reflect.deleteProperty(query, 'menufold');
-    Reflect.deleteProperty(item.params, 'textarea');
-    Reflect.deleteProperty(item.params, 'textareakey');
+    Reflect.deleteProperty(query, 'textarea');
+    Reflect.deleteProperty(query, 'textareakey');
 
     let params = decodeUrlParam({
       url,

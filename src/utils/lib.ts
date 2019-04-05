@@ -436,9 +436,9 @@ export const str2Arr: (str: string) => string[] = str => {
 };
 
 // 去除对象值中内容为空的
-export const handleTextVal = arr => {
+export const handleTextVal = obj => {
   let inputValue = {};
-  Object.entries(arr).forEach(([key, val]: [string, string]) => {
+  Object.entries(obj).forEach(([key, val]: [string, string]) => {
     let value = str2Arr(val);
     inputValue[key] = value.length == 1 ? value[0] : value;
   });

@@ -76,7 +76,7 @@ const query = {
 class BasicLayout extends PureComponent {
   constructor(props) {
     super(props);
-    this.getPageTitle = memoizeOne(this.getPageTitle);
+    // this.getPageTitle = memoizeOne(this.getPageTitle);
     this.getBreadcrumbNameMap = memoizeOne(this.getBreadcrumbNameMap, isEqual);
     const { menu, previewMenu } = props;
     const menuData = getMenuData(props);
@@ -215,14 +215,14 @@ class BasicLayout extends PureComponent {
     return this.breadcrumbNameMap[pathKey];
   };
 
-  getPageTitle = pathname => {
-    const currRouterData = this.matchParamsPath(pathname);
-    if (!currRouterData) {
-      return lib.systemName;
-    }
+  // getPageTitle = pathname => {
+  //   const currRouterData = this.matchParamsPath(pathname);
+  //   if (!currRouterData) {
+  //     return lib.systemName;
+  //   }
 
-    return `${currRouterData.name} - ${lib.systemName}`;
-  };
+  //   return `${currRouterData.name} - ${lib.systemName}`;
+  // };
 
   getLayoutStyle = () => {
     const { isMobile } = this.state;
@@ -310,15 +310,15 @@ class BasicLayout extends PureComponent {
 
     return (
       <React.Fragment>
-        <DocumentTitle title={this.getPageTitle(location.pathname)}>
-          <ContainerQuery query={query}>
-            {params => (
-              <Context.Provider value={this.getContext()}>
-                <div className={classNames(params)}>{layout}</div>
-              </Context.Provider>
-            )}
-          </ContainerQuery>
-        </DocumentTitle>
+        {/* <DocumentTitle title={this.getPageTitle(location.pathname)}> */}
+        {/* </DocumentTitle> */}
+        <ContainerQuery query={query}>
+          {params => (
+            <Context.Provider value={this.getContext()}>
+              <div className={classNames(params)}>{layout}</div>
+            </Context.Provider>
+          )}
+        </ContainerQuery>
         {this.renderSettingDrawer()}
       </React.Fragment>
     );

@@ -1,5 +1,5 @@
 import pathToRegexp from 'path-to-regexp';
-import { setStore } from '@/utils/lib';
+import { setStore, handleTextVal } from '@/utils/lib';
 import * as db from '../services/chart';
 import * as R from 'ramda';
 
@@ -26,9 +26,7 @@ export default {
           return;
         }
       }
-
       let inputValue = handleTextVal(textAreaValue);
-
       let config = db.decodeHash({ selectValue, dateRange, tid, query, inputValue });
       yield put({
         type: 'setStore',

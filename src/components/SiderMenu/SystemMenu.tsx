@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
 import * as dbMenu from '@/pages/menu/service';
-import { FormattedMessage } from 'umi/locale';
+// import { FormattedMessage } from 'umi/locale';
 import { connect } from 'dva';
 import userTool from '@/utils/users';
 import * as R from 'ramda';
@@ -64,7 +64,7 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
       <div>
         <img src={logo} alt="logo" />
         <h1>{menu_title}</h1>
-        <Icon type="down" style={{ color: '#fff', marginLeft: 10 }} width="20" height="20" />
+        <Icon type="down" style={{ color: '#fff', marginLeft: 10 }} />
       </div>
     </Dropdown>
   );

@@ -41,7 +41,7 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
     showLoading: false,
     loadingOption: null,
     onEvents: {},
-    opts: { renderer: 'svg' }
+    opts: { renderer: 'svg' },
   };
 
   static propTypes = {
@@ -59,15 +59,9 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
     opts: PropTypes.shape({
       devicePixelRatio: PropTypes.number,
       renderer: PropTypes.oneOf(['canvas', 'svg']),
-      width: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.oneOf([null, undefined, 'auto'])
-      ]),
-      height: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.oneOf([null, undefined, 'auto'])
-      ])
-    })
+      width: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null, undefined, 'auto'])]),
+      height: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null, undefined, 'auto'])]),
+    }),
   };
 
   echartsElement = null;
@@ -125,11 +119,7 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
   // return the echart object
   getEchartsInstance = () =>
     this.echartsLib.getInstanceByDom(this.echartsElement) ||
-    this.echartsLib.init(
-      this.echartsElement,
-      this.props.theme,
-      this.props.opts
-    );
+    this.echartsLib.init(this.echartsElement, this.props.theme, this.props.opts);
 
   // dispose echarts and element-resize-event
   dispose = () => {
@@ -150,15 +140,16 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
     this.bindEvents(echartObj, onEvents || {});
 
     // fix bug of 100px width * height.
-    try {
-      echartObj.resize();
-    } catch (_) {}
+    // try {
+    //   echartObj.resize();
+    // } catch (_) {}
 
     // on chart ready
     if (typeof onChartReady === 'function') {
       this.props.onChartReady(echartObj);
     }
     // on resize
+    // 取消绑定resize事件
     if (this.echartsElement) {
       elementResizeEvent(this.echartsElement, () => {
         echartObj.resize();
@@ -173,7 +164,7 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
       if (typeof eventName === 'string' && typeof func === 'function') {
         // binding event
         // instance.off(eventName); // 已经 dispose 在重建，所以无需 off 操作
-        instance.on(eventName, (param) => {
+        instance.on(eventName, param => {
           func(param, instance);
         });
       }
@@ -199,9 +190,11 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
       this.props.lazyUpdate || false
     );
     // set loading mask
-    if (this.props.showLoading)
+    if (this.props.showLoading) {
       echartObj.showLoading(this.props.loadingOption || null);
-    else echartObj.hideLoading();
+    } else {
+      echartObj.hideLoading();
+    }
 
     return echartObj;
   };
@@ -210,12 +203,12 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
     const { style = {}, className } = this.props;
     const newStyle = {
       height: 300,
-      ...style
+      ...style,
     };
     // for render
     return (
       <div
-        ref={(e) => {
+        ref={e => {
           this.echartsElement = e;
         }}
         style={newStyle}
