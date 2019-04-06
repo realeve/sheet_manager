@@ -54,6 +54,9 @@ let lang = {
     'confirm-password.placeholder': '确认密码',
     'phone-number.placeholder': '位手机号',
     'verification-code.placeholder': '验证码',
+    submit: '提交',
+    reset: '重置',
+    delete: '删除',
   },
   component: {
     globalHeader: {
@@ -266,11 +269,6 @@ let lang = {
       max: 'Y轴最大值',
       min: 'Y轴最小值',
     },
-  },
-  form: {
-    submit: '提交',
-    reset: '重置',
-    delete: '删除',
   },
 };
 export default convertLang(lang);

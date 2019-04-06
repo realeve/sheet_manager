@@ -1,13 +1,33 @@
 import { systemName } from '@/utils/setting';
-
+import JSEncrypt from 'jsencrypt';
+import * as R from 'ramda';
+const { default: priv_key } = require('./rsa/rsa_1024_priv.js');
+const { default: pub_key } = require('./rsa/rsa_1024_pub.js');
 const _lsKey: string = '_userSetting';
 const _menu: string = '_userMenu';
 const _login: string = '_islogin';
 const _menuTitle: string = '_userMenuTitle';
-
-const R = require('ramda');
 const CryptoJS = require('crypto-js');
+
 const salt: string = btoa(encodeURI('8f5661a0527b538ea5b2566c9da779f4'));
+
+/*RS
+openssl genrsa -out rsa_1024_priv.pem 1024
+openssl rsa -pubout -in rsa_1024_priv.pem -out rsa_1024_pub.pem
+*/
+
+const encodeRSA = values => {
+  const crypt = new JSEncrypt();
+  crypt.setPrivateKey(priv_key);
+  return crypt.encrypt(values);
+};
+
+const decodeRSA = (ciphertext: string) => {
+  const crypt = new JSEncrypt();
+  crypt.setPublicKey(pub_key);
+  crypt.setPrivateKey(priv_key);
+  return crypt.decrypt(ciphertext);
+};
 
 const encodeStr = values => CryptoJS.AES.encrypt(JSON.stringify(values), salt);
 
@@ -19,13 +39,19 @@ const decodeStr = (ciphertext: string) => {
 };
 
 const saveUserSetting = (data, menuTitle = systemName) => {
-  let values = R.clone(data);
-  let { menu } = values.setting;
+  let obj = R.clone(data);
+  let { menu } = obj.setting;
   // console.log(data, '_menuTitle');
-  Reflect.deleteProperty(values.setting, 'previewMenu');
-  Reflect.deleteProperty(values.setting, 'menu');
+  Reflect.deleteProperty(obj.setting, 'previewMenu');
+  Reflect.deleteProperty(obj.setting, 'menu');
+  let { username, password } = obj.values;
+  if (username.length <= 20) {
+    username = encodeRSA(username);
+    password = encodeRSA(password);
+  }
+  obj.values = Object.assign(obj.values, { username, password });
 
-  window.localStorage.setItem(_lsKey, encodeStr(values));
+  window.localStorage.setItem(_lsKey, encodeStr(obj));
   window.localStorage.setItem(_menu, JSON.stringify(menu));
   window.localStorage.setItem(_menuTitle, menuTitle);
 };
@@ -47,6 +73,12 @@ const getUserSetting = () => {
     previewMenu: [],
     menu_title,
   });
+  let { username, password } = data.values;
+  if (username.length > 20) {
+    username = decodeRSA(username);
+    password = decodeRSA(password);
+    data.values = Object.assign(data.values, { username, password });
+  }
   return {
     data,
     success: true,
