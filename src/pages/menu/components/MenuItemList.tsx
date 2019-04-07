@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { Input, Button, Popconfirm, Icon, notification } from 'antd';
+import { Input, Icon, notification } from 'antd';
 import { connect } from 'dva';
-
-import SortableTree from 'react-sortable-tree';
-import 'react-sortable-tree/style.css';
-import FileExplorerTheme from 'react-sortable-tree-theme-minimal';
 import * as treeUtil from './tree-data-utils';
-
 import * as db from '../service';
 import styles from '../index.less';
 import MenuItem, { TMenuItem } from './MenuItem';
+import TreeList from './TreeList';
 
 import router from 'umi/router';
 
@@ -23,12 +19,7 @@ interface IMenuItem extends TMenuItem {
 }
 
 interface IMenuState {
-  expanded: boolean;
-  treeDataLeft: TMenuList;
-  shouldCopyOnOutsideDrop: boolean;
-  menuList: TMenuList;
   searchValue: string;
-  externalNodeType: any;
   showMenuItem: boolean;
   editMode: boolean;
   menuItem: TMenuItem;
@@ -40,22 +31,16 @@ interface IMenuProps {
   [key: string]: any;
 }
 
-@connect(({ common: { userSetting } }) => ({ userSetting }))
+@connect(({ common: { userSetting }, menu: { menuItemList, treeDataLeft } }) => ({
+  userSetting,
+  menuItemList,
+  treeDataLeft,
+}))
 class MenuItemList extends Component<IMenuProps, IMenuState> {
-  static defaultProps: Partial<IMenuProps> = {
-    externalNodeType: 'shareNodeType',
-  };
-
   constructor(props) {
     super(props);
-
     this.state = {
-      expanded: true,
-      treeDataLeft: [],
-      shouldCopyOnOutsideDrop: false,
-      menuList: [],
       searchValue: '',
-      externalNodeType: props.externalNodeType,
       showMenuItem: false,
       editMode: false,
       menuItem: { icon: '', title: '', url: '', id: 0, detail: '' },
@@ -63,67 +48,31 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
     };
   }
 
-  // 初始化数据
-  initData = async () => {
-    let { data: menuList } = await db.getBaseMenuItem();
-    this.setState({ menuList });
-    this.handleMenuLeft(this.state.searchValue, menuList);
-  };
-
-  componentDidMount() {
-    this.initData();
-  }
-
-  // 处理左侧数据
-  handleMenuLeft = (searchValue: string, menuList: TMenuList) => {
-    if (searchValue.length === 0) {
-      this.setState({
-        treeDataLeft: menuList,
-      });
-      return;
-    }
-
-    let treeDataLeft: TMenuList = R.filter(
-      ({ title, pinyin, pinyin_full }) =>
-        pinyin.includes(searchValue) ||
-        pinyin_full.includes(searchValue) ||
-        title.includes(searchValue)
-    )(menuList);
-    this.setState({ treeDataLeft });
-  };
-
   // 菜单项搜索过滤
   searchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue: string = e.target.value.trim();
-    this.handleMenuLeft(searchValue, this.state.menuList);
-    this.setState({ searchValue });
-  };
-
-  // 移除菜单项
-  removeMenuItem: ({ path: string }) => void = async ({ path }) => {
-    let { treeDataLeft }: { treeDataLeft: TMenuList } = R.clone(this.state);
-    let { data } = await db.delBaseMenuItem(treeDataLeft[path].id);
-    if (data[0].affected_rows === 0) {
-      this.noticeError();
-      return;
+    let treeDataLeft = this.props.menuItemList;
+    if (searchValue.length) {
+      treeDataLeft = R.filter(
+        ({ title, pinyin, pinyin_full }) =>
+          pinyin.includes(searchValue) ||
+          pinyin_full.includes(searchValue) ||
+          title.includes(searchValue)
+      )(treeDataLeft);
     }
-    treeDataLeft = treeUtil.removeNodeAtPath({
-      treeData: treeDataLeft,
-      path,
-      getNodeKey: treeUtil.getNodeKey,
-    });
-
-    this.setState({ treeDataLeft });
-    notification.success({
-      message: '系统提示',
-      description: '菜单项删除成功.',
+    this.setState({ searchValue });
+    this.props.dispatch({
+      type: 'menu/setStore',
+      payload: {
+        treeDataLeft,
+      },
     });
   };
 
   // 编辑菜单项
   editMenuItem: ({ path: string }) => void = ({ path }) => {
-    let { treeDataLeft }: { treeDataLeft: TMenuList } = R.clone(this.state);
-    let { treeIndex }: { treeIndex: number | string } = treeUtil.getNodeAtPath({
+    let { treeDataLeft } = R.clone(this.props);
+    let { treeIndex } = treeUtil.getNodeAtPath({
       treeData: treeDataLeft,
       path,
       getNodeKey: treeUtil.getNodeKey,
@@ -159,15 +108,8 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
   };
 
   changeMenuItem: (menuitem: TMenuItem) => void = async menuItem => {
-    let {
-      treeDataLeft,
-      treeIndex,
-      editMode,
-    }: {
-      treeDataLeft: TMenuList;
-      treeIndex: number | string;
-      editMode: boolean;
-    } = this.state;
+    let { treeIndex, editMode } = this.state;
+    let { treeDataLeft } = this.props;
     // 如果未做任何修改，不继续更新/增加菜单项
     if (
       (editMode && R.equals(menuItem, treeDataLeft[treeIndex])) ||
@@ -221,68 +163,24 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
     });
     //更新完毕后刷新相关状态的数据
     this.setState({
-      treeDataLeft,
       menuItem,
     });
-  };
-
-  componentDidUpdate() {
     this.props.dispatch({
       type: 'menu/setStore',
       payload: {
-        treeDataLeft: this.state.treeDataLeft,
+        treeDataLeft,
       },
     });
-  }
+  };
 
   render() {
-    const { shouldCopyOnOutsideDrop, treeDataLeft, searchValue, externalNodeType } = this.state;
-    const userSetting = this.props.userSetting;
+    const { searchValue } = this.state;
+    const { userSetting, treeDataLeft } = this.props;
 
     // 普通用户（非超管，管理员）不允许编辑菜单
     if (userSetting.user_type > 2) {
       router.push('/403');
     }
-    const TreeList = () =>
-      treeDataLeft.length === 0 ? (
-        <div className={styles.notSearch}>未搜索到菜单项</div>
-      ) : (
-        <div style={{ height: 500, marginRight: 20 }} className={styles.container}>
-          <SortableTree
-            treeData={treeDataLeft}
-            onChange={() => {}}
-            theme={FileExplorerTheme}
-            rowHeight={32}
-            dndType={externalNodeType}
-            shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
-            generateNodeProps={treeItem => {
-              if (treeItem.node.uid != userSetting.uid) {
-                return null;
-              }
-              return {
-                buttons: [
-                  <Button
-                    size="small"
-                    icon="edit"
-                    title="编辑"
-                    style={{ marginRight: 5 }}
-                    onClick={() => this.editMenuItem(treeItem)}
-                  />,
-                  <Popconfirm
-                    title="确定删除该菜单项?"
-                    okText="是"
-                    cancelText="否"
-                    icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                    onConfirm={() => this.removeMenuItem(treeItem)}
-                  >
-                    <Button size="small" title="删除" icon="delete" />
-                  </Popconfirm>,
-                ],
-              };
-            }}
-          />
-        </div>
-      );
 
     let { showMenuItem, menuItem, editMode } = this.state;
 
@@ -305,7 +203,6 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
           editMode={editMode}
           onChange={this.changeMenuItem}
         />
-
         <p className={styles.title}>1.菜单项列表</p>
         <div className={styles.action}>
           <Search
@@ -317,7 +214,12 @@ class MenuItemList extends Component<IMenuProps, IMenuState> {
             enterButton={<Icon type="plus" />}
           />
         </div>
-        <TreeList />
+        <TreeList
+          treeDataLeft={treeDataLeft}
+          editMenuItem={this.editMenuItem}
+          uid={userSetting.uid}
+          dispatch={this.props.dispatch}
+        />
       </>
     );
   }

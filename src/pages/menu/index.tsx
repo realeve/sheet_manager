@@ -6,12 +6,10 @@ import MenuItemList from './components/MenuItemList';
 import MenuPreview from './components/MenuPreview';
 import MenuList from './components/MenuList';
 import ChartLink from '@/components/ChartLink';
-import * as db from './service';
 import styles from './index.less';
 import ChartConfig from '../chart/Config';
 import TableConfig from '../table/Config';
 
-import { TMenuList } from './components/MenuItemList';
 import { TMenuItem } from './components/MenuItem';
 
 interface ITreeProps {
@@ -23,8 +21,6 @@ interface ITreeProps {
 interface ITreeState {
   menuDetail: TMenuItem;
   editMode: boolean;
-  uid: number | string;
-  menuList: TMenuList;
   visible: boolean;
   tableVisible: boolean;
 }
@@ -41,27 +37,10 @@ class VTree extends Component<ITreeProps, ITreeState> {
         url: '',
       },
       editMode: false,
-      uid: props.uid,
-      menuList: [],
       visible: false,
       tableVisible: false,
     };
   }
-
-  componentDidMount() {
-    this.initData();
-  }
-
-  initData = async () => {
-    let { data } = await db.getBaseMenuList();
-    let menuList = data.map(item => {
-      item.detail = JSON.parse(item.detail);
-      return item;
-    });
-    this.setState({
-      menuList,
-    });
-  };
 
   editMenu = async (menuDetail, mode: 'edit' | 'del') => {
     if (mode === 'edit') {
@@ -82,7 +61,6 @@ class VTree extends Component<ITreeProps, ITreeState> {
         url: '',
       },
     });
-    this.initData();
   };
 
   showCartLink = () => {
@@ -99,12 +77,12 @@ class VTree extends Component<ITreeProps, ITreeState> {
 
   render() {
     const externalNodeType: string = 'shareNodeType';
-    const { menuDetail, editMode, visible, uid, tableVisible } = this.state;
+    const { menuDetail, editMode, visible, tableVisible } = this.state;
     return (
       <Card title="菜单设置">
         <Row>
           <Col md={8} sm={24}>
-            <MenuItemList externalNodeType={externalNodeType} dispatch={this.props.dispatch} />
+            <MenuItemList externalNodeType={externalNodeType} />
           </Col>
           <Col md={8} sm={24}>
             <MenuPreview
@@ -112,11 +90,11 @@ class VTree extends Component<ITreeProps, ITreeState> {
               menuDetail={menuDetail}
               editMode={editMode}
               onNew={this.reset}
-              uid={uid}
+              uid={this.props.uid}
             />
           </Col>
           <Col md={8} sm={24}>
-            <MenuList onEdit={this.editMenu} uid={uid} menuList={this.state.menuList} />
+            <MenuList onEdit={this.editMenu} uid={this.props.uid} />
           </Col>
         </Row>
         <div className={styles.actions}>

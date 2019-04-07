@@ -33,7 +33,7 @@ export default function CartsOneDay({ cart }) {
     let { res, res2 } = handleData(mahouData);
     setState(res);
     setCartInfo(res2);
-  }, [mahouData]);
+  }, [mahouData.data]);
 
   const params = { type: 'line', simple: '2', x: 1, y: 2, smooth: true };
   const beforeRender = option => ({ ...option, color: ['#e74c3c'] });

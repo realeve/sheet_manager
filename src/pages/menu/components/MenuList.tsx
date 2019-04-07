@@ -5,7 +5,7 @@ import styles from './MenuList.less';
 import * as db from '../service';
 import userTool from '@/utils/users';
 import { TMenuItem } from './MenuItem';
-import { TMenuList } from './MenuItemList';
+// import { TMenuList } from './MenuItemList';
 
 const R = require('ramda');
 
@@ -14,28 +14,28 @@ interface IMenuListProps {
   dispatch?: (action: { type: string; payload: any }) => void;
 }
 
-interface IMenuListState {
-  menuList: TMenuList;
-  uid: string | number;
-}
+// interface IMenuListState {
+// menuList: TMenuList;
+// uid: string | number;
+// }
 
-class MenuList extends Component<IMenuListProps, IMenuListState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      menuList: props.menuList,
-      uid: props.uid,
-    };
-  }
+class MenuList extends Component<IMenuListProps> {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     // menuList: props.menuList,
+  //     uid: props.uid,
+  //   };
+  // }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (R.equals(nextProps.menuList, prevState.menuList)) {
-      return null;
-    }
-    return {
-      menuList: nextProps.menuList,
-    };
-  }
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   if (R.equals(nextProps.menuList, prevState.menuList)) {
+  //     return null;
+  //   }
+  //   return {
+  //     menuList: nextProps.menuList,
+  //   };
+  // }
 
   editMenu = menuItem => {
     this.props.onEdit(menuItem, 'edit');
@@ -50,7 +50,7 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
       data: [{ affected_rows }],
     } = await db.setSysUser({
       menu_id,
-      _id: this.state.uid,
+      _id: this.props.uid,
     });
 
     notification.success({
@@ -130,7 +130,7 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
   };
 
   render() {
-    let { menuList, uid } = this.state;
+    let { menuList, uid } = this.props;
     return (
       <>
         <p className={styles.title}>3.菜单列表</p>
@@ -183,6 +183,7 @@ class MenuList extends Component<IMenuListProps, IMenuListState> {
 function mapStateToProps(state) {
   return {
     ...state.common,
+    menuList: state.menu.menuList,
   };
 }
 

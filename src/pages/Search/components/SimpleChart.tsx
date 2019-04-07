@@ -18,6 +18,6 @@ export default function SimpleChart({ data, params, beforeRender, ...props }: Ch
       option = beforeRender(option);
     }
     setState(option);
-  }, [data, params]);
+  }, [data.data]);
   return <Chart renderer="svg" option={state} {...props} />;
 }
