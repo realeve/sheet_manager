@@ -196,7 +196,6 @@ class LoginComponent extends Component {
     if (R.isNil(user)) {
       user = { username: uid, uid };
     }
-    console.log(user);
     this.setState({ username: user.username, uid: user.uid });
   };
 
