@@ -1,7 +1,8 @@
-import { axios } from '@/utils/axios';
+import { axios, mock } from '@/utils/axios';
+import { DEV, uploadHost, config, CUR_COMPANY } from '@/utils/setting';
 import userTool from '@/utils/users';
-import * as util from '@/utils/setting';
-let { config, CUR_COMPANY } = util;
+// import * as util from '@/utils/setting';
+// let { config, CUR_COMPANY } = util;
 let curConfig = config[CUR_COMPANY];
 /**
 *   @database: { 接口管理 }
@@ -37,9 +38,11 @@ export const getSysUser = params =>
  *   @desc:     { 部门列表 }
  */
 export const getSysDept = () =>
-  axios({
-    url: '/27/9b520a55df.json',
-  });
+  DEV
+    ? mock(require('@/mock/27_9b520a55df.json'))
+    : axios({
+        url: '/27/9b520a55df.json',
+      });
 
 /**
  *   @database: { 接口管理 }
@@ -94,6 +97,19 @@ export const setSysUser = params =>
     url: '/31/26695416cd.json',
     params,
   });
+
+// 根据部门获取用户列表
+export const getUserListBydept = dept => {
+  let org = curConfig.org;
+  const url = DEV ? 'http://localhost:3030/api/users' : 'http://10.8.1.27:4040/api/users';
+  return axios({
+    url,
+    params: {
+      org,
+      dept,
+    },
+  });
+};
 
 // 重新登录，处理登录后相关数据逻辑及全局状态更新
 export const reLogin = async dispatch => {
@@ -176,7 +192,7 @@ export const setSysUserActive = params =>
 export const uploadFile = data =>
   axios({
     method: 'post',
-    url: util.uploadHost,
+    url: uploadHost,
     data,
   });
 

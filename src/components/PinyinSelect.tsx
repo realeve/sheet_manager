@@ -44,7 +44,7 @@ export default function PinyinSelect(props: IProps) {
   };
 
   let { placeholder, options, value, onChange, className, ...prop } = props;
-
+  console.log(value);
   return (
     <Select
       {...prop}

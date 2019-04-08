@@ -9,7 +9,7 @@ export let config = {
     uploadHost: 'http://cdn.cdyc.cbpm:100/upload/',
     host: 'http://10.8.2.133:8000',
     org: 'CDYC',
-    useUAP: !DEV && true, // 使用代理身份认证登录
+    useUAP: true, //&&!DEV, // 使用代理身份认证登录
     uapLoginUrl: 'http://10.8.1.27:4040/api/login', // 登录URL
     uapUserList: 'http://10.8.1.25:100/rtx/rtx_CDYC.xml', //代理身份登录中用户列表信息
   },
@@ -20,8 +20,9 @@ export let config = {
     systemName: '通用报表管理系统',
     uploadHost: 'http://10.56.37.153:100/upload/',
     org: 'KSCZ',
-    useUAP: !DEV && false, // 使用代理身份认证登录
+    useUAP: !DEV && true, // 使用代理身份认证登录
     uapLoginUrl: 'http://10.8.1.27:4040/api/login', // 登录URL
+    uapUserList: 'http://10.8.1.25:100/rtx/rtx_CDYC.xml', //代理身份登录中用户列表信息
   },
 };
 

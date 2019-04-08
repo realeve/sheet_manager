@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import { FormattedMessage } from 'umi/locale';
 // import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
 
-import { Alert, Checkbox } from 'antd';
+import { Alert, Checkbox, Icon } from 'antd';
 import Login from 'ant-design-pro/lib/Login';
 import styles from './index.less';
 import * as db from './service';
@@ -13,8 +13,9 @@ import Link from 'umi/link';
 import PinyinSelect from '@/components/PinyinSelect';
 import { ORG, useUAP } from '@/utils/setting';
 import * as rtx from '@/utils/rtx';
+import * as R from 'ramda';
 
-const { UserName, Password, Submit } = Login;
+const { Password, Submit } = Login;
 
 class LoginComponent extends Component {
   state = {
@@ -26,6 +27,8 @@ class LoginComponent extends Component {
     depts: [],
     dept: null,
     userList: [],
+    uid: null,
+    username: '',
   };
 
   onSubmit = (_, values) => {
@@ -51,6 +54,7 @@ class LoginComponent extends Component {
   };
 
   async login(param) {
+    // console.log(param);
     this.setState({
       submitting: true,
     });
@@ -82,7 +86,7 @@ class LoginComponent extends Component {
     const autoLogin = this.state.autoLogin;
 
     if (userInfo.rows > 0) {
-      let userSetting = userInfo.data[0];
+      let userSetting = userInfo.data[0] || userInfo.data;
       if (userSetting.actived === 0) {
         this.setState({
           notice: '帐户未激活，请联系管理员',
@@ -136,10 +140,15 @@ class LoginComponent extends Component {
     });
 
     if (useUAP) {
-      let userList = await rtx.init();
+      let { data: userList } = await db.getUserListBydept(); //await rtx.init();
       this.setState({ userList });
     }
   };
+
+  // loadUsers = async()=>{
+  //   let {data} = await db.getUserListBydept();
+  //   this.setState({users})
+  // }
 
   componentDidMount() {
     this.loadDepts();
@@ -153,10 +162,10 @@ class LoginComponent extends Component {
       });
       return;
     }
-
     this.setState({
       avatar: data.setting.avatar,
       dept: data.values.dept,
+      uid: data.values.username,
     });
 
     const query = this.props.location.query;
@@ -182,8 +191,17 @@ class LoginComponent extends Component {
     });
   };
 
+  onUserChange = uid => {
+    let user = R.find(R.propEq('value', uid))(this.state.userList);
+    if (R.isNil(user)) {
+      user = { username: uid, uid };
+    }
+    console.log(user);
+    this.setState({ username: user.username, uid: user.uid });
+  };
+
   render() {
-    const { autoLogin, avatar, submitting, depts, dept } = this.state;
+    const { autoLogin, avatar, submitting, depts, dept, userList, uid } = this.state;
     const {
       location: { search },
     } = this.props;
@@ -214,7 +232,20 @@ class LoginComponent extends Component {
               placeholder="选择所在部门"
             />
           </div>
-          <UserName name="username" placeholder="用户名" autoComplete="false" />
+          <div style={{ marginTop: 20, marginBottom: 20 }}>
+            <Icon type="user" />
+            <PinyinSelect
+              style={{ width: 190, marginLeft: 10 }}
+              size="large"
+              className={styles.selector}
+              value={uid}
+              onSelect={this.onUserChange}
+              options={userList}
+              placeholder="姓名"
+              mode="tags"
+            />
+          </div>
+          {/* <UserName name="username" placeholder="用户名" autoComplete="false" /> */}
           <Password name="password" placeholder="密码" autoComplete="false" />
         </div>
         <div>
