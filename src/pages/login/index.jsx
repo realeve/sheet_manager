@@ -158,6 +158,12 @@ class LoginComponent extends Component {
     let { data, success } = userTool.getUserSetting();
     let avatar = '/img/avatar.svg';
 
+    if (!success || !data.autoLogin) {
+      this.setState({
+        avatar,
+      });
+      return;
+    }
     this.setState({
       avatar: data.setting.avatar,
       dept: data.values.dept,
@@ -165,13 +171,6 @@ class LoginComponent extends Component {
       username: data.values.username,
       password: data.values.password,
     });
-
-    if (!success || !data.autoLogin) {
-      this.setState({
-        avatar,
-      });
-      return;
-    }
 
     const query = this.props.location.query;
     if (query.autoLogin === '0' || query.redirect) {
@@ -198,10 +197,11 @@ class LoginComponent extends Component {
 
   onUserChange = uid => {
     let user = R.find(R.propEq('value', uid))(this.state.userList);
+    // console.log(uid, user, this.state.userList);
     if (R.isNil(user)) {
-      user = { username: uid, uid };
+      user = { name: uid, value: uid };
     }
-    this.setState({ username: user.username, uid: user.uid });
+    this.setState({ username: user.name, uid: user.value });
   };
 
   onDeptChange = dept => {
