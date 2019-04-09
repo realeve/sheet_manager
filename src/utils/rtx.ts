@@ -8,7 +8,7 @@ const x2js = new X2JS();
 let { CUR_COMPANY, config } = util;
 
 // 全局配置rtx xml文件
-let rtxUrl = config[CUR_COMPANY].uapUserList;
+let rtxUrl = config[CUR_COMPANY].uap.rtx;
 
 export const init = async () => {
   let xml = await axios(rtxUrl).then(({ data }) => data);

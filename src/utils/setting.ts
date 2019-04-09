@@ -1,4 +1,4 @@
-export let DEV: boolean = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+export let DEV: boolean = false; //process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 // 前台资源部署域名，默认头像图片资源调用域名
 export let config = {
@@ -9,9 +9,16 @@ export let config = {
     uploadHost: 'http://cdn.cdyc.cbpm:100/upload/',
     host: 'http://10.8.2.133:8000',
     org: 'CDYC',
-    useUAP: true, //&&!DEV, // 使用代理身份认证登录
-    uapLoginUrl: 'http://10.8.1.27:4040/api/login', // 登录URL
-    uapUserList: 'http://10.8.1.25:100/rtx/rtx_CDYC.xml', //代理身份登录中用户列表信息
+    uap: {
+      active: true && !DEV, // 使用代理身份认证登录
+      rtx: 'http://10.8.1.25:100/rtx/rtx_CDYC.xml',
+      // login: 'http://10.8.1.27:4040/api/login',
+      // dept: 'http://localhost:3030/api/depts',
+      // user: 'http://localhost:3030/api/users',
+      login: 'http://10.8.1.27:4040/api/login', // 登录URL
+      dept: 'http://10.8.1.27:4040/api/depts', // 部门列表
+      user: 'http://10.8.1.27:4040/api/users', //用户列表
+    },
   },
   kunshan: {
     api: 'http://10.56.37.153:100/',
@@ -20,9 +27,12 @@ export let config = {
     systemName: '通用报表管理系统',
     uploadHost: 'http://10.56.37.153:100/upload/',
     org: 'KSCZ',
-    useUAP: !DEV && true, // 使用代理身份认证登录
-    uapLoginUrl: 'http://10.8.1.27:4040/api/login', // 登录URL
-    uapUserList: 'http://10.8.1.25:100/rtx/rtx_CDYC.xml', //代理身份登录中用户列表信息
+    uap: {
+      active: true && !DEV, // 使用代理身份认证登录
+      login: 'http://10.8.1.27:4040/api/login', // 登录URL
+      dept: 'http://10.8.1.27:4040/api/depts', // 部门列表
+      user: 'http://10.8.1.27:4040/api/users', //用户列表
+    },
   },
 };
 
@@ -37,11 +47,11 @@ export let systemName = defaultTitle || config[CUR_COMPANY].systemName;
 export let AUTHOR = config[CUR_COMPANY].footer;
 
 export let ORG = config[CUR_COMPANY].org;
-export let useUAP = config[CUR_COMPANY].useUAP;
+export let uap = config[CUR_COMPANY].uap;
 
 let domain: string = config[CUR_COMPANY].api;
 // 后台api部署域名
-let host: string = config[CUR_COMPANY].api;
+let host = domain;
 
 // 人员信息管理，头像信息上传路径
 let uploadHost: string = config[CUR_COMPANY].uploadHost;

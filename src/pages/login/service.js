@@ -1,9 +1,8 @@
 import { axios, mock } from '@/utils/axios';
-import { DEV, uploadHost, config, CUR_COMPANY } from '@/utils/setting';
+import { DEV, uploadHost, config, CUR_COMPANY, uap } from '@/utils/setting';
 import userTool from '@/utils/users';
-// import * as util from '@/utils/setting';
-// let { config, CUR_COMPANY } = util;
-let curConfig = config[CUR_COMPANY];
+const curConfig = config[CUR_COMPANY];
+const org = curConfig.org;
 /**
 *   @database: { 接口管理 }
 *   @desc:     { 用户登录 } 
@@ -11,11 +10,11 @@ let curConfig = config[CUR_COMPANY];
 */
 export const getSysUser = params =>
   axios({
-    url: curConfig.useUAP ? curConfig.uapLoginUrl : '/5/209a76b78d.json',
+    url: uap.active ? uap.login : '/5/209a76b78d.json',
     params,
   }).then(res => {
     // 采用原接口管理的信息
-    if (!curConfig.useUAP) {
+    if (!uap.active) {
       return res;
     }
 
@@ -41,7 +40,8 @@ export const getSysDept = () =>
   DEV
     ? mock(require('@/mock/27_9b520a55df.json'))
     : axios({
-        url: '/27/9b520a55df.json',
+        url: uap.active ? uap.dept : '/27/9b520a55df.json',
+        params: { org },
       });
 
 /**
@@ -100,8 +100,7 @@ export const setSysUser = params =>
 
 // 根据部门获取用户列表
 export const getUserListBydept = dept => {
-  let org = curConfig.org;
-  const url = DEV ? 'http://localhost:3030/api/users' : 'http://10.8.1.27:4040/api/users';
+  const url = DEV ? 'http://localhost:3030/api/users' : uap.user;
   return axios({
     url,
     params: {
@@ -121,7 +120,7 @@ export const reLogin = async dispatch => {
   let userInfo = await getSysUser(values);
   if (userInfo.rows > 0) {
     let userSetting = userInfo.data[0];
-    userSetting.menu = JSON.parse(userSetting.menu);
+    // userSetting.menu = JSON.parse(userSetting.menu);
     userTool.saveUserSetting({ values, setting: userSetting, autoLogin: true });
     dispatch({
       type: 'common/setStore',

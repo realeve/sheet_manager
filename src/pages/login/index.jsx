@@ -4,18 +4,18 @@ import { connect } from 'dva';
 import { FormattedMessage } from 'umi/locale';
 // import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
 
-import { Alert, Checkbox, Icon } from 'antd';
+import { Alert, Checkbox, Icon, Input } from 'antd';
 import Login from 'ant-design-pro/lib/Login';
 import styles from './index.less';
 import * as db from './service';
 import userTool from '@/utils/users';
 import Link from 'umi/link';
 import PinyinSelect from '@/components/PinyinSelect';
-import { ORG, useUAP } from '@/utils/setting';
-import * as rtx from '@/utils/rtx';
+import { ORG, uap } from '@/utils/setting';
+// import * as rtx from '@/utils/rtx';
 import * as R from 'ramda';
 
-const { Password, Submit } = Login;
+const { Submit } = Login;
 
 class LoginComponent extends Component {
   state = {
@@ -53,20 +53,21 @@ class LoginComponent extends Component {
     }
   };
 
-  async login(param) {
-    // console.log(param);
+  login = async () => {
     this.setState({
       submitting: true,
     });
 
+    let { dept, uid, username, autoLogin, password } = this.state;
+
     // todo 20190401 此处提供uid读取接口
-    let values = { ...param, dept: this.state.dept, org: ORG, uid: 0 };
+    let values = { password, uid, username, dept, org: ORG };
 
     // 是否启用统一认证登录
-    if (useUAP) {
-      let { uid } = rtx.getUserDetail(this.state.userList, param.username);
-      values.uid = uid;
-    }
+    // if (uap.active) {
+    //   let { uid } = rtx.getUserDetail(userList, param.username);
+    //   values.uid = uid;
+    // }
 
     let userInfo = await db
       .getSysUser(values)
@@ -83,7 +84,6 @@ class LoginComponent extends Component {
           rows: -1,
         };
       });
-    const autoLogin = this.state.autoLogin;
 
     if (userInfo.rows > 0) {
       let userSetting = userInfo.data[0] || userInfo.data;
@@ -122,15 +122,21 @@ class LoginComponent extends Component {
         notice: '账号或密码错误！',
       });
     }
-  }
+  };
 
   loadDepts = async () => {
     db.getSysDept().then(({ data: depts, ip }) => {
       depts = depts.map(({ value, value: name }) => ({ name, value }));
-      this.setState({
-        ip,
-        depts,
-      });
+      this.setState(
+        {
+          ip,
+          depts,
+        },
+        () => {
+          this.loadUser();
+        }
+      );
+
       if (ip.slice(0, 4) !== '10.9') {
         return;
       }
@@ -138,17 +144,13 @@ class LoginComponent extends Component {
         notice: '生产网测试用户：用户名：jitai，密码：12345',
       });
     });
-
-    if (useUAP) {
-      let { data: userList } = await db.getUserListBydept(); //await rtx.init();
+  };
+  loadUser = async () => {
+    if (uap.active) {
+      let { data: userList } = await db.getUserListBydept(this.state.dept); //await rtx.init();
       this.setState({ userList });
     }
   };
-
-  // loadUsers = async()=>{
-  //   let {data} = await db.getUserListBydept();
-  //   this.setState({users})
-  // }
 
   componentDidMount() {
     this.loadDepts();
@@ -156,23 +158,26 @@ class LoginComponent extends Component {
     let { data, success } = userTool.getUserSetting();
     let avatar = '/img/avatar.svg';
 
+    this.setState({
+      avatar: data.setting.avatar,
+      dept: data.values.dept,
+      uid: data.values.username,
+      username: data.values.username,
+      password: data.values.password,
+    });
+
     if (!success || !data.autoLogin) {
       this.setState({
         avatar,
       });
       return;
     }
-    this.setState({
-      avatar: data.setting.avatar,
-      dept: data.values.dept,
-      uid: data.values.username,
-    });
 
     const query = this.props.location.query;
     if (query.autoLogin === '0' || query.redirect) {
       return;
     }
-    this.login(data.values);
+    this.login();
   }
 
   forgetPsw = () => {
@@ -199,8 +204,14 @@ class LoginComponent extends Component {
     this.setState({ username: user.username, uid: user.uid });
   };
 
+  onDeptChange = dept => {
+    this.setState({ dept }, () => {
+      this.loadUser();
+    });
+  };
+
   render() {
-    const { autoLogin, avatar, submitting, depts, dept, userList, uid } = this.state;
+    const { autoLogin, avatar, submitting, depts, dept, userList, uid, password } = this.state;
     const {
       location: { search },
     } = this.props;
@@ -221,12 +232,13 @@ class LoginComponent extends Component {
             />
           )}
           <div style={{ marginTop: 20, marginBottom: 20 }}>
+            <Icon type="home" theme="twoTone" />
             <PinyinSelect
-              style={{ width: 220 }}
+              style={{ width: 190, marginLeft: 10 }}
               size="large"
               className={styles.selector}
               value={dept}
-              onSelect={dept => this.setState({ dept })}
+              onSelect={this.onDeptChange}
               options={depts}
               placeholder="选择所在部门"
             />
@@ -240,12 +252,29 @@ class LoginComponent extends Component {
               value={uid}
               onSelect={this.onUserChange}
               options={userList}
-              placeholder="姓名"
+              placeholder="姓名或用户名"
               mode="tags"
+              maxTagCount={1}
+              maxTagPlaceholder="请输入姓名或用户名"
+              onDeselect={() => {
+                this.setState({ uid: null });
+              }}
+            />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Icon type="eye-invisible" theme="twoTone" style={{ height: 32, lineHeight: '32px' }} />
+            <Input
+              style={{ width: 190, marginLeft: 10 }}
+              type="password"
+              value={password}
+              placeholder="密码"
+              autoComplete="false"
+              onPressEnter={this.login}
+              size="large"
+              onChange={e => this.setState({ password: e.target.value })}
             />
           </div>
           {/* <UserName name="username" placeholder="用户名" autoComplete="false" /> */}
-          <Password name="password" placeholder="密码" autoComplete="false" />
         </div>
         <div>
           <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
