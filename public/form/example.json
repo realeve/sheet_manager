@@ -18,6 +18,7 @@
             "param": ["cart_number"]
         }
     },
+    "watch": ["dept_id", "dept_id1"],
     "detail": [{
         "title": "基础数据",
         "detail": [{
@@ -35,7 +36,7 @@
         }, {
             "title": "部门",
             "type": "select",
-            "url": "77/51bbce6074.json",
+            "url": "27/9b520a55df.json",
             "key": "dept_id",
             "rule": {
                 "required": true
@@ -61,11 +62,31 @@
         }, {
             "title": "单选部门",
             "type": "select",
-            "url": "77/51bbce6074.json",
+            "url": "27/9b520a55df.json",
             "key": "dept_id2",
             "rule": {
                 "required": true
             }
+        }, {
+            "title": "单选部门",
+            "type": "select",
+            "url": "27/9b520a55df.json",
+            "key": "dept_id4",
+            "rule": {
+                "required": true
+            },
+            "cascade": "dept_id",
+            "block": "当dept_id变更时，加载该组件数据"
+        }, {
+            "title": "单选部门3",
+            "type": "select",
+            "url": "27/9b520a55df.json",
+            "key": "dept_id3",
+            "rule": {
+                "required": true
+            },
+            "mode": "tags",
+            "block": "用户可自由输入"
         }, {
             "title": "数量1",
             "type": "input",

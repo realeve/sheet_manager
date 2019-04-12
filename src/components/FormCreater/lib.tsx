@@ -143,7 +143,7 @@ export const getRuleMsg = (rule, title = '本字段') => {
 };
 
 // 处理传入的options选项，适用{name,value}及{id,value}形式
-export const handleOptions = data =>
+export const handleOptions = (data, textVal: boolean) =>
   data.map(item => {
     if (item.name) {
       return { ...item, label: item.name };
@@ -151,7 +151,7 @@ export const handleOptions = data =>
       return {
         label: item.value,
         name: item.value,
-        value: item.id,
+        value: textVal ? item.value : item.id,
       };
     }
   });

@@ -3,11 +3,15 @@ import { axios } from '@/utils/axios';
 import * as R from 'ramda';
 import { handleOptions } from './lib';
 
-export function useOptions({ url, defaultOption }) {
+export function useOptions({ url, defaultOption, params, textVal, cascade }) {
   const [options, setOptions] = useState({ options: [], loading: true });
   useEffect(() => {
+    if (cascade && R.isNil(params[cascade])) {
+      return;
+    }
+
     if (defaultOption) {
-      let data = handleOptions(defaultOption);
+      let data = handleOptions(defaultOption, textVal);
       setOptions({ options: data, loading: false });
       return;
     }
@@ -16,10 +20,10 @@ export function useOptions({ url, defaultOption }) {
       return;
     }
 
-    axios({ url }).then(({ data }) => {
-      data = handleOptions(data);
+    axios({ url, params }).then(({ data }) => {
+      data = handleOptions(data, textVal);
       setOptions({ options: data, loading: false });
     });
-  }, [url, defaultOption]);
+  }, [url, defaultOption, params, cascade]);
   return options;
 }

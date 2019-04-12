@@ -38,30 +38,31 @@ export default {
         {
           title: '部门',
           type: 'select',
-          url: '77/51bbce6074.json',
+          url: '27/9b520a55df.json',
           key: 'dept_id',
           rule: { required: true },
           mode: 'multiple',
         },
         {
-          title: '部门1',
+          title: '品种',
           type: 'select',
-          // url: '77/51bbce6074.json',
           defaultOption: [
             { name: '2A', value: 2 },
             { name: '3A', value: 3 },
             { name: '4A', value: 4 },
             { name: '5A', value: 5 },
           ],
-          key: 'dept_id1',
+          key: 'prod_2',
         },
 
         {
           title: '单选部门',
           type: 'select',
-          url: '77/51bbce6074.json',
+          url: '27/9b520a55df.json',
           key: 'dept_id2',
           rule: { required: true },
+          mode: 'tags',
+          block: '(用户可输入自定义文字)',
         },
         {
           title: '数量1',
