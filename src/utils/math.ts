@@ -166,7 +166,7 @@ const handleDataItem = (data, operator, calFields) => {
   });
   operator.forEach(({ fields, header, calcType }) => {
     let cacheItem = cache[fields].map(item =>
-      lib.isFloat(item) ? parseFloat(item) : parseInt(item, 10)
+      lib.isFloat(item) ? parseFloat(item) : Number(item)
     );
 
     let res = '';

@@ -183,7 +183,7 @@ const setCellBorder = (worksheet, params) => {
     for (let j: number = 1; j <= worksheet.columnCount; j++) {
       let cell = row.getCell(j);
       // 自动换行
-      cell.alignment = { wrapText: true };
+      cell.alignment = Object.assign(cell.alignment || {}, { wrapText: true });
       cell.border = {
         top: { style: 'thin' },
         left: { style: 'thin' },
