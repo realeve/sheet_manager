@@ -73,6 +73,7 @@ const getUserSetting = () => {
     previewMenu: [],
     menu_title,
   });
+
   let { username, password } = data.values;
   if (username.length > 20) {
     username = decodeRSA(username);

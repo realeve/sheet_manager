@@ -37,9 +37,9 @@ test('处理提交至数据库后台的数据', () => {
         api: {
           insert: {
             param: ['uid', 'rec_time'],
-            url: 'a.json',
+            url: '1/a.json',
           },
-          update: 'b.json',
+          update: '1/b.json',
         },
       },
       params: { a: 1 },
@@ -48,8 +48,9 @@ test('处理提交至数据库后台的数据', () => {
     })
   ).toMatchObject({
     method: 'post',
-    url: 'a.json',
     data: {
+      id: '1',
+      nonce: 'a',
       a: 1,
       uid: 1,
     },
@@ -60,40 +61,28 @@ test('处理提交至数据库后台的数据', () => {
       config: {
         api: {
           insert: {
-            url: 'a.json',
+            url: '1/a.json',
             param: [],
           },
-          update: 'b.json',
+          update: '2/b.json',
         },
       },
       params: { a: 1 },
       editMethod: 'insert',
       uid: 1,
     })
-  ).toMatchObject({
-    method: 'post',
-    url: 'a.json',
-    data: {
-      a: 1,
-    },
-  });
+  ).toMatchObject({ data: { a: 1, id: '1', nonce: 'a' }, method: 'post' });
 
   expect(
     getPostData({
       config: {
-        api: { insert: 'a.json', update: 'b.json' },
+        api: { insert: '1/a.json', update: '2/b.json?param1=3' },
       },
       params: { a: 1 },
       editMethod: 'update',
       uid: 1,
     })
-  ).toMatchObject({
-    method: 'post',
-    url: 'b.json',
-    data: {
-      a: 1,
-    },
-  });
+  ).toMatchObject({ data: { a: 1, id: '2', nonce: 'b', param1: '3' }, method: 'post' });
 });
 
 test('数据格式校验', () => {

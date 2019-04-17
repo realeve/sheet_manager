@@ -3,14 +3,20 @@ import FormCreater from '@/components/FormCreater';
 import { axios } from '@/utils/axios';
 import * as R from 'ramda';
 import { Card } from 'antd';
+import qs from 'qs';
 
+// http://localhost:8000/form/page1#id=./form/example2.json
 export default function page1() {
-  const url = 'http://localhost:8000/form/example.json';
+  let res = qs.parse(window.location.hash.slice(1));
+  let url = res.id || '';
   const [config, setConfig] = useState({});
   useEffect(() => {
     init();
   }, [url]);
   const init = async () => {
+    if (url.length === 0) {
+      return;
+    }
     let data = await axios({ url });
     setConfig(data);
   };

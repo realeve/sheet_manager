@@ -1,5 +1,6 @@
 import * as lib from '@/utils/lib';
 import * as R from 'ramda';
+import qs from 'qs';
 
 // 处理数据
 export const handler = {
@@ -49,7 +50,6 @@ export const getPostData = ({ config, params, editMethod, uid }) => {
 
   // 是否新增数据
   let method = editMethod === 'insert' ? insert : update;
-
   let { param } = method;
   let extraParam: { [key: string]: any } = {};
   if (R.type(param) === 'Array') {
@@ -60,11 +60,14 @@ export const getPostData = ({ config, params, editMethod, uid }) => {
       extraParam.rec_time = lib.now();
     }
   }
+  let url = getUrl(method);
+  let [id, nonce] = url.match(/(\d+)\/(\w+)/g)[0].split('/');
+  // 随url自带的固定参数
+  let ex = url.includes('?') ? qs.parse(url.split('?')[1]) : {};
 
   let axiosConfig = {
     method: 'post',
-    url: getUrl(method),
-    data: { ...params, ...extraParam },
+    data: { ...params, ...extraParam, ...ex, id, nonce },
   };
   return axiosConfig;
 };
@@ -81,7 +84,7 @@ export const onValidate = (value, rule) => {
   }
 
   // 执行自定义 regExp
-  if (pattern.includes('/')) {
+  if (pattern && pattern.includes('/')) {
     let reg = new RegExp(eval(pattern));
     return reg.test(value);
   }

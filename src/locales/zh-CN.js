@@ -55,6 +55,7 @@ let lang = {
     'phone-number.placeholder': '位手机号',
     'verification-code.placeholder': '验证码',
     submit: '提交',
+    update: '更新',
     reset: '重置',
     delete: '删除',
   },

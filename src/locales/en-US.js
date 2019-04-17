@@ -221,6 +221,7 @@ let lang = {
     submit: 'Submit',
     reset: 'Reset',
     delete: 'Delete',
+    update: 'update',
   },
 };
 

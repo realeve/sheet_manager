@@ -1,9 +1,15 @@
-import { axios, handleError, loadUserInfo, handleData, mock, getType } from './axios';
+import { axios, handleError, handleUrl, loadUserInfo, handleData, mock, getType } from './axios';
 
 let readData = () =>
   axios({
     url: 'http://api.cbpc.ltd/3/e4e497e849',
   }).then(res => res.rows);
+
+test('handle url', () => {
+  expect(handleUrl({ url: './test.json' })).toMatchObject({
+    url: 'http://localhost:8000/test.json',
+  });
+});
 
 test('resolve', () =>
   axios({

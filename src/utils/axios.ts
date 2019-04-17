@@ -157,6 +157,13 @@ export const handleData = ({ data }) => {
   return data;
 };
 
+export const handleUrl = option => {
+  if (option.url && option.url[0] === '.') {
+    option.url = window.location.origin + option.url.slice(1);
+  }
+  return option;
+};
+
 // 自动处理token更新，data 序列化等
 export let axios = option => {
   window.g_axios = window.g_axios || {
@@ -168,6 +175,8 @@ export let axios = option => {
     let user: null | string = window.localStorage.getItem('user');
     loadUserInfo(user);
   }
+
+  option = handleUrl(option);
 
   option = Object.assign(option, {
     headers: {

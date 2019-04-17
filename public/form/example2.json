@@ -1,0 +1,60 @@
+{
+    "name": "业务名称2",
+    "api": {
+        "insert": {
+            "url": "81/7e63360284",
+            "param": ["rec_time", "uid"],
+            "_desc": "insert into tbl_sample_bar(data_type,data_value,data_count ) values (?,?,?)"
+        },
+        "update": {
+            "url": "83/ae9b8e8b0f",
+            "param": ["_id"],
+            "_desc": "update tbl_sample_bar set data_type = ?,data_value = ?,data_count = ? where id=?"
+        },
+        "delete": {
+            "url": "84/dac2a713d0",
+            "param": ["_id"],
+            "_desc": "delete from tbl_sample_bar where id=?"
+        },
+        "query": {
+            "url": "82/ef0905c692?param1=2",
+            "param": ["data_type", "data_value"],
+            "_desc": "SELECT id _id,a.data_type,a.data_value,a.data_count FROM tbl_sample_bar AS a where a.data_type=? and a.data_value=? order by id desc"
+        }
+    },
+    "detail": [{
+        "title": "基础数据",
+        "detail": [{
+            "title": "数据类型",
+            "type": "select",
+            "url": "79/63603da329",
+            "key": "data_type",
+            "rule": {
+                "required": true
+            },
+            "_desc": "SELECT track_name name,track_name value FROM tbl_sample_bar_desc"
+        }, {
+            "title": "数据维度",
+            "type": "select",
+            "url": "80/5a60996975.json",
+            "key": "data_value",
+            "rule": {
+                "required": true
+            },
+            "mode": "tags",
+            "cascade": "data_type",
+            "block": "当data_type变更时，加载该组件数据",
+            "_desc": "select distinct data_value name,data_value value from tbl_sample_bar a where data_type=?"
+        }, {
+            "title": "数量",
+            "type": "input.number",
+            "key": "data_count",
+            "rule": {
+                "required": true
+            },
+            "min": 0,
+            "max": 100000,
+            "placeholder": "某指标数量"
+        }]
+    }]
+}

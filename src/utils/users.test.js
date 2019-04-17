@@ -18,7 +18,12 @@ test('encode and decode', () => {
     },
     autoLogin: true,
   };
-  expect(userTool.saveUserSetting({ setting: { menu: [], previewMenu: [] } })).toBeUndefined();
+  expect(
+    userTool.saveUserSetting({
+      values: { username: 'develop', password: '111111' },
+      setting: { menu: [], previewMenu: [] },
+    })
+  ).toBeUndefined();
   expect(userTool.clearUserSetting()).toBeUndefined();
 
   expect(userTool.saveUserSetting(userSetting)).toBeUndefined();
