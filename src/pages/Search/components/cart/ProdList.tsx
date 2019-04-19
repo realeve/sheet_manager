@@ -5,6 +5,7 @@ import styles from './ProdList.less';
 import * as R from 'ramda';
 import * as lib from '@/utils/lib';
 import * as db from '@/pages/Search/utils/db';
+import Err from '@/components/Err';
 
 import CartsByDate from './CartsByDate';
 
@@ -14,6 +15,7 @@ export default function ProdList({ onRefresh, ...params }) {
   const [visible, setVisible] = useState(false);
   const [cartDetail, setCartDetail] = useState({ mid: 0, tstart: '', machine: '' });
   const [res, setRes] = useState({ loading: true, rows: 0, data: [] });
+  const [err, setErr] = useState(false);
 
   let callback = ({ data, rows }) => {
     setVisible(false);
@@ -27,10 +29,15 @@ export default function ProdList({ onRefresh, ...params }) {
       return;
     }
 
-    db.getVCbpcCartlist(cart).then(res => {
-      setRes(res);
-      callback(res);
-    });
+    db.getVCbpcCartlist(cart)
+      .then(res => {
+        setRes(res);
+        callback(res);
+      })
+      .catch(e => {
+        setErr(e);
+        setRes({ loading: false, rows: 0, data: [] });
+      });
   }, [cart]);
 
   useEffect(() => {
@@ -46,10 +53,15 @@ export default function ProdList({ onRefresh, ...params }) {
     db.getCartinfoByGZ({
       prod: params.prod,
       ...gzRes,
-    }).then(res => {
-      setRes(res);
-      callback(res);
-    });
+    })
+      .then(res => {
+        setRes(res);
+        callback(res);
+      })
+      .catch(e => {
+        setErr(e.message);
+        setRes({ loading: false, rows: 0, data: [] });
+      });
   }, [params.cart, params.prod]);
 
   const { loading, data: prodDetail, rows } = res;
@@ -79,120 +91,125 @@ export default function ProdList({ onRefresh, ...params }) {
         className={styles.cart}
         loading={loading}
       >
-        <ul>
-          {prodDetail.map(
-            (
-              {
-                key_recid,
-                ProcName,
-                WorkClassName,
-                MachineName,
-                CaptainName,
-                TeamName,
-                PrintNum,
-                StartDate,
-                WorkInfo,
-                weekName,
-                EndDate,
-                mid,
-                remark,
-                remark_type,
-              },
-              idx
-            ) => (
-              <li key={key_recid}>
-                <div>
-                  <div className={styles.title}>
-                    <div>
-                      <div className={styles.text}>
-                        {idx + 1}.{ProcName}：
-                        <a
-                          href="javascript:;"
-                          onClick={() =>
-                            setCartDetail({
-                              mid,
-                              tstart: moment(StartDate).format('YYYYMMDD'),
-                              machine: MachineName,
-                            })
-                          }
-                        >
-                          {MachineName}
-                        </a>
+        {err ? (
+          <Err err={err} />
+        ) : (
+          <ul>
+            {prodDetail.map(
+              (
+                {
+                  key_recid,
+                  ProcName,
+                  WorkClassName,
+                  MachineName,
+                  CaptainName,
+                  TeamName,
+                  PrintNum,
+                  StartDate,
+                  WorkInfo,
+                  weekName,
+                  EndDate,
+                  mid,
+                  remark,
+                  remark_type,
+                },
+                idx
+              ) => (
+                <li key={key_recid}>
+                  <div>
+                    <div className={styles.title}>
+                      <div>
+                        <div className={styles.text}>
+                          {idx + 1}.{ProcName}：
+                          <a
+                            href="javascript:;"
+                            onClick={() =>
+                              setCartDetail({
+                                mid,
+                                tstart: moment(StartDate).format('YYYYMMDD'),
+                                machine: MachineName,
+                              })
+                            }
+                          >
+                            {MachineName}
+                          </a>
+                        </div>
+                        <Badge
+                          count={WorkClassName}
+                          className={styles.workclass}
+                          style={{ backgroundColor: '#e74c3c' }}
+                        />
+                        <Badge
+                          count={'星期' + weekList[weekName]}
+                          className={styles.workclass}
+                          style={{ backgroundColor: '#337ab7' }}
+                        />
                       </div>
-                      <Badge
-                        count={WorkClassName}
-                        className={styles.workclass}
-                        style={{ backgroundColor: '#e74c3c' }}
-                      />
-                      <Badge
-                        count={'星期' + weekList[weekName]}
-                        className={styles.workclass}
-                        style={{ backgroundColor: '#337ab7' }}
-                      />
+                      <h4>{StartDate}</h4>
                     </div>
-                    <h4>{StartDate}</h4>
-                  </div>
-                  <div className={styles.detail}>
-                    <ul>
-                      <li>
-                        <strong>
-                          <Icon type="user" /> 机长
-                        </strong>
-                        {CaptainName}
-                      </li>
-                      <li>
-                        <strong>
-                          <Icon type="clock-circle" /> 完工时间
-                        </strong>
-                        {EndDate}
-                      </li>
-                      <li>
-                        <strong>
-                          <Icon type="team" /> 班组
-                        </strong>
-                        {TeamName}
-                      </li>
-                      <li>
-                        <strong>
-                          <Icon type="ordered-list" /> 产量
-                        </strong>
-                        {PrintNum}
-                      </li>
-                      {WorkInfo && (
+                    <div className={styles.detail}>
+                      <ul>
                         <li>
                           <strong>
-                            <Icon type="edit" /> 原始记录
+                            <Icon type="user" /> 机长
                           </strong>
-                          <div className={styles.loginfo}>
-                            <div>{WorkInfo}</div>
-                            <span style={{ float: 'right' }}>
-                              <Icon type="edit" style={{ color: '#337ab7' }} /> {CaptainName} 发表于{' '}
-                              {moment(EndDate)
-                                .startOf('hour')
-                                .fromNow()}
-                            </span>
-                          </div>
+                          {CaptainName}
                         </li>
-                      )}
-                      {remark && (
-                        <li style={{ background: '#ffc9ce' }}>
+                        <li>
                           <strong>
-                            <Icon type="edit" />
-                            机台关注
+                            <Icon type="clock-circle" /> 完工时间
                           </strong>
-                          <div className={styles.loginfo}>
-                            <div>{remark_type}:</div>
-                            <div>{remark}</div>
-                          </div>
+                          {EndDate}
                         </li>
-                      )}
-                    </ul>
+                        <li>
+                          <strong>
+                            <Icon type="team" /> 班组
+                          </strong>
+                          {TeamName}
+                        </li>
+                        <li>
+                          <strong>
+                            <Icon type="ordered-list" /> 产量
+                          </strong>
+                          {PrintNum}
+                        </li>
+                        {WorkInfo && (
+                          <li>
+                            <strong>
+                              <Icon type="edit" /> 原始记录
+                            </strong>
+                            <div className={styles.loginfo}>
+                              <div>{WorkInfo}</div>
+                              <span style={{ float: 'right' }}>
+                                <Icon type="edit" style={{ color: '#337ab7' }} /> {CaptainName}{' '}
+                                发表于{' '}
+                                {moment(EndDate)
+                                  .startOf('hour')
+                                  .fromNow()}
+                              </span>
+                            </div>
+                          </li>
+                        )}
+                        {remark && (
+                          <li style={{ background: '#ffc9ce' }}>
+                            <strong>
+                              <Icon type="edit" />
+                              机台关注
+                            </strong>
+                            <div className={styles.loginfo}>
+                              <div>{remark_type}:</div>
+                              <div>{remark}</div>
+                            </div>
+                          </li>
+                        )}
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </li>
-            )
-          )}
-        </ul>
+                </li>
+              )
+            )}
+          </ul>
+        )}
       </Card>
     </>
   );

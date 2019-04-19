@@ -9,6 +9,7 @@ import moment from 'moment';
 import classNames from 'classnames/bind';
 import * as lib from '@/utils/lib';
 import QueryCondition from '@/components/QueryCondition';
+import Err from '@/components/Err';
 
 const cx = classNames.bind(styles);
 
@@ -67,7 +68,16 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat }) {
                 <VTable dataSrc={dataSrc} loading={loading} config={param} subTitle={subTitle} />
               </TabPane>
               <TabPane tab={formatMessage({ id: 'chart.tab.tableCalc' })} key="2">
-                <VTableCalc dataSrc={dataSrc} loading={loading} merge={false} subTitle={subTitle} />
+                {dataSrc.err ? (
+                  <Err err={dataSrc.err} />
+                ) : (
+                  <VTableCalc
+                    dataSrc={dataSrc}
+                    loading={loading}
+                    merge={false}
+                    subTitle={subTitle}
+                  />
+                )}
               </TabPane>
             </Tabs>
           </div>

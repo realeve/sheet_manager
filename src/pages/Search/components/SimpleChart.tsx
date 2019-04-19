@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getDrivedState } from '@/pages/chart/services/chart';
 import Chart from '@/pages/chart/components/ChartComponent';
-
+import Err from '@/components/Err';
 export interface ChartProps {
   [key: string]: any;
   data: any;
@@ -19,5 +19,5 @@ export default function SimpleChart({ data, params, beforeRender, ...props }: Ch
     }
     setState(option);
   }, [data.data]);
-  return <Chart renderer="svg" option={state} {...props} />;
+  return data.err ? <Err err={data.err} /> : <Chart renderer="svg" option={state} {...props} />;
 }

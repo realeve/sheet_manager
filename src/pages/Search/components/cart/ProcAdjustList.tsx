@@ -3,6 +3,7 @@ import { Card, Empty } from 'antd';
 import styles from './ProdList.less';
 import { useFetch } from '@/pages/Search/utils/useFetch';
 import SimpleTable from '../SimpleTable';
+import Err from '@/components/Err';
 
 export default function ProcAdjustList({ cart }) {
   const res = useFetch({ params: cart, api: 'getProcAdjustLog', init: [cart] });
@@ -16,7 +17,13 @@ export default function ProcAdjustList({ cart }) {
       style={{ marginBottom: 10 }}
       className={styles.cart}
     >
-      {res.rows === 0 ? <Empty /> : <SimpleTable data={res} loading={res.loading} />}
+      {res.err ? (
+        <Err err={res.err} />
+      ) : res.rows === 0 ? (
+        <Empty />
+      ) : (
+        <SimpleTable data={res} loading={res.loading} />
+      )}
     </Card>
   );
 }

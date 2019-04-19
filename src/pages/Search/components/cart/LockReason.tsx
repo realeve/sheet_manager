@@ -6,7 +6,7 @@ import { useFetch } from '@/pages/Search/utils/useFetch';
 
 export default function LockReason({ cart }) {
   const { data, loading, rows } = useFetch({ params: cart, api: 'getLockReason', init: [cart] });
-  let lockReason = [R.last(data)];
+  let lockReason = rows ? [R.last(data)] : [];
   return !rows ? null : (
     <Card
       title={`锁车原因`}

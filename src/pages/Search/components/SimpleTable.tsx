@@ -3,6 +3,7 @@ import styles from './simpleTable.less';
 import { getType } from '@/utils/lib';
 import { Skeleton, Empty } from 'antd';
 import * as R from 'ramda';
+import Err from '@/components/Err';
 
 export default function SimpleTable({
   data,
@@ -13,15 +14,17 @@ export default function SimpleTable({
   loading?: boolean;
   [key: string]: any;
 }) {
-  if (data.rows == 0) {
+  if (data.err) {
+    return <Err err={data.err} />;
+  } else if (data.rows == 0) {
     return <Empty />;
   }
+
   let dataSrc = R.clone(data.data);
   // 处理数据结构
-  if (getType(dataSrc[0]) === 'object') {
+  if (dataSrc && getType(dataSrc[0]) === 'object') {
     dataSrc = dataSrc.map(item => data.header.map(key => item[key]));
   }
-
   return loading ? (
     <Skeleton active />
   ) : (

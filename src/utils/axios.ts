@@ -109,8 +109,16 @@ const saveToken = () => {
     })
   );
 };
-
+export interface AxiosError {
+  message: string;
+  description: string;
+  url: string;
+  params: any;
+  status?: number;
+}
 export const handleError = error => {
+  let config = error.config;
+  let params = config.params || config.data;
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
@@ -120,30 +128,41 @@ export const handleError = error => {
       //   type: 'login?autoLogin=0'
       // });
       router.push('/unlogin');
-    } else if (status === 403) {
-      router.push('/403');
-    } else if (status <= 504 && status >= 500) {
-      router.push('/500');
-    } else if (status >= 404 && status < 422) {
-      router.push('/404');
     }
+    //  else if (status === 403) {
+    //   router.push('/403');
+    // } else if (status <= 504 && status >= 500) {
+    //   router.push('/500');
+    // } else if (status >= 404 && status < 422) {
+    //   router.push('/404');
+    // }
     const errortext = (codeMessage[status] || '') + data.msg;
     notification.error({
       message: `请求错误 ${status}: ${error.config.url}`,
-      description: errortext,
+      description: errortext || '',
       duration: 10,
+    });
+    Promise.reject({
+      status,
+      message: `请求错误: ${error.config.url}`,
+      description: `${errortext || ''}`,
+      url: error.config.url,
+      params,
     });
   } else if (error.request) {
     // The request was made but no response was received
     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
     // http.ClientRequest in node.js
-    console.log(error.request);
+    // console.log(error.request);
   } else {
     // Something happened in setting up the request that triggered an Error
-    console.log('Error', error.message);
   }
-  // console.log(error.config);
-  return Promise.reject(error);
+  return Promise.reject({
+    message: '请求错误',
+    description: error.message,
+    url: error.config.url,
+    params,
+  });
 };
 
 export const handleData = ({ data }) => {

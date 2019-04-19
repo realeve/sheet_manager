@@ -6,6 +6,8 @@ import { Col, Row, Card, Empty } from 'antd';
 import * as R from 'ramda';
 import styles from './ProdList.less';
 import * as lib from '@/pages/Search/utils/lib';
+import Err from '@/components/Err';
+
 const { Meta } = Card;
 
 export default function CodeInfo({ cart }) {
@@ -16,13 +18,18 @@ export default function CodeInfo({ cart }) {
   const [state, setState] = useState({ data: [], header: [], rows: 0 });
   const [errDetail, setErrDetail] = useState({ data: [], header: [], rows: 0 });
   const [macInfo, setMacInfo] = useState([]);
+  const [err, setErr] = useState(false);
+
   useEffect(() => {
     getProdDetail();
   }, [cart]);
 
   const getProdDetail = async () => {
     setLoading(true);
-    let src = await db.getMahoudataLog(cart);
+    let src = await db.getMahoudataLog(cart).catch(e => {
+      setErr(e);
+      return { rows: 0 };
+    });
     let errDetail = { header: [], data: [], rows: 0 };
     let res = { header: [], data: [], rows: 0 };
     let hechaId = 0;
@@ -68,7 +75,9 @@ export default function CodeInfo({ cart }) {
       setFakeImg([]);
       return;
     }
-    let { data } = await db.getImagedata(hechaId);
+    let { data } = await db.getImagedata(hechaId).catch(e => {
+      setErr(e);
+    });
     data = Object.values(data[0]).map(item => `data:image/jpg;base64,${item}`);
     setFakeImg(data);
   };
@@ -76,7 +85,9 @@ export default function CodeInfo({ cart }) {
   // 图核判废
   const [errCount, setErrCount] = useState({ data: [], header: [], rows: 0 });
   const getImgCheck = async () => {
-    let res = await db.getViewPrintHechaImageCheck(cart);
+    let res = await db.getViewPrintHechaImageCheck(cart).catch(e => {
+      setErr(e);
+    });
     setErrCount(res);
   };
   useEffect(() => {
@@ -97,7 +108,9 @@ export default function CodeInfo({ cart }) {
     return { ...option, color: ['#e74c3c'] };
   };
 
-  return state.rows === 0 ? (
+  return err ? (
+    <Err err={err} />
+  ) : state.rows === 0 ? (
     <Empty />
   ) : (
     <Card

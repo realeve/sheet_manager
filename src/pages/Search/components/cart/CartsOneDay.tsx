@@ -5,9 +5,11 @@ import * as R from 'ramda';
 import * as styles from './ProdList.less';
 import { Card, Empty } from 'antd';
 import { useFetch } from '@/pages/Search/utils/useFetch';
+import Err from '@/components/Err';
 
 // 处理返回数据
 let handleData = res => {
+  res.data = res.data || [];
   res.data = res.data.map((item, idx) => {
     item.id = idx + 1;
     item['好品率'] = Number(item['好品率']).toFixed(2);
@@ -51,7 +53,9 @@ export default function CartsOneDay({ cart }) {
         className={styles.cart}
         loading={loading}
       >
-        {state.rows === 0 ? (
+        {mahouData.err ? (
+          <Err err={mahouData.err} />
+        ) : state.rows === 0 ? (
           <Empty />
         ) : (
           <SimpleChart

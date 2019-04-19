@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Dropdown, Icon } from 'antd';
+import { Menu, Dropdown, Icon, notification } from 'antd';
 import * as dbMenu from '@/pages/menu/service';
 // import { FormattedMessage } from 'umi/locale';
 import { connect } from 'dva';
@@ -11,11 +11,24 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
   const [menuList, setMenuList] = useState([]);
   const [curMenuId, setCurMenuId] = useState([]);
   useEffect(() => {
-    dbMenu.getBaseMenuList().then(({ data }) => {
-      setMenuList(data);
-      let menu_id = R.findIndex(R.propEq('title', menu_title))(data);
-      setCurMenuId(menu_id);
-    });
+    dbMenu
+      .getBaseMenuList()
+      .then(({ data }) => {
+        setMenuList(data);
+        let menu_id = R.findIndex(R.propEq('title', menu_title))(data);
+        setCurMenuId(menu_id);
+      })
+      .catch(({ message, description, url }) => {
+        notification.error({
+          message,
+          description: (
+            <p>
+              {description} <span>{url}</span>
+            </p>
+          ),
+          duration: 10,
+        });
+      });
   }, []);
 
   // 切换系统名称及菜单

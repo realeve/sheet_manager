@@ -10,6 +10,7 @@ export default {
   state: {
     dataSource: [],
     axiosOptions: [],
+    err: false,
   },
   reducers: {
     setStore,
@@ -41,6 +42,9 @@ export default {
         Reflect.deleteProperty(item.params, 'cascade');
         Reflect.deleteProperty(item.params, 'textarea');
         Reflect.deleteProperty(item.params, 'textareakey');
+        Reflect.deleteProperty(item.params, 'merge');
+        Reflect.deleteProperty(item.params, 'mergetext');
+        Reflect.deleteProperty(item.params, 'mergev');
         return item;
       });
 
@@ -69,7 +73,7 @@ export default {
         dataSource[idx] = yield call(db.fetchData, param);
         // 将apiid绑定在接口上，方便对数据设置存储
         dataSource[idx].api_id = url.replace('/array', '');
-        curPageName = dataSource[idx].title;
+        curPageName = dataSource[idx].title || '';
       }
 
       yield put({

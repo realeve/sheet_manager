@@ -1,0 +1,37 @@
+.error {
+  // display: flex;
+  // flex-direction: row;
+  // align-items: center;
+  color: #434e59;
+  margin-bottom: 10px;
+
+  img {
+    max-width: 250px;
+  }
+
+  .desc {
+    padding-left: 10px;
+
+    h1 {
+      color: #434e59;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    span {
+      font-size: 18px;
+    }
+  }
+
+  .code {
+    max-width: 400px;
+    border-radius: 2px;
+
+    :global {
+      .CodeMirror {
+        height: auto;
+      }
+    }
+  }
+
+}

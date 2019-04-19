@@ -5,6 +5,8 @@ export const fetchData = ({ url, params }) =>
   axios({
     url,
     params,
+  }).catch(err => {
+    return { err };
   });
 
 export const handleParams = ({ tid, params, dateRange }) => {

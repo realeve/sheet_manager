@@ -8,6 +8,7 @@ import * as lib from '../utils/lib';
 import { formatMessage } from 'umi/locale';
 import * as Excel from '@/utils/exceljs';
 import { connect } from 'dva';
+import Err from '@/components/Err';
 
 const R = require('ramda');
 
@@ -225,7 +226,6 @@ class Tables extends Component {
       pageSize,
       bordered,
     } = this.state;
-
     let scroll = {};
     let len = R.isNil(dataSource[0]) ? 0 : Object.values(dataSource[0]).length;
     if (len > 10) {
@@ -299,6 +299,9 @@ class Tables extends Component {
   };
 
   render() {
+    if (this.props.dataSrc.err) {
+      return <Err err={this.props.dataSrc.err} />;
+    }
     const tBody = this.getTBody();
     const tTitle = this.tblTitle();
 

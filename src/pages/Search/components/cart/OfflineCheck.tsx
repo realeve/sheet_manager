@@ -15,7 +15,6 @@ export default function OffineCheck({ cart }) {
     api: 'getViewScoreIntaglio',
     init: [cart],
   });
-
   return (
     <Col span={24}>
       <Card
