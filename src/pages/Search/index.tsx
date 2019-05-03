@@ -5,7 +5,7 @@ import CartDetail from './CartDetail';
 import ProdItem from './components/ProdItem';
 import { Card } from 'antd';
 import styles from './components/ProdSelect.less';
-
+import ReelDetail from './ReelDetail';
 const Link = () => (
   <Card className={styles.prodcontainer}>
     <ProdItem />
@@ -25,7 +25,7 @@ function SearchPage({ type }) {
   } else if (['cart', 'gz'].includes(type)) {
     return <CartDetail />;
   }
-  return <h1>轴号查询</h1>;
+  return <ReelDetail />;
 }
 
 export default connect(({ search: { type } }) => ({

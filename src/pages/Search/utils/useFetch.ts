@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import * as db from './db';
+import * as dbCart from './db';
+import * as dbReel from './reel';
 import { AxiosError } from '@/utils/axios';
 export interface DbJson {
   data?: any[];
@@ -13,11 +14,13 @@ export function useFetch({
   params,
   api,
   init: [initState],
+  type = 'cart',
   callback,
 }: {
   params: any;
   api: string;
   init: any[];
+  type?: string;
   callback?: Function;
 }) {
   const [state, setState]: [DbJson, any] = useState({
@@ -27,6 +30,7 @@ export function useFetch({
     loading: true,
     err: false,
   });
+  let db = type === 'cart' ? dbCart : dbReel;
   useEffect(() => {
     db[api](params)
       .then((res: DbJson) => {

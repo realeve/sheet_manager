@@ -26,7 +26,7 @@ interface Rules {
 }
 const rules: Rules = {
   cart: /^[1-9]\d{3}[A-Za-z]\d{3}$/,
-  reel: /^[1-9]\d{6}[A-Ca-c]$|^[1-9]\d{4}[A-Ca-c]$|[A-Z]\d{11}[A-Z]/,
+  reel: /^[1-9]\d{6}(|[A-Ca-c])$|^[1-9]\d{4}[A-Ca-c]$|[A-Z]\d{11}[A-Z]/,
 };
 
 interface CartReelReg {

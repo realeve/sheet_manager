@@ -7,29 +7,45 @@ import * as R from 'ramda';
  *   @database: { 质量信息系统 }
  *   @desc:     { 轴号信息追溯_机检信息查询 }
  */
-export const getViewPaperQuality = reel =>
-  DEV
-    ? mock(require('@/mock/504_c9e662a163.json'))
-    : axios({
+export const getViewPaperQuality = async reel => {
+  let res = DEV
+    ? await mock(require('@/mock/504_c9e662a163.json'))
+    : await axios({
         url: '/504/c9e662a163.json',
         params: {
           reel,
         },
       });
+  res.data = res.data.map(item => {
+    item['好品率'] = Number(item['好品率']);
+    return item;
+  });
+  return res;
+};
 
 /**
  *   @database: { 质量信息系统 }
  *   @desc:     { 轴号信息追溯__物理站 }
  */
-export const getViewPaperPsc = reel =>
-  DEV
-    ? mock(require('@/mock/505_2daa2d7d79.json'))
-    : axios({
+export const getViewPaperPsc = async reel => {
+  let res = DEV
+    ? await mock(require('@/mock/505_2daa2d7d79.json'))
+    : await axios({
         url: '/505/2daa2d7d79.json',
         params: {
           reel,
         },
       });
+  res.data = res.data.map(item => {
+    item['湿度'] = Number(item['湿度']);
+    item['定量'] = Number(item['定量']);
+    item['水分'] = Number(item['水分']);
+    item['水分差'] = Number(item['水分差']);
+    return item;
+  });
+  return res;
+};
+
 /**
  *   @database: { 质量信息系统 }
  *   @desc:     { 轴号追溯_物理外观 }
@@ -48,15 +64,24 @@ export const getViewPaperSurface = reel =>
  *   @database: { 质量信息系统 }
  *   @desc:     { 轴号追溯_非常规 }
  */
-export const getViewPaperParaAbnormal = reel =>
-  DEV
-    ? mock(require('@/mock/507_6575fb1d28.json'))
-    : axios({
+export const getViewPaperParaAbnormal = async reel => {
+  let res = DEV
+    ? await mock(require('@/mock/507_6575fb1d28.json'))
+    : await axios({
         url: '/507/6575fb1d28.json',
         params: {
           reel,
         },
       });
+
+  res.data = res.data.map(item => {
+    item['吸水性正'] = Number(item['吸水性正']);
+    item['吸水性反'] = Number(item['吸水性反']);
+    item['表面强度正'] = Number(item['表面强度正']);
+    return item;
+  });
+  return res;
+};
 
 /**
  *   @database: { 质量信息系统 }

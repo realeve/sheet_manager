@@ -6,7 +6,7 @@ import { useFetch } from '@/pages/Search/utils/useFetch';
 
 const TabPane = Tabs.TabPane;
 
-export default function HechaInfo({ cart }) {
+export default function PackageInfo({ cart }) {
   const { loading, ...state } = useFetch({ params: cart, api: 'getViewPrintOcr', init: [cart] });
   const { loading: loading2, ...ananyData } = useFetch({
     params: cart,
