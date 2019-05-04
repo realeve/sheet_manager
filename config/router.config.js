@@ -78,6 +78,17 @@ export default [
         ],
       },
       {
+        name: 'dashboard',
+        icon: 'dashboard',
+        path: '/dashboard',
+        routes: [
+          {
+            path: '/dashboard',
+            component: './dashboard',
+          },
+        ],
+      },
+      {
         name: 'table',
         icon: 'table',
         path: '/table',

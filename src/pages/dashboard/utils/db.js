@@ -7,12 +7,16 @@ import * as R from 'ramda';
  *   @database: { 质量信息系统 }
  *   @desc:     { 印码机检实时数据 }
  */
-export const getViewPrintOnlineQuality = () =>
-  DEV
-    ? mock(require('@/mock/500_f98ac39f1f.json'))
-    : axios({
+export const getViewPrintOnlineQuality = async () => {
+  let res = DEV
+    ? await mock(require('@/mock/500_f98ac39f1f.json'))
+    : await axios({
         url: '/500/f98ac39f1f.json',
       });
+  res.data = R.sortBy(R.prop('good_rate'))(res.data);
+
+  return res;
+};
 
 /**
  *   @database: { 质量信息系统 }
@@ -28,28 +32,31 @@ export const getOnlineinfo = cart =>
         },
       });
 
-      /**
+/**
  *   @database: { 接口管理 }
- *   @desc:     { 实时监测-同一工作日生产其它产品 } 
+ *   @desc:     { 实时监测-同一工作日生产其它产品 }
  */
-export const getOnlineinfo = art => DEV ? mock(require(
-  '@/mock/502_b4c5a73656.json')) : axios({
-  url: '/502/b4c5a73656.json',
-  params: {
-    art
-  },
-});
-
+export const getOnlineinfoByMachine = art =>
+  DEV
+    ? mock(require('@/mock/502_b4c5a73656.json'))
+    : axios({
+        url: '/502/b4c5a73656.json',
+        params: {
+          art,
+        },
+      });
 
 /**
  *   @database: { 质量信息系统_图像库 }
- *   @desc:     { 码后缺陷图像查询 } 
+ *   @desc:     { 码后缺陷图像查询 }
  */
 // http://cdn.cdyc.cbpm:100/503/a8dd1e5c75/array?mahou_id=78240&blob[]=0&blob[]=1&blob[]=2&blob_type=jpg
-export const getImagedata = mahou_id => DEV ? mock(require(
-  '@/mock/503_a8dd1e5c75/array')) : axios({
-  url: '/503/a8dd1e5c75/array',
-  params: {
-    mahou_id
-  },
-});
+export const getImagedata = mahou_id =>
+  DEV
+    ? mock(require('@/mock/503_a8dd1e5c75'))
+    : axios({
+        url: '/503/a8dd1e5c75/array',
+        params: {
+          mahou_id,
+        },
+      });
