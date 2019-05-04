@@ -15,7 +15,6 @@ export default function Dashboard() {
   let [state, setState] = useState({ rows: 0, data: [], title: '' });
   let [curTime, setCurTime] = useState(totalTime);
 
-
   useEffect(() => {
     let itvId2 = null;
     const refresh = async () => {
@@ -86,7 +85,7 @@ export default function Dashboard() {
                     </div>
                     <div className={styles.block}>
                       <p>
-                        第{item.k_info_1}开/{item.fake_num}条
+                        第{item.k_info_1}开/{item.fake_num_1}条
                       </p>
                       <p>{item.machine_name}</p>
                     </div>

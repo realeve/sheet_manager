@@ -9,7 +9,6 @@ import Err from '@/components/Err';
 
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
-// fake_info_3: "186"?????????
 
 export default function OnlineInfo({ res: item, visible, onOk }) {
   const params = { type: 'line', simple: '2', x: 0, y: 1, smooth: true };
@@ -36,7 +35,7 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
                 <div className={styles.wrap}>
                   {item.image_1.length > 30 && <img src={item.image_1} alt={item.machine_name} />}
                   <div className={styles.block}>
-                    第{item.k_info_1}开/{item.fake_num}条
+                    第{item.k_info_1}开/{item.fake_num_1}条
                   </div>
                 </div>
               </div>
@@ -46,7 +45,7 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
                 <div className={styles.wrap}>
                   {item.image_2.length > 30 && <img src={item.image_2} alt={item.machine_name} />}
                   <div className={styles.block}>
-                    第{item.k_info_2}开/{item.fake_num_1}条
+                    第{item.k_info_2}开/{item.fake_num_2}条
                   </div>
                 </div>
               </div>
@@ -56,7 +55,7 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
                 <div className={styles.wrap}>
                   {item.image_3.length > 30 && <img src={item.image_3} alt={item.machine_name} />}
                   <div className={styles.block}>
-                    第{item.k_info_3}开/{item.fake_num_2}条
+                    第{item.k_info_3}开/{item.fake_info_3}条
                   </div>
                 </div>
               </div>
@@ -77,6 +76,7 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
             <span>车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号: {item.cart_number}</span>
             <span>最近更新: {item.update_time.split(' ')[1]}</span>
             <span>印刷张数: {item.print_num}</span>
+            <span>缺陷条数: {item.fake_num}</span>
           </div>
           <div className={styles.number}>
             <span>票面条数: {item.pm_num}</span>

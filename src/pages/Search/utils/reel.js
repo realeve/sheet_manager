@@ -37,10 +37,12 @@ export const getViewPaperPsc = async reel => {
         },
       });
   res.data = res.data.map(item => {
-    item['湿度'] = Number(item['湿度']);
-    item['定量'] = Number(item['定量']);
-    item['水分'] = Number(item['水分']);
-    item['水分差'] = Number(item['水分差']);
+    let keys = '湿度,定量,水分,水分差,湿强度,白度,不透明度,湿变形纵,湿变形横,透气度,L,a,b,干拉力横'.split(
+      ','
+    );
+    keys.forEach(key => {
+      item[key] = Number(item[key]);
+    });
     return item;
   });
   return res;
@@ -75,9 +77,13 @@ export const getViewPaperParaAbnormal = async reel => {
       });
 
   res.data = res.data.map(item => {
-    item['吸水性正'] = Number(item['吸水性正']);
-    item['吸水性反'] = Number(item['吸水性反']);
-    item['表面强度正'] = Number(item['表面强度正']);
+    let keys = '吸水性正,吸水性反,表面强度正,表面吸油性正,表面吸油性反,油渗性正,油渗性反'.split(
+      ','
+    );
+    keys.forEach(key => {
+      item[key] = Number(item[key]);
+    });
+
     return item;
   });
   return res;
