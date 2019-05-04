@@ -1,3 +1,4 @@
+import React from 'react';
 import { axios, mock } from '@/utils/axios';
 import { DEV } from '@/utils/setting';
 import * as R from 'ramda';
@@ -36,15 +37,33 @@ export const getOnlineinfo = cart =>
  *   @database: { 接口管理 }
  *   @desc:     { 实时监测-同一工作日生产其它产品 }
  */
-export const getOnlineinfoByMachine = art =>
-  DEV
-    ? mock(require('@/mock/502_b4c5a73656.json'))
-    : axios({
+export const getOnlineinfoByMachine = async art => {
+  let res = DEV
+    ? await mock(require('@/mock/502_b4c5a73656.json'))
+    : await axios({
         url: '/502/b4c5a73656.json',
         params: {
           art,
         },
       });
+  let data = R.clone(res.data);
+
+  res.data2 = data.map((item, idx) => {
+    item['好品率'] = Number(item.GoodRate);
+    res.data[idx].GoodRate = Number(item.GoodRate);
+    item['车号'] = (
+      <a href={`/search/#${item['CartNumber']}`} alt={item['CartNumber']} target="_blank">
+        {item['CartNumber']}
+      </a>
+    );
+    item['开位'] = item['FormatPos1'];
+    item['缺陷条数'] = item['ErrCount1'];
+    return item;
+  });
+
+  res.header2 = ['车号', '好品率', '开位', '缺陷条数'];
+  return res;
+};
 
 /**
  *   @database: { 质量信息系统_图像库 }
