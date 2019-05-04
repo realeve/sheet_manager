@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Card, Button, message } from 'antd';
+import { Row, Card, Button, message, Divider } from 'antd';
 import styles from './index.less';
 import * as db from './utils/db';
 import 'animate.css';
@@ -7,22 +7,45 @@ import classNames from 'classnames/bind';
 import OnlinePanel from './components/OnlineInfo';
 
 const cx = classNames.bind(styles);
+let totalTime = 30;
 
 export default function Dashboard() {
   let [visible, setVisible] = useState(false);
   let [curIdx, setCurIdx] = useState(0);
-  let [state, setState] = useState({ rows: 0, data: [], title: '' })
-  const refresh = async () => {
-    let res = await db.getViewPrintOnlineQuality();
-    setState(res);
-    message.success('数据刷新成功');
-  }
+  let [state, setState] = useState({ rows: 0, data: [], title: '' });
+  let [curTime, setCurTime] = useState(totalTime);
+
+
   useEffect(() => {
+    let itvId2 = null;
+    const refresh = async () => {
+      let res = await db.getViewPrintOnlineQuality();
+      restartTimer();
+      setState(res);
+      message.success('数据刷新成功');
+    }
+
+    const restartTimer = () => {
+      if (itvId2) {
+        clearInterval(itvId2);
+      }
+
+      curTime = totalTime;
+      itvId2 = setInterval(() => {
+        curTime--;
+        if (curTime < 0) {
+          curTime = totalTime;
+        }
+        setCurTime(curTime);
+      }, 1000);
+    }
+
     refresh();
     // 30 秒刷新一次
-    let itvId = setInterval(refresh, 1000 * 30);
+    let itvId = setInterval(refresh, 1000 * totalTime);
     return function cleanup() {
       clearInterval(itvId);
+      clearInterval(itvId2);
     };
   }, [])
 
@@ -38,7 +61,9 @@ export default function Dashboard() {
           }}
         />
       )}
-      <Card title={state.title} bodyStyle={{ padding: 10 }}>
+      <Card title={<div><p>{state.title}</p>
+        <small>还有<span style={{ padding: '0 5px', color: '#e23' }}>{curTime}</span>秒刷新</small>
+      </div>} bodyStyle={{ padding: 10 }}>
         <div className={styles.dashboard}>
           <ul className={styles.content}>
             {state.data.map((item, idx) => (
