@@ -64,7 +64,8 @@ function FormCreater({ uid, config, dispatch }) {
         if (item.rule && item.rule.required) {
           requiredFileds.push(item.key);
         }
-        fields[item.key] = '';
+
+        fields[item.key] = item.mode === 'tags' ? [] : '';
         // 如果有日期选择组件，记录初始化数据
         if (item.type === 'datepicker') {
           setState({ [item.key]: moment().format(item.datetype || 'YYYY-MM-DD') });
@@ -204,6 +205,7 @@ function FormCreater({ uid, config, dispatch }) {
     let {
       data: [{ affected_rows }],
     } = await axios(axiosConfig);
+
     setSubmitting(false);
     notity(affected_rows);
   };
@@ -444,16 +446,16 @@ function FormCreater({ uid, config, dispatch }) {
                         {state[key] ? (
                           <span className="ant-rate-text">{props.desc[state[key] - 1]}</span>
                         ) : (
-                          ''
-                        )}
+                            ''
+                          )}
                       </span>
                     )}
 
                     {!validateState[key] && props.rule ? (
                       <label className="ant-form-explain">{getRuleMsg(props.rule, title)}</label>
                     ) : (
-                      block && <label className="ant-form-explain">{block}</label>
-                    )}
+                        block && <label className="ant-form-explain">{block}</label>
+                      )}
                   </div>
                 </Col>
               ))}

@@ -41,7 +41,6 @@
             "rule": {
                 "required": true
             },
-            "mode": "tags",
             "cascade": "data_type",
             "block": "当data_type变更时，加载该组件数据",
             "_desc": "select distinct data_value name,data_value value from tbl_sample_bar a where data_type=?"

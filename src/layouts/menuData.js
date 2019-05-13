@@ -16,6 +16,9 @@ let mapStateToProps = props =>
   });
 
 const getMenuData = props => {
+  if (typeof props === 'string') {
+    props = JSON.parse(props);
+  }
   let data = mapStateToProps(props);
   let menuData = handleMenuData(data);
 
