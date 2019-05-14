@@ -36,6 +36,7 @@ interface IPreviewProps {
   uid?: string | number;
   onNew?: () => void;
   menuList?: any;
+  [key: string]: any;
 }
 
 // 左侧菜单项更新时，菜单列表中对应信息一并更新
@@ -184,6 +185,10 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState> {
       message: '系统提示',
       description: '菜单项调整成功.'
     });
+    this.props.dispatch({
+      type: 'menu/refreshMenuList'
+    })
+    // window.location.reload();
   };
 
   render() {
