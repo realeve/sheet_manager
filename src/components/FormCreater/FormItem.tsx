@@ -27,7 +27,7 @@ const cx = classNames.bind(styles);
 const { TextArea } = Input;
 
 
-export default function formItem({ state, setState, setFormstatus, idx: key, detail: { title, type, block, defaultOption, ...props } }) {
+export default function formItem({ state, setState, setFormstatus, keyName: key, detail: { title, type, block, defaultOption, ...props } }) {
   let [validateState, setValidateState] = useSetState();
 
   const onChange = (val: any, key: string, props: { [key: string]: any } = {}) => {
@@ -43,7 +43,7 @@ export default function formItem({ state, setState, setFormstatus, idx: key, det
     let status = onValidate(value, rule);
     setValidateState({ [key]: status });
     setFormstatus(status);
-
+    console.log(val, key)
     // console.log('数据变更');
   };
 
@@ -64,7 +64,7 @@ export default function formItem({ state, setState, setFormstatus, idx: key, det
     >
       {title}
     </span>
-    <div className={cx({ 'has-error': !validateState[key] }, 'element')}>
+    <div className={cx({ 'has-error': false === validateState[key] }, 'element')}>
       {type === 'input' && (
         <Input
           style={{ width: 180 }}
@@ -161,7 +161,7 @@ export default function formItem({ state, setState, setFormstatus, idx: key, det
         </span>
       )}
 
-      {!validateState[key] && props.rule ? (
+      {'undefined' !== typeof validateState[key] && !validateState[key] && props.rule ? (
         <label className="ant-form-explain">{getRuleMsg(props.rule, title)}</label>
       ) : (
           block && <label className="ant-form-explain">{block}</label>

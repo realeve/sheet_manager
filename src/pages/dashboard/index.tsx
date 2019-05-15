@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Card, Button, message, Divider } from 'antd';
+import { Row, Card, Button, message } from 'antd';
 import styles from './index.less';
 import * as db from './utils/db';
 import 'animate.css';
@@ -48,18 +48,10 @@ export default function Dashboard() {
     };
   }, [])
 
+  const titleStyle = { display: 'flex', justifyContent: 'space-between' }
 
   return (
     <Row gutter={10}>
-      {state.rows > 0 && (
-        <OnlinePanel
-          visible={visible}
-          res={state.data[curIdx]}
-          onOk={() => {
-            setVisible(false);
-          }}
-        />
-      )}
       <Card title={<div><p>{state.title}</p>
         <small>还有<span style={{ padding: '0 5px', color: '#e23' }}>{curTime}</span>秒刷新</small>
       </div>} bodyStyle={{ padding: 10 }}>
@@ -92,18 +84,29 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div
-                  className={cx(styles.title, {
+                  className={cx(styles.mainTitle, {
                     error: item.good_rate < 80,
                     success: item.good_rate > 90,
-                  })}
-                >
-                  {item.machine_name}:{Number(item.good_rate)}%
+                  })} >
+                  <div>
+                    <span>{item.machine_name}:{Number(item.good_rate)}%</span>
+                    <span>{idx + 1}</span>
+                  </div>
                 </div>
               </li>
             ))}
           </ul>
         </div>
       </Card>
+      {state.rows > 0 && (
+        <OnlinePanel
+          visible={visible}
+          res={state.data[curIdx]}
+          onOk={() => {
+            setVisible(false);
+          }}
+        />
+      )}
     </Row>
   );
 }

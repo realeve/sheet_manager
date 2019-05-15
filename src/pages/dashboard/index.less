@@ -15,7 +15,8 @@
       }
     }
 
-    .title {
+    .title,
+    .mainTitle {
       display: inline-block;
       padding: 5px 0;
       border: 1px solid #e1e1e1;
@@ -26,6 +27,29 @@
         content: '';
         padding-left: 5px;
         border-left: solid 4px #3b8aec;
+      }
+    }
+
+    .mainTitle {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      div {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+
+        span {
+          &:last-of-type {
+            margin-right: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #eee;
+            text-align: center
+          }
+        }
       }
     }
 

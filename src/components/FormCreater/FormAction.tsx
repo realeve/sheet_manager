@@ -12,9 +12,26 @@ import { formatMessage } from 'umi/locale';
 import styles from './index.less';
 import { connect } from 'dva';
 
-function formAction({ formInstance, requiredFileds, uid, setEditMethod, formstatus, editMethod, state, formConfig, config }) {
+function formAction({ fields, requiredFileds, uid, setEditMethod, formstatus, editMethod, state, setState, formConfig, config }) {
   // 当前数据提交状态，提交时禁止重复提交
   const [submitting, setSubmitting] = useState(false);
+
+  const formInstance = {
+    set(data) {
+      // 设置表单初始数据
+      setState(data);
+    },
+    get() {
+      // 获取初始数据
+      return {
+        ...fields,
+        ...state,
+      };
+    },
+    reset() {
+      setState(fields);
+    },
+  };
 
   let [loadOption, setLoadOption] = useState({ url: null, params: {} });
 
@@ -155,7 +172,7 @@ function formAction({ formInstance, requiredFileds, uid, setEditMethod, formstat
       {formatMessage({ id: 'form.submit' })}
     </Button>
 
-    {formConfig.delete.url && (
+    {config.api.delete && config.api.delete.url && (
       <Popconfirm
         title="确定删除本条数据?"
         onConfirm={() => onDelete()}

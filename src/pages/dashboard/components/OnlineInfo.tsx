@@ -19,11 +19,11 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
     api: 'getOnlineinfoByMachine',
     init: [cart],
   });
-
+  // visible={visible} width="1200px" onOk={onOk} onCancel={onOk} bodyStyle={{ padding: 10 }}
   return (
-    <Modal visible={visible} width="1200px" onOk={onOk} onCancel={onOk} bodyStyle={{ padding: 10 }}>
+    <Card style={{ marginTop: 20 }} bodyStyle={{ margin: 0, padding: 0 }} bordered={false}>
       <Card
-        title={item.machine_name + ' 实时质量信息'}
+        title={<p><span style={{ color: '#e23' }}>{item.machine_name}</span> 实时质量信息</p>}
         bodyStyle={{ padding: 10 }}
         style={{ marginBottom: 10 }}
         hoverable
@@ -147,6 +147,6 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
           </Card>
         </Col>
       </Row>
-    </Modal>
+    </Card>
   );
 }

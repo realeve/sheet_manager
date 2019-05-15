@@ -10,11 +10,12 @@ import { validRequire } from './lib';
 import FormItem from './FormItem'
 import CodeDrawer from './CodeDrawer'
 import FormAction from './FormAction'
+import { connect } from 'dva';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
-
-export default function FormCreater({ uid, config, dispatch }) {
+ 
+function FormCreater({ config, dispatch }) {
   let [state, setState] = useSetState();
   let [editMethod, setEditMethod] = useState('insert');
   let [validateState, setValidateState] = useSetState();
@@ -31,14 +32,14 @@ export default function FormCreater({ uid, config, dispatch }) {
   useEffect(() => {
     setFormConfig(config);
     let requiredFileds = [];
-    let fields = {};
+    let nextFields = {};
     config.detail.forEach(({ detail }) => {
       detail.forEach(item => {
         if (item.rule && item.rule.required) {
           requiredFileds.push(item.key);
         }
 
-        fields[item.key] = item.mode === 'tags' ? [] : '';
+        nextFields[item.key] = item.mode === 'tags' ? [] : '';
         // 如果有日期选择组件，记录初始化数据
         if (item.type === 'datepicker') {
           setState({ [item.key]: moment().format(item.datetype || 'YYYY-MM-DD') });
@@ -47,7 +48,7 @@ export default function FormCreater({ uid, config, dispatch }) {
       });
     });
 
-    setFields(fields);
+    setFields(nextFields);
     setRequiredFileds(requiredFileds);
     dispatch({
       type: 'common/setStore',
@@ -72,22 +73,6 @@ export default function FormCreater({ uid, config, dispatch }) {
     setFormstatus(validStatus && required);
   }, [state]);
 
-  const formInstance = {
-    set(data) {
-      // 设置表单初始数据
-      setState(data);
-    },
-    get() {
-      // 获取初始数据
-      return {
-        ...fields,
-        ...state,
-      };
-    },
-    reset() {
-      setState(fields);
-    },
-  };
 
   return (
     <div>
@@ -108,8 +93,8 @@ export default function FormCreater({ uid, config, dispatch }) {
             key={mainTitle}
           >
             <Row gutter={15}>
-              {detail.map((detail, i) => <FormItem key={detail.key} idx={i} state={state} setState={setState} setFormstatus={setFormstatus} detail={detail} />)}
-              {idx === formConfig.detail.length - 1 && <FormAction requiredFileds={requiredFileds} uid={uid} formInstance={formInstance} setEditMethod={setEditMethod} state={state} formstatus={formstatus} editMethod={editMethod} formConfig={formConfig} config={config} />}
+              {detail.map((detail, i) => <FormItem key={detail.key} keyName={detail.key} state={state} setState={setState} setFormstatus={setFormstatus} detail={detail} />)}
+              {idx === formConfig.detail.length - 1 && <FormAction requiredFileds={requiredFileds} state={state} setState={setState} fields={fields} setEditMethod={setEditMethod} formstatus={formstatus} editMethod={editMethod} formConfig={formConfig} config={config} />}
             </Row>
           </Card>
         ))}
@@ -117,3 +102,5 @@ export default function FormCreater({ uid, config, dispatch }) {
     </div>
   );
 }
+
+export default connect()(FormCreater)

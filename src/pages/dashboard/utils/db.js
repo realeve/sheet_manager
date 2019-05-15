@@ -13,6 +13,11 @@ export const getViewPrintOnlineQuality = async () => {
     ? await mock(require('@/mock/500_f98ac39f1f.json'))
     : await axios({
         url: '/500/f98ac39f1f.json',
+        params: {
+          blob: ['image_1', 'image_2', 'image_3'],
+          blob_type: 'jpg',
+          cache: 0.25,
+        },
       });
   res.data = R.sortBy(R.prop('good_rate'))(res.data);
 
@@ -37,13 +42,13 @@ export const getOnlineinfo = cart =>
  *   @database: { 接口管理 }
  *   @desc:     { 实时监测-同一工作日生产其它产品 }
  */
-export const getOnlineinfoByMachine = async art => {
+export const getOnlineinfoByMachine = async cart => {
   let res = DEV
     ? await mock(require('@/mock/502_b4c5a73656.json'))
     : await axios({
         url: '/502/b4c5a73656.json',
         params: {
-          art,
+          cart,
         },
       });
   let data = R.clone(res.data);
