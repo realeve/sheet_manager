@@ -6,10 +6,10 @@ import { Card } from 'antd';
 import qs from 'qs';
 
 // http://localhost:8000/form/page1#id=./form/example2.json
-export default function page1() {
-  let res = qs.parse(window.location.hash.slice(1));
-  let url = res.id || '';
-  const [config, setConfig] = useState({});
+export default function page1(): JSX.Element {
+  let res: { id?: string } = qs.parse(window.location.hash.slice(1));
+  let url: string = res.id || '';
+  const [config, setConfig]: [{}, any] = useState({});
   useEffect(() => {
     init();
   }, [url]);
@@ -26,6 +26,6 @@ export default function page1() {
       <h3>请设置表单配置信息</h3>
     </Card>
   ) : (
-    <FormCreater config={config} />
-  );
+      <FormCreater config={config} />
+    );
 }

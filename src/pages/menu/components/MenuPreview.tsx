@@ -57,7 +57,7 @@ const updateMenuItem = (detail, menuList) => {
 @connect((state) => ({
   menuList: state.menu.treeDataLeft
 }))
-class MenuPreview extends Component<IPreviewProps, IPreviewState> {
+class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
   static defaultProps: Partial<IPreviewProps> = {
     externalNodeType: 'shareNodeType',
     menuDetail: {
@@ -191,7 +191,7 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState> {
     // window.location.reload();
   };
 
-  render() {
+  render(): JSX.Element {
     const {
       externalNodeType,
       shouldCopyOnOutsideDrop,
