@@ -2,6 +2,7 @@ import pathToRegexp from 'path-to-regexp';
 import * as db from '../services/table';
 import { setStore, handleTextVal } from '@/utils/lib';
 import * as R from 'ramda';
+import { isDisabled } from '@/components/QueryCondition';
 
 const namespace = 'table';
 
@@ -20,9 +21,14 @@ export default {
   },
   effects: {
     *updateParams(_, { put, call, select }) {
-      let { dateRange, tid, query, selectValue, textAreaValue } = yield select(
-        state => state.common
-      );
+      let {
+        dateRange,
+        tid,
+        query,
+        selectValue,
+        textAreaValue,
+        dateType: [dateType],
+      } = yield select(state => state.common);
 
       if (R.isNil(tid)) {
         return;
@@ -31,6 +37,7 @@ export default {
         params: query,
         tid,
         dateRange,
+        dateType,
       });
 
       let inputValue = handleTextVal(textAreaValue);
@@ -57,7 +64,14 @@ export default {
     },
 
     *refreshData({ payload }, { call, put, select }) {
-      const { tid, query } = yield select(state => state.common);
+      const { tid, query, ...common } = yield select(state => state.common);
+
+      // 参数是否全部设置
+      const disabled = isDisabled(common);
+      if (disabled) {
+        return;
+      }
+
       if (!R.isNil(payload)) {
         // 首次加载数据
         if (!(payload.isInit && tid && tid.length && R.isNil(query.select))) {
@@ -66,6 +80,7 @@ export default {
       }
 
       const { axiosOptions, dataSource } = yield select(state => state[namespace]);
+
       let curPageName = '';
       for (let idx = 0; idx < axiosOptions.length; idx++) {
         let param = axiosOptions[idx];

@@ -1,25 +1,31 @@
 import { axios } from '@/utils/axios';
 const R = require('ramda');
+export const fetchData = axios;
 
-export const fetchData = ({ url, params }) =>
-  axios({
-    url,
-    params,
-  }).catch(err => {
-    return { err };
-  });
+// export const fetchData =  ({ url, params }) =>
+//   axios({
+//     url,
+//     params,
+//   }).catch(err => {
+//     return { err };
+//   });
 
-export const handleParams = ({ tid, params, dateRange }) => {
+export const handleParams = ({ tid, params, dateRange, dateType }) => {
   const [tstart, tend] = dateRange;
-  let param = {
-    tstart,
-    tend,
-    tstart2: tstart,
-    tend2: tend,
-    tstart3: tstart,
-    tend3: tend,
-    mode: 'array',
-  };
+  let param =
+    dateType === 'none'
+      ? {
+          mode: 'array',
+        }
+      : {
+          tstart,
+          tend,
+          tstart2: tstart,
+          tend2: tend,
+          tstart3: tstart,
+          tend3: tend,
+          mode: 'array',
+        };
   let option = tid.map(url => ({
     url,
     params: param,

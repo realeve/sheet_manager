@@ -421,12 +421,14 @@ export const getStringWidth = str =>
 
 // 将带,;及换行符的字符串转换为数组文本
 export const str2Arr: (str: string) => string[] = str => {
-  str = String(str);
+  str = String(str).trim();
   let res = [];
   if (str.includes(',')) {
     res = str.split(',');
   } else if (str.includes(';')) {
     res = str.split(';');
+  } else if (str.includes(' ')) {
+    res = str.split(' ');
   } else if (str.includes('\n')) {
     res = str.split('\n');
   } else {

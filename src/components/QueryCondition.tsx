@@ -7,6 +7,12 @@ import DatePicker from './DatePicker';
 import PinyinSelect from './PinyinSelect';
 const { TextArea } = Input;
 
+export const isDisabled = ({ selectValue,
+  selectList,
+  textAreaList,
+  textAreaValue, }) => Object.keys(selectValue).length < selectList.length ||
+  Object.values(textAreaValue).filter(item => String(item).length > 0).length < textAreaList.length;
+
 function QueryCondition({
   selectValue,
   selectList,
@@ -14,6 +20,7 @@ function QueryCondition({
   textAreaValue,
   dateRange,
   onQuery,
+  dateType,
   dispatch,
 }) {
   const onDateChange = async (dateStrings: Array<string>, refresh: boolean = true) => {
@@ -58,6 +65,12 @@ function QueryCondition({
   );
 
   let showExtraCondition: boolean = textAreaList.length || selectList.length;
+  const disabled = isDisabled({
+    selectValue,
+    selectList,
+    textAreaList,
+    textAreaValue,
+  })
 
   return !showExtraCondition ? (
     <div className={styles.header}>
@@ -66,63 +79,64 @@ function QueryCondition({
       </div>
     </div>
   ) : (
-    <Card
-      title={formatMessage({ id: 'app.querycondition' })}
-      bodyStyle={{
-        padding: '5px 20px',
-      }}
-      style={{ marginBottom: 10 }}
-    >
-      <Row>
-        <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
-          <DateRangePicker refresh={false} />
-        </Col>
-        {selectList.map(({ key, data: selectorData, title }, idx) => (
-          <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer} key={key}>
-            <span className={styles.title}>{title}:</span>
-            <PinyinSelect
-              style={{ width: 150 }}
-              value={selectValue[key]}
-              onSelect={value => onSelectChange(value, idx, key)}
-              options={selectorData}
-              placeholder="拼音首字母过滤"
-            />
+      <Card
+        title={formatMessage({ id: 'app.querycondition' })}
+        bodyStyle={{
+          padding: '5px 20px',
+        }}
+        style={{ marginBottom: 10 }}
+      >
+        <Row>
+          {dateType !== 'none' && <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
+            <DateRangePicker refresh={false} />
+          </Col>}
+          {textAreaList.map(({ key, title }) => (
+            <Col span={24} md={24} sm={24} xs={24} className={styles.selectContainer} key={key}>
+              <span className={styles.title}>{title}:</span>
+              <TextArea
+                style={{
+                  // maxWidth: 300,  
+                  marginRight: 10
+                }}
+                autosize={{ minRows: 2, maxRows: 4 }}
+                value={textAreaValue[key]}
+                onChange={e => onTextChange(e.target.value, key)}
+              />
+            </Col>
+          ))}
+          {selectList.map(({ key, data: selectorData, title }, idx) => (
+            <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer} key={key}>
+              <span className={styles.title}>{title}:</span>
+              <PinyinSelect
+                style={{ width: 150 }}
+                value={selectValue[key]}
+                onSelect={value => onSelectChange(value, idx, key)}
+                options={selectorData}
+                placeholder="拼音首字母过滤"
+              />
+            </Col>
+          ))}
+          <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
+            <Button
+              type="primary"
+              onClick={onQuery}
+              disabled={disabled}
+            >
+              {formatMessage({ id: 'app.query' })}
+            </Button>
           </Col>
-        ))}
-        {textAreaList.map(({ key, title }) => (
-          <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer} key={key}>
-            <span className={styles.title}>{title}:</span>
-            <TextArea
-              style={{ maxWidth: 300, marginRight: 10 }}
-              autosize={{ minRows: 1, maxRows: 2 }}
-              value={textAreaValue[key]}
-              onChange={e => onTextChange(e.target.value, key)}
-            />
-          </Col>
-        ))}
-        <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
-          <Button
-            type="primary"
-            onClick={onQuery}
-            disabled={
-              Object.keys(selectValue).length < selectList.length ||
-              Object.keys(textAreaValue).length < textAreaList.length
-            }
-          >
-            {formatMessage({ id: 'app.query' })}
-          </Button>
-        </Col>
-      </Row>
-    </Card>
-  );
+        </Row>
+      </Card>
+    );
 }
 
 export default connect(
-  ({ common: { dateRange, selectValue, selectList, textAreaList, textAreaValue } }) => ({
+  ({ common: { dateType: [dateType], dateRange, selectValue, selectList, textAreaList, textAreaValue } }) => ({
     dateRange,
     selectValue,
     selectList,
     textAreaList,
     textAreaValue,
+    dateType,
   })
 )(QueryCondition);

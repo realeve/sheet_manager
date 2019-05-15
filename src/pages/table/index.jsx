@@ -8,14 +8,14 @@ import styles from './index.less';
 import moment from 'moment';
 import classNames from 'classnames/bind';
 import * as lib from '@/utils/lib';
-import QueryCondition from '@/components/QueryCondition';
+import QueryCondition, { isDisabled } from '@/components/QueryCondition';
 import Err from '@/components/Err';
 
 const cx = classNames.bind(styles);
 
 const TabPane = Tabs.TabPane;
 
-function Tables({ dispatch, dateRange, loading, dataSource, dateFormat }) {
+function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common }) {
   // 表头合并相关设置信息
   let param = lib.parseUrl(window.location.hash);
 
@@ -55,6 +55,8 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat }) {
     );
   };
 
+  const disabled = isDisabled(common);
+  console.log(disabled);
   return (
     <>
       <QueryCondition onQuery={refreshData} />
@@ -93,6 +95,7 @@ function mapStateToProps(state) {
     ...state.table,
     dateFormat: state.common.dateFormat,
     dateRange: state.common.dateRange,
+    common: state.common,
   };
 }
 

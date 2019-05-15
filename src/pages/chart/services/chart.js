@@ -38,24 +38,30 @@ const decodeUrlParam = ({ params, idx }) => {
   return param;
 };
 
-export const decodeHash = ({ tid, query, selectValue, dateRange: [tstart, tend], inputValue }) =>
+export const decodeHash = ({
+  tid,
+  query,
+  selectValue,
+  dateRange: [tstart, tend],
+  inputValue,
+  dateType,
+}) =>
   tid.map((url, idx) => {
     Reflect.deleteProperty(query, 'selectkey');
     Reflect.deleteProperty(query, 'cascade');
     Reflect.deleteProperty(query, 'menufold');
     Reflect.deleteProperty(query, 'textarea');
     Reflect.deleteProperty(query, 'textareakey');
-
+    let dates =
+      dateType === 'none'
+        ? {}
+        : { tstart, tend, tstart2: tstart, tend2: tend, tstart3: tstart, tend3: tend };
+    console.log(dateType);
     let params = decodeUrlParam({
       url,
       params: {
         ...query,
-        tstart,
-        tend,
-        tstart2: tstart,
-        tend2: tend,
-        tstart3: tstart,
-        tend3: tend,
+        ...dates,
         ...selectValue,
         ...inputValue,
       },

@@ -2,6 +2,7 @@ import pathToRegexp from 'path-to-regexp';
 import { setStore, handleTextVal } from '@/utils/lib';
 import * as db from '../services/chart';
 import * as R from 'ramda';
+import { isDisabled } from '@/components/QueryCondition';
 
 const namespace = 'chart';
 export default {
@@ -17,9 +18,20 @@ export default {
   },
   effects: {
     *refreshData({ payload }, { put, select }) {
-      let { dateRange, tid, query, selectValue, textAreaValue } = yield select(
-        state => state.common
-      );
+      let common = yield select(state => state.common);
+      let disabled = isDisabled(common);
+      if (disabled) {
+        return;
+      }
+
+      let {
+        dateRange,
+        tid,
+        query,
+        selectValue,
+        textAreaValue,
+        dateType: [dateType],
+      } = common;
       if (!R.isNil(payload)) {
         // 首次加载数据
         if (!(payload.isInit && tid && tid.length && R.isNil(query.select))) {
@@ -27,7 +39,8 @@ export default {
         }
       }
       let inputValue = handleTextVal(textAreaValue);
-      let config = db.decodeHash({ selectValue, dateRange, tid, query, inputValue });
+      let config = db.decodeHash({ selectValue, dateRange, tid, query, inputValue, dateType });
+
       yield put({
         type: 'setStore',
         payload: {

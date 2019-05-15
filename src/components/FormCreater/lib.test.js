@@ -121,4 +121,11 @@ test('下拉选择选项预处理', () => {
   expect(handleOptions([{ id: 1, value: 'a' }])).toMatchObject([
     { name: 'a', value: 1, label: 'a' },
   ]);
+
+  expect(handleOptions([{ id: 1, value: 'a' }], true)).toMatchObject([
+    { name: 'a', value: 'a', label: 'a' },
+  ]);
+  expect(handleOptions([{ id: 1, value: 'a' }], false)).toMatchObject([
+    { name: 'a', value: 1, label: 'a' },
+  ]);
 });

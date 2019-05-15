@@ -14,7 +14,7 @@ import { connect } from 'dva';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
- 
+
 function FormCreater({ config, dispatch }) {
   let [state, setState] = useSetState();
   let [editMethod, setEditMethod] = useState('insert');
@@ -73,6 +73,7 @@ function FormCreater({ config, dispatch }) {
     setFormstatus(validStatus && required);
   }, [state]);
 
+  console.log(formConfig.detail, config, '🌸');
 
   return (
     <div>
