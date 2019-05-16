@@ -1,15 +1,17 @@
 import React from 'react';
 import styles from '../config.less';
+import { IChart } from '../utils/lib';
 const R = require('ramda');
 
 export interface configItemProps {
-  config: {
-    key: string;
-    type?: string;
-    title: string;
-    default?: string;
-    url?: string | Array<string>;
-  };
+  config: IChart
+  //  {
+  //   key: string;
+  //   type?: string;
+  //   title: string;
+  //   default?: string;
+  //   url?: string | Array<string>;
+  // };
   idx?: number;
 }
 
@@ -31,12 +33,12 @@ export default function configItem(props: configItemProps) {
               {url}
             </a>
           ) : (
-            url.map(u => (
-              <a href={u} target="_blank" key={u}>
-                {u}
-              </a>
-            ))
-          )}
+              url.map(u => (
+                <a href={u} target="_blank" key={u}>
+                  {u}
+                </a>
+              ))
+            )}
         </div>
       )}
     </li>

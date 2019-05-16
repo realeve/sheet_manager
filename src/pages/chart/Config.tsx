@@ -17,7 +17,13 @@ export interface configState {
   }>;
 }
 
-class Config extends React.Component<{}, configState> {
+class Config extends React.Component<{}, {
+  chartType: number;
+  config: {
+    type: string;
+    config: TChartConfig;
+  };
+}> {
   constructor(props) {
     super(props);
     this.state = {
