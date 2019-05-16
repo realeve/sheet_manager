@@ -18,13 +18,18 @@ test('resolve', () =>
     expect(res.rows).toBeGreaterThan(0);
   }));
 
-test('reject', () =>
+test('reject', () => {
   axios({
     url: 'http://api.cbpc.ltd/3/e4e497e849_err_token',
   }).catch(e => {
-    console.log(e.response);
-    expect(e.response.data).toMatchObject({ errmsg: 'invalid api id', status: 404 });
-  }));
+    expect(e).toMatchObject({
+      message: '请求错误',
+      description: 'Request failed with status code 404',
+      url: 'http://api.cbpc.ltd/3/e4e497e849_err_token',
+      params: {},
+    });
+  });
+});
 
 test('服务端数据读写', () => {
   // expect.assertions(2);
@@ -52,16 +57,17 @@ test('post', () => {
   ).resolves.toBeGreaterThan(0);
 });
 
-test('401', async () => {
-  let data = await axios({
+test('401', () => {
+  axios({
     method: 'post',
     url: 'http://api.cbpc.ltd/',
     data: {
       id: 3,
       nonce: 'e4e497e84943',
     },
+  }).catch(e => {
+    expect(e).toMatchObject({ description: '请求错误', message: '请求错误', params: {}, url: '' });
   });
-  expect(data).toMatchObject({ errmsg: 'invalid api id', status: 404 });
 });
 
 test('错误处理', () => {
@@ -76,69 +82,41 @@ test('错误处理', () => {
       status: 401,
     },
   };
-  expect(handleError(req)).rejects.toMatchObject(req);
+  expect(handleError(req)).rejects.toMatchObject({
+    description: '用户没有权限（令牌、用户名、密码错误）。401',
+    message: '请求错误: http://127.0.0.1/_err_url',
+    params: {},
+    status: 401,
+    url: 'http://127.0.0.1/_err_url',
+  });
 
-  req = {
-    config: {
-      url: 'www.cdyc.cbpm',
-    },
-    response: {
-      data: {
-        msg: 403,
-      },
-      status: 403,
-    },
-  };
-  expect(handleError(req)).rejects.toMatchObject(req);
-
-  req = {
-    config: {
-      url: 'www.cdyc.cbpm',
-    },
-    response: {
-      data: {
-        msg: 404,
-      },
-      status: 404,
-    },
-  };
-  expect(handleError(req)).rejects.toMatchObject(req);
-
-  req = {
-    config: {
-      url: 'www.cdyc.cbpm',
-    },
-    response: {
-      data: {
-        msg: 500,
-      },
-      status: 500,
-    },
-  };
-  expect(handleError(req)).rejects.toMatchObject(req);
-
-  req = {
-    config: {
-      url: 'www.cdyc.cbpm',
-    },
-    response: {
-      data: {
-        msg: 206,
-      },
-      status: 206,
-    },
-  };
-  expect(handleError(req)).rejects.toMatchObject(req);
+  req = { description: '', message: '请求错误', params: {}, url: 'www.cdyc.cbpm' };
+  expect(handleError(req)).rejects.toMatchObject({
+    description: '请求错误',
+    message: '请求错误',
+    params: {},
+    url: '',
+  });
 
   req = {
     request: '请求出错',
   };
-  expect(handleError(req)).rejects.toMatchObject(req);
+  expect(handleError(req)).rejects.toMatchObject({
+    description: '',
+    message: '请求错误',
+    params: {},
+    url: '',
+  });
 
   req = {
     message: '内容出错',
   };
-  expect(handleError(req)).rejects.toMatchObject(req);
+  expect(handleError(req)).rejects.toMatchObject({
+    description: '内容出错',
+    message: '请求错误',
+    params: {},
+    url: '',
+  });
 });
 
 test('loadUserInfo', () => {
@@ -155,16 +133,12 @@ test('handleData', () => {
   expect(handleData({ data: { rows: 1 } })).toMatchObject({ rows: 1 });
 });
 
-test('mock', async () => {
-  let data = await mock({ rows: 1 });
-  expect(data).toMatchObject({ rows: 1 });
+// mock增加require后会报循环调用的错误，同时打包会存在问题，故取消，只允许传数据
+// let requireData = await mock('./setting.ts');
+// expect(requireData.host).toContain('http');
 
-  // mock增加require后会报循环调用的错误，同时打包会存在问题，故取消，只允许传数据
-  // let requireData = await mock('./setting.ts');
-  // expect(requireData.host).toContain('http');
-
-  // data = await mock('@/mock/10_51ccc896d2.json');
-  // expect(data).toMatchObject({ rows: 2 });
+test('mock', () => {
+  expect(mock({ rows: 2 })).resolves.toMatchObject({ rows: 2 });
 });
 
 test('gettype', () => {

@@ -117,8 +117,8 @@ export interface AxiosError {
   status?: number;
 }
 export const handleError = error => {
-  let config = error.config;
-  let params = config.params || config.data;
+  let config = error.config || {};
+  let params = config.params || config.data || {};
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
@@ -136,17 +136,17 @@ export const handleError = error => {
     // } else if (status >= 404 && status < 422) {
     //   router.push('/404');
     // }
-    const errortext = (codeMessage[status] || '') + data.msg;
+    const errortext = (codeMessage[status] || '') + (data.msg || '');
     notification.error({
       message: `请求错误 ${status}: ${error.config.url}`,
       description: errortext || '',
       duration: 10,
     });
-    Promise.reject({
+    return Promise.reject({
       status,
       message: `请求错误: ${error.config.url}`,
       description: `${errortext || ''}`,
-      url: error.config.url,
+      url: error.config.url || '',
       params,
     });
   } else if (error.request) {
@@ -159,8 +159,8 @@ export const handleError = error => {
   }
   return Promise.reject({
     message: '请求错误',
-    description: error.message,
-    url: error.config.url,
+    description: error.message || '',
+    url: (error.config && error.config.url) || '',
     params,
   });
 };

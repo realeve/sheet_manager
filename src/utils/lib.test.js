@@ -436,4 +436,5 @@ test('请求参数转数组', () => {
   expect(lib.handleTextVal({ a: 'a\nb' })).toMatchObject({ a: ['a', 'b'] });
 
   expect(lib.handleTextVal({ a: 'a' })).toMatchObject({ a: 'a' });
+  expect(lib.handleTextVal({ a: 'a b ' })).toMatchObject({ a: ['a', 'b'] });
 });
