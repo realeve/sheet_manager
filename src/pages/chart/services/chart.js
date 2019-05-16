@@ -1,7 +1,6 @@
 import util from '../utils/lib';
 import chartOption from '../utils/charts';
 import { axios } from '@/utils/axios';
-import { DEV } from '@/utils/setting';
 import * as lib from '@/utils/lib';
 const R = require('ramda');
 
@@ -18,7 +17,7 @@ export const getQueryConfig = (url, params) => ({
   },
 });
 
-const decodeUrlParam = ({ params, idx }) => {
+const decodeUrlParam = ({ data: params, idx }) => {
   let param = {};
   let handleKey = key => {
     let item = params[key];
@@ -57,9 +56,14 @@ export const decodeHash = ({
         ? {}
         : { tstart, tend, tstart2: tstart, tend2: tend, tstart3: tstart, tend3: tend };
     // console.log(dateType);
-    let params = decodeUrlParam({
-      url,
-      params: {
+
+    let [id, nonce] = url.split('/').filter(item => item.length > 0);
+
+    return decodeUrlParam({
+      method: 'post',
+      data: {
+        id,
+        nonce,
         ...query,
         ...dates,
         ...selectValue,
@@ -67,20 +71,15 @@ export const decodeHash = ({
       },
       idx,
     });
-
-    return {
-      url,
-      params,
-    };
   });
 
-export const computeDerivedState = async ({ url, params }) => {
-  console.time(`加载图表${url}`);
+export const computeDerivedState = async ({ params }) => {
+  console.time(`加载图表${params.nonce}`);
   let dataSrc = await axios({
-    url,
-    params,
+    method: 'post',
+    data: params,
   });
-  console.timeEnd(`加载图表${url}`);
+  console.timeEnd(`加载图表${params.nonce}`);
   return getDrivedState({ dataSrc, params });
 };
 

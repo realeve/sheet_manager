@@ -8,9 +8,7 @@ import ChartConfig, { TAxisName, IConfigState, getParams } from './ChartConfig';
 import ChartComponent from './ChartComponent';
 import { formatMessage } from 'umi/locale';
 import moment from 'moment';
-
 import lib from '../utils/lib';
-
 const R = require('ramda');
 const TabPane = Tabs.TabPane;
 interface Iconfig {
@@ -61,12 +59,12 @@ class Charts extends Component<IProp, IState> {
         data: [],
         rows: 0,
       },
-      appendParams: {},
+      appendParams: {}
     };
   }
 
-  static getDerivedStateFromProps({ config }, state) {
-    let { params } = config;
+  static getDerivedStateFromProps(props, state) {
+    let params = props.config;
     let appendParams: IConfigState = getParams(params);
 
     if (R.equals(params, state.params)) {
@@ -78,25 +76,27 @@ class Charts extends Component<IProp, IState> {
     let isInited = Object.keys(state.appendParams).length === 0;
     appendParams = isInited ? appendParams : state.appendParams;
     params = Object.assign(params, appendParams);
+
     let newState =
       0 == state.dataSrc.rows
         ? {}
         : db.getDrivedState({
-            dataSrc: state.dataSrc,
-            params,
-            idx: state.idx,
-          });
+          dataSrc: state.dataSrc,
+          params,
+          idx: state.idx,
+        });
     return { appendParams, params, loading: true, ...newState };
   }
 
-  init = async () => {
+  init = () => {
     let { url, params } = this.state;
-    let { dataSrc, option } = await db.computeDerivedState({
+    db.computeDerivedState({
       url,
       params,
-    });
-    this.setState({ dataSrc, option });
-    this.props.onLoad(dataSrc.title);
+    }).then(({ dataSrc, option }) => {
+      this.setState({ showErr: false, dataSrc, option });
+      this.props.onLoad(dataSrc.title);
+    })
   };
 
   componentDidUpdate({ config }) {
@@ -196,8 +196,8 @@ class Charts extends Component<IProp, IState> {
       (tstart === tend
         ? ''
         : ` ${formatMessage({
-            id: 'app.daterange.to',
-          })} ${moment(tend, this.props.dateFormat).format(format)}`)
+          id: 'app.daterange.to',
+        })} ${moment(tend, this.props.dateFormat).format(format)}`)
     );
   };
 
@@ -211,7 +211,7 @@ class Charts extends Component<IProp, IState> {
 
     tblDataSrc.data = tblDataSrc.data.map(item => Object.values(item));
     return (
-      <Tabs defaultActiveKey="1" className={styles.chartContainer}>
+      tblDataSrc.data.length > 0 && <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab={formatMessage({ id: 'chart.tab.chart' })} key="1">
           {header && (
             <ChartConfig

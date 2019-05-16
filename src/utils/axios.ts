@@ -118,7 +118,14 @@ export interface AxiosError {
 }
 export const handleError = error => {
   let config = error.config || {};
-  let params = config.params || config.data || {};
+  let str = config.params || config.data || {};
+  let { id, nonce, ...params } = typeof str === 'string' ? qs.parse(str) : str;
+  Reflect.deleteProperty(params, 'tstart2');
+  Reflect.deleteProperty(params, 'tend2');
+  Reflect.deleteProperty(params, 'tstart3');
+  Reflect.deleteProperty(params, 'tend3');
+
+  config.url += `${id}/${nonce}?${qs.stringify(params)}`;
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
@@ -129,22 +136,16 @@ export const handleError = error => {
       // });
       router.push('/unlogin');
     }
-    //  else if (status === 403) {
-    //   router.push('/403');
-    // } else if (status <= 504 && status >= 500) {
-    //   router.push('/500');
-    // } else if (status >= 404 && status < 422) {
-    //   router.push('/404');
-    // }
+
     const errortext = (codeMessage[status] || '') + (data.msg || '');
     notification.error({
-      message: `请求错误 ${status}: ${error.config.url}`,
+      message: `请求错误 ${status}: ${config.url}`,
       description: errortext || '',
       duration: 10,
     });
     return Promise.reject({
       status,
-      message: `请求错误: ${error.config.url}`,
+      message: `请求错误: ${config.url}`,
       description: `${errortext || ''}`,
       url: error.config.url || '',
       params,
@@ -160,7 +161,7 @@ export const handleError = error => {
   return Promise.reject({
     message: '请求错误',
     description: error.message || '',
-    url: (error.config && error.config.url) || '',
+    url: (config && config.url) || '',
     params,
   });
 };

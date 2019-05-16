@@ -20,7 +20,6 @@ function Charts({ dispatch, config }) {
       type: 'chart/refreshData',
     });
   };
-
   return (
     <>
       <QueryCondition onQuery={refreshData} />

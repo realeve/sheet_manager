@@ -8,7 +8,7 @@ import styles from './index.less';
 import moment from 'moment';
 import classNames from 'classnames/bind';
 import * as lib from '@/utils/lib';
-import QueryCondition, { isDisabled } from '@/components/QueryCondition';
+import QueryCondition from '@/components/QueryCondition';
 import Err from '@/components/Err';
 
 const cx = classNames.bind(styles);
@@ -54,8 +54,6 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common }
           })} ${moment(tend, dateFormat).format(format)}`)
     );
   };
-
-  const disabled = isDisabled(common);
 
   return (
     <>

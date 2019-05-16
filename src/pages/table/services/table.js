@@ -2,14 +2,6 @@ import { axios } from '@/utils/axios';
 const R = require('ramda');
 export const fetchData = axios;
 
-// export const fetchData =  ({ url, params }) =>
-//   axios({
-//     url,
-//     params,
-//   }).catch(err => {
-//     return { err };
-//   });
-
 export const handleParams = ({ tid, params, dateRange, dateType }) => {
   const [tstart, tend] = dateRange;
   let param =
