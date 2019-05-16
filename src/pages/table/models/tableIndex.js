@@ -84,10 +84,10 @@ export default {
       let curPageName = '';
       for (let idx = 0; idx < axiosOptions.length; idx++) {
         let param = axiosOptions[idx];
-        let { url } = param;
+        let { data } = param;
         dataSource[idx] = yield call(db.fetchData, param);
         // 将apiid绑定在接口上，方便对数据设置存储
-        dataSource[idx].api_id = url.replace('/array', '');
+        dataSource[idx].api_id = `${data.id}/${data.nonce}`;
         curPageName = dataSource[idx].title || '';
       }
 

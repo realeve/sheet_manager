@@ -21,7 +21,7 @@ let getCopyRight = () => ({
   borderColor: '#999',
   borderWidth: 0,
   textStyle: {
-    fontSize: 10,
+    fontSize: 13,
     fontWeight: 'normal',
   },
   x: 'right',
@@ -55,7 +55,7 @@ let getDefaultTitle = (option, config: Iconfig, showDateRange: boolean = true) =
         text: config.data.source,
         borderWidth: 0,
         textStyle: {
-          fontSize: 10,
+          fontSize: 11,
           fontWeight: 'normal',
         },
         x: 5,
@@ -65,7 +65,7 @@ let getDefaultTitle = (option, config: Iconfig, showDateRange: boolean = true) =
         text: `统计时间：${config.dateRange[0]} - ${config.dateRange[1]}`,
         borderWidth: 0,
         textStyle: {
-          fontSize: 10,
+          fontSize: 11,
           fontWeight: 'normal',
         },
         x: 5,

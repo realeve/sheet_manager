@@ -56,7 +56,7 @@ export const decodeHash = ({
       dateType === 'none'
         ? {}
         : { tstart, tend, tstart2: tstart, tend2: tend, tstart3: tstart, tend3: tend };
-    console.log(dateType);
+    // console.log(dateType);
     let params = decodeUrlParam({
       url,
       params: {
@@ -75,12 +75,12 @@ export const decodeHash = ({
   });
 
 export const computeDerivedState = async ({ url, params }) => {
-  console.time(`加载图表`, url);
+  console.time(`加载图表${url}`);
   let dataSrc = await axios({
     url,
     params,
   });
-  console.timeEnd(`加载图表`, url);
+  console.timeEnd(`加载图表${url}`);
   return getDrivedState({ dataSrc, params });
 };
 
@@ -120,6 +120,8 @@ export const getDrivedState = ({ dataSrc, params }) => {
   // if (DEV && option.length) {
   //   console.log(`option=${JSON.stringify(option[0])}`);
   // }
+
+  // console.log(`option=${JSON.stringify(option[0])}`);
 
   //   dataSrc.data = dataSrc.data.map((item) => Object.values(item));
   return {

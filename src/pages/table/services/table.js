@@ -26,10 +26,13 @@ export const handleParams = ({ tid, params, dateRange, dateType }) => {
           tend3: tend,
           mode: 'array',
         };
-  let option = tid.map(url => ({
-    url,
-    params: param,
-  }));
+  let option = tid.map(url => {
+    let [id, nonce] = url.split('/').filter(item => item.length > 0);
+    return {
+      data: { ...param, id, nonce },
+      method: 'post',
+    };
+  });
   let paramKeys = Object.keys(params);
 
   // 对传入参数补齐
@@ -45,10 +48,9 @@ export const handleParams = ({ tid, params, dateRange, dateType }) => {
     }
     params[key] = val;
   });
-
   return option.map((item, idx) => {
     paramKeys.forEach(key => {
-      item.params[key] = params[key][idx];
+      item.data[key] = params[key][idx];
     });
     return R.clone(item);
     // return JSON.parse(JSON.stringify(item));

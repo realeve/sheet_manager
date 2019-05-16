@@ -44,7 +44,7 @@ export default {
     textStyle: {
       fontWeight: 'lighter',
       color: '#666',
-      fontSize: 28,
+      fontSize: 24,
     },
     subtextStyle: {
       color: '#666',

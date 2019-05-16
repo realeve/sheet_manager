@@ -341,9 +341,7 @@ let handleSeriesItem = option => seriesItem => {
       normal: {
         show: true,
         position: 'insideTop',
-        // formatter: ({
-        //     value
-        // }) => value[1]
+        formatter: ({ value }) => Number(value),
       },
     };
   }

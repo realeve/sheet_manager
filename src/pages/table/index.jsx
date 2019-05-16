@@ -56,7 +56,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common }
   };
 
   const disabled = isDisabled(common);
-  console.log(disabled);
+
   return (
     <>
       <QueryCondition onQuery={refreshData} />

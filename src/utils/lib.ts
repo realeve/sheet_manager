@@ -271,6 +271,7 @@ export const thouandsNum: {
   if (String(num).length === 0) {
     return '';
   }
+  console.log(num);
 
   let numStr: string = Number(num).toLocaleString();
   if (numStr.includes('.')) {
@@ -430,7 +431,7 @@ export const str2Arr: (str: string) => string[] = str => {
   } else if (str.includes(' ')) {
     res = str.split(' ');
   } else if (str.includes('\n')) {
-    res = str.split('\n');
+    res = str.split('\n\r');
   } else {
     res = [str];
   }
