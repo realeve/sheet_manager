@@ -257,6 +257,7 @@ let standardPie = ({ option, config }) => {
     series = legendData.map((text, i) => {
       let sData = R.filter(R.propEq(header[option.legend], text))(data);
       seriesData = getSeriesData(sData);
+      seriesData = handleSeriesData(seriesData);
       if (typeof title !== 'string') {
         title.push({
           text,
@@ -272,6 +273,7 @@ let standardPie = ({ option, config }) => {
     });
   } else {
     seriesData = getSeriesData(data);
+    seriesData = handleSeriesData(seriesData);
     series[0] = getSeriesItem(header[option.x], ['50%', '50%'], seriesData);
   }
 
@@ -333,4 +335,23 @@ let pie = config => {
   });
 };
 
-export { pie, chartConfig, getCenterConfig };
+const handleSeriesData = series => {
+  let combineSize = 10; // 合并最后10个元素
+  if (series.length < combineSize) {
+    return series;
+  }
+  let headArr = R.slice(0, combineSize)(series);
+  let tailArr = R.slice(combineSize, series.length)(series);
+  let value = R.compose(
+    R.sum(),
+    R.pluck('value')
+  )(tailArr);
+  return [
+    ...headArr,
+    {
+      name: '其它',
+      value,
+    },
+  ];
+};
+export { pie, chartConfig, getCenterConfig, handleSeriesData };

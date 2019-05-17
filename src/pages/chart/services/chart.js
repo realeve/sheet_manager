@@ -17,7 +17,7 @@ export const getQueryConfig = (url, params) => ({
   },
 });
 
-const decodeUrlParam = ({ data: params, idx }) => {
+const decodeUrlParam = ({ data: params, idx, inputValue }) => {
   let param = {};
   let handleKey = key => {
     let item = params[key];
@@ -34,7 +34,7 @@ const decodeUrlParam = ({ data: params, idx }) => {
     R.forEach(handleKey),
     R.keys
   )(params);
-  return param;
+  return { ...param, ...inputValue };
 };
 
 export const decodeHash = ({
@@ -58,18 +58,18 @@ export const decodeHash = ({
     // console.log(dateType);
 
     let [id, nonce] = url.split('/').filter(item => item.length > 0);
+    // console.log(inputValue);
 
     return decodeUrlParam({
-      method: 'post',
+      idx,
       data: {
         id,
         nonce,
         ...query,
         ...dates,
         ...selectValue,
-        ...inputValue,
       },
-      idx,
+      inputValue,
     });
   });
 

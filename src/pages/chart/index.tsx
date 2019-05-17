@@ -20,11 +20,12 @@ function Charts({ dispatch, config }) {
       type: 'chart/refreshData',
     });
   };
+
   return (
     <>
       <QueryCondition onQuery={refreshData} />
       {config.map((option, idx) => (
-        <div className={classNames({ [styles.tableContainer]: idx })} key={option.url + idx}>
+        <div className={classNames({ [styles.tableContainer]: idx })} key={option.nonce + idx}>
           <Chart onLoad={onLoad} config={option} idx={idx} />
         </div>
       ))}

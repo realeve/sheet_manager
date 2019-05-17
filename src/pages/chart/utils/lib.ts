@@ -41,7 +41,7 @@ let getDefaultTitle = (option, config: Iconfig, showDateRange: boolean = true) =
     suffix = config.suffix || '';
   if (option.title) {
     if (!showDateRange) {
-      option.title = R.reject(item => item.text.includes('统计时间'))(option.title);
+      option.title = R.reject(item => item.text && item.text.includes('统计时间'))(option.title);
     }
   }
   return (

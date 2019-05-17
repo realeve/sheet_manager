@@ -431,10 +431,11 @@ export const str2Arr: (str: string) => string[] = str => {
   } else if (str.includes(' ')) {
     res = str.split(' ');
   } else if (str.includes('\n')) {
-    res = str.split('\n\r');
+    res = str.split('\n');
   } else {
     res = [str];
   }
+  res = res.map(item => item.replace(/\n/, ''));
   return R.filter(item => item.trim().length > 0)(res);
 };
 

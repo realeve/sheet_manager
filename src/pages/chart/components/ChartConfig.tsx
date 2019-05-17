@@ -336,7 +336,6 @@ let getChartConfig = type => {
 export default class ChartConfig extends Component<IConfigProps, IConfigState> {
   constructor(props) {
     super(props);
-    console.log(props)
     let state: IConfigState = getParams(this.props.params);
     state.showPanel = false;
     this.state = state;

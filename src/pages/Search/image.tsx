@@ -41,7 +41,7 @@ function ImageSearch({ cart }) {
   const titleRender = ({ data: item }) => (
     <div>
       <p>
-        相机：{item.camera} / 第{item.pos}开
+        相机：{item.camera} / 宏区{item.macro_id} / 第{item.pos}开
       </p>
       <p>印码号：{item.code}</p>
     </div>

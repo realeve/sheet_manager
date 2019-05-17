@@ -90,6 +90,7 @@ class Charts extends Component<IProp, IState> {
 
   init = () => {
     let { url, params } = this.state;
+
     db.computeDerivedState({
       url,
       params,
@@ -101,24 +102,20 @@ class Charts extends Component<IProp, IState> {
 
   componentDidUpdate({ config }) {
     let {
-      url,
+      // url,
       params,
-      appendParams,
-      option,
-    }: {
-      url: string;
-      params: any;
-      appendParams: IConfigState;
-      option?: any;
+      // appendParams,
+      // option,
     } = this.state;
-    let prevAppendParams: IConfigState = getParams(params);
+    // let prevAppendParams: IConfigState = getParams(params);
 
-    if (R.equals(config.params, params) && url === config.url) {
-      if (R.equals(appendParams, prevAppendParams)) {
-        if (option.length === 0) {
-        }
-        return false;
-      }
+    if (R.equals(config, params)) {
+      // if (R.equals(appendParams, prevAppendParams)) {
+      //   if (option.length === 0) {
+      //   }
+      //   return false;
+      // }
+      return false;
     }
     this.init();
   }
