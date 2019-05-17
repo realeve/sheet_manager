@@ -132,7 +132,7 @@ export const getDrivedState = ({ dataSrc, params }) => {
   //   console.log(`option=${JSON.stringify(option[0])}`);
   // }
 
-  // console.log(`option=${JSON.stringify(option[0])}`);
+  console.log(`option=${JSON.stringify(option[0])}`);
 
   //   dataSrc.data = dataSrc.data.map((item) => Object.values(item));
   return {

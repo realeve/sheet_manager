@@ -91,14 +91,14 @@ function QueryCondition({
             <DateRangePicker refresh={false} />
           </Col>}
           {textAreaList.map(({ key, title }) => (
-            <Col span={24} md={24} sm={24} xs={24} className={styles.selectContainer} key={key}>
+            <Col span={24} md={24} sm={24} xs={24} className={styles.selectContainer} style={{ height: '5em' }} key={key}>
               <span className={styles.title}>{title}:</span>
               <TextArea
                 style={{
                   // maxWidth: 300,  
                   marginRight: 10
                 }}
-                autosize={{ minRows: 2, maxRows: 4 }}
+                autosize={{ minRows: 4, maxRows: 4 }}
                 value={textAreaValue[key]}
                 onChange={e => onTextChange(e.target.value, key)}
               />

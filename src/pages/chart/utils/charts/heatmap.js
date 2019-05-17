@@ -68,6 +68,7 @@ let getAxisY = ({ y, data }) => ({
 
 let getVisualMap = ({ z, data }) => {
   let key = R.pluck(data.header[z])(data.data);
+  key = R.map(item => Number(item))(key);
   let minmax = {
     max: jStat.max(key),
     min: jStat.min(key),

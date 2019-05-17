@@ -474,3 +474,17 @@ export const getQfmWipJobsHechaImage = cart =>
           blob: 'image',
         },
       });
+
+/**
+ *   @database: { 全幅面 }
+ *   @desc:     { 指定大万实废分布 }
+ */
+export const getQfmWipJobsByCarts = carts =>
+  DEV
+    ? mock(require('@/mock/534_bc70063e23.json'))
+    : axios({
+        url: '/534/bc70063e23.json',
+        params: {
+          carts,
+        },
+      });

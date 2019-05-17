@@ -86,3 +86,9 @@ http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&typ
 > git rm -r --cached .
 >
 > git add .
+
+
+## todo
+1. 增加车号查询时展示缺陷分布热力图
+2. 报表及图表组件，点击查询后显示加载动画；
+3. 细节优化（返回结果有图片的报表，调整展示方式）；
