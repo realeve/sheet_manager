@@ -40,6 +40,7 @@ export default {
       }
       let inputValue = handleTextVal(textAreaValue);
       let config = db.decodeHash({ selectValue, dateRange, tid, query, inputValue, dateType });
+      console.log(config);
       yield put({
         type: 'setStore',
         payload: {

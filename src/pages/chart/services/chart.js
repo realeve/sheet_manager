@@ -44,8 +44,19 @@ export const decodeHash = ({
   dateRange: [tstart, tend],
   inputValue,
   dateType,
-}) =>
-  tid.map((url, idx) => {
+}) => {
+  // 根据参数值最长的数组确定查询参数
+  let appendArr = { len: 0, values: [] };
+  Object.values(query).forEach(item => {
+    if (typeof item === 'string') {
+      item = [item];
+    }
+    if (item.length > appendArr.len) {
+      appendArr.len = item.length;
+      appendArr.values = item;
+    }
+  });
+  return appendArr.values.map((_, idx) => {
     Reflect.deleteProperty(query, 'selectkey');
     Reflect.deleteProperty(query, 'cascade');
     Reflect.deleteProperty(query, 'menufold');
@@ -56,7 +67,7 @@ export const decodeHash = ({
         ? {}
         : { tstart, tend, tstart2: tstart, tend2: tend, tstart3: tstart, tend3: tend };
     // console.log(dateType);
-
+    let url = tid[idx] || R.last(tid);
     let [id, nonce] = url.split('/').filter(item => item.length > 0);
     // console.log(inputValue);
 
@@ -72,6 +83,7 @@ export const decodeHash = ({
       inputValue,
     });
   });
+};
 
 export const computeDerivedState = async ({ params }) => {
   console.time(`加载图表${params.nonce}`);
