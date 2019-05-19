@@ -62,24 +62,26 @@ test('bar', () => {
   ).toMatchObject({ ...result, renderer: 'canvas' });
 
   // reverse
-  expect(
-    bar({
-      data: {
-        header: ['c', 'a', 'b'],
-        data: [
-          {
-            a: 'a1',
-            b: 1,
-            c: 'legend',
-          },
-        ],
-      },
-      legend: 0,
-      x: 1,
-      y: 2,
-      reverse: '1',
-    })
-  ).toMatchObject({
+  let res = bar({
+    data: {
+      header: ['c', 'a', 'b'],
+      data: [
+        {
+          a: 'a1',
+          b: 1,
+          c: 'legend',
+        },
+      ],
+    },
+    legend: 0,
+    x: 1,
+    y: 2,
+    reverse: '1',
+  });
+
+  expect(res.series[0].label.normal.formatter({ value: '3' })).toBe(3);
+
+  expect(res).toMatchObject({
     series: [
       {
         data: [1],

@@ -20,9 +20,18 @@ test('treemap', () => {
 
   const {
     series: { squareRatio },
+    tooltip: { formatter },
   } = treemap(config);
 
   expect(squareRatio).toBeCloseTo(1.618, 2);
+  expect(
+    formatter({
+      data: {
+        name: 'a',
+        value: 1,
+      },
+    })
+  ).toBe('a:1(25.00%)');
 
   const option = treemap(Object.assign(config, { scale: 1 }));
   expect(option).toMatchObject({

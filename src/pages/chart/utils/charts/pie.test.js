@@ -1,4 +1,4 @@
-import { pie, getCenterConfig } from './pie';
+import { pie, getCenterConfig, handleSeriesData } from './pie';
 
 test('饼图', () => {
   expect(
@@ -243,4 +243,10 @@ test('getCenterConfig', () => {
 
   res = getCenterConfig(new Array(7));
   expect(res.center).toHaveLength(1);
+});
+
+test('handleSeriesData', () => {
+  expect(
+    handleSeriesData([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, { value: 11 }, { value: 12 }])
+  ).toMatchObject([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, { name: '其它', value: 23 }]);
 });
