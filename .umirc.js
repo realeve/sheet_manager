@@ -29,7 +29,7 @@ export default {
         },
         dynamicImport: {
           webpackChunkName: true,
-          loadingComponent: './components/PageLoading/Loading2.jsx',
+          loadingComponent: './components/PageLoading/Loading3.jsx',
         },
         // pwa: true,
         fastClick: true,
