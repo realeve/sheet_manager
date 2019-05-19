@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import VTable from '@/components/Table.jsx';
 import VTableCalc from '@/components/TableCalc.jsx';
 import { formatMessage } from 'umi/locale';
-import { Tabs } from 'antd';
+import { Tabs, Spin } from 'antd';
 import styles from './index.less';
 import moment from 'moment';
 import classNames from 'classnames/bind';
@@ -18,7 +18,6 @@ const TabPane = Tabs.TabPane;
 function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common }) {
   // 表头合并相关设置信息
   let param = lib.parseUrl(window.location.hash);
-
   const refreshData = async () => {
     await dispatch({
       type: 'table/updateParams',
@@ -56,9 +55,8 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common }
   };
 
   return (
-    <>
+    <Spin tip="载入中..." spinning={common.spinning}>
       <QueryCondition onQuery={refreshData} />
-
       {dataSource.map((dataSrc, key) => {
         let subTitle = dataSrc.dates && dataSrc.dates.length > 0 && staticRanges(dateRange);
         return (
@@ -83,7 +81,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common }
           </div>
         );
       })}
-    </>
+    </Spin>
   );
 }
 

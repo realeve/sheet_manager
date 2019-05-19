@@ -79,8 +79,14 @@ export default {
         }
       }
 
-      const { axiosOptions, dataSource } = yield select(state => state[namespace]);
+      yield put({
+        type: 'common/setStore',
+        payload: {
+          spinning: true,
+        },
+      });
 
+      let { axiosOptions, dataSource } = yield select(state => state[namespace]);
       let curPageName = '';
       for (let idx = 0; idx < axiosOptions.length; idx++) {
         let param = axiosOptions[idx];
@@ -95,6 +101,7 @@ export default {
         type: 'common/setStore',
         payload: {
           curPageName,
+          spinning: false,
         },
       });
 

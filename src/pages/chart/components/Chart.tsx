@@ -20,6 +20,7 @@ interface IProp {
   config: Array<Iconfig> | Iconfig;
   idx: number | string;
   dateFormat?: string;
+  [key: string]: any;
 }
 interface IState extends Iconfig {
   loading: boolean;
@@ -72,7 +73,6 @@ class Charts extends Component<IProp, IState> {
         return { loading: false };
       }
     }
-
     let isInited = Object.keys(state.appendParams).length === 0;
     appendParams = isInited ? appendParams : state.appendParams;
     params = Object.assign(params, appendParams);
@@ -85,10 +85,20 @@ class Charts extends Component<IProp, IState> {
           params,
           idx: state.idx,
         });
+
     return { appendParams, params, loading: true, ...newState };
   }
 
   init = () => {
+    const setLoadingStatus = spinning => {
+      this.props.dispatch({
+        type: 'common/setStore',
+        payload: {
+          spinning,
+        },
+      });
+    }
+    setLoadingStatus(true)
     let { url, params } = this.state;
 
     db.computeDerivedState({
@@ -97,6 +107,8 @@ class Charts extends Component<IProp, IState> {
     }).then(({ dataSrc, option }) => {
       this.setState({ showErr: false, dataSrc, option });
       this.props.onLoad(dataSrc.title);
+    }).finally(e => {
+      setLoadingStatus(false)
     })
   };
 
@@ -133,6 +145,13 @@ class Charts extends Component<IProp, IState> {
         rows: 0,
       },
       appendParams: {},
+    });
+
+    this.props.dispatch({
+      type: 'common/setStore',
+      payload: {
+        spinning: true,
+      },
     });
   }
 

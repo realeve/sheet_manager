@@ -78,6 +78,7 @@ export default {
     selectValue: {},
     textAreaList: [],
     textAreaValue: {},
+    spinning: false,
   },
   reducers: {
     setStore,
