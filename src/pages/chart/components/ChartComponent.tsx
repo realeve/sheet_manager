@@ -30,6 +30,12 @@ export default class Charts extends Component<IProp> {
     }
   }
 
+  componentDidMount() {
+    if (this.echarts_react && this.props.setInstance) {
+      this.props.setInstance(this.echarts_react.getEchartsInstance());
+    }
+  }
+
   render() {
     let { option, renderer, ...props } = this.props;
     return (

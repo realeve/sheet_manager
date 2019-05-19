@@ -3,10 +3,9 @@ import styles from './Err.less';
 import qs from 'qs';
 
 export default function Err({ err }) {
-  Reflect.deleteProperty(err.params, 'tstart2');
-  Reflect.deleteProperty(err.params, 'tend2');
-  Reflect.deleteProperty(err.params, 'tstart3');
-  Reflect.deleteProperty(err.params, 'tend3');
+  ['tstart2', 'tend2', 'tstart3', 'tend3'].forEach((key) => {
+    Reflect.deleteProperty(err.params, key);
+  })
 
   let url = `${err.url}?${qs.stringify(err.params)}`;
   return (

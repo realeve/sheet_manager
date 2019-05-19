@@ -11,7 +11,15 @@ import CartsByDate from './CartsByDate';
 
 const weekList: string[] = ['日', '一', '二', '三', '四', '五', '六'];
 
-export default function ProdList({ onRefresh, ...params }) {
+interface CartConfig {
+  cart: string;
+  type: string;
+  prod?: string;
+  onRefresh?: Function;
+  beforeRender?: Function;
+}
+
+export default function ProdList({ onRefresh, beforeRender, ...params }: CartConfig) {
   const [visible, setVisible] = useState(false);
   const [cartDetail, setCartDetail] = useState({ mid: 0, tstart: '', machine: '' });
   const [res, setRes] = useState({ loading: true, rows: 0, data: [] });
@@ -19,7 +27,7 @@ export default function ProdList({ onRefresh, ...params }) {
 
   let callback = ({ data, rows }) => {
     setVisible(false);
-    onRefresh(rows ? R.last(data) : {});
+    onRefresh && onRefresh(rows ? R.last(data) : {});
   };
 
   let { cart, type } = params;
@@ -31,6 +39,9 @@ export default function ProdList({ onRefresh, ...params }) {
 
     db.getVCbpcCartlist(cart)
       .then(res => {
+        if (beforeRender) {
+          res = beforeRender(res);
+        }
         setRes(res);
         callback(res);
       })
@@ -94,122 +105,122 @@ export default function ProdList({ onRefresh, ...params }) {
         {err ? (
           <Err err={err} />
         ) : (
-          <ul>
-            {prodDetail.map(
-              (
-                {
-                  key_recid,
-                  ProcName,
-                  WorkClassName,
-                  MachineName,
-                  CaptainName,
-                  TeamName,
-                  PrintNum,
-                  StartDate,
-                  WorkInfo,
-                  weekName,
-                  EndDate,
-                  mid,
-                  remark,
-                  remark_type,
-                },
-                idx
-              ) => (
-                <li key={key_recid}>
-                  <div>
-                    <div className={styles.title}>
+            <ul>
+              {prodDetail.map(
+                (
+                  {
+                    key_recid,
+                    ProcName,
+                    WorkClassName,
+                    MachineName,
+                    CaptainName,
+                    TeamName,
+                    PrintNum,
+                    StartDate,
+                    WorkInfo,
+                    weekName,
+                    EndDate,
+                    mid,
+                    remark,
+                    remark_type,
+                  },
+                  idx
+                ) => (
+                    <li key={key_recid}>
                       <div>
-                        <div className={styles.text}>
-                          {idx + 1}.{ProcName}：
+                        <div className={styles.title}>
+                          <div>
+                            <div className={styles.text}>
+                              {idx + 1}.{ProcName}：
                           <a
-                            href="javascript:;"
-                            onClick={() =>
-                              setCartDetail({
-                                mid,
-                                tstart: moment(StartDate).format('YYYYMMDD'),
-                                machine: MachineName,
-                              })
-                            }
-                          >
-                            {MachineName}
-                          </a>
+                                href="javascript:;"
+                                onClick={() =>
+                                  setCartDetail({
+                                    mid,
+                                    tstart: moment(StartDate).format('YYYYMMDD'),
+                                    machine: MachineName,
+                                  })
+                                }
+                              >
+                                {MachineName}
+                              </a>
+                            </div>
+                            <Badge
+                              count={WorkClassName}
+                              className={styles.workclass}
+                              style={{ backgroundColor: '#e74c3c' }}
+                            />
+                            <Badge
+                              count={'星期' + weekList[weekName]}
+                              className={styles.workclass}
+                              style={{ backgroundColor: '#337ab7' }}
+                            />
+                          </div>
+                          <h4>{StartDate}</h4>
                         </div>
-                        <Badge
-                          count={WorkClassName}
-                          className={styles.workclass}
-                          style={{ backgroundColor: '#e74c3c' }}
-                        />
-                        <Badge
-                          count={'星期' + weekList[weekName]}
-                          className={styles.workclass}
-                          style={{ backgroundColor: '#337ab7' }}
-                        />
+                        <div className={styles.detail}>
+                          <ul>
+                            <li>
+                              <strong>
+                                <Icon type="user" /> 机长
+                          </strong>
+                              {CaptainName}
+                            </li>
+                            <li>
+                              <strong>
+                                <Icon type="clock-circle" /> 完工时间
+                          </strong>
+                              {EndDate}
+                            </li>
+                            <li>
+                              <strong>
+                                <Icon type="team" /> 班组
+                          </strong>
+                              {TeamName}
+                            </li>
+                            <li>
+                              <strong>
+                                <Icon type="ordered-list" /> 产量
+                          </strong>
+                              {PrintNum}
+                            </li>
+                            {WorkInfo && (
+                              <li>
+                                <strong>
+                                  <Icon type="edit" /> 原始记录
+                            </strong>
+                                <div className={styles.loginfo}>
+                                  <div>{WorkInfo}</div>
+                                  <span style={{ float: 'right' }}>
+                                    <Icon type="edit" style={{ color: '#337ab7' }} /> {CaptainName}{' '}
+                                    发表于{' '}
+                                    {moment(EndDate)
+                                      .startOf('hour')
+                                      .fromNow()}
+                                  </span>
+                                </div>
+                              </li>
+                            )}
+                            {remark && (
+                              <li style={{ background: '#ffc9ce' }}>
+                                <strong>
+                                  <Icon type="edit" />
+                                  机台关注
+                            </strong>
+                                <div className={styles.loginfo}>
+                                  <div>{remark_type}:</div>
+                                  <div>{remark}</div>
+                                </div>
+                              </li>
+                            )}
+                          </ul>
+                        </div>
                       </div>
-                      <h4>{StartDate}</h4>
-                    </div>
-                    <div className={styles.detail}>
-                      <ul>
-                        <li>
-                          <strong>
-                            <Icon type="user" /> 机长
-                          </strong>
-                          {CaptainName}
-                        </li>
-                        <li>
-                          <strong>
-                            <Icon type="clock-circle" /> 完工时间
-                          </strong>
-                          {EndDate}
-                        </li>
-                        <li>
-                          <strong>
-                            <Icon type="team" /> 班组
-                          </strong>
-                          {TeamName}
-                        </li>
-                        <li>
-                          <strong>
-                            <Icon type="ordered-list" /> 产量
-                          </strong>
-                          {PrintNum}
-                        </li>
-                        {WorkInfo && (
-                          <li>
-                            <strong>
-                              <Icon type="edit" /> 原始记录
-                            </strong>
-                            <div className={styles.loginfo}>
-                              <div>{WorkInfo}</div>
-                              <span style={{ float: 'right' }}>
-                                <Icon type="edit" style={{ color: '#337ab7' }} /> {CaptainName}{' '}
-                                发表于{' '}
-                                {moment(EndDate)
-                                  .startOf('hour')
-                                  .fromNow()}
-                              </span>
-                            </div>
-                          </li>
-                        )}
-                        {remark && (
-                          <li style={{ background: '#ffc9ce' }}>
-                            <strong>
-                              <Icon type="edit" />
-                              机台关注
-                            </strong>
-                            <div className={styles.loginfo}>
-                              <div>{remark_type}:</div>
-                              <div>{remark}</div>
-                            </div>
-                          </li>
-                        )}
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-              )
-            )}
-          </ul>
-        )}
+                    </li>
+                  )
+              )}
+            </ul>
+          )}
       </Card>
     </>
   );

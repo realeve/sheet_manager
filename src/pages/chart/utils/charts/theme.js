@@ -2,7 +2,7 @@ import color from '../themeColor';
 const FONT_FAMILY =
   '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"';
 export default {
-  backgroundColor: '#ffffff',
+  backgroundColor: '#fff',
   color: color.COLOR_PLATE_8,
   animationDuration: 1500,
   // animationEasing: "elasticOut",

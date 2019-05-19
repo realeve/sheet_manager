@@ -101,7 +101,7 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
 
       <Row gutter={10}>
         <Col span={14}>
-          <ProdList cart={item.cart_number} type="cart" onRefresh={() => { }} />
+          <ProdList cart={item.cart_number} type="cart" />
         </Col>
         <Col span={10}>
           <Card

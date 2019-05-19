@@ -3,10 +3,10 @@ import styles from '../Image.less';
 import 'animate.css';
 import copy from 'copy-to-clipboard';
 import { message } from 'antd';
-
+import * as R from 'ramda'
 const prefix = 'data:image/jpg;base64,';
 // todo 增加点击复制url链接功能.
-export default function ImageItem({ data, type, ImageTitle, visible }) {
+function ImageItem({ data, type, ImageTitle, visible }) {
   const copyImg = img => {
     copy(img);
     message.success('图像拷贝成功');
@@ -29,3 +29,7 @@ export default function ImageItem({ data, type, ImageTitle, visible }) {
     ))
   );
 }
+
+export default React.memo(ImageItem, (prevProps, nextProps) => {
+  return prevProps.visible === nextProps.visible && R.equals(prevProps.data, nextProps.data)
+})
