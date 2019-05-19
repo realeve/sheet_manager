@@ -99,10 +99,9 @@ class Charts extends Component<IProp, IState> {
       });
     }
     setLoadingStatus(true)
-    let { url, params } = this.state;
-
+    let { params } = this.state;
     db.computeDerivedState({
-      url,
+      method: this.props.textAreaList.length > 0 ? 'post' : 'get',
       params,
     }).then(({ dataSrc, option }) => {
       this.setState({ showErr: false, dataSrc, option });
@@ -147,12 +146,12 @@ class Charts extends Component<IProp, IState> {
       appendParams: {},
     });
 
-    this.props.dispatch({
-      type: 'common/setStore',
-      payload: {
-        spinning: true,
-      },
-    });
+    // this.props.dispatch({
+    //   type: 'common/setStore',
+    //   payload: {
+    //     spinning: false,
+    //   },
+    // });
   }
 
   changeParam(axisName: TAxisName, value: string): void {
@@ -277,6 +276,7 @@ class Charts extends Component<IProp, IState> {
 function mapStateToProps(state) {
   return {
     dateFormat: state.common.dateFormat,
+    textAreaList: state.common.textAreaList
   };
 }
 

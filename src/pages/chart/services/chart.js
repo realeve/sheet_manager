@@ -17,8 +17,13 @@ export const getQueryConfig = (url, params) => ({
   },
 });
 
-const decodeUrlParam = ({ data: params, idx, inputValue }) => {
+const decodeUrlParam = ({ data: { url, ...params }, idx, inputValue }) => {
   let param = {};
+  let [id, nonce] = url.split('/').filter(item => item.length > 0);
+  let requestOtherApi = url.includes('http');
+  if (!requestOtherApi) {
+    params = Object.assign(params, { id, nonce });
+  }
   let handleKey = key => {
     let item = params[key];
     if (R.type(item) !== 'Array') {
@@ -34,7 +39,7 @@ const decodeUrlParam = ({ data: params, idx, inputValue }) => {
     R.forEach(handleKey),
     R.keys
   )(params);
-  return { ...param, ...inputValue };
+  return requestOtherApi ? { url, ...param, ...inputValue } : { ...param, ...inputValue };
 };
 
 export const decodeHash = ({
@@ -68,14 +73,12 @@ export const decodeHash = ({
         : { tstart, tend, tstart2: tstart, tend2: tend, tstart3: tstart, tend3: tend };
     // console.log(dateType);
     let url = tid[idx] || R.last(tid);
-    let [id, nonce] = url.split('/').filter(item => item.length > 0);
     // console.log(inputValue);
 
     return decodeUrlParam({
       idx,
       data: {
-        id,
-        nonce,
+        url,
         ...query,
         ...dates,
         ...selectValue,
@@ -85,12 +88,30 @@ export const decodeHash = ({
   });
 };
 
-export const computeDerivedState = async ({ params }) => {
+export const computeDerivedState = async ({
+  params: { url, id, nonce, cache = 0, ...params },
+  method,
+}) => {
   console.time(`加载图表${params.nonce}`);
-  let dataSrc = await axios({
-    method: 'post',
-    data: params,
-  });
+  // post模式无法缓存数据，自动适应为get及post模式
+  let option =
+    method === 'post'
+      ? {
+          method,
+          data: { id, nonce, cache, ...params },
+        }
+      : {
+          method,
+          params,
+        };
+  if (!url && method !== 'post') {
+    url = `${id}/${nonce}/${cache}`;
+  }
+  if (url) {
+    option.url = url;
+  }
+  console.log(option);
+  let dataSrc = await axios(option);
   console.timeEnd(`加载图表${params.nonce}`);
   return getDrivedState({ dataSrc, params });
 };

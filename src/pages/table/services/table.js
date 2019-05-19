@@ -2,7 +2,7 @@ import { axios } from '@/utils/axios';
 const R = require('ramda');
 export const fetchData = axios;
 
-export const handleParams = ({ tid, params, dateRange, dateType }) => {
+export const handleParams = ({ tid, params, dateRange, dateType, textAreaList }) => {
   const [tstart, tend] = dateRange;
   let param =
     dateType === 'none'
@@ -18,11 +18,20 @@ export const handleParams = ({ tid, params, dateRange, dateType }) => {
           tend3: tend,
           mode: 'array',
         };
+
+  let method = textAreaList.length > 0 ? 'post' : 'get';
   let option = tid.map(url => {
-    let [id, nonce] = url.split('/').filter(item => item.length > 0);
+    if (!url.includes('http')) {
+      let [id, nonce] = url.split('/').filter(item => item.length > 0);
+      return {
+        data: { ...param, id, nonce },
+        method,
+      };
+    }
     return {
-      data: { ...param, id, nonce },
-      method: 'post',
+      url,
+      data: param,
+      method,
     };
   });
   let paramKeys = Object.keys(params);
@@ -40,11 +49,25 @@ export const handleParams = ({ tid, params, dateRange, dateType }) => {
     }
     params[key] = val;
   });
+
   return option.map((item, idx) => {
     paramKeys.forEach(key => {
       item.data[key] = params[key][idx];
     });
+    if (item.method === 'get') {
+      let {
+        url,
+        data: { id, nonce, ...data },
+        method,
+        ...appendParam
+      } = item;
+      item = {
+        ...appendParam,
+        url: url || `${id}/${nonce}`,
+        params: data,
+        method,
+      };
+    }
     return R.clone(item);
-    // return JSON.parse(JSON.stringify(item));
   });
 };

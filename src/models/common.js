@@ -127,6 +127,13 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(async ({ pathname, hash }) => {
+        dispatch({
+          type: 'setStore',
+          payload: {
+            spinning: false,
+          },
+        });
+
         if (['/chart', '/chart/', '/table', '/table/'].includes(pathname)) {
           let queryInfo = hash.slice(1);
           let params = qs.parse(queryInfo);

@@ -27,6 +27,7 @@ export default {
         query,
         selectValue,
         textAreaValue,
+        textAreaList,
         dateType: [dateType],
       } = yield select(state => state.common);
 
@@ -38,23 +39,33 @@ export default {
         tid,
         dateRange,
         dateType,
+        textAreaList,
       });
 
       let inputValue = handleTextVal(textAreaValue);
 
       axiosOptions = axiosOptions.map(item => {
+        let isPost = item.method === 'post';
         item.params = { ...item.params, ...selectValue, ...inputValue };
-        Reflect.deleteProperty(item.params, 'select');
-        Reflect.deleteProperty(item.params, 'selectkey');
-        Reflect.deleteProperty(item.params, 'cascade');
-        Reflect.deleteProperty(item.params, 'textarea');
-        Reflect.deleteProperty(item.params, 'textareakey');
-        Reflect.deleteProperty(item.params, 'merge');
-        Reflect.deleteProperty(item.params, 'mergetext');
-        Reflect.deleteProperty(item.params, 'mergev');
+        [
+          'select',
+          'selectkey',
+          'cascade',
+          'textarea',
+          'textareakey',
+          'merge',
+          'mergetext',
+          'mergev',
+        ].forEach(key => {
+          Reflect.deleteProperty(isPost ? item.data : item.params, key);
+        });
+        let { params, data, method, url } = item;
+        if (isPost) {
+          data = Object.assign(data, params);
+          return { data, method, url };
+        }
         return item;
       });
-
       yield put({
         type: 'setStore',
         payload: {
@@ -90,10 +101,10 @@ export default {
       let curPageName = '';
       for (let idx = 0; idx < axiosOptions.length; idx++) {
         let param = axiosOptions[idx];
-        let { data } = param;
+        let { data, method } = param;
         dataSource[idx] = yield call(db.fetchData, param);
         // 将apiid绑定在接口上，方便对数据设置存储
-        dataSource[idx].api_id = `${data.id}/${data.nonce}`;
+        dataSource[idx].api_id = method === 'get' ? param.url : `${data.id}/${data.nonce}`;
         curPageName = dataSource[idx].title || '';
       }
 
