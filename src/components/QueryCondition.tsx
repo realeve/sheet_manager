@@ -4,6 +4,7 @@ import styles from '@/pages/table/index.less';
 import { formatMessage } from 'umi/locale';
 import { connect } from 'dva';
 import DatePicker from './DatePicker';
+import { str2Arr } from '@/utils/lib'
 import PinyinSelect from './PinyinSelect';
 const { TextArea } = Input;
 
@@ -91,17 +92,25 @@ function QueryCondition({
             <DateRangePicker refresh={false} />
           </Col>}
           {textAreaList.map(({ key, title }) => (
-            <Col span={24} md={24} sm={24} xs={24} className={styles.selectContainer} style={{ height: '5em' }} key={key}>
+            <Col span={24} md={24} sm={24} xs={24} className={styles.selectContainer} style={{ height: '5em', marginTop: 20 }} key={key}>
               <span className={styles.title}>{title}:</span>
-              <TextArea
+              <div
                 style={{
-                  // maxWidth: 300,  
-                  marginRight: 10
-                }}
-                autosize={{ minRows: 4, maxRows: 4 }}
-                value={textAreaValue[key]}
-                onChange={e => onTextChange(e.target.value, key)}
-              />
+                  marginRight: 10,
+                  width: '100%'
+                }}>
+                <TextArea
+                  style={{
+                    width: '100%'
+                  }}
+                  autosize={{ minRows: 4, maxRows: 4 }}
+                  value={textAreaValue[key]}
+                  onChange={e => onTextChange(e.target.value, key)}
+                />
+                <p>有效{title}共计: {textAreaValue[key] && str2Arr(textAreaValue[key]).length}</p>
+              </div>
+
+
             </Col>
           ))}
           {selectList.map(({ key, data: selectorData, title }, idx) => (

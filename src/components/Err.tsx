@@ -6,7 +6,6 @@ export default function Err({ err }) {
   ['tstart2', 'tend2', 'tstart3', 'tend3'].forEach((key) => {
     Reflect.deleteProperty(err.params, key);
   })
-
   let url = `${err.url}?${qs.stringify(err.params)}`;
   return (
     <div>
