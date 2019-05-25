@@ -10,7 +10,7 @@ const prefix = 'data:image/jpg;base64,';
 const getCartLink = cart => isCart(cart) ? <a href={`${imgUrl}${cart}`} target="_blank">{cart}</a> : cart;
 
 const ImageTitle = ({ data, header }) => {
-  let titles = header.map((key, value) => <span>{key}: {getCartLink(data[value])}</span>);
+  let titles = header.map((key, value) => <span key={value}>{key}: {getCartLink(data[value])}</span>);
   let [resLeft, resRight] = R.splitEvery(Math.ceil(titles.length / 2), titles);
   return <>
     <div>{resLeft.map(item => <label>{item}</label>)}</div>

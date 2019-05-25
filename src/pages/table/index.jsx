@@ -56,8 +56,6 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common, 
     );
   };
 
-  console.log(dataSource);
-
   return (
     <Spin tip="载入中..." spinning={common.spinning}>
       <QueryCondition onQuery={refreshData} />
