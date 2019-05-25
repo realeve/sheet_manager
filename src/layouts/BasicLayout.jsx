@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
-import DocumentTitle from 'react-document-title';
+// import DocumentTitle from 'react-document-title';
 import isEqual from 'lodash/isEqual';
 import memoizeOne from 'memoize-one';
 import { connect } from 'dva';
@@ -45,7 +45,7 @@ const getBreadcrumbList = menuData => {
   // if (search.length) {
   //   curMenu = curMenu.replace(search, '');
   // }
-  return menuUtil.getBreadcrumbList(curMenu, menuData);
+  return menuUtil.getBreadcrumbList(decodeURI(curMenu), menuData);
 };
 
 const query = {
@@ -270,7 +270,6 @@ class BasicLayout extends PureComponent {
 
     // 未登录，未在允许菜单列表中搜索到且用户身份类型>=4时，表示非法访问。
     const notAllowed = breadcrumbList.length === 0 && user_type >= 4;
-
     const layout = (
       <Layout>
         {menuData.length === 0 || (isTop && !isMobile) ? null : (

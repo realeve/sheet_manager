@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
-import Link from 'umi/link';
+// import Link from 'umi/link';
 import styles from './index.less';
 import BaseMenu from './BaseMenu';
-import * as setting from '@/utils/setting';
+// import * as setting from '@/utils/setting';
 import { getFlatMenuKeys, getCurKey, getFlatMenu } from './util';
 import { urlToList } from '../_utils/pathTools';
 import MenuSearch from '@/components/HeaderSearch/menu';

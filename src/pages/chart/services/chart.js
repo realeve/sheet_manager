@@ -51,7 +51,7 @@ export const decodeHash = ({
   dateType,
 }) => {
   // 根据参数值最长的数组确定查询参数
-  let appendArr = { len: 0, values: [] };
+  let appendArr = { len: tid.len, values: tid };
   Object.values(query).forEach(item => {
     if (typeof item === 'string') {
       item = [item];
@@ -92,7 +92,7 @@ export const computeDerivedState = async ({
   params: { url, id, nonce, cache = 0, ...params },
   method,
 }) => {
-  console.time(`加载图表${params.nonce}`);
+  console.time(`加载图表${id}`);
   // post模式无法缓存数据，自动适应为get及post模式
   let option =
     method === 'post'
@@ -110,9 +110,8 @@ export const computeDerivedState = async ({
   if (url) {
     option.url = url;
   }
-  console.log(option);
   let dataSrc = await axios(option);
-  console.timeEnd(`加载图表${params.nonce}`);
+  console.timeEnd(`加载图表${id}`);
   return getDrivedState({ dataSrc, params });
 };
 

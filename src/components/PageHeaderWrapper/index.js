@@ -6,6 +6,7 @@ import { connect } from 'dva';
 import GridContent from './GridContent';
 import styles from './index.less';
 import MenuContext from '@/layouts/MenuContext';
+import { spawn } from 'child_process';
 
 const PageHeaderWrapper = ({
   children,
@@ -18,7 +19,7 @@ const PageHeaderWrapper = ({
   <div style={{ margin: '-24px -24px 0' }} className={wrapperClassName}>
     {top}
     <MenuContext.Consumer>
-      {(value) => (
+      {value => (
         <PageHeader
           wide={contentWidth === 'Fixed'}
           home={<FormattedMessage id="menu.home" defaultMessage="Home" />}
@@ -40,5 +41,5 @@ const PageHeaderWrapper = ({
 );
 
 export default connect(({ setting }) => ({
-  contentWidth: setting.contentWidth
+  contentWidth: setting.contentWidth,
 }))(PageHeaderWrapper);
