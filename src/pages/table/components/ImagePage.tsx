@@ -53,7 +53,7 @@ function ImageItem({ data, blob, gutter }) {
       <li
         key={idx}
         className="animated zoomIn"
-        style={{ margin: gutter }}
+        style={{ marginRight: gutter }}
       >
         <div className={styles.wrap}>
           <img src={image} alt={idx} />
@@ -68,17 +68,18 @@ function ImageItem({ data, blob, gutter }) {
 
 function Index({ data, blob, subTitle }) {
   let { title, source, rows } = data;
-  let container = useRef(null);
+  let container = useRef({ current: { offsetWidth: 0 } });
   let [gutter, setGutter] = useState(5);
 
   // 自动调整间隙占满容器
   useEffect(() => {
+    if (container.current.offsetWidth === 0) { return; }
     let maxWidth = container.current.offsetWidth - 16;
     let imgNum = Math.floor(maxWidth / 180);
     let gutterNum = maxWidth % 180;
-    let curGutter = Math.floor(gutterNum / imgNum / 2);
+    let curGutter = Math.floor(gutterNum / imgNum);
     setGutter(curGutter)
-  }, [])
+  }, [container.current.offsetWidth])
 
   return (<Card title={<div>
     <h3 style={{ fontWeight: 'lighter' }}>{title} <small>({source})</small></h3>

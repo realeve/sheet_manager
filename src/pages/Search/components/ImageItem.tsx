@@ -6,7 +6,7 @@ import { message } from 'antd';
 import * as R from 'ramda'
 const prefix = 'data:image/jpg;base64,';
 // todo 增加点击复制url链接功能.
-function ImageItem({ data, type, ImageTitle, visible }) {
+function ImageItem({ data, type, ImageTitle, visible, gutter }) {
   const copyImg = img => {
     copy(img);
     message.success('图像拷贝成功');
@@ -18,6 +18,7 @@ function ImageItem({ data, type, ImageTitle, visible }) {
         key={type + idx}
         className="animated zoomIn"
         onClick={() => copyImg(`${prefix}${item.image}`)}
+        style={{ marginRight: gutter }}
       >
         <div className={styles.wrap}>
           <img src={`${prefix}${item.image}`} alt={item.code} />
@@ -25,11 +26,11 @@ function ImageItem({ data, type, ImageTitle, visible }) {
         <div className={styles.desc}>
           <ImageTitle data={item} />
         </div>
-      </li>
+      </li >
     ))
   );
 }
 
 export default React.memo(ImageItem, (prevProps, nextProps) => {
-  return prevProps.visible === nextProps.visible && R.equals(prevProps.data, nextProps.data)
+  return prevProps.gutter === nextProps.gutter && prevProps.visible === nextProps.visible && R.equals(prevProps.data, nextProps.data)
 })

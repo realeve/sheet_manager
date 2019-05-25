@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'dva';
 import { Row, Col, Card, Input, Tooltip } from 'antd';
 import styles from './Image.less';
@@ -60,6 +60,25 @@ function ImageSearch({ cart }) {
 
   const getCurData = data => curpos > 0 ? R.filter(R.propEq('pos', String(curpos)), data) : data
 
+  let container = useRef({ current: { offsetWidth: 0 } });
+  let [gutter, setGutter] = useState(5);
+  let [gutterCode, setGutterCode] = useState(5)
+  // 自动调整间隙占满容器
+  useEffect(() => {
+    if (container.current.offsetWidth === 0) {
+      return;
+    }
+    let maxWidth = container.current.offsetWidth - 16;
+    let getGutter = width => {
+      let imgNum = Math.floor(maxWidth / width);
+      let gutterNum = maxWidth % width;
+      let curGutter = Math.floor(gutterNum / imgNum);
+      return curGutter;
+    }
+    setGutter(getGutter(180))
+    setGutterCode(getGutter(320))
+  }, [container.current.offsetWidth])
+
   return (
     <>
       <Row gutter={16}>
@@ -117,30 +136,34 @@ function ImageSearch({ cart }) {
               />
             </div>
           </div>
-          <ul className={styles.content}>
+          <ul className={styles.content} ref={container}>
             <ImageItem
               visible={[0, 3].includes(filter)}
               data={R.filter(onFilter, getCurData(codeList))}
               type="code"
               ImageTitle={titleRender}
+              gutter={gutterCode}
             />
             <ImageItem
               visible={[0, 2].includes(filter)}
               data={R.filter(onFilter, getCurData(silk))}
               ImageTitle={titleRender}
               type="silk"
+              gutter={gutter}
             />
             <ImageItem
               visible={[0, 1].includes(filter)}
               data={R.filter(onFilter, getCurData(hecha))}
               type="hecha"
               ImageTitle={titleRender}
+              gutter={gutter}
             />
             <ImageItem
               visible={[0, 4].includes(filter)}
               data={getCurData(tubu)}
               type="tubu"
               ImageTitle={titleRender}
+              gutter={gutter}
             />
           </ul>
         </div>
