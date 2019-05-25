@@ -12,10 +12,10 @@ const getCartLink = cart => isCart(cart) ? <a href={`${imgUrl}${cart}`} target="
 const ImageTitle = ({ data, header }) => {
   let titles = header.map((key, value) => <span key={value}>{key}: {getCartLink(data[value])}</span>);
   let [resLeft, resRight] = R.splitEvery(Math.ceil(titles.length / 2), titles);
-  return <>
-    <div>{resLeft.map(item => <label>{item}</label>)}</div>
-    <div>{resRight.map(item => <label>{item}</label>)}</div>
-  </>
+  return <div className={styles.block}>
+    <div>{resLeft.map(item => <p>{item}</p>)}</div>
+    <div>{resRight.map(item => <p>{item}</p>)}</div>
+  </div>
 }
 
 const filterBlob = (data, blob) => {
