@@ -10,12 +10,14 @@ import classNames from 'classnames/bind';
 import * as lib from '@/utils/lib';
 import QueryCondition from '@/components/QueryCondition';
 import Err from '@/components/Err';
+import ImageList from './components/ImagePage';
+import * as R from 'ramda';
 
 const cx = classNames.bind(styles);
 
 const TabPane = Tabs.TabPane;
 
-function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common }) {
+function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common, axiosOptions }) {
   // 表头合并相关设置信息
   let param = lib.parseUrl(window.location.hash);
   const refreshData = async () => {
@@ -54,13 +56,19 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common }
     );
   };
 
-  // console.log(dataSource);
+  console.log(dataSource);
 
   return (
     <Spin tip="载入中..." spinning={common.spinning}>
       <QueryCondition onQuery={refreshData} />
       {dataSource.map((dataSrc, key) => {
         let subTitle = dataSrc.dates && dataSrc.dates.length > 0 && staticRanges(dateRange);
+
+        let blob = axiosOptions[key].data.blob;
+        if (!R.isNil(blob)) {
+          return <ImageList data={dataSrc} blob={blob} key={key} subTitle={subTitle} />;
+        }
+
         return (
           <div key={key} className={cx({ tableContainer: key, dataList: !key, tabs: true })}>
             <Tabs defaultActiveKey="1">
