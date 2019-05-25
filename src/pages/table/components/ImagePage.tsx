@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styles from './style.less';
 import * as R from 'ramda'
 import { Card, Empty } from 'antd';
@@ -38,7 +38,7 @@ const prehandleData = ({ header, blob }) => {
   return [filterBlob(header, blob), blob]
 }
 
-function ImageItem({ data, blob }) {
+function ImageItem({ data, blob, gutter }) {
   let [header, blobIdx] = prehandleData({ blob, header: data.header });
 
   return data.data.map((row, idx) => {
@@ -53,6 +53,7 @@ function ImageItem({ data, blob }) {
       <li
         key={idx}
         className="animated zoomIn"
+        style={{ margin: gutter }}
       >
         <div className={styles.wrap}>
           <img src={image} alt={idx} />
@@ -67,12 +68,24 @@ function ImageItem({ data, blob }) {
 
 function Index({ data, blob, subTitle }) {
   let { title, source, rows } = data;
+  let container = useRef(null);
+  let [gutter, setGutter] = useState(5);
+
+  // 自动调整间隙占满容器
+  useEffect(() => {
+    let maxWidth = container.current.offsetWidth - 16;
+    let imgNum = Math.floor(maxWidth / 180);
+    let gutterNum = maxWidth % 180;
+    let curGutter = Math.floor(gutterNum / imgNum / 2);
+    setGutter(curGutter)
+  }, [])
+
   return (<Card title={<div>
     <h3 style={{ fontWeight: 'lighter' }}>{title} <small>({source})</small></h3>
     {subTitle}
   </div>}>
     {
-      rows === 0 ? <Empty /> : <ul className={styles.content}><ImageItem data={data} blob={blob} /></ul>
+      rows === 0 ? <Empty /> : <ul className={styles.content} ref={container}><ImageItem data={data} blob={blob} gutter={gutter} /></ul>
     }
   </Card>)
 }
