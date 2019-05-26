@@ -336,12 +336,12 @@ let handleSeriesItem = option => seriesItem => {
         opacity: 0.4,
       },
     };
-  } else if (option.type === 'bar') {
+  } else if (option.type === 'bar' && typeof seriesItem.label === 'undefined') {
     seriesItem.label = {
       normal: {
         show: true,
         position: 'insideTop',
-        formatter: ({ value }) => Number(value),
+        formatter: ({ value }) => (typeof value === 'string' ? Number(value) : value[1]),
       },
     };
   }
@@ -989,6 +989,7 @@ let bar = options => {
   if (options.polar) {
     configs = handlePolar(options, configs);
   }
+  console.log(configs);
   return configs;
 };
 

@@ -34,7 +34,7 @@ const getSeriesItem = (seriesData, idx, name) => {
   let series = {
     type: 'bar',
     barWidth: '99.3%',
-    smooth: true,
+    // smooth: true,
     label: {
       normal: {
         show: true,
