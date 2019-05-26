@@ -5,6 +5,7 @@ import styles from './index.less';
 import classNames from 'classnames';
 import QueryCondition from '@/components/QueryCondition';
 import { Spin } from 'antd';
+import * as R from 'ramda';
 
 function Charts({ dispatch, config, spinning }) {
   const onLoad = curPageName => {
@@ -22,6 +23,8 @@ function Charts({ dispatch, config, spinning }) {
     });
   };
 
+  console.log('refresh chart')
+
   return (
     <Spin tip="载入中..." spinning={spinning}>
       <QueryCondition onQuery={refreshData} />
@@ -34,4 +37,7 @@ function Charts({ dispatch, config, spinning }) {
   );
 }
 
-export default connect(state => ({ ...state.chart, spinning: state.common.spinning }))(Charts);
+const chartPage = connect(state => ({ ...state.chart, spinning: state.common.spinning }))(Charts);
+
+
+export default React.memo(chartPage, (prevProps, nextProps) => R.equals(prevProps.config, nextProps.config));
