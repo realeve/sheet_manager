@@ -73,7 +73,9 @@ class Charts extends Component<IProp, IState> {
         return { loading: false };
       }
     }
-    let isInited = Object.keys(state.appendParams).length === 0;
+
+    // 是否已经初始化;
+    let isInited = Object.keys(state.appendParams).length > 0;
     appendParams = isInited ? appendParams : state.appendParams;
     params = Object.assign(params, appendParams);
 
