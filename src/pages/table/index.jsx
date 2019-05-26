@@ -62,7 +62,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common, 
       {dataSource.map((dataSrc, key) => {
         let subTitle = dataSrc.dates && dataSrc.dates.length > 0 && staticRanges(dateRange);
 
-        let blob = axiosOptions[key].data.blob;
+        let blob = axiosOptions[key].data && axiosOptions[key].data.blob;
         if (!R.isNil(blob)) {
           return <ImageList data={dataSrc} blob={blob} key={key} subTitle={subTitle} />;
         }
