@@ -22,7 +22,7 @@ const beforeRender = (param, maxPaper) => {
 }
 
 const RChart = ({ option, maxPaper, onFilter }) => (<Chart option={option}
-  style={{ height: 300, width: '100%' }}
+  style={{ height: 390, width: '100%' }}
   renderer="canvas"
   onEvents={{
     mousedown: ({ value: [col, row] }) => {

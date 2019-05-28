@@ -6,7 +6,17 @@ import { message } from 'antd';
 import * as R from 'ramda'
 const prefix = 'data:image/jpg;base64,';
 // todo 增加点击复制url链接功能.
-function ImageItem({ data, type, ImageTitle, visible, gutter }) {
+
+const ImageTitle = ({ data: { camera, macro_id, pos, code } }) => (
+  <div>
+    <p>
+      相机：{camera} / 宏区{macro_id} / 第{pos}开
+    </p>
+    <p>印码号：{code}</p>
+  </div>
+);
+
+function ImageItem({ data, type, visible, gutter }) {
   const copyImg = img => {
     copy(img);
     message.success('图像拷贝成功');

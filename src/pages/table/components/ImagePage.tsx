@@ -34,11 +34,10 @@ const prehandleData = ({ header, blob }) => {
   } else {
     blob = Number(blob);
   }
-
   return [filterBlob(header, blob), blob]
 }
 
-function ImageItem({ data, blob, gutter }) {
+function ImageItem({ data, blob, gutter, onImageClick }) {
   let [header, blobIdx] = prehandleData({ blob, header: data.header });
 
   return data.data.map((row, idx) => {
@@ -48,12 +47,12 @@ function ImageItem({ data, blob, gutter }) {
       image = prefix + image;
     }
     let titleList = filterBlob(row, blobIdx);
-
     return (
       <li
         key={idx}
         className="animated zoomIn"
         style={{ marginRight: gutter }}
+        onClick={() => onImageClick(row)}
       >
         <div className={styles.wrap}>
           <img src={image} alt={idx} />
@@ -61,32 +60,35 @@ function ImageItem({ data, blob, gutter }) {
         <div className={styles.desc}>
           <ImageTitle data={titleList} header={header} />
         </div>
-      </li>
+      </li >
     )
   })
 }
 
-function Index({ data, blob, subTitle }) {
+function Index({ data, blob, extra = null, subTitle = null, onImageClick = () => { } }) {
   let { title, source, rows } = data;
   let container = useRef({ current: { offsetWidth: 0 } });
   let [gutter, setGutter] = useState(5);
 
   // 自动调整间隙占满容器
   useEffect(() => {
-    if (container.current.offsetWidth === 0) { return; }
+    if (!container.current.offsetWidth) { return; }
     let maxWidth = container.current.offsetWidth - 16;
     let imgNum = Math.floor(maxWidth / 180);
     let gutterNum = maxWidth % 180;
     let curGutter = Math.floor(gutterNum / imgNum);
-    setGutter(curGutter)
+    setGutter(curGutter);
   }, [container.current.offsetWidth])
 
   return (<Card title={<div>
     <h3 style={{ fontWeight: 'lighter' }}>{title} <small>({source})</small></h3>
     {subTitle}
-  </div>}>
+  </div>}
+    bodyStyle={{ padding: 5 }}
+    extra={extra}
+  >
     {
-      rows === 0 ? <Empty /> : <ul className={styles.content} ref={container}><ImageItem data={data} blob={blob} gutter={gutter} /></ul>
+      rows === 0 ? <Empty /> : <ul className={styles.content} ref={container}><ImageItem data={data} blob={blob} gutter={gutter} onImageClick={onImageClick} /></ul>
     }
   </Card>)
 }

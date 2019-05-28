@@ -7,8 +7,8 @@ import ImageItem from './components/ImageItem';
 import classNames from 'classnames/bind';
 import * as R from 'ramda';
 import HeatmapChart from './HeatmapChart';
-import ProdList from './components/cart/ProdList';
-
+import ImageList from '@/pages/table/components/ImagePage'
+import { useSetState } from 'react-use';
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +20,8 @@ function ImageSearch({ cart }) {
   const { data: codeList } = useFetch({ params: cart, api: 'getWipJobsCodeImage', init: [cart] });
   let hecha = R.filter(R.propEq('type', 'mahou'))(res.data);
   let tubu = R.filter(R.propEq('type', 'tubu'))(res.data);
+
+  const mainFake = useFetch({ params: cart, api: 'getQfmWipJobsMain', init: [cart] })
 
   const [imgnum, setImgnum] = useState([0, 0, 0, 0]);
 
@@ -49,16 +51,16 @@ function ImageSearch({ cart }) {
 
   const onFilter = item => R.isNil(code) || item.code.includes(code);
 
-  const titleRender = ({ data: { camera, macro_id, pos, code } }) => (
-    <div>
-      <p>
-        相机：{camera} / 宏区{macro_id} / 第{pos}开
-      </p>
-      <p>印码号：{code}</p>
-    </div>
-  );
 
-  const getCurData = data => curpos > 0 ? R.filter(R.propEq('pos', String(curpos)), data) : data
+  let [fakeInfo, setFakeInfo] = useSetState({ camera: '0', macro: '0' });
+
+  const getCurData = data => {
+    let dataByPos = curpos > 0 ? R.filter(R.propEq('pos', String(curpos)), data) : data;
+    if (fakeInfo.camera > '0') {
+      return R.filter(item => item.camera.slice(0, 2) == fakeInfo.camera && item.macro_id == fakeInfo.macro)(dataByPos);
+    }
+    return dataByPos;
+  }
 
   let container = useRef({ current: { offsetWidth: 0 } });
   let [gutter, setGutter] = useState(5);
@@ -76,8 +78,9 @@ function ImageSearch({ cart }) {
       return curGutter;
     }
     setGutter(getGutter(180))
-    setGutterCode(getGutter(320))
+    setGutterCode(getGutter(320));
   }, [container.current.offsetWidth])
+
 
   return (
     <>
@@ -86,36 +89,51 @@ function ImageSearch({ cart }) {
           <Card style={{ marginBottom: 20 }}
             bodyStyle={{
               padding: '10px 20px',
-            }} title="各开位实废分布">
+            }} title="各开位实废分布"
+            extra={<div className={styles.container}>
+              {curpos > 0 && <div
+                className={cx('item')}
+                style={{ cursor: 'not-allowed' }}
+              >
+                第{curpos}开
+            </div>}
+              <div
+                className={cx('item', 'item-active')}
+                onClick={() => setCurpos(0)}
+                style={{ marginRight: 10, borderColor: '#e56', backgroundColor: '#e56' }}
+              >
+                显示所有开
+              </div>
+            </div>}
+          >
             <HeatmapChart cart={cart} onFilter={onFilterPos} />
           </Card>
         </Col>
         <Col span={12} >
-          <ProdList cart={cart} type="cart" beforeRender={res => {
-            res.data = res.data.filter(item => item.ProcName === '印码');
-            return res;
-          }} />
+          <ImageList data={mainFake} blob={3} subTitle={<div>点击图像显示指定区域缺陷</div>} onImageClick={([camera, macro]: [string, string]) => {
+            setFakeInfo({ camera, macro });
+          }} extra={<div className={styles.container}>
+            {fakeInfo.macro > '0' && <div
+              className={cx('item')}
+              style={{ cursor: 'not-allowed' }}
+            >
+              宏区{fakeInfo.macro}
+            </div>}
+            <div
+              className={cx('item', 'item-active')}
+              onClick={() => setFakeInfo({ camera: '0', macro: '0' })}
+              style={{ marginRight: 10, borderColor: '#e56', backgroundColor: '#e56' }}
+            >
+              所有区域
+              </div>
+          </div>} />
         </Col>
       </Row>
 
-      <Card>
+      <Card >
         <div className={styles.imgsearch}>
           <div className={styles.title}>
-            <div className={styles.container}>
-              <div>
-                <div
-                  className={cx('item', 'item-active')}
-                  onClick={() => setCurpos(0)}
-                  style={{ marginRight: 10, borderColor: '#e56', backgroundColor: '#e56' }}
-                >
-                  显示所有开
-              </div>{curpos > 0 && <div
-                  className={cx('item')}
-                  style={{ cursor: 'not-allowed' }}
-                >
-                  第{curpos}开
-              </div>}</div>
-
+            <div className={styles.container} ref={container}>
               <div> {checkList.map((name, i) => (
                 <Tooltip placement="top" title={imgnum[i]} key={name}>
                   <div
@@ -136,18 +154,16 @@ function ImageSearch({ cart }) {
               />
             </div>
           </div>
-          <ul className={styles.content} ref={container}>
+          <ul className={styles.content}>
             <ImageItem
               visible={[0, 3].includes(filter)}
               data={R.filter(onFilter, getCurData(codeList))}
               type="code"
-              ImageTitle={titleRender}
               gutter={gutterCode}
             />
             <ImageItem
               visible={[0, 2].includes(filter)}
               data={R.filter(onFilter, getCurData(silk))}
-              ImageTitle={titleRender}
               type="silk"
               gutter={gutter}
             />
@@ -155,14 +171,12 @@ function ImageSearch({ cart }) {
               visible={[0, 1].includes(filter)}
               data={R.filter(onFilter, getCurData(hecha))}
               type="hecha"
-              ImageTitle={titleRender}
               gutter={gutter}
             />
             <ImageItem
               visible={[0, 4].includes(filter)}
               data={getCurData(tubu)}
               type="tubu"
-              ImageTitle={titleRender}
               gutter={gutter}
             />
           </ul>

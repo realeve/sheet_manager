@@ -1,6 +1,8 @@
 import { axios, mock } from '@/utils/axios';
 import { DEV } from '@/utils/setting';
 import * as R from 'ramda';
+const cache = 1440;
+
 /**
  *   @database: { MES_MAIN }
  *   @desc:     { 机台作业追溯,机台作业和MES系统合并数据 }
@@ -441,6 +443,7 @@ export const getWipJobsCodeImage = cart =>
         url: '/440/4b255e8000.json',
         params: {
           cart,
+          cache,
           blob: 'image',
         },
       });
@@ -456,6 +459,7 @@ export const getWipJobsSilkImage = cart =>
         url: '/439/e6ccdf08a7.json',
         params: {
           cart,
+          cache,
           blob: 'image',
         },
       });
@@ -472,6 +476,7 @@ export const getQfmWipJobsHechaImage = cart =>
         params: {
           cart,
           blob: 'image',
+          cache,
         },
       });
 
@@ -486,5 +491,22 @@ export const getQfmWipJobsByCarts = carts =>
         url: '/534/bc70063e23.json',
         params: {
           carts,
+          cache,
+        },
+      });
+
+/**
+ *   @database: { 全幅面 }
+ *   @desc:     { 产品主要缺陷类型分析 }
+ */
+export const getQfmWipJobsMain = cart =>
+  DEV
+    ? mock(require('@/mock/554_ccd89d81b5.json'))
+    : axios({
+        url: '/554/ccd89d81b5/array',
+        params: {
+          cart,
+          cache,
+          blob: 3,
         },
       });
