@@ -116,8 +116,8 @@ export function handleColumns(
         return !isImg ? (
           text
         ) : (
-          <img className={styles.imgContent} src={`${hostUrl}${text}`} alt={text} />
-        );
+            <img className={styles.imgContent} src={`${hostUrl}${text}`} alt={text} />
+          );
       };
     }
 
@@ -136,7 +136,7 @@ export function handleColumns(
   });
 
   // 10列以上自动固定
-  if (column.length > 10) {
+  if (column.length > 15) {
     column = column.map(item => {
       item.width = 50;
       return item;

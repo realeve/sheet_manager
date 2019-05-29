@@ -68,6 +68,7 @@ class Charts extends Component<IProp, IState> {
     let params = props.config;
     let appendParams: IConfigState = getParams(params);
 
+
     if (R.equals(params, state.params)) {
       if (R.equals(appendParams, state.appendParams)) {
         return { loading: false };
@@ -75,8 +76,10 @@ class Charts extends Component<IProp, IState> {
     }
 
     // 是否已经初始化;
-    let isInited = Object.keys(state.appendParams).length > 0;
-    appendParams = isInited ? appendParams : state.appendParams;
+    // let isChanged = Object.keys(state.appendParams).length > 0; 
+
+    appendParams = Object.assign({}, appendParams, state.appendParams);//isChanged ? appendParams : state.appendParams;
+
     params = Object.assign(params, appendParams);
 
     let newState =

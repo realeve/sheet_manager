@@ -989,7 +989,7 @@ let bar = options => {
   if (options.polar) {
     configs = handlePolar(options, configs);
   }
-  console.log(configs);
+  // console.log(configs);
   return configs;
 };
 

@@ -20,6 +20,7 @@ export default {
     *refreshData({ payload }, { put, select }) {
       let common = yield select(state => state.common);
       let disabled = isDisabled(common);
+
       if (disabled) {
         return;
       }

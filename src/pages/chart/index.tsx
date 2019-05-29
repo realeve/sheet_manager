@@ -23,8 +23,6 @@ function Charts({ dispatch, config, spinning }) {
     });
   };
 
-  console.log('refresh chart')
-
   return (
     <Spin tip="载入中..." spinning={spinning}>
       <QueryCondition onQuery={refreshData} />
