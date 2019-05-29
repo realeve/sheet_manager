@@ -16,12 +16,14 @@ export function useFetch({
   init: [initState],
   type = 'cart',
   callback,
+  beforeFetch,
 }: {
   params: any;
   api: string;
   init: any[];
   type?: string;
   callback?: Function;
+  beforeFetch?: (params: any) => boolean;
 }) {
   const [state, setState]: [DbJson, any] = useState({
     data: [],
@@ -32,6 +34,10 @@ export function useFetch({
   });
   let db = type === 'cart' ? dbCart : dbReel;
   useEffect(() => {
+    if (beforeFetch && !beforeFetch(params)) {
+      setState({ ...state, loading: false });
+      return;
+    }
     db[api](params)
       .then((res: DbJson) => {
         setState({ ...res, loading: false, err: false });

@@ -100,7 +100,7 @@ export function handleColumns(
         return <a {...attrs}> {text} </a>;
       };
       return item;
-    } else if (lib.isInt(tdValue) && !lib.isDateTime(tdValue)) {
+    } else if (lib.isInt(tdValue) && !lib.isDateTime(tdValue) && !lib.isMonth(tdValue)) {
       item.render = text => Number(text).toLocaleString();
       return item;
     } else if (lib.hasDecimal(tdValue)) {

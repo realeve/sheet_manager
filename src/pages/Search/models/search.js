@@ -22,6 +22,7 @@ export default {
     prod: null,
     reel: '',
     type: 'unknown',
+    codeInfo: '',
   },
   reducers: {
     setStore,

@@ -510,3 +510,64 @@ export const getQfmWipJobsMain = cart =>
           blob: 3,
         },
       });
+
+/**
+*   @database: { 检封装箱系统 }
+*   @desc:     { 装箱记录查询 } 
+    const { code, prod } = params;
+*/
+export const getViewCbpcBoxinfo = params =>
+  DEV
+    ? mock(require('@/mock/555_ca793921a2.json'))
+    : axios({
+        url: '/555/ca793921a2/array',
+        params: {
+          ...params,
+          cache: 1440,
+        },
+      });
+
+/**
+*   @database: { 检封装箱系统 }
+*   @desc:     { 箱号信息追溯 } 
+    const { prod, code } = params;
+*/
+export const getViewCbpcPackage = params =>
+  DEV
+    ? mock(require('@/mock/557_cb96552dc3.json'))
+    : axios({
+        url: '/557/cb96552dc3/array',
+        params: {
+          ...params,
+          cache: 1440,
+          blob: 9,
+          blob_type: 'jpg',
+        },
+      });
+
+/**
+*   @database: { 二维码系统 }
+*   @desc:     { 成品库出入记录 } 
+    const { prod, code, codenum } = params;
+*/
+export const getBXq = params =>
+  DEV
+    ? mock(require('@/mock/574_30efd1b25d.json'))
+    : axios({
+        url: '/574/30efd1b25d.json',
+        params,
+      });
+
+/**
+ *   @database: { MES系统_生产环境 }
+ *   @desc:     { 清分机兑换记录 }
+ */
+export const getVCbpcCfturnguard = cart =>
+  DEV
+    ? mock(require('@/mock/575_3094407e19.json'))
+    : axios({
+        url: '/575/3094407e19.json',
+        params: {
+          cart,
+        },
+      });

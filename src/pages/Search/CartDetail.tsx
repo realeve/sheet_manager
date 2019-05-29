@@ -10,6 +10,7 @@ import LogInfo from './components/cart/LogInfo';
 import * as R from 'ramda';
 import styles from './CartDetail.less';
 import ProdSelect from './components/ProdSelect';
+import CodeInfo from './components/cart/MahouInfo';
 
 function CartDetail({ dispatch, ...params }) {
   // 用于冠字查车号
@@ -25,7 +26,7 @@ function CartDetail({ dispatch, ...params }) {
     });
   };
 
-  const { cart, type } = params;
+  const { cart, type, prod, codeInfo } = params;
   return (
     <>
       <div className={styles.header}>
@@ -39,7 +40,7 @@ function CartDetail({ dispatch, ...params }) {
             <OfflineCheck cart={cart} />
             <HechaInfo cart={cart} />
             <LogInfo cart={cart} />
-            <PackageInfo cart={cart} />
+            <PackageInfo cart={cart} prod={prod} code={codeInfo} />
           </>
         )}
       </Row>

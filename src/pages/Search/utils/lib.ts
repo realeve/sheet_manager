@@ -58,3 +58,12 @@ export const getPosByRowAndCol: (param: PositionCfg) => number = ({ col, row, ma
   let curRow = maxRow - row;
   return curCol * maxRow + curRow;
 };
+
+export const convertCodeInfo: (code: string) => string = code => {
+  let num: string = code.match(/(\d+)/g).join('');
+  let alpha: string = code
+    .match(/([A-Z])(|\d+)[A-Z]/g)
+    .join('')
+    .replace(/\d/g, '*');
+  return alpha + num;
+};

@@ -32,6 +32,11 @@ test('日期有效性', () => {
   expect(lib.isDateTime('2018-12-25 12:13')).not.toBeTruthy();
   expect(lib.isDateTime('201801225')).not.toBeTruthy();
   expect(lib.isDateTime('2018-12-25 31:22:23')).not.toBeTruthy();
+
+  expect(lib.isMonth('201903')).toBeTruthy();
+  expect(lib.isMonth('2019/03')).toBeTruthy();
+  expect(lib.isMonth('2019-03')).toBeTruthy();
+  expect(lib.isMonth('20193')).not.toBeTruthy();
 });
 
 test('number', () => {

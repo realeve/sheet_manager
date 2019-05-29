@@ -45,6 +45,8 @@ export const isDateTime: CartReelReg = str =>
     String(str).trim()
   );
 
+export const isMonth: CartReelReg = str => /^[1-9]\d{3}(|\-|\/)[0-1]\d$/.test(String(str).trim());
+
 // 数字
 export const isNumOrFloat: CartReelReg = str =>
   /^(-|\+|)\d+(\.)\d+$|^(-|\+|)\d+$/.test(String(str));
