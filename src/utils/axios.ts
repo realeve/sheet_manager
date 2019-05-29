@@ -124,7 +124,7 @@ export const handleError = error => {
   Reflect.deleteProperty(params, 'tstart3');
   Reflect.deleteProperty(params, 'tend3');
 
-  config.url += `${id}/${nonce}?${qs.stringify(params)}`;
+  config.url += `${id ? id + '/' + nonce : ''}?${qs.stringify(params)}`;
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
