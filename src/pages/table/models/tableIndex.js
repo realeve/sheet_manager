@@ -56,6 +56,8 @@ export default {
           'merge',
           'mergetext',
           'mergev',
+          'link',
+          'host', //图片host
         ].forEach(key => {
           Reflect.deleteProperty(isPost ? item.data : item.params, key);
         });

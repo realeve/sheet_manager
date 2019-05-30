@@ -43,6 +43,7 @@ const isFilterColumn: <T>(
 export function handleColumns(
   { dataSrc, filteredInfo },
   cartLinkPrefix = setting.searchUrl,
+  imgHost = null,
   simpleMode = false
 ) {
   let { data, header, rows } = dataSrc;
@@ -112,7 +113,7 @@ export function handleColumns(
         let isImg = String(text).includes('image/') || String(text).includes('/file/');
         let isBase64Image =
           String(text).includes('data:image/') && String(text).includes(';base64');
-        let hostUrl = isBase64Image ? '' : setting.uploadHost;
+        let hostUrl = isBase64Image ? '' : (imgHost || setting.uploadHost);
         return !isImg ? (
           text
         ) : (
@@ -355,7 +356,8 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
       dataSrc,
       filteredInfo: {},
     },
-    props.cartLinkPrefix,
+    props.config.link || props.cartLinkPrefix,
+    props.config.host,
     !!props.simple
   );
 

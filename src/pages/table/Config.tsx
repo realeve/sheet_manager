@@ -290,8 +290,37 @@ export default function tableConfig() {
             </div>
           </li>
 
+
           <li>
-            <div className={styles.tip}>7.使用其它系统的接口</div>
+            <div className={styles.tip}>8.车号搜索链接</div>
+            <div className={styles.desc}>link</div>
+            <div>报表中有字段为车号/轴号时，设置搜索前缀，默认为车号搜索，可配置为搜索缺陷图片</div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=81/a22afbf675&daterange=10&link=http://10.8.2.133:8000/search/image#"
+                target="_blank"
+              >
+                /table#id=81/a22afbf675&daterange=10&link=http://10.8.2.133:8000/search/image#
+              </a>
+            </div>
+          </li>
+
+          <li>
+            <div className={styles.tip}>9.文件外链</div>
+            <div className={styles.desc}>host</div>
+            <div>如果配置中含有 image/ 或 /file/ 时，设置该字段将自动添加前缀，方便外链</div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=81/a22afbf675&daterange=10&host=http://10.8.2.133/upload/"
+                target="_blank"
+              >
+                /table#id=81/a22afbf675&daterange=10&host=http://10.8.2.133/upload/
+              </a>
+            </div>
+          </li>
+
+          <li>
+            <div className={styles.tip}>10.使用其它系统的接口</div>
             <div className={styles.desc}>id </div>
             <div>默认值：默认使用系统配置的接口管理id做索引，</div>
             <div className={styles.demoLink}>

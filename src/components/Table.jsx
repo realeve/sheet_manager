@@ -22,8 +22,7 @@ const FormItem = Form.Item;
 class Tables extends Component {
   constructor(props) {
     super(props);
-    this.state = db.initState(props);
-    // console.log(this.state);
+    this.state = db.initState(props); 
   }
 
   // 返回的值即是当前需要setState的内容
