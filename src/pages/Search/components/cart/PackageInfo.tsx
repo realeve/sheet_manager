@@ -35,8 +35,7 @@ export default function PackageInfo({ cart, prod, code }) {
   useEffect(() => {
     let codenum = R.pluck(2)(boxInfo.data);
     if (codenum.length === 0) { return; }
-
-    let code = codenum[0].match(/[A-Z](|\*)[A-Z]/g).join('');
+    let code = codenum[0].match(/[A-Z](|\*+)[A-Z]/g).join('');
     codenum = R.map(item => item.match(/\d+/g).join(''))(codenum);
     setCpkParam({ prod, code, codenum });
   }, [boxInfo.data[0]]);
