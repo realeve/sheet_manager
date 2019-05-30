@@ -92,20 +92,24 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
   return (
     <>
       <CartsByDate {...cartDetail} visible={visible} onToggle={onToggle} />
-      <Card
-        title={`生产信息${cartName}`}
-        bodyStyle={{
-          padding: '10px 20px',
-        }}
-        hoverable
+      <div
+        // title={`生产信息${cartName}`}
+        // bodyStyle={{
+        //   padding: '10px 20px',
+        // }}
+        // hoverable
         style={{ marginBottom: 10 }}
         className={styles.cart}
-        loading={loading}
+      // loading={loading}
       >
         {err ? (
           <Err err={err} />
         ) : (
-            <ul>
+            <ul style={{
+              maxHeight: 970,
+              overflowY: 'auto',
+              marginBottom: 10
+            }} >
               {prodDetail.map(
                 (
                   {
@@ -221,7 +225,7 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
               )}
             </ul>
           )}
-      </Card>
+      </div>
     </>
   );
 }

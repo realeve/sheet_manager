@@ -5,12 +5,24 @@
   background-color: #fff;
   border: 0;
 
+  thead {
+    cursor: pointer;
+    text-align: left;
+
+    tr {
+      th {
+        padding: 8px 8px 8px 5px;
+
+        &:first-child {
+          text-align: right;
+          // border-right: 1px solid #F0F3F6;
+        }
+      }
+    }
+  }
+
   tbody {
     cursor: pointer;
-
-    thead {
-      text-align: center;
-    }
 
     tr {
       &:hover {
@@ -26,10 +38,14 @@
       td {
         color: #8896a0;
         vertical-align: middle;
-        padding: 8px;
+        padding: 8px 8px 8px 5px;
         line-height: 1.42857;
         font-size: 14px;
 
+        &:first-child {
+          text-align: right;
+          // border-right: 1px solid #F0F3F6;
+        }
       }
     }
   }

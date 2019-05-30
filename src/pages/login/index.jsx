@@ -137,12 +137,20 @@ class LoginComponent extends Component {
         }
       );
 
-      if (ip.slice(0, 4) !== '10.9') {
-        return;
+      if (['10.9', '10.8', '0.0.'].includes(ip.slice(0, 4))) {
+        this.setState({
+          notice: (
+            <div>
+              测试用户
+              <p>
+                用户名：jitai
+                <br />
+                密码：12345
+              </p>
+            </div>
+          ),
+        });
       }
-      this.setState({
-        notice: '生产网测试用户：用户名：jitai，密码：12345',
-      });
     });
   };
   loadUser = async () => {

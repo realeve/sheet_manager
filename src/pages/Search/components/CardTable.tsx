@@ -3,7 +3,7 @@ import { Card } from 'antd';
 import styles from './cart/ProdList.less';
 import SimpleTable from './SimpleTable';
 
-export default function CardTable({ data, loading, title }) {
+export default function CardTable({ data, loading, title, bodyStyle = {} }) {
   return (
     <>
       <Card
@@ -12,6 +12,7 @@ export default function CardTable({ data, loading, title }) {
           padding: '10px 20px',
           maxHeight: 300,
           overflowY: 'auto',
+          ...bodyStyle
         }}
         hoverable
         style={{ marginBottom: 10 }}

@@ -105,12 +105,10 @@ function QueryCondition({
                   }}
                   autosize={{ minRows: 4, maxRows: 4 }}
                   value={textAreaValue[key]}
-                  onChange={e => onTextChange(e.target.value, key)}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onTextChange(e.target.value, key)}
                 />
                 <p>有效{title}共计: {textAreaValue[key] && str2Arr(textAreaValue[key]).length}</p>
               </div>
-
-
             </Col>
           ))}
           {selectList.map(({ key, data: selectorData, title }, idx) => (

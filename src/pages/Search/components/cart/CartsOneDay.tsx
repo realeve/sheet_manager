@@ -58,13 +58,13 @@ export default function CartsOneDay({ cart }) {
         ) : state.rows === 0 ? (
           <Empty />
         ) : (
-          <SimpleChart
-            data={state}
-            params={params}
-            beforeRender={beforeRender}
-            style={{ height: 240 }}
-          />
-        )}
+              <SimpleChart
+                data={state}
+                params={params}
+                beforeRender={beforeRender}
+                style={{ height: 240 }}
+              />
+            )}
       </Card>
     </>
   );

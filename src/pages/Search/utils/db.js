@@ -1,6 +1,7 @@
 import { axios, mock } from '@/utils/axios';
 import { DEV } from '@/utils/setting';
 import * as R from 'ramda';
+import moment from 'moment';
 const cache = 1440;
 
 /**
@@ -571,3 +572,50 @@ export const getVCbpcCfturnguard = cart =>
           cart,
         },
       });
+
+/**
+ *   @database: { MES系统_生产环境 }
+ *   @desc:     { 产品流转原始记录 }
+ */
+export const getProdLog = cart =>
+  (DEV
+    ? mock(require('@/mock/578_14cf29cb53.json'))
+    : axios({
+        url: '/578/14cf29cb53.json',
+        params: {
+          cart,
+          cache,
+        },
+      })
+  ).then(res => {
+    res.header = '交接时间,间隔,工序,业务类型,部门,付出,接收,产量'.split(',');
+    let lastDateName = '';
+    res.data = res.data.map((item, idx) => {
+      item['序号'] = idx + 1;
+      item['交接时间'] = item['交接时间'].replace('.000', '');
+
+      if (idx) {
+        let minutes = moment(item['交接时间']).diff(
+          moment(res.data[idx - 1]['交接时间']),
+          'minutes'
+        );
+        let days = Math.floor(minutes / 60 / 24);
+        let hours = Math.floor((minutes % 1440) / 60);
+        days = days > 0 ? days + '天' : '';
+        hours = hours > 0 ? hours + '小时' : '';
+        item['间隔'] = days + hours + (minutes % 60) + '分';
+      } else {
+        item['间隔'] = '开始';
+      }
+      return item;
+    });
+
+    res.data = res.data.map((item, idx) => {
+      let prevDate = item['交接时间'].split(' ')[0];
+      item['交接时间'] = item['交接时间'].replace(lastDateName, '');
+      lastDateName = prevDate;
+      return item;
+    });
+
+    return res;
+  });

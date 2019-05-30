@@ -10,7 +10,7 @@ export type OptionItem = {
 
 export interface IProps {
   placeholder?: string;
-  options: [OptionItem] | any[];
+  options: OptionItem[];
   value?: number | string;
   onChange?: any;
   className?: any;
@@ -29,19 +29,19 @@ export default function PinyinSelect(props: IProps) {
   const onFilter:
     | boolean
     | ((inputValue: string, option: React.ReactElement<OptionProps>) => any) = (
-    searchText: string,
-    { props: { value, children: text } }
-  ) => {
-    text = String(text)
-      .trim()
-      .toLowerCase();
-    searchText = searchText.trim().toLowerCase();
-    return [
-      text,
-      pinyin.toPinYin(text).toLowerCase(),
-      pinyin.toPinYinFull(text).toLowerCase(),
-    ].find(a => a.includes(searchText));
-  };
+      searchText: string,
+      { props: { value, children: text } }
+    ) => {
+      text = String(text)
+        .trim()
+        .toLowerCase();
+      searchText = searchText.trim().toLowerCase();
+      return [
+        text,
+        pinyin.toPinYin(text).toLowerCase(),
+        pinyin.toPinYinFull(text).toLowerCase(),
+      ].find(a => a.includes(searchText));
+    };
 
   let { placeholder, options, value, onChange, className, ...prop } = props;
 
@@ -55,7 +55,7 @@ export default function PinyinSelect(props: IProps) {
       filterOption={onFilter}
       className={className}
     >
-      {options.map(({ value, name }) => (
+      {options.map(({ value, name }: OptionItem) => (
         <Option value={value} key={value}>
           {name}
         </Option>
