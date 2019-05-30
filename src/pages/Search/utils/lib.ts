@@ -60,6 +60,9 @@ export const getPosByRowAndCol: (param: PositionCfg) => number = ({ col, row, ma
 };
 
 export const convertCodeInfo: (code: string) => string = code => {
+  if (code.length === 0) {
+    return '';
+  }
   let num: string = code.match(/(\d+)/g).join('');
   let alpha: string = code
     .match(/([A-Z])(|\d+)[A-Z]/g)
