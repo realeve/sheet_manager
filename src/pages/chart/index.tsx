@@ -24,7 +24,7 @@ function Charts({ dispatch, config, spinning }) {
   };
 
   return (
-    <Spin tip="载入中..." spinning={spinning}>
+    <Spin size="large" tip="载入中..." spinning={spinning}>
       <QueryCondition onQuery={refreshData} />
       {config.map((option, idx) => (
         <div className={classNames({ [styles.tableContainer]: idx })} key={option.nonce + idx}>

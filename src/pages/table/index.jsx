@@ -57,7 +57,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common, 
   };
 
   return (
-    <Spin tip="载入中..." spinning={common.spinning}>
+    <Spin size="large" tip="载入中..." spinning={common.spinning}>
       <QueryCondition onQuery={refreshData} />
       {dataSource.map((dataSrc, key) => {
         let subTitle = dataSrc.dates && dataSrc.dates.length > 0 && staticRanges(dateRange);
