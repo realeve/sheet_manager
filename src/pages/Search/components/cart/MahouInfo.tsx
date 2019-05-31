@@ -86,16 +86,15 @@ export default function CodeInfo({ cart }) {
   };
 
   // 图核判废
-  const [errCount, setErrCount] = useState({ data: [], header: [], rows: 0 });
-  const getImgCheck = async () => {
-    let res = await db.getViewPrintHechaImageCheck(cart).catch(e => {
-      setErr(e);
-    });
-    setErrCount(res);
-  };
-  useEffect(() => {
-    getImgCheck();
-  }, [cart]);
+  // const [errCount, setErrCount] = useState({ data: [], header: [], rows: 0 });
+
+  // useEffect(() => {
+  //   db.getViewPrintHechaImageCheck(cart).catch(e => {
+  //     setErr(e);
+  //   }).then(res => {
+  //     setErrCount(res);
+  //   });
+  // }, [cart]);
 
   const params = {
     type: 'bar',
@@ -123,9 +122,9 @@ export default function CodeInfo({ cart }) {
           bordered={false}
           loading={loading}
         >
-          <div className={styles.title}>
+          {/* <div className={styles.title}>
             <span className={styles.text}>1.码后机检</span>
-          </div>
+          </div> */}
           <SimpleTable data={state} />
           <Row gutter={20}>
             <Col span={12} md={12} lg={16}>
@@ -170,10 +169,10 @@ export default function CodeInfo({ cart }) {
               </Card>
             </Col>
           </Row>
-          <div className={styles.title}>
+          {/* <div className={styles.title}>
             <span className={styles.text}>2.图核判废</span>
-          </div>
-          <SimpleTable data={errCount} />
+          </div> */}
+          {/* <SimpleTable data={errCount} /> */}
         </Card>
       );
 }

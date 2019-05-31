@@ -36,8 +36,8 @@ function CartDetail({ dispatch, ...params }) {
         <BasicInfo {...params} onRefresh={onRefresh} />
         {type == 'cart' && (
           <>
-            <OnlineCount cart={cart} />
             <OfflineCheck cart={cart} />
+            <OnlineCount cart={cart} />
             <HechaInfo cart={cart} />
             <LogInfo cart={cart} />
             <PackageInfo cart={cart} prod={prod} code={codeInfo} />

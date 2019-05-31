@@ -5,7 +5,6 @@ import * as dbMenu from '@/pages/menu/service';
 import { connect } from 'dva';
 import userTool from '@/utils/users';
 import * as R from 'ramda';
-import styles from './SystemMenu.less';
 
 function SystemMenu({ logo, uid, menu_title, dispatch }) {
   const [menuList, setMenuList] = useState([]);
@@ -64,8 +63,8 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
   };
 
   const menu = (
-    <div className={styles.syslist}>
-      <Menu selectedKeys={[String(curMenuId)]} onClick={onMenuClick}>
+    <div>
+      <Menu theme="dark" style={{ background: '#002140' }} selectedKeys={[String(curMenuId)]} onClick={onMenuClick}>
         {menuList.map(({ title }, id) => (
           <Menu.Item key={String(id)}>{title}</Menu.Item>
         ))}
