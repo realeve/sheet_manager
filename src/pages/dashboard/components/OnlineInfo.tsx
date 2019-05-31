@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Row, Col, Card, Empty } from 'antd';
+import React from 'react';
+import { Row, Col, Card, Empty } from 'antd';
 import styles from './OnlineInfo.less';
 import ProdList from '@/pages/Search/components/cart/ProdList';
 import SimpleChart from '@/pages/Search/components/SimpleChart';
@@ -126,7 +126,6 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
             title={res.title}
             bodyStyle={{
               padding: '10px 20px',
-              // maxHeight: 300,
               overflowY: 'auto',
             }}
             hoverable

@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from 'antd';
 import styles from './cart/ProdList.less';
 import SimpleTable from './SimpleTable';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 export default function CardTable({ data, loading, title, bodyStyle = {} }) {
   return (
@@ -9,9 +10,7 @@ export default function CardTable({ data, loading, title, bodyStyle = {} }) {
       <Card
         title={title}
         bodyStyle={{
-          padding: '10px 20px',
-          maxHeight: 300,
-          overflowY: 'auto',
+          padding: 10,
           ...bodyStyle
         }}
         hoverable
@@ -19,7 +18,14 @@ export default function CardTable({ data, loading, title, bodyStyle = {} }) {
         className={styles.cart}
         loading={loading}
       >
-        <SimpleTable data={data} />
+        <Scrollbars
+          autoHide
+          autoHeight
+          autoHeightMin={200}
+          autoHeightMax={300}
+          thumbMinSize={30} >
+          <SimpleTable data={data} />
+        </Scrollbars>
       </Card>
     </>
   );

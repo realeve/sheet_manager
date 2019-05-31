@@ -9,6 +9,8 @@ import Err from '@/components/Err';
 
 import CartsByDate from './CartsByDate';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
 const weekList: string[] = ['日', '一', '二', '三', '四', '五', '六'];
 
 interface CartConfig {
@@ -107,125 +109,132 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
         ) : err ? (
           <Err err={err} />
         ) : prodDetail.length === 0 ? <Empty /> : (
-          <ul style={{
-            maxHeight: 970,
-            overflowY: 'auto',
-            marginBottom: 10
-          }} >
-            {prodDetail.map(
-              (
-                {
-                  key_recid,
-                  ProcName,
-                  WorkClassName,
-                  MachineName,
-                  CaptainName,
-                  TeamName,
-                  PrintNum,
-                  StartDate,
-                  WorkInfo,
-                  weekName,
-                  EndDate,
-                  mid,
-                  remark,
-                  remark_type,
-                },
-                idx
-              ) => (
-                  <li key={key_recid}>
-                    <div>
-                      <div className={styles.title}>
-                        <div>
-                          <div className={styles.text}>
-                            {idx + 1}.{ProcName}：
+          <Scrollbars autoHide
+            autoHeight
+            autoHeightMin={300}
+            autoHeightMax={970}
+            thumbMinSize={30}
+            style={{
+              marginBottom: 10,
+            }}>
+            <ul style={{
+              marginBottom: 10
+            }} >
+              {prodDetail.map(
+                (
+                  {
+                    key_recid,
+                    ProcName,
+                    WorkClassName,
+                    MachineName,
+                    CaptainName,
+                    TeamName,
+                    PrintNum,
+                    StartDate,
+                    WorkInfo,
+                    weekName,
+                    EndDate,
+                    mid,
+                    remark,
+                    remark_type,
+                  },
+                  idx
+                ) => (
+                    <li key={key_recid}>
+                      <div>
+                        <div className={styles.title}>
+                          <div>
+                            <div className={styles.text}>
+                              {idx + 1}.{ProcName}：
                           <a
-                              href="javascript:;"
-                              onClick={() =>
-                                setCartDetail({
-                                  mid,
-                                  tstart: moment(StartDate).format('YYYYMMDD'),
-                                  machine: MachineName,
-                                })
-                              }
-                            >
-                              {MachineName}
-                            </a>
+                                href="javascript:;"
+                                onClick={() =>
+                                  setCartDetail({
+                                    mid,
+                                    tstart: moment(StartDate).format('YYYYMMDD'),
+                                    machine: MachineName,
+                                  })
+                                }
+                              >
+                                {MachineName}
+                              </a>
+                            </div>
+                            <Badge
+                              count={WorkClassName}
+                              className={styles.workclass}
+                              style={{ backgroundColor: '#e74c3c' }}
+                            />
+                            <Badge
+                              count={'星期' + weekList[weekName]}
+                              className={styles.workclass}
+                              style={{ backgroundColor: '#337ab7' }}
+                            />
                           </div>
-                          <Badge
-                            count={WorkClassName}
-                            className={styles.workclass}
-                            style={{ backgroundColor: '#e74c3c' }}
-                          />
-                          <Badge
-                            count={'星期' + weekList[weekName]}
-                            className={styles.workclass}
-                            style={{ backgroundColor: '#337ab7' }}
-                          />
+                          <h4>{StartDate}</h4>
                         </div>
-                        <h4>{StartDate}</h4>
-                      </div>
-                      <div className={styles.detail}>
-                        <ul>
-                          <li>
-                            <strong>
-                              <Icon type="user" /> 机长
-                          </strong>
-                            {CaptainName}
-                          </li>
-                          <li>
-                            <strong>
-                              <Icon type="clock-circle" /> 完工时间
-                          </strong>
-                            {EndDate}
-                          </li>
-                          <li>
-                            <strong>
-                              <Icon type="team" /> 班组
-                          </strong>
-                            {TeamName}
-                          </li>
-                          <li>
-                            <strong>
-                              <Icon type="ordered-list" /> 产量
-                          </strong>
-                            {PrintNum}
-                          </li>
-                          {WorkInfo && (
+                        <div className={styles.detail}>
+                          <ul>
                             <li>
                               <strong>
-                                <Icon type="edit" /> 原始记录
-                            </strong>
-                              <div className={styles.loginfo}>
-                                <div>{WorkInfo}</div>
-                                <span style={{ float: 'right' }}>
-                                  <Icon type="edit" style={{ color: '#337ab7' }} /> {CaptainName}{' '}
-                                  发表于{' '}
-                                  {moment(EndDate)
-                                    .startOf('hour')
-                                    .fromNow()}
-                                </span>
-                              </div>
+                                <Icon type="user" /> 机长
+                          </strong>
+                              {CaptainName}
                             </li>
-                          )}
-                          {remark && (
-                            <li style={{ background: '#ffc9ce' }}>
+                            <li>
                               <strong>
-                                <Icon type="edit" />
-                                机台关注
-                            </strong>
-                              <div className={styles.loginfo}>
-                                <div>{remark_type}:</div>
-                                <div>{remark}</div>
-                              </div>
+                                <Icon type="clock-circle" /> 完工时间
+                          </strong>
+                              {EndDate}
                             </li>
-                          )}
-                        </ul>
+                            <li>
+                              <strong>
+                                <Icon type="team" /> 班组
+                          </strong>
+                              {TeamName}
+                            </li>
+                            <li>
+                              <strong>
+                                <Icon type="ordered-list" /> 产量
+                          </strong>
+                              {PrintNum}
+                            </li>
+                            {WorkInfo && (
+                              <li>
+                                <strong>
+                                  <Icon type="edit" /> 原始记录
+                            </strong>
+                                <div className={styles.loginfo}>
+                                  <div>{WorkInfo}</div>
+                                  <span style={{ float: 'right' }}>
+                                    <Icon type="edit" style={{ color: '#337ab7' }} /> {CaptainName}{' '}
+                                    发表于{' '}
+                                    {moment(EndDate)
+                                      .startOf('hour')
+                                      .fromNow()}
+                                  </span>
+                                </div>
+                              </li>
+                            )}
+                            {remark && (
+                              <li style={{ background: '#ffc9ce' }}>
+                                <strong>
+                                  <Icon type="edit" />
+                                  机台关注
+                            </strong>
+                                <div className={styles.loginfo}>
+                                  <div>{remark_type}:</div>
+                                  <div>{remark}</div>
+                                </div>
+                              </li>
+                            )}
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                )
-            )}
-          </ul>
+                    </li>
+                  )
+              )}
+            </ul>
+          </Scrollbars>
         )}
       </div>
     </>
