@@ -134,6 +134,24 @@ export default {
           },
         });
 
+        // 登录逻辑
+        let { data, success } = userTool.getUserSetting();
+        if (!success || !data.autoLogin) {
+          router.push('/login');
+          return;
+        }
+
+        dispatch({
+          type: 'setStore',
+          payload: {
+            userSetting: data.setting,
+          },
+        });
+
+        dispatch({
+          type: 'setting/getSetting',
+        });
+
         if (['/chart', '/chart/', '/table', '/table/'].includes(pathname)) {
           let queryInfo = hash.slice(1);
           let params = qs.parse(queryInfo);

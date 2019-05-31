@@ -34,7 +34,7 @@ function ImageItem({ data, type, visible, gutter }) {
           <img src={`${prefix}${item.image}`} alt={item.code} />
         </div>
         <div className={styles.desc}>
-          <ImageTitle data={item} />
+          <ImageTitle data={item} key={type + idx} />
         </div>
       </li >
     ))

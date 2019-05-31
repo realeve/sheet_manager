@@ -24,8 +24,6 @@ import menuUtil from './menuData';
 import ForOThree from '@/pages/403';
 import UnLogin from '@/pages/unlogin';
 
-import * as lib from '@/utils/lib';
-
 const { Content } = Layout;
 const R = require('ramda');
 
@@ -125,35 +123,7 @@ class BasicLayout extends PureComponent {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-
-    // 登录逻辑
-    let { data, success } = userTool.getUserSetting();
-    if (!success || !data.autoLogin) {
-      router.push('/login');
-      return;
-    }
-
-    dispatch({
-      type: 'common/setStore',
-      payload: {
-        userSetting: data.setting,
-      },
-    });
-
-    // dispatch({
-    //   type: "user/fetchCurrent"
-    // });
-
-    dispatch({
-      type: 'setting/getSetting',
-    });
-
-    // this.renderRef = requestAnimationFrame(() => {
-    //   this.setState({
-    //     rendering: false,
-    //   });
-    // });
+    console.log('componentDidMount 10');
 
     this.enquireHandler = enquireScreen(mobile => {
       const { isMobile } = this.state;
@@ -165,19 +135,7 @@ class BasicLayout extends PureComponent {
     });
   }
 
-  // componentDidUpdate(preProps) {
-  //   // After changing to phone mode,
-  //   // if collapsed is true, you need to click twice to display
-  //   this.breadcrumbNameMap = this.getBreadcrumbNameMap(this.state.menuData);
-  //   const { isMobile } = this.state;
-  //   const { collapsed } = this.props;
-  //   if (isMobile && !preProps.isMobile && !collapsed) {
-  //     this.handleMenuCollapse(false);
-  //   }
-  // }
-
   componentWillUnmount() {
-    // cancelAnimationFrame(this.renderRef);
     unenquireScreen(this.enquireHandler);
   }
 

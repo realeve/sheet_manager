@@ -14,7 +14,7 @@ import styles from './index.less';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
-export default class GlobalHeaderRight extends PureComponent {
+export default class RightContent extends PureComponent {
   getNoticeData() {
     const { notices = [] } = this.props;
     if (notices.length === 0) {

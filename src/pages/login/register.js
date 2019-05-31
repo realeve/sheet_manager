@@ -3,15 +3,7 @@ import router from 'umi/router';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
-import {
-  Form,
-  Input,
-  Button,
-  Popover,
-  Progress,
-  Select,
-  notification
-} from 'antd';
+import { Form, Input, Button, Popover, Progress, Select, notification } from 'antd';
 import styles from './Register.less';
 import * as db from './service';
 
@@ -35,13 +27,13 @@ export const passwordStatusMap = {
     <div className={styles.error}>
       <FormattedMessage id="validation.password.strength.short" />
     </div>
-  )
+  ),
 };
 
 export const passwordProgressMap = {
   ok: 'success',
   pass: 'normal',
-  poor: 'exception'
+  poor: 'exception',
 };
 
 @Form.create()
@@ -53,13 +45,13 @@ class Register extends Component {
     help: '',
     depts: [],
     submitting: false,
-    ip: ''
+    ip: '',
   };
 
   loadDepts = async () => {
     db.getSysDept().then(({ data: depts }) => {
       this.setState({
-        depts
+        depts,
       });
     });
 
@@ -68,6 +60,7 @@ class Register extends Component {
     });
   };
   componentDidMount() {
+    console.log('componentDidMount 8');
     this.loadDepts();
   }
 
@@ -83,7 +76,7 @@ class Register extends Component {
       dept_id,
       menu_id: 1,
       actived: 0,
-      ip: this.state.ip
+      ip: this.state.ip,
     };
     return params;
   };
@@ -103,28 +96,28 @@ class Register extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.setState({
-      submitting: true
+      submitting: true,
     });
     const { form } = this.props;
     form.validateFields({ force: true }, async err => {
       if (err) {
         this.setState({
-          submitting: false
+          submitting: false,
         });
         return;
       }
       let params = this.getFormParam();
       let {
-        data: [{ affected_rows }]
+        data: [{ affected_rows }],
       } = await db.addSysUser(params).finally(e => {
         this.setState({
-          submitting: false
+          submitting: false,
         });
       });
       if (affected_rows === 0) {
         notification.error({
           message: '注册失败',
-          description: '帐户注册失败，请稍后重试.'
+          description: '帐户注册失败，请稍后重试.',
         });
         return;
       }
@@ -135,7 +128,7 @@ class Register extends Component {
 
   showResult = account => {
     const {
-      location: { query }
+      location: { query },
     } = this.props;
 
     let pathname = `/login/forget`;
@@ -143,8 +136,8 @@ class Register extends Component {
       pathname,
       query,
       state: {
-        account
-      }
+        account,
+      },
     });
   };
 
@@ -161,7 +154,7 @@ class Register extends Component {
     } else {
       callback();
       this.setState({
-        visible: false
+        visible: false,
       });
     }
   };
@@ -174,7 +167,7 @@ class Register extends Component {
       return;
     }
     const {
-      data: [{ value }]
+      data: [{ value }],
     } = await db.getSysUserExist(username);
     if (value > 0) {
       callback(formatMessage({ id: 'validation.username.existed' }));
@@ -188,16 +181,16 @@ class Register extends Component {
     if (!value) {
       this.setState({
         help: formatMessage({ id: 'validation.password.required' }),
-        visible: !!value
+        visible: !!value,
       });
       callback('error');
     } else {
       this.setState({
-        help: ''
+        help: '',
       });
       if (!visible) {
         this.setState({
-          visible: !!value
+          visible: !!value,
         });
       }
       if (value.length < 5) {
@@ -207,7 +200,7 @@ class Register extends Component {
         if (value && confirmDirty) {
           form.validateFields(['confirm'], { force: true });
           this.setState({
-            visible: false
+            visible: false,
           });
         }
         callback();
@@ -237,7 +230,7 @@ class Register extends Component {
     const { getFieldDecorator } = form;
     const { help, visible, depts, submitting } = this.state;
     const {
-      location: { search }
+      location: { search },
     } = this.props;
     return (
       <div className={styles.main}>
@@ -250,12 +243,12 @@ class Register extends Component {
               rules: [
                 {
                   required: true,
-                  message: formatMessage({ id: 'validation.username.required' })
+                  message: formatMessage({ id: 'validation.username.required' }),
                 },
                 {
-                  validator: this.checkUsername
-                }
-              ]
+                  validator: this.checkUsername,
+                },
+              ],
             })(
               <Input
                 size="large"
@@ -276,19 +269,20 @@ class Register extends Component {
               }
               overlayStyle={{ width: 240 }}
               placement="right"
-              visible={visible}>
+              visible={visible}
+            >
               {getFieldDecorator('psw', {
                 rules: [
                   {
-                    validator: this.checkPassword
-                  }
-                ]
+                    validator: this.checkPassword,
+                  },
+                ],
               })(
                 <Input
                   size="large"
                   type="password"
                   placeholder={formatMessage({
-                    id: 'form.password.placeholder'
+                    id: 'form.password.placeholder',
                   })}
                 />
               )}
@@ -300,19 +294,19 @@ class Register extends Component {
                 {
                   required: true,
                   message: formatMessage({
-                    id: 'validation.confirm-password.required'
-                  })
+                    id: 'validation.confirm-password.required',
+                  }),
                 },
                 {
-                  validator: this.checkConfirm
-                }
-              ]
+                  validator: this.checkConfirm,
+                },
+              ],
             })(
               <Input
                 size="large"
                 type="password"
                 placeholder={formatMessage({
-                  id: 'form.confirm-password.placeholder'
+                  id: 'form.confirm-password.placeholder',
                 })}
               />
             )}
@@ -322,16 +316,16 @@ class Register extends Component {
               rules: [
                 {
                   required: true,
-                  message: formatMessage({ id: 'validation.fullname.required' })
+                  message: formatMessage({ id: 'validation.fullname.required' }),
                 },
                 {
                   type: 'string',
                   min: 2,
                   message: formatMessage({
-                    id: 'validation.fullname.wrong-format'
-                  })
-                }
-              ]
+                    id: 'validation.fullname.wrong-format',
+                  }),
+                },
+              ],
             })(
               <Input
                 size="large"
@@ -345,16 +339,17 @@ class Register extends Component {
                 {
                   required: true,
                   message: formatMessage({
-                    id: 'validation.dept.required'
-                  })
-                }
-              ]
+                    id: 'validation.dept.required',
+                  }),
+                },
+              ],
             })(
               <Select
                 size="large"
                 placeholder={formatMessage({
-                  id: 'validation.dept'
-                })}>
+                  id: 'validation.dept',
+                })}
+              >
                 {depts.map(({ id, value }) => (
                   <Option value={id} key={id}>
                     {value}
@@ -369,7 +364,8 @@ class Register extends Component {
               loading={submitting}
               className={styles.submit}
               type="primary"
-              htmlType="submit">
+              htmlType="submit"
+            >
               <FormattedMessage id="app.register.register" />
             </Button>
             <Link className={styles.login} to={`/login${search}`}>
@@ -384,7 +380,7 @@ class Register extends Component {
 
 function mapStateToProps(state) {
   return {
-    ...state.common
+    ...state.common,
   };
 }
 

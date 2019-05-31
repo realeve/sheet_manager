@@ -109,11 +109,11 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
         ) : err ? (
           <Err err={err} />
         ) : prodDetail.length === 0 ? <Empty /> : (
-          <Scrollbars autoHide
+          <Scrollbars
+            autoHide
             autoHeight
             autoHeightMin={300}
             autoHeightMax={970}
-            thumbMinSize={30}
             style={{
               marginBottom: 10,
             }}>

@@ -137,6 +137,7 @@ class Charts extends Component<IProp, IState> {
   }
 
   componentDidMount() {
+    console.log('componentDidMount 3')
     this.init();
   }
 

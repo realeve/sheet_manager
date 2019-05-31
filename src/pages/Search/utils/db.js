@@ -125,6 +125,7 @@ export const getViewScoreIntaglio = async cart => {
         url: '/413/615bb8b273.json',
         params: {
           cart,
+          cache,
         },
       });
   res.data = res.data.map(item => {
@@ -146,6 +147,7 @@ export const getViewScoreOffset = async cart => {
         url: '/414/ff15f9dad5.json',
         params: {
           cart,
+          cache,
         },
       });
   res.data = res.data.map(item => {
@@ -167,6 +169,7 @@ export const getVCbpcCartlistByMachine = params =>
     : axios({
         url: '/416/26a8faebbe.json',
         params,
+        cache,
       });
 
 /**
@@ -180,6 +183,7 @@ export const getUdtPsExchange = cart =>
         url: '/417/f1b906ddf9.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -194,6 +198,7 @@ export const getQaInspectSlaveCode = cart =>
         url: '/418/35e72b945b.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -211,6 +216,7 @@ export const getImagedata = mahouid =>
           mahouid,
           blob: ['ErrImage1', 'ErrImage2', 'ErrImage3'],
           date_type: 'jpg',
+          cache,
         },
       });
 
@@ -225,6 +231,7 @@ export const getViewPrintHechaImageCheck = async cart => {
         url: '/420/ce6e8bb0ec.json',
         params: {
           cart,
+          cache,
         },
       });
   let src = R.clone(res);
@@ -244,6 +251,7 @@ export const getMahoudataLog = cart =>
         url: '/421/5c62aa7417.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -258,6 +266,7 @@ export const getViewPrintOcr = async cart => {
         url: '/422/0361b10a4e.json',
         params: {
           cart,
+          cache,
         },
       }));
   if (res.rows) {
@@ -276,6 +285,7 @@ export const getNoteaysdata = cart =>
         url: '/423/31cffa2713.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -290,6 +300,7 @@ export const getQmRectifyMaster = cart =>
         url: '/424/871cf71675.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -304,6 +315,7 @@ export const getQmRectifyMasterChange = cart =>
         url: '/425/2ffba3df49.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -318,6 +330,7 @@ export const getQfmWipJobsLeak = cart =>
         url: '/426/1110c3beee.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -332,6 +345,7 @@ export const getQfmWipJobsCodeFake = cart =>
         url: '/427/83e210ff42.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -346,6 +360,7 @@ export const getQfmWipJobsMahouSrc = cart =>
         url: '/428/9713336765.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -360,6 +375,7 @@ export const getOcrContrastResult = cart =>
         url: '/429/f4bdde145a.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -374,6 +390,7 @@ export const getWipJobsCodeSrc = cart =>
         url: '/430/7a36766779.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -388,6 +405,7 @@ export const getWipJobsRectifyCode = cart =>
         url: '/432/a3094edd8b.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -402,6 +420,7 @@ export const getQfmWipJobsSilk = cart =>
         url: '/431/5527a0d74e.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -430,6 +449,7 @@ export const getQfmWipJobsUncheck = cart =>
         url: '/434/3c096724a7.json',
         params: {
           cart,
+          cache,
         },
       });
 
@@ -524,7 +544,7 @@ export const getViewCbpcBoxinfo = params =>
         url: '/555/ca793921a2/array',
         params: {
           ...params,
-          cache: 1440,
+          cache,
         },
       });
 
@@ -540,7 +560,7 @@ export const getViewCbpcPackage = params =>
         url: '/557/cb96552dc3/array',
         params: {
           ...params,
-          cache: 1440,
+          cache,
           blob: 9,
           blob_type: 'jpg',
         },
@@ -557,6 +577,7 @@ export const getBXq = params =>
     : axios({
         url: '/574/30efd1b25d.json',
         params,
+        cache,
       });
 
 /**
@@ -570,6 +591,7 @@ export const getVCbpcCfturnguard = cart =>
         url: '/575/3094407e19.json',
         params: {
           cart,
+          cache,
         },
       });
 

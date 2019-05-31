@@ -4,7 +4,6 @@ import ProdList from './ProdList';
 import CartInfo from './CartInfo';
 import LockReason from './LockReason';
 import CartsOneDay from './CartsOneDay';
-import ExchangeLog from './ExchangeLog';
 import ProcAdjustList from './ProcAdjustList';
 import * as lib from '../../utils/lib';
 import * as R from 'ramda';
@@ -20,17 +19,6 @@ export default function SearchPage({ onRefresh, ...params }) {
       return;
     }
     setCartInfo(cartInfo);
-    // 车号变更时向父组件更新
-    // if (cart !== cartInfo.CartNumber) {
-    //   // 传至父组件 
-    //   onRefresh({
-    //     type: 'cart',
-    //     cart: cartInfo.CartNumber,
-    //     codeInfo: lib.convertCodeInfo(cartInfo.GzNumber),
-    //     prod: cartInfo.ProductName
-    //   });
-    // } 
-
     onRefresh({
       type: 'cart',
       cart: cartInfo.CartNumber,
@@ -65,7 +53,6 @@ export default function SearchPage({ onRefresh, ...params }) {
       {visible && (
         <>
           <LockReason cart={cart} />
-          <ExchangeLog cart={cart} />
           <CartsOneDay cart={cart} />
         </>
       )}

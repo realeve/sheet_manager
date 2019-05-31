@@ -31,4 +31,4 @@ export default function ExchangeLog({ cart }) {
       </Tabs>
     </Card>
   );
-}
+} 

@@ -58,7 +58,7 @@ function ImageItem({ data, blob, gutter, onImageClick }) {
           <img src={image} alt={idx} />
         </div>
         <div className={styles.desc}>
-          <ImageTitle data={titleList} header={header} />
+          <ImageTitle data={titleList} header={header} key={idx} />
         </div>
       </li >
     )

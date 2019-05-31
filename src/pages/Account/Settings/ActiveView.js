@@ -41,6 +41,7 @@ class ActiveView extends Component {
   loadMenuList = async () => {};
 
   componentDidMount() {
+    console.log('componentDidMount 12');
     this.loadUsers();
     this.loadUserTypes();
   }

@@ -1,30 +1,30 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import HeaderSearch from '@/components/HeaderSearch';
 import { formatMessage } from 'umi/locale';
 import styles from './index.less';
 import * as lib from '@/utils/lib';
-import Debounce from 'lodash-decorators/debounce';
-import Bind from 'lodash-decorators/bind';
-
+import debounce from 'lodash/debounce';
 import router from 'umi/router';
 
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
-export default class GlobalHeaderRight extends PureComponent {
-  getRouter = () => {
-    let { pathname } = window.location;
-    return pathname;
-  };
+let getRouter = () => {
+  let { pathname } = window.location;
+  return pathname;
+};
 
-  componentDidMount() {
-    let pathname = this.getRouter();
-    console.log('当前路由:', pathname);
-  }
+/**
+ * 是否以完整版打包发布
+ * 精简版在header不包含全局搜索，不含质量/生产相关的其它消息提示功能。
+ * */
+const FULL_MODE = BUILD_TYPE !== 'lite';
 
-  @Bind()
-  @Debounce(400)
-  onSearch(value) {
+function SearchComponent() {
+  let pathname = getRouter();
+  console.log('当前路由:', pathname);
+
+  let onSearch = value => {
     value = value.trim().toUpperCase();
     let splitStr = [' ', ','].find(item => value.includes(item));
     if (splitStr) {
@@ -38,7 +38,7 @@ export default class GlobalHeaderRight extends PureComponent {
       return;
     }
 
-    let { pathname } = window.location;
+    let pathname = getRouter();
 
     if (lib.isCart(value)) {
       if (pathname == '/search/image') {
@@ -48,40 +48,31 @@ export default class GlobalHeaderRight extends PureComponent {
       }
       return;
     }
+
     if (lib.isGZ(value)) {
       router.push('/search#' + value);
       return;
     }
+
     if (lib.isReel(value)) {
       router.push('/search#' + value);
       return;
     }
-
     console.log('全局搜索', value); // eslint-disable-line
-  }
-  // onPressEnter = value => {
-  //   console.log('input', value); // eslint-disable-line
-  // };
+  };
 
-  render() {
-    /**
-     * 是否以完整版打包发布
-     * 精简版在header不包含全局搜索，不含质量/生产相关的其它消息提示功能。
-     * */
-    const FULL_MODE = BUILD_TYPE !== 'lite';
-
-    return (
-      FULL_MODE && (
-        <HeaderSearch
-          className={cx('action', 'search')}
-          defaultOpen={true}
-          placeholder={formatMessage({
-            id: 'component.globalHeader.search',
-          })}
-          onSearch={this.onSearch}
-          // onPressEnter={this.onPressEnter}
-        />
-      )
-    );
-  }
+  return (
+    FULL_MODE && (
+      <HeaderSearch
+        className={cx('action', 'search')}
+        defaultOpen={true}
+        placeholder={formatMessage({
+          id: 'component.globalHeader.search',
+        })}
+        onSearch={debounce(onSearch, 400)}
+      />
+    )
+  );
 }
+
+export default React.memo(SearchComponent);

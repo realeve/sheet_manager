@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Card, Tabs } from 'antd';
-import SimpleTable from '../SimpleTable';
 import VTable from '@/components/Table';
 import { useFetch } from '@/pages/Search/utils/useFetch';
 import * as R from 'ramda'
 
 const TabPane = Tabs.TabPane;
 
-export default function PackageInfo({ cart, prod, code }) {
-  const { loading, ...state } = useFetch({ params: cart, api: 'getViewPrintOcr', init: [cart] });
-  const { loading: loading2, ...ananyData } = useFetch({
-    params: cart,
-    api: 'getNoteaysdata',
-    init: [cart],
-  });
+export default function PackageInfo({ prod, code }) {
 
   const beforeFetch: (params: any) => boolean = params => !R.isNil(params.prod) && params.prod.length > 0 && !R.isNil(params.code) && params.code.length > 0
   const { loading: loading3, ...boxInfo } = useFetch({
@@ -33,8 +26,8 @@ export default function PackageInfo({ cart, prod, code }) {
   let [cpkParam, setCpkParam] = useState({});
 
   useEffect(() => {
-    let codenum = R.pluck(2)(boxInfo.data);
-    if (codenum.length === 0) { return; }
+    let codenum = R.pluck('col0')(boxInfo.data);
+    if (codenum.length === 0 || R.isNil(codenum[0])) { return; }
     let code = codenum[0].match(/[A-Z](|\*+)[A-Z]/g).join('');
     codenum = R.map(item => item.match(/\d+/g).join(''))(codenum);
     setCpkParam({ prod, code, codenum });
@@ -56,8 +49,6 @@ export default function PackageInfo({ cart, prod, code }) {
       return item;
     });
 
-  const { loading: loading0, ...changeLog } = useFetch({ params: cart, api: 'getVCbpcCfturnguard', init: [cart] });
-
   return (
     <Col span={24}>
       <Card
@@ -68,23 +59,7 @@ export default function PackageInfo({ cart, prod, code }) {
         style={{ marginBottom: 10 }}
       >
         <Tabs defaultActiveKey="0">
-          <TabPane tab="清分机兑换记录" key="0">
-            <SimpleTable data={changeLog} loading={loading0} />
-          </TabPane>
-
-          <TabPane tab="OCR汇总" key="1">
-            <SimpleTable data={state} loading={loading} />
-          </TabPane>
-          <TabPane tab="特抽信息" key="2">
-            <VTable
-              dataSrc={ananyData}
-              loading={loading2}
-              beforeRender={beforeRender}
-              simple={true}
-              pagesize={5}
-            />
-          </TabPane>
-          <TabPane tab="装箱记录" key="3" >
+          <TabPane tab="装箱记录" key="0" >
             <VTable
               dataSrc={boxInfo}
               loading={loading3}
@@ -93,7 +68,7 @@ export default function PackageInfo({ cart, prod, code }) {
               pagesize={5}
             />
           </TabPane>
-          <TabPane tab="装箱首张号原始信息" key="4" >
+          <TabPane tab="装箱首张号原始信息" key="1" >
             <VTable
               dataSrc={boxDetail}
               loading={loading4}
@@ -102,7 +77,7 @@ export default function PackageInfo({ cart, prod, code }) {
               pagesize={5}
             />
           </TabPane>
-          <TabPane tab="成品库出入记录" key="5" >
+          <TabPane tab="成品库出入记录" key="2" >
             <VTable
               dataSrc={cpkDetail}
               loading={loading5}

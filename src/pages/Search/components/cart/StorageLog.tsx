@@ -11,7 +11,6 @@ export default function StorageLog({ cart }) {
       autoHeight
       autoHeightMin={300}
       autoHeightMax={970}
-      thumbMinSize={30}
       style={{
         marginBottom: 10,
       }}>

@@ -48,6 +48,7 @@ class Info extends Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount 2');
     window.addEventListener('resize', this.resize);
     this.resize();
   }

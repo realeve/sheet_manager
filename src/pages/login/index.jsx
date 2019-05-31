@@ -162,6 +162,7 @@ class LoginComponent extends Component {
 
   componentDidMount() {
     this.loadDepts();
+    console.log('componentDidMount 7');
 
     let { data, success } = userTool.getUserSetting();
     let avatar = '/img/avatar.svg';

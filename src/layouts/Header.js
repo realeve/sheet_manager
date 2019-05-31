@@ -29,6 +29,7 @@ class HeaderView extends PureComponent {
   }
 
   componentDidMount() {
+    console.log('componentDidMount 11');
     document.addEventListener('scroll', this.handScroll, { passive: true });
   }
 

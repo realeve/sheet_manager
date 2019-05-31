@@ -20,10 +20,7 @@ export default function CardTable({ data, loading, title, bodyStyle = {} }) {
       >
         <Scrollbars
           autoHide
-          autoHeight
-          autoHeightMin={200}
-          autoHeightMax={300}
-          thumbMinSize={30} >
+          style={{ height: 300 }} >
           <SimpleTable data={data} />
         </Scrollbars>
       </Card>

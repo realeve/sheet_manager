@@ -78,6 +78,9 @@ export default function CodeInfo({ cart }) {
     let { data } = await db.getImagedata(hechaId).catch(e => {
       setErr(e);
     });
+    if (data.length === 0) {
+      return;
+    }
     data = Object.values(data[0]).map(item => `data:image/jpg;base64,${item}`);
     setFakeImg(data);
   };
@@ -113,64 +116,64 @@ export default function CodeInfo({ cart }) {
   ) : state.rows === 0 ? (
     <Empty />
   ) : (
-    <Card
-      bodyStyle={{
-        padding: 0,
-      }}
-      bordered={false}
-      loading={loading}
-    >
-      <div className={styles.title}>
-        <span className={styles.text}>1.码后机检</span>
-      </div>
-      <SimpleTable data={state} />
-      <Row gutter={20}>
-        <Col span={12} md={12} lg={16}>
-          <Row gutter={10} className={styles.card}>
-            {fakeImg.map((url, idx) => (
-              <Col span={8} key={String(hechaId) + '_' + idx}>
-                <Card
-                  hoverable
-                  bodyStyle={{
-                    padding: 0,
-                    overflow: 'hidden',
-                  }}
-                  style={{ width: 180 }}
-                  cover={<img alt="缺陷图像" src={url} />}
-                >
-                  {macInfo.length > 0 && (
-                    <Meta
-                      title={`宏区编号 ${macInfo[idx].mac} / 第 ${macInfo[idx].position} 开`}
-                      description={`${macInfo[idx].count}条(${lib.getFakeStatus(
-                        macInfo[idx].status
-                      )})`}
-                    />
-                  )}
-                </Card>
-              </Col>
-            ))}
+        <Card
+          bodyStyle={{
+            padding: 0,
+          }}
+          bordered={false}
+          loading={loading}
+        >
+          <div className={styles.title}>
+            <span className={styles.text}>1.码后机检</span>
+          </div>
+          <SimpleTable data={state} />
+          <Row gutter={20}>
+            <Col span={12} md={12} lg={16}>
+              <Row gutter={10} className={styles.card}>
+                {fakeImg.map((url, idx) => (
+                  <Col span={8} key={String(hechaId) + '_' + idx}>
+                    <Card
+                      hoverable
+                      bodyStyle={{
+                        padding: 0,
+                        overflow: 'hidden',
+                      }}
+                      style={{ width: 180 }}
+                      cover={<img alt="缺陷图像" src={url} />}
+                    >
+                      {macInfo.length > 0 && (
+                        <Meta
+                          title={`宏区编号 ${macInfo[idx].mac} / 第 ${macInfo[idx].position} 开`}
+                          description={`${macInfo[idx].count}条(${lib.getFakeStatus(
+                            macInfo[idx].status
+                          )})`}
+                        />
+                      )}
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </Col>
+            <Col span={12} md={12} lg={8}>
+              <Card
+                bordered={false}
+                bodyStyle={{
+                  padding: 0,
+                }}
+              >
+                <SimpleChart
+                  data={errDetail}
+                  params={params}
+                  beforeRender={beforeRender}
+                  style={{ height: 150 }}
+                />
+              </Card>
+            </Col>
           </Row>
-        </Col>
-        <Col span={12} md={12} lg={8}>
-          <Card
-            bordered={false}
-            bodyStyle={{
-              padding: 0,
-            }}
-          >
-            <SimpleChart
-              data={errDetail}
-              params={params}
-              beforeRender={beforeRender}
-              style={{ height: 150 }}
-            />
-          </Card>
-        </Col>
-      </Row>
-      <div className={styles.title}>
-        <span className={styles.text}>2.图核判废</span>
-      </div>
-      <SimpleTable data={errCount} />
-    </Card>
-  );
+          <div className={styles.title}>
+            <span className={styles.text}>2.图核判废</span>
+          </div>
+          <SimpleTable data={errCount} />
+        </Card>
+      );
 }

@@ -43,6 +43,7 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount 6');
     /* 如果不是 dva 2.0 请使用以下代码
     // 实现整屏滚动
     const docHeight = this.dom.getBoundingClientRect().height;

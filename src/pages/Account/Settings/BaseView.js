@@ -24,6 +24,7 @@ class BaseView extends Component {
     };
   }
   componentDidMount() {
+    console.log('componentDidMount 1');
     this.loadDepts();
   }
 
