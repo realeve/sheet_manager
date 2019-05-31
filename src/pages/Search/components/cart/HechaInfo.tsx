@@ -15,7 +15,7 @@ export default function HechaInfo({ cart }) {
         }}
         style={{ marginBottom: 10 }}
       >
-        <Tabs defaultActiveKey="1">
+        <Tabs defaultActiveKey="1" animated={false}>
           <TabPane tab="码后汇总" key="1">
             <MahouInfo cart={cart} />
           </TabPane>

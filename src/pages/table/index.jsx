@@ -69,7 +69,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common, 
 
         return (
           <div key={key} className={cx({ tableContainer: key, dataList: !key, tabs: true })}>
-            <Tabs defaultActiveKey="1">
+            <Tabs defaultActiveKey="1" animated={false}>
               <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="1">
                 <VTable dataSrc={dataSrc} loading={loading} config={param} subTitle={subTitle} />
               </TabPane>

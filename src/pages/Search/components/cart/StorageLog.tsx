@@ -12,7 +12,7 @@ export default function StorageLog({ cart }) {
       autoHeightMin={300}
       autoHeightMax={970}
       style={{
-        marginBottom: 10,
+        marginBottom: 10, width: '100%',
       }}>
       <SimpleTable title="产品流转记录" loading={loadingLog} data={logData} />
     </Scrollbars>

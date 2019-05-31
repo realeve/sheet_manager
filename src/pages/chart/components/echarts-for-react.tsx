@@ -77,6 +77,15 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
   componentDidMount() {
     console.log('componentDidMount 5')
     this.rerender();
+
+    // on resize
+    // 取消绑定resize事件
+    if (this.echartsElement) {
+      const echartObj = this.renderEchartDom();
+      elementResizeEvent(this.echartsElement, () => {
+        echartObj.resize();
+      });
+    }
   }
 
   // update
@@ -147,14 +156,7 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
 
     // on chart ready
     if (typeof onChartReady === 'function') {
-      this.props.onChartReady(echartObj);
-    }
-    // on resize
-    // 取消绑定resize事件
-    if (this.echartsElement) {
-      elementResizeEvent(this.echartsElement, () => {
-        echartObj.resize();
-      });
+      onChartReady(echartObj);
     }
   };
 

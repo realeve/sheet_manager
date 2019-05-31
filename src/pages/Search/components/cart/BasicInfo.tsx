@@ -37,7 +37,7 @@ export default function SearchPage({ onRefresh, ...params }) {
         }}
         style={{ marginBottom: 10 }}
       >
-        <Tabs defaultActiveKey="1">
+        <Tabs defaultActiveKey="1" animated={false}>
           <TabPane tab="生产原始记录" key="1">
             <ProdList {...params} onRefresh={updateCartInfo} />
           </TabPane>

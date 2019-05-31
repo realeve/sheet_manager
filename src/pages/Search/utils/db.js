@@ -17,6 +17,7 @@ export const getVCbpcCartlist = async cart => {
     url: '/415/9bdb2caa53.json',
     params: {
       cart,
+      cache: 10,
     },
   });
   return mergeMesAntJTZY(res1, res2);
@@ -46,6 +47,7 @@ export const getCartinfoByGZ = async params => {
   let res2 = await axios({
     url: '/436/9480add1f2.json',
     params,
+    cache: 10,
   });
 
   if (res2.rows > 0) {
@@ -58,6 +60,7 @@ export const getCartinfoByGZ = async params => {
   let res1 = await axios({
     url: '/437/1a5ba9765d.json',
     params,
+    cache: 10,
   });
   if (res1.rows === 0) {
     return res1;
@@ -67,6 +70,7 @@ export const getCartinfoByGZ = async params => {
     url: '/415/9bdb2caa53.json',
     params: {
       cart,
+      cache: 10,
     },
   });
   return mergeMesAntJTZY(res1, res3);
@@ -83,6 +87,7 @@ export const getViewCartfinder = cart =>
         url: '/435/a11dfa47fb.json',
         params: {
           cart,
+          cache: 10,
         },
       });
 
@@ -97,6 +102,7 @@ export const getLockReason = cart =>
         url: '/408/fdb27181fc.json',
         params: {
           cart,
+          cache: 10,
         },
       });
 
@@ -111,6 +117,7 @@ export const getMahoudata = cart =>
         url: '/409/7a696b8571',
         params: {
           cart,
+          cache: 10,
         },
       });
 

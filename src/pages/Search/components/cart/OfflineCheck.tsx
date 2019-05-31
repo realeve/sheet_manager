@@ -9,5 +9,5 @@ let config = [{
 }]
 
 export default function LogInfo({ cart }) {
-  return <TabTable cart={cart} config={config} />
+  return <TabTable cart={cart} config={config} simpleIdx={[0, 1]} />
 }

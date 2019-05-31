@@ -115,7 +115,7 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
             autoHeightMin={300}
             autoHeightMax={970}
             style={{
-              marginBottom: 10,
+              marginBottom: 10, width: '100%',
             }}>
             <ul style={{
               marginBottom: 10

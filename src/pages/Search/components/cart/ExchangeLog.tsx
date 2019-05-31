@@ -17,7 +17,7 @@ export default function ExchangeLog({ cart }) {
       }}
       style={{ marginBottom: 10 }}
     >
-      <Tabs defaultActiveKey="1">
+      <Tabs defaultActiveKey="1" animated={false}>
         <TabPane tab="胶凹工序大张兑换记录" key="1">
           <div style={{ height: 240, overflowY: 'auto' }}>
             <SimpleTable data={packageInfo} loading={packageInfo.loading} />

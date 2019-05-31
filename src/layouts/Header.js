@@ -29,14 +29,13 @@ class HeaderView extends PureComponent {
   }
 
   componentDidMount() {
-    const { autoHideHeader } = this.props;
-    if (autoHideHeader) {
+    if (this.props.autoHideHeader) {
       document.addEventListener('scroll', this.handScroll, { passive: true });
     }
   }
 
   componentWillUnmount() {
-    if (autoHideHeader) {
+    if (this.props.autoHideHeader) {
       document.removeEventListener('scroll', this.handScroll);
     }
   }

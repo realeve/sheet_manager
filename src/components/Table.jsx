@@ -22,7 +22,7 @@ const FormItem = Form.Item;
 class Tables extends Component {
   constructor(props) {
     super(props);
-    this.state = db.initState(props); 
+    this.state = db.initState(props);
   }
 
   // 返回的值即是当前需要setState的内容
@@ -227,7 +227,8 @@ class Tables extends Component {
     } = this.state;
     let scroll = {};
     let len = R.isNil(dataSource[0]) ? 0 : Object.values(dataSource[0]).length;
-    if (len > 10) {
+    let needScroll = len > 0;
+    if (needScroll) {
       scroll = {
         x: len * 50 + 200,
       };

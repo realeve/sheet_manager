@@ -27,6 +27,16 @@ export default function LogInfo({ cart, config, simpleIdx = [], ...props }) {
     setNeedRefresh(new Array(config.length).fill(true));
   }, [cart]);
 
+  let refresh = async ({ api, params }, nextState) => {
+    let data = await fetchData({ api, params });
+    nextState[Number(activeKey)] = data;
+    setState(nextState);
+
+    let nextStatus = R.clone(needRefresh);
+    nextStatus[Number(activeKey)] = false;
+    setNeedRefresh(nextStatus);
+  }
+
   useEffect(() => {
     // 当前key已经载入过数据，退出
     if (!needRefresh[activeKey]) {
@@ -37,14 +47,7 @@ export default function LogInfo({ cart, config, simpleIdx = [], ...props }) {
     nextState[Number(activeKey)].loading = true;
     setState(nextState);
 
-    fetchData({ api: config[activeKey].api, params: cart }).then(data => {
-      nextState[Number(activeKey)] = data;
-      setState(nextState);
-
-      let nextStatus = R.clone(needRefresh);
-      nextStatus[Number(activeKey)] = false;
-      setNeedRefresh(nextStatus);
-    })
+    refresh({ api: config[activeKey].api, params: cart }, nextState)
   }, [needRefresh[activeKey]]);
 
   return (
@@ -56,7 +59,7 @@ export default function LogInfo({ cart, config, simpleIdx = [], ...props }) {
         }}
         style={{ marginBottom: 10 }}
       >
-        <Tabs defaultActiveKey="0" onChange={setActiveKey}>
+        <Tabs defaultActiveKey="0" onChange={setActiveKey} animated={false}>
           {
             state.map((res, key) => <TabPane tab={config[key].title} key={String(key)}>
               {

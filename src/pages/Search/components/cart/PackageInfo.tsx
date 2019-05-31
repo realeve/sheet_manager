@@ -58,7 +58,7 @@ export default function PackageInfo({ prod, code }) {
         }}
         style={{ marginBottom: 10 }}
       >
-        <Tabs defaultActiveKey="0">
+        <Tabs defaultActiveKey="0" animated={false}>
           <TabPane tab="装箱记录" key="0" >
             <VTable
               dataSrc={boxInfo}

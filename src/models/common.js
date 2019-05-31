@@ -5,6 +5,7 @@ import { axios } from '@/utils/axios';
 import qs from 'qs';
 import * as R from 'ramda';
 import { handleOptions } from '@/components/FormCreater/lib';
+import router from 'umi/router';
 
 const needCascade = params => !(R.isNil(params.cascade) || params.cascade[0] === '0');
 export function* getSelectList(params, call) {
