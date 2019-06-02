@@ -56,6 +56,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common, 
     );
   };
 
+  // loading={loading} 
   return (
     <Spin size="large" tip="载入中..." spinning={common.spinning}>
       <QueryCondition onQuery={refreshData} />
@@ -71,7 +72,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common, 
           <div key={key} className={cx({ tableContainer: key, dataList: !key, tabs: true })}>
             <Tabs defaultActiveKey="1" animated={false}>
               <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="1">
-                <VTable dataSrc={dataSrc} loading={loading} config={param} subTitle={subTitle} />
+                <VTable dataSrc={dataSrc} config={param} subTitle={subTitle} />
               </TabPane>
               <TabPane tab={formatMessage({ id: 'chart.tab.tableCalc' })} key="2">
                 {dataSrc.err ? (
