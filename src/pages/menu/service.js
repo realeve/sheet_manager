@@ -12,6 +12,8 @@ export const addBaseMenuItem = params =>
     params,
   });
 
+export const clearMenu = () => axios({ url: '/clear/23' });
+
 /**
 *   @database: { 接口管理 }
 *   @desc:     { 更新菜单项 } 

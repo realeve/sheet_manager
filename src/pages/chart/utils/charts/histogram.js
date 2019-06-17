@@ -8,7 +8,6 @@ const getBin = data => {
   // doc about histogram see here:https://github.com/ecomfe/echarts-stat#histogram
   // scott | freedmanDiaconis | sturges | none
   // squareRoot - This is the default method, which is also used by Excel histogram. Returns the number of bin according to
-
   let bin = ecStat.histogram(data);
   let binItem = bin.data;
   let splitArr = bin.data.map(item => item[0]);
@@ -30,7 +29,7 @@ const getBin = data => {
 };
 
 const getSeriesItem = (seriesData, idx, name) => {
-  let { pdf, binItem } = getBin(seriesData);
+  let { pdf, binItem } = getBin(R.map(item => parseFloat(item))(seriesData));
   let series = {
     type: 'bar',
     barWidth: '99.3%',

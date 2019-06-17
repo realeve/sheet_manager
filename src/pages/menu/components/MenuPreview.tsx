@@ -163,6 +163,9 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
         return;
       }
 
+      // 清理菜单缓存
+      await db.clearMenu();
+
       this.setState({
         editMode: true,
         menu_id: data[0].id
