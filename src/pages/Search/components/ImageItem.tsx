@@ -7,8 +7,8 @@ import * as R from 'ramda'
 const prefix = 'data:image/jpg;base64,';
 // todo 增加点击复制url链接功能.
 
-const ImageTitle = ({ data: { camera, macro_id, pos, code } }) => (
-  <div>
+const ImageTitle = ({ data: { camera, macro_id, pos, code }, type }) => (
+  <div key={type}>
     <p>
       相机：{camera} / 宏区{macro_id} / 第{pos}开
     </p>
@@ -34,7 +34,7 @@ function ImageItem({ data, type, visible, gutter }) {
           <img src={`${prefix}${item.image}`} alt={item.code} />
         </div>
         <div className={styles.desc}>
-          <ImageTitle data={item} key={type + idx} />
+          <ImageTitle data={item} type={type + idx} />
         </div>
       </li >
     ))

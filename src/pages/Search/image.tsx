@@ -9,6 +9,7 @@ import * as R from 'ramda';
 import HeatmapChart from './HeatmapChart';
 import ImageList from '@/pages/table/components/ImagePage'
 import { useSetState } from 'react-use';
+import Err from '@/components/Err';
 
 const cx = classNames.bind(styles);
 
@@ -17,7 +18,7 @@ function ImageSearch({ cart }) {
   const [filter, setFilter] = useState(0);
   const res = useFetch({ params: cart, api: 'getQfmWipJobsHechaImage', init: [cart] });
   const { data: silk } = useFetch({ params: cart, api: 'getWipJobsSilkImage', init: [cart] });
-  const { data: codeList } = useFetch({ params: cart, api: 'getWipJobsCodeImage', init: [cart] });
+  const { data: codeList, err: errCode } = useFetch({ params: cart, api: 'getWipJobsCodeImage', init: [cart] });
   let hecha = R.filter(R.propEq('type', 'mahou'))(res.data);
   let tubu = R.filter(R.propEq('type', 'tubu'))(res.data);
 
@@ -27,7 +28,7 @@ function ImageSearch({ cart }) {
 
   useEffect(() => {
     setImgnum([
-      hecha.length + silk.length + codeList.length + tubu.length,
+      hecha.length + silk.length + (codeList ? codeList.length : 0) + tubu.length,
       hecha.length,
       silk.length,
       codeList.length,
@@ -155,12 +156,12 @@ function ImageSearch({ cart }) {
             </div>
           </div>
           <ul className={styles.content}>
-            <ImageItem
+            {!errCode && <ImageItem
               visible={[0, 3].includes(filter)}
               data={R.filter(onFilter, getCurData(codeList))}
               type="code"
               gutter={gutterCode}
-            />
+            />}
             <ImageItem
               visible={[0, 2].includes(filter)}
               data={R.filter(onFilter, getCurData(silk))}
