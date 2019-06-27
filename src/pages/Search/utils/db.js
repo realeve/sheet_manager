@@ -8,20 +8,30 @@ const cache = 1440;
  *   @database: { MES_MAIN }
  *   @desc:     { 机台作业追溯,机台作业和MES系统合并数据 }
  */
-export const getVCbpcCartlist = async cart => {
-  if (DEV) {
-    return mock(require('@/mock/415_9bdb2caa53.json'));
-  }
-  let res1 = await getViewCartfinder(cart);
-  let res2 = await axios({
+// export const getVCbpcCartlist = async cart => {
+//   if (DEV) {
+//     return mock(require('@/mock/415_9bdb2caa53.json'));
+//   }
+//   let res1 = await getViewCartfinder(cart);
+//   let res2 = await axios({
+//     url: '/415/9bdb2caa53.json',
+//     params: {
+//       cart,
+//       cache: 10,
+//     },
+//   });
+//   return mergeMesAntJTZY(res1, res2);
+// };
+
+// 2019-06-26 不再从机台作业系统取数据
+export const getVCbpcCartlist = cart =>
+  axios({
     url: '/415/9bdb2caa53.json',
     params: {
       cart,
       cache: 10,
     },
   });
-  return mergeMesAntJTZY(res1, res2);
-};
 
 let mergeMesAntJTZY = (res1, res2) => {
   if (res1.rows === 0) {
@@ -38,42 +48,55 @@ let mergeMesAntJTZY = (res1, res2) => {
  * step1:MES中冠字查车号，查到车号后请求作业系统生产信息合并输出
  * step2:MES中无冠字车号信息，从机台作业请求到车号，再请求MES车号信息 
 */
-export const getCartinfoByGZ = async params => {
+// export const getCartinfoByGZ = async params => {
+//   if (DEV) {
+//     return mock(require('@/mock/415_9bdb2caa53.json'));
+//   }
+//   let cart = '';
+//   // 先在MES中查询数据
+//   let res2 = await axios({
+//     url: '/436/9480add1f2.json',
+//     params,
+//     cache: 10,
+//   });
+
+//   if (res2.rows > 0) {
+//     cart = R.last(res2.data)['CartNumber'];
+//     let res1 = await getViewCartfinder(cart);
+//     return mergeMesAntJTZY(res1, res2);
+//   }
+
+//   // MES中无数据，在机台作业中先查询
+//   let res1 = await axios({
+//     url: '/437/1a5ba9765d.json',
+//     params,
+//     cache: 10,
+//   });
+//   if (res1.rows === 0) {
+//     return res1;
+//   }
+//   cart = R.last(res2.data)['CartNumber'];
+//   let res3 = await axios({
+//     url: '/415/9bdb2caa53.json',
+//     params: {
+//       cart,
+//       cache: 10,
+//     },
+//   });
+//   return mergeMesAntJTZY(res1, res3);
+// };
+
+// 不再从机台作业系统中查询数据
+export const getCartinfoByGZ = params => {
   if (DEV) {
     return mock(require('@/mock/415_9bdb2caa53.json'));
   }
-  let cart = '';
   // 先在MES中查询数据
-  let res2 = await axios({
+  return axios({
     url: '/436/9480add1f2.json',
     params,
     cache: 10,
   });
-
-  if (res2.rows > 0) {
-    cart = R.last(res2.data)['CartNumber'];
-    let res1 = await getViewCartfinder(cart);
-    return mergeMesAntJTZY(res1, res2);
-  }
-
-  // MES中无数据，在机台作业中先查询
-  let res1 = await axios({
-    url: '/437/1a5ba9765d.json',
-    params,
-    cache: 10,
-  });
-  if (res1.rows === 0) {
-    return res1;
-  }
-  cart = R.last(res2.data)['CartNumber'];
-  let res3 = await axios({
-    url: '/415/9bdb2caa53.json',
-    params: {
-      cart,
-      cache: 10,
-    },
-  });
-  return mergeMesAntJTZY(res1, res3);
 };
 
 /**
