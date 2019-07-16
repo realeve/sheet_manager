@@ -265,7 +265,7 @@ test('车号与轴号渲染', () => {
 
   res = table.handleColumns({ dataSrc, filteredInfo: {} }, searchUrl, true);
   wrapper = shallow(res[0].render('1820A122'));
-  expect(wrapper.prop('target')).toBeUndefined();
+  expect(wrapper.prop('target')).toBe('_blank');
 });
 
 test('未传入data', () => {

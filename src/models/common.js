@@ -1,4 +1,3 @@
-import pathToRegexp from 'path-to-regexp';
 import userTool from '@/utils/users';
 import { setStore, handleUrlParams, str2Arr } from '@/utils/lib';
 import { axios } from '@/utils/axios';
@@ -80,6 +79,7 @@ export default {
     textAreaList: [],
     textAreaValue: {},
     spinning: false,
+    curPathName: '',
   },
   reducers: {
     setStore,
@@ -124,15 +124,46 @@ export default {
         },
       });
     },
+    *handleLogin({ payload: pathname }, { put, select }) {
+      const { curPathName } = yield select(state => state.common);
+      if (pathname === curPathName) {
+        return;
+      }
+      if (pathname === '/login') {
+        dispatch({
+          type: 'setStore',
+          payload: {
+            isLogin: false,
+          },
+        });
+        userTool.saveLoginStatus(0);
+        return;
+      }
+
+      let isLogin = userTool.getLoginStatus(0);
+      userTool.saveLastRouter(pathname);
+      yield put({
+        type: 'setStore',
+        payload: {
+          isLogin: isLogin === '1',
+        },
+      });
+    },
   },
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(async ({ pathname, hash }) => {
-        dispatch({
+        await dispatch({
           type: 'setStore',
           payload: {
             spinning: false,
+            curPathName: pathname,
           },
+        });
+
+        await dispatch({
+          type: 'handleLogin',
+          payload: history.location.pathname,
         });
 
         // 登录逻辑
@@ -223,27 +254,6 @@ export default {
 
         dispatch({
           type: 'initSelector',
-        });
-
-        const match = pathToRegexp('/login').exec(pathname);
-        if (match && match[0] === '/login') {
-          dispatch({
-            type: 'setStore',
-            payload: {
-              isLogin: false,
-            },
-          });
-          userTool.saveLoginStatus(0);
-          return;
-        }
-
-        let isLogin = userTool.getLoginStatus(0);
-        userTool.saveLastRouter(pathname);
-        dispatch({
-          type: 'setStore',
-          payload: {
-            isLogin: isLogin === '1',
-          },
         });
       });
     },

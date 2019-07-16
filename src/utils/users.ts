@@ -100,6 +100,7 @@ const readLastRouter = () => {
 };
 
 const saveLoginStatus = (status: number | string = 1) => {
+  console.log('_islogin', status);
   window.localStorage.setItem(_login, String(status));
 };
 

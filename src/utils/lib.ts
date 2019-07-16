@@ -381,6 +381,7 @@ export const logout = ({ dispatch }: Props) => {
       isLogin: false,
     },
   });
+  console.log('logout');
   userTool.saveLoginStatus(0);
 
   let { href, origin } = window.location;

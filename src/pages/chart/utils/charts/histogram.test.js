@@ -41,7 +41,7 @@ test('histogram 直方图测试', () => {
         barWidth: '99.3%',
         data: [[18, 0], [23, 3], [28, 0], [33, 2], [38, 0], [43, 1]],
         label: { normal: { position: 'insideTop', show: true } },
-        smooth: true,
+        // smooth: true,
         type: 'bar',
       },
       {
@@ -88,7 +88,7 @@ test('直方图多选模式', () => {
         data: [[18, 0], [23, 3], [28, 0], [33, 2], [38, 0], [43, 1]],
         label: { normal: { position: 'insideTop', show: true } },
         name: 'a1',
-        smooth: true,
+        // smooth: true,
         type: 'bar',
       },
       {

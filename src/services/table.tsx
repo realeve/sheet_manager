@@ -351,13 +351,14 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
     dataSearchClone: [],
   };
 
+  console.log(props.config)
   let columns = handleColumns(
     {
       dataSrc,
       filteredInfo: {},
     },
-    props.config.link || props.cartLinkPrefix,
-    props.config.host,
+    props.config && props.config.link || props.cartLinkPrefix || setting.searchUrl,
+    props.config && props.config.host || setting.host,
     !!props.simple
   );
 

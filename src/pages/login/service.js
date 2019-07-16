@@ -126,10 +126,10 @@ export const reLogin = async dispatch => {
       type: 'common/setStore',
       payload: {
         userSetting,
-        isLogin: false,
+        isLogin: true,
       },
     });
-    userTool.saveLoginStatus(0);
+    userTool.saveLoginStatus(1);
   }
 };
 

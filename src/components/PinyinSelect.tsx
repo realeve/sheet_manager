@@ -1,6 +1,8 @@
 import React from 'react';
 import { Select } from 'antd';
 import pinyin from '@/utils/pinyin.js';
+import * as R from 'ramda';
+
 const Option = Select.Option;
 
 export type OptionItem = {
@@ -30,7 +32,7 @@ export default function PinyinSelect(props: IProps) {
     | boolean
     | ((inputValue: string, option: React.ReactElement<OptionProps>) => any) = (
       searchText: string,
-      { props: { value, children: text } }
+      { props: { children: text } }
     ) => {
       text = String(text)
         .trim()
@@ -44,14 +46,13 @@ export default function PinyinSelect(props: IProps) {
     };
 
   let { placeholder, options, value, onChange, className, ...prop } = props;
-
   return (
     <Select
       {...prop}
       showSearch
       optionFilterProp="children"
       onChange={onChange}
-      value={value}
+      value={R.isNil(value) ? [""] : value}
       filterOption={onFilter}
       className={className}
     >

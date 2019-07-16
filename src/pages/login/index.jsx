@@ -85,6 +85,8 @@ class LoginComponent extends Component {
         };
       });
 
+    console.log(userInfo);
+
     if (userInfo.rows > 0) {
       let userSetting = userInfo.data[0] || userInfo.data;
       if (userSetting.actived === 0) {
@@ -162,7 +164,7 @@ class LoginComponent extends Component {
 
   componentDidMount() {
     this.loadDepts();
-    console.log('componentDidMount 7');
+    // console.log('componentDidMount 7');
 
     let { data, success } = userTool.getUserSetting();
     let avatar = '/img/avatar.svg';
@@ -250,6 +252,7 @@ class LoginComponent extends Component {
               onSelect={this.onDeptChange}
               options={depts}
               placeholder="选择所在部门"
+              mode="default"
             />
           </div>
           <div style={{ marginTop: 20, marginBottom: 20 }}>
