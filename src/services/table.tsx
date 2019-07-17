@@ -44,6 +44,7 @@ export function handleColumns(
   { dataSrc, filteredInfo },
   cartLinkPrefix = setting.searchUrl,
   imgHost = null,
+  merge = [],
   simpleMode = false
 ) {
   let { data, header, rows } = dataSrc;
@@ -81,9 +82,9 @@ export function handleColumns(
     if (lib.isNumOrFloat(tdValue)) {
       item.sorter = (a, b) => a[key] - b[key];
     }
-    //  else {
-    //   item.sorter = (a, b) => String(a[key]).localeCompare(b[key]);
-    // }
+    else {
+      item.sorter = (a, b) => String(a[key]).localeCompare(b[key]);
+    }
 
     const isCart: boolean = lib.isCart(tdValue);
     if (lib.isReel(tdValue) || isCart) {
@@ -114,6 +115,7 @@ export function handleColumns(
         let isBase64Image =
           String(text).includes('data:image/') && String(text).includes(';base64');
         let hostUrl = isBase64Image ? '' : (imgHost || setting.uploadHost);
+
         return !isImg ? (
           text
         ) : (
@@ -136,22 +138,22 @@ export function handleColumns(
     return item;
   });
 
-  // 10列以上自动固定
-  if (column.length > 15) {
-    column = column.map(item => {
-      item.width = 50;
-      return item;
-    });
+  // 10列以上自动固定表头，此处还需要调整 
+  // if (column.length > 15) {
+  //   column = column.map(item => {
+  //     item.width = 80;
+  //     return item;
+  //   });
 
-    let fixedHeaders: Array<number> = column[0].title == 'id' ? [0, 1] : [0];
-    fixedHeaders.forEach(id => {
-      // if (column[id]) {
-      column[id] = Object.assign(column[id], {
-        fixed: 'left',
-      });
-      // }
-    });
-  }
+  //   let fixedHeaders: Array<number> = column[0].title == 'id' ? [0, 1] : [0];
+
+  //   fixedHeaders.forEach(id => {
+  //     column[id] = Object.assign(column[id], {
+  //       fixed: 'left',
+  //     });
+  //   });
+  // }
+
   return column;
 }
 
@@ -275,10 +277,12 @@ export const mergeConfig = (columns, config, dataSrc: defaultData = {}) => {
     item
       .split('-')
       .map(cell => Number(cell))
-      .sort()
+      .sort((a, b) => a - b)
   );
+
   // 逆序排列
   params.merge.sort((a, b) => b[0] - a[0]);
+
   params.mergetext.reverse(); // 文字也需要逆序
 
   let mergeColumns = R.clone(columns);
@@ -359,6 +363,7 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
     },
     props.config && props.config.link || props.cartLinkPrefix || setting.searchUrl,
     props.config && props.config.host || setting.host,
+    props.config && props.config.merge,
     !!props.simple
   );
 

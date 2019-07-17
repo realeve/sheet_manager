@@ -46,6 +46,7 @@ export default function PinyinSelect(props: IProps) {
     };
 
   let { placeholder, options, value, onChange, className, ...prop } = props;
+
   return (
     <Select
       {...prop}
@@ -57,7 +58,7 @@ export default function PinyinSelect(props: IProps) {
       className={className}
     >
       {options.map(({ value, name }: OptionItem) => (
-        <Option value={value} key={value}>
+        <Option value={value} key={R.isNil(name) ? "" : value}>
           {name}
         </Option>
       ))}

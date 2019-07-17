@@ -47,7 +47,7 @@ const getHeaders = dataSrc => {
   let fieldHeader = [];
   let groupHeader = [];
   header.forEach(item => {
-    let headerItem = regData[item];
+    let headerItem = regData[item] || '';
     if (headerItem.length === 0) {
       fieldHeader.push(item);
       groupHeader.push(item);
