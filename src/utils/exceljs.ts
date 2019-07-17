@@ -3,7 +3,7 @@ import { saveAs } from 'file-saver';
 import * as R from 'ramda';
 import jStat from 'jStat';
 import lib from '@/pages/chart/utils/lib';
-import { AUTHOR } from './setting';
+import { AUTHOR, config } from './setting';
 import { getParams, Config, BasicConfig, DstConfig } from './excelConfig';
 import { getStringWidth } from '@/utils/lib';
 
@@ -30,8 +30,10 @@ const initWorkSheet = (config: Config) => {
     },
   ];
 
+  let totalLevel = getHeadLevel(config.columns);
+
   // 冻结行列
-  const ySplit = config.params.merge.length ? 2 : 1;
+  const ySplit = config.params.merge.length ? totalLevel : 1;
   const xSplit = config.params.autoid ? 2 : 1;
 
   let worksheet = workbook.addWorksheet('Sheet1', {
@@ -70,6 +72,96 @@ export const getColumn = config => {
   });
 };
 
+const getHeadLevel = (columns, level = 1) => {
+  let curLevel = 1;
+  columns.forEach(column => {
+    let tempLevel = level;
+    if (column.children) {
+      tempLevel++;
+      tempLevel = getHeadLevel(column.children, tempLevel);
+    }
+    curLevel = Math.max(curLevel, tempLevel);
+  });
+  return Math.max(curLevel, level);
+};
+
+// 根据一组合并单元格获取需要合并的起始列
+let getRowStartAndEnd = (column, { min, max }) => {
+  if (column.dataIndex) {
+    min = Number(column.dataIndex.replace('col', ''));
+    return { min, max: min };
+  }
+  if (column.children) {
+    let res = getRowStartAndEnd(column.children, { min, max });
+    min = Math.min(res.min, min);
+    max = Math.max(res.max, max);
+  } else {
+    let first = R.head(column);
+    let last = R.last(column);
+    if (first.children) {
+      let res2 = getRowStartAndEnd(first.children, { min, max });
+      min = Math.min(res2.min, min);
+      max = Math.max(res2.max, max);
+      res2 = getRowStartAndEnd(last.children, { min, max });
+      min = Math.min(res2.min, min);
+      max = Math.max(res2.max, max);
+    } else {
+      min = Math.min(first.dataIndex.replace('col', ''), min);
+      max = Math.max(last.dataIndex.replace('col', ''), max);
+    }
+  }
+  return {
+    min,
+    max,
+  };
+};
+
+// 处理原始列信息，用于数据合并指引
+let handleSrcColumn = (src, totalLevel, parentRow = 1) =>
+  src.map(item => {
+    item.rowId = parentRow;
+
+    // 获取当前行信息
+    if (item.children) {
+      // 下一级
+      item.children = handleSrcColumn(item.children, totalLevel, parentRow + 1);
+    } else {
+      item.rowEndId = totalLevel;
+    }
+
+    // 获取合并列信息
+    let { min, max } = getRowStartAndEnd([item], { min: Infinity, max: 0 });
+    let rowInfo = R.pick(['rowId', 'rowEndId', 'title', 'children', 'dataIndex'])(item);
+    item = { min: min + 1, max: max + 1, ...rowInfo };
+    return item;
+  });
+
+// 合并列信息
+const mergeRowInfo = (worksheet, config) => {
+  let totalLevel = getHeadLevel(config.columns);
+  // 获取各行列的合并结果;
+  let mergeSetting = handleSrcColumn(R.clone(config.columns), totalLevel);
+  mergeRowWithWorksheet(mergeSetting, worksheet);
+};
+
+const mergeRowWithWorksheet = (setting, worksheet) => {
+  setting.forEach(config => {
+    if (config.children) {
+      mergeRowWithWorksheet(config.children, worksheet);
+    }
+    // 合并列
+    worksheet.mergeCells(config.rowId, config.min, config.rowEndId || config.rowId, config.max);
+    let row = worksheet.getRow(config.rowId);
+    let cell = row.getCell(config.min);
+
+    // 居中
+    cell.alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // 填充文字
+    cell.value = config.title;
+  });
+};
+
 const createWorkBook = (config: Config) => {
   let { worksheet, workbook } = initWorkSheet(config);
   let { params } = config;
@@ -90,11 +182,12 @@ const createWorkBook = (config: Config) => {
   worksheet.columns = columns;
 
   const needHandleMerge = params.merge.length;
+  let headLevel = needHandleMerge ? getHeadLevel(config.columns) : 1;
   if (needHandleMerge) {
     // 复制一列数据到第2列作为表头内容
     let newRow = R.map(R.prop('header'))(columns);
-
-    config.body = [newRow, ...config.body];
+    let headRow = new Array(headLevel - 1).fill(0).map(() => newRow);
+    config.body = [...headRow, ...config.body];
   }
 
   // 添加数据
@@ -102,36 +195,7 @@ const createWorkBook = (config: Config) => {
 
   // 合并列
   if (needHandleMerge) {
-    const row = worksheet.getRow(1);
-
-    params.merge.forEach(([start, end], idx) => {
-      // 如果合并的内容超过配置时，放弃合并
-      if (columns.length < end) {
-        // 对应列不需要合并，行需要合并
-        for (let i = start; i <= columns.length; i++) {
-          worksheet.mergeCells(1, i, 2, i); //合并两行
-          row.getCell(i).alignment = { vertical: 'middle', horizontal: 'center' };
-        }
-        return;
-      }
-
-      worksheet.mergeCells(1, start, 1, end);
-      // 合并后居中
-      let cell = row.getCell(start);
-      cell.alignment = { vertical: 'middle', horizontal: 'center' };
-      // 填充文字
-      cell.value = params.mergetext[idx];
-    });
-    // console.log('报错');
-    // console.log(params, params.mergedRows);
-
-    row.eachCell(function(cell, idx) {
-      // 不需合并的单元格
-      if (!params.mergedRows.includes(idx)) {
-        worksheet.mergeCells(1, idx, 2, idx); //合并两行
-        cell.alignment = { vertical: 'middle', horizontal: 'center' };
-      }
-    });
+    mergeRowInfo(worksheet, config);
   }
 
   const mergeCol = (start, end, key) => {
@@ -269,3 +333,5 @@ export const save: (config: SaveSetting) => void = ({ params, ...config }) => {
       throw error;
     });
 };
+
+// http://localhost:8000/table#id=http://localhost:8000/form/4e00407442.json&merge=0-1&mergetext=%E6%8A%95%E5%85%A5&merge=1-9&mergetext=%E5%8D%B0%E5%88%B7%E5%B7%A5%E5%BA%8F&merge=2-7&mergetext=%E5%85%B6%E5%AE%83%E5%B7%A5%E5%BA%8F&merge=1-2&mergetext=%E5%BA%93%E5%AD%98%E6%95%B0&merge=2-4&mergetext=%E4%BB%98%E5%87%BA%E6%95%B0&merge=1-2&mergetext=%E5%BA%93%E5%AD%98%E5%8F%8A%E4%BB%98%E5%87%BA&product=9607T%E5%93%81&cache=0&daterange=9&menufold=1

@@ -169,6 +169,7 @@ class Tables extends Component {
     params = Object.assign({}, params, R.pick(['merge', 'mergesize', 'mergetext'], props));
 
     return {
+      columns: this.state.columns,
       creator,
       source,
       filename,

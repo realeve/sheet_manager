@@ -305,8 +305,6 @@ export const mergeConfig = (columns, config, dataSrc: defaultData = {}) => {
     mergeColumns = R.remove(start + 1, end - start)(mergeColumns);
   });
 
-  console.log(JSON.stringify(mergeColumns))
-
   return mergeColumns;
 };
 
