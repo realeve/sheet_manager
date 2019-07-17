@@ -116,8 +116,8 @@ class LoginComponent extends Component {
 
       const query = this.props.location.query;
       let nextUrl = query.redirect || userTool.readLastRouter();
-
-      router.push(nextUrl);
+      window.location.href = nextUrl;
+      // router.push(nextUrl);
       return;
     } else if (userInfo.rows == 0) {
       this.setState({

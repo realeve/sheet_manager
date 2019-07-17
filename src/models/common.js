@@ -79,7 +79,6 @@ export default {
     textAreaList: [],
     textAreaValue: {},
     spinning: false,
-    curPathName: '',
   },
   reducers: {
     setStore,
@@ -124,30 +123,26 @@ export default {
         },
       });
     },
-    *handleLogin({ payload: pathname }, { put, select }) {
-      const { curPathName } = yield select(state => state.common);
-      if (pathname === curPathName) {
-        return;
-      }
-      if (pathname === '/login') {
-        dispatch({
+    *handleLogin(
+      {
+        payload: { pathname },
+      },
+      { put, select }
+    ) {
+      const { isLogin } = yield select(state => state.common);
+
+      if (!isLogin) {
+        let curStatus = userTool.getLoginStatus(0);
+        yield put({
           type: 'setStore',
           payload: {
-            isLogin: false,
+            isLogin: curStatus === '1',
           },
         });
-        userTool.saveLoginStatus(0);
-        return;
       }
-
-      let isLogin = userTool.getLoginStatus(0);
-      userTool.saveLastRouter(pathname);
-      yield put({
-        type: 'setStore',
-        payload: {
-          isLogin: isLogin === '1',
-        },
-      });
+      if (pathname !== '/login') {
+        userTool.saveLastRouter(pathname);
+      }
     },
   },
   subscriptions: {
@@ -157,32 +152,34 @@ export default {
           type: 'setStore',
           payload: {
             spinning: false,
-            curPathName: pathname,
           },
         });
 
         await dispatch({
           type: 'handleLogin',
-          payload: history.location.pathname,
+          payload: { pathname: history.location.pathname },
         });
 
         // 登录逻辑
         let { data, success } = userTool.getUserSetting();
-        if (!success || !data.autoLogin) {
-          router.push('/login');
-          return;
+        if (pathname !== '/login') {
+          if (!success || !data.autoLogin) {
+            router.push('/login');
+            return;
+          }
         }
+        if (data && data.setting) {
+          dispatch({
+            type: 'setStore',
+            payload: {
+              userSetting: data.setting,
+            },
+          });
 
-        dispatch({
-          type: 'setStore',
-          payload: {
-            userSetting: data.setting,
-          },
-        });
-
-        dispatch({
-          type: 'setting/getSetting',
-        });
+          dispatch({
+            type: 'setting/getSetting',
+          });
+        }
 
         if (['/chart', '/chart/', '/table', '/table/'].includes(pathname)) {
           let queryInfo = hash.slice(1);

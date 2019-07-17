@@ -3,6 +3,8 @@ import styles from './UserLayout.less';
 import GlobalFooter from '@/layouts/Footer';
 import * as setting from '@/utils/setting';
 
+import logo from '../assets/logo.svg';
+
 export default class UserLayout extends PureComponent {
   render() {
     const { children } = this.props;
@@ -12,7 +14,7 @@ export default class UserLayout extends PureComponent {
           <div className={styles.top}>
             <div className={styles.header}>
               <div>
-                <img alt="logo" className={styles.logo} src="/img/logo.svg" />
+                <img alt="logo" className={styles.logo} src={logo} />
                 <span className={styles.title}>{setting.systemName}</span>
               </div>
             </div>

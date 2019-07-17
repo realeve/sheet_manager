@@ -351,7 +351,7 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
     dataSearchClone: [],
   };
 
-  console.log(props.config)
+  // console.log(props.config)
   let columns = handleColumns(
     {
       dataSrc,
