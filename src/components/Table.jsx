@@ -192,7 +192,7 @@ class Tables extends Component {
       download: 'open',
       title,
       orientation: config.header.length > 10 ? 'landscape' : 'portrait',
-      pageSize: config.header.length > 15 ? 'A3' : 'A4',
+      pageSize: config.header.length > 10 ? 'A2' : config.header.length > 15 ? 'A3' : 'A4',
       message: `\n${subTitle || ''}\n${queryTime}\n${source}\n(c) ${setting.AUTHOR}`,
     });
     pdf(config);

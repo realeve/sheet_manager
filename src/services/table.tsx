@@ -281,9 +281,10 @@ export const mergeConfig = (columns, config, dataSrc: defaultData = {}) => {
   );
 
   // 逆序排列
-  params.merge.sort((a, b) => b[0] - a[0]);
+  // params.merge.sort((a, b) => b[0] - a[0]);
+  // params.mergetext.reverse(); // 文字也需要逆序
 
-  params.mergetext.reverse(); // 文字也需要逆序
+  // 不做排序之后，方便复杂表头合并
 
   let mergeColumns = R.clone(columns);
 
@@ -303,6 +304,8 @@ export const mergeConfig = (columns, config, dataSrc: defaultData = {}) => {
     // 移除后续数据
     mergeColumns = R.remove(start + 1, end - start)(mergeColumns);
   });
+
+  console.log(JSON.stringify(mergeColumns))
 
   return mergeColumns;
 };
