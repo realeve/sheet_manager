@@ -93,6 +93,7 @@ function DatePick({
         onChange={onRangeChange}
         style={{ width: 190 }}
         size="small"
+        allowClear={false}
         locale={{
           rangePlaceholder: ['开始日期', '结束日期'],
         }}

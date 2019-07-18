@@ -1,4 +1,4 @@
-export let DEV: boolean = true; // process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+export let DEV: boolean = false; // process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 //false; //
 // 前台资源部署域名，默认头像图片资源调用域名
 export let config = {
