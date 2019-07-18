@@ -17,7 +17,16 @@ const cx = classNames.bind(styles);
 
 const TabPane = Tabs.TabPane;
 
-function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common, axiosOptions }) {
+function Tables({
+  dispatch,
+  dateRange,
+  loading,
+  dataSource,
+  extraData,
+  dateFormat,
+  common,
+  axiosOptions,
+}) {
   // 表头合并相关设置信息
   let param = lib.parseUrl(window.location.hash);
   const refreshData = async () => {
@@ -56,7 +65,7 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common, 
     );
   };
 
-  // loading={loading} 
+  // loading={loading}
   return (
     <Spin size="large" tip="载入中..." spinning={common.spinning}>
       <QueryCondition onQuery={refreshData} />
@@ -72,7 +81,12 @@ function Tables({ dispatch, dateRange, loading, dataSource, dateFormat, common, 
           <div key={key} className={cx({ tableContainer: key, dataList: !key, tabs: true })}>
             <Tabs defaultActiveKey="1" animated={false}>
               <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="1">
-                <VTable dataSrc={dataSrc} config={param} subTitle={subTitle} />
+                <VTable
+                  dataSrc={dataSrc}
+                  extra={extraData[key]}
+                  config={param}
+                  subTitle={subTitle}
+                />
               </TabPane>
               <TabPane tab={formatMessage({ id: 'chart.tab.tableCalc' })} key="2">
                 {dataSrc.err ? (

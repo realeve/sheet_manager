@@ -451,3 +451,10 @@ export const handleTextVal = obj => {
   });
   return inputValue;
 };
+
+export const getTableExtraLabel = ({ header, data }) => {
+  if (R.isNil(data) || data.length === 0) {
+    return [];
+  }
+  return header.map((item, idx) => `${item}:${data[0][idx]}`);
+};

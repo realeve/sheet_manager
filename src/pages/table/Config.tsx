@@ -16,10 +16,10 @@ export default function tableConfig() {
             </div>
             <div className={styles.demoLink}>
               <a
-                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&autoid=0&cache=0"
+                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&cache=0"
                 target="_blank"
               >
-                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&autoid=0&cache=0
+                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&cache=0
               </a>
             </div>
           </li>
@@ -185,6 +185,10 @@ export default function tableConfig() {
                 /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&merge=0&mergetext=合并后的新表头
               </a>
             </div>
+
+            <div>
+              表头合并支持不限层数的表头嵌套，就参考下方 extra 参数中的链接。
+            </div>
           </li>
           <li>
             <div className={styles.tip}>2.表头合并文字</div>
@@ -250,33 +254,49 @@ export default function tableConfig() {
             <div>默认值：5，不设置时每5列显示一行加深背景</div>
             <div className={styles.demoLink}>
               <a
-                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&autoid=1&interval=5"
+                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&interval=5"
                 target="_blank"
               >
-                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&autoid=1&interval=5
+                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&interval=5
               </a>
             </div>
             <div>也可推荐设置为2，此时隔行间隔背景</div>
             <div className={styles.demoLink}>
               <a
-                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&autoid=1&interval=2"
+                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&interval=2"
                 target="_blank"
               >
-                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&autoid=1&interval=2
+                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&interval=2
               </a>
             </div>
           </li>
 
+          <li>
+            <div className={styles.tip}>6.导出的报表添加额外表头</div>
+            <div className={styles.desc}>extra </div>
+            <div>默认值：false，仅支持接口id,可参考参考链接的设置。需注意的是，extra接口对应的标题用于最终报表标题的输出，这样在报表接口的名称不用添加类似“XXX有限公司”这样的抬头，而在不需要显示的extra对应的id中显示</div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=608/4e00407442&merge=0-1&mergetext=投入&merge=1-15&mergetext=在制品库存数&merge=2-4&mergetext=付出数&select=546/db53f036f0&selectkey=product&cache=0&daterange=9&menufold=1&extra=610/99d1ed4c79"
+                target="_blank"
+              >
+                /table#id=608/4e00407442&merge=0-1&mergetext=投入&merge=1-15&mergetext=在制品库存数&merge=2-4&mergetext=付出数&select=546/db53f036f0&selectkey=product&cache=0&daterange=9&menufold=1&extra=610/99d1ed4c79
+              </a>
+            </div>
+
+          </li>
+
+          {/* 
           <li>
             <div className={styles.tip}>6.导出报表是否自动添加序号</div>
             <div className={styles.desc}>autoid </div>
             <div>默认值：true，仅当autoid=0时，导出的数据才不添加序列列，与原数据保持一致</div>
             <div className={styles.demoLink}>
               <a
-                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&autoid=0"
+                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex"
                 target="_blank"
               >
-                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&autoid=0
+                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex
               </a>
             </div>
             <div>也可推荐设置为2，此时隔行间隔背景</div>
@@ -288,7 +308,7 @@ export default function tableConfig() {
                 /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex
               </a>
             </div>
-          </li>
+          </li> */}
 
 
           <li>

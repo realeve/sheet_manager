@@ -176,6 +176,7 @@ class Tables extends Component {
       header,
       body,
       params,
+      extra: this.props.extra,
     };
   };
 
@@ -369,23 +370,32 @@ class Tables extends Component {
         {SearchFilter}
       </div>
     ) : (
-      <div className={styles.header}>
-        <div>
-          <Action />
-          <a
-            target="_blank"
-            href="/table/config"
-            rel="noopener noreferrer"
-            className={styles.action}
-            style={{ marginLeft: 10 }}
-            title=""
-          >
-            <Icon type="question-circle-o" />
-          </a>
+      <>
+        <div className={styles.header}>
+          <div>
+            <Action />
+            <a
+              target="_blank"
+              href="/table/config"
+              rel="noopener noreferrer"
+              className={styles.action}
+              style={{ marginLeft: 10 }}
+              title=""
+            >
+              <Icon type="question-circle-o" />
+            </a>
+          </div>
+          {tTitle}
+          {SearchFilter}
         </div>
-        {tTitle}
-        {SearchFilter}
-      </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: 10 }}>
+          {lib.getTableExtraLabel(this.props.extra).map(item => (
+            <span style={{ fontSize: 13, fontWeight: 400 }} key={item}>
+              {item}
+            </span>
+          ))}
+        </div>
+      </>
     );
 
     return (
@@ -410,6 +420,13 @@ class Tables extends Component {
 
 Tables.defaultProps = {
   dataSrc: {
+    data: [],
+    title: '',
+    rows: 0,
+    time: '0ms',
+    header: [],
+  },
+  extra: {
     data: [],
     title: '',
     rows: 0,

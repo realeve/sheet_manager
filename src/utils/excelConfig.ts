@@ -111,8 +111,6 @@ export const handleMerge: (config: SrcConfig) => MergeRes = config => {
   // 纵向合并
   let mergeVConfig = getType(mergev) === 'undefined' ? [] : splitParam2Arr(mergev);
 
-  console.log(mergev, mergeVConfig);
-
   return {
     mergetext: mergetextArr,
     merge: mergeArr,

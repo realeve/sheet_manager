@@ -5,7 +5,7 @@ import jStat from 'jStat';
 import lib from '@/pages/chart/utils/lib';
 import { AUTHOR, config } from './setting';
 import { getParams, Config, BasicConfig, DstConfig } from './excelConfig';
-import { getStringWidth } from '@/utils/lib';
+import { getStringWidth, getTableExtraLabel } from '@/utils/lib';
 
 const initWorkSheet = (config: Config) => {
   let workbook = new Excel.Workbook(config);
@@ -141,17 +141,53 @@ const mergeRowInfo = (worksheet, config) => {
   let totalLevel = getHeadLevel(config.columns);
   // 获取各行列的合并结果;
   let mergeSetting = handleSrcColumn(R.clone(config.columns), totalLevel);
-  mergeRowWithWorksheet(mergeSetting, worksheet);
+  mergeRowWithWorksheet(mergeSetting, worksheet, config.extra);
+
+  // 处理前两行表头
+  if (config.extra.rows) {
+    let maxColumns = config.header.length;
+    // 全并首行，第二行
+    mergeRowByIdx(worksheet, 1, maxColumns, config.extra.title);
+    let text = getTableExtraLabel(config.extra).join('          ');
+    mergeRowByIdx(worksheet, 2, maxColumns, text);
+
+    let row = worksheet.getRow(1);
+    row.height = 40;
+    // row.font = {
+    //   size: 20,
+    //   bold: true,
+    // };
+
+    row = worksheet.getRow(2);
+    row.height = 20;
+  }
 };
 
-const mergeRowWithWorksheet = (setting, worksheet) => {
+const mergeRowByIdx = (worksheet, rowid, colNum, text) => {
+  worksheet.mergeCells(rowid, 1, rowid, colNum);
+  let row = worksheet.getRow(rowid);
+  let cell = row.getCell(1);
+  // 居中
+  cell.alignment = { vertical: 'middle', horizontal: 'center' };
+  // 填充文字
+  cell.value = text;
+};
+
+const mergeRowWithWorksheet = (setting, worksheet, extra) => {
+  let offset = extra.rows ? 2 : 0;
+
   setting.forEach(config => {
     if (config.children) {
-      mergeRowWithWorksheet(config.children, worksheet);
+      mergeRowWithWorksheet(config.children, worksheet, extra);
     }
     // 合并列
-    worksheet.mergeCells(config.rowId, config.min, config.rowEndId || config.rowId, config.max);
-    let row = worksheet.getRow(config.rowId);
+    worksheet.mergeCells(
+      config.rowId + offset,
+      config.min,
+      (config.rowEndId || config.rowId) + offset,
+      config.max
+    );
+    let row = worksheet.getRow(config.rowId + offset);
     let cell = row.getCell(config.min);
 
     // 居中
@@ -236,12 +272,21 @@ const createWorkBook = (config: Config) => {
   // worksheet.mergeCells(1, 3, 1, 4);
 
   //边框及单元格格式
-  setCellBorder(worksheet, config.params);
+  setCellBorder(worksheet, config);
   return workbook;
 };
 
-const setCellBorder = (worksheet, params) => {
-  for (let i = 1; i <= worksheet.rowCount; i++) {
+const setCellBorder = (worksheet, { params, columns }) => {
+  let offset = getHeadLevel(columns);
+
+  let startRow = 1;
+  // 是否显示额外行
+  if (params.extra) {
+    offset += 2;
+    startRow += 2;
+  }
+
+  for (let i = startRow; i <= worksheet.rowCount; i++) {
     const row = worksheet.getRow(i);
     row.height = 20;
     for (let j: number = 1; j <= worksheet.columnCount; j++) {
@@ -260,7 +305,7 @@ const setCellBorder = (worksheet, params) => {
       //   };
       // }
       // 间隔背景
-      if ((i - 1) % params.interval == 0) {
+      if ((i - 1) % (params.interval + offset) == 0) {
         cell.fill = {
           type: 'pattern',
           pattern: 'solid',
