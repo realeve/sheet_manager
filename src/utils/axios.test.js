@@ -84,10 +84,10 @@ test('错误处理', () => {
   };
   expect(handleError(req)).rejects.toMatchObject({
     description: '用户没有权限（令牌、用户名、密码错误）。401',
-    message: '请求错误: http://127.0.0.1/_err_url',
+    message: '请求错误: http://127.0.0.1/_err_url?',
     params: {},
     status: 401,
-    url: 'http://127.0.0.1/_err_url',
+    url: 'http://127.0.0.1/_err_url?',
   });
 
   req = { description: '', message: '请求错误', params: {}, url: 'www.cdyc.cbpm' };
@@ -95,7 +95,7 @@ test('错误处理', () => {
     description: '请求错误',
     message: '请求错误',
     params: {},
-    url: '',
+    url: 'undefined?',
   });
 
   req = {
@@ -105,7 +105,7 @@ test('错误处理', () => {
     description: '',
     message: '请求错误',
     params: {},
-    url: '',
+    url: 'undefined?',
   });
 
   req = {
@@ -115,7 +115,7 @@ test('错误处理', () => {
     description: '内容出错',
     message: '请求错误',
     params: {},
-    url: '',
+    url: 'undefined?',
   });
 });
 

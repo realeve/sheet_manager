@@ -263,9 +263,9 @@ test('车号与轴号渲染', () => {
   expect(wrapper.prop('href')).toBe(searchUrl + '1820A122');
   expect(wrapper.prop('target')).toBe('_blank');
 
-  res = table.handleColumns({ dataSrc, filteredInfo: {} }, searchUrl, true);
+  res = table.handleColumns({ dataSrc, filteredInfo: {} }, searchUrl, '', [], true);
   wrapper = shallow(res[0].render('1820A122'));
-  expect(wrapper.prop('target')).toBe('_blank');
+  expect(wrapper.prop('target')).toBeUndefined();
 });
 
 test('未传入data', () => {
@@ -679,7 +679,8 @@ test('列合并', () => {
   ).toMatchObject([
     { children: [{ a: 1 }, { a: 2 }], title: 'merge' },
     { a: 3 },
-    { children: [{ a: 4 }, { a: 5 }], title: 'merge2' },
+    { a: 4 },
+    { children: [{ a: 5 }], title: 'merge2' },
   ]);
 
   expect(
@@ -694,6 +695,7 @@ test('列合并', () => {
   ).toMatchObject([
     { children: [{ a: 1 }, { a: 2 }], title: 'merge' },
     { a: 3 },
-    { children: [{ a: 4 }, { a: 5 }], title: 'merge2' },
+    { a: 4 },
+    { children: [{ a: 5 }], title: 'merge2' },
   ]);
 });

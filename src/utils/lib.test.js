@@ -443,3 +443,9 @@ test('请求参数转数组', () => {
   expect(lib.handleTextVal({ a: 'a' })).toMatchObject({ a: 'a' });
   expect(lib.handleTextVal({ a: 'a b ' })).toMatchObject({ a: ['a', 'b'] });
 });
+
+test('getTableExtraLabel', () => {
+  expect(lib.getTableExtraLabel({ header: [], data: [] })).toHaveLength(0);
+  expect(lib.getTableExtraLabel({ header: [] })).toHaveLength(0);
+  expect(lib.getTableExtraLabel({ header: ['a'], data: [[1]] })[0]).toBe('a:1');
+});

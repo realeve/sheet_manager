@@ -75,7 +75,7 @@ function QueryCondition({
     select
   })
 
-  return textAreaList.length + selectList.length === 0 ? (
+  return textAreaList.length + selectList.length === 0 ? dateType !== 'none' && (
     <div className={styles.header}>
       <div className={styles.dateRange}>
         <DateRangePicker refresh={true} />

@@ -80,6 +80,7 @@ test('bar', () => {
   });
 
   expect(res.series[0].label.normal.formatter({ value: '3' })).toBe(3);
+  expect(res.series[0].label.normal.formatter({ value: [1, 2] })).toBe(2);
 
   expect(res).toMatchObject({
     series: [

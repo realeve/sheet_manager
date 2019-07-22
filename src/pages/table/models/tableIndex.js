@@ -149,10 +149,6 @@ export default {
         await dispatch({
           type: 'initState',
         });
-
-        // dispatch({
-        //   type: 'refreshData',
-        // });
       });
     },
   },
