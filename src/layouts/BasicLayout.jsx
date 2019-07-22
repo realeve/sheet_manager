@@ -123,7 +123,7 @@ class BasicLayout extends PureComponent {
   }
 
   componentDidMount() {
-    console.log('componentDidMount 10');
+    // console.log('componentDidMount 10');
 
     this.enquireHandler = enquireScreen(mobile => {
       const { isMobile } = this.state;

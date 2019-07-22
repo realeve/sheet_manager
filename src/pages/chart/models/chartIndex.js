@@ -17,14 +17,15 @@ export default {
     },
   },
   effects: {
-    *refreshData({ payload }, { put, select }) {
+    *refreshData(_, { put, select }) {
       let common = yield select(state => state.common);
-      let disabled = isDisabled(common);
+      let disabled = isDisabled({ ...common, select: common.query.select });
 
       if (disabled) {
         return;
       }
 
+      // console.log('refresh chart data');
       let {
         dateRange,
         tid,
@@ -33,12 +34,7 @@ export default {
         textAreaValue,
         dateType: [dateType],
       } = common;
-      if (!R.isNil(payload)) {
-        // 首次加载数据
-        if (!(payload.isInit && tid && tid.length && R.isNil(query.select))) {
-          return;
-        }
-      }
+
       let inputValue = handleTextVal(textAreaValue);
       let config = db.decodeHash({ selectValue, dateRange, tid, query, inputValue, dateType });
 
@@ -57,13 +53,8 @@ export default {
         if (!match) {
           return;
         }
+
         dispatch({ type: 'initState' });
-        dispatch({
-          type: 'refreshData',
-          payload: {
-            isInit: true,
-          },
-        });
       });
     },
   },

@@ -51,6 +51,26 @@ export function* getCascadeSelectList(params, selectList, idx, data, call) {
   return selectList;
 }
 
+const getDateFormatByHash = hash => {
+  let queryInfo = hash.slice(1);
+  let params = qs.parse(queryInfo);
+  let dateType = params.datetype || 'date';
+  let dateFormat = 'YYYYMMDD';
+  switch (dateType) {
+    case 'year':
+      dateFormat = 'YYYY';
+      break;
+    case 'month':
+      dateFormat = 'YYYYMM';
+      break;
+    default:
+    case 'date':
+      dateFormat = 'YYYYMMDD';
+      break;
+  }
+  return { dateType, dateFormat };
+};
+
 const namespace = 'common';
 export default {
   namespace,
@@ -79,10 +99,11 @@ export default {
     textAreaList: [],
     textAreaValue: {},
     spinning: false,
+    curUrl: '',
   },
   reducers: {
     setStore,
-    clearQuery(state) {
+    initQuery(state, { payload }) {
       return {
         ...state,
         query: {},
@@ -90,6 +111,7 @@ export default {
         selectValue: {},
         textAreaList: [],
         textAreaValue: {},
+        ...payload,
       };
     },
   },
@@ -115,6 +137,7 @@ export default {
     *initSelector(_, { call, put, select }) {
       const { query } = yield select(state => state.common);
       let selectList = yield getSelectList(query, call);
+      console.log(query, selectList);
       yield put({
         type: 'setStore',
         payload: {
@@ -143,115 +166,124 @@ export default {
       if (pathname !== '/login') {
         userTool.saveLastRouter(pathname);
       }
+
+      // 登录逻辑
+      let { data, success } = userTool.getUserSetting();
+      if (pathname !== '/login') {
+        if (!success || !data.autoLogin) {
+          router.push('/login');
+          return false;
+        }
+      }
+
+      if (data && data.setting) {
+        yield put({
+          type: 'setStore',
+          payload: {
+            userSetting: data.setting,
+          },
+        });
+
+        yield put({
+          type: 'setting/getSetting',
+        });
+      }
+
+      return true;
+    },
+    *handleTableAndChart(
+      {
+        payload: { pathname, hash },
+      },
+      { put }
+    ) {
+      let nextStore = {};
+      if (['/chart', '/chart/', '/table', '/table/'].includes(pathname)) {
+        let { dateType, dateFormat } = getDateFormatByHash(hash);
+        nextStore = {
+          dateType: [dateType, dateType],
+          dateFormat,
+        };
+      }
+
+      let { id, params, dateRange } = handleUrlParams(hash);
+      // 处理select参数
+      if (params.select) {
+        ['select', 'selectkey'].forEach(key => {
+          if (typeof params[key] === 'string') {
+            params[key] = str2Arr(params[key]);
+          }
+        });
+      }
+
+      if (params.textarea) {
+        ['textarea', 'textareakey'].forEach(key => {
+          if (typeof params[key] === 'string') {
+            params[key] = str2Arr(params[key]);
+          }
+        });
+        nextStore.textAreaList = params.textarea.map((title, idx) => ({
+          title,
+          key: params.textareakey[idx],
+        }));
+      }
+
+      yield put({
+        type: 'initQuery',
+        payload: {
+          ...nextStore,
+          dateRange,
+          tid: id,
+          query: params,
+        },
+      });
+
+      yield put({
+        type: 'initSelector',
+      });
+    },
+    *init({}, { select, put }) {
+      let { pathname, href: url, hash } = window.location;
+      const { curUrl } = yield select(state => state.common);
+      if (curUrl === url) {
+        return;
+      }
+
+      console.log('开始刷新:', url);
+      yield put({
+        type: 'setStore',
+        payload: {
+          spinning: false,
+          curUrl: url,
+        },
+      });
+
+      let isLogin = yield put({
+        type: 'handleLogin',
+        payload: {
+          pathname,
+        },
+      });
+      if (!isLogin) {
+        return;
+      }
+
+      yield put({
+        type: 'handleTableAndChart',
+        payload: {
+          pathname,
+          hash,
+        },
+      });
     },
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(async ({ pathname, hash }) => {
-        await dispatch({
-          type: 'setStore',
-          payload: {
-            spinning: false,
-          },
-        });
-
-        await dispatch({
-          type: 'handleLogin',
-          payload: { pathname: history.location.pathname },
-        });
-
-        // 登录逻辑
-        let { data, success } = userTool.getUserSetting();
-        if (pathname !== '/login') {
-          if (!success || !data.autoLogin) {
-            router.push('/login');
-            return;
-          }
-        }
-        if (data && data.setting) {
-          dispatch({
-            type: 'setStore',
-            payload: {
-              userSetting: data.setting,
-            },
-          });
-
-          dispatch({
-            type: 'setting/getSetting',
-          });
-        }
-
-        if (['/chart', '/chart/', '/table', '/table/'].includes(pathname)) {
-          let queryInfo = hash.slice(1);
-          let params = qs.parse(queryInfo);
-          let dateType = params.datetype || 'date';
-          let dateFormat = 'YYYYMMDD';
-          switch (dateType) {
-            case 'year':
-              dateFormat = 'YYYY';
-              break;
-            case 'month':
-              dateFormat = 'YYYYMM';
-              break;
-            default:
-            case 'date':
-              dateFormat = 'YYYYMMDD';
-              break;
-          }
-          dispatch({
-            type: 'setStore',
-            payload: {
-              dateType: [dateType, dateType],
-              dateFormat,
-            },
-          });
-        }
-
-        // 处理查询参数
+      return history.listen(() => {
         dispatch({
-          type: 'clearQuery',
+          type: 'init',
         });
-
-        let { id, params, dateRange } = handleUrlParams(hash);
-        // 处理select参数
-        if (params.select) {
-          ['select', 'selectkey'].forEach(key => {
-            if (typeof params[key] === 'string') {
-              params[key] = str2Arr(params[key]);
-            }
-          });
-        }
-
-        if (params.textarea) {
-          ['textarea', 'textareakey'].forEach(key => {
-            if (typeof params[key] === 'string') {
-              params[key] = str2Arr(params[key]);
-            }
-          });
-          dispatch({
-            type: 'setStore',
-            payload: {
-              textAreaList: params.textarea.map((title, idx) => ({
-                title,
-                key: params.textareakey[idx],
-              })),
-            },
-          });
-        }
-
         // /chart#id=6/8d5b63370c&id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&select=77/51bbce6074,77/51bbce6074,77/51bbce6074&selectkey=prod,prod2,prod3&cascade=1
-        dispatch({
-          type: 'setStore',
-          payload: {
-            dateRange,
-            tid: id,
-            query: params,
-          },
-        });
-
-        dispatch({
-          type: 'initSelector',
-        });
       });
     },
   },

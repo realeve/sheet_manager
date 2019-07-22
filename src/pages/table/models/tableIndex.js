@@ -86,20 +86,12 @@ export default {
         },
       });
     },
-    *refreshData({ payload }, { call, put, select }) {
+    *refreshData(_, { call, put, select }) {
       const { tid, query, ...common } = yield select(state => state.common);
-
       // 参数是否全部设置
-      const disabled = isDisabled(common);
+      const disabled = isDisabled({ ...common, select: query.select });
       if (disabled) {
         return;
-      }
-
-      if (!R.isNil(payload)) {
-        // 首次加载数据
-        if (!(payload.isInit && tid && tid.length && R.isNil(query.select))) {
-          return;
-        }
       }
 
       yield put({
@@ -147,27 +139,20 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
+      return history.listen(async ({ pathname }) => {
         const match = pathToRegexp('/' + namespace).exec(pathname);
         if (!match) {
           return;
         }
 
         // 初始化数据
-        dispatch({
+        await dispatch({
           type: 'initState',
         });
 
-        dispatch({
-          type: 'updateParams',
-        });
-
-        dispatch({
-          type: 'refreshData',
-          payload: {
-            isInit: true,
-          },
-        });
+        // dispatch({
+        //   type: 'refreshData',
+        // });
       });
     },
   },

@@ -60,7 +60,7 @@ class Register extends Component {
     });
   };
   componentDidMount() {
-    console.log('componentDidMount 8');
+    // console.log('componentDidMount 8');
     this.loadDepts();
   }
 

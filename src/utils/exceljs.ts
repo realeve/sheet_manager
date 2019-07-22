@@ -3,14 +3,14 @@ import { saveAs } from 'file-saver';
 import * as R from 'ramda';
 import jStat from 'jStat';
 import lib from '@/pages/chart/utils/lib';
-import { AUTHOR, config } from './setting';
+import { AUTHOR, config, company } from './setting';
 import { getParams, Config, BasicConfig, DstConfig } from './excelConfig';
 import { getStringWidth, getTableExtraLabel } from '@/utils/lib';
 
 const initWorkSheet = (config: Config) => {
   let workbook = new Excel.Workbook(config);
 
-  workbook.title = config.filename.replace('.xlsx', '');
+  workbook.title = company + config.filename.replace('.xlsx', '');
   workbook.creator = config.creator;
   workbook.lastModifiedBy = config.creator;
   workbook.created = new Date();
@@ -147,7 +147,7 @@ const mergeRowInfo = (worksheet, config) => {
   if (config.extra.rows) {
     let maxColumns = config.header.length;
     // 全并首行，第二行
-    mergeRowByIdx(worksheet, 1, maxColumns, config.extra.title);
+    mergeRowByIdx(worksheet, 1, maxColumns, company + config.filename.replace('.xlsx', ''));
     let text = getTableExtraLabel(config.extra).join('          ');
     mergeRowByIdx(worksheet, 2, maxColumns, text);
 

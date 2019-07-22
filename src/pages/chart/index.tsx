@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'dva';
 import Chart from './components/Chart';
 import styles from './index.less';
@@ -6,8 +6,9 @@ import classNames from 'classnames';
 import QueryCondition from '@/components/QueryCondition';
 import { Spin } from 'antd';
 import * as R from 'ramda';
+import { useSetState } from 'react-use';
 
-function Charts({ dispatch, config, spinning }) {
+function Charts({ dispatch, config, spinning, tid, query }) {
   const onLoad = curPageName => {
     dispatch({
       type: 'common/setStore',
@@ -16,6 +17,23 @@ function Charts({ dispatch, config, spinning }) {
       },
     });
   };
+
+  const [state, setState] = useSetState({
+    tid, query
+  })
+
+  useEffect(() => {
+    refreshData();
+  }, []);
+
+  useEffect(() => {
+    if (R.equals(tid, state.tid) && R.equals(query, state.query)) {
+      return;
+    }
+    setState({ tid, query })
+    refreshData();
+  }, [tid, query]);
+
 
   const refreshData = () => {
     dispatch({
@@ -35,7 +53,6 @@ function Charts({ dispatch, config, spinning }) {
   );
 }
 
-const chartPage = connect(state => ({ ...state.chart, spinning: state.common.spinning }))(Charts);
-
+const chartPage = connect(state => ({ ...state.chart, ...R.pick(['spinning', 'query', 'tid'])(state.common) }))(Charts);
 
 export default React.memo(chartPage, (prevProps, nextProps) => R.equals(prevProps.config, nextProps.config));

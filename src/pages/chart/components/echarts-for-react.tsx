@@ -75,7 +75,7 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
 
   // first add
   componentDidMount() {
-    console.log('componentDidMount 5')
+    // console.log('componentDidMount 5')
     this.rerender();
 
     // on resize

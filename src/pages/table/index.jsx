@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
 import VTable from '@/components/Table.jsx';
 import VTableCalc from '@/components/TableCalc.jsx';
@@ -27,8 +27,25 @@ function Tables({
   common,
   axiosOptions,
 }) {
+  const [tableIds, setTableIds] = useState(common.tid);
+  const [query, setQuery] = useState(common.query);
+
+  useEffect(() => {
+    if (R.equals(tableIds, common.tid) && R.equals(common.query, query)) {
+      return;
+    }
+    setTableIds(common.tid);
+    setQuery(common.query);
+    refreshData();
+  }, [common.tid]);
+
+  useEffect(() => {
+    refreshData();
+  }, []);
+
   // 表头合并相关设置信息
-  let param = lib.parseUrl(window.location.hash);
+  // let param = lib.parseUrl(window.location.hash);
+
   const refreshData = async () => {
     await dispatch({
       type: 'table/updateParams',
@@ -82,9 +99,10 @@ function Tables({
             <Tabs defaultActiveKey="1" animated={false}>
               <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="1">
                 <VTable
+                  loading={loading}
                   dataSrc={dataSrc}
                   extra={extraData[key]}
-                  config={param}
+                  config={lib.parseUrl(window.location.hash)}
                   subTitle={subTitle}
                 />
               </TabPane>

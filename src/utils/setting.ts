@@ -1,8 +1,9 @@
-export let DEV: boolean = false; // process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+export let DEV: boolean = true; // process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 //false; //
 // 前台资源部署域名，默认头像图片资源调用域名
 export let config = {
   chengdu: {
+    company: '成都印钞有限公司',
     api: 'http://cdn.cdyc.cbpm:100',
     footer: '成都印钞有限公司 印钞管理部',
     systemName: '质量信息管理平台',
@@ -21,6 +22,7 @@ export let config = {
     },
   },
   kunshan: {
+    company: '昆山钞票纸业有限公司',
     api: 'http://10.56.37.153:100/',
     host: 'http://10.56.37.153',
     footer: '昆山钞票纸业有限公司 企划信息部',
@@ -48,6 +50,7 @@ export let AUTHOR = config[CUR_COMPANY].footer;
 
 export let ORG = config[CUR_COMPANY].org;
 export let uap = config[CUR_COMPANY].uap;
+export let company = config[CUR_COMPANY].company;
 
 let domain: string = config[CUR_COMPANY].api;
 // 后台api部署域名

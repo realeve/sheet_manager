@@ -31,7 +31,7 @@ export default class Charts extends Component<IProp> {
   }
 
   componentDidMount() {
-    console.log('componentDidMount 4')
+    // console.log('componentDidMount 4')
     if (this.echarts_react && this.props.setInstance) {
       this.props.setInstance(this.echarts_react.getEchartsInstance());
     }

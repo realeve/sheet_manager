@@ -11,8 +11,9 @@ const { TextArea } = Input;
 export const isDisabled = ({ selectValue,
   selectList,
   textAreaList,
-  textAreaValue, }) => Object.keys(selectValue).length < selectList.length ||
-  Object.values(textAreaValue).filter(item => String(item).length > 0).length < textAreaList.length;
+  select,
+  textAreaValue, }) => Object.keys(selectValue).length < (select || selectList).length ||
+  Object.values(textAreaValue).filter(item => String(item).length > 0).length < textAreaList.length
 
 function QueryCondition({
   selectValue,
@@ -22,6 +23,7 @@ function QueryCondition({
   dateRange,
   onQuery,
   dateType,
+  select,
   dispatch,
 }) {
   const onDateChange = async (dateStrings: Array<string>, refresh: boolean = true) => {
@@ -65,15 +67,15 @@ function QueryCondition({
     />
   );
 
-  let showExtraCondition: boolean = textAreaList.length || selectList.length;
   const disabled = isDisabled({
     selectValue,
     selectList,
     textAreaList,
     textAreaValue,
+    select
   })
 
-  return !showExtraCondition ? (
+  return textAreaList.length + selectList.length === 0 ? (
     <div className={styles.header}>
       <div className={styles.dateRange}>
         <DateRangePicker refresh={true} />
@@ -138,12 +140,13 @@ function QueryCondition({
 }
 
 export default connect(
-  ({ common: { dateType: [dateType], dateRange, selectValue, selectList, textAreaList, textAreaValue } }) => ({
+  ({ common: { dateType: [dateType], dateRange, selectValue, selectList, textAreaList, textAreaValue, query: { select } } }) => ({
     dateRange,
     selectValue,
     selectList,
     textAreaList,
     textAreaValue,
     dateType,
+    select
   })
 )(QueryCondition);
