@@ -137,7 +137,7 @@ export default {
     *initSelector(_, { call, put, select }) {
       const { query } = yield select(state => state.common);
       let selectList = yield getSelectList(query, call);
-      console.log(query, selectList);
+      // console.log(query, selectList);
       yield put({
         type: 'setStore',
         payload: {
