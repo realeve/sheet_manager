@@ -45,18 +45,15 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
-      let params = qs.parse(history.location.hash.slice(1));
-      if (history.location.hash.length === 0) {
-        params = qs.parse(history.location.search.slice(1));
-      }
-      let menuFold = params.menufold && params.menufold !== '0';
-      menuFold = menuFold || false;
-      dispatch({ type: 'changeLayoutCollapsed', payload: menuFold });
 
-      return history.listen(({ pathname, search }) => {
-        if (typeof window.ga !== 'undefined') {
-          window.ga('send', 'pageview', pathname + search);
+      return history.listen(({ hash, search }) => {
+        let params = qs.parse(hash.slice(1));
+        if (hash.length === 0) {
+          params = qs.parse(search.slice(1));
         }
+        let menuFold = params.menufold && params.menufold !== '0';
+        menuFold = Boolean(menuFold) || false;
+        dispatch({ type: 'changeLayoutCollapsed', payload: menuFold });
       });
     },
   },

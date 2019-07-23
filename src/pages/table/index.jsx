@@ -74,7 +74,7 @@ function Tables({
       `${formatMessage({ id: 'app.daterange.name' })}: ${moment(tstart, dateFormat).format(
         format
       )}` +
-      (tstart === tend
+      (R.isNil(tend) || tstart === tend
         ? ''
         : ` ${formatMessage({
             id: 'app.daterange.to',
@@ -87,7 +87,7 @@ function Tables({
     <Spin size="large" tip="载入中..." spinning={common.spinning}>
       <QueryCondition onQuery={refreshData} />
       {dataSource.map((dataSrc, key) => {
-        let subTitle = dataSrc.dates && dataSrc.dates.length > 0 && staticRanges(dateRange);
+        let subTitle = dataSrc.dates && dataSrc.dates.length > 0 && staticRanges(dataSrc.dates);
 
         let blob = axiosOptions[key].data && axiosOptions[key].data.blob;
         if (!R.isNil(blob)) {
