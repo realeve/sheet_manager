@@ -23,28 +23,29 @@ export default function SimpleTable({
   let dataSrc = R.clone(data.data);
   // 处理数据结构
   if (dataSrc && getType(dataSrc[0]) === 'object') {
-    dataSrc = dataSrc.map(item => data.header.map(key => item[key]));
+    dataSrc = dataSrc.map(R.props(data.header))
   }
-  return loading ? (
+
+  return R.isNil(dataSrc) || loading ? (
     <Skeleton active />
   ) : (
-    <table className={styles['table-simple']} {...props}>
-      <thead>
-        <tr>
-          {data.header.map(th => (
-            <th key={th}>{th}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {dataSrc.map((tr, idx) => (
-          <tr key={idx}>
-            {tr.map((td, idx) => (
-              <td key={idx}>{td}</td>
+      <table className={styles['table-simple']} {...props}>
+        <thead>
+          <tr>
+            {data.header.map(th => (
+              <th key={th}>{th}</th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+        </thead>
+        <tbody>
+          {dataSrc.map((tr, idx) => (
+            <tr key={idx}>
+              {tr.map((td, idx) => (
+                <td key={idx}>{td}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
 }

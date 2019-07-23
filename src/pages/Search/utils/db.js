@@ -159,8 +159,9 @@ export const getViewScoreIntaglio = async cart => {
         },
       });
   res.data = res.data.map(item => {
-    item['墨色'] = Number(item['墨色']).toFixed(2);
-    item['总分'] = Number(item['总分']).toFixed(2);
+    ['墨色', '总分', '规矩', '防复印圈', '混色', '胶凹套印', '接线'].forEach(key => {
+      item[key] = Number(item[key]).toFixed(2);
+    });
     return item;
   });
   return res;
@@ -181,8 +182,9 @@ export const getViewScoreOffset = async cart => {
         },
       });
   res.data = res.data.map(item => {
-    item['墨色'] = Number(item['墨色']).toFixed(2);
-    item['总分'] = Number(item['总分']).toFixed(2);
+    ['墨色', '总分', '规矩', '防复印圈', '混色', '胶凹套印', '接线'].forEach(key => {
+      item[key] = Number(item[key]).toFixed(2);
+    });
     return item;
   });
   return res;
@@ -266,7 +268,6 @@ export const getViewPrintHechaImageCheck = async cart => {
       });
   let src = R.clone(res);
   src.header = res.header.slice(4);
-  src.data[0] = R.props(src.header)(res.data[0]);
   return src;
 };
 
