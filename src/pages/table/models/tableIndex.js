@@ -114,7 +114,7 @@ export default {
         curPageName = dataSource[idx].title || '';
 
         // 处理报表头额外的数据
-        if (param.params.extra) {
+        if (param.params && param.params.extra) {
           let extraParam = getExtraParam(param);
           extraData[idx] = yield call(db.fetchData, extraParam);
         }
