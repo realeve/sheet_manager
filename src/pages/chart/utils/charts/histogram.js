@@ -1,14 +1,15 @@
-import ecStat from 'echarts-stat';
+import { histogram } from '@/utils/echarts-stat/ecStat';
 import jStat from 'jStat';
 import util from '../lib';
 import theme from './theme';
 const R = require('ramda');
 
 const getBin = data => {
+  console.log(data);
   // doc about histogram see here:https://github.com/ecomfe/echarts-stat#histogram
   // scott | freedmanDiaconis | sturges | none
   // squareRoot - This is the default method, which is also used by Excel histogram. Returns the number of bin according to
-  let bin = ecStat.histogram(data);
+  let bin = histogram(data);
   let binItem = bin.data;
   let splitArr = bin.data.map(item => item[0]);
 
@@ -29,6 +30,7 @@ const getBin = data => {
 };
 
 const getSeriesItem = (seriesData, idx, name) => {
+  console.log(seriesData);
   let { pdf, binItem } = getBin(R.map(item => parseFloat(item))(seriesData));
   let series = {
     type: 'bar',

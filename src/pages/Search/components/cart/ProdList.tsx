@@ -102,24 +102,30 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
         // hoverable
         style={{ marginBottom: 10 }}
         className={styles.cart}
-      // loading={loading}
+        // loading={loading}
       >
         {loading ? (
           <Skeleton active />
         ) : err ? (
           <Err err={err} />
-        ) : prodDetail.length === 0 ? <Empty /> : (
+        ) : prodDetail.length === 0 ? (
+          <Empty />
+        ) : (
           <Scrollbars
             autoHide
             autoHeight
             autoHeightMin={300}
             autoHeightMax={970}
             style={{
-              marginBottom: 10, width: '100%',
-            }}>
-            <ul style={{
-              marginBottom: 10
-            }} >
+              marginBottom: 10,
+              width: '100%',
+            }}
+          >
+            <ul
+              style={{
+                marginBottom: 10,
+              }}
+            >
               {prodDetail.map(
                 (
                   {
@@ -140,98 +146,97 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
                   },
                   idx
                 ) => (
-                    <li key={key_recid}>
-                      <div>
-                        <div className={styles.title}>
-                          <div>
-                            <div className={styles.text}>
-                              {idx + 1}.{ProcName}：
-                          <a
-                                href="javascript:;"
-                                onClick={() =>
-                                  setCartDetail({
-                                    mid,
-                                    tstart: moment(StartDate).format('YYYYMMDD'),
-                                    machine: MachineName,
-                                  })
-                                }
-                              >
-                                {MachineName}
-                              </a>
-                            </div>
-                            <Badge
-                              count={WorkClassName}
-                              className={styles.workclass}
-                              style={{ backgroundColor: '#e74c3c' }}
-                            />
-                            <Badge
-                              count={'星期' + weekList[weekName]}
-                              className={styles.workclass}
-                              style={{ backgroundColor: '#337ab7' }}
-                            />
+                  <li key={key_recid}>
+                    <div>
+                      <div className={styles.title}>
+                        <div>
+                          <div className={styles.text}>
+                            {idx + 1}.{ProcName}：
+                            <a
+                              onClick={() =>
+                                setCartDetail({
+                                  mid,
+                                  tstart: moment(StartDate).format('YYYYMMDD'),
+                                  machine: MachineName,
+                                })
+                              }
+                            >
+                              {MachineName}
+                            </a>
                           </div>
-                          <h4>{StartDate}</h4>
+                          <Badge
+                            count={WorkClassName}
+                            className={styles.workclass}
+                            style={{ backgroundColor: '#e74c3c' }}
+                          />
+                          <Badge
+                            count={'星期' + weekList[weekName]}
+                            className={styles.workclass}
+                            style={{ backgroundColor: '#337ab7' }}
+                          />
                         </div>
-                        <div className={styles.detail}>
-                          <ul>
-                            <li>
-                              <strong>
-                                <Icon type="user" /> 机长
-                          </strong>
-                              {CaptainName}
-                            </li>
-                            <li>
-                              <strong>
-                                <Icon type="clock-circle" /> 完工时间
-                          </strong>
-                              {EndDate}
-                            </li>
-                            <li>
-                              <strong>
-                                <Icon type="team" /> 班组
-                          </strong>
-                              {TeamName}
-                            </li>
-                            <li>
-                              <strong>
-                                <Icon type="ordered-list" /> 产量
-                          </strong>
-                              {PrintNum}
-                            </li>
-                            {WorkInfo && (
-                              <li>
-                                <strong>
-                                  <Icon type="edit" /> 原始记录
-                            </strong>
-                                <div className={styles.loginfo}>
-                                  <div>{WorkInfo}</div>
-                                  <span style={{ float: 'right' }}>
-                                    <Icon type="edit" style={{ color: '#337ab7' }} /> {CaptainName}{' '}
-                                    发表于{' '}
-                                    {moment(EndDate)
-                                      .startOf('hour')
-                                      .fromNow()}
-                                  </span>
-                                </div>
-                              </li>
-                            )}
-                            {remark && (
-                              <li style={{ background: '#ffc9ce' }}>
-                                <strong>
-                                  <Icon type="edit" />
-                                  机台关注
-                            </strong>
-                                <div className={styles.loginfo}>
-                                  <div>{remark_type}:</div>
-                                  <div>{remark}</div>
-                                </div>
-                              </li>
-                            )}
-                          </ul>
-                        </div>
+                        <h4>{StartDate}</h4>
                       </div>
-                    </li>
-                  )
+                      <div className={styles.detail}>
+                        <ul>
+                          <li>
+                            <strong>
+                              <Icon type="user" /> 机长
+                            </strong>
+                            {CaptainName}
+                          </li>
+                          <li>
+                            <strong>
+                              <Icon type="clock-circle" /> 完工时间
+                            </strong>
+                            {EndDate}
+                          </li>
+                          <li>
+                            <strong>
+                              <Icon type="team" /> 班组
+                            </strong>
+                            {TeamName}
+                          </li>
+                          <li>
+                            <strong>
+                              <Icon type="ordered-list" /> 产量
+                            </strong>
+                            {PrintNum}
+                          </li>
+                          {WorkInfo && (
+                            <li>
+                              <strong>
+                                <Icon type="edit" /> 原始记录
+                              </strong>
+                              <div className={styles.loginfo}>
+                                <div>{WorkInfo}</div>
+                                <span style={{ float: 'right' }}>
+                                  <Icon type="edit" style={{ color: '#337ab7' }} /> {CaptainName}{' '}
+                                  发表于{' '}
+                                  {moment(EndDate)
+                                    .startOf('hour')
+                                    .fromNow()}
+                                </span>
+                              </div>
+                            </li>
+                          )}
+                          {remark && (
+                            <li style={{ background: '#ffc9ce' }}>
+                              <strong>
+                                <Icon type="edit" />
+                                机台关注
+                              </strong>
+                              <div className={styles.loginfo}>
+                                <div>{remark_type}:</div>
+                                <div>{remark}</div>
+                              </div>
+                            </li>
+                          )}
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                )
               )}
             </ul>
           </Scrollbars>
