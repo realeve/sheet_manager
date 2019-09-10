@@ -14,6 +14,9 @@ export const getSysUser = params =>
     params,
   }).then(res => {
     // 采用原接口管理的信息
+    if (res.data.rows) {
+      res = res.data;
+    }
     if (!uap.active) {
       return res;
     }
@@ -42,6 +45,11 @@ export const getSysDept = () =>
     : axios({
         url: uap.active ? uap.dept : '/27/9b520a55df.json',
         params: { org },
+      }).then(res => {
+        if (res.data.rows) {
+          return res.data;
+        }
+        return res;
       });
 
 /**
@@ -107,6 +115,11 @@ export const getUserListBydept = dept => {
       org,
       dept,
     },
+  }).then(res => {
+    if (res.data.rows) {
+      return res.data;
+    }
+    return res;
   });
 };
 

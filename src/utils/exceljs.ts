@@ -223,7 +223,12 @@ const createWorkBook = (config: Config) => {
     // 复制一列数据到第2列作为表头内容
     let newRow = R.map(R.prop('header'))(columns);
     let headRow = new Array(headLevel - 1).fill(0).map(() => newRow);
-    config.body = [...headRow, ...config.body];
+
+    // 如果额外增加两行，需要插入两行空数据，否则前两条数据会失效
+    // 2019-09-10
+    let extra = config.extra ? [...headRow, [], []] : headRow;
+
+    config.body = [...extra, ...config.body];
   }
 
   // 添加数据

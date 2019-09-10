@@ -156,7 +156,7 @@ class LoginComponent extends Component {
     });
   };
   loadUser = async () => {
-    if (uap.active) {
+    if (uap.active && this.state.dept && this.state.dept.length > 0) {
       let { data: userList } = await db.getUserListBydept(this.state.dept); //await rtx.init();
       this.setState({ userList });
     }
@@ -250,7 +250,7 @@ class LoginComponent extends Component {
               className={styles.selector}
               value={dept}
               onSelect={this.onDeptChange}
-              options={depts}
+              options={depts || []}
               placeholder="选择所在部门"
               mode="default"
             />
@@ -263,7 +263,7 @@ class LoginComponent extends Component {
               className={styles.selector}
               value={uid}
               onSelect={this.onUserChange}
-              options={userList}
+              options={userList || []}
               placeholder="姓名或用户名"
               mode="tags"
               maxTagCount={1}
