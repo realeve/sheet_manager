@@ -16,9 +16,12 @@ export let config = {
       // login: 'http://10.8.1.27:4040/api/login',
       // dept: 'http://localhost:3030/api/depts',
       // user: 'http://localhost:3030/api/users',
-      login: 'http://10.8.1.27:4040/api/login', // 登录URL
-      dept: 'http://10.8.1.27:4040/api/depts', // 部门列表
-      user: 'http://10.8.1.27:4040/api/users', //用户列表
+      // login: 'http://10.8.1.27:4040/api/login', // 登录URL
+      login: '//10.8.1.25:100/675/25d3d1010c',
+      // dept: 'http://10.8.1.27:4040/api/depts', // 部门列表
+      dept: 'http://10.8.1.25:100/673/46efae99d7',
+      // user: 'http://10.8.1.27:4040/api/users', //用户列表
+      user: 'http://10.8.1.25:100/674/d2b665340b',
     },
   },
   kunshan: {
@@ -31,9 +34,12 @@ export let config = {
     org: 'KSCZ',
     uap: {
       active: true && !DEV, // 使用代理身份认证登录
-      login: 'http://10.8.1.27:4040/api/login', // 登录URL
-      dept: 'http://10.8.1.27:4040/api/depts', // 部门列表
-      user: 'http://10.8.1.27:4040/api/users', //用户列表
+      // login: 'http://10.8.1.27:4040/api/login', // 登录URL
+      login: '//10.8.1.25:100/675/25d3d1010c',
+      // dept: 'http://10.8.1.27:4040/api/depts', // 部门列表
+      dept: 'http://10.8.1.25:100/673/46efae99d7',
+      // user: 'http://10.8.1.27:4040/api/users', //用户列表
+      user: 'http://10.8.1.25:100/674/d2b665340b',
     },
   },
 };
