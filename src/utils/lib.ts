@@ -424,7 +424,7 @@ export const getStringWidth = str =>
     .reduce((x, y) => x + (isChineseWord(y) ? 1 : 0.7), 0);
 
 // 将带,;及换行符的字符串转换为数组文本
-export const str2Arr: (str: string) => string[] = str => {
+export const str2Arr: (str: string, needTrim?: boolean) => string[] = (str, needTrim = true) => {
   str = String(str).trim();
   let res = [];
   if (str.includes(',')) {
@@ -439,12 +439,16 @@ export const str2Arr: (str: string) => string[] = str => {
     res = [str];
   }
   res = res.map(item => item.replace(/\n/, ''));
-  return R.filter(item => item.trim().length > 0)(res);
+  if (needTrim) {
+    res = R.filter(item => item.trim().length > 0)(res);
+  }
+  return res;
 };
 
 // 去除对象值中内容为空的
 export const handleTextVal = obj => {
   let inputValue = {};
+
   Object.entries(obj).forEach(([key, val]: [string, string]) => {
     let value = str2Arr(val);
     inputValue[key] = value.length == 1 ? value[0] : value;

@@ -5,6 +5,7 @@ import router from 'umi/router';
 import * as R from 'ramda';
 import { connect } from 'dva';
 import * as lib from '../models/search.js';
+import { formatMessage } from 'umi/locale';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -51,7 +52,7 @@ function ProdItem({ cart, onClose, dispatch }) {
   return (
     <div>
       <h3 className={styles.title}>
-        <span>查询条件</span>
+        <span>{formatMessage({ id: 'app.querycondition' })}</span>
       </h3>
       <Row className={styles['form-control']}>
         <Col span={4}>品种</Col>
