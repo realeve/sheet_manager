@@ -22,7 +22,7 @@ export default function Dashboard() {
       restartTimer();
       setState(res);
       message.success('数据刷新成功');
-    }
+    };
 
     const restartTimer = () => {
       if (itvId2) {
@@ -37,24 +37,32 @@ export default function Dashboard() {
         }
         setCurTime(curTime);
       }, 1000);
-    }
+    };
 
     refresh();
     // 30 秒刷新一次
     let itvId = setInterval(refresh, 1000 * totalTime);
-    return function cleanup() {
+    return function() {
       clearInterval(itvId);
       clearInterval(itvId2);
     };
-  }, [])
+  }, []);
 
-  const titleStyle = { display: 'flex', justifyContent: 'space-between' }
+  const titleStyle = { display: 'flex', justifyContent: 'space-between' };
 
   return (
     <Row gutter={10}>
-      <Card title={<div><p>{state.title}</p>
-        <small>还有<span style={{ padding: '0 5px', color: '#e23' }}>{curTime}</span>秒刷新</small>
-      </div>} bodyStyle={{ padding: 10 }}>
+      <Card
+        title={
+          <div>
+            <p>{state.title}</p>
+            <small>
+              还有<span style={{ padding: '0 5px', color: '#e23' }}>{curTime}</span>秒刷新
+            </small>
+          </div>
+        }
+        bodyStyle={{ padding: 10 }}
+      >
         <div className={styles.dashboard}>
           <ul className={styles.content}>
             {state.data.map((item, idx) => (
@@ -87,9 +95,12 @@ export default function Dashboard() {
                   className={cx(styles.mainTitle, {
                     error: item.good_rate < 80,
                     success: item.good_rate > 90,
-                  })} >
+                  })}
+                >
                   <div>
-                    <span>{item.machine_name}:{Number(item.good_rate)}%</span>
+                    <span>
+                      {item.machine_name}:{Number(item.good_rate)}%
+                    </span>
                     <span>{idx + 1}</span>
                   </div>
                 </div>

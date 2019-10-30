@@ -19,11 +19,15 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
     api: 'getOnlineinfoByMachine',
     init: [cart],
   });
-  // visible={visible} width="1200px" onOk={onOk} onCancel={onOk} bodyStyle={{ padding: 10 }}
+
   return (
     <Card style={{ marginTop: 20 }} bodyStyle={{ margin: 0, padding: 0 }} bordered={false}>
       <Card
-        title={<p><span style={{ color: '#e23' }}>{item.machine_name}</span> 实时质量信息</p>}
+        title={
+          <p>
+            <span style={{ color: '#e23' }}>{item.machine_name}</span> 实时质量信息
+          </p>
+        }
         bodyStyle={{ padding: 10 }}
         style={{ marginBottom: 10 }}
         hoverable
@@ -87,9 +91,7 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
             <span>大张废数: {item.piece_fake}</span>
           </div>
           <div className={styles.number}>
-            <span>
-              票面站数据库: {(Number(item.vs_db.replace('MB', '')) / 1000).toFixed(1)}GB
-            </span>
+            <span>票面站数据库: {(Number(item.vs_db.replace('MB', '')) / 1000).toFixed(1)}GB</span>
             <span>
               D盘空间(GB): {Number(item.disk_free_d)}/{Number(item.disl_vol_d)}
             </span>
@@ -118,8 +120,8 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
             ) : mahouData.rows === 0 ? (
               <Empty />
             ) : (
-                  <SimpleChart data={mahouData} params={params} style={{ height: 180 }} />
-                )}
+              <SimpleChart data={mahouData} params={params} style={{ height: 180 }} />
+            )}
           </Card>
 
           <Card
@@ -138,11 +140,15 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
             ) : res.rows === 0 ? (
               <Empty />
             ) : (
-                  <div>
-                    <SimpleTable data={{ ...res, data: res.data2, header: res.header2 }} />
-                    <SimpleChart data={res} params={{ type: 'line', simple: '2', x: 1, y: 2, smooth: true }} style={{ height: 180, marginTop: 20 }} />
-                  </div>
-                )}
+              <div>
+                <SimpleTable data={{ ...res, data: res.data2, header: res.header2 }} />
+                <SimpleChart
+                  data={res}
+                  params={{ type: 'line', simple: '2', x: 1, y: 2, smooth: true }}
+                  style={{ height: 180, marginTop: 20 }}
+                />
+              </div>
+            )}
           </Card>
         </Col>
       </Row>
