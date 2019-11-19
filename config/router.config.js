@@ -57,8 +57,8 @@ export default [
         path: '/form',
         routes: [
           {
-            path: '/form/page1',
-            component: './Form/page1',
+            path: '/form',
+            component: './Form',
           },
         ],
       },

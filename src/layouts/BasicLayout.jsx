@@ -28,7 +28,7 @@ const { Content } = Layout;
 const R = require('ramda');
 
 const getMenuData = ({ menu, previewMenu, location: { pathname } }) => {
-  if (menu === '') {
+  if (menu === '' || R.isNil(menu)) {
     return [];
   }
   const previewMode = pathname === '/menu' && previewMenu.length > 0;
