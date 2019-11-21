@@ -132,7 +132,7 @@ function QueryCondition({
                 style={{
                   width: '100%',
                 }}
-                autosize={{ minRows: 4, maxRows: 4 }}
+                autoSize={{ minRows: 4, maxRows: 4 }}
                 value={textVal[key]}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                   onTextChange(e.target.value, key)

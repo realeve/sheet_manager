@@ -23,7 +23,6 @@
       width: 90px;
       line-height: 32px;
 
-
       &::after {
         content: ':';
         position: absolute;
@@ -33,13 +32,17 @@
     }
 
     .element {
-      width: 200px;
+      min-width: 200px;
+      width: 80%;
     }
 
     :global {
       .ant-form-explain {
         display: inherit;
         margin-top: 0;
+      }
+      textarea.ant-input {
+        max-width: unset;
       }
     }
 
@@ -48,13 +51,14 @@
     //   height: 25px;
     //   line-height: 25px;
     // }
-
   }
 
+  &-center {
+    align-items: center;
+  }
   .submit {
     margin-top: 40px;
   }
-
 }
 
 .code {

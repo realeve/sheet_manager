@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
-import {
-  Card,
-  Row,
-  Icon,
-} from 'antd';
+import { Card, Row, Icon } from 'antd';
 import styles from './index.less';
 import { validRequire } from './lib';
-import FormItem from './FormItem'
-import CodeDrawer from './CodeDrawer'
-import FormAction from './FormAction'
+import FormItem from './FormItem';
+import CodeDrawer from './CodeDrawer';
+import FormAction from './FormAction';
 import { connect } from 'dva';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -56,13 +52,11 @@ function FormCreater({ config, dispatch }) {
         curPageName: config.name,
       },
     });
-
   }, [config]);
 
   // 表单字段当前状态判断
   const [formstatus, setFormstatus] = useState(false);
   useEffect(() => {
-
     if (!Object.keys(state).length) {
       setFormstatus(false);
       return;
@@ -73,11 +67,16 @@ function FormCreater({ config, dispatch }) {
     setFormstatus(validStatus && required);
   }, [state]);
 
-  console.log(formConfig.detail, config, '🌸');
+  console.log(config, '🌸');
 
   return (
     <div>
-      <CodeDrawer formConfig={formConfig} setFormConfig={setFormConfig} modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <CodeDrawer
+        formConfig={formConfig}
+        setFormConfig={setFormConfig}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
 
       <div className={styles.form}>
         {formConfig.detail.map(({ title: mainTitle, detail }, idx) => (
@@ -86,7 +85,11 @@ function FormCreater({ config, dispatch }) {
               <span>
                 {idx + 1}.{mainTitle}
                 {idx === 0 && (
-                  <Icon style={{ paddingLeft: 10 }} type="question-circle-o" onClick={() => setModalVisible(true)} />
+                  <Icon
+                    style={{ paddingLeft: 10 }}
+                    type="question-circle-o"
+                    onClick={() => setModalVisible(true)}
+                  />
                 )}
               </span>
             }
@@ -94,8 +97,29 @@ function FormCreater({ config, dispatch }) {
             key={mainTitle}
           >
             <Row gutter={15}>
-              {detail.map((detail, i) => <FormItem key={detail.key} keyName={detail.key} state={state} setState={setState} setFormstatus={setFormstatus} detail={detail} />)}
-              {idx === formConfig.detail.length - 1 && <FormAction requiredFileds={requiredFileds} state={state} setState={setState} fields={fields} setEditMethod={setEditMethod} formstatus={formstatus} editMethod={editMethod} formConfig={formConfig} config={config} />}
+              {detail.map((detail, i) => (
+                <FormItem
+                  key={detail.key}
+                  keyName={detail.key}
+                  state={state}
+                  setState={setState}
+                  setFormstatus={setFormstatus}
+                  detail={detail}
+                />
+              ))}
+              {idx === formConfig.detail.length - 1 && (
+                <FormAction
+                  requiredFileds={requiredFileds}
+                  state={state}
+                  setState={setState}
+                  fields={fields}
+                  setEditMethod={setEditMethod}
+                  formstatus={formstatus}
+                  editMethod={editMethod}
+                  formConfig={formConfig}
+                  config={config}
+                />
+              )}
             </Row>
           </Card>
         ))}
@@ -104,4 +128,4 @@ function FormCreater({ config, dispatch }) {
   );
 }
 
-export default connect()(FormCreater)
+export default connect()(FormCreater);
