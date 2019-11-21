@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import QueryCondition from '@/components/QueryCondition';
 import { Spin } from 'antd';
 import * as R from 'ramda';
-import { useSetState } from 'react-use';
 
 function Charts({ dispatch, config, spinning, tid, query }) {
   const onLoad = curPageName => {
@@ -18,22 +17,9 @@ function Charts({ dispatch, config, spinning, tid, query }) {
     });
   };
 
-  const [state, setState] = useSetState({
-    tid, query
-  })
-
   useEffect(() => {
     refreshData();
-  }, []);
-
-  useEffect(() => {
-    if (R.equals(tid, state.tid) && R.equals(query, state.query)) {
-      return;
-    }
-    setState({ tid, query })
-    refreshData();
-  }, [tid, query]);
-
+  }, [JSON.stringify(tid), JSON.stringify(query)]);
 
   const refreshData = () => {
     dispatch({
@@ -53,6 +39,11 @@ function Charts({ dispatch, config, spinning, tid, query }) {
   );
 }
 
-const chartPage = connect(state => ({ ...state.chart, ...R.pick(['spinning', 'query', 'tid'])(state.common) }))(Charts);
+const chartPage = connect(state => ({
+  ...state.chart,
+  ...R.pick(['spinning', 'query', 'tid'])(state.common),
+}))(Charts);
 
-export default React.memo(chartPage, (prevProps, nextProps) => R.equals(prevProps.config, nextProps.config));
+export default React.memo(chartPage, (prevProps, nextProps) =>
+  R.equals(prevProps.config, nextProps.config)
+);

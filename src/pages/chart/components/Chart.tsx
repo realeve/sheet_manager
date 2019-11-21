@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
 import { Card, Tabs } from 'antd';
 import * as db from '../services/chart';
@@ -9,6 +9,8 @@ import ChartComponent from './ChartComponent';
 import { formatMessage } from 'umi/locale';
 import moment from 'moment';
 import lib from '../utils/lib';
+import { useSetState } from 'react-use';
+
 const R = require('ramda');
 const TabPane = Tabs.TabPane;
 interface Iconfig {
@@ -22,151 +24,76 @@ interface IProp {
   dateFormat?: string;
   [key: string]: any;
 }
-interface IState extends Iconfig {
-  loading: boolean;
-  option: any;
-  idx: number | string;
-  appendParams: IConfigState;
-  [key: string]: any;
-}
+
 /**
  * todo:
  * 1.增加group选项，数据以此做切换(2018-11-25 已完成)；
  * 2.对参数长度排序，以最长的为准做合并，避免出现 &id=a&id=a...&otherparams的情况
  */
-class Charts extends Component<IProp, IState> {
-  static defaultProps: Partial<IProp> = {
-    config: {
-      url: '',
-      params: {
-        cache: 10,
-        tstart: '',
-        tend: '',
-      },
+
+const Charts = ({ dispatch, ...props }: IProp) => {
+  const [state, setState] = useSetState({
+    loading: false,
+    // option: [],
+    idx: props.idx,
+    showErr: false,
+    params: {},
+    dataSrc: {
+      data: [],
+      rows: 0,
     },
-    dateFormat: 'YYYYMMDD',
-  };
+    appendParams: {},
+  });
 
-  echarts_react = null;
+  const [option, setOption] = useState([]);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-      option: [],
-      idx: props.idx,
-      ...props.config,
-      dataSrc: {
-        data: [],
-        rows: 0,
+  const setLoadingStatus = spinning => {
+    dispatch({
+      type: 'common/setStore',
+      payload: {
+        spinning,
       },
-      appendParams: {}
-    };
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    let params = props.config;
-    let appendParams: IConfigState = getParams(params);
-
-
-    if (R.equals(params, state.params)) {
-      if (R.equals(appendParams, state.appendParams)) {
-        return { loading: false };
-      }
-    }
-
-    // 是否已经初始化;
-    // let isChanged = Object.keys(state.appendParams).length > 0; 
-
-    appendParams = Object.assign({}, appendParams, state.appendParams);//isChanged ? appendParams : state.appendParams;
-
-    params = Object.assign(params, appendParams);
-
-    let newState =
-      0 == state.dataSrc.rows
-        ? {}
-        : db.getDrivedState({
-          dataSrc: state.dataSrc,
-          params,
-          idx: state.idx,
-        });
-
-    return { appendParams, params, loading: true, ...newState };
-  }
-
-  init = () => {
-    const setLoadingStatus = spinning => {
-      this.props.dispatch({
-        type: 'common/setStore',
-        payload: {
-          spinning,
-        },
-      });
-    }
-    setLoadingStatus(true)
-    let { params } = this.state;
-    db.computeDerivedState({
-      method: this.props.textAreaList.length > 0 ? 'post' : 'get',
-      params,
-    }).then(({ dataSrc, option }) => {
-      this.setState({ showErr: false, dataSrc, option });
-      this.props.onLoad(dataSrc.title);
-    }).finally(e => {
-      setLoadingStatus(false)
-    })
-  };
-
-  componentDidUpdate({ config }) {
-    let {
-      // url,
-      params,
-      // appendParams,
-      // option,
-    } = this.state;
-    // let prevAppendParams: IConfigState = getParams(params);
-
-    if (R.equals(config, params)) {
-      // if (R.equals(appendParams, prevAppendParams)) {
-      //   if (option.length === 0) {
-      //   }
-      //   return false;
-      // }
-      return false;
-    }
-    this.init();
-  }
-
-  componentDidMount() {
-    // console.log('componentDidMount 3')
-    this.init();
-  }
-
-  componentWillUnmount() {
-    this.setState = () => ({
-      loading: false,
-      option: [],
-      dataSrc: {
-        data: [],
-        rows: 0,
-      },
-      appendParams: {},
     });
+  };
 
-    // this.props.dispatch({
-    //   type: 'common/setStore',
-    //   payload: {
-    //     spinning: false,
-    //   },
-    // });
-  }
+  const init = async () => {
+    setLoadingStatus(true);
 
-  changeParam(axisName: TAxisName, value: string): void {
-    let appendParams = R.clone(this.state.appendParams);
+    let params = R.clone(props.config);
+    let appendParams: IConfigState = getParams(params);
+    params = Object.assign(params, appendParams);
+    setState({ params });
+    if (R.equals(params, {})) {
+      return;
+    }
+
+    let { dataSrc, option } = await db
+      .computeDerivedState({
+        method: props.textAreaList.length > 0 ? 'post' : 'get',
+        params,
+      })
+      .finally(e => {
+        setLoadingStatus(false);
+      });
+
+    // console.log(option);
+
+    setOption(option);
+    setState({ showErr: false, dataSrc });
+    props.onLoad(dataSrc.title);
+  };
+
+  useEffect(() => {
+    init();
+  }, [JSON.stringify(props.config)]);
+
+  const changeParam: (axisName: TAxisName, value: string) => void = (axisName, value) => {
+    let appendParams = R.clone(state.appendParams);
     let commonKeys = ['x', 'y', 'z', 'legend', 'group'];
     // visual可以与其它轴一同设置
     if (axisName === 'visual') {
       appendParams[axisName] = value;
-      this.setState({ appendParams });
+      setState({ appendParams });
       return;
     }
     // 是否有轴需要互换;
@@ -191,12 +118,12 @@ class Charts extends Component<IProp, IState> {
 
     // 更新当前数据
     appendParams[axisName] = value;
-    this.setState({ appendParams });
-  }
+    setState({ appendParams });
+  };
 
-  staticRanges = ([tstart, tend]) => {
+  const staticRanges = ([tstart, tend]) => {
     let format = '';
-    switch (this.props.dateFormat) {
+    switch (props.dateFormat) {
       case 'YYYYMMDD':
         format = 'YYYY年M月D日';
         break;
@@ -210,80 +137,71 @@ class Charts extends Component<IProp, IState> {
     }
 
     return (
-      `${formatMessage({ id: 'app.daterange.name' })}: ${moment(
-        tstart,
-        this.props.dateFormat
-      ).format(format)}` +
+      `${formatMessage({ id: 'app.daterange.name' })}: ${moment(tstart, props.dateFormat).format(
+        format
+      )}` +
       (tstart === tend
         ? ''
         : ` ${formatMessage({
-          id: 'app.daterange.to',
-        })} ${moment(tend, this.props.dateFormat).format(format)}`)
+            id: 'app.daterange.to',
+          })} ${moment(tend, props.dateFormat).format(format)}`)
     );
   };
 
-  render() {
-    let { loading, dataSrc, params, option, appendParams } = this.state;
-    let { tstart, tend } = params;
-    let renderer = lib.getRenderer(params);
-    let height = lib.getChartHeight(params, option);
-    let header = dataSrc.header || false;
-    let tblDataSrc = R.clone(dataSrc);
+  let { loading, dataSrc, appendParams } = state;
+  let tblDataSrc = R.clone(dataSrc);
+  tblDataSrc.data = tblDataSrc.data.map(item => Object.values(item));
 
-    tblDataSrc.data = tblDataSrc.data.map(item => Object.values(item));
-    return (
-      tblDataSrc.data.length > 0 && <Tabs defaultActiveKey="1" className={styles.chartContainer}>
-        <TabPane tab={formatMessage({ id: 'chart.tab.chart' })} key="1">
-          {header && (
-            <ChartConfig
-              header={header}
-              params={appendParams}
-              onChange={(key: TAxisName, val: string) => this.changeParam(key, val)}
-              onSwitch={(key: TAxisName, val: boolean) => {
-                let appendParams = R.clone(this.state.appendParams);
-                appendParams[key] = val;
-                this.setState({ appendParams });
-              }}
-            />
-          )}
-          <Card
-            bodyStyle={{
-              padding: '10px 20px',
+  return (
+    <Tabs defaultActiveKey="1" className={styles.chartContainer}>
+      <TabPane tab={formatMessage({ id: 'chart.tab.chart' })} key="1">
+        {dataSrc.header && (
+          <ChartConfig
+            header={dataSrc.header || false}
+            params={appendParams}
+            onChange={(key: TAxisName, val: string) => changeParam(key, val)}
+            onSwitch={(key: TAxisName, val: boolean) => {
+              let appendParams = R.clone(state.appendParams);
+              appendParams[key] = val;
+              setState({ appendParams });
             }}
-            className={styles.exCard}
-            // loading={loading}
-            bordered={false}
-          >
-            {option.map((opt, key) => (
-              <ChartComponent
-                key={key}
-                option={opt}
-                renderer={renderer}
-                style={{ height, marginTop: key ? 40 : 0 }}
-              />
-            ))}
-          </Card>
-        </TabPane>
-        <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="2" style={{ padding: 15 }}>
-          <VTable
-            dataSrc={tblDataSrc}
-            loading={loading}
-            subTitle={
-              dataSrc.dates && dataSrc.dates.length > 0 && this.staticRanges([tstart, tend])
-            }
-            merge={false}
           />
-        </TabPane>
-      </Tabs>
-    );
-  }
-}
+        )}
+        <Card
+          bodyStyle={{
+            padding: '10px 20px',
+          }}
+          className={styles.exCard}
+          loading={loading}
+          bordered={false}
+        >
+          {option.map((opt, key) => (
+            <ChartComponent
+              key={key}
+              option={opt}
+              renderer={lib.getRenderer(state.params)}
+              style={{ height: lib.getChartHeight(state.params, option), marginTop: key ? 40 : 0 }}
+            />
+          ))}
+        </Card>
+      </TabPane>
+      <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="2" style={{ padding: 15 }}>
+        <VTable
+          dataSrc={tblDataSrc}
+          loading={loading}
+          subTitle={
+            dataSrc.dates &&
+            dataSrc.dates.length > 0 &&
+            staticRanges([state.params.tstart, state.params.tend])
+          }
+          merge={false}
+        />
+      </TabPane>
+    </Tabs>
+  );
+};
 
-function mapStateToProps(state) {
-  return {
-    dateFormat: state.common.dateFormat,
-    textAreaList: state.common.textAreaList
-  };
-}
-
-export default connect(mapStateToProps)(Charts);
+export default connect(({ common }) => ({
+  dateFormat: common.dateFormat,
+  textAreaList: common.textAreaList,
+}))(Charts);

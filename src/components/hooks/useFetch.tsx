@@ -49,7 +49,7 @@ const useFetch = <T extends {} | void>({
   // 部分场景允许不设置param时，返回默认状态为空的数据
   // 如，多个tab条的切换点击
   if (R.isNil(param) || (!param && !initData)) {
-    return { data: null, loading: true, error: null, setData: () => { }, reFetch: () => { } };
+    return { data: null, loading: true, error: null, setData: () => {}, reFetch: () => {} };
   }
 
   // 初始化数据

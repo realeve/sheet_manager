@@ -19,6 +19,6 @@ module.exports = function(start, stop, count) {
   } else if (error >= Math.sqrt(2)) {
     step1 *= 2;
   }
-  console.log(precision);
-  return +(stop >= start ? step1 : -step1).toFixed(precision);
+  // console.log(precision);
+  return +(stop >= start ? step1 : -step1).toFixed(Math.abs(precision));
 };
