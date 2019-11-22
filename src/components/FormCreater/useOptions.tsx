@@ -6,7 +6,7 @@ import { handleOptions } from './lib';
 export function useOptions({ url, defaultOption, params, textVal, cascade }) {
   const [options, setOptions] = useState({ options: [], loading: true });
   useEffect(() => {
-    if (cascade && R.isNil(params[cascade])) {
+    if (cascade && !params[cascade]) {
       return;
     }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSetState } from 'react-use';
 import { Card, Row, Icon } from 'antd';
 import styles from './index.less';
@@ -67,7 +67,7 @@ function FormCreater({ config, dispatch }) {
     setFormstatus(validStatus && required);
   }, [state]);
 
-  console.log(config, '🌸');
+  // console.log(config, state, '🌸');
 
   return (
     <div>
@@ -79,7 +79,7 @@ function FormCreater({ config, dispatch }) {
       />
 
       <div className={styles.form}>
-        {formConfig.detail.map(({ title: mainTitle, detail }, idx) => (
+        {formConfig.detail.map(({ title: mainTitle, detail: detailArr }, idx) => (
           <Card
             title={
               <span>
@@ -97,16 +97,26 @@ function FormCreater({ config, dispatch }) {
             key={mainTitle}
           >
             <Row gutter={15}>
-              {detail.map((detail, i) => (
-                <FormItem
-                  key={detail.key}
-                  keyName={detail.key}
-                  state={state}
-                  setState={setState}
-                  setFormstatus={setFormstatus}
-                  detail={detail}
-                />
-              ))}
+              {detailArr.map(({ key, cascade, ...detail }) =>
+                useMemo(
+                  () => (
+                    <FormItem
+                      key={key}
+                      keyName={key}
+                      state={state[key]}
+                      cascade={[cascade, state[cascade]]}
+                      setState={res => {
+                        setState({
+                          [key]: res,
+                        });
+                      }}
+                      setFormstatus={setFormstatus}
+                      detail={detail}
+                    />
+                  ),
+                  [JSON.stringify(detail), JSON.stringify(state[key]), state[cascade]]
+                )
+              )}
               {idx === formConfig.detail.length - 1 && (
                 <FormAction
                   requiredFileds={requiredFileds}

@@ -9,23 +9,28 @@ export default function PinyinSelector({
   defaultOption,
   db_key,
   state,
+  cascade: [cascade = false, cascadeVal = false],
   ...props
 }) {
   const textVal = props.mode === 'tags';
-  const cascade = props.cascade || false;
-  const cascadeVal = cascade ? state[cascade] : false;
   const [params, setParams] = useState({});
 
   useEffect(() => {
-    let key = String(cascade);
-    if (key && !R.isNil(state[key])) {
+    console.log(cascade, cascadeVal);
+    if (cascade && cascadeVal) {
       setParams({
-        [key]: state[key],
+        [cascade]: cascadeVal,
       });
     }
   }, [cascade, cascadeVal]);
 
-  const { options } = useOptions({ url, defaultOption, params, textVal, cascade });
+  const { options } = useOptions({
+    url,
+    defaultOption,
+    params,
+    textVal,
+    cascade,
+  });
   const [optVal, setOptVal] = useState();
   useEffect(() => {
     let detail = R.filter(item =>
@@ -37,7 +42,7 @@ export default function PinyinSelector({
     }
     let val = detail.map(({ name }) => name);
     setOptVal(val);
-  }, [options, value, params]);
+  }, [options, value, props.cascade]);
 
   let [selectedItems, setSelectedItems] = useState([]);
 
@@ -90,7 +95,7 @@ export default function PinyinSelector({
       style={{ width: props.mode === 'multiple' ? 230 : 150 }}
       {...selectVal}
       onChange={props.mode === 'multiple' ? onMultipleChange : onSingleChange}
-      options={cascade && R.isNil(cascadeVal) ? [] : option}
+      options={cascade && R.isNil(params[cascade]) ? [] : option}
       placeholder="拼音首字母过滤"
       {...props}
     />

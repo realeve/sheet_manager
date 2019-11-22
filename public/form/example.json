@@ -48,6 +48,7 @@
         },
         {
           "title": "单选部门",
+          "block": "(待上一级选择显示)",
           "type": "select",
           "url": "27/9b520a55df.json",
           "key": "dept_id4",

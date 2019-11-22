@@ -1,5 +1,4 @@
-import React from 'react';
-import { useSetState } from 'react-use';
+import React, { useState } from 'react';
 
 import { Input, Col, Switch, InputNumber, DatePicker, Rate } from 'antd';
 import PinyinSelector from './PinyinSelector';
@@ -24,9 +23,10 @@ export default function formItem({
   setState,
   setFormstatus,
   keyName: key,
+  cascade,
   detail: { title, type, block, defaultOption, span = 8, ...props },
 }) {
-  let [validateState, setValidateState] = useSetState();
+  let [validateState, setValidateState] = useState(null);
 
   const onChange = (val: any, key: string, props: { [key: string]: any } = {}) => {
     let value = handler.trim(val);
@@ -36,17 +36,17 @@ export default function formItem({
     } else if (tolower) {
       value = handler.toLower(val);
     }
-    setState({ [key]: value });
+    setState(value);
     // 录入状态判断
     let status = onValidate(value, rule);
-    setValidateState({ [key]: status });
+    setValidateState(status);
     setFormstatus(status);
     console.log(val, key);
     // console.log('数据变更');
   };
 
   const getValue = (props, key: string) => {
-    let val = state[key];
+    let val = state;
     if (props.mode === 'multiple') {
       return val ? val.split(',') : [];
     }
@@ -59,7 +59,7 @@ export default function formItem({
   //       return (
   //         <Input
   //           style={{ width: '100%' }}
-  //           value={state[key]}
+  //           value={state}
   //           onChange={e => onChange(e.target.value, key, props)}
   //           {...props}
   //         />
@@ -69,7 +69,7 @@ export default function formItem({
   //         <TextArea
   //           style={{ width: '100%' }}
   //           autoSize={{ minRows: 1, maxRows: 2 }}
-  //           value={state[key]}
+  //           value={state}
   //           onChange={e => onChange(e.target.value, key, props)}
   //           {...props}
   //         />
@@ -81,7 +81,7 @@ export default function formItem({
   //           min={props.min}
   //           max={props.max}
   //           style={{ width: '100%' }}
-  //           value={state[key]}
+  //           value={state}
   //           onChange={value => onChange(value, key, props)}
   //           {...props}
   //         />
@@ -90,7 +90,7 @@ export default function formItem({
   //     case 'datepicker':
   //       return (
   //         <DatePicker
-  //           value={moment(state[key] || moment(), props.datetype || 'YYYY-MM-DD')}
+  //           value={moment(state || moment(), props.datetype || 'YYYY-MM-DD')}
   //           onChange={(_, value) => onChange(value, key)}
   //           style={{ width: '100%' }}
   //           {...props}
@@ -114,7 +114,7 @@ export default function formItem({
   //       return (
   //         <Switch
   //           defaultChecked
-  //           checked={Boolean(state[key])}
+  //           checked={Boolean(state)}
   //           onChange={value => onChange(value, key)}
   //           {...props}
   //         />
@@ -123,7 +123,7 @@ export default function formItem({
   //     case 'radio.button':
   //       return (
   //         <RadioButton
-  //           value={state[key]}
+  //           value={state}
   //           url={props.url}
   //           onChange={e => onChange(e.target.value, key)}
   //           defaultOption={defaultOption}
@@ -134,7 +134,7 @@ export default function formItem({
   //     case 'radio':
   //       return (
   //         <RadioSelector
-  //           value={state[key]}
+  //           value={state}
   //           url={props.url}
   //           onChange={e => onChange(e.target.value, key)}
   //           defaultOption={defaultOption}
@@ -144,7 +144,7 @@ export default function formItem({
   //     case 'check':
   //       return (
   //         <CheckSelector
-  //           value={state[key]}
+  //           value={state}
   //           url={props.url}
   //           onChange={value => onChange(value, key)}
   //           defaultOption={defaultOption}
@@ -156,11 +156,11 @@ export default function formItem({
   //         <span>
   //           <Rate
   //             tooltips={props.desc}
-  //             value={state[key] === '' ? 0 : state[key]}
+  //             value={state === '' ? 0 : state}
   //             onChange={value => onChange(value, key)}
   //             {...props}
   //           />
-  //           {state[key] ? <span className="ant-rate-text">{props.desc[state[key] - 1]}</span> : ''}
+  //           {state ? <span className="ant-rate-text">{props.desc[state - 1]}</span> : ''}
   //         </span>
   //       );
 
@@ -184,11 +184,11 @@ export default function formItem({
       >
         {title}
       </span>
-      <div className={cx({ 'has-error': false === validateState[key] }, 'element')}>
+      <div className={cx({ 'has-error': false === validateState }, 'element')}>
         {type === 'input' && (
           <Input
             style={{ width: '100%' }}
-            value={state[key]}
+            value={state}
             onChange={e => onChange(e.target.value, key, props)}
             {...props}
           />
@@ -197,7 +197,7 @@ export default function formItem({
           <TextArea
             style={{ width: '100%' }}
             autoSize={{ minRows: 1, maxRows: 2 }}
-            value={state[key]}
+            value={state}
             onChange={e => onChange(e.target.value, key, props)}
             {...props}
           />
@@ -207,14 +207,14 @@ export default function formItem({
             min={props.min}
             max={props.max}
             style={{ width: '100%' }}
-            value={state[key]}
+            value={state}
             onChange={value => onChange(value, key, props)}
             {...props}
           />
         )}
         {type === 'datepicker' && (
           <DatePicker
-            value={moment(state[key] || moment(), props.datetype || 'YYYY-MM-DD')}
+            value={moment(state || moment(), props.datetype || 'YYYY-MM-DD')}
             onChange={(_, value) => onChange(value, key)}
             style={{ width: '100%' }}
             {...props}
@@ -230,19 +230,20 @@ export default function formItem({
             db_key={key}
             style={{ width: '100%' }}
             {...props}
+            cascade={cascade}
           />
         )}
         {type === 'switch' && (
           <Switch
             defaultChecked
-            checked={Boolean(state[key])}
+            checked={Boolean(state)}
             onChange={value => onChange(value, key)}
             {...props}
           />
         )}
         {type === 'radio.button' && (
           <RadioButton
-            value={state[key]}
+            value={state}
             url={props.url}
             onChange={e => onChange(e.target.value, key)}
             defaultOption={defaultOption}
@@ -251,7 +252,7 @@ export default function formItem({
         )}
         {type === 'radio' && (
           <RadioSelector
-            value={state[key]}
+            value={state}
             url={props.url}
             onChange={e => onChange(e.target.value, key)}
             defaultOption={defaultOption}
@@ -260,7 +261,7 @@ export default function formItem({
         )}
         {type === 'check' && (
           <CheckSelector
-            value={state[key]}
+            value={state}
             url={props.url}
             onChange={value => onChange(value, key)}
             defaultOption={defaultOption}
@@ -271,15 +272,15 @@ export default function formItem({
           <span>
             <Rate
               tooltips={props.desc}
-              value={state[key] === '' ? 0 : state[key]}
+              value={state === '' ? 0 : state}
               onChange={value => onChange(value, key)}
               {...props}
             />
-            {state[key] ? <span className="ant-rate-text">{props.desc[state[key] - 1]}</span> : ''}
+            {state ? <span className="ant-rate-text">{props.desc[state - 1]}</span> : ''}
           </span>
         )}
 
-        {'undefined' !== typeof validateState[key] && !validateState[key] && props.rule ? (
+        {!validateState && props.rule ? (
           <label className="ant-form-explain">{getRuleMsg(props.rule, title)}</label>
         ) : (
           block && <label className="ant-form-explain">{block}</label>
