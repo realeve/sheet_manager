@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Col,
-  Button,
-  Popconfirm,
-  notification
-} from 'antd';
-import { validRequire, getPostData } from './lib';
+import { Col, Button, Popconfirm, notification } from 'antd';
+import { validRequire, getPostData, onValidate } from './lib';
 import { axios } from '@/utils/axios';
 import * as R from 'ramda';
 import { formatMessage } from 'umi/locale';
 import styles from './index.less';
 import { connect } from 'dva';
 
-function formAction({ fields, requiredFileds, uid, setEditMethod, formstatus, editMethod, state, setState, formConfig, config }) {
+function formAction({
+  fields,
+  requiredFileds,
+  uid,
+  setEditMethod,
+  formstatus,
+  editMethod,
+  state,
+  setState,
+  formConfig,
+  config,
+}) {
   // 当前数据提交状态，提交时禁止重复提交
   const [submitting, setSubmitting] = useState(false);
 
@@ -58,7 +64,7 @@ function formAction({ fields, requiredFileds, uid, setEditMethod, formstatus, ed
   };
 
   useEffect(() => {
-    // 历史数据载入 
+    // 历史数据载入
     let { api } = formConfig;
     if (api && api.query) {
       // api不存在，历史记录查询接口不存在，当前为更新模式
@@ -82,6 +88,30 @@ function formAction({ fields, requiredFileds, uid, setEditMethod, formstatus, ed
     if (R.equals(params, loadOption.params)) {
       return;
     }
+
+    // 判断观测参数是否满足正则要求
+    let valid = true;
+    let cfg = R.flatten(R.map(R.prop('detail'))(config.detail));
+
+    param.forEach(key => {
+      // 值
+      let val = state[key];
+      // 配置项
+      let cfgItem = R.find(R.propEq('key', key))(cfg);
+
+      // 是否为有效值
+      let result = onValidate(val, (cfgItem && cfgItem.rule) || {});
+
+      if (!result) {
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      return;
+    }
+
+    // 数据满足要求，发起请求
 
     let option = {
       url,
@@ -119,7 +149,6 @@ function formAction({ fields, requiredFileds, uid, setEditMethod, formstatus, ed
     notity(affected_rows);
   };
 
-
   // 提交数据
   const onsubmit = async (editType = editMethod) => {
     if (submitting) {
@@ -147,51 +176,52 @@ function formAction({ fields, requiredFileds, uid, setEditMethod, formstatus, ed
     notity(affected_rows);
   };
 
-  return <Col span={24} className={styles.submit}>
-    <Button type="default" onClick={() => onReset()} disabled={!formstatus}>
-      {formatMessage({ id: 'form.reset' })}
-    </Button>
-    {editMethod === 'update' && (
-      <Button
-        type="danger"
-        onClick={() => onsubmit()}
-        disabled={!formstatus}
-        style={{ marginLeft: 20 }}
-        loading={submitting}
-      >
-        {formatMessage({ id: 'form.update' })}
+  return (
+    <Col span={24} className={styles.submit}>
+      <Button type="default" onClick={() => onReset()} disabled={!formstatus}>
+        {formatMessage({ id: 'form.reset' })}
       </Button>
-    )}
-    <Button
-      type="primary"
-      onClick={() => onsubmit('insert')}
-      disabled={!formstatus}
-      style={{ marginLeft: 20 }}
-      loading={submitting}
-    >
-      {formatMessage({ id: 'form.submit' })}
-    </Button>
-
-    {config.api.delete && config.api.delete.url && (
-      <Popconfirm
-        title="确定删除本条数据?"
-        onConfirm={() => onDelete()}
-        okText="是"
-        cancelText="否"
-      >
+      {editMethod === 'update' && (
         <Button
           type="danger"
+          onClick={() => onsubmit()}
           disabled={!formstatus}
           style={{ marginLeft: 20 }}
           loading={submitting}
         >
-          {formatMessage({ id: 'form.delete' })}
+          {formatMessage({ id: 'form.update' })}
         </Button>
-      </Popconfirm>
-    )}
-  </Col>
-}
+      )}
+      <Button
+        type="primary"
+        onClick={() => onsubmit('insert')}
+        disabled={!formstatus}
+        style={{ marginLeft: 20 }}
+        loading={submitting}
+      >
+        {formatMessage({ id: 'form.submit' })}
+      </Button>
 
+      {config.api.delete && config.api.delete.url && (
+        <Popconfirm
+          title="确定删除本条数据?"
+          onConfirm={() => onDelete()}
+          okText="是"
+          cancelText="否"
+        >
+          <Button
+            type="danger"
+            disabled={!formstatus}
+            style={{ marginLeft: 20 }}
+            loading={submitting}
+          >
+            {formatMessage({ id: 'form.delete' })}
+          </Button>
+        </Popconfirm>
+      )}
+    </Col>
+  );
+}
 
 export default connect(({ common: { userSetting } }) => ({
   uid: userSetting.uid,

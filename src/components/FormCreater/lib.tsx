@@ -19,7 +19,7 @@ export const handler = {
     if (type === 'boolean') {
       return Number(str);
     } else if (type === 'string') {
-      return str.trim();
+      // return str.trim();
     } else if (type === 'array') {
       return str.join(',');
     }

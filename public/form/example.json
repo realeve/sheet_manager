@@ -37,6 +37,7 @@
         },
         {
           "title": "部门",
+          "block": "多选，选择后载入数据加载下一个组件的数据",
           "type": "select",
           "url": "27/9b520a55df.json",
           "key": "dept_id",
@@ -44,6 +45,17 @@
             "required": true
           },
           "mode": "multiple"
+        },
+        {
+          "title": "单选部门",
+          "type": "select",
+          "url": "27/9b520a55df.json",
+          "key": "dept_id4",
+          "rule": {
+            "required": true
+          },
+          "cascade": "dept_id",
+          "block": "当dept_id变更时，加载该组件数据"
         },
         {
           "title": "部门1",
@@ -76,17 +88,6 @@
           "rule": {
             "required": true
           }
-        },
-        {
-          "title": "单选部门",
-          "type": "select",
-          "url": "27/9b520a55df.json",
-          "key": "dept_id4",
-          "rule": {
-            "required": true
-          },
-          "cascade": "dept_id",
-          "block": "当dept_id变更时，加载该组件数据"
         },
         {
           "title": "单选部门3",
