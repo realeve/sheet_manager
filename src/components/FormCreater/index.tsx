@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
 import { Card, Row, Icon } from 'antd';
 import styles from './index.less';
@@ -69,6 +69,9 @@ function FormCreater({ config, dispatch }) {
 
   // console.log(config, state, '🌸');
 
+  // 对应指标数据范围
+  const [scope, setScope] = useState([]);
+
   return (
     <div>
       <CodeDrawer
@@ -97,26 +100,23 @@ function FormCreater({ config, dispatch }) {
             key={mainTitle}
           >
             <Row gutter={15}>
-              {detailArr.map(({ key, cascade, ...detail }) =>
-                useMemo(
-                  () => (
-                    <FormItem
-                      key={key}
-                      keyName={key}
-                      state={state[key]}
-                      cascade={[cascade, state[cascade]]}
-                      setState={res => {
-                        setState({
-                          [key]: res,
-                        });
-                      }}
-                      setFormstatus={setFormstatus}
-                      detail={detail}
-                    />
-                  ),
-                  [JSON.stringify(detail), JSON.stringify(state[key]), state[cascade]]
-                )
-              )}
+              {detailArr.map(({ key, cascade, ...detail }) => (
+                <FormItem
+                  key={key}
+                  keyName={key}
+                  state={state[key]}
+                  cascade={[cascade, state[cascade]]}
+                  setState={res => {
+                    setState({
+                      [key]: res,
+                    });
+                  }}
+                  setFormstatus={setFormstatus}
+                  detail={detail}
+                  scope={scope}
+                  setScope={setScope}
+                />
+              ))}
               {idx === formConfig.detail.length - 1 && (
                 <FormAction
                   requiredFileds={requiredFileds}

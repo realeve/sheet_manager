@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PinyinSelect from '../PinyinSelect';
 import { useOptions } from './useOptions';
 import * as R from 'ramda';
+import { handleScope } from './FormItem';
+
 export default function PinyinSelector({
   url,
   value,
@@ -78,7 +80,7 @@ export default function PinyinSelector({
       handleOption(value);
       value = [R.last(value)];
     }
-    onChange(value);
+    onChange(value, handleScope(value, options));
   };
 
   let selectVal =

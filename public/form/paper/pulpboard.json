@@ -1,0 +1,379 @@
+{
+  "name": "浆板明细",
+  "api": {
+    "insert": {
+      "url": "122/adsf78234.json",
+      "param": ["rec_time", "uid"]
+    },
+    "update": {
+      "url": "123/asdfasdf.json",
+      "param": ["_id"]
+    },
+    "query": {
+      "url": "114/ad3adsf4d.json",
+      "param": ["cart_number"]
+    }
+  },
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "产品名称",
+          "type": "radio.button",
+          "block": "产品名称不同时指标范围不同，请录入信息前先选择该项",
+          "defaultOption": [
+            {
+              "name": "三级棉浆板",
+              "value": "三级棉浆板",
+              "scope": [
+                {
+                  "key": "whiteness",
+                  "min": 77,
+                  "max": 81
+                },
+                {
+                  "key": "dirt_count",
+                  "max": 20
+                },
+                {
+                  "key": "moisture_count",
+                  "max": 13
+                },
+                {
+                  "key": "fluo",
+                  "max": 10
+                },
+                {
+                  "key": "avg_fiber_length",
+                  "min": 2.5,
+                  "max": 3.5
+                },
+                {
+                  "key": "folding_strength",
+                  "min": 2000
+                },
+                {
+                  "key": "breaking_length",
+                  "min": 4000
+                },
+                {
+                  "key": "ph",
+                  "min": 7,
+                  "max": 8
+                }
+              ]
+            },
+            {
+              "name": "梳落棉浆板",
+              "value": "梳落棉浆板",
+              "scope": [
+                {
+                  "key": "whiteness",
+                  "min": 77,
+                  "max": 81
+                },
+                {
+                  "key": "dirt_count",
+                  "max": 18
+                },
+                {
+                  "key": "moisture_count",
+                  "max": 13
+                },
+                {
+                  "key": "fluo",
+                  "max": 10
+                },
+                {
+                  "key": "avg_fiber_length",
+                  "min": 2.5,
+                  "max": 3.5
+                },
+                {
+                  "key": "folding_strength",
+                  "min": 2000
+                },
+                {
+                  "key": "breaking_length",
+                  "min": 4000
+                },
+                {
+                  "key": "ph",
+                  "min": 7,
+                  "max": 8
+                }
+              ]
+            },
+            {
+              "name": "短绒浆板",
+              "value": "短绒浆板",
+              "scope": [
+                {
+                  "key": "whiteness",
+                  "min": 77,
+                  "max": 81
+                },
+                {
+                  "key": "dirt_count",
+                  "max": 20
+                },
+                {
+                  "key": "moisture_count",
+                  "max": 13
+                },
+                {
+                  "key": "fluo",
+                  "max": 10
+                },
+                {
+                  "key": "avg_fiber_length",
+                  "min": 2.5,
+                  "max": 3.5
+                },
+                {
+                  "key": "folding_strength",
+                  "min": 800
+                },
+                {
+                  "key": "breaking_length",
+                  "min": 3900
+                },
+                {
+                  "key": "ph",
+                  "min": 7,
+                  "max": 8
+                }
+              ]
+            },
+            {
+              "name": "针叶木浆板",
+              "value": "针叶木浆板",
+              "scope": [
+                {
+                  "key": "whiteness",
+                  "min": 83,
+                  "max": 90
+                },
+                {
+                  "key": "dirt_count",
+                  "max": 30
+                },
+                {
+                  "key": "moisture_count",
+                  "max": 13
+                },
+                {
+                  "key": "fluo",
+                  "max": 10
+                },
+                {
+                  "key": "folding_strength",
+                  "min": 750
+                },
+                {
+                  "key": "breaking_length",
+                  "min": 6000
+                }
+              ]
+            }
+          ],
+          "url": "27/9b520a55df.json",
+          "key": "prod_name",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "产地",
+          "type": "input",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入产地信息"
+          },
+          "placeholder": "请输入产地信息",
+          "maxLength": 8
+        },
+        {
+          "title": "批号",
+          "type": "input",
+          "key": "batch_no",
+          "rule": {
+            "required": true,
+            "msg": "请输入批号"
+          },
+          "placeholder": "请输入批号",
+          "toupper": "true"
+        },
+        {
+          "title": "数量",
+          "block": "单位:件",
+          "type": "input.number",
+          "key": "prod_num",
+          "rule": {
+            "required": true,
+            "msg": "请输入数量"
+          },
+          "placeholder": "请输入数量"
+        },
+        {
+          "title": "生产日期",
+          "type": "datepicker",
+          "key": "prod_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "编号",
+          "type": "input",
+          "key": "sn",
+          "rule": {
+            "required": true,
+            "msg": "请输入编号信息"
+          },
+          "placeholder": "请输入编号信息"
+        },
+        {
+          "title": "取样日期",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "检测日期",
+          "type": "datepicker",
+          "key": "test_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "白度",
+          "type": "input.number",
+          "key": "whiteness",
+
+          "block": "(单位：%)",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "尘埃度",
+          "type": "input.number",
+          "key": "dirt_count",
+          "block": "(单位：mm<sup>2</sup>/500g)",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "水分",
+          "type": "input.number",
+          "key": "moisture_count",
+          "scope": {
+            "max": 13
+          },
+          "block": "(单位：%)",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "荧光物质",
+          "type": "input.number",
+          "key": "fluo",
+
+          "block": "(单位：mm<sup>2</sup>/500g)",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "平均纤维长",
+          "type": "input.number",
+          "key": "avg_fiber_length",
+
+          "block": "(单位：mm)",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "耐折度(双次)",
+          "type": "input.number",
+          "key": "folding_strength",
+
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "裂断长",
+          "type": "input.number",
+          "key": "breaking_length",
+          "block": "(单位：m)",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "pH值",
+          "type": "input.number",
+          "key": "ph",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "检验员",
+          "type": "input",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "检验结论",
+          "type": "input.textarea",
+          "key": "result",
+          "placeholder": "请在此填入检验结论",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    }
+  ]
+}

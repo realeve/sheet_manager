@@ -18,6 +18,11 @@ moment.locale('zh-cn');
 const cx = classNames.bind(styles);
 const { TextArea } = Input;
 
+export const handleScope = (value, option) => {
+  let item = R.find(R.propEq('value', value))(option);
+  return (item && item.scope) || [];
+};
+
 export default function formItem({
   state,
   setState,
@@ -25,8 +30,14 @@ export default function formItem({
   keyName: key,
   cascade,
   detail: { title, type, block, defaultOption, span = 8, ...props },
+  scope = [],
+  setScope,
 }) {
   let [validateState, setValidateState] = useState(true);
+
+  let [validateScope, setValidateScope] = useState(true);
+  const isInput = ['input', 'input.number'].includes(type);
+  let scopeDetail = isInput ? R.find(R.propEq('key', key))(scope) : false;
 
   const onChange = (val: any, props: { [key: string]: any } = {}) => {
     let value = handler.trim(val);
@@ -41,6 +52,20 @@ export default function formItem({
     let status = onValidate(value, rule);
     setValidateState(status);
     setFormstatus(status);
+
+    if (isInput && scopeDetail) {
+      // input 元素需要处理数据录入范围
+
+      if (
+        (scopeDetail.min && val < scopeDetail.min) ||
+        (scopeDetail.max && val > scopeDetail.max)
+      ) {
+        setValidateScope(false);
+      } else {
+        setValidateScope(true);
+      }
+    }
+
     // console.log(val, key);
     // console.log('数据变更');
   };
@@ -68,19 +93,29 @@ export default function formItem({
       >
         {title}
       </span>
-      <div className={cx({ 'has-error': false === validateState }, 'element')}>
-        {type === 'input' && (
-          <Input
+      <div
+        className={cx(
+          { 'has-error': false === validateState || false === validateScope },
+          'element',
+          {
+            elementLarge: ['select', 'radio', 'radio.button', 'check'].includes(type),
+          }
+        )}
+      >
+        {type === 'input.textarea' && (
+          <TextArea
             style={{ width: '100%' }}
+            autoSize={{ minRows: 1, maxRows: 2 }}
             value={state}
             onChange={e => onChange(e.target.value, props)}
             {...props}
           />
         )}
-        {type === 'input.textarea' && (
-          <TextArea
+
+        {/* 处理SCOPE信息，展示数据范围  */}
+        {type === 'input' && (
+          <Input
             style={{ width: '100%' }}
-            autoSize={{ minRows: 1, maxRows: 2 }}
             value={state}
             onChange={e => onChange(e.target.value, props)}
             {...props}
@@ -113,19 +148,6 @@ export default function formItem({
             {...props}
           />
         )}
-        {type === 'select' && (
-          <PinyinSelector
-            url={props.url}
-            value={getValue(props)}
-            onChange={value => onChange(value)}
-            defaultOption={defaultOption}
-            state={state}
-            db_key={key}
-            style={{ width: '100%' }}
-            {...props}
-            cascade={cascade}
-          />
-        )}
         {type === 'switch' && (
           <Switch
             defaultChecked
@@ -134,11 +156,30 @@ export default function formItem({
             {...props}
           />
         )}
+        {type === 'select' && (
+          <PinyinSelector
+            url={props.url}
+            value={getValue(props)}
+            onChange={(val, scopeItem) => {
+              onChange(val);
+              setScope(scopeItem);
+            }}
+            defaultOption={defaultOption}
+            state={state}
+            db_key={key}
+            style={{ width: '100%' }}
+            {...props}
+            cascade={cascade}
+          />
+        )}
         {type === 'radio.button' && (
           <RadioButton
             value={state}
             url={props.url}
-            onChange={e => onChange(e.target.value)}
+            onChange={(val, scopeItem) => {
+              onChange(val);
+              setScope(scopeItem);
+            }}
             defaultOption={defaultOption}
             {...props}
           />
@@ -147,7 +188,10 @@ export default function formItem({
           <RadioSelector
             value={state}
             url={props.url}
-            onChange={e => onChange(e.target.value)}
+            onChange={(val, scopeItem) => {
+              onChange(val);
+              setScope(scopeItem);
+            }}
             defaultOption={defaultOption}
             {...props}
           />
@@ -176,7 +220,18 @@ export default function formItem({
         {!validateState && props.rule ? (
           <label className="ant-form-explain">{getRuleMsg(props.rule, title)}</label>
         ) : (
-          block && <label className="ant-form-explain">{block}</label>
+          block && (
+            <label
+              className="ant-form-explain"
+              dangerouslySetInnerHTML={{
+                __html:
+                  block +
+                  (scopeDetail
+                    ? ` (范围:${scopeDetail.min || '-∞'} ~ ${scopeDetail.max || '+∞'})`
+                    : ''),
+              }}
+            ></label>
+          )
         )}
       </div>
     </Col>
