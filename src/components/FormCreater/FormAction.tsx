@@ -170,9 +170,10 @@ function formAction({
     setSubmitting(true);
     let {
       data: [{ affected_rows }],
-    } = await axios(axiosConfig);
+    } = await axios(axiosConfig).finally(() => {
+      setSubmitting(false);
+    });
 
-    setSubmitting(false);
     notity(affected_rows);
   };
 

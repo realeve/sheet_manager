@@ -16,7 +16,6 @@ export default function PinyinSelector({
   const [params, setParams] = useState({});
 
   useEffect(() => {
-    console.log(cascade, cascadeVal);
     if (cascade && cascadeVal) {
       setParams({
         [cascade]: cascadeVal,

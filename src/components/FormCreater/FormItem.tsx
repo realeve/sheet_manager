@@ -26,9 +26,9 @@ export default function formItem({
   cascade,
   detail: { title, type, block, defaultOption, span = 8, ...props },
 }) {
-  let [validateState, setValidateState] = useState(null);
+  let [validateState, setValidateState] = useState(true);
 
-  const onChange = (val: any, key: string, props: { [key: string]: any } = {}) => {
+  const onChange = (val: any, props: { [key: string]: any } = {}) => {
     let value = handler.trim(val);
     let { toupper, tolower, rule } = props;
     if (toupper) {
@@ -41,133 +41,17 @@ export default function formItem({
     let status = onValidate(value, rule);
     setValidateState(status);
     setFormstatus(status);
-    console.log(val, key);
+    // console.log(val, key);
     // console.log('数据变更');
   };
 
-  const getValue = (props, key: string) => {
+  const getValue = ({ mode }: { mode: 'multiple' | 'single' | null }) => {
     let val = state;
-    if (props.mode === 'multiple') {
+    if (mode === 'multiple') {
       return val ? val.split(',') : [];
     }
     return R.isNil(val) ? null : val;
   };
-
-  // const FormFields = ({ type }) => {
-  //   switch (type) {
-  //     case 'input':
-  //       return (
-  //         <Input
-  //           style={{ width: '100%' }}
-  //           value={state}
-  //           onChange={e => onChange(e.target.value, key, props)}
-  //           {...props}
-  //         />
-  //       );
-  //     case 'input.textarea':
-  //       return (
-  //         <TextArea
-  //           style={{ width: '100%' }}
-  //           autoSize={{ minRows: 1, maxRows: 2 }}
-  //           value={state}
-  //           onChange={e => onChange(e.target.value, key, props)}
-  //           {...props}
-  //         />
-  //       );
-
-  //     case 'input.number':
-  //       return (
-  //         <InputNumber
-  //           min={props.min}
-  //           max={props.max}
-  //           style={{ width: '100%' }}
-  //           value={state}
-  //           onChange={value => onChange(value, key, props)}
-  //           {...props}
-  //         />
-  //       );
-
-  //     case 'datepicker':
-  //       return (
-  //         <DatePicker
-  //           value={moment(state || moment(), props.datetype || 'YYYY-MM-DD')}
-  //           onChange={(_, value) => onChange(value, key)}
-  //           style={{ width: '100%' }}
-  //           {...props}
-  //         />
-  //       );
-  //     case 'select':
-  //       return (
-  //         <PinyinSelector
-  //           url={props.url}
-  //           value={getValue(props, key)}
-  //           onChange={value => onChange(value, key)}
-  //           defaultOption={defaultOption}
-  //           state={state}
-  //           db_key={key}
-  //           style={{ width: '100%' }}
-  //           {...props}
-  //         />
-  //       );
-
-  //     case 'switch':
-  //       return (
-  //         <Switch
-  //           defaultChecked
-  //           checked={Boolean(state)}
-  //           onChange={value => onChange(value, key)}
-  //           {...props}
-  //         />
-  //       );
-
-  //     case 'radio.button':
-  //       return (
-  //         <RadioButton
-  //           value={state}
-  //           url={props.url}
-  //           onChange={e => onChange(e.target.value, key)}
-  //           defaultOption={defaultOption}
-  //           {...props}
-  //         />
-  //       );
-
-  //     case 'radio':
-  //       return (
-  //         <RadioSelector
-  //           value={state}
-  //           url={props.url}
-  //           onChange={e => onChange(e.target.value, key)}
-  //           defaultOption={defaultOption}
-  //           {...props}
-  //         />
-  //       );
-  //     case 'check':
-  //       return (
-  //         <CheckSelector
-  //           value={state}
-  //           url={props.url}
-  //           onChange={value => onChange(value, key)}
-  //           defaultOption={defaultOption}
-  //           {...props}
-  //         />
-  //       );
-  //     case 'rate':
-  //       return (
-  //         <span>
-  //           <Rate
-  //             tooltips={props.desc}
-  //             value={state === '' ? 0 : state}
-  //             onChange={value => onChange(value, key)}
-  //             {...props}
-  //           />
-  //           {state ? <span className="ant-rate-text">{props.desc[state - 1]}</span> : ''}
-  //         </span>
-  //       );
-
-  //     default:
-  //       return null;
-  //   }
-  // };
 
   return (
     <Col
@@ -189,7 +73,7 @@ export default function formItem({
           <Input
             style={{ width: '100%' }}
             value={state}
-            onChange={e => onChange(e.target.value, key, props)}
+            onChange={e => onChange(e.target.value, props)}
             {...props}
           />
         )}
@@ -198,7 +82,7 @@ export default function formItem({
             style={{ width: '100%' }}
             autoSize={{ minRows: 1, maxRows: 2 }}
             value={state}
-            onChange={e => onChange(e.target.value, key, props)}
+            onChange={e => onChange(e.target.value, props)}
             {...props}
           />
         )}
@@ -208,14 +92,23 @@ export default function formItem({
             max={props.max}
             style={{ width: '100%' }}
             value={state}
-            onChange={value => onChange(value, key, props)}
+            onChange={value => onChange(value, props)}
             {...props}
           />
         )}
         {type === 'datepicker' && (
           <DatePicker
             value={moment(state || moment(), props.datetype || 'YYYY-MM-DD')}
-            onChange={(_, value) => onChange(value, key)}
+            onChange={(_, value) => onChange(value)}
+            showTime={props.showTime || false}
+            style={{ width: '100%' }}
+            {...props}
+          />
+        )}
+        {type === 'datepicker.month' && (
+          <DatePicker.MonthPicker
+            value={moment(state || moment(), props.datetype || 'YYYY-MM')}
+            onChange={(_, value) => onChange(value)}
             style={{ width: '100%' }}
             {...props}
           />
@@ -223,8 +116,8 @@ export default function formItem({
         {type === 'select' && (
           <PinyinSelector
             url={props.url}
-            value={getValue(props, key)}
-            onChange={value => onChange(value, key)}
+            value={getValue(props)}
+            onChange={value => onChange(value)}
             defaultOption={defaultOption}
             state={state}
             db_key={key}
@@ -237,7 +130,7 @@ export default function formItem({
           <Switch
             defaultChecked
             checked={Boolean(state)}
-            onChange={value => onChange(value, key)}
+            onChange={value => onChange(value)}
             {...props}
           />
         )}
@@ -245,7 +138,7 @@ export default function formItem({
           <RadioButton
             value={state}
             url={props.url}
-            onChange={e => onChange(e.target.value, key)}
+            onChange={e => onChange(e.target.value)}
             defaultOption={defaultOption}
             {...props}
           />
@@ -254,7 +147,7 @@ export default function formItem({
           <RadioSelector
             value={state}
             url={props.url}
-            onChange={e => onChange(e.target.value, key)}
+            onChange={e => onChange(e.target.value)}
             defaultOption={defaultOption}
             {...props}
           />
@@ -263,7 +156,7 @@ export default function formItem({
           <CheckSelector
             value={state}
             url={props.url}
-            onChange={value => onChange(value, key)}
+            onChange={value => onChange(value)}
             defaultOption={defaultOption}
             {...props}
           />
@@ -273,7 +166,7 @@ export default function formItem({
             <Rate
               tooltips={props.desc}
               value={state === '' ? 0 : state}
-              onChange={value => onChange(value, key)}
+              onChange={value => onChange(value)}
               {...props}
             />
             {state ? <span className="ant-rate-text">{props.desc[state - 1]}</span> : ''}

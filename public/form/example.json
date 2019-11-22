@@ -48,7 +48,6 @@
         },
         {
           "title": "单选部门",
-          "block": "(待上一级选择显示)",
           "type": "select",
           "url": "27/9b520a55df.json",
           "key": "dept_id4",
@@ -115,6 +114,26 @@
           "type": "datepicker",
           "key": "rec_date",
           "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "录入月份",
+          "type": "datepicker.month",
+          "key": "rec_month",
+          "datetype": "YYYY-MM",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "录入时间",
+          "type": "datepicker",
+          "key": "rec_time_detail",
+          "datetype": "YYYY-MM-DD hh:mm:ss",
+          "showTime": true,
+          "block": "显示时分秒",
           "rule": {
             "required": true
           }
