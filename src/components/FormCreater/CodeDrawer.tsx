@@ -15,6 +15,42 @@ const { Title, Paragraph } = Typography;
 import styles from './index.less';
 import * as R from 'ramda';
 
+const getCreate = config => {
+  let res = R.compose(
+    R.flatten,
+    R.map(item => item.detail)
+  )(config.detail);
+  let keyStrs = res.map(item => {
+    let key = item.key;
+    if (item.type.includes('date')) {
+      return `[${key}] datetime  DEFAULT (getdate()) NULL`;
+    } else if (item.type === 'input.number') {
+      // 字段类型
+      let filedType = 'int';
+      if (item.rule && item.rule.type === 'float') {
+        filedType = 'float(53)';
+      }
+      return `[${key}] ${filedType} DEFAULT ((0)) NULL`;
+    }
+    return `[${key}] nchar(40) DEFAULT ''`;
+  });
+
+  let param = config.api.insert.param || [];
+  let appendSql = '';
+  if (param.includes('rec_time')) {
+    appendSql += '[rec_time] datetime DEFAULT (getdate()) NULL,';
+  }
+  if (param.includes['uid']) {
+    appendSql += '[uid] int NULL,';
+  }
+
+  return `CREATE TABLE ${config.table} (
+  [id] int  IDENTITY(1,1) NOT NULL,
+  ${appendSql}
+  ${keyStrs.join(',\r\n')}
+) `;
+};
+
 export default function codeDrawer({
   modalVisible,
   setModalVisible,
@@ -39,21 +75,21 @@ export default function codeDrawer({
         R.map(item => item.detail)
       )(formConfig.detail);
       let keys = res.map(item => item.key);
-      const insert = `insert into ${formConfig.table} (${keys.join(',')}) values(${new Array(
-        res.length
-      )
-        .fill('?')
-        .join(',')})`;
+      // const insert = `insert into ${formConfig.table} (${keys.join(',')}) values(${new Array(
+      //   res.length
+      // )
+      //   .fill('?')
+      //   .join(',')})`;
       const select = `select ${keys.join(',')} from ${formConfig.table} where id = 1`;
-      const deleteStr = `delete from ${formConfig.table} where id=?`;
-      const update = `update ${formConfig.table} set ${keys
-        .map(key => key + '=?')
-        .join(',')} where id=?`;
+      // const deleteStr = `delete from ${formConfig.table} where id=?`;
+      // const update = `update ${formConfig.table} set ${keys
+      //   .map(key => key + '=?')
+      //   .join(',')} where id=?`;
+      const create = getCreate(formConfig);
+
       setSql({
-        insert,
         select,
-        delete: deleteStr,
-        update,
+        create,
       });
     }
   }, [formConfig]);
@@ -115,7 +151,20 @@ export default function codeDrawer({
       </div>
 
       <Paragraph>
-        <Title level={4}>sql配置文件</Title>
+        <Title level={4}>建表</Title>
+      </Paragraph>
+      <CodeMirror
+        value={beautify(sql.create, { indent_size: 2, wrap_line_length: 60 })}
+        options={{
+          mode: 'sql',
+          lineNumbers: true,
+          styleActiveLine: true,
+          matchBrackets: true,
+          theme: 'material',
+        }}
+      />
+      <Paragraph>
+        <Title level={4}>配置接口文件</Title>
       </Paragraph>
       <CodeMirror
         value={beautify(sql.select, { indent_size: 2, wrap_line_length: 60 })}
