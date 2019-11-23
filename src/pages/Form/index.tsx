@@ -24,6 +24,10 @@ export default function page(): JSX.Element {
   return R.equals(config, {}) ? (
     <Card>
       <h3>请设置表单配置信息</h3>
+      <p>
+        可尝试访问示例链接：
+        <a href="/form#id=./form/paper/pulpboard.json">/form#id=./form/paper/pulpboard.json</a>
+      </p>
     </Card>
   ) : (
     <FormCreater config={config} />

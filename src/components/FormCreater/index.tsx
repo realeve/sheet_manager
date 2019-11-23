@@ -10,7 +10,6 @@ import useFetch from '@/components/hooks/useFetch';
 import VTable from '@/components/Table.jsx';
 
 import { connect } from 'dva';
-import * as R from 'ramda';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
@@ -80,7 +79,7 @@ function FormCreater({ config, dispatch }) {
   // 对应指标数据范围
   const [scope, setScope] = useState([]);
 
-  const { data: tblData, loading } = useFetch({
+  const { data: tblData, loading, reFetch } = useFetch({
     param: {
       url: (formConfig.api.table || { url: '' }).url,
       params: { outterTrigger },
@@ -88,8 +87,6 @@ function FormCreater({ config, dispatch }) {
     valid: () =>
       formConfig.api.table && formConfig.api.table.url && formConfig.api.table.url.length > 0,
   });
-
-  console.log(formConfig.api.table && formConfig.api.table.url);
 
   return (
     <div>
@@ -147,6 +144,7 @@ function FormCreater({ config, dispatch }) {
                   editMethod={editMethod}
                   formConfig={formConfig}
                   config={config}
+                  reFetch={reFetch}
                 />
               )}
             </Row>

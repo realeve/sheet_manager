@@ -18,6 +18,7 @@ function formAction({
   setState,
   formConfig,
   config,
+  reFetch,
 }) {
   // 当前数据提交状态，提交时禁止重复提交
   const [submitting, setSubmitting] = useState(false);
@@ -152,6 +153,7 @@ function formAction({
     } = await axios({ url, params });
     console.log('删除数据', { url, params });
     notity(affected_rows);
+    reFetch && reFetch();
   };
 
   // 提交数据
@@ -180,6 +182,7 @@ function formAction({
     });
 
     notity(affected_rows);
+    reFetch && reFetch();
   };
 
   return (
