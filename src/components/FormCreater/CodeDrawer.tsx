@@ -7,8 +7,8 @@ import 'codemirror/theme/material.css';
 import beautify from 'js-beautify';
 import 'codemirror/mode/sql/sql';
 
-import { Drawer, Button, notification } from 'antd';
-import { Typography, Divider } from 'antd';
+import { Drawer, Button, notification, Typography, Divider } from 'antd';
+import { host } from '@/utils/setting';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -216,7 +216,17 @@ export default function codeDrawer({
 
       <Paragraph style={{ marginTop: 10 }}>
         <Title level={4}>2.接口配置</Title>
-        请到<Text mark>localhost:90/public/index.html</Text> 添加接口的增、删、改
+        请到
+        <Text mark>
+          <a
+            href={`${host.replace('api', 'public')}index.html`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {host.replace('api', 'public')}index.html
+          </a>
+        </Text>
+        添加接口的增、删、改
       </Paragraph>
       <CodeMirror
         value={sql.select}
