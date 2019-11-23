@@ -6,7 +6,11 @@ import { validRequire } from './lib';
 import FormItem from './FormItem';
 import CodeDrawer from './CodeDrawer';
 import FormAction from './FormAction';
+import useFetch from '@/components/hooks/useFetch';
+import VTable from '@/components/Table.jsx';
+
 import { connect } from 'dva';
+import * as R from 'ramda';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
@@ -23,6 +27,8 @@ function FormCreater({ config, dispatch }) {
   let [modalVisible, setModalVisible] = useState(false);
 
   let [formConfig, setFormConfig] = useState(config);
+
+  let [outterTrigger, setOutterTrigger] = useState(null);
 
   // config改变后初始化表单数据
   useEffect(() => {
@@ -52,6 +58,8 @@ function FormCreater({ config, dispatch }) {
         curPageName: config.name,
       },
     });
+
+    setOutterTrigger(Math.random());
   }, [config]);
 
   // 表单字段当前状态判断
@@ -71,6 +79,17 @@ function FormCreater({ config, dispatch }) {
 
   // 对应指标数据范围
   const [scope, setScope] = useState([]);
+
+  const { data: tblData, loading } = useFetch({
+    param: {
+      url: (formConfig.api.table || { url: '' }).url,
+      params: { outterTrigger },
+    },
+    valid: () =>
+      formConfig.api.table && formConfig.api.table.url && formConfig.api.table.url.length > 0,
+  });
+
+  console.log(formConfig.api.table && formConfig.api.table.url);
 
   return (
     <div>
@@ -133,6 +152,11 @@ function FormCreater({ config, dispatch }) {
             </Row>
           </Card>
         ))}
+        {tblData && (
+          <Card>
+            <VTable dataSrc={tblData} loading={loading} merge={false} />
+          </Card>
+        )}
       </div>
     </div>
   );

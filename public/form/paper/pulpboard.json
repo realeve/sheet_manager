@@ -2,16 +2,19 @@
   "name": "浆板明细",
   "api": {
     "insert": {
-      "url": "122/adsf78234.json",
+      "url": "698/f14142a39a.json",
       "param": ["rec_time", "uid"]
     },
     "update": {
-      "url": "123/asdfasdf.json",
-      "param": ["_id"]
+      "url": "700/7538b82812.json",
+      "param": ["batch_no"]
     },
     "query": {
-      "url": "114/ad3adsf4d.json",
+      "url": "699/d2fa045bb7.json",
       "param": ["batch_no"]
+    },
+    "table": {
+      "url": "702/cd760465ce.json"
     }
   },
   "table": "paper_material_pulpboard",
@@ -264,7 +267,6 @@
           "title": "白度",
           "type": "input.number",
           "key": "whiteness",
-
           "block": "(单位：%)",
           "rule": {
             "type": "float",
@@ -298,7 +300,6 @@
           "title": "荧光物质",
           "type": "input.number",
           "key": "fluo",
-
           "block": "(单位：mm<sup>2</sup>/500g)",
           "rule": {
             "type": "float",
@@ -309,7 +310,6 @@
           "title": "平均纤维长",
           "type": "input.number",
           "key": "avg_fiber_length",
-
           "block": "(单位：mm)",
           "rule": {
             "type": "float",
@@ -320,7 +320,6 @@
           "title": "耐折度(双次)",
           "type": "input.number",
           "key": "folding_strength",
-
           "rule": {
             "type": "float",
             "required": true

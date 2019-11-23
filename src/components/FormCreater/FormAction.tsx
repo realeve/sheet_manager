@@ -50,9 +50,14 @@ function formAction({
       if (data.length === 0) {
         return;
       }
-      // 载入历史数据
-      // setState(data[0]);
-      formInstance.set(data[0]);
+
+      // 去除空格
+      let res = data[0];
+      Object.keys(res).map(key => {
+        res[key] = res[key].trim();
+      });
+      formInstance.set(res);
+
       setEditMethod('update');
     });
   }, [loadOption.params]);

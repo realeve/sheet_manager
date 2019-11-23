@@ -18,6 +18,7 @@
       "param": ["cart_number"]
     }
   },
+  "table": "your_table_name",
   "detail": [
     {
       "title": "基础数据",

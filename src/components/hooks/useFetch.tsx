@@ -66,15 +66,15 @@ const useFetch = <T extends {} | void>({
     //   return;
     // }
 
+    // 加载时，data置为空
+    setData(null);
+
     // 数据请求前校验
-    if (!param.url || param.url.length === 0 || !valid()) {
+    if (typeof param.url === 'undefined' || !param.url || param.url.length === 0 || !valid()) {
       return;
     }
 
     setLoading(true);
-
-    // 加载时，data置为空
-    setData(null);
 
     // 数据mock
     if (initData) {

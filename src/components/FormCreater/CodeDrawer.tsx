@@ -10,7 +10,7 @@ import 'codemirror/mode/sql/sql';
 import { Drawer, Button, notification } from 'antd';
 import { Typography, Divider } from 'antd';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 import styles from './index.less';
 import * as R from 'ramda';
@@ -23,16 +23,16 @@ const getCreate = config => {
   let keyStrs = res.map(item => {
     let key = item.key;
     if (item.type.includes('date')) {
-      return `[${key}] datetime  DEFAULT (getdate()) NULL`;
+      return `  [${key}] datetime  DEFAULT (getdate()) NULL`;
     } else if (item.type === 'input.number') {
       // 字段类型
       let filedType = 'int';
       if (item.rule && item.rule.type === 'float') {
         filedType = 'float(53)';
       }
-      return `[${key}] ${filedType} DEFAULT ((0)) NULL`;
+      return `  [${key}] ${filedType} DEFAULT ((0)) NULL`;
     }
-    return `[${key}] nchar(40) DEFAULT ''`;
+    return `  [${key}] nchar(40) DEFAULT ''`;
   });
 
   let param = config.api.insert.param || [];
@@ -40,7 +40,7 @@ const getCreate = config => {
   if (param.includes('rec_time')) {
     appendSql += '[rec_time] datetime DEFAULT (getdate()) NULL,';
   }
-  if (param.includes['uid']) {
+  if (param.includes('uid')) {
     appendSql += '[uid] int NULL,';
   }
 
@@ -105,21 +105,40 @@ export default function codeDrawer({
         R.map(item => item.detail)
       )(formConfig.detail);
       let keys = res.map(item => item.key);
-      // const insert = `insert into ${formConfig.table} (${keys.join(',')}) values(${new Array(
-      //   res.length
-      // )
-      //   .fill('?')
-      //   .join(',')})`;
-      const select = `select ${keys.join(',')} from ${formConfig.table} where id = 1`;
-      // const deleteStr = `delete from ${formConfig.table} where id=?`;
-      // const update = `update ${formConfig.table} set ${keys
-      //   .map(key => key + '=?')
-      //   .join(',')} where id=?`;
+
+      let condition = formConfig.api.query || {
+        param: ['_id'],
+      };
+      const select = `      SELECT 
+        ${keys.join(',\r\n        ')} 
+      FROM
+        ${formConfig.table} 
+      WHERE
+        ${condition.param.map(item => `${item} = '1'`).join(' and ')}`;
+
       const create = getCreate(formConfig);
 
       setSql({
         select,
         create,
+        view: `      SELECT top 10
+        ${res
+          .map(item => {
+            let keyName = item.key;
+            if (item.type.includes('date')) {
+              keyName =
+                item.datetype === 'YYYY-MM-DD hh:mm:ss'
+                  ? `CONVERT ( VARCHAR, ${item.key}, 120 )`
+                  : `CONVERT ( VARCHAR(10), ${item.key}, 120 )`;
+            }
+            return `${keyName} ${item.title}`;
+          })
+          .join(',\r\n        ')},
+	    CONVERT ( VARCHAR, rec_time, 120 ) 录入时间
+        FROM
+        ${formConfig.table}  
+        ORDER BY
+          rec_time desc`,
       });
     }
   }, [formConfig]);
@@ -180,8 +199,9 @@ export default function codeDrawer({
         </Button>
       </div>
 
-      <Paragraph>
-        <Title level={4}>建表(mssql)</Title>
+      <Paragraph style={{ marginTop: 10 }}>
+        <Title level={4}>1.建表</Title>
+        此处以<Text mark>MSSQL Server</Text>为例建立数据表。
       </Paragraph>
       <CodeMirror
         value={sql.create}
@@ -193,11 +213,31 @@ export default function codeDrawer({
           theme: 'material',
         }}
       />
-      <Paragraph>
-        <Title level={4}>接口配置</Title>
+
+      <Paragraph style={{ marginTop: 10 }}>
+        <Title level={4}>2.接口配置</Title>
+        请到<Text mark>localhost:90/public/index.html</Text> 添加接口的增、删、改
       </Paragraph>
       <CodeMirror
-        value={beautify(sql.select, { indent_size: 2, wrap_line_length: 60 })}
+        value={sql.select}
+        options={{
+          mode: 'sql',
+          lineNumbers: true,
+          styleActiveLine: true,
+          matchBrackets: true,
+          theme: 'material',
+        }}
+      />
+
+      <Paragraph style={{ marginTop: 10 }}>
+        <Title level={4}>3.数据视图</Title>
+        <Text>
+          下列语句用于查看最近录入的10条数据，可据此建立数据视图
+          <Text mark>view_{formConfig.table}</Text>用于业务查询。
+        </Text>
+      </Paragraph>
+      <CodeMirror
+        value={sql.view}
         options={{
           mode: 'sql',
           lineNumbers: true,
