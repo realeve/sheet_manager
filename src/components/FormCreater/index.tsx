@@ -8,7 +8,7 @@ import CodeDrawer from './CodeDrawer';
 import FormAction from './FormAction';
 import useFetch from '@/components/hooks/useFetch';
 import VTable from '@/components/Table.jsx';
-
+import * as R from 'ramda';
 import { connect } from 'dva';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -88,6 +88,39 @@ function FormCreater({ config, dispatch }) {
       formConfig.api.table && formConfig.api.table.url && formConfig.api.table.url.length > 0,
   });
 
+  // 设置不合格数据
+  let [remark, setRemark] = useState('');
+  let cfg = R.flatten(R.map(R.prop('detail'))(config.detail));
+  const getFieldNameByKey = key => {
+    let res = R.find(R.propEq('key', key))(cfg);
+    return res.title;
+  };
+  // 不合格字段判断
+  useEffect(() => {
+    if (scope.length === 0) {
+      return;
+    }
+    let fields = [];
+
+    scope.forEach(({ key, min, max }) => {
+      let val = state[key] || '';
+      if (String(val).length === 0) {
+        return;
+      }
+      if (max && val > max) {
+        fields.push(getFieldNameByKey(key));
+      }
+      if (min && val < min) {
+        fields.push(getFieldNameByKey(key));
+      }
+    });
+    if (fields.length) {
+      setRemark('不合格项:' + fields.join('、'));
+    } else {
+      setRemark('');
+    }
+  }, [state, scope]);
+
   return (
     <div>
       <CodeDrawer
@@ -145,6 +178,7 @@ function FormCreater({ config, dispatch }) {
                   formConfig={formConfig}
                   config={config}
                   reFetch={reFetch}
+                  remark={remark}
                 />
               )}
             </Row>

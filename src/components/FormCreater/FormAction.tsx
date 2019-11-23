@@ -19,6 +19,7 @@ function formAction({
   formConfig,
   config,
   reFetch,
+  remark,
 }) {
   // 当前数据提交状态，提交时禁止重复提交
   const [submitting, setSubmitting] = useState(false);
@@ -33,6 +34,7 @@ function formAction({
       return {
         ...fields,
         ...state,
+        remark: remark + ' ' + (state.remark || ''),
       };
     },
     reset() {
