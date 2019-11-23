@@ -44,11 +44,41 @@ const getCreate = config => {
     appendSql += '[uid] int NULL,';
   }
 
-  return `CREATE TABLE ${config.table} (
+  // 建表SQL
+  let createSql = `CREATE TABLE ${config.table} (
   [id] int  IDENTITY(1,1) NOT NULL,
   ${appendSql}
   ${keyStrs.join(',\r\n')}
-) `;
+) ;`;
+
+  let getDescByField = (field, title) => `
+EXEC sp_addextendedproperty
+'MS_Description', N'${title}',
+'SCHEMA', N'dbo',
+'TABLE', N'${config.table}',
+'COLUMN', N'${field}';`;
+
+  // 添加注释
+  let desc = `
+EXEC sp_addextendedproperty
+'MS_Description', N'${config.name}',
+'SCHEMA', N'dbo',
+'TABLE', N'${config.table}';
+${getDescByField('id', '主ID')}`;
+
+  if (param.includes('rec_time')) {
+    desc += getDescByField('rec_time', '记录时间');
+  }
+  if (param.includes['uid']) {
+    desc += getDescByField('uid', '用户Uid');
+  }
+  res.forEach(item => {
+    desc += getDescByField(item.key, item.title);
+  });
+
+  // 添加注释完毕
+
+  return createSql + desc;
 };
 
 export default function codeDrawer({
@@ -151,10 +181,10 @@ export default function codeDrawer({
       </div>
 
       <Paragraph>
-        <Title level={4}>建表</Title>
+        <Title level={4}>建表(mssql)</Title>
       </Paragraph>
       <CodeMirror
-        value={beautify(sql.create, { indent_size: 2, wrap_line_length: 60 })}
+        value={sql.create}
         options={{
           mode: 'sql',
           lineNumbers: true,
@@ -164,7 +194,7 @@ export default function codeDrawer({
         }}
       />
       <Paragraph>
-        <Title level={4}>配置接口文件</Title>
+        <Title level={4}>接口配置</Title>
       </Paragraph>
       <CodeMirror
         value={beautify(sql.select, { indent_size: 2, wrap_line_length: 60 })}
