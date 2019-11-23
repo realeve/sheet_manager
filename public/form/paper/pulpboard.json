@@ -5,16 +5,16 @@
       "url": "698/f14142a39a.json",
       "param": ["rec_time", "uid"]
     },
+    "query": {
+      "url": "699/d2fa045bb7.json",
+      "param": ["batch_no"]
+    },
     "delete": {
       "url": "701/d541c7321d.json",
       "param": ["batch_no"]
     },
     "update": {
       "url": "700/7538b82812.json",
-      "param": ["batch_no"]
-    },
-    "query": {
-      "url": "699/d2fa045bb7.json",
       "param": ["batch_no"]
     },
     "table": {

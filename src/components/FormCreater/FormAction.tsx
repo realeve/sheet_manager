@@ -69,17 +69,14 @@ function formAction({
     setEditMethod('insert');
   };
 
-  useEffect(() => {
+  // 索引字段(通过校验后)改变时，如车号等，载入初始数据用于更新
+  const loadHistoryData = async () => {
     // 历史数据载入
     let { api } = formConfig;
-    if (api && api.query) {
-      // api不存在，历史记录查询接口不存在，当前为更新模式
-      loadHistoryData(api.query);
-    }
-  }, [state]);
-
-  // 索引字段(通过校验后)改变时，如车号等，载入初始数据用于更新
-  const loadHistoryData = async ({ param, url }) => {
+    // if (!api || !api.query) {
+    //   return;
+    // }
+    let { param, url } = api.query;
     if (!param) {
       return;
     }
@@ -185,9 +182,34 @@ function formAction({
     reFetch && reFetch();
   };
 
+  const [shouldLoad, setShouldLoad] = useState(false);
+  useEffect(() => {
+    if (!formConfig.api.query || !formConfig.api.query.param) {
+      setShouldLoad(false);
+      return;
+    }
+    let valid = true;
+    formConfig.api.query.param.forEach(key => {
+      if (state[key] === '' || R.isNil(state[key])) {
+        valid = false;
+      }
+    });
+    setShouldLoad(valid);
+  }, [formConfig, state]);
+
   return (
     <Col span={24} className={styles.submit}>
-      <Button type="default" onClick={() => onReset()} disabled={!formstatus}>
+      {formConfig.api && formConfig.api.query && (
+        <Button type="primary" onClick={() => loadHistoryData()} disabled={!shouldLoad}>
+          载入历史数据
+        </Button>
+      )}
+      <Button
+        type="default"
+        onClick={() => onReset()}
+        style={{ marginLeft: 20 }}
+        disabled={!formstatus}
+      >
         {formatMessage({ id: 'form.reset' })}
       </Button>
       {editMethod === 'update' && (
