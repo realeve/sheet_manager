@@ -134,16 +134,19 @@ function FormCreater({ config, dispatch }) {
         {formConfig.detail.map(({ title: mainTitle, detail: detailArr }, idx) => (
           <Card
             title={
-              <span>
-                {idx + 1}.{mainTitle}
-                {idx === 0 && (
-                  <Icon
-                    style={{ paddingLeft: 10 }}
-                    type="question-circle-o"
-                    onClick={() => setModalVisible(true)}
-                  />
-                )}
-              </span>
+              <div>
+                {idx === 0 && <h3 style={{ marginBottom: 10 }}>{formConfig.name}</h3>}
+                <span>
+                  {idx + 1}.{mainTitle}
+                  {idx === 0 && (
+                    <Icon
+                      style={{ paddingLeft: 10 }}
+                      type="question-circle-o"
+                      onClick={() => setModalVisible(true)}
+                    />
+                  )}
+                </span>
+              </div>
             }
             style={{ marginBottom: 20 }}
             key={mainTitle}
