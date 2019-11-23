@@ -11,9 +11,10 @@
     },
     "query": {
       "url": "114/ad3adsf4d.json",
-      "param": ["cart_number"]
+      "param": ["batch_no"]
     }
   },
+  "table": "paper_material_pulpboard",
   "detail": [
     {
       "title": "基础数据",

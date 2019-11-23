@@ -119,6 +119,11 @@ export default function formItem({
             value={state}
             onChange={e => onChange(e.target.value, props)}
             {...props}
+            placeholder={
+              scopeDetail
+                ? `范围:${scopeDetail.min || '-∞'} ~ ${scopeDetail.max || '+∞'}`
+                : props.placeholder || ''
+            }
           />
         )}
         {type === 'input.number' && (
@@ -129,6 +134,11 @@ export default function formItem({
             value={state}
             onChange={value => onChange(value, props)}
             {...props}
+            placeholder={
+              scopeDetail
+                ? `范围:${scopeDetail.min || '-∞'} ~ ${scopeDetail.max || '+∞'}`
+                : props.placeholder || ''
+            }
           />
         )}
         {type === 'datepicker' && (
@@ -224,11 +234,7 @@ export default function formItem({
             <label
               className="ant-form-explain"
               dangerouslySetInnerHTML={{
-                __html:
-                  block +
-                  (scopeDetail
-                    ? ` (范围:${scopeDetail.min || '-∞'} ~ ${scopeDetail.max || '+∞'})`
-                    : ''),
+                __html: block,
               }}
             ></label>
           )
