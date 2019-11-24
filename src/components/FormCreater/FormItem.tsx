@@ -27,9 +27,9 @@ const getScopeRange = detail => {
   if (detail.min && detail.max) {
     return `[${detail.min},${detail.max}]`;
   } else if (!detail.max) {
-    return `≤${detail.min}`;
+    return `≥${detail.min}`;
   } else {
-    return `≥${detail.max}`;
+    return `≤${detail.max}`;
   }
 };
 
