@@ -1,5 +1,5 @@
 {
-  "name": "化工原材料——氢氧化钠(液碱)",
+  "name": "化工原材料——过氧化氢（双氧水）",
   "api": {
     "insert": {
       "url": "698/f14142a39a.json",
@@ -18,7 +18,7 @@
       "param": ["batch_no"]
     }
   },
-  "table": "paper_material_chemical_raw_naoh",
+  "table": "paper_material_chemical_raw_h2o2",
   "detail": [
     {
       "title": "基础数据",
@@ -31,15 +31,15 @@
           "rule": {
             "required": true
           },
-          "value": "氢氧化钠(液碱)",
+          "value": "过氧化氢（双氧水）",
           "scope": [
             {
-              "key": "naoh",
-              "min": 30
+              "key": "h2o2",
+              "min": 27.5
             },
             {
-              "key": "naco3",
-              "max": 0.8
+              "key": "stability",
+              "max": 93
             }
           ]
         },
@@ -119,9 +119,9 @@
           "defaultValue": "白色液体，允许微带异色"
         },
         {
-          "title": "氢氧化钠",
+          "title": "过氧化氢(H2O2)",
           "type": "input.number",
-          "key": "naoh",
+          "key": "h2o2",
           "rule": {
             "type": "float",
             "required": true
@@ -129,9 +129,9 @@
           "block": "(单位：%)"
         },
         {
-          "title": "碳酸钠",
+          "title": "稳定度",
           "type": "input.number",
-          "key": "naco3",
+          "key": "stability",
           "rule": {
             "type": "float",
             "required": true
