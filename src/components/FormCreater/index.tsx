@@ -29,6 +29,18 @@ function FormCreater({ config, dispatch }) {
 
   let [outterTrigger, setOutterTrigger] = useState(null);
 
+  let cfg = R.flatten(R.map(R.prop('detail'))(config.detail));
+
+  // 初始化defaultValue
+  useEffect(() => {
+    let defaultList = R.filter(item => item.defaultValue)(cfg);
+    let res = {};
+    defaultList.forEach(({ key, defaultValue }) => {
+      res[key] = defaultValue;
+    });
+    setState(res);
+  }, []);
+
   // config改变后初始化表单数据
   useEffect(() => {
     setFormConfig(config);
@@ -90,7 +102,6 @@ function FormCreater({ config, dispatch }) {
 
   // 设置不合格数据
   let [remark, setRemark] = useState('');
-  let cfg = R.flatten(R.map(R.prop('detail'))(config.detail));
   const getFieldNameByKey = key => {
     let res = R.find(R.propEq('key', key))(cfg);
     return res.title;

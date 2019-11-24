@@ -126,7 +126,7 @@ export default function formItem({
         {type === 'input' && (
           <Input
             style={{ width: '100%' }}
-            value={state || props.defaultValue}
+            value={state}
             onChange={e => onChange(e.target.value, props)}
             {...props}
             placeholder={
