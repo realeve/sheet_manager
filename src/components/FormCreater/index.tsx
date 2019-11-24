@@ -39,6 +39,7 @@ function FormCreater({ config, dispatch }) {
       res[key] = defaultValue;
     });
     setState(res);
+    setFields(res);
   }, []);
 
   // config改变后初始化表单数据
