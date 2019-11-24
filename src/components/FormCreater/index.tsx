@@ -154,7 +154,10 @@ function FormCreater({ config, dispatch }) {
 
   // 数据重置：配置中 unReset 的项在重置时保持上次结果
   const onReset = () => {
-    let keys = R.compose(R.pluck('key'), R.filter(R.propEq('unReset', true)))(cfg);
+    let keys = R.compose(
+      R.pluck('key'),
+      R.filter(item => item.unReset || item.type === 'label') // label项默认不重置、unReset项不重置
+    )(cfg);
     if (keys.length === 0) {
       setState(fields);
       return;

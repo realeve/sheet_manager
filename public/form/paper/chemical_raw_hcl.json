@@ -36,8 +36,7 @@
               "key": "acidity",
               "min": 31
             }
-          ],
-          "unReset": true
+          ]
         },
         {
           "title": "产地",
