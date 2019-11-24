@@ -186,7 +186,6 @@
               ]
             }
           ],
-          "url": "27/9b520a55df.json",
           "key": "prod_name",
           "rule": {
             "required": true

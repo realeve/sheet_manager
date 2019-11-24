@@ -23,6 +23,16 @@ export const handleScope = (value, option) => {
   return (item && item.scope) || [];
 };
 
+const getScopeRange = detail => {
+  if (detail.min && detail.max) {
+    return `[${detail.min},${detail.max}]`;
+  } else if (!detail.max) {
+    return `≤${detail.min}`;
+  } else {
+    return `≥${detail.max}`;
+  }
+};
+
 export default function formItem({
   state,
   setState,
@@ -116,13 +126,11 @@ export default function formItem({
         {type === 'input' && (
           <Input
             style={{ width: '100%' }}
-            value={state}
+            value={state || props.defaultValue}
             onChange={e => onChange(e.target.value, props)}
             {...props}
             placeholder={
-              scopeDetail
-                ? `范围:${scopeDetail.min || '-∞'} ~ ${scopeDetail.max || '+∞'}`
-                : props.placeholder || ''
+              scopeDetail ? `范围: ${getScopeRange(scopeDetail)}` : props.placeholder || ''
             }
           />
         )}
@@ -135,9 +143,7 @@ export default function formItem({
             onChange={value => onChange(value, props)}
             {...props}
             placeholder={
-              scopeDetail
-                ? `范围:${scopeDetail.min || '-∞'} ~ ${scopeDetail.max || '+∞'}`
-                : props.placeholder || ''
+              scopeDetail ? `范围: ${getScopeRange(scopeDetail)}` : props.placeholder || ''
             }
           />
         )}

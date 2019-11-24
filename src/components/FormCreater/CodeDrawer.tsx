@@ -160,7 +160,7 @@ export default function codeDrawer({
       placement="right"
       closable={false}
       visible={modalVisible}
-      width="450px"
+      width="550px"
       onClose={() => setModalVisible(false)}
       bodyStyle={{ padding: 20 }}
     >
@@ -201,7 +201,8 @@ export default function codeDrawer({
 
       <Paragraph style={{ marginTop: 10 }}>
         <Title level={4}>1.建表</Title>
-        此处以<Text mark>MSSQL Server</Text>为例建立数据表。
+        此处以<Text mark>MSSQL Server</Text>
+        为例建立数据表，需要处理数据字段类型识别、字段注释、表单注释相关功能。
       </Paragraph>
       <CodeMirror
         value={sql.create}

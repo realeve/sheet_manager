@@ -1,0 +1,161 @@
+{
+  "name": "化工原材料——盐酸",
+  "api": {
+    "insert": {
+      "url": "698/f14142a39a.json",
+      "param": ["rec_time", "uid"]
+    },
+    "query": {
+      "url": "699/d2fa045bb7.json",
+      "param": ["batch_no"]
+    },
+    "delete": {
+      "url": "701/d541c7321d.json",
+      "param": ["batch_no"]
+    },
+    "update": {
+      "url": "700/7538b82812.json",
+      "param": ["batch_no"]
+    },
+    "table": {
+      "url": "702/cd760465ce.json"
+    }
+  },
+  "table": "paper_material_chemical_raw_hcl",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "产品名称",
+          "type": "input",
+          "disabled": true,
+          "key": "prod_name",
+          "rule": {
+            "required": true
+          },
+          "value": "盐酸",
+          "scope": [
+            {
+              "key": "acidity",
+              "min": 31
+            }
+          ]
+        },
+        {
+          "title": "产地",
+          "type": "input",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入产地信息"
+          },
+          "placeholder": "请输入产地信息",
+          "maxLength": 8
+        },
+        {
+          "title": "批号",
+          "type": "input",
+          "key": "batch_no",
+          "rule": {
+            "required": true,
+            "msg": "请输入批号"
+          },
+          "placeholder": "请输入批号",
+          "toupper": "true"
+        },
+        {
+          "title": "数量",
+          "block": "单位:件",
+          "type": "input.number",
+          "key": "prod_num",
+          "rule": {
+            "required": true,
+            "msg": "请输入数量"
+          },
+          "placeholder": "请输入数量"
+        },
+        {
+          "title": "生产日期",
+          "type": "datepicker",
+          "key": "prod_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "取样日期",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "检测日期",
+          "type": "datepicker",
+          "key": "test_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "外观",
+          "type": "input",
+          "key": "surface",
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "无色或浅黄色透明液体"
+        },
+        {
+          "title": "总酸度",
+          "type": "input.number",
+          "key": "acidity",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "block": "以HCl计"
+        },
+        {
+          "title": "检验员",
+          "type": "input",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "检验结论",
+          "type": "input.textarea",
+          "key": "result",
+          "placeholder": "请在此填入检验结论",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    }
+  ]
+}

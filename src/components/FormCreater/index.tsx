@@ -98,6 +98,13 @@ function FormCreater({ config, dispatch }) {
   // 不合格字段判断
   useEffect(() => {
     if (scope.length === 0) {
+      // 收集初始scope
+      let res = R.compose(
+        R.flatten,
+        R.filter(item => item),
+        R.map(item => item.scope)
+      )(cfg);
+      setScope(res);
       return;
     }
     let fields = [];
