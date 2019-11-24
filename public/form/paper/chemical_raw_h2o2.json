@@ -25,12 +25,8 @@
       "detail": [
         {
           "title": "产品名称",
-          "type": "input",
-          "disabled": true,
+          "type": "label",
           "key": "prod_name",
-          "rule": {
-            "required": true
-          },
           "value": "过氧化氢（双氧水）",
           "scope": [
             {
@@ -41,7 +37,8 @@
               "key": "stability",
               "max": 93
             }
-          ]
+          ],
+          "unReset": true
         },
         {
           "title": "产地",

@@ -25,12 +25,8 @@
       "detail": [
         {
           "title": "产品名称",
-          "type": "input",
-          "disabled": true,
+          "type": "label",
           "key": "prod_name",
-          "rule": {
-            "required": true
-          },
           "value": "氢氧化钠(液碱)",
           "scope": [
             {
@@ -41,7 +37,8 @@
               "key": "naco3",
               "max": 0.8
             }
-          ]
+          ],
+          "unReset": true
         },
         {
           "title": "产地",

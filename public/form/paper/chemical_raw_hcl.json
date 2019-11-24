@@ -28,19 +28,16 @@
       "detail": [
         {
           "title": "产品名称",
-          "type": "input",
-          "disabled": true,
+          "type": "label",
           "key": "prod_name",
-          "rule": {
-            "required": true
-          },
           "value": "盐酸",
           "scope": [
             {
               "key": "acidity",
               "min": 31
             }
-          ]
+          ],
+          "unReset": true
         },
         {
           "title": "产地",

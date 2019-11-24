@@ -121,7 +121,7 @@ export default function formItem({
             {...props}
           />
         )}
-
+        {type === 'label' && <label style={{ lineHeight: '32px' }}>{state}</label>}
         {/* 处理SCOPE信息，展示数据范围  */}
         {type === 'input' && (
           <Input
