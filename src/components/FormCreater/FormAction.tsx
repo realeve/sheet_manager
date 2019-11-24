@@ -20,6 +20,7 @@ function formAction({
   config,
   reFetch,
   remark,
+  onReset: resetForm,
 }) {
   // 当前数据提交状态，提交时禁止重复提交
   const [submitting, setSubmitting] = useState(false);
@@ -37,8 +38,10 @@ function formAction({
         remark: remark + ' ' + (state.remark || ''),
       };
     },
-    reset() {
-      setState(fields);
+    reset: () => {
+      resetForm();
+      // 重置编辑状态
+      setEditMethod('insert');
     },
   };
 
@@ -67,8 +70,6 @@ function formAction({
 
   const onReset = () => {
     formInstance.reset();
-    // 重置编辑状态
-    setEditMethod('insert');
   };
 
   // 索引字段(通过校验后)改变时，如车号等，载入初始数据用于更新

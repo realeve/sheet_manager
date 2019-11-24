@@ -39,7 +39,7 @@ export default function formItem({
   setFormstatus,
   keyName: key,
   cascade,
-  detail: { title, type, block, defaultOption, span = 8, ...props },
+  detail: { title, type, block, defaultOption, span = 8, unReset, ...props },
   scope = [],
   setScope,
 }) {

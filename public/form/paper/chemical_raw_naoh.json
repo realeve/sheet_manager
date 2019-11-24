@@ -55,7 +55,8 @@
             "msg": "请输入产地信息"
           },
           "placeholder": "请输入产地信息",
-          "maxLength": 8
+          "maxLength": 8,
+          "unReset": true
         },
         {
           "title": "批号",
@@ -147,7 +148,8 @@
           "span": 8,
           "rule": {
             "required": true
-          }
+          },
+          "unReset": true
         },
         {
           "title": "检验结论",

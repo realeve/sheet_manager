@@ -33,10 +33,10 @@ function FormCreater({ config, dispatch }) {
 
   // 初始化defaultValue
   useEffect(() => {
-    let defaultList = R.filter(item => item.defaultValue)(cfg);
+    let defaultList = R.filter(item => item.defaultValue || item.value)(cfg);
     let res = {};
-    defaultList.forEach(({ key, defaultValue }) => {
-      res[key] = defaultValue;
+    defaultList.forEach(({ key, defaultValue, value }) => {
+      res[key] = value || defaultValue;
     });
     setState(res);
     setFields(res);
@@ -140,6 +140,23 @@ function FormCreater({ config, dispatch }) {
     }
   }, [state, scope]);
 
+  // 数据重置：配置中 unReset 的项在重置时保持上次结果
+  const onReset = () => {
+    let keys = R.compose(R.pluck('key'), R.filter(R.propEq('unReset', true)))(cfg);
+    if (keys.length === 0) {
+      setState(fields);
+      return;
+    }
+
+    let prevFileds = R.pick(keys)(state);
+    let nextFields = {
+      ...fields,
+      ...prevFileds,
+    };
+    setFields(nextFields);
+    setState(nextFields);
+  };
+
   return (
     <div>
       <CodeDrawer
@@ -201,6 +218,7 @@ function FormCreater({ config, dispatch }) {
                   config={config}
                   reFetch={reFetch}
                   remark={remark}
+                  onReset={onReset}
                 />
               )}
             </Row>
