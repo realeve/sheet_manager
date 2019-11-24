@@ -15,7 +15,10 @@ import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
 function FormCreater({ config, dispatch }) {
+  // 增加对总分的计算，与scope字段一并处理
   let [state, setState] = useSetState();
+  let [totalScore, setTotalScore] = useState(100);
+
   let [editMethod, setEditMethod] = useState('insert');
   let [validateState, setValidateState] = useSetState();
 
@@ -107,7 +110,8 @@ function FormCreater({ config, dispatch }) {
     let res = R.find(R.propEq('key', key))(cfg);
     return res.title;
   };
-  // 不合格字段判断
+
+  // 不合格字段判断，总分计算
   useEffect(() => {
     if (scope.length === 0) {
       // 收集初始scope
@@ -121,18 +125,26 @@ function FormCreater({ config, dispatch }) {
     }
     let fields = [];
 
-    scope.forEach(({ key, min, max }) => {
+    // 总分
+    let sumScore = 100;
+
+    scope.forEach(({ key, min, max, score }) => {
       let val = state[key] || '';
       if (String(val).length === 0) {
         return;
       }
       if (max && val > max) {
         fields.push(getFieldNameByKey(key));
+        sumScore -= score;
       }
       if (min && val < min) {
         fields.push(getFieldNameByKey(key));
+        sumScore -= score;
       }
     });
+
+    setTotalScore(sumScore);
+
     if (fields.length) {
       setRemark('不合格项:' + fields.join('、'));
     } else {
@@ -155,6 +167,7 @@ function FormCreater({ config, dispatch }) {
     };
     setFields(nextFields);
     setState(nextFields);
+    setTotalScore(100);
   };
 
   return (
@@ -180,6 +193,11 @@ function FormCreater({ config, dispatch }) {
                       type="question-circle-o"
                       onClick={() => setModalVisible(true)}
                     />
+                  )}
+                  {idx === 0 && (
+                    <p>
+                      <small>总分：{totalScore}</small>
+                    </p>
                   )}
                 </span>
               </div>
@@ -219,6 +237,7 @@ function FormCreater({ config, dispatch }) {
                   reFetch={reFetch}
                   remark={remark}
                   onReset={onReset}
+                  score={totalScore}
                 />
               )}
             </Row>

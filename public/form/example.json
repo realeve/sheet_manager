@@ -152,7 +152,8 @@
           "min": 0,
           "max": 1000,
           "block": "(单位：小张)",
-          "placeholder": "某指标1数量"
+          "placeholder": "数据在重置时不变，保持上次结果",
+          "unReset": true
         },
         {
           "title": "指标2",
@@ -160,7 +161,8 @@
           "key": "param2",
           "rule": "float",
           "block": "(单位：大张)",
-          "placeholder": "某指标2数量"
+          "placeholder": "设置初始值",
+          "value": "23"
         },
         {
           "title": "白/中班",
@@ -172,8 +174,9 @@
           "title": "备注",
           "type": "input.textarea",
           "key": "remark",
-          "placeholder": "请在此填入备注信息",
-          "span": 24
+          "placeholder": "设置初始值",
+          "span": 24,
+          "defaultValue": "系统展示初始值"
         },
         {
           "title": "品种1",

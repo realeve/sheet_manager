@@ -20,7 +20,8 @@ function formAction({
   config,
   reFetch,
   remark,
-  onReset: resetForm,
+  onReset: resetForm, //重置
+  score, // 总分
 }) {
   // 当前数据提交状态，提交时禁止重复提交
   const [submitting, setSubmitting] = useState(false);
@@ -36,6 +37,7 @@ function formAction({
         ...fields,
         ...state,
         remark: remark + ' ' + (state.remark || ''),
+        score, //总分
       };
     },
     reset: () => {
