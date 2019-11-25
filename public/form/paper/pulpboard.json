@@ -22,6 +22,7 @@
     }
   },
   "table": "paper_material_pulpboard",
+  "showScore": true,
   "detail": [
     {
       "title": "基础数据",
@@ -34,6 +35,7 @@
             {
               "name": "三级棉浆板",
               "value": "三级棉浆板",
+              "hide": ["需要隐藏的字段"],
               "scope": [
                 {
                   "key": "whiteness",
@@ -83,6 +85,7 @@
             {
               "name": "梳落棉浆板",
               "value": "梳落棉浆板",
+              "hide": ["需要隐藏的字段"],
               "scope": [
                 {
                   "key": "whiteness",
@@ -132,6 +135,7 @@
             {
               "name": "短绒浆板",
               "value": "短绒浆板",
+              "hide": ["需要隐藏的字段"],
               "scope": [
                 {
                   "key": "whiteness",

@@ -20,7 +20,10 @@ const { TextArea } = Input;
 
 export const handleScope = (value, option) => {
   let item = R.find(R.propEq('value', value))(option);
-  return (item && item.scope) || [];
+  return {
+    scope: (item && item.scope) || [],
+    hide: (item && item.hide) || [], // 需要隐藏的字段
+  };
 };
 
 const getScopeRange = detail => {

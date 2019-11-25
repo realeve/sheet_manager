@@ -94,6 +94,7 @@ function FormCreater({ config, dispatch }) {
 
   // 对应指标数据范围
   const [scope, setScope] = useState([]);
+  const [hideKeys, setHideKeys] = useState([]);
 
   const { data: tblData, loading, reFetch } = useFetch({
     param: {
@@ -173,6 +174,25 @@ function FormCreater({ config, dispatch }) {
     setTotalScore(100);
   };
 
+  // 字段隐藏时数据默认值处理
+  useEffect(() => {
+    if (hideKeys.length === 0) {
+      return;
+    }
+    let nextState = hideKeys.map(key => ({
+      [key]: '',
+    }));
+
+    setState({
+      ...state,
+      ...nextState,
+    });
+    setFields({
+      ...fields,
+      ...nextState,
+    });
+  }, [hideKeys]);
+
   return (
     <div>
       <CodeDrawer
@@ -197,7 +217,7 @@ function FormCreater({ config, dispatch }) {
                       onClick={() => setModalVisible(true)}
                     />
                   )}
-                  {idx === 0 && (
+                  {formConfig.showScore && idx === 0 && (
                     <p>
                       <small>总分：{totalScore}</small>
                     </p>
@@ -209,23 +229,29 @@ function FormCreater({ config, dispatch }) {
             key={mainTitle}
           >
             <Row gutter={15}>
-              {detailArr.map(({ key, cascade, ...detail }) => (
-                <FormItem
-                  key={key}
-                  keyName={key}
-                  state={state[key]}
-                  cascade={[cascade, state[cascade]]}
-                  setState={res => {
-                    setState({
-                      [key]: res,
-                    });
-                  }}
-                  setFormstatus={setFormstatus}
-                  detail={detail}
-                  scope={scope}
-                  setScope={setScope}
-                />
-              ))}
+              {detailArr.map(
+                ({ key, cascade, ...detail }) =>
+                  !hideKeys.includes(key) && (
+                    <FormItem
+                      key={key}
+                      keyName={key}
+                      state={state[key]}
+                      cascade={[cascade, state[cascade]]}
+                      setState={res => {
+                        setState({
+                          [key]: res,
+                        });
+                      }}
+                      setFormstatus={setFormstatus}
+                      detail={detail}
+                      scope={scope}
+                      setScope={({ scope, hide }) => {
+                        setScope(scope);
+                        setHideKeys(hide);
+                      }}
+                    />
+                  )
+              )}
               {idx === formConfig.detail.length - 1 && (
                 <FormAction
                   requiredFileds={requiredFileds}
