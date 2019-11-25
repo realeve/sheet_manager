@@ -25,6 +25,7 @@
       "detail": [
         {
           "title": "产品名称",
+          "unReset": true,
           "type": "radio.button",
           "block": "产品名称不同时指标范围不同，请录入信息前先选择该项",
           "defaultOption": [
@@ -75,8 +76,32 @@
                 },
                 {
                   "key": "ph",
-                  "max": 5,
-                  "min": 7
+                  "max": 7,
+                  "min": 5
+                },
+                {
+                  "key": "alcoholysis_deg",
+                  "min": 98.5
+                }
+              ]
+            },
+            {
+              "name": "EPVA",
+              "value": "EPVA",
+              "hide": ["sodium_acetate"],
+              "scope": [
+                {
+                  "key": "viscosity",
+                  "min": 10
+                },
+                {
+                  "key": "fugitive_constituent",
+                  "max": 5
+                },
+                {
+                  "key": "ph",
+                  "min": 3.5,
+                  "max": 7
                 },
                 {
                   "key": "alcoholysis_deg",
