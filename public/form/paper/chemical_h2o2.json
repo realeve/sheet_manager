@@ -18,7 +18,7 @@
       "param": ["batch_no"]
     }
   },
-  "table": "paper_material_chemical_raw_h2o2",
+  "table": "paper_material_chemical_h2o2",
   "detail": [
     {
       "title": "基础数据",

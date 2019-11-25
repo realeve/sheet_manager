@@ -1,5 +1,5 @@
 {
-  "name": "化工原材料——氢氧化钠(液碱)",
+  "name": "化工原材料——盐酸",
   "api": {
     "insert": {
       "url": "698/f14142a39a.json",
@@ -16,9 +16,12 @@
     "update": {
       "url": "700/7538b82812.json",
       "param": ["batch_no"]
+    },
+    "table": {
+      "url": "702/cd760465ce.json"
     }
   },
-  "table": "paper_material_chemical_raw_naoh",
+  "table": "paper_material_chemical_hcl",
   "detail": [
     {
       "title": "基础数据",
@@ -27,15 +30,11 @@
           "title": "产品名称",
           "type": "label",
           "key": "prod_name",
-          "value": "氢氧化钠(液碱)",
+          "value": "盐酸",
           "scope": [
             {
-              "key": "naoh",
-              "min": 30
-            },
-            {
-              "key": "naco3",
-              "max": 0.8
+              "key": "acidity",
+              "min": 31
             }
           ]
         },
@@ -64,15 +63,14 @@
         },
         {
           "title": "数量",
-          "suffix": "吨(t)",
           "type": "input",
           "key": "prod_num",
           "rule": {
-            "type": "float",
+            "type": "int",
             "required": true,
             "msg": "请输入数量"
           },
-          "placeholder": "请输入数量"
+          "suffix": "件"
         },
         {
           "title": "生产日期",
@@ -113,26 +111,17 @@
           "rule": {
             "required": true
           },
-          "defaultValue": "白色液体，允许微带异色"
+          "defaultValue": "无色或浅黄色透明液体"
         },
         {
-          "title": "氢氧化钠",
+          "title": "总酸度",
           "type": "input",
-          "key": "naoh",
+          "key": "acidity",
           "rule": {
             "type": "float",
             "required": true
           },
-          "suffix": "%"
-        },
-        {
-          "title": "碳酸钠",
-          "type": "input",
-          "key": "naco3",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
+          "block": "以HCl计",
           "suffix": "%"
         },
         {

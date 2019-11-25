@@ -112,16 +112,23 @@ function FormCreater({ config, dispatch }) {
     return res.title;
   };
 
+  // 变更时收集scope
+  useEffect(() => {
+    if (scope.length > 0) {
+      return;
+    }
+    // 收集初始scope
+    let res = R.compose(
+      R.flatten,
+      R.filter(item => item),
+      R.map(item => item.scope)
+    )(cfg);
+    setScope(res);
+  }, [state]);
+
   // 不合格字段判断，总分计算
   useEffect(() => {
     if (scope.length === 0) {
-      // 收集初始scope
-      let res = R.compose(
-        R.flatten,
-        R.filter(item => item),
-        R.map(item => item.scope)
-      )(cfg);
-      setScope(res);
       return;
     }
     let fields = [];
@@ -170,9 +177,12 @@ function FormCreater({ config, dispatch }) {
       ...prevFileds,
     };
     setFields(nextFields);
+
     setState(nextFields);
     setTotalScore(100);
   };
+
+  // http://localhost:8000/form#id=./form/paper/chemical_pva.json
 
   // 字段隐藏时数据默认值处理
   useEffect(() => {

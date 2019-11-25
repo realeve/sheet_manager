@@ -27,10 +27,10 @@ export default {
           default: 'zh-CN', // default zh-CN
           baseNavigator: false, // default true, when it is true, will use `navigator.language` overwrite default
         },
-        dynamicImport: {
-          webpackChunkName: true,
-          loadingComponent: './components/PageLoading/Loading3.jsx',
-        },
+        // dynamicImport: {
+        //   webpackChunkName: true,
+        //   loadingComponent: './components/PageLoading/Loading3.jsx',
+        // },
         // pwa: true,
         fastClick: true,
         targets: {
