@@ -113,7 +113,7 @@ export default class RightContent extends PureComponent {
                 emptyText={formatMessage({
                   id: 'component.globalHeader.notification.empty',
                 })}
-                emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
+                emptyImage="/img/bell.svg"
               />
               <NoticeIcon.Tab
                 list={noticeData.message}
@@ -121,7 +121,7 @@ export default class RightContent extends PureComponent {
                 emptyText={formatMessage({
                   id: 'component.globalHeader.message.empty',
                 })}
-                emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
+                emptyImage="/img/notify.svg"
               />
               <NoticeIcon.Tab
                 list={noticeData.event}
@@ -129,7 +129,7 @@ export default class RightContent extends PureComponent {
                 emptyText={formatMessage({
                   id: 'component.globalHeader.event.empty',
                 })}
-                emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
+                emptyImage="/img/flag.svg"
               />
             </NoticeIcon>
           </>

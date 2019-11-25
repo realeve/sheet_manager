@@ -63,14 +63,14 @@
         },
         {
           "title": "数量",
-          "block": "单位:件",
-          "type": "input.number",
+          "type": "input",
           "key": "prod_num",
           "rule": {
+            "type": "int",
             "required": true,
             "msg": "请输入数量"
           },
-          "placeholder": "请输入数量"
+          "suffix": "件"
         },
         {
           "title": "生产日期",
@@ -115,13 +115,14 @@
         },
         {
           "title": "总酸度",
-          "type": "input.number",
+          "type": "input",
           "key": "acidity",
           "rule": {
             "type": "float",
             "required": true
           },
-          "block": "以HCl计(单位：%)"
+          "block": "以HCl计",
+          "suffix": "%"
         },
         {
           "title": "检验员",

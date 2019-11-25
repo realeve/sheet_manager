@@ -132,6 +132,7 @@ export default function formItem({
             placeholder={
               scopeDetail ? `范围: ${getScopeRange(scopeDetail)}` : props.placeholder || ''
             }
+            allowClear={props.allowClear !== false}
           />
         )}
         {type === 'input.number' && (

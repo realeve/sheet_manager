@@ -64,14 +64,16 @@
         },
         {
           "title": "数量",
-          "block": "单位:T",
-          "type": "input.number",
+          "block": "单位:t",
+          "type": "input",
           "key": "prod_num",
           "rule": {
+            "type": "float",
             "required": true,
             "msg": "请输入数量"
           },
-          "placeholder": "请输入数量"
+          "placeholder": "请输入数量",
+          "suffix": "吨(t)"
         },
         {
           "title": "生产日期",
@@ -116,23 +118,23 @@
         },
         {
           "title": "过氧化氢(H2O2)",
-          "type": "input.number",
+          "type": "input",
           "key": "h2o2",
           "rule": {
             "type": "float",
             "required": true
           },
-          "block": "(单位：%)"
+          "suffix": "%"
         },
         {
           "title": "稳定度",
-          "type": "input.number",
+          "type": "input",
           "key": "stability",
           "rule": {
             "type": "float",
             "required": true
           },
-          "block": "(单位：%)"
+          "suffix": "%"
         },
         {
           "title": "检验员",

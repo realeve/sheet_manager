@@ -285,6 +285,8 @@ let handleDataWithLegend = (srcData, option) => {
       name: name || '',
       type: option.type,
       smooth: option.smooth,
+      roundCap: true, // https://github.com/apache/incubator-echarts/pull/11393
+      // 在极坐标中支持圆角
     };
   };
 
@@ -303,10 +305,7 @@ let handleDataNoLegend = (srcData, option) => {
 
   let getSeriesData = () => {
     let seriesData = R.map(item =>
-      R.compose(
-        R.prop(header[option.y]),
-        R.find(R.propEq(header[option.x], item))
-      )(data)
+      R.compose(R.prop(header[option.y]), R.find(R.propEq(header[option.x], item)))(data)
     )(xAxis);
     return {
       data: seriesData,
