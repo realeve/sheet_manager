@@ -1,0 +1,233 @@
+{
+  "name": "化工原材料——湿强剂",
+  "api": {
+    "insert": {
+      "url": "715/f176c6fe9c",
+      "param": ["rec_time", "uid"]
+    },
+    "delete": {
+      "url": "716/46124f7fac",
+      "param": ["batch_no"]
+    },
+    "update": {
+      "url": "717/511c6bce4f",
+      "param": ["batch_no"]
+    },
+    "query": {
+      "url": "718/dc30f39d8d",
+      "param": ["batch_no"]
+    }
+  },
+  "table": "paper_material_chemical_hcl",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "产品名称",
+          "type": "radio.button",
+          "key": "prod_name",
+          "defaultOption": [
+            {
+              "name": "湿强剂PAX-1",
+              "value": "湿强剂PAX-1",
+              "hide": ["cation_degree"],
+              "scope": [
+                {
+                  "key": "solid_content ",
+                  "min": 11.5,
+                  "max": 12.5
+                },
+                {
+                  "key": "ph",
+                  "min": 3,
+                  "max": 6
+                },
+                {
+                  "key": "viscosity",
+                  "min": 10,
+                  "max": 30
+                }
+              ]
+            },
+            {
+              "name": "湿强剂BZ-2",
+              "value": "湿强剂BZ-2",
+              "scope": [
+                {
+                  "key": "solid_content ",
+                  "min": 11,
+                  "max": 12.5
+                },
+                {
+                  "key": "ph",
+                  "min": 3,
+                  "max": 5
+                },
+                {
+                  "key": "viscosity",
+                  "min": 8,
+                  "max": 11
+                },
+                {
+                  "key": "cation_degree",
+                  "min": 40
+                }
+              ]
+            }
+          ],
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "产地",
+          "type": "input",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入产地信息"
+          },
+          "placeholder": "请输入产地信息",
+          "maxLength": 8,
+          "unReset": true
+        },
+        {
+          "title": "批号",
+          "type": "input",
+          "key": "batch_no",
+          "rule": {
+            "required": true,
+            "msg": "请输入批号"
+          },
+          "placeholder": "请输入批号",
+          "toupper": "true"
+        },
+        {
+          "title": "数量",
+          "type": "input",
+          "key": "prod_num",
+          "rule": {
+            "type": "int",
+            "required": true,
+            "msg": "请输入数量"
+          },
+          "suffix": "吨"
+        },
+        {
+          "title": "生产日期",
+          "type": "datepicker",
+          "key": "prod_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "取样日期",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "检测日期",
+          "type": "datepicker",
+          "key": "test_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "外观",
+          "type": "input",
+          "key": "surface",
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "淡黄色或略带粉红色透明液体",
+          "block": "或淡黄色至琥珀色粘稠状透明液体"
+        },
+        {
+          "title": "固含量",
+          "type": "input",
+          "key": "solid_content",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "suffix": "%"
+        },
+        {
+          "title": "pH",
+          "type": "input",
+          "key": "ph",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "粘度",
+          "type": "input",
+          "key": "viscosity",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "suffix": "mpa.s",
+          "block": "20±1℃ 或 25±1℃"
+        },
+        {
+          "title": "阳离子化度",
+          "type": "input",
+          "key": "cation_degree",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "block": "监控指标",
+          "suffix": "μeq/l"
+        },
+        {
+          "title": "检验员",
+          "type": "input",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "检验结论",
+          "type": "input.textarea",
+          "key": "result",
+          "placeholder": "请在此填入检验结论",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    }
+  ]
+}
