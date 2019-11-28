@@ -13,10 +13,12 @@ const PageHeaderWrapper = ({
   wrapperClassName,
   top,
   breadcrumbList,
+  hidemenu,
   ...restProps
 }) => (
   <div style={{ margin: '-24px -24px 0' }} className={wrapperClassName}>
     {top}
+
     <MenuContext.Consumer>
       {value => (
         <PageHeader
@@ -27,10 +29,11 @@ const PageHeaderWrapper = ({
           {...restProps}
           linkElement={Link}
           // title={breadcrumbList.length ? R.last(breadcrumbList).title : null}
-          breadcrumbList={breadcrumbList}
+          breadcrumbList={hidemenu ? [] : breadcrumbList}
         />
       )}
     </MenuContext.Consumer>
+
     {children ? (
       <div className={styles.content}>
         <GridContent>{children}</GridContent>
@@ -39,6 +42,7 @@ const PageHeaderWrapper = ({
   </div>
 );
 
-export default connect(({ setting }) => ({
+export default connect(({ setting, common }) => ({
   contentWidth: setting.contentWidth,
+  hidemenu: common.hidemenu,
 }))(PageHeaderWrapper);

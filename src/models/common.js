@@ -89,6 +89,7 @@ export default {
       dateType: ['date', 'date'],
       dateFormat: 'YYYYMMDD',
     },
+    hidemenu: false,
     isLogin: false,
     curPageName: '',
     dateRange: [],
@@ -117,12 +118,7 @@ export default {
   },
   effects: {
     // 条件选择项更新查询参数
-    *refreshSelector(
-      {
-        payload: { idx, data },
-      },
-      { put, select, call }
-    ) {
+    *refreshSelector({ payload: { idx, data } }, { put, select, call }) {
       let { query, selectList } = yield select(state => state.common);
       selectList = yield getCascadeSelectList(query, selectList, idx, data, call);
       yield put({
@@ -146,12 +142,7 @@ export default {
         },
       });
     },
-    *handleLogin(
-      {
-        payload: { pathname },
-      },
-      { put, select }
-    ) {
+    *handleLogin({ payload: { pathname } }, { put, select }) {
       const { isLogin } = yield select(state => state.common);
 
       if (!isLogin) {
@@ -191,12 +182,7 @@ export default {
 
       return true;
     },
-    *handleTableAndChart(
-      {
-        payload: { pathname, hash },
-      },
-      { put }
-    ) {
+    *handleTableAndChart({ payload: { pathname, hash } }, { put }) {
       let nextStore = {};
       if (['/chart', '/chart/', '/table', '/table/'].includes(pathname)) {
         let { dateType, dateFormat } = getDateFormatByHash(hash);
@@ -255,6 +241,7 @@ export default {
         payload: {
           spinning: false,
           curUrl: url,
+          hidemenu: (hash || '').includes('hidemenu=1'),
         },
       });
 

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
-// import DocumentTitle from 'react-document-title';
+import DocumentTitle from 'react-document-title';
 import isEqual from 'lodash/isEqual';
 import memoizeOne from 'memoize-one';
 import { connect } from 'dva';
@@ -17,12 +17,13 @@ import Header from './Header';
 import Context from './MenuContext';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
-import userTool from '../utils/users';
-import router from 'umi/router';
+// import userTool from '../utils/users';
+// import router from 'umi/router';
 
 import menuUtil from './menuData';
 import ForOThree from '@/pages/403';
 import UnLogin from '@/pages/unlogin';
+import * as lib from '@/utils/setting';
 
 const { Content } = Layout;
 const R = require('ramda');
@@ -173,14 +174,14 @@ class BasicLayout extends PureComponent {
     return this.breadcrumbNameMap[pathKey];
   };
 
-  // getPageTitle = pathname => {
-  //   const currRouterData = this.matchParamsPath(pathname);
-  //   if (!currRouterData) {
-  //     return lib.systemName;
-  //   }
+  getPageTitle = pathname => {
+    const currRouterData = this.matchParamsPath(pathname);
+    if (!currRouterData) {
+      return lib.systemName;
+    }
 
-  //   return `${currRouterData.name} - ${lib.systemName}`;
-  // };
+    return `${currRouterData.name} - ${lib.systemName}`;
+  };
 
   getLayoutStyle = () => {
     const { isMobile } = this.state;
@@ -222,7 +223,15 @@ class BasicLayout extends PureComponent {
   }
 
   render() {
-    const { navTheme, layout: PropsLayout, children, location, user_type, isLogin } = this.props;
+    const {
+      navTheme,
+      layout: PropsLayout,
+      children,
+      location,
+      hidemenu,
+      user_type,
+      isLogin,
+    } = this.props;
     const { isMobile, menuData, breadcrumbList, nextUrl } = this.state;
     const isTop = PropsLayout === 'topmenu';
 
@@ -230,7 +239,7 @@ class BasicLayout extends PureComponent {
     const notAllowed = breadcrumbList.length === 0 && user_type >= 4;
     const layout = (
       <Layout>
-        {menuData.length === 0 || (isTop && !isMobile) ? null : (
+        {hidemenu || menuData.length === 0 || (isTop && !isMobile) ? null : (
           <SiderMenu
             logo={logo}
             theme={navTheme}
@@ -248,13 +257,15 @@ class BasicLayout extends PureComponent {
             minHeight: '100vh',
           }}
         >
-          <Header
-            menuData={menuData}
-            onCollapse={this.handleMenuCollapse}
-            logo={logo}
-            isMobile={isMobile}
-            {...this.props}
-          />
+          {!hidemenu && (
+            <Header
+              menuData={menuData}
+              onCollapse={this.handleMenuCollapse}
+              logo={logo}
+              isMobile={isMobile}
+              {...this.props}
+            />
+          )}
           <Content style={this.getContentStyle()}>
             <PageHeaderWrapper breadcrumbList={breadcrumbList}>
               {!isLogin ? <UnLogin /> : notAllowed ? <ForOThree /> : children}
@@ -267,8 +278,7 @@ class BasicLayout extends PureComponent {
 
     return (
       <React.Fragment>
-        {/* <DocumentTitle title={this.getPageTitle(location.pathname)}> */}
-        {/* </DocumentTitle> */}
+        <DocumentTitle title={this.getPageTitle(location.pathname)} />
         <ContainerQuery query={query}>
           {params => (
             <Context.Provider value={this.getContext()}>
@@ -289,6 +299,7 @@ export default connect(
     common: {
       userSetting: { menu, previewMenu, user_type },
       isLogin,
+      hidemenu,
     },
   }) => ({
     collapsed: global.collapsed,
@@ -298,5 +309,6 @@ export default connect(
     previewMenu,
     user_type,
     isLogin,
+    hidemenu,
   })
 )(BasicLayout);
