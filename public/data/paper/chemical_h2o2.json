@@ -2,20 +2,23 @@
   "name": "化工原材料——过氧化氢（双氧水）",
   "api": {
     "insert": {
-      "url": "698/f14142a39a.json",
+      "url": "710/6d968fc9b1",
       "param": ["rec_time", "uid"]
     },
-    "query": {
-      "url": "699/d2fa045bb7.json",
-      "param": ["batch_no"]
-    },
     "delete": {
-      "url": "701/d541c7321d.json",
+      "url": "711/167e091805",
       "param": ["batch_no"]
     },
     "update": {
-      "url": "700/7538b82812.json",
+      "url": "712/a385017347",
       "param": ["batch_no"]
+    },
+    "query": {
+      "url": "713/2e4f7b808e",
+      "param": ["batch_no"]
+    },
+    "table": {
+      "url": "714/878165419b"
     }
   },
   "table": "paper_material_chemical_h2o2",
@@ -64,7 +67,6 @@
         },
         {
           "title": "数量",
-          "block": "单位:t",
           "type": "input",
           "key": "prod_num",
           "rule": {

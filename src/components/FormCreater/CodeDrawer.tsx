@@ -45,7 +45,7 @@ const getCreate = config => {
   }
 
   // 建表SQL
-  let createSql = `CREATE TABLE ${config.table} (
+  let createSql = `CREATE TABLE tbl_${config.table} (
   [id] int  IDENTITY(1,1) NOT NULL,
   ${appendSql}
   ${keyStrs.join(',\r\n')}
@@ -55,7 +55,7 @@ const getCreate = config => {
 EXEC sp_addextendedproperty
 'MS_Description', N'${title}',
 'SCHEMA', N'dbo',
-'TABLE', N'${config.table}',
+'TABLE', N'tbl_${config.table}',
 'COLUMN', N'${field}';`;
 
   // 添加注释
@@ -63,7 +63,7 @@ EXEC sp_addextendedproperty
 EXEC sp_addextendedproperty
 'MS_Description', N'${config.name}',
 'SCHEMA', N'dbo',
-'TABLE', N'${config.table}';
+'TABLE', N'tbl_${config.table}';
 ${getDescByField('id', '主ID')}`;
 
   if (param.includes('rec_time')) {
@@ -112,16 +112,20 @@ export default function codeDrawer({
       const select = `      SELECT 
         ${keys.join(',\r\n        ')} 
       FROM
-        ${formConfig.table} 
+        tbl_${formConfig.table} 
       WHERE
         ${condition.param.map(item => `${item} = '1'`).join(' and ')}`;
 
       const create = getCreate(formConfig);
+      //
+      setSql({});
 
       setSql({
         select,
         create,
-        view: `      SELECT top 10
+        view: `
+      CREATE VIEW  view_${formConfig.table} AS
+        SELECT id,
         ${res
           .map(item => {
             let keyName = item.key;
@@ -136,9 +140,8 @@ export default function codeDrawer({
           .join(',\r\n        ')},
 	    CONVERT ( VARCHAR, rec_time, 120 ) 录入时间
         FROM
-        ${formConfig.table}  
-        ORDER BY
-          rec_time desc`,
+        tbl_${formConfig.table}`,
+        query: `SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc`,
       });
     }
   }, [formConfig]);
@@ -202,10 +205,12 @@ export default function codeDrawer({
       <Paragraph style={{ marginTop: 10 }}>
         <Title level={4}>1.建表</Title>
         此处以<Text mark>MSSQL Server</Text>
-        为例建立数据表，需要处理数据字段类型识别、字段注释、表单注释相关功能。
+        为例建立数据表，需要处理数据字段类型识别、字段注释、表单注释相关功能；同时建立数据视图
+        <Text mark>view_{formConfig.table}</Text>
+        ，建完视图后用于业务查询。
       </Paragraph>
       <CodeMirror
-        value={sql.create}
+        value={sql.create + sql.view}
         options={{
           mode: 'sql',
           lineNumbers: true,
@@ -241,14 +246,11 @@ export default function codeDrawer({
       />
 
       <Paragraph style={{ marginTop: 10 }}>
-        <Title level={4}>3.数据视图</Title>
-        <Text>
-          下列语句用于查看最近录入的10条数据，可据此建立数据视图
-          <Text mark>view_{formConfig.table}</Text>用于业务查询。
-        </Text>
+        <Title level={4}>3.业务报表</Title>
+        <Text>下列语句用于查看最近录入的10条数据：</Text>
       </Paragraph>
       <CodeMirror
-        value={sql.view}
+        value={sql.query}
         options={{
           mode: 'sql',
           lineNumbers: true,

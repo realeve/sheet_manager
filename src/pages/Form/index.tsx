@@ -21,7 +21,7 @@ export default function page(): JSX.Element {
     setConfig(data);
   };
 
-  return R.equals(config, {}) ? (
+  return R.equals(config, {}) || ['undefined', 'string'].includes(typeof config) ? (
     <Card>
       <h3>请设置表单配置信息</h3>
       <p>

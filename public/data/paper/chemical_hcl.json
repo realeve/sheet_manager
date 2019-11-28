@@ -2,23 +2,23 @@
   "name": "化工原材料——盐酸",
   "api": {
     "insert": {
-      "url": "698/f14142a39a.json",
+      "url": "715/f176c6fe9c",
       "param": ["rec_time", "uid"]
     },
-    "query": {
-      "url": "699/d2fa045bb7.json",
-      "param": ["batch_no"]
-    },
     "delete": {
-      "url": "701/d541c7321d.json",
+      "url": "716/46124f7fac",
       "param": ["batch_no"]
     },
     "update": {
-      "url": "700/7538b82812.json",
+      "url": "717/511c6bce4f",
+      "param": ["batch_no"]
+    },
+    "query": {
+      "url": "718/dc30f39d8d",
       "param": ["batch_no"]
     },
     "table": {
-      "url": "702/cd760465ce.json"
+      "url": "719/0a0e551574"
     }
   },
   "table": "paper_material_chemical_hcl",

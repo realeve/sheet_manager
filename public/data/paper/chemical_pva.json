@@ -2,20 +2,23 @@
   "name": "化工原材料——聚乙烯醇",
   "api": {
     "insert": {
-      "url": "698/f14142a39a.json",
+      "url": "720/fac2987ef5",
       "param": ["rec_time", "uid"]
     },
-    "query": {
-      "url": "699/d2fa045bb7.json",
-      "param": ["batch_no"]
-    },
     "delete": {
-      "url": "701/d541c7321d.json",
+      "url": "721/58168dab69",
       "param": ["batch_no"]
     },
     "update": {
-      "url": "700/7538b82812.json",
+      "url": "722/a9170175b7",
       "param": ["batch_no"]
+    },
+    "query": {
+      "url": "723/7b2f3174d9",
+      "param": ["batch_no"]
+    },
+    "table": {
+      "url": "724/3a3c0940e3"
     }
   },
   "table": "paper_material_chemical_pva",
@@ -140,7 +143,6 @@
         },
         {
           "title": "数量",
-          "block": "单位:t",
           "type": "input",
           "key": "prod_num",
           "rule": {

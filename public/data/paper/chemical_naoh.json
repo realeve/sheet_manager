@@ -2,20 +2,23 @@
   "name": "化工原材料——氢氧化钠(液碱)",
   "api": {
     "insert": {
-      "url": "698/f14142a39a.json",
+      "url": "705/87828fd8c1",
       "param": ["rec_time", "uid"]
     },
-    "query": {
-      "url": "699/d2fa045bb7.json",
-      "param": ["batch_no"]
-    },
     "delete": {
-      "url": "701/d541c7321d.json",
+      "url": "706/fb048ae5a7",
       "param": ["batch_no"]
     },
     "update": {
-      "url": "700/7538b82812.json",
+      "url": "707/9c21b13491",
       "param": ["batch_no"]
+    },
+    "query": {
+      "url": "708/2146b989d4",
+      "param": ["batch_no"]
+    },
+    "table": {
+      "url": "709/4b3c4b103e"
     }
   },
   "table": "paper_material_chemical_naoh",
