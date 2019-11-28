@@ -2,23 +2,23 @@
   "name": "浆板明细",
   "api": {
     "insert": {
-      "url": "698/f14142a39a.json",
+      "url": "699/d8bf9124fe.json",
       "param": ["rec_time", "uid"]
     },
     "query": {
-      "url": "699/d2fa045bb7.json",
+      "url": "700/1c0cc98ebe.json",
       "param": ["batch_no"]
     },
     "delete": {
-      "url": "701/d541c7321d.json",
+      "url": "701/002daaaf1a.json",
       "param": ["batch_no"]
     },
     "update": {
-      "url": "700/7538b82812.json",
+      "url": "702/68e4a4ec47.json",
       "param": ["batch_no"]
     },
     "table": {
-      "url": "702/cd760465ce.json"
+      "url": "703/2d8f9bd190.json"
     }
   },
   "table": "paper_material_pulpboard",

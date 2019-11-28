@@ -8,6 +8,19 @@ export default function tableConfig() {
       <div className={styles.container}>
         <ul>
           <li>
+            <div className={styles.tip}>通用参数0：菜单隐藏</div>
+            <div className={styles.desc}>hidemenu</div>
+            <div>默认值：0,该参数同样适用于图表模块，当设置&hidemenu=1时菜单将会隐藏</div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&hidemenu=1"
+                target="_blank"
+              >
+                /table#id=http://localhost:90/76/dd3cf2e48e&data_type=score&data_type=sex&hidemenu=1
+              </a>
+            </div>
+          </li>
+          <li>
             <div className={styles.tip}>通用参数1：数据缓存</div>
             <div className={styles.desc}>cache </div>
             <div>
@@ -186,9 +199,7 @@ export default function tableConfig() {
               </a>
             </div>
 
-            <div>
-              表头合并支持不限层数的表头嵌套，就参考下方 extra 参数中的链接。
-            </div>
+            <div>表头合并支持不限层数的表头嵌套，就参考下方 extra 参数中的链接。</div>
           </li>
           <li>
             <div className={styles.tip}>2.表头合并文字</div>
@@ -274,7 +285,9 @@ export default function tableConfig() {
           <li>
             <div className={styles.tip}>6.导出的报表添加额外表头</div>
             <div className={styles.desc}>extra </div>
-            <div>默认值：false，仅支持接口id,可参考参考链接的设置。需注意的是，extra接口对应的标题用于最终报表标题的输出，这样在报表接口的名称不用添加类似“XXX有限公司”这样的抬头，而在不需要显示的extra对应的id中显示</div>
+            <div>
+              默认值：false，仅支持接口id,可参考参考链接的设置。需注意的是，extra接口对应的标题用于最终报表标题的输出，这样在报表接口的名称不用添加类似“XXX有限公司”这样的抬头，而在不需要显示的extra对应的id中显示
+            </div>
             <div className={styles.demoLink}>
               <a
                 href="/table#id=608/4e00407442&merge=0-1&mergetext=投入&merge=1-15&mergetext=在制品库存数&merge=2-4&mergetext=付出数&select=546/db53f036f0&selectkey=product&cache=0&daterange=9&menufold=1&extra=610/99d1ed4c79"
@@ -283,7 +296,6 @@ export default function tableConfig() {
                 /table#id=608/4e00407442&merge=0-1&mergetext=投入&merge=1-15&mergetext=在制品库存数&merge=2-4&mergetext=付出数&select=546/db53f036f0&selectkey=product&cache=0&daterange=9&menufold=1&extra=610/99d1ed4c79
               </a>
             </div>
-
           </li>
 
           {/* 
@@ -309,7 +321,6 @@ export default function tableConfig() {
               </a>
             </div>
           </li> */}
-
 
           <li>
             <div className={styles.tip}>8.车号搜索链接</div>

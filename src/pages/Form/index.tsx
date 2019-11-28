@@ -26,7 +26,7 @@ export default function page(): JSX.Element {
       <h3>请设置表单配置信息</h3>
       <p>
         可尝试访问示例链接：
-        <a href="/form#id=./form/paper/pulpboard.json">/form#id=./form/paper/pulpboard.json</a>
+        <a href="/form#id=./data/paper/pulpboard.json">/form#id=./data/paper/pulpboard.json</a>
       </p>
     </Card>
   ) : (

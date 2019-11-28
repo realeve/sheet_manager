@@ -143,6 +143,9 @@ export default {
       });
     },
     *handleLogin({ payload: { pathname } }, { put, select }) {
+      if (window.location.href.includes('hidemenu=1')) {
+        return true;
+      }
       const { isLogin } = yield select(state => state.common);
 
       if (!isLogin) {

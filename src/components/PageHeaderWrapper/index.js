@@ -19,20 +19,22 @@ const PageHeaderWrapper = ({
   <div style={{ margin: '-24px -24px 0' }} className={wrapperClassName}>
     {top}
 
-    <MenuContext.Consumer>
-      {value => (
-        <PageHeader
-          wide={contentWidth === 'Fixed'}
-          home={<FormattedMessage id="menu.home" defaultMessage="Home" />}
-          {...value}
-          key={value}
-          {...restProps}
-          linkElement={Link}
-          // title={breadcrumbList.length ? R.last(breadcrumbList).title : null}
-          breadcrumbList={hidemenu ? [] : breadcrumbList}
-        />
-      )}
-    </MenuContext.Consumer>
+    {!hidemenu && (
+      <MenuContext.Consumer>
+        {value => (
+          <PageHeader
+            wide={contentWidth === 'Fixed'}
+            home={<FormattedMessage id="menu.home" defaultMessage="Home" />}
+            {...value}
+            key={value}
+            {...restProps}
+            linkElement={Link}
+            // title={breadcrumbList.length ? R.last(breadcrumbList).title : null}
+            breadcrumbList={breadcrumbList}
+          />
+        )}
+      </MenuContext.Consumer>
+    )}
 
     {children ? (
       <div className={styles.content}>

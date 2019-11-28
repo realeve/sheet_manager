@@ -24,6 +24,7 @@ function QueryCondition({
   dateType,
   select,
   dispatch,
+  hidemenu,
 }) {
   const onDateChange = async (dateStrings: Array<string>, refresh: boolean = true) => {
     await dispatch({
@@ -91,7 +92,7 @@ function QueryCondition({
 
   return textAreaList.length + selectList.length === 0 ? (
     dateType !== 'none' && (
-      <div className={styles.header}>
+      <div className={hidemenu ? styles.headerHide : styles.header}>
         <div className={styles.dateRange}>
           <DateRangePicker refresh={true} />
         </div>
@@ -176,6 +177,7 @@ export default connect(
       textAreaList,
       textAreaValue,
       query: { select },
+      hidemenu,
     },
   }) => ({
     dateRange,
@@ -185,5 +187,6 @@ export default connect(
     textAreaValue,
     dateType,
     select,
+    hidemenu,
   })
 )(QueryCondition);

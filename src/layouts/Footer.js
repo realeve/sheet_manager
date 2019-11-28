@@ -29,15 +29,17 @@ if (CUR_COMPANY === 'chengdu') {
   ];
 }
 
-const FooterView = ({ color }) => (
+const FooterView = ({ color, hidemenu }) => (
   <Footer className={styles.footer}>
     <GlobalFooter
-      links={links}
+      links={hidemenu ? [] : links}
       copyright={
         <Fragment>
-          <p style={{ color: color || 'rgba(0,0,0,0.45)' }}>
-            <Icon type="copyright" /> 2019 {AUTHOR}
-          </p>
+          {!hidemenu && (
+            <p style={{ color: color || 'rgba(0,0,0,0.45)' }}>
+              <Icon type="copyright" /> 2019 {AUTHOR}
+            </p>
+          )}
           <p style={{ color: color || 'rgba(0,0,0,0.45)' }}>
             Copyright <Icon type="copyright" /> 2019 CBPC All Rights Reserved
           </p>

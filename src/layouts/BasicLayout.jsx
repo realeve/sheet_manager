@@ -268,10 +268,10 @@ class BasicLayout extends PureComponent {
           )}
           <Content style={this.getContentStyle()}>
             <PageHeaderWrapper breadcrumbList={breadcrumbList}>
-              {!isLogin ? <UnLogin /> : notAllowed ? <ForOThree /> : children}
+              {hidemenu ? children : !isLogin ? <UnLogin /> : notAllowed ? <ForOThree /> : children}
             </PageHeaderWrapper>
           </Content>
-          <Footer />
+          <Footer hidemenu={hidemenu} />
         </Layout>
       </Layout>
     );

@@ -30,8 +30,6 @@ function FormCreater({ config, dispatch }) {
 
   let [formConfig, setFormConfig] = useState(config);
 
-  let [outterTrigger, setOutterTrigger] = useState(null);
-
   let cfg = R.flatten(R.map(R.prop('detail'))(config.detail));
 
   // 初始化defaultValue
@@ -73,8 +71,7 @@ function FormCreater({ config, dispatch }) {
         curPageName: config.name,
       },
     });
-
-    setOutterTrigger(Math.random());
+    reFetch();
   }, [config]);
 
   // 表单字段当前状态判断
@@ -99,7 +96,6 @@ function FormCreater({ config, dispatch }) {
   const { data: tblData, loading, reFetch } = useFetch({
     param: {
       url: (formConfig.api.table || { url: '' }).url,
-      params: { outterTrigger },
     },
     valid: () =>
       formConfig.api.table && formConfig.api.table.url && formConfig.api.table.url.length > 0,
