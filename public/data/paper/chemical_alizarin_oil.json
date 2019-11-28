@@ -1,5 +1,5 @@
 {
-  "name": "化工原材料——二氧化钛（钛白）",
+  "name": "化工原材料——磺化蓖麻油酸钠（太古油）",
   "api": {
     "insert": {
       "url": "715/f176c6fe9c",
@@ -16,9 +16,12 @@
     "query": {
       "url": "718/dc30f39d8d",
       "param": ["batch_no"]
+    },
+    "table": {
+      "url": "719/0a0e551574"
     }
   },
-  "table": "paper_material_chemical_hcl",
+  "table": "paper_material_chemical_alizarin_oil",
   "detail": [
     {
       "title": "基础数据",
@@ -27,24 +30,16 @@
           "title": "产品名称",
           "type": "label",
           "key": "prod_name",
-          "value": "二氧化钛（钛白）",
+          "value": "磺化蓖麻油酸钠（太古油）",
           "scope": [
             {
-              "key": "tio2",
-              "min": 98
-            },
-            {
-              "key": "settling_volume",
-              "min": 9.9
-            },
-            {
-              "key": "residue_on_sieve",
-              "min": 0.3
-            },
-            {
               "key": "ph",
-              "min": 6.5,
-              "max": 7.5
+              "min": 7.8,
+              "max": 9
+            },
+            {
+              "key": "oil_content",
+              "min": 40
             }
           ]
         },
@@ -121,44 +116,31 @@
           "rule": {
             "required": true
           },
-          "defaultValue": "白色粉末"
+          "defaultValue": "透明，呈淡黄色至红棕色粘稠物质"
         },
         {
-          "title": "二氧化钛",
+          "title": "稳定性",
           "type": "input",
-          "key": "tio2",
+          "key": "stability",
           "rule": {
-            "type": "float",
             "required": true
           },
-          "suffix": "%",
-          "block": "TiO2"
+          "defaultValue": "清澈、透明，无析出物",
+          "block": "24h/室温"
         },
         {
-          "title": "沉降体积",
-          "type": "input",
-          "key": "settling_volume",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "ml/g"
-        },
-        {
-          "title": "筛余物",
-          "type": "input",
-          "key": "residue_on_sieve",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "block": "45μm筛孔",
-          "suffix": "%"
-        },
-        {
-          "title": "水悬浮液pH值",
+          "title": "pH",
           "type": "input",
           "key": "ph",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "含油量",
+          "type": "input",
+          "key": "oil_content",
           "rule": {
             "type": "float",
             "required": true
