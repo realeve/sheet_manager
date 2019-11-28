@@ -54,7 +54,7 @@ export default {
           return;
         }
 
-        // dispatch({ type: 'initState' });
+        dispatch({ type: 'initState' });
       });
     },
   },

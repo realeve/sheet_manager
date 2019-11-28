@@ -176,6 +176,7 @@ class BasicLayout extends PureComponent {
 
   getPageTitle = pathname => {
     const currRouterData = this.matchParamsPath(pathname);
+
     if (!currRouterData) {
       return lib.systemName;
     }
