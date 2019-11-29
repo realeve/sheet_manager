@@ -271,7 +271,7 @@ class Tables extends Component {
           current={page}
           pageSize={pageSize}
           onChange={this.refreshByPage}
-          pageSizeOptions={['5', '10', '15', '20', '30', '40', '50', '100']}
+          pageSizeOptions={['10', '20', '50', '100', '400']}
         />
       </>
     );

@@ -258,13 +258,16 @@
         },
         {
           "title": "检验结论",
-          "type": "input.textarea",
+          "type": "switch",
           "key": "result",
+          "checkedChildren": "合格",
+          "unCheckedChildren": "不合格",
           "placeholder": "请在此填入检验结论",
           "span": 8,
           "rule": {
             "required": true
-          }
+          },
+          "defaultValue": "1"
         },
         {
           "title": "备注",

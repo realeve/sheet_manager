@@ -27,10 +27,7 @@ const isFilterColumn: <T>(
     }
   };
 
-  let uniqColumn = R.compose(
-    R.uniq,
-    R.map(R.prop(key))
-  )(data);
+  let uniqColumn = R.compose(R.uniq, R.map(R.prop(key)))(data);
 
   R.forEach(handleItem)(uniqColumn);
 
@@ -81,8 +78,7 @@ export function handleColumns(
 
     if (lib.isNumOrFloat(tdValue)) {
       item.sorter = (a, b) => a[key] - b[key];
-    }
-    else {
+    } else {
       item.sorter = (a, b) => String(a[key]).localeCompare(b[key]);
     }
 
@@ -114,13 +110,13 @@ export function handleColumns(
         let isImg = String(text).includes('image/') || String(text).includes('/file/');
         let isBase64Image =
           String(text).includes('data:image/') && String(text).includes(';base64');
-        let hostUrl = isBase64Image ? '' : (imgHost || setting.uploadHost);
+        let hostUrl = isBase64Image ? '' : imgHost || setting.uploadHost;
 
         return !isImg ? (
           text
         ) : (
-            <img className={styles.imgContent} src={`${hostUrl}${text}`} alt={text} />
-          );
+          <img className={styles.imgContent} src={`${hostUrl}${text}`} alt={text} />
+        );
       };
     }
 
@@ -135,10 +131,12 @@ export function handleColumns(
       item.onFilter = (value, record) => record[key].includes(value);
       item.filteredValue = filteredInfo[key] || null;
     }
+
+    // item.width = 100;
     return item;
   });
 
-  // 10列以上自动固定表头，此处还需要调整 
+  // 10列以上自动固定表头，此处还需要调整
   // if (column.length > 15) {
   //   column = column.map(item => {
   //     item.width = 80;
@@ -233,7 +231,7 @@ export const handleSrcData = data => {
 // 根据 props 初始化state
 export const initState = props => {
   let page = 1;
-  let pageSize = props.pagesize || 15;
+  let pageSize = props.pagesize || 100;
   let state = updateState(props, { page, pageSize });
 
   return {
@@ -362,8 +360,8 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
       dataSrc,
       filteredInfo: {},
     },
-    props.config && props.config.link || props.cartLinkPrefix || setting.searchUrl,
-    props.config && props.config.host || setting.host,
+    (props.config && props.config.link) || props.cartLinkPrefix || setting.searchUrl,
+    (props.config && props.config.host) || setting.host,
     props.config && props.config.merge,
     !!props.simple
   );

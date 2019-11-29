@@ -140,7 +140,11 @@ export default function codeDrawer({
           .join(',\r\n        ')},
 	    CONVERT ( VARCHAR, rec_time, 120 ) 录入时间
         FROM
-        tbl_${formConfig.table}`,
+        tbl_${formConfig.table};
+        EXEC sp_addextendedproperty
+        'MS_Description', N'${formConfig.name}',
+        'SCHEMA', N'dbo',
+        'VIEW', N'view_${formConfig.table}';`,
         query: `SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc`,
       });
     }

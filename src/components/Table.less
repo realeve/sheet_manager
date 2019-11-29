@@ -43,17 +43,18 @@
       }
 
       &-body {
-
         tr td,
         tr th {
           max-width: 200px;
         }
+        td,
+        th {
+          padding: 4px !important;
+        }
       }
     }
-
   }
 }
-
 
 .imgContent {
   width: 200px;
@@ -90,7 +91,6 @@
 }
 
 @media screen and (max-width: @screen-sm) {
-
   .action {
     .hide;
   }
@@ -113,7 +113,6 @@
     }
   }
 }
-
 
 .selectContainer {
   height: 32px;
