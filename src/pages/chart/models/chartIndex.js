@@ -34,6 +34,9 @@ export default {
         textAreaValue,
         dateType: [dateType],
       } = common;
+      if (!tid) {
+        return;
+      }
 
       let inputValue = handleTextVal(textAreaValue);
       let config = db.decodeHash({ selectValue, dateRange, tid, query, inputValue, dateType });

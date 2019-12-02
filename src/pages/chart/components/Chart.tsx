@@ -42,8 +42,9 @@ const Charts = ({ dispatch, ...props }: IProp) => {
       data: [],
       rows: 0,
     },
-    appendParams: {},
   });
+
+  const [appendParams, setAppendParams] = useSetState({});
 
   const [option, setOption] = useState([]);
 
@@ -57,26 +58,23 @@ const Charts = ({ dispatch, ...props }: IProp) => {
   };
 
   const init = async () => {
-    setLoadingStatus(true);
+    // setLoadingStatus(true);
 
     let params = R.clone(props.config);
-    let appendParams: IConfigState = getParams(params);
-    params = Object.assign(params, appendParams);
+    let nextParam: IConfigState = getParams(params);
+    params = Object.assign(params, nextParam, appendParams);
     setState({ params });
     if (R.equals(params, {})) {
       return;
     }
 
-    let { dataSrc, option } = await db
-      .computeDerivedState({
-        method: props.textAreaList.length > 0 ? 'post' : 'get',
-        params,
-      })
-      .finally(e => {
-        setLoadingStatus(false);
-      });
-
-    // console.log(option);
+    let { dataSrc, option } = await db.computeDerivedState({
+      method: props.textAreaList.length > 0 ? 'post' : 'get',
+      params,
+    });
+    // .finally(e => {
+    //   setLoadingStatus(false);
+    // });
 
     setOption(option);
     setState({ showErr: false, dataSrc });
@@ -85,15 +83,16 @@ const Charts = ({ dispatch, ...props }: IProp) => {
 
   useEffect(() => {
     init();
-  }, [JSON.stringify(props.config)]);
+  }, [JSON.stringify(props.config), JSON.stringify(appendParams)]);
 
   const changeParam: (axisName: TAxisName, value: string) => void = (axisName, value) => {
-    let appendParams = R.clone(state.appendParams);
     let commonKeys = ['x', 'y', 'z', 'legend', 'group'];
     // visual可以与其它轴一同设置
     if (axisName === 'visual') {
-      appendParams[axisName] = value;
-      setState({ appendParams });
+      setAppendParams({
+        ...appendParams,
+        [axisName]: value,
+      });
       return;
     }
     // 是否有轴需要互换;
@@ -101,24 +100,28 @@ const Charts = ({ dispatch, ...props }: IProp) => {
       key: null,
       value: null,
     };
+
+    let nextParam = R.clone(appendParams);
+
     R.compose(
       R.forEach(key => {
-        if (commonKeys.includes(key) && appendParams[key] == value) {
+        if (commonKeys.includes(key) && nextParam[key] == value) {
           res = { key, value };
         }
       }),
       R.keys
-    )(appendParams);
+    )(nextParam);
 
     if (!R.isNil(res.key)) {
       // 旧数据
-      let prevValue = appendParams[axisName];
-      appendParams[res.key] = prevValue;
+      let prevValue = nextParam[axisName];
+      nextParam[res.key] = prevValue;
     }
 
     // 更新当前数据
-    appendParams[axisName] = value;
-    setState({ appendParams });
+    nextParam[axisName] = value;
+
+    setAppendParams(nextParam);
   };
 
   const staticRanges = ([tstart, tend]) => {
@@ -148,7 +151,7 @@ const Charts = ({ dispatch, ...props }: IProp) => {
     );
   };
 
-  let { loading, dataSrc, appendParams } = state;
+  let { loading, dataSrc } = state;
   let tblDataSrc = R.clone(dataSrc);
   tblDataSrc.data = tblDataSrc.data.map(item => Object.values(item));
 
@@ -158,12 +161,10 @@ const Charts = ({ dispatch, ...props }: IProp) => {
         {dataSrc.header && (
           <ChartConfig
             header={dataSrc.header || false}
-            params={appendParams}
+            params={{ ...state.params, ...appendParams }}
             onChange={(key: TAxisName, val: string) => changeParam(key, val)}
             onSwitch={(key: TAxisName, val: boolean) => {
-              let appendParams = R.clone(state.appendParams);
-              appendParams[key] = val;
-              setState({ appendParams });
+              setAppendParams({ ...appendParams, [key]: val });
             }}
           />
         )}

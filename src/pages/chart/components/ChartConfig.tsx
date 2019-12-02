@@ -52,26 +52,26 @@ const FieldSelector: (props: IFiledProps) => JSX.Element = ({
   header,
   style,
 }) => (
-    <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
-      <div className={styles.selector}>
-        <div className={styles.title}>{title}</div>
-        <Select value={value} size="small" onSelect={value => onChange(value)} style={{ width: 120 }}>
-          {header.map((item: IHeaderItem | string, idx: number) =>
-            typeof item === 'object' ? (
-              <Option key={String(idx)} value={item.value}>
-                {item.name}
-              </Option>
-            ) : (
-                <Option key={String(idx)} value={String(idx)}>
-                  {item}
-                </Option>
-              )
-          )}
-        </Select>
-      </div>
-      {desc && <p className={styles.desc}>{desc}</p>}
-    </Col>
-  );
+  <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
+    <div className={styles.selector}>
+      <div className={styles.title}>{title}</div>
+      <Select value={value} size="small" onSelect={value => onChange(value)} style={{ width: 120 }}>
+        {header.map((item: IHeaderItem | string, idx: number) =>
+          typeof item === 'object' ? (
+            <Option key={String(idx)} value={item.value}>
+              {item.name}
+            </Option>
+          ) : (
+            <Option key={String(idx)} value={String(idx)}>
+              {item}
+            </Option>
+          )
+        )}
+      </Select>
+    </div>
+    {desc && <p className={styles.desc}>{desc}</p>}
+  </Col>
+);
 
 const FieldSwitch: (props: ISwitProps) => JSX.Element = ({
   title,
@@ -80,18 +80,18 @@ const FieldSwitch: (props: ISwitProps) => JSX.Element = ({
   onChange,
   desc,
 }) => (
-    <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
-      <div className={styles.selector}>
-        <div className={styles.title}>{title}</div>
-        <Switch
-          size="small"
-          checked={value === '1' || value === true ? true : false}
-          onChange={onChange}
-        />
-      </div>
-      <p className={styles.desc}>{desc}</p>
-    </Col>
-  );
+  <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
+    <div className={styles.selector}>
+      <div className={styles.title}>{title}</div>
+      <Switch
+        size="small"
+        checked={value === '1' || value === true ? true : false}
+        onChange={onChange}
+      />
+    </div>
+    <p className={styles.desc}>{desc}</p>
+  </Col>
+);
 
 const FieldSlider: (props: ISliderProps) => JSX.Element = ({
   title,
@@ -101,14 +101,14 @@ const FieldSlider: (props: ISliderProps) => JSX.Element = ({
   desc,
   ...exProps
 }) => (
-    <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
-      <div className={styles.switch}>
-        <div className={styles.title}>{title}</div>
-        <Slider defaultValue={value} onChange={onChange} {...exProps} />
-      </div>
-      <p className={styles.desc}>{desc}</p>
-    </Col>
-  );
+  <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
+    <div className={styles.switch}>
+      <div className={styles.title}>{title}</div>
+      <Slider defaultValue={value} onChange={onChange} {...exProps} />
+    </div>
+    <p className={styles.desc}>{desc}</p>
+  </Col>
+);
 
 const FieldInput: (props: IInputProps) => JSX.Element = ({
   title,
@@ -118,14 +118,14 @@ const FieldInput: (props: IInputProps) => JSX.Element = ({
   desc,
   ...exProps
 }) => (
-    <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
-      <div className={styles.switch}>
-        <div className={styles.title}>{title}</div>
-        <Input size="small" value={value} onChange={onChange} {...exProps} />
-      </div>
-      <p className={styles.desc}>{desc}</p>
-    </Col>
-  );
+  <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
+    <div className={styles.switch}>
+      <div className={styles.title}>{title}</div>
+      <Input size="small" value={value} onChange={onChange} {...exProps} />
+    </div>
+    <p className={styles.desc}>{desc}</p>
+  </Col>
+);
 
 interface IConfigProps {
   header: Array<string>;
@@ -256,20 +256,20 @@ const getSwitchOptions = (options: any = {}) => {
   const type = options.type;
   let opts =
     coordinateAxis(type) &&
-      ![
-        'themeriver',
-        'radar',
-        'pie',
-        'paralell',
-        'heatmap',
-        'scatter3d',
-        'bar3d',
-        'line3d',
-        'surface',
-      ].includes(type)
+    ![
+      'themeriver',
+      'radar',
+      'pie',
+      'paralell',
+      'heatmap',
+      'scatter3d',
+      'bar3d',
+      'line3d',
+      'surface',
+    ].includes(type)
       ? 'smooth,stack,area,zoom,zoomv,reverse,pareto,barshadow,pictorial,polar,percent,histogram,step,spc'.split(
-        ','
-      )
+          ','
+        )
       : ['simple'];
   switch (type) {
     case 'sunburst':
@@ -323,8 +323,10 @@ const getInputOptions = type => {
 };
 
 export const getParams = params => {
-  return R.pick([...commonSetting, ...getSwitchOptions(params), ...getInputOptions(params.type)])(params);
-}
+  return R.pick([...commonSetting, ...getSwitchOptions(params), ...getInputOptions(params.type)])(
+    params
+  );
+};
 
 let getChartConfig = type => {
   let chartType = chartTypeList.find(list =>
@@ -384,8 +386,8 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
             {name}
           </div>
         ) : (
-            name
-          ),
+          name
+        ),
         value,
       };
     });
