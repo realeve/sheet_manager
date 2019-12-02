@@ -74,7 +74,7 @@ export const addBaseMenuList = params =>
  */
 export const getBaseMenuList = () =>
   axios({
-    url: '/23/dc95d5f25b.json',
+    url: '/23/dc95d5f25b/1.json',
   });
 
 /** 数据量较大时建议使用post模式：

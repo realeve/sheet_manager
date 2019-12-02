@@ -310,6 +310,7 @@ export const handleUrlParams: (
 
   // 2019-03 默认开始时间
   params.cache = params.cache || ['5'];
+
   let defaultDate: number = 13;
   if (params.daterange) {
     defaultDate = parseInt(params.daterange, 10);

@@ -35,10 +35,7 @@ const decodeUrlParam = ({ data: { url, ...params }, idx, inputValue }) => {
       param[key] = String(param[key]).split(';');
     }
   };
-  R.compose(
-    R.forEach(handleKey),
-    R.keys
-  )(params);
+  R.compose(R.forEach(handleKey), R.keys)(params);
   return requestOtherApi ? { url, ...param, ...inputValue } : { ...param, ...inputValue };
 };
 
@@ -51,7 +48,7 @@ export const decodeHash = ({
   dateType,
 }) => {
   // 根据参数值最长的数组确定查询参数
-  let appendArr = { len: tid.len, values: tid };
+  let appendArr = { len: tid.length, values: tid };
   Object.values(query).forEach(item => {
     if (typeof item === 'string') {
       item = [item];
