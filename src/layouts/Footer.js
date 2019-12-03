@@ -32,7 +32,7 @@ if (CUR_COMPANY === 'chengdu') {
 const FooterView = ({ color, hidemenu }) => (
   <Footer className={styles.footer}>
     <GlobalFooter
-      links={hidemenu ? [] : links}
+      // links={hidemenu ? [] : links}
       copyright={
         <Fragment>
           {!hidemenu && (

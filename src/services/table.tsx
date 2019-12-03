@@ -63,8 +63,10 @@ export function handleColumns(
       }>;
       onFilter?: Function;
       filteredValue?: any;
+      width?: number;
     } = {
       title,
+      // width: 200,
     };
 
     item.dataIndex = key;
@@ -132,7 +134,6 @@ export function handleColumns(
       item.filteredValue = filteredInfo[key] || null;
     }
 
-    // item.width = 100;
     return item;
   });
 
@@ -151,6 +152,10 @@ export function handleColumns(
   //     });
   //   });
   // }
+  column = column.map(item => {
+    item.width = 80;
+    return item;
+  });
 
   return column;
 }
