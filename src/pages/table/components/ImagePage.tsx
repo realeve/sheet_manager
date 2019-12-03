@@ -26,13 +26,13 @@ const ImageTitle = ({ data, header }) => {
   return (
     <div className={styles.block}>
       <div>
-        {resLeft.map(item => (
-          <p>{item}</p>
+        {resLeft.map((item, idx) => (
+          <p key={idx}>{item}</p>
         ))}
       </div>
       <div>
-        {resRight.map(item => (
-          <p>{item}</p>
+        {resRight.map((item, idx) => (
+          <p key={idx}>{item}</p>
         ))}
       </div>
     </div>

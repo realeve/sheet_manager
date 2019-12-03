@@ -3,12 +3,12 @@ import styles from '../Image.less';
 import 'animate.css';
 import copy from 'copy-to-clipboard';
 import { message } from 'antd';
-import * as R from 'ramda'
+import * as R from 'ramda';
 const prefix = 'data:image/jpg;base64,';
 // todo 增加点击复制url链接功能.
 
-const ImageTitle = ({ data: { camera, macro_id, pos, code }, type }) => (
-  <div key={type}>
+const ImageTitle = ({ data: { camera, macro_id, pos, code } }) => (
+  <div>
     <p>
       相机：{camera} / 宏区{macro_id} / 第{pos}开
     </p>
@@ -34,13 +34,17 @@ function ImageItem({ data, type, visible, gutter }) {
           <img src={`${prefix}${item.image}`} alt={item.code} />
         </div>
         <div className={styles.desc}>
-          <ImageTitle data={item} type={type + idx} />
+          <ImageTitle data={item} key={idx} />
         </div>
-      </li >
+      </li>
     ))
   );
 }
 
 export default React.memo(ImageItem, (prevProps, nextProps) => {
-  return prevProps.gutter === nextProps.gutter && prevProps.visible === nextProps.visible && R.equals(prevProps.data, nextProps.data)
-})
+  return (
+    prevProps.gutter === nextProps.gutter &&
+    prevProps.visible === nextProps.visible &&
+    R.equals(prevProps.data, nextProps.data)
+  );
+});
