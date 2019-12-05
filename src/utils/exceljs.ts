@@ -102,9 +102,11 @@ let getRowStartAndEnd = (column, { min, max }) => {
       let res2 = getRowStartAndEnd(first.children, { min, max });
       min = Math.min(res2.min, min);
       max = Math.max(res2.max, max);
-      res2 = getRowStartAndEnd(last.children, { min, max });
-      min = Math.min(res2.min, min);
-      max = Math.max(res2.max, max);
+      if (last.children) {
+        res2 = getRowStartAndEnd(last.children, { min, max });
+        min = Math.min(res2.min, min);
+        max = Math.max(res2.max, max);
+      }
     } else {
       min = Math.min(first.dataIndex.replace('col', ''), min);
       max = Math.max(last.dataIndex.replace('col', ''), max);
@@ -226,7 +228,7 @@ const createWorkBook = (config: Config) => {
 
     // 如果额外增加两行，需要插入两行空数据，否则前两条数据会失效
     // 2019-09-10
-    let extra = config.extra ? [...headRow, [], []] : headRow;
+    let extra = config.extra && config.extra.rows > 0 ? [...headRow, [], []] : headRow;
 
     config.body = [...extra, ...config.body];
   }
@@ -286,6 +288,7 @@ const setCellBorder = (worksheet, { params, columns }) => {
 
   let startRow = 1;
   // 是否显示额外行
+
   if (params.extra) {
     offset += 2;
     startRow += 2;

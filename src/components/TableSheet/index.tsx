@@ -37,7 +37,7 @@ const TableSheet = ({ data }) => {
     } else if (type === 'date') {
       column = {
         ...column,
-        dateFormat: 'YYYY-MM-DD',
+        dateFormat: 'YYYYMMDD',
         allowEmpty: true,
       };
     }
@@ -57,7 +57,7 @@ const TableSheet = ({ data }) => {
   const config = {
     stretchH: 'all',
     autoWrapRow: true,
-    height: 'calc( 100vh - 220px)',
+    height: 'calc( 100vh - 320px)',
     rowHeaders: true,
     colHeaders: data.header,
     columns,
@@ -86,7 +86,7 @@ const TableSheet = ({ data }) => {
     // columnHeaderHeight: 35,
     minCols,
     minRows: 31,
-    rowHeaderWidth: 24,
+    // rowHeaderWidth: 28,
     search: true,
     undo: true,
     colWidths: 100,

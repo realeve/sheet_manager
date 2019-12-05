@@ -1,7 +1,7 @@
 .header {
   display: flex;
   justify-content: flex-end;
-  margin: -80px 0 20px 0;
+  margin: -60px 0 20px 0;
   &Hide {
     margin-bottom: 20px;
     .dateRange {
@@ -19,7 +19,7 @@
   justify-content: flex-end;
   flex-direction: row;
   align-items: center;
-  padding-top: 30px;
+  padding-top: 15px;
 
   :global(.ant-calendar-picker) {
     width: 220px;
@@ -28,7 +28,12 @@
 
 .dataList {
   background: #fff;
-  padding: 10px;
+  padding: 0 10px 10px 10px;
+  :global {
+    .ant-tabs-bar {
+      margin-bottom: 0;
+    }
+  }
 }
 
 // .tabs {}
