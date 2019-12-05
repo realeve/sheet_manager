@@ -20,30 +20,90 @@ const Search = Input.Search;
 const FormItem = Form.Item;
 
 // 获取表头层级数，用于sheet的表头处理
-
-const getNestHeader = tableColumn => {
+const getNestHeader = (tableColumn, level = 0) => {
   const handleItem = item => {
     if (!item.children) {
-      return item.title;
+      return {
+        label: item.title,
+        level,
+        colspan: 1,
+      };
     }
     return {
+      level,
       label: item.title,
       colspan: item.children.length,
-      children: getNestHeader(item.children),
+      children: getNestHeader(item.children, level + 1),
     };
   };
+  return tableColumn.map(item => handleItem(item));
+};
+const handleSheetHeader = tableColumn => {
+  let header = getNestHeader(tableColumn);
+  console.log(JSON.stringify(header));
+  // 合并span列宽度
+  const handleColSpan = arr => {
+    let sum = 0;
+    let hasChild = false;
+    arr = arr.map(item => {
+      if (!item.children) {
+        sum += item.colspan;
+      } else {
+        let { sum: nextSpan, hasChild: needAdd } = handleColSpan(item.children);
+        if (needAdd) {
+          sum = R.reduce(
+            R.add,
+            0,
+            item.children.map(item => item.colspan)
+          );
+        } else {
+          sum = nextSpan;
+        }
+        item.colspan = sum;
+        hasChild = true;
+      }
+      return item;
+    });
+    return { arr, sum, hasChild };
+  };
 
-  let header = tableColumn.map(item => handleItem(item));
+  header = handleColSpan(header).arr;
 
-  return header;
-}; // let maxLevel = getColumnLevel(tableColumn);
-// header.map(row => {
-//   let len = row.length;
-//   for (let i = len; i < maxLevel; i++) {
-//     row.push(R.last(row));
-//   }
-//   return row;
-// });
+  const findLevel = (arr, level) => {
+    return arr.map(item => {
+      let curLevel = item.level;
+      if (curLevel < level) {
+        if (!item.children) {
+          // if (item.colspan === 1) {
+          //   return item.label;
+          // }
+          return {
+            label: item.label,
+            colspan: item.colspan,
+          };
+        }
+        return findLevel(item.children, level);
+      } else if (curLevel === level) {
+        // if (item.colspan === 1) {
+        //   return item.label;
+        // }
+        return {
+          label: item.label,
+          colspan: item.colspan,
+        };
+      }
+    });
+  };
+  const maxLevel = Excel.getHeadLevel(tableColumn);
+
+  let arr = [];
+  for (let i = 0; i < maxLevel; i++) {
+    arr.push(R.flatten(findLevel(header, i)));
+  }
+  // arr 合并数量可能有误
+  return arr;
+};
+
 @connect(({ common: { userSetting: { dept_name, fullname } } }) => ({
   dept_name,
   fullname,
@@ -277,10 +337,17 @@ class Tables extends Component {
       bordered,
     } = this.state;
 
+    let tableColumn = this.appendActions(columns);
+    if (this.props.beforeRender) {
+      tableColumn = this.props.beforeRender(tableColumn);
+    }
+
     if (!isAntd) {
+      let nestedHeaders = handleSheetHeader(tableColumn);
+      console.log(nestedHeaders);
       let { data, ...src } = this.props.dataSrc;
       let nextData = R.map(item => Object.values(item).slice(1), dataSource);
-      return <Sheet data={{ data: nextData, ...src }} />;
+      return <Sheet data={{ data: nextData, ...src, nestedHeaders }} />;
     }
 
     let scroll = {};
@@ -294,12 +361,6 @@ class Tables extends Component {
     // if (pageSize > 15) {
     //   scroll.y = 700;
     // }
-    let tableColumn = this.appendActions(columns);
-    if (this.props.beforeRender) {
-      tableColumn = this.props.beforeRender(tableColumn);
-    }
-    // let nestedHeaders = getNestHeader(tableColumn);
-    // console.log(tableColumn, nestedHeaders);
 
     return (
       <>

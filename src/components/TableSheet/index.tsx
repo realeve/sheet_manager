@@ -54,7 +54,7 @@ const TableSheet = ({ data }) => {
     columns = [...columns, ...nextCol.map(title => ({ title }))];
   }
 
-  const config = {
+  let config = {
     stretchH: 'all',
     autoWrapRow: true,
     height: 'calc( 100vh - 320px)',
@@ -91,6 +91,9 @@ const TableSheet = ({ data }) => {
     undo: true,
     colWidths: 100,
   };
+  if (data.nestedHeaders) {
+    config.nestedHeaders = data.nestedHeaders;
+  }
   return <HotTable settings={config} />;
 };
 

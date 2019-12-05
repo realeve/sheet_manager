@@ -72,7 +72,7 @@ export const getColumn = config => {
   });
 };
 
-const getHeadLevel = (columns, level = 1) => {
+export const getHeadLevel = (columns, level = 1) => {
   let curLevel = 1;
   columns.forEach(column => {
     let tempLevel = level;
