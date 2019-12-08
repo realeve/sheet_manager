@@ -1,5 +1,5 @@
 {
-  "name": "油墨/凹印/9602A",
+  "name": "油墨/胶印/9602A",
   "api": {
     "insert": {
       "url": "715/f176c6fe9c",
@@ -21,7 +21,7 @@
       "url": "719/0a0e551574"
     }
   },
-  "table": "ink_intag",
+  "table": "ink_offset",
   "detail": [
     {
       "title": "基础数据",
@@ -36,7 +36,7 @@
           "title": "油墨类型",
           "type": "label",
           "key": "ink_type",
-          "value": "凹印"
+          "value": "胶印"
         },
         {
           "title": "来料日期",
@@ -94,29 +94,61 @@
         },
         {
           "title": "油墨名称",
-          "type": "radio.button",
+          "type": "select",
           "key": "ink_name",
           "rule": {
             "required": true
           },
           "defaultOption": [
             {
-              "name": "正主景绿",
-              "value": "正主景绿",
-              "hide": ["anti_fake", "drying_time", "release_time"],
-              "scope": [{ "key": "dryness", "min": 6, "max": 14 }]
+              "name": "JB1正背隔深绿",
+              "value": "JB1正背隔深绿",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "正蓝",
-              "value": "正蓝",
-              "hide": ["anti_fake", "drying_time", "release_time"],
-              "scope": [{ "key": "dryness", "min": 10, "max": 18 }]
+              "name": "JB1正隔紫",
+              "value": "JB1正隔紫",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "正棕（SM-1）",
-              "value": "正棕（SM-1）",
-              "hide": ["drying_time", "release_time"],
-              "scope": [{ "key": "dryness", "min": 10, "max": 18 }]
+              "name": "JB1正隔棕",
+              "value": "JB1正隔棕",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB1正隔浅绿",
+              "value": "JB1正隔浅绿",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB1正背隔黄绿",
+              "value": "JB1正背隔黄绿",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB1正隔浅棕",
+              "value": "JB1正隔浅棕",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB1背隔黄",
+              "value": "JB1背隔黄",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB1背浅棕（UV-2）",
+              "value": "JB1背浅棕（UV-2）",
+              "hide": ["drying_time", "release_time"]
+            },
+            {
+              "name": "JB1背隔紫红",
+              "value": "JB1背隔紫红",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB1背主景绿",
+              "value": "JB1背主景绿",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             }
           ]
         }
@@ -157,8 +189,8 @@
             "required": true
           },
           "scope": {
-            "max": 16,
-            "min": 8
+            "max": 15,
+            "min": 7
           },
           "suffix": "Pa•S/40℃"
         },
@@ -201,7 +233,11 @@
           "rule": {
             "required": true
           },
-          "suffix": "Min/80℃"
+          "suffix": "Min/80℃",
+          "scope": {
+            "min": 10,
+            "max": 30
+          }
         },
         {
           "title": "防伪特性",
@@ -210,7 +246,7 @@
           "rule": {
             "required": true
           },
-          "defaultValue": "SM特性信号值≥900"
+          "defaultValue": "有，黄光"
         },
         {
           "title": "检验员",
