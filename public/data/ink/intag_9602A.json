@@ -1,0 +1,250 @@
+{
+  "name": "油墨/凹印/9602A",
+  "api": {
+    "insert": {
+      "url": "715/f176c6fe9c",
+      "param": ["rec_time", "uid"]
+    },
+    "delete": {
+      "url": "716/46124f7fac",
+      "param": ["batch_no"]
+    },
+    "update": {
+      "url": "717/511c6bce4f",
+      "param": ["batch_no"]
+    },
+    "query": {
+      "url": "718/dc30f39d8d",
+      "param": ["batch_no"]
+    },
+    "table": {
+      "url": "719/0a0e551574"
+    }
+  },
+  "table": "paper_material_chemical_hcl",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "产品品种",
+          "type": "label",
+          "key": "prod_name",
+          "value": "9602A"
+        },
+        {
+          "title": "油墨类型",
+          "type": "label",
+          "key": "ink_type",
+          "value": "凹印"
+        },
+        {
+          "title": "来料日期",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "生产厂家",
+          "type": "input",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入生产厂家"
+          },
+          "placeholder": "请输入生产厂家",
+          "defaultValue": "中钞油墨",
+          "unReset": true
+        },
+        {
+          "title": "批次",
+          "type": "input",
+          "key": "batch_no",
+          "rule": {
+            "required": true,
+            "msg": "请输入批号"
+          },
+          "placeholder": "请输入批号",
+          "toupper": "true"
+        },
+        {
+          "title": "数量",
+          "type": "input",
+          "key": "prod_num",
+          "rule": {
+            "type": "int",
+            "required": true,
+            "msg": "请输入数量"
+          },
+          "suffix": "kg"
+        },
+        {
+          "title": "报检人",
+          "type": "input",
+          "key": "check_user",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true,
+          "defaultValue": "物资库管员"
+        },
+        {
+          "title": "油墨名称",
+          "type": "radio.button",
+          "key": "ink_name",
+          "rule": {
+            "required": true
+          },
+          "defaultOption": [
+            {
+              "name": "正主景绿",
+              "value": "正主景绿",
+              "hide": ["anti_fake", "drying_time", "release_time"],
+              "scope": [{ "key": "dryness", "min": 6, "max": 14 }]
+            },
+            {
+              "name": "正蓝",
+              "value": "正蓝",
+              "hide": ["anti_fake", "drying_time", "release_time"],
+              "scope": [{ "key": "dryness", "min": 10, "max": 18 }]
+            },
+            {
+              "name": "正棕（SM-1）",
+              "value": "正棕（SM-1）",
+              "hide": ["drying_time", "release_time"],
+              "scope": [{ "key": "dryness", "min": 10, "max": 18 }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "色光",
+          "block": "刮样法",
+          "type": "input",
+          "key": "coloured_light",
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "近似—微"
+        },
+        {
+          "title": "色差",
+          "type": "input",
+          "key": "delta_e",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "max": 3
+          },
+          "block": "△E (仪器法)"
+        },
+        {
+          "title": "粘度",
+          "type": "input",
+          "key": "viscosity",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "max": 16,
+            "min": 8
+          },
+          "suffix": "Pa•S/40℃"
+        },
+        {
+          "title": "细度",
+          "block": "稀释法",
+          "type": "input",
+          "key": "fineness",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "max": 20
+          },
+          "suffix": "μm"
+        },
+        {
+          "title": "释放时间",
+          "type": "input",
+          "key": "release_time",
+          "rule": {
+            "required": true
+          },
+          "suffix": "S"
+        },
+        {
+          "title": "自然干",
+          "type": "input",
+          "key": "drying_time",
+          "rule": {
+            "required": true
+          },
+          "suffix": "h"
+        },
+        {
+          "title": "干性",
+          "type": "input",
+          "key": "dryness",
+          "rule": {
+            "required": true
+          },
+          "suffix": "Min/80℃"
+        },
+        {
+          "title": "防伪特性",
+          "type": "input",
+          "key": "anti_fake",
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "SM特性信号值≥900"
+        },
+        {
+          "title": "检验员",
+          "type": "input",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "检验结论",
+          "type": "switch",
+          "key": "result",
+          "checkedChildren": "合格",
+          "unCheckedChildren": "不合格",
+          "placeholder": "请在此填入检验结论",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "1"
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -113,12 +113,26 @@ function FormCreater({ config, dispatch }) {
     if (scope.length > 0) {
       return;
     }
+    // console.log(cfg);
     // 收集初始scope
     let res = R.compose(
       R.flatten,
       R.filter(item => item),
-      R.map(item => item.scope)
+      R.map(item => {
+        // item.scope
+        if (R.type(item.scope) === 'Object') {
+          return [
+            {
+              key: item.key,
+              ...item.scope,
+            },
+          ];
+        }
+        return item.scope;
+      })
     )(cfg);
+
+    console.log(res);
     setScope(res);
   }, [state]);
 
@@ -251,8 +265,11 @@ function FormCreater({ config, dispatch }) {
                       setFormstatus={setFormstatus}
                       detail={detail}
                       scope={scope}
-                      setScope={({ scope, hide }) => {
-                        setScope(scope);
+                      setScope={({ scope: nextScope, hide }) => {
+                        let keys = R.map(R.prop('key'))(nextScope);
+                        let prevScope = R.reject(item => keys.includes(item.key))(scope);
+                        // console.log(keys, prevScope);
+                        setScope([...prevScope, ...nextScope]);
                         setHideKeys(hide);
                       }}
                     />
