@@ -40,7 +40,7 @@ const getNestHeader = (tableColumn, level = 0) => {
 };
 const handleSheetHeader = tableColumn => {
   let header = getNestHeader(tableColumn);
-  console.log(JSON.stringify(header));
+  // console.log(JSON.stringify(header));
   // 合并span列宽度
   const handleColSpan = arr => {
     let sum = 0;
@@ -104,9 +104,11 @@ const handleSheetHeader = tableColumn => {
   return arr;
 };
 
-@connect(({ common: { userSetting: { dept_name, fullname } } }) => ({
+@connect(({ common: { userSetting: { dept_name, fullname }, hidemenu }, table: { isAntd } }) => ({
   dept_name,
   fullname,
+  hidemenu,
+  isAntd,
 }))
 class Tables extends Component {
   constructor(props) {
@@ -134,10 +136,10 @@ class Tables extends Component {
 
   // 页码更新
   refreshByPage = (page = 1) => {
-    const isAntd = window.location.hash.includes('theme=antd');
+    // const isAntd = window.location.hash.includes('theme=antd');
 
     const { pageSize, dataSource, dataClone } = this.state;
-    const dataSourceNew = isAntd
+    const dataSourceNew = this.props.isAntd
       ? db.getPageData({
           data: dataClone,
           page,
@@ -324,7 +326,7 @@ class Tables extends Component {
     return [...columns, ...actions];
   };
 
-  getTBody = isAntd => {
+  getTBody = (isAntd, hidemenu) => {
     const {
       loading,
       columns,
@@ -344,10 +346,10 @@ class Tables extends Component {
 
     if (!isAntd) {
       let nestedHeaders = handleSheetHeader(tableColumn);
-      console.log(nestedHeaders);
+      // console.log(nestedHeaders);
       let { data, ...src } = this.props.dataSrc;
       let nextData = R.map(item => Object.values(item).slice(1), dataSource);
-      return <Sheet data={{ data: nextData, ...src, nestedHeaders }} />;
+      return <Sheet data={{ data: nextData, ...src, nestedHeaders, hidemenu }} />;
     }
 
     let scroll = {};
@@ -425,8 +427,8 @@ class Tables extends Component {
       return <Err err={this.props.dataSrc.err} />;
     }
 
-    const isAntd = window.location.hash.includes('theme=antd');
-    const tBody = this.getTBody(isAntd);
+    // const isAntd = window.location.hash.includes('theme=antd');
+    const tBody = this.getTBody(this.props.isAntd, this.props.hidemenu);
     const tTitle = this.tblTitle();
 
     const Action = () => {
@@ -467,7 +469,7 @@ class Tables extends Component {
               <Action />
             </div>
           )
-        : isAntd && (
+        : this.props.isAntd && (
             <Form layout="inline" className={styles.tblSetting} style={{ paddingLeft: 15 }}>
               <FormItem label={formatMessage({ id: 'table.border' })}>
                 <Switch checked={this.state.bordered} onChange={this.handleToggle('bordered')} />

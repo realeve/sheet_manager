@@ -20,11 +20,13 @@ export default {
     axiosOptions: [],
     extraData: [],
     err: false,
+    isAntd: false,
   },
   reducers: {
     setStore,
     initState() {
-      return { dataSource: [], axiosOptions: [], extraData: [] };
+      let isAntd = (window.location.hash || '').includes('theme=antd');
+      return { dataSource: [], axiosOptions: [], extraData: [], isAntd };
     },
   },
   effects: {

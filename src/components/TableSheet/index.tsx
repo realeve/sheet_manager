@@ -57,7 +57,7 @@ const TableSheet = ({ data }) => {
   let config = {
     stretchH: 'all',
     autoWrapRow: true,
-    height: 'calc( 100vh - 320px)',
+    height: `calc( 100vh - ${data.hidemenu ? 240 : 320}px)`,
     rowHeaders: true,
     colHeaders: data.header,
     columns,

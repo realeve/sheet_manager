@@ -313,8 +313,8 @@ export const mergeConfig = (columns, config, dataSrc: defaultData = {}) => {
 
 // 根据 props 更新state //, columns
 export const updateState = (props, { page, pageSize }, merge = true) => {
-  let { dataSrc, loading } = R.clone(props);
-  const isAntd = window.location.hash.includes('theme=antd');
+  let { dataSrc, loading, isAntd } = R.clone(props);
+  // const isAntd = window.location.hash.includes('theme=antd');
 
   const { source, time } = dataSrc;
 
