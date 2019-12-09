@@ -6,6 +6,8 @@
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   position: relative;
+  display: flex;
+  justify-content: space-between;
 }
 
 .logo {
@@ -43,7 +45,7 @@ i.trigger {
     display: inline-block;
     transition: all 0.3s;
     height: 100%;
-    >i {
+    > i {
       vertical-align: middle;
       color: @text-color;
     }
@@ -74,7 +76,7 @@ i.trigger {
   height: 64px;
   .action {
     color: rgba(255, 255, 255, 0.85);
-    >i {
+    > i {
       color: rgba(255, 255, 255, 0.85);
     }
     &:hover,

@@ -12,23 +12,13 @@ export default class TopNavHeader extends PureComponent {
     super(props);
 
     this.state = {
-      maxWidth:
-        (props.contentWidth === 'Fixed' ? 1200 : window.innerWidth) -
-        330 -
-        165 -
-        4 -
-        36
+      maxWidth: (props.contentWidth === 'Fixed' ? 1200 : window.innerWidth) - 330 - 165 - 4 - 36,
     };
   }
 
   static getDerivedStateFromProps(props) {
     return {
-      maxWidth:
-        (props.contentWidth === 'Fixed' ? 1200 : window.innerWidth) -
-        330 -
-        165 -
-        4 -
-        36
+      maxWidth: (props.contentWidth === 'Fixed' ? 1200 : window.innerWidth) - 330 - 165 - 4 - 36,
     };
   }
 
@@ -50,12 +40,10 @@ export default class TopNavHeader extends PureComponent {
             </div>
             <div
               style={{
-                maxWidth
-              }}>
-              <BaseMenu
-                {...this.props}
-                style={{ border: 'none', height: 64 }}
-              />
+                maxWidth,
+              }}
+            >
+              <BaseMenu {...this.props} style={{ border: 'none', height: 64 }} />
             </div>
           </div>
           <RightContent {...this.props} />

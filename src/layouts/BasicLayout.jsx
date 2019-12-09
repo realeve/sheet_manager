@@ -15,7 +15,6 @@ import logo from '../assets/logo.svg';
 import Footer from './Footer';
 import Header from './Header';
 import Context from './MenuContext';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 // import userTool from '../utils/users';
 // import router from 'umi/router';
@@ -198,7 +197,7 @@ class BasicLayout extends PureComponent {
   getContentStyle = () => {
     const { fixedHeader } = this.props;
     return {
-      margin: '24px 24px 0',
+      margin: '12px 12px 0',
       paddingTop: fixedHeader ? 64 : 0,
     };
   };
@@ -238,6 +237,7 @@ class BasicLayout extends PureComponent {
 
     // 未登录，未在允许菜单列表中搜索到且用户身份类型>=4时，表示非法访问。
     const notAllowed = breadcrumbList.length === 0 && user_type >= 4;
+
     const layout = (
       <Layout>
         {hidemenu || menuData.length === 0 || (isTop && !isMobile) ? null : (
@@ -268,9 +268,7 @@ class BasicLayout extends PureComponent {
             />
           )}
           <Content style={this.getContentStyle()}>
-            <PageHeaderWrapper breadcrumbList={breadcrumbList}>
-              {hidemenu ? children : !isLogin ? <UnLogin /> : notAllowed ? <ForOThree /> : children}
-            </PageHeaderWrapper>
+            {notAllowed ? <ForOThree /> : !hidemenu && !isLogin ? <UnLogin /> : children}
           </Content>
           <Footer hidemenu={hidemenu} />
         </Layout>

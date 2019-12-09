@@ -99,6 +99,7 @@ export default {
     selectValue: {},
     textAreaList: [],
     textAreaValue: {},
+    showDateRange: false,
     spinning: false,
     curUrl: '',
   },

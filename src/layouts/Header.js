@@ -132,6 +132,7 @@ class HeaderView extends PureComponent {
             onMenuClick={this.handleMenuClick}
             // onNoticeVisibleChange={this.handleNoticeVisibleChange}
             {...this.props}
+            isMobile={isMobile}
           />
         ) : (
           <GlobalHeader
@@ -140,6 +141,7 @@ class HeaderView extends PureComponent {
             onMenuClick={this.handleMenuClick}
             // onNoticeVisibleChange={this.handleNoticeVisibleChange}
             {...this.props}
+            isMobile={isMobile}
           />
         )}
       </Header>

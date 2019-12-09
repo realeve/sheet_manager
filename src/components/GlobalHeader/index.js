@@ -5,7 +5,10 @@ import Debounce from 'lodash-decorators/debounce';
 import styles from './index.less';
 import RightContent from './RightContent';
 import Bind from 'lodash-decorators/bind';
-export default class GlobalHeader extends PureComponent {
+import { DateRangePicker } from '@/components/QueryCondition';
+import { connect } from 'dva';
+
+class GlobalHeader extends PureComponent {
   componentWillUnmount() {
     this.triggerResizeEvent.cancel();
   }
@@ -33,15 +36,30 @@ export default class GlobalHeader extends PureComponent {
             <img src={logo} alt="logo" width="32" />
           </Link>
         )}
-        {!hidemenu && (
-          <Icon
-            className={styles.trigger}
-            type={collapsed ? 'menu-unfold' : 'menu-fold'}
-            onClick={this.toggle}
-          />
-        )}
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          {!hidemenu && (
+            <Icon
+              className={styles.trigger}
+              type={collapsed ? 'menu-unfold' : 'menu-fold'}
+              onClick={this.toggle}
+            />
+          )}
+          {!isMobile && this.props.selectList.length + this.props.textAreaList.length === 0 && (
+            <DateRangePicker
+              refresh={true}
+              dispatch={this.props.dispatch}
+              dateRange={this.props.dateRange}
+            />
+          )}
+        </div>
         <RightContent {...this.props} />
       </div>
     );
   }
 }
+
+export default connect(({ common: { dateRange, selectList, textAreaList } }) => ({
+  dateRange,
+  selectList,
+  textAreaList,
+}))(GlobalHeader);
