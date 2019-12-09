@@ -4,7 +4,10 @@ import * as setting from '../utils/setting';
 // const prettyFormat = require('pretty-format');
 
 const { searchUrl } = setting;
-const resultObj = [{ dataIndex: 'col0', title: 'a' }, { dataIndex: 'col1', title: 'b' }];
+const resultObj = [
+  { dataIndex: 'col0', title: 'a' },
+  { dataIndex: 'col1', title: 'b' },
+];
 const dataSrc = {
   data: [
     {
@@ -274,7 +277,10 @@ test('未传入data', () => {
     header: ['a', 'b'],
   };
   const res = table.handleColumns({ dataSrc, filteredInfo: {} }, searchUrl);
-  expect(res).toEqual([{ dataIndex: 'col0', title: 'a' }, { dataIndex: 'col1', title: 'b' }]);
+  expect(res).toEqual([
+    { dataIndex: 'col0', title: 'a', width: 80 },
+    { dataIndex: 'col1', title: 'b', width: 80 },
+  ]);
 });
 
 test('img渲染', () => {
@@ -323,12 +329,18 @@ test('初始化数据', () => {
 
   expect(
     table.handleSrcData({
-      data: [[1, 2], [3, 4]],
+      data: [
+        [1, 2],
+        [3, 4],
+      ],
       rows: 2,
       header: ['a', 'b'],
     })
   ).toEqual({
-    data: [{ col0: 1, col1: 1, col2: 2, key: 0 }, { col0: 2, col1: 3, col2: 4, key: 1 }],
+    data: [
+      { col0: 1, col1: 1, col2: 2, key: 0 },
+      { col0: 2, col1: 3, col2: 4, key: 1 },
+    ],
     header: ['', 'a', 'b'],
     rows: 2,
   });
@@ -350,11 +362,20 @@ test('updateState', () => {
   let resObj = {
     bordered: true,
     columns: resultObj,
-    dataClone: [{ col0: 1, col1: 2, key: 0 }, { col0: 3, col1: 4, key: 1 }],
+    dataClone: [
+      { col0: 1, col1: 2, key: 0 },
+      { col0: 3, col1: 4, key: 1 },
+    ],
     dataSearchClone: [],
-    dataSource: [{ col0: 1, col1: 2, key: 0 }, { col0: 3, col1: 4, key: 1 }],
+    dataSource: [
+      { col0: 1, col1: 2, key: 0 },
+      { col0: 3, col1: 4, key: 1 },
+    ],
     dataSrc: {
-      data: [{ col0: 1, col1: 2, key: 0 }, { col0: 3, col1: 4, key: 1 }],
+      data: [
+        { col0: 1, col1: 2, key: 0 },
+        { col0: 3, col1: 4, key: 1 },
+      ],
       header: ['a', 'b'],
       rows: 2,
       source: 'source',
@@ -388,7 +409,10 @@ test('updateState', () => {
   res = table.updateState(
     {
       dataSrc: {
-        data: [[1, 2], [3, 4]],
+        data: [
+          [1, 2],
+          [3, 4],
+        ],
         rows: 2,
         header: ['a', 'b'],
         source: 'source',
@@ -404,7 +428,10 @@ test('updateState', () => {
     table.updateState(
       {
         dataSrc: {
-          data: [{ a: 1, b: 2 }, { a: 3, b: 4 }],
+          data: [
+            { a: 1, b: 2 },
+            { a: 3, b: 4 },
+          ],
           rows: 2,
           header: ['a', 'b'],
           source: 'source',
@@ -431,11 +458,17 @@ test('updateState', () => {
   const emptyObj = {
     bordered: false,
     columns: [],
-    dataClone: [{ col0: 1, col1: 2, key: 0 }, { col0: 3, col1: 4, key: 1 }],
+    dataClone: [
+      { col0: 1, col1: 2, key: 0 },
+      { col0: 3, col1: 4, key: 1 },
+    ],
     dataSearchClone: [],
     dataSource: [],
     dataSrc: {
-      data: [{ col0: 1, col1: 2, key: 0 }, { col0: 3, col1: 4, key: 1 }],
+      data: [
+        { col0: 1, col1: 2, key: 0 },
+        { col0: 3, col1: 4, key: 1 },
+      ],
       header: ['a', 'b'],
       rows: 0,
       source: 'source',
@@ -462,7 +495,10 @@ test('updateState', () => {
 
 test('数据排序', () => {
   let params = {
-    dataClone: [{ col0: 1, col1: 2 }, { col0: 3, col1: 4 }],
+    dataClone: [
+      { col0: 1, col1: 2 },
+      { col0: 3, col1: 4 },
+    ],
     field: 'col1',
   };
   expect(table.handleSort({ ...params, order: 'descend' })).toEqual([
@@ -476,7 +512,10 @@ test('数据排序', () => {
 });
 
 test('数据过滤', () => {
-  let data = [{ col0: 1, col1: 2 }, { col0: 3, col1: 4 }];
+  let data = [
+    { col0: 1, col1: 2 },
+    { col0: 3, col1: 4 },
+  ];
   let params = {
     data,
     filters: {
@@ -568,7 +607,10 @@ test('更新数据列', () => {
     })
   ).toMatchObject([
     {
-      children: [{ a: 1, dataIndex: 'col0', filteredValue: [3] }, { a: 3, dataIndex: 'col1' }],
+      children: [
+        { a: 1, dataIndex: 'col0', filteredValue: [3] },
+        { a: 3, dataIndex: 'col1' },
+      ],
       title: 'a',
     },
     {

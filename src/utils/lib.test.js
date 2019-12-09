@@ -5,7 +5,7 @@ test('车号与轴号有效性', () => {
   expect(lib.isCartOrReel('1880A233')).toBeTruthy();
   expect(lib.isCartOrReel('1880a233')).toBeTruthy();
   expect(lib.isCartOrReel('182A2233')).not.toBeTruthy();
-  expect(lib.isCartOrReel('7720015')).toBeTruthy();
+  expect(lib.isCartOrReel('7720015')).not.toBeTruthy();
   expect(lib.isCartOrReel('7720015A')).toBeTruthy();
   expect(lib.isCartOrReel('7720015a')).toBeTruthy();
 });
@@ -17,7 +17,7 @@ test('车号有效性', () => {
   expect(lib.isCart('7720015')).not.toBeTruthy();
 });
 test('轴号有效性', () => {
-  expect(lib.isReel('7720015')).toBeTruthy();
+  expect(lib.isReel('7720015')).not.toBeTruthy();
   expect(lib.isReel('7720015A')).toBeTruthy();
   expect(lib.isReel('7720015a')).toBeTruthy();
 });

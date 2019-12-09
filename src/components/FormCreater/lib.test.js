@@ -21,7 +21,7 @@ test('数据转换处理', () => {
   expect(handler.toLower('A')).toBe('a');
   expect(handler.toLower('A ')).toBe('a');
   expect(handler.trim(true)).toBe(1);
-  expect(handler.trim('a ')).toBe('a');
+  expect(handler.trim('a ')).toBe('a ');
   expect(handler.trim([1, 2])).toBe('1,2');
   expect(handler.trim({ a: 1 })).toMatchObject({ a: 1 });
 });
