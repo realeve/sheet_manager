@@ -1,40 +1,40 @@
 const colorList = [
   {
     key: 'dust',
-    color: '#F5222D'
+    color: '#F5222D',
   },
   {
     key: 'volcano',
-    color: '#FA541C'
+    color: '#FA541C',
   },
   {
     key: 'sunset',
-    color: '#FAAD14'
+    color: '#FAAD14',
   },
   {
     key: 'cyan',
-    color: '#13C2C2'
+    color: '#13C2C2',
   },
   {
     key: 'green',
-    color: '#52C41A'
+    color: '#52C41A',
   },
   {
     key: 'daybreak',
-    color: '#1890FF'
+    color: '#1890FF',
   },
   {
     key: 'geekblue',
-    color: '#2F54EB'
+    color: '#2F54EB',
   },
   {
     key: 'purple',
-    color: '#722ED1'
+    color: '#722ED1',
   },
   {
     key: 'dark green',
-    color: '#1DA57A'
-  }
+    color: '#1DA57A',
+  },
 ];
 
 module.exports = {
@@ -44,5 +44,5 @@ module.exports = {
   contentWidth: 'Fluid', // layout of content: Fluid or Fixed, only works when layout is topmenu
   fixedHeader: false, // sticky header
   autoHideHeader: false, // auto hide header
-  fixSiderbar: false // sticky siderbar
+  fixSiderbar: false, // sticky siderbar
 };

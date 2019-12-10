@@ -16,7 +16,13 @@ const TableSheet = ({ data }) => {
   // console.log(data);
   let columns = (data.header || []).map((title, idx) => {
     let item = firstRow[idx] || '';
-    let type = lib.isDateTime(item) ? 'date' : lib.isNumOrFloat(item) ? 'numeric' : 'text';
+    let type = lib.isDate(item)
+      ? 'date'
+      : lib.isTime(item)
+      ? 'time'
+      : lib.isNumOrFloat(item)
+      ? 'numeric'
+      : 'text';
     let column: {
       title: string;
       type: string;
@@ -34,20 +40,30 @@ const TableSheet = ({ data }) => {
           culture: 'zh-CN',
         },
       };
-    } else if (type === 'date') {
+      if (lib.isFloat(item)) {
+        column.renderer = (hotInstance, TD, row, col, prop, value) => {
+          TD.innerHTML = value ? Number(Number(value).toFixed(3)) : value;
+        };
+      }
+    } else if (type === 'date' || type === 'time') {
       column = {
         ...column,
         dateFormat: 'YYYYMMDD',
         allowEmpty: true,
       };
     }
+    if (type === 'time') {
+      column.renderer = (hotInstance, TD, row, col, prop, value) => {
+        TD.innerHTML = (value || '').split('.')[0];
+      };
+      column.width = 160;
+    }
     if (lib.isCartOrReel(item)) {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
         TD.innerHTML = `<a href="${setting.searchUrl}${value}" target="_blank" style="text-decoration:none">${value}</a>`;
       };
     }
-
-    if (item.includes('base64')) {
+    if (String(item).includes('base64')) {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
         TD.innerHTML = `<img src="${value}" />`;
       };
@@ -103,6 +119,7 @@ const TableSheet = ({ data }) => {
   if (data.nestedHeaders && data.nestedHeaders[0] && data.nestedHeaders[0][0]) {
     config.nestedHeaders = data.nestedHeaders;
   }
+
   return <HotTable settings={config} />;
 };
 

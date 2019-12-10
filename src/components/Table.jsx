@@ -354,9 +354,10 @@ class Tables extends Component {
     if (!isAntd) {
       let nestedHeaders = handleSheetHeader(tableColumn);
       // console.log(nestedHeaders);
-      let { data, ...src } = this.props.dataSrc;
-      let nextData = R.map(item => Object.values(item).slice(1), dataSource);
-      return <Sheet data={{ data: nextData, ...src, nestedHeaders, hidemenu }} />;
+      let { data, ...src } = R.clone(this.props.dataSrc);
+      // let nextData = R.map(item => Object.values(item).slice(1), dataSource); : nextData
+
+      return <Sheet data={{ data, ...src, nestedHeaders, hidemenu }} />;
     }
 
     let scroll = {};

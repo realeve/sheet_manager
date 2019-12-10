@@ -46,6 +46,15 @@ export const isDateTime: CartReelReg = str =>
     String(str).trim()
   );
 
+export const isDate: CartReelReg = str =>
+  /^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d$|^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d$/.test(
+    String(str).trim()
+  );
+export const isTime: CartReelReg = str =>
+  /^^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d [0-2][0-9]:[0-5][0-9](:[0-5][0-9])|^[0-2][0-9]:[0-5][0-9](:[0-5][0-9])/.test(
+    String(str).trim()
+  );
+
 export const isMonth: CartReelReg = str => /^[1-9]\d{3}(|\-|\/)[0-1]\d$/.test(String(str).trim());
 
 // 数字
