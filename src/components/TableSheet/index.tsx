@@ -11,7 +11,7 @@ import * as setting from '@/utils/setting';
 
 let colTitles = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const TableSheet = ({ data }) => {
-  let firstRow = data.data[0] || [];
+  let firstRow = (data.data && data.data[0]) || [];
   const minCols = 10; // 最少10行
   // console.log(data);
   let columns = (data.header || []).map((title, idx) => {
@@ -48,7 +48,7 @@ const TableSheet = ({ data }) => {
     } else if (type === 'date' || type === 'time') {
       column = {
         ...column,
-        dateFormat: 'YYYYMMDD',
+        dateFormat: 'YYYY-MM-DD',
         allowEmpty: true,
       };
     }
