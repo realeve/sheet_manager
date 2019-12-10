@@ -62,7 +62,14 @@ export default function CartsByDate({
       bodyStyle={{ paddingTop: 10 }}
       onCancel={() => onToggle(false)}
     >
-      <VTable dataSrc={state} loading={loading} simple={true} showDownload={true} pagesize={15} />
+      <VTable
+        isAntd
+        dataSrc={state}
+        loading={loading}
+        simple={true}
+        showDownload={true}
+        pagesize={15}
+      />
     </Modal>
   );
 }

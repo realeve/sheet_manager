@@ -104,12 +104,20 @@ const handleSheetHeader = tableColumn => {
   return arr;
 };
 
-@connect(({ common: { userSetting: { dept_name, fullname }, hidemenu }, table: { isAntd } }) => ({
-  dept_name,
-  fullname,
-  hidemenu,
-  isAntd,
-}))
+@connect(
+  ({
+    common: {
+      userSetting: { dept_name, fullname },
+      hidemenu,
+    },
+    table: { isAntd: antdTable },
+  }) => ({
+    dept_name,
+    fullname,
+    hidemenu,
+    antdTable,
+  })
+)
 class Tables extends Component {
   constructor(props) {
     super(props);
@@ -136,16 +144,15 @@ class Tables extends Component {
 
   // 页码更新
   refreshByPage = (page = 1) => {
-    // const isAntd = window.location.hash.includes('theme=antd');
-
     const { pageSize, dataSource, dataClone } = this.state;
-    const dataSourceNew = this.props.isAntd
-      ? db.getPageData({
-          data: dataClone,
-          page,
-          pageSize,
-        })
-      : dataClone;
+    const dataSourceNew =
+      this.props.isAntd || this.props.antdTable
+        ? db.getPageData({
+            data: dataClone,
+            page,
+            pageSize,
+          })
+        : dataClone;
 
     if (R.equals(dataSourceNew, dataSource)) {
       return;
@@ -428,7 +435,7 @@ class Tables extends Component {
     }
 
     // const isAntd = window.location.hash.includes('theme=antd');
-    const tBody = this.getTBody(this.props.isAntd, this.props.hidemenu);
+    const tBody = this.getTBody(this.props.isAntd || this.props.antdTable, this.props.hidemenu);
     const tTitle = this.tblTitle();
 
     const Action = () => {
@@ -469,7 +476,7 @@ class Tables extends Component {
               <Action />
             </div>
           )
-        : this.props.isAntd && (
+        : (this.props.isAntd || this.props.antdTable) && (
             <Form layout="inline" className={styles.tblSetting} style={{ paddingLeft: 15 }}>
               <FormItem label={formatMessage({ id: 'table.border' })}>
                 <Switch checked={this.state.bordered} onChange={this.handleToggle('bordered')} />

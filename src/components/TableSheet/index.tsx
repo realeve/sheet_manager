@@ -13,9 +13,9 @@ let colTitles = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const TableSheet = ({ data }) => {
   let firstRow = data.data[0] || [];
   const minCols = 10; // 最少10行
-
-  let columns = data.header.map((title, idx) => {
-    let item = firstRow[idx];
+  // console.log(data);
+  let columns = (data.header || []).map((title, idx) => {
+    let item = firstRow[idx] || '';
     let type = lib.isDateTime(item) ? 'date' : lib.isNumOrFloat(item) ? 'numeric' : 'text';
     let column: {
       title: string;
@@ -46,6 +46,14 @@ const TableSheet = ({ data }) => {
         TD.innerHTML = `<a href="${setting.searchUrl}${value}" target="_blank" style="text-decoration:none">${value}</a>`;
       };
     }
+
+    if (item.includes('base64')) {
+      column.renderer = (hotInstance, TD, row, col, prop, value) => {
+        TD.innerHTML = `<img src="${value}" />`;
+      };
+      column.width = 200;
+    }
+
     return column;
   });
 
@@ -53,11 +61,12 @@ const TableSheet = ({ data }) => {
     let nextCol = R.slice(columns.length, minCols)(colTitles);
     columns = [...columns, ...nextCol.map(title => ({ title }))];
   }
-
+  let isSearch = window.location.pathname.includes('/search');
+  let minRows = isSearch ? 13 : 31;
   let config = {
     stretchH: 'all',
     autoWrapRow: true,
-    height: `calc( 100vh - ${data.hidemenu ? 220 : 270}px)`,
+    height: isSearch ? 250 : `calc( 100vh - ${data.hidemenu ? 220 : 270}px)`,
     rowHeaders: true,
     colHeaders: data.header,
     columns,
@@ -85,13 +94,13 @@ const TableSheet = ({ data }) => {
     // disableVisualSelection: true,
     // columnHeaderHeight: 35,
     minCols,
-    minRows: 31,
+    minRows,
     // rowHeaderWidth: 28,
     search: true,
     undo: true,
     colWidths: 100,
   };
-  if (data.nestedHeaders) {
+  if (data.nestedHeaders && data.nestedHeaders[0] && data.nestedHeaders[0][0]) {
     config.nestedHeaders = data.nestedHeaders;
   }
   return <HotTable settings={config} />;

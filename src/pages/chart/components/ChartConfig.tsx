@@ -79,6 +79,7 @@ const FieldSwitch: (props: ISwitProps) => JSX.Element = ({
   value,
   onChange,
   desc,
+  url,
 }) => (
   <Col span={8} xl={6} lg={6} md={8} sm={12} xs={24} style={style}>
     <div className={styles.selector}>
@@ -89,7 +90,13 @@ const FieldSwitch: (props: ISwitProps) => JSX.Element = ({
         onChange={onChange}
       />
     </div>
-    <p className={styles.desc}>{desc}</p>
+    {url.length > 0 ? (
+      <a href={url} target="_blank" className={styles.desc}>
+        {desc}
+      </a>
+    ) : (
+      <p className={styles.desc}>{desc}</p>
+    )}
   </Col>
 );
 
@@ -423,6 +430,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
             desc={chartDesc[key] + `(${key})`}
             value={this.state[key]}
             onChange={value => this.directChange(key, value)}
+            url={key === 'spc' ? '/doc/GBT4091-2001.pdf' : ''}
           />
         ))}
         {inputOptions.map(key => (

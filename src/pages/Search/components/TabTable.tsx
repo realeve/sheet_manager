@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Col, Card, Tabs } from 'antd';
 import * as db from '@/pages/Search/utils/db';
 import VTable from '@/components/Table';
-import SimpleTable from './SimpleTable'
+import SimpleTable from './SimpleTable';
 import * as R from 'ramda';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 const TabPane = Tabs.TabPane;
 
-let fetchData = ({ api, params }) => db[api](params)
-  .then((res) => ({ ...res, loading: false, err: false }))
-  .catch((err) => ({ err, loading: false, rows: 0 }));
+let fetchData = ({ api, params }) =>
+  db[api](params)
+    .then(res => ({ ...res, loading: false, err: false }))
+    .catch(err => ({ err, loading: false, rows: 0 }));
 
 const defaultTableSetting = {
   simple: true,
@@ -35,7 +36,7 @@ export default function LogInfo({ cart, config, simpleIdx = [], ...props }) {
     let nextStatus = R.clone(needRefresh);
     nextStatus[Number(activeKey)] = false;
     setNeedRefresh(nextStatus);
-  }
+  };
 
   useEffect(() => {
     // 当前key已经载入过数据，退出
@@ -47,7 +48,7 @@ export default function LogInfo({ cart, config, simpleIdx = [], ...props }) {
     nextState[Number(activeKey)].loading = true;
     setState(nextState);
 
-    refresh({ api: config[activeKey].api, params: cart }, nextState)
+    refresh({ api: config[activeKey].api, params: cart }, nextState);
   }, [needRefresh[activeKey]]);
 
   return (
@@ -60,21 +61,28 @@ export default function LogInfo({ cart, config, simpleIdx = [], ...props }) {
         style={{ marginBottom: 10 }}
       >
         <Tabs defaultActiveKey="0" onChange={setActiveKey} animated={false}>
-          {
-            state.map((res, key) => <TabPane tab={config[key].title} key={String(key)}>
-              {
-                simpleIdx.includes(key) ?
-                  <Scrollbars
-                    autoHide
-                    style={{
-                      height: 300,
-                      marginBottom: 10,
-                    }}>
-                    <SimpleTable data={res} loading={res.loading} />
-                  </Scrollbars> : <VTable dataSrc={res} loading={res.loading} {...defaultTableSetting} />
-              }
-            </TabPane>)
-          }
+          {state.map((res, key) => (
+            <TabPane tab={config[key].title} key={String(key)}>
+              {simpleIdx.includes(key) ? (
+                <Scrollbars
+                  autoHide
+                  style={{
+                    height: 300,
+                    marginBottom: 10,
+                  }}
+                >
+                  <SimpleTable data={res} loading={res.loading} />
+                </Scrollbars>
+              ) : (
+                <VTable
+                  isAntd={config[key].isAntd !== false}
+                  dataSrc={res}
+                  loading={res.loading}
+                  {...defaultTableSetting}
+                />
+              )}
+            </TabPane>
+          ))}
         </Tabs>
       </Card>
     </Col>
