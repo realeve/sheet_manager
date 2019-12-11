@@ -512,9 +512,19 @@ class Tables extends Component {
               rel="noopener noreferrer"
               className={styles.action}
               style={{ marginLeft: 10 }}
-              title=""
+              title="参数设置"
             >
               <Icon type="question-circle-o" />
+            </a>
+            <a
+              target="_blank"
+              href="/doc/office_tool.zip"
+              rel="noopener noreferrer"
+              className={styles.action}
+              style={{ marginLeft: 10 }}
+              title="下载Office兼容性插件"
+            >
+              <Icon type="download" />
             </a>
           </div>
           {tTitle}
