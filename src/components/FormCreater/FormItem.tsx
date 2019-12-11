@@ -130,7 +130,7 @@ export default function formItem({
             elementLarge: ['radio', 'radio.button', 'check'].includes(type), // 'select',
           }
         )}
-      
+      >
         {type === 'input.textarea' && (
           <TextArea
             style={{ width: '100%' }}
