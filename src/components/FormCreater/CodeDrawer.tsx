@@ -263,6 +263,26 @@ export default function codeDrawer({
           theme: 'material',
         }}
       />
+      <Paragraph style={{ marginTop: 10 }}>
+        <Title level={4}>4.辅助功能-默认选择项</Title>
+        <Text>参考以下语句分割excel中单列选项数据：</Text>
+      </Paragraph>
+
+      <CodeMirror
+        value={`       JSON.stringify(
+        \`JB2 正棕
+        JB2 正桔红 
+        \`.split('\\n')
+      .filter(item=>item.trim().length)
+      .map((name)=>({name:name.trim(),value:name.trim(),hide: ["anti_fake", "drying_time", "release_time"]})))`}
+        options={{
+          mode: 'javascript',
+          lineNumbers: true,
+          styleActiveLine: true,
+          matchBrackets: true,
+          theme: 'material',
+        }}
+      />
     </Drawer>
   );
 }
