@@ -132,7 +132,6 @@ function FormCreater({ config, dispatch }) {
       })
     )(cfg);
 
-    console.log(res);
     setScope(res);
   }, [state]);
 
@@ -199,12 +198,13 @@ function FormCreater({ config, dispatch }) {
     if (hideKeys.length === 0) {
       return;
     }
-    let nextState = hideKeys.map(key => ({
-      [key]: '',
-    }));
+    let nextState = {};
+    hideKeys.forEach(key => {
+      nextState[key] = '';
+    });
 
     setState({
-      ...state,
+      // ...state,
       ...nextState,
     });
     setFields({
@@ -267,7 +267,7 @@ function FormCreater({ config, dispatch }) {
                       scope={scope}
                       setScope={({ scope: nextScope, hide }) => {
                         let keys = R.map(R.prop('key'))(nextScope);
-                        console.log(nextScope, keys);
+                        // console.log(nextScope, keys);
                         let prevScope = R.reject(item => keys.includes(item.key))(scope);
                         // console.log(keys, prevScope);
                         setScope([...prevScope, ...nextScope]);

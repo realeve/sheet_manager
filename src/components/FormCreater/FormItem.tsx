@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Input, Col, Switch, InputNumber, DatePicker, Rate } from 'antd';
 import PinyinSelector from './PinyinSelector';
@@ -54,6 +54,23 @@ export default function formItem({
 
   let scopeDetail = isInput ? R.find(R.propEq('key', key))(scope) : false;
 
+  // scope中注入一些参数
+  let {
+    min: __min,
+    max: __max,
+    key: __key,
+    block: __block,
+    defaultValue: __defaultValue,
+    ...restScope
+  } = scopeDetail || {};
+
+  useEffect(() => {
+    if (!__defaultValue) {
+      return;
+    }
+    setState(__defaultValue);
+  }, [__defaultValue]);
+
   const onChange = (val: any, props: { [key: string]: any } = {}) => {
     let value = handler.trim(val);
     let { toupper, tolower, rule } = props;
@@ -68,13 +85,10 @@ export default function formItem({
     setValidateState(status);
     setFormstatus(status);
 
-    if (isInput && scopeDetail) {
+    if (isInput && scopeDetail && (typeof __min !== 'undefined' || typeof __max !== 'undefined')) {
       // input 元素需要处理数据录入范围
 
-      if (
-        (scopeDetail.min && val < scopeDetail.min) ||
-        (scopeDetail.max && val > scopeDetail.max)
-      ) {
+      if ((__min && val < __min) || (__max && val > __max)) {
         setValidateScope(false);
       } else {
         setValidateScope(true);
@@ -93,16 +107,6 @@ export default function formItem({
     return R.isNil(val) ? null : val;
   };
 
-  // scope中注入一些参数
-  let {
-    min: __min,
-    max: __max,
-    key: __key,
-    block: __block,
-    defaultValue: __defaultValue,
-    ...restScope
-  } = scopeDetail || {};
-  // console.log(restScope, key);
   return (
     <Col
       span={span}
