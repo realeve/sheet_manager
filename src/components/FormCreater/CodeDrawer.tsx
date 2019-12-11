@@ -274,7 +274,14 @@ export default function codeDrawer({
         JB2 正桔红 
         \`.split('\\n')
       .filter(item=>item.trim().length)
-      .map((name)=>({name:name.trim(),value:name.trim(),hide: ["anti_fake", "drying_time", "release_time"]})))`}
+      .map((name)=>({name:name.trim(),value:name.trim(),hide: ["anti_fake", "drying_time", "release_time"],"scope": [
+        {
+          "key": "anti_fake",
+          "max": 15,
+          "suffix": "%",
+          "block": "有红外吸收，近红外反射值≤15%"
+        }
+      ]})))`}
         options={{
           mode: 'javascript',
           lineNumbers: true,

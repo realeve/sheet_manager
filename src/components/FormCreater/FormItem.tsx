@@ -49,7 +49,9 @@ export default function formItem({
   let [validateState, setValidateState] = useState(true);
 
   let [validateScope, setValidateScope] = useState(true);
+
   const isInput = ['input', 'input.number'].includes(type);
+
   let scopeDetail = isInput ? R.find(R.propEq('key', key))(scope) : false;
 
   const onChange = (val: any, props: { [key: string]: any } = {}) => {
@@ -91,6 +93,16 @@ export default function formItem({
     return R.isNil(val) ? null : val;
   };
 
+  // scope中注入一些参数
+  let {
+    min: __min,
+    max: __max,
+    key: __key,
+    block: __block,
+    defaultValue: __defaultValue,
+    ...restScope
+  } = scopeDetail || {};
+  // console.log(restScope, key);
   return (
     <Col
       span={span}
@@ -133,9 +145,12 @@ export default function formItem({
             onChange={e => onChange(e.target.value, props)}
             {...props}
             placeholder={
-              scopeDetail ? `范围: ${getScopeRange(scopeDetail)}` : props.placeholder || ''
+              scopeDetail && (scopeDetail.min || scopeDetail.max)
+                ? `范围: ${getScopeRange(scopeDetail)}`
+                : props.placeholder || ''
             }
             allowClear={props.allowClear !== false}
+            {...restScope}
           />
         )}
         {type === 'input.number' && (
@@ -147,8 +162,11 @@ export default function formItem({
             onChange={value => onChange(value, props)}
             {...props}
             placeholder={
-              scopeDetail ? `范围: ${getScopeRange(scopeDetail)}` : props.placeholder || ''
+              scopeDetail && (scopeDetail.min || scopeDetail.max)
+                ? `范围: ${getScopeRange(scopeDetail)}`
+                : props.placeholder || ''
             }
+            {...restScope}
           />
         )}
         {type === 'datepicker' && (
@@ -240,11 +258,11 @@ export default function formItem({
         {!validateState && props.rule ? (
           <label className="ant-form-explain">{getRuleMsg(props.rule, title)}</label>
         ) : (
-          block && (
+          (__block || block) && (
             <label
               className="ant-form-explain"
               dangerouslySetInnerHTML={{
-                __html: block,
+                __html: __block || block,
               }}
             ></label>
           )

@@ -267,6 +267,7 @@ function FormCreater({ config, dispatch }) {
                       scope={scope}
                       setScope={({ scope: nextScope, hide }) => {
                         let keys = R.map(R.prop('key'))(nextScope);
+                        console.log(nextScope, keys);
                         let prevScope = R.reject(item => keys.includes(item.key))(scope);
                         // console.log(keys, prevScope);
                         setScope([...prevScope, ...nextScope]);
