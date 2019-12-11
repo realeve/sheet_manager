@@ -127,10 +127,10 @@ export default function formItem({
           { 'has-error': false === validateState || false === validateScope },
           'element',
           {
-            elementLarge: ['select', 'radio', 'radio.button', 'check'].includes(type),
+            elementLarge: ['radio', 'radio.button', 'check'].includes(type), // 'select',
           }
         )}
-      >
+      
         {type === 'input.textarea' && (
           <TextArea
             style={{ width: '100%' }}

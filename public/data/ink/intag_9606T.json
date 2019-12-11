@@ -99,6 +99,7 @@
           "rule": {
             "required": true
           },
+          "span": 8,
           "defaultOption": [
             {
               "name": "WJ1正主景绿",
