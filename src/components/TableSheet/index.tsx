@@ -127,15 +127,15 @@ const TableSheet = ({ data }) => {
   const [config, setConfig] = useState({
     licenseKey: 'non-commercial-and-evaluation',
   });
-  const [hash, setHash] = useState('');
+  // const [hash, setHash] = useState('');
   useEffect(() => {
-    if (hash === data.hash) {
-      return;
-    }
-    setHash(data.hash);
+    // if (hash === data.hash) {
+    //   return;
+    // }
+    // setHash(data.hash);
     let cfg = getConfig(data);
     setConfig(cfg);
-  }, [data]);
+  }, [data.hash]);
 
   return React.useMemo(() => <HotTable settings={config} />, [config]);
 };
