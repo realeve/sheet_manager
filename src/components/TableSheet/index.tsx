@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'handsontable/dist/handsontable.full.css';
 import { HotTable } from '@handsontable/react';
 import 'handsontable/languages/zh-CN';
@@ -10,7 +10,7 @@ import * as setting from '@/utils/setting';
  */
 
 let colTitles = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-const TableSheet = ({ data }) => {
+const getConfig = data => {
   let firstRow = (data.data && data.data[0]) || [];
   const minCols = 10; // 最少10行
   // console.log(data);
@@ -120,7 +120,24 @@ const TableSheet = ({ data }) => {
     config.nestedHeaders = data.nestedHeaders;
   }
 
-  return <HotTable settings={config} />;
+  return config;
+};
+
+const TableSheet = ({ data }) => {
+  const [config, setConfig] = useState({
+    licenseKey: 'non-commercial-and-evaluation',
+  });
+  const [hash, setHash] = useState('');
+  useEffect(() => {
+    if (hash === data.hash) {
+      return;
+    }
+    setHash(data.hash);
+    let cfg = getConfig(data);
+    setConfig(cfg);
+  }, [data]);
+
+  return React.useMemo(() => <HotTable settings={config} />, [config]);
 };
 
 export default TableSheet;

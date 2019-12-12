@@ -199,7 +199,7 @@ export const getVCbpcCartlistByMachine = params =>
   DEV
     ? mock(require('@/mock/416_26a8faebbe.json'))
     : axios({
-        url: '/416/26a8faebbe.json',
+        url: '/416/26a8faebbe.array',
         params,
         cache,
       });

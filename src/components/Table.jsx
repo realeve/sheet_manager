@@ -127,19 +127,22 @@ class Tables extends Component {
   // 返回的值即是当前需要setState的内容
   static getDerivedStateFromProps(
     props,
-    { page, pageSize, dataSrc, columns, dataClone, dataSearchClone, dataSource, total }
+    { page, pageSize, dataSrc, columns } //, dataClone, dataSearchClone, dataSource, total
   ) {
-    if (R.equals(props.dataSrc, dataSrc)) {
+    // if (R.equals(props.dataSrc, dataSrc)) {
+    // 服务端返回hash值，表示当前data的md5指纹，指纹有变时数据才变更，提高前台效率
+    if (props.dataSrc.hash === dataSrc.hash) {
       return { loading: props.loading };
     }
+    return db.updateState(props, { page, pageSize, columns }, props.merge);
 
-    return {
-      ...db.updateState(props, { page, pageSize, columns }, props.merge),
-      dataClone,
-      dataSearchClone,
-      dataSource,
-      total,
-    };
+    // return {
+    //   ...db.updateState(props, { page, pageSize, columns }, props.merge),
+    //   // dataClone,
+    //   // dataSearchClone,
+    //   // dataSource,
+    //   // total,
+    // };
   }
 
   // 页码更新
@@ -354,10 +357,10 @@ class Tables extends Component {
     if (!isAntd) {
       let nestedHeaders = handleSheetHeader(tableColumn);
       // console.log(nestedHeaders);
-      let { data, ...src } = R.clone(this.props.dataSrc);
+      let rest = R.clone(this.props.dataSrc);
       // let nextData = R.map(item => Object.values(item).slice(1), dataSource); : nextData
 
-      return <Sheet data={{ data, ...src, nestedHeaders, hidemenu }} />;
+      return <Sheet data={{ ...rest, nestedHeaders, hidemenu }} />;
     }
 
     let scroll = {};

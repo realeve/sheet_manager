@@ -1,7 +1,7 @@
 import pathToRegexp from 'path-to-regexp';
 import { setStore, handleTextVal } from '@/utils/lib';
 import * as db from '../services/chart';
-import * as R from 'ramda';
+// import * as R from 'ramda';
 import { isDisabled } from '@/components/QueryCondition';
 
 const namespace = 'chart';

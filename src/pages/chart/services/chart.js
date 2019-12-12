@@ -6,16 +6,16 @@ const R = require('ramda');
 
 // export const fetchData = (params) => axios(params);
 
-export const getQueryConfig = (url, params) => ({
-  url,
-  params: {
-    ...params,
-    tstart2: params.tstart,
-    tend2: params.tend,
-    tstart3: params.tstart,
-    tend3: params.tend,
-  },
-});
+// export const getQueryConfig = (url, params) => ({
+//   url,
+//   params: {
+//     ...params,
+//     tstart2: params.tstart,
+//     tend2: params.tend,
+//     tstart3: params.tstart,
+//     tend3: params.tend,
+//   },
+// });
 
 const decodeUrlParam = ({ data: { url, ...params }, idx, inputValue }) => {
   let param = {};

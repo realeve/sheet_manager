@@ -10,7 +10,7 @@ import LogInfo from './components/cart/LogInfo';
 import * as R from 'ramda';
 import styles from './CartDetail.less';
 import ProdSelect from './components/ProdSelect';
-import CodeInfo from './components/cart/MahouInfo';
+// import CodeInfo from './components/cart/MahouInfo';
 
 function CartDetail({ dispatch, ...params }) {
   // 用于冠字查车号

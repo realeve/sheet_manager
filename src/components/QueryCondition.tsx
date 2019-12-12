@@ -33,7 +33,7 @@ export const DateRangePicker = ({ dispatch, refresh, dateRange }) => {
   };
 
   const onQuery = async () => {
-    console.log(queryType);
+    // console.log(queryType);
     if (queryType === 'table') {
       await dispatch({
         type: 'table/updateParams',
