@@ -323,6 +323,16 @@ export default function tableConfig() {
           </li> */}
 
           <li>
+            <div className={styles.tip}>7.列冻结</div>
+            <div className={styles.desc}>freeze</div>
+            <div>前面几列冻结，默认0代表首列冻结。如：设置为3时代表第0，1，2三列冻结</div>
+            <div className={styles.demoLink}>
+              <a href="/table#id=81/a22afbf675&daterange=10&freeze=3" target="_blank">
+                /table#id=81/a22afbf675&daterange=10&freeze=3
+              </a>
+            </div>
+          </li>
+          <li>
             <div className={styles.tip}>8.车号搜索链接</div>
             <div className={styles.desc}>link</div>
             <div>报表中有字段为车号/轴号时，设置搜索前缀，默认为车号搜索，可配置为搜索缺陷图片</div>
@@ -380,6 +390,19 @@ export default function tableConfig() {
                 target="_blank"
               >
                 /table#id=76/dd3cf2e48e&data_type=sex&id=6/8d5b63370c&data_type=score
+              </a>
+            </div>
+          </li>
+          <li>
+            <div className={styles.tip}>11.报表样式</div>
+            <div className={styles.desc}>theme</div>
+            <div>可选值 antd sheet，设为antd时使用ant design的报表组件，推荐不设置该属性</div>
+            <div className={styles.demoLink}>
+              <a href="/table#id=7/d0e509c803&daterange=6&theme=antd" target="_blank">
+                /table#id=7/d0e509c803&daterange=6&theme=antd
+              </a>
+              <a href="/table#id=7/d0e509c803&daterange=6" target="_blank">
+                /table#id=7/d0e509c803&daterange=6
               </a>
             </div>
           </li>

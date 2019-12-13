@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'handsontable/dist/handsontable.full.css';
 import { HotTable } from '@handsontable/react';
 import 'handsontable/languages/zh-CN';
 import * as lib from '@/utils/lib';
 import * as R from 'ramda';
 import * as setting from '@/utils/setting';
+import qs from 'qs';
+
 /**
  * wiki: https://handsontable.com/docs/7.2.2/Options.html#mergeCells
  */
@@ -123,21 +125,35 @@ const getConfig = data => {
   return config;
 };
 
+const getFreeze = () => {
+  let param = qs.parse(window.location.hash);
+  let freeze = param.freeze || '1';
+  return R.range(0, Number(freeze));
+};
+
 const TableSheet = ({ data }) => {
   const [config, setConfig] = useState({
     licenseKey: 'non-commercial-and-evaluation',
   });
-  // const [hash, setHash] = useState('');
+
+  const hotTable = useRef(null);
   useEffect(() => {
-    // if (hash === data.hash) {
-    //   return;
-    // }
-    // setHash(data.hash);
     let cfg = getConfig(data);
     setConfig(cfg);
+
+    // 冻结指定列
+    if (hotTable) {
+      let freeze = getFreeze();
+      let hot = hotTable.current.hotInstance;
+      let plugin = hot.getPlugin('ManualColumnFreeze');
+      freeze.forEach(idx => {
+        plugin.freezeColumn(idx);
+      });
+      hot.render();
+    }
   }, [data.hash]);
 
-  return React.useMemo(() => <HotTable settings={config} />, [config]);
+  return React.useMemo(() => <HotTable ref={hotTable} settings={config} />, [config]);
 };
 
 export default TableSheet;
