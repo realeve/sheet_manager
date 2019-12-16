@@ -1,0 +1,258 @@
+{
+  "name": "油墨/凹印/9607T",
+  "api": {
+    "insert": {
+      "url": "715/f176c6fe9c",
+      "param": ["rec_time", "uid"]
+    },
+    "delete": {
+      "url": "716/46124f7fac",
+      "param": ["batch_no"]
+    },
+    "update": {
+      "url": "717/511c6bce4f",
+      "param": ["batch_no"]
+    },
+    "query": {
+      "url": "718/dc30f39d8d",
+      "param": ["batch_no"]
+    },
+    "table": {
+      "url": "719/0a0e551574"
+    }
+  },
+  "table": "ink_ovmi",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "产品品种",
+          "type": "radio.button",
+          "key": "prod_name",
+          "defaultOption": [
+            {
+              "name": "9607T",
+              "value": "9607T",
+              "scope": [
+                {
+                  "key": "ink_name",
+                  "defaultValue": "磁性光变油墨（金/绿）"
+                }
+              ]
+            },
+            {
+              "name": "9606T",
+              "value": "9606T",
+              "scope": [
+                {
+                  "key": "ink_name",
+                  "defaultValue": "磁性光变油墨（绿/蓝）"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "油墨类型",
+          "type": "label",
+          "key": "ink_type",
+          "value": "丝印"
+        },
+        {
+          "title": "来料日期",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "生产厂家",
+          "type": "input",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入生产厂家"
+          },
+          "placeholder": "请输入生产厂家",
+          "defaultValue": "中钞油墨",
+          "unReset": true
+        },
+        {
+          "title": "批次",
+          "type": "input",
+          "key": "batch_no",
+          "rule": {
+            "required": true,
+            "msg": "请输入批号"
+          },
+          "placeholder": "请输入批号",
+          "toupper": "true"
+        },
+        {
+          "title": "数量",
+          "type": "input",
+          "key": "prod_num",
+          "rule": {
+            "type": "int",
+            "required": true,
+            "msg": "请输入数量"
+          },
+          "suffix": "kg"
+        },
+        {
+          "title": "报检人",
+          "type": "input",
+          "key": "check_user",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true,
+          "defaultValue": "物资库管员"
+        },
+        {
+          "title": "油墨名称",
+          "type": "input",
+          "key": "ink_name",
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "色光",
+          "block": "刮样法",
+          "type": "input",
+          "key": "coloured_light",
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "近似—微",
+          "unReset": true
+        },
+        {
+          "title": "△L",
+          "type": "input",
+          "key": "delta_l",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "max": 3.5
+          }
+        },
+        {
+          "title": "△C",
+          "type": "input",
+          "key": "delta_c",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "max": 3.5
+          }
+        },
+        {
+          "title": "△H",
+          "type": "input",
+          "key": "delta_h",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "max": 3.5
+          }
+        },
+        {
+          "title": "粘度",
+          "type": "input",
+          "key": "viscosity",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "max": 780,
+            "min": 580
+          },
+          "suffix": "Pa•S/25℃"
+        },
+        {
+          "title": "磁性特征效果",
+          "type": "input",
+          "key": "magnetic_characteristic",
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "近似",
+          "unReset": true
+        },
+        {
+          "title": "固化性能",
+          "type": "input",
+          "block": "与标样比触指测试",
+          "key": "curing_perform_touch",
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "固化",
+          "unReset": true
+        },
+        {
+          "title": "固化性能",
+          "type": "input",
+          "block": "与标样比-胶带测试",
+          "key": "curing_perform_paste",
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "固化",
+          "unReset": true
+        },
+        {
+          "title": "检验员",
+          "type": "input",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "检验结论",
+          "type": "switch",
+          "key": "result",
+          "checkedChildren": "合格",
+          "unCheckedChildren": "不合格",
+          "placeholder": "请在此填入检验结论",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "1"
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    }
+  ]
+}
