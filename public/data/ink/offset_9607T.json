@@ -223,6 +223,7 @@
           "type": "input",
           "key": "release_time",
           "rule": {
+            "type": "float",
             "required": true
           },
           "suffix": "S"
@@ -232,6 +233,7 @@
           "type": "input",
           "key": "drying_time",
           "rule": {
+            "type": "float",
             "required": true
           },
           "suffix": "h"
@@ -241,6 +243,7 @@
           "type": "input",
           "key": "dryness",
           "rule": {
+            "type": "float",
             "required": true
           },
           "suffix": "Min/80℃",

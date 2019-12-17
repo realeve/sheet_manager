@@ -199,6 +199,7 @@
           "type": "input",
           "key": "dryness",
           "rule": {
+            "type": "float",
             "required": true
           },
           "suffix": "Min/80℃"

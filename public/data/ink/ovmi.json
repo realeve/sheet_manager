@@ -200,7 +200,7 @@
         {
           "title": "固化性能",
           "type": "input",
-          "block": "与标样比触指测试",
+          "block": "与标样比-触指测试",
           "key": "curing_perform_touch",
           "rule": {
             "required": true
