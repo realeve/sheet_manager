@@ -152,12 +152,18 @@
                   "min": 1200
                 }
               ],
-              "hide": ["delta_e", "fluo", "fluo_luminance", "w_siginal", "anti_fake"]
+              "hide": ["delta_e", "viscosity", "fluo", "fluo_luminance", "w_siginal", "anti_fake"]
             },
             {
               "name": "号码蓝 (UV-8)",
               "value": "号码蓝 (UV-8)",
-              "hide": ["delta_e", "mass_susceptibility", "w_siginal", "anti_fake"],
+              "hide": [
+                "delta_e",
+                "fluo_luminance",
+                "mass_susceptibility",
+                "w_siginal",
+                "anti_fake"
+              ],
               "scope": [
                 {
                   "key": "viscosity",
@@ -217,7 +223,7 @@
             {
               "name": "JB1号码红(96A品通用)",
               "value": "JB1号码红(96A品通用)",
-              "hide": ["mass_susceptibility", "fluo", "fluo_luminance", "w_siginal"],
+              "hide": ["mass_susceptibility", "fluidity", "fluo", "fluo_luminance", "w_siginal"],
               "scope": [
                 {
                   "max": 3,
@@ -311,7 +317,7 @@
         {
           "title": "质量磁化率",
           "type": "input",
-          "key": "mass_susceptibility ",
+          "key": "mass_susceptibility",
           "rule": {
             "type": "float",
             "required": true
