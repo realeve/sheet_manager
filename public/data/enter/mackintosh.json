@@ -1,0 +1,226 @@
+{
+  "name": "印钞辅料进厂检测/橡皮布",
+  "api": {
+    "insert": {
+      "url": "715/f176c6fe9c",
+      "param": ["rec_time", "uid"]
+    },
+    "delete": {
+      "url": "716/46124f7fac",
+      "param": ["batch_no"]
+    },
+    "update": {
+      "url": "717/511c6bce4f",
+      "param": ["batch_no"]
+    },
+    "query": {
+      "url": "718/dc30f39d8d",
+      "param": ["batch_no"]
+    },
+    "table": {
+      "url": "719/0a0e551574"
+    }
+  },
+  "table": "enter_check_split_band",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "产品名称",
+          "type": "label",
+          "key": "prod_name",
+          "value": "凹印机橡皮布（Ⅰ型 ）"
+        },
+        {
+          "title": "产品规格",
+          "type": "label",
+          "key": "prod_size",
+          "value": "1100*870*0.5"
+        },
+        {
+          "title": "生产厂家",
+          "type": "input",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入生产厂家"
+          },
+          "placeholder": "请输入生产厂家",
+          "defaultValue": "北京三友",
+          "unReset": true
+        },
+        {
+          "title": "生产日期",
+          "type": "datepicker",
+          "key": "prod_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "产品批号",
+          "type": "input",
+          "key": "batch_no",
+          "rule": {
+            "required": true,
+            "msg": "请输入批号"
+          },
+          "placeholder": "请输入批号",
+          "toupper": "true"
+        },
+        {
+          "title": "数量",
+          "type": "input",
+          "key": "prod_num",
+          "rule": {
+            "type": "int",
+            "required": true,
+            "msg": "请输入数量"
+          },
+          "suffix": "盘"
+        },
+        {
+          "title": "取样日期",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "报告日期",
+          "type": "datepicker",
+          "key": "report_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "表面质量（外观）",
+          "type": "switch",
+          "key": "surface",
+          "block": "是否符合要求",
+          "checkedChildren": "符合",
+          "unCheckedChildren": "不符合",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "1"
+        },
+        {
+          "title": "厚度",
+          "type": "input",
+          "key": "height",
+          "suffix": "mm",
+          "span": 8,
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 0.28,
+            "max": 0.52
+          }
+        },
+        {
+          "title": "单张厚度差",
+          "type": "input",
+          "key": "delta_height",
+          "suffix": "mm",
+          "span": 8,
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "max": 0.02
+          }
+        },
+        {
+          "title": "径向拉伸强度",
+          "type": "input",
+          "key": "tensile_strength ",
+          "suffix": "KN/m",
+          "span": 8,
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 42,
+            "max": 56
+          }
+        },
+        {
+          "title": "断裂伸长率",
+          "type": "input",
+          "key": "elongation",
+          "suffix": "%",
+          "span": 8,
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 7,
+            "max": 10
+          }
+        },
+        {
+          "title": "硬度",
+          "type": "input",
+          "block": "邵尔A",
+          "key": "shore_hardness",
+          "span": 8,
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "检验员",
+          "type": "input",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "检验结论",
+          "type": "switch",
+          "key": "result",
+          "checkedChildren": "合格",
+          "unCheckedChildren": "不合格",
+          "placeholder": "请在此填入检验结论",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "1"
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    }
+  ]
+}
