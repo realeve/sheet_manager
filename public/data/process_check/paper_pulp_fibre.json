@@ -1,0 +1,176 @@
+{
+  "name": "过程检测/浆料纤维形态检测",
+  "api": {
+    "insert": {
+      "url": "715/f176c6fe9c",
+      "param": ["rec_time", "uid"]
+    },
+    "delete": {
+      "url": "716/46124f7fac",
+      "param": ["batch_no"]
+    },
+    "update": {
+      "url": "717/511c6bce4f",
+      "param": ["batch_no"]
+    },
+    "query": {
+      "url": "718/dc30f39d8d",
+      "param": ["batch_no"]
+    },
+    "table": {
+      "url": "719/0a0e551574"
+    }
+  },
+  "table": "process_check_paper_pulp_fibre",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "检测时间",
+          "type": "datepicker",
+          "key": "check_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "浆料名称",
+          "type": "input",
+          "block": "编号",
+          "key": "pulp_name_sn",
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "Lc_n",
+          "type": "input",
+          "key": "lc_n",
+          "suffix": "mm",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "Lc_l",
+          "type": "input",
+          "key": "lc_l",
+          "suffix": "mm",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "Lc_w",
+          "type": "input",
+          "key": "lc_w",
+          "suffix": "mm",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "fines",
+          "type": "input",
+          "key": "fines",
+          "suffix": "%",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "fiber width",
+          "type": "input",
+          "key": "fiber_width",
+          "suffix": "μm",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+
+        {
+          "title": "curl",
+          "type": "input",
+          "key": "curl",
+          "suffix": "%",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "kink",
+          "type": "input",
+          "key": "kink",
+          "suffix": "l/m",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "fibrillation",
+          "type": "input",
+          "key": "fibrillation",
+          "suffix": "%",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "叩解度",
+          "type": "input",
+          "key": "beating_degree",
+          "suffix": "°SR",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "湿重",
+          "type": "input",
+          "key": "wet_weight",
+          "suffix": "g",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "检验员",
+          "type": "input",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    }
+  ]
+}

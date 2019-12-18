@@ -1,5 +1,5 @@
 {
-  "name": "过程检测/纸张",
+  "name": "过程检测/过程浆料Zeta和PCD检测",
   "api": {
     "insert": {
       "url": "715/f176c6fe9c",
@@ -21,15 +21,15 @@
       "url": "719/0a0e551574"
     }
   },
-  "table": "process_check_paper",
+  "table": "process_check_paper_pulp_zeta",
   "detail": [
     {
       "title": "基础数据",
       "detail": [
         {
-          "title": "检测日期",
+          "title": "取样时间",
           "type": "datepicker",
-          "key": "check_date",
+          "key": "sample_date",
           "datetype": "YYYY-MM-DD",
           "rule": {
             "required": true
@@ -42,53 +42,6 @@
           "rule": {
             "required": true
           }
-        },
-        {
-          "title": "轴号",
-          "type": "input",
-          "key": "reel_no",
-          "rule": {
-            "type": "reel",
-            "required": true
-          }
-        },
-        {
-          "title": "品种",
-          "type": "input",
-          "key": "select",
-          "rule": {
-            "required": true
-          },
-          "defaultOption": [
-            {
-              "name": "103-G-2A",
-              "value": "103-G-2A"
-            },
-            {
-              "name": "103-G-2T",
-              "value": "103-G-2T"
-            },
-            {
-              "name": "103-G-3A",
-              "value": "103-G-3A"
-            },
-            {
-              "name": "103-G-3T",
-              "value": "103-G-3T"
-            },
-            {
-              "name": "103-G-4T",
-              "value": "103-G-4T"
-            },
-            {
-              "name": "103-G-6T",
-              "value": "103-G-6T"
-            },
-            {
-              "name": "103-G-7T",
-              "value": "103-G-7T"
-            }
-          ]
         }
       ]
     },
@@ -96,33 +49,54 @@
       "title": "检测详情",
       "detail": [
         {
-          "title": "上胶量",
+          "title": "调和后浆PCD",
           "type": "input",
-          "key": "glue_num",
-          "block": "g/m<sup>2</sup>",
+          "key": "pcd",
+          "suffix": "μeq/L",
           "rule": {
             "type": "float",
             "required": true
           }
         },
         {
-          "title": "成纸pH值",
+          "title": "调和后浆Zeta",
           "type": "input",
-          "key": "ph",
+          "key": "zeta",
+          "suffix": "mV",
           "rule": {
             "type": "float",
             "required": true
           }
         },
         {
-          "title": "成纸灰份",
+          "title": "上网浆PCD",
           "type": "input",
-          "key": "grey",
+          "key": "pcd_silk",
+          "suffix": "μeq/L",
           "rule": {
             "type": "float",
             "required": true
-          },
-          "suffix": "%"
+          }
+        },
+        {
+          "title": "上网浆Zeta",
+          "type": "input",
+          "key": "zeta_silk",
+          "suffix": "mV",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "白水PCD",
+          "type": "input",
+          "key": "pcd_water",
+          "suffix": "mV",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
         },
         {
           "title": "检验员",
