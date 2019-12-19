@@ -484,6 +484,14 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
             >
               <Icon type="edit" />
             </a>
+            <a
+              className={styles.action}
+              style={{ marginLeft: 10 }}
+              title="下载为html文件"
+              onClick={this.props.onDownload}
+            >
+              <Icon type="download" />
+            </a>
           </div>
         }
         extra={

@@ -11,6 +11,7 @@ import moment from 'moment';
 import lib from '../utils/lib';
 import { useSetState } from 'react-use';
 import CodeDrawer from './code';
+import beautify from 'js-beautify';
 
 const R = require('ramda');
 const TabPane = Tabs.TabPane;
@@ -154,6 +155,49 @@ const Charts = ({ dispatch, ...props }: IProp) => {
 
   let [modalVisible, setModalVisible] = useState(false);
 
+  const downloadHtml = () => {
+    const beautyOption = {
+      indent_size: 2,
+      wrap_line_length: 80,
+      jslint_happy: true,
+    };
+    const code: string = beautify(JSON.stringify(option[0]), beautyOption);
+
+    let html = `
+<!DOCTYPE html>
+<html style="height: 100%"> 
+  <head>
+    <script type="text/javascript" src="http://${window.location.host}/doc/echarts.min.js"></script>
+    <script type="text/javascript" src="http://${window.location.host}/doc/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="http://${window.location.host}/doc/echarts.theme.js"></script>
+  </head>
+  <body style="height: 100%; margin: 0">
+    <div id="chart" style="height: 100%"></div>    
+    <script type="text/javascript">
+      var dom = document.getElementById("chart");
+      var myChart = echarts.init(dom,theme); 
+      var option = ${code};
+      if (option && typeof option === "object") {
+        var startTime = +new Date();
+        myChart.setOption(option, true);
+        var endTime = +new Date();
+        var updateTime = endTime - startTime;
+        console.log("Time used:", updateTime);
+      }
+    </script>
+  </body>
+</html>`;
+
+    let blob = new Blob([html], {
+        type: 'text/html;charset=UTF-8',
+        encoding: 'UTF-8',
+      }),
+      link = document.createElement('a');
+    (link.href = URL.createObjectURL(blob)),
+      (link.download = dataSrc.title + '.html'),
+      link.click();
+  };
+
   let { loading, dataSrc } = state;
   let tblDataSrc = R.clone(dataSrc);
   tblDataSrc.data = tblDataSrc.data.map(item => Object.values(item));
@@ -180,6 +224,7 @@ const Charts = ({ dispatch, ...props }: IProp) => {
               onEdit={() => {
                 setModalVisible(!modalVisible);
               }}
+              onDownload={downloadHtml}
             />
           )}
           <Card
