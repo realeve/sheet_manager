@@ -162,13 +162,16 @@ const Charts = ({ dispatch, ...props }: IProp) => {
       jslint_happy: true,
     };
     const code: string = beautify(JSON.stringify(option[0]), beautyOption);
+    const scriptStr = window.location.href.includes('3d')
+      ? `
+    <script type="text/javascript" src="http://${window.location.host}/doc/echarts-gl.min.js"></script>`
+      : '';
 
     let html = `
 <!DOCTYPE html>
 <html style="height: 100%"> 
   <head>
-    <script type="text/javascript" src="http://${window.location.host}/doc/echarts.min.js"></script>
-    <script type="text/javascript" src="http://${window.location.host}/doc/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="http://${window.location.host}/doc/echarts.min.js"></script>${scriptStr}
     <script type="text/javascript" src="http://${window.location.host}/doc/echarts.theme.js"></script>
   </head>
   <body style="height: 100%; margin: 0">
