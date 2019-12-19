@@ -476,6 +476,14 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
             >
               <Icon type="question-circle-o" />
             </a>
+            <a
+              className={styles.action}
+              style={{ marginLeft: 10 }}
+              title="在线编辑图表"
+              onClick={this.props.onEdit}
+            >
+              <Icon type="edit" />
+            </a>
           </div>
         }
         extra={

@@ -12,7 +12,7 @@ import { host } from '@/utils/setting';
 
 const { Title, Paragraph, Text } = Typography;
 
-import styles from './index.less';
+import styles from './CodeDrawer.less';
 import * as R from 'ramda';
 
 const getCreate = config => {
@@ -202,7 +202,7 @@ export default function codeDrawer({
 
       <div style={{ marginTop: 20 }}>
         <Button type="primary" onClick={handleConfig}>
-          预览
+          实时预览
         </Button>
       </div>
 

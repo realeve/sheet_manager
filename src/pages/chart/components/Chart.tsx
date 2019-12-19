@@ -10,6 +10,7 @@ import { formatMessage } from 'umi/locale';
 import moment from 'moment';
 import lib from '../utils/lib';
 import { useSetState } from 'react-use';
+import CodeDrawer from './code';
 
 const R = require('ramda');
 const TabPane = Tabs.TabPane;
@@ -151,54 +152,71 @@ const Charts = ({ dispatch, ...props }: IProp) => {
     );
   };
 
+  let [modalVisible, setModalVisible] = useState(false);
+
   let { loading, dataSrc } = state;
   let tblDataSrc = R.clone(dataSrc);
   tblDataSrc.data = tblDataSrc.data.map(item => Object.values(item));
 
   return (
-    <Tabs defaultActiveKey="1" className={styles.chartContainer}>
-      <TabPane tab={formatMessage({ id: 'chart.tab.chart' })} key="1">
-        {dataSrc.header && (
-          <ChartConfig
-            header={dataSrc.header || false}
-            params={{ ...state.params, ...appendParams }}
-            onChange={(key: TAxisName, val: string) => changeParam(key, val)}
-            onSwitch={(key: TAxisName, val: boolean) => {
-              setAppendParams({ ...appendParams, [key]: val });
-            }}
-          />
-        )}
-        <Card
-          bodyStyle={{
-            padding: '10px 20px',
-          }}
-          className={styles.exCard}
-          loading={loading}
-          bordered={false}
-        >
-          {option.map((opt, key) => (
-            <ChartComponent
-              key={key}
-              option={opt}
-              renderer={lib.getRenderer(state.params)}
-              style={{ height: lib.getChartHeight(state.params, option), marginTop: key ? 40 : 0 }}
+    <>
+      <CodeDrawer
+        formConfig={option}
+        setFormConfig={setOption}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
+
+      <Tabs defaultActiveKey="1" className={styles.chartContainer}>
+        <TabPane tab={formatMessage({ id: 'chart.tab.chart' })} key="1">
+          {dataSrc.header && (
+            <ChartConfig
+              header={dataSrc.header || false}
+              params={{ ...state.params, ...appendParams }}
+              onChange={(key: TAxisName, val: string) => changeParam(key, val)}
+              onSwitch={(key: TAxisName, val: boolean) => {
+                setAppendParams({ ...appendParams, [key]: val });
+              }}
+              onEdit={() => {
+                setModalVisible(!modalVisible);
+              }}
             />
-          ))}
-        </Card>
-      </TabPane>
-      <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="2" style={{ padding: 15 }}>
-        <VTable
-          dataSrc={tblDataSrc}
-          loading={loading}
-          subTitle={
-            dataSrc.dates &&
-            dataSrc.dates.length > 0 &&
-            staticRanges([state.params.tstart, state.params.tend])
-          }
-          merge={false}
-        />
-      </TabPane>
-    </Tabs>
+          )}
+          <Card
+            bodyStyle={{
+              padding: '10px 20px',
+            }}
+            className={styles.exCard}
+            loading={loading}
+            bordered={false}
+          >
+            {option.map((opt, key) => (
+              <ChartComponent
+                key={key}
+                option={opt}
+                renderer={lib.getRenderer(state.params)}
+                style={{
+                  height: lib.getChartHeight(state.params, option),
+                  marginTop: key ? 40 : 0,
+                }}
+              />
+            ))}
+          </Card>
+        </TabPane>
+        <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="2" style={{ padding: 15 }}>
+          <VTable
+            dataSrc={tblDataSrc}
+            loading={loading}
+            subTitle={
+              dataSrc.dates &&
+              dataSrc.dates.length > 0 &&
+              staticRanges([state.params.tstart, state.params.tend])
+            }
+            merge={false}
+          />
+        </TabPane>
+      </Tabs>
+    </>
   );
 };
 
