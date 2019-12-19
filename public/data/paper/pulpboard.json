@@ -29,7 +29,7 @@
       "detail": [
         {
           "title": "产品名称",
-          "type": "radio.button",
+          "type": "radio",
           "block": "产品名称不同时指标范围不同，请录入信息前先选择该项",
           "defaultOption": [
             {

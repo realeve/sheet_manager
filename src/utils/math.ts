@@ -72,11 +72,7 @@ export const restoreDataSrc = dataSrc => {
 };
 
 const getSrcHeaderName = (arr, header) =>
-  R.compose(
-    R.map(R.prop('label')),
-    R.values,
-    R.pick(arr)
-  )(header);
+  R.compose(R.map(R.prop('label')), R.values, R.pick(arr))(header);
 
 const getOperatorHeader: <T, U>(
   arr: Array<T>,
@@ -154,6 +150,7 @@ export const groupArr = ({
     data: calData,
     header: _header,
     rows,
+    hash: Math.random() + '',
   });
 };
 

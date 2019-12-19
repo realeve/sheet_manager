@@ -94,6 +94,7 @@ class TableCalc extends Component {
       loading,
       subTitle,
     } = this.state;
+
     return (
       <div>
         <Card title={formatMessage({ id: 'table.config.base' })} bordered>
@@ -150,6 +151,7 @@ class TableCalc extends Component {
           </div>
         </Card>
         <VTable
+          isAntd={false}
           dataSrc={dataSource}
           loading={loading}
           subTitle={subTitle}
