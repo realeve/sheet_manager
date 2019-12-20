@@ -15,6 +15,25 @@ const { Title, Paragraph, Text } = Typography;
 import styles from './CodeDrawer.less';
 import * as R from 'ramda';
 
+/**
+ * https://github.com/reduxjs/redux/blob/6b3e1ceb1ddef4915b9b8e148be66c0806f9fd0a/src/utils/actionTypes.ts#L8
+ */
+const getNonce = () =>
+  Math.random()
+    .toString(36)
+    .slice(3);
+
+/**
+// 更新触发器
+DROP TRIGGER IF EXISTS `api_nonce`;
+delimiter ;;
+CREATE TRIGGER `api_nonce` BEFORE INSERT ON `sys_api` FOR EACH ROW if new.nonce='' then 
+	set new.nonce = substring(MD5(RAND()*100),1,10); 
+end if
+;;
+delimiter ;
+ */
+
 const getCreate = config => {
   let res = R.compose(
     R.flatten,
@@ -81,7 +100,7 @@ ${getDescByField('id', '主ID')}`;
   return createSql + desc;
 };
 
-const getApi = config => {
+const getApi = (config, nonce) => {
   let res = R.compose(
     R.flatten,
     R.map(item => item.detail)
@@ -101,80 +120,64 @@ const getApi = config => {
     param: param[key].join(','),
   });
 
-  let query = `INSERT INTO sys_api (
-    db_id,
-    uid,
-    api_name,
-    sqlstr,
-    param
-  )
-  VALUES
-    (
-      '2',
-      '1',
-      '${config.name}',
-      'select  ${keyStrs.join(',')} from  tbl_${config.table}  ${condition('query').where}',
-      '${condition('query').param}'
-    );`;
+  let query = `
+  -- 数据载入接口
+INSERT INTO sys_api ( nonce, db_id, uid, api_name, sqlstr, param,remark )
+VALUES
+  ( '${nonce}','2','1','${config.name}_载入','select  ${keyStrs.join(',')} from  tbl_${
+    config.table
+  }  ${condition('query').where}', '${condition('query').param}','' );`;
 
-  let del = `INSERT INTO sys_api (
-      db_id,
-      uid,
-      api_name,
-      sqlstr,
-      param
-    )
-    VALUES
-      (
-        '2',
-        '1',
-        '${config.name}_删除',
-        'delete from  tbl_${config.table}  ${condition('delete').where}',
-        '${condition('delete').param}'
-      );`;
+  let del = `
+-- 数据接口删除
+INSERT INTO sys_api ( nonce, db_id, uid, api_name, sqlstr, param,remark )
+VALUES
+  ( '${nonce}','2','1','${config.name}_删除','delete from  tbl_${config.table}  ${
+    condition('delete').where
+  }','${condition('delete').param}','' );`;
 
   // 先过滤条件字段
   let editKeys = keyStrs.filter(item => !param.update.includes(item));
   let editStr = editKeys.map(key => `${key}=?`).join(',');
   let paramUpdate = [...editKeys, ...param.update];
 
-  let edit = `INSERT INTO sys_api (
-        db_id,
-        uid,
-        api_name,
-        sqlstr,
-        param
-      )
-      VALUES
-        (
-          '2',
-          '1',
-          '${config.name}_编辑',
-          'update tbl_${config.table} set ${editStr} ${condition('update').where}',
-          '${paramUpdate.join(',')}'
-        );`;
+  let edit = `
+-- 数据更新接口
+INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr, param,remark )
+VALUES
+  ( '${nonce}','2','1','${config.name}_更新','update tbl_${config.table} set ${editStr} ${
+    condition('update').where
+  }','${paramUpdate.join(',')}','' );`;
 
   // 先过滤条件字段
   let addKeys = [...keyStrs, ...param.insert];
 
   let addStr = addKeys.map(key => `?`).join(',');
 
-  let add = `INSERT INTO sys_api (
-      db_id,
-      uid,
-      api_name,
-      sqlstr,
-      param
-    )
-    VALUES
-      (
-        '2',
-        '1',
-        '${config.name}_添加',
-        'insert into  tbl_${config.table}(${addKeys.join(',')}) values(${addStr})',
-        '${addKeys.join(',')}'
-      );`;
-  return [query, del, edit, add].join('\r\n');
+  let add = `-- 数据增加接口
+INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr, param ,remark)
+VALUES
+  ( '${nonce}','2','1','${config.name}_添加','insert into  tbl_${config.table}(${addKeys.join(
+    ','
+  )}) values(${addStr})','${addKeys.join(',')}','' );`;
+
+  let review = `
+-- 查询最近录入的数据
+INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr,remark )
+VALUES
+  ( '${nonce}','2','1','${config.name} 近期录入信息','SELECT top 10 * FROM view_${config.table} ORDER BY 录入时间 desc','' );`;
+
+  return [add, del, edit, query, review].join('\r\n');
+};
+
+const getApiConfig = (api, nonce) => {
+  let res = {};
+  Object.keys(api).forEach(key => {
+    let config = api[key];
+    config.url = config.url.split('/')[0] + '/' + nonce;
+    res[key] = config;
+  });
+  return res;
 };
 
 export default function codeDrawer({
@@ -213,13 +216,16 @@ export default function codeDrawer({
         ${condition.param.map(item => `${item} = '1'`).join(' and ')}`;
 
       const create = getCreate(formConfig);
+      let query = `SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
 
-      const api = getApi(formConfig);
+      let nonce = getNonce();
+      const api = getApi(formConfig, nonce);
 
       setSql({
         select,
         create,
         api,
+        json: beautify(JSON.stringify(getApiConfig(R.clone(formConfig.api), nonce)), beautyOption),
         view: `
       CREATE VIEW  view_${formConfig.table} AS
         SELECT id,
@@ -242,7 +248,7 @@ export default function codeDrawer({
         'MS_Description', N'${formConfig.name}',
         'SCHEMA', N'dbo',
         'VIEW', N'view_${formConfig.table}';`,
-        query: `SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc`,
+        query,
       });
     }
   }, [formConfig]);
@@ -333,7 +339,7 @@ export default function codeDrawer({
             {host.replace('api', 'public')}index.html
           </a>
         </Text>
-        添加接口的增、删、改
+        添加接口的增、删、改。
       </Paragraph>
       <CodeMirror
         value={sql.select}
@@ -347,12 +353,27 @@ export default function codeDrawer({
       />
 
       <Paragraph style={{ marginTop: 10 }}>
-        或者通过以下方式手动在接口管理数据库中批量添加：
+        在有大量表单需要处理时，建议通过以下方式手动<Text mark>在接口管理数据库中批量添加</Text>
+        ,其中db_id表示业务数据库id,uid表示接口管理用户id，可根据情况手动修改：
       </Paragraph>
       <CodeMirror
         value={sql.api}
         options={{
           mode: 'sql',
+          lineNumbers: true,
+          styleActiveLine: true,
+          matchBrackets: true,
+          theme: 'material',
+        }}
+      />
+
+      <Paragraph style={{ marginTop: 10 }}>
+        同时将json配置中的api部分改为以下形式，其中nonce已经更新:
+      </Paragraph>
+      <CodeMirror
+        value={sql.json}
+        options={{
+          mode: 'javascript',
           lineNumbers: true,
           styleActiveLine: true,
           matchBrackets: true,

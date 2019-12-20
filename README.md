@@ -98,3 +98,26 @@ http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&typ
 7. 🍡 指定品种、生产日期、机台生产的产品实废原因分析/开包量分析；
 8. ✅ ~~🥗 车号追溯中，查询一万产品物流中转记录 @2019-05-30~~；
 9. 🍡 三维热力图，根据开位、千位查看实废分布;
+
+## 2019-12-20 较大更新
+
+1.更新 SQL 触发器，nonce 支持直接写入
+
+```sql
+
+DROP TRIGGER IF EXISTS `api_nonce`;
+delimiter ;;
+CREATE TRIGGER `api_nonce` BEFORE INSERT ON `sys_api` FOR EACH ROW if new.nonce='' then
+	set new.nonce = substring(MD5(RAND()*100),1,10);
+end if
+;;
+delimiter ;
+```
+
+2.更新 PHP 相关文件
+
+3.表单模块手工更新
+
+## todo
+
+1. 🍡 获取当前最新的 id 号，用于表单配置信息展示;
