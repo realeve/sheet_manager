@@ -81,6 +81,102 @@ ${getDescByField('id', '主ID')}`;
   return createSql + desc;
 };
 
+const getApi = config => {
+  let res = R.compose(
+    R.flatten,
+    R.map(item => item.detail)
+  )(config.detail);
+  let keyStrs = res.map(item => item.key);
+
+  let param = {
+    insert: config.api.insert.param || [],
+    delete: config.api.delete.param || [],
+    update: config.api.update.param || [],
+    query: config.api.query.param || [],
+  };
+
+  let condition = key => ({
+    where:
+      param[key].length > 0 ? ' where ' + param[key].map(name => ` ${name}=? `).join(' and ') : '',
+    param: param[key].join(','),
+  });
+
+  let query = `INSERT INTO sys_api (
+    db_id,
+    uid,
+    api_name,
+    sqlstr,
+    param
+  )
+  VALUES
+    (
+      '2',
+      '1',
+      '${config.name}',
+      'select  ${keyStrs.join(',')} from  tbl_${config.table}  ${condition('query').where}',
+      '${condition('query').param}'
+    );`;
+
+  let del = `INSERT INTO sys_api (
+      db_id,
+      uid,
+      api_name,
+      sqlstr,
+      param
+    )
+    VALUES
+      (
+        '2',
+        '1',
+        '${config.name}_删除',
+        'delete from  tbl_${config.table}  ${condition('delete').where}',
+        '${condition('delete').param}'
+      );`;
+
+  // 先过滤条件字段
+  let editKeys = keyStrs.filter(item => !param.update.includes(item));
+  let editStr = editKeys.map(key => `${key}=?`).join(',');
+  let paramUpdate = [...editKeys, ...param.update];
+
+  let edit = `INSERT INTO sys_api (
+        db_id,
+        uid,
+        api_name,
+        sqlstr,
+        param
+      )
+      VALUES
+        (
+          '2',
+          '1',
+          '${config.name}_编辑',
+          'update tbl_${config.table} set ${editStr} ${condition('update').where}',
+          '${paramUpdate.join(',')}'
+        );`;
+
+  // 先过滤条件字段
+  let addKeys = [...keyStrs, ...param.insert];
+
+  let addStr = addKeys.map(key => `?`).join(',');
+
+  let add = `INSERT INTO sys_api (
+      db_id,
+      uid,
+      api_name,
+      sqlstr,
+      param
+    )
+    VALUES
+      (
+        '2',
+        '1',
+        '${config.name}_添加',
+        'insert into  tbl_${config.table}(${addKeys.join(',')}) values(${addStr})',
+        '${addKeys.join(',')}'
+      );`;
+  return [query, del, edit, add].join('\r\n');
+};
+
 export default function codeDrawer({
   modalVisible,
   setModalVisible,
@@ -117,12 +213,13 @@ export default function codeDrawer({
         ${condition.param.map(item => `${item} = '1'`).join(' and ')}`;
 
       const create = getCreate(formConfig);
-      //
-      setSql({});
+
+      const api = getApi(formConfig);
 
       setSql({
         select,
         create,
+        api,
         view: `
       CREATE VIEW  view_${formConfig.table} AS
         SELECT id,
@@ -240,6 +337,20 @@ export default function codeDrawer({
       </Paragraph>
       <CodeMirror
         value={sql.select}
+        options={{
+          mode: 'sql',
+          lineNumbers: true,
+          styleActiveLine: true,
+          matchBrackets: true,
+          theme: 'material',
+        }}
+      />
+
+      <Paragraph style={{ marginTop: 10 }}>
+        或者通过以下方式手动在接口管理数据库中批量添加：
+      </Paragraph>
+      <CodeMirror
+        value={sql.api}
         options={{
           mode: 'sql',
           lineNumbers: true,

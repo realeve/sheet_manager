@@ -28,7 +28,9 @@ export const handleScope = (value, option) => {
 
 const getScopeRange = detail => {
   if (detail.min && detail.max) {
-    return `[${detail.min},${detail.max}]`;
+    return detail.min < detail.max
+      ? `[${detail.min},${detail.max}]`
+      : `[${detail.max},${detail.min}]`;
   } else if (!detail.max) {
     return `≥${detail.min}`;
   } else {
@@ -63,6 +65,15 @@ export default function formItem({
     defaultValue: __defaultValue,
     ...restScope
   } = scopeDetail || {};
+
+  // 可能存在 min/max录错的情况
+  if (typeof __min !== 'undefined' && typeof __max !== 'undefined') {
+    if (__max < __min) {
+      let temp = __max;
+      __max = __min;
+      __min = temp;
+    }
+  }
 
   useEffect(() => {
     if (!__defaultValue) {

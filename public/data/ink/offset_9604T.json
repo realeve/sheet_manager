@@ -1,5 +1,5 @@
 {
-  "name": "油墨/凹印/9606T",
+  "name": "油墨/胶印/9604T",
   "api": {
     "insert": {
       "url": "715/f176c6fe9c",
@@ -30,13 +30,13 @@
           "title": "产品品种",
           "type": "label",
           "key": "prod_name",
-          "value": "9606T"
+          "value": "9604T"
         },
         {
           "title": "油墨类型",
           "type": "label",
           "key": "ink_type",
-          "value": "凹印"
+          "value": "胶印"
         },
         {
           "title": "来料日期",
@@ -99,105 +99,56 @@
           "rule": {
             "required": true
           },
-          "span": 8,
           "defaultOption": [
             {
-              "name": "WJ1正主景绿",
-              "value": "WJ1正主景绿",
-              "hide": ["anti_fake", "drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 6,
-                  "max": 12
-                }
-              ]
+              "name": "JB3正蓝",
+              "value": "JB3正蓝",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "WJ1正棕(SmartX)",
-              "value": "WJ1正棕(SmartX)",
-              "hide": ["anti_fake", "drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 3,
-                  "max": 9
-                }
-              ]
+              "name": "JB3正背隔蓝",
+              "value": "JB3正背隔蓝",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "WJ1正蓝(SM-1)",
-              "value": "WJ1正蓝(SM-1)",
-              "hide": ["drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "anti_fake",
-                  "min": 320
-                },
-                {
-                  "key": "viscosity",
-                  "min": 3,
-                  "max": 9
-                }
-              ]
+              "name": "JB3正隔紫",
+              "value": "JB3正隔紫",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "WJ1背主景绿",
-              "value": "WJ1背主景绿",
-              "hide": ["drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "anti_fake",
-                  "block": "红外吸收特性：无",
-                  "defaultValue": "红外吸收特性：无"
-                },
-                {
-                  "key": "viscosity",
-                  "min": 5,
-                  "max": 11
-                }
-              ]
+              "name": "JB3 正隔蓝",
+              "value": "JB3 正隔蓝",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "WJ1背主景绿 (IA-M)",
-              "value": "WJ1背主景绿 (IA-M)",
-              "hide": ["drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "anti_fake",
-                  "block": "红外吸收特性：有",
-                  "defaultValue": "红外吸收特性：有"
-                },
-                {
-                  "key": "viscosity",
-                  "min": 5,
-                  "max": 11
-                }
-              ]
+              "name": "JB3 正隔蓝绿",
+              "value": "JB3 正隔蓝绿",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "WJ1背蓝",
-              "value": "WJ1背蓝",
-              "hide": ["anti_fake", "drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 3,
-                  "max": 9
-                }
-              ]
+              "name": "JB3 正背隔绿",
+              "value": "JB3 正背隔绿",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "WJ1背浅棕",
-              "value": "WJ1背浅棕",
-              "hide": ["anti_fake", "drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 3,
-                  "max": 9
-                }
-              ]
+              "name": "JB3 背蓝",
+              "value": "JB3 背蓝",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB3 背隔紫",
+              "value": "JB3 背隔紫",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB3 背隔棕（UV-2）",
+              "value": "JB3 背隔棕（UV-2）",
+              "hide": ["drying_time", "release_time"]
+            },
+            {
+              "name": "JB3 背红紫",
+              "value": "JB3 背红紫",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             }
           ]
         }
@@ -237,6 +188,10 @@
             "type": "float",
             "required": true
           },
+          "scope": {
+            "max": 16,
+            "min": 8
+          },
           "suffix": "Pa•S/40℃"
         },
         {
@@ -249,7 +204,7 @@
             "required": true
           },
           "scope": {
-            "max": 16
+            "max": 20
           },
           "suffix": "μm"
         },
@@ -271,9 +226,6 @@
             "type": "float",
             "required": true
           },
-          "scope": {
-            "max": 24
-          },
           "suffix": "h"
         },
         {
@@ -284,7 +236,11 @@
             "type": "float",
             "required": true
           },
-          "suffix": "Min/80℃"
+          "suffix": "Min/80℃",
+          "scope": {
+            "min": 20,
+            "max": 45
+          }
         },
         {
           "title": "防伪特性",
@@ -292,7 +248,8 @@
           "key": "anti_fake",
           "rule": {
             "required": true
-          }
+          },
+          "defaultValue": "有，黄光"
         },
         {
           "title": "检验员",

@@ -106,8 +106,8 @@
               "scope": [
                 {
                   "key": "viscosity",
-                  "max": 19,
-                  "min": 29
+                  "max": 29,
+                  "min": 19
                 },
                 {
                   "max": 10,
@@ -129,6 +129,36 @@
                 }
               ],
               "hide": ["delta_e", "fluo", "fluo_luminance", "w_siginal", "anti_fake"]
+            },
+            {
+              "name": "号码黑（UV-8)",
+              "value": "号码黑（UV-8)",
+              "scope": [
+                {
+                  "key": "viscosity",
+                  "min": 19,
+                  "max": 27
+                },
+                {
+                  "max": 10,
+                  "key": "fineness"
+                },
+                {
+                  "key": "fluidity",
+                  "max": 28,
+                  "min": 22
+                },
+                {
+                  "key": "dryness",
+                  "max": 20,
+                  "min": 10
+                },
+                {
+                  "key": "fluo",
+                  "defaultValue": "有荧光，近似-微"
+                }
+              ],
+              "hide": ["delta_e", "fluo_luminance", "w_siginal", "anti_fake", "mass_susceptibility"]
             },
             {
               "name": "号码红（MP-4）",
@@ -167,8 +197,8 @@
               "scope": [
                 {
                   "key": "viscosity",
-                  "max": 19,
-                  "min": 27
+                  "min": 19,
+                  "max": 27
                 },
                 {
                   "max": 12,
@@ -183,6 +213,10 @@
                   "key": "dryness",
                   "max": 15,
                   "min": 5
+                },
+                {
+                  "key": "fluo",
+                  "defaultValue": "绿光，近似-微"
                 }
               ]
             },
@@ -193,8 +227,8 @@
               "scope": [
                 {
                   "key": "viscosity",
-                  "max": 13,
-                  "min": 23
+                  "max": 23,
+                  "min": 13
                 },
                 {
                   "max": 10,
@@ -231,8 +265,8 @@
                 },
                 {
                   "key": "viscosity",
-                  "max": 12,
-                  "min": 20
+                  "max": 20,
+                  "min": 12
                 },
                 {
                   "max": 20,
@@ -327,7 +361,6 @@
           "title": "荧光特性",
           "type": "input",
           "key": "fluo",
-          "defaultValue": "绿光，近似-微",
           "rule": {
             "required": true
           },

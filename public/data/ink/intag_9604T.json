@@ -1,5 +1,5 @@
 {
-  "name": "油墨/凹印/9606T",
+  "name": "油墨/凹印/9604T",
   "api": {
     "insert": {
       "url": "715/f176c6fe9c",
@@ -30,7 +30,7 @@
           "title": "产品品种",
           "type": "label",
           "key": "prod_name",
-          "value": "9606T"
+          "value": "9604T"
         },
         {
           "title": "油墨类型",
@@ -102,26 +102,36 @@
           "span": 8,
           "defaultOption": [
             {
-              "name": "WJ1正主景绿",
-              "value": "WJ1正主景绿",
+              "name": "WF1正主景蓝",
+              "value": "WF1正主景蓝",
               "hide": ["anti_fake", "drying_time", "release_time"],
               "scope": [
                 {
                   "key": "viscosity",
+                  "min": 9,
+                  "max": 15
+                },
+                {
+                  "key": "dryness",
                   "min": 6,
-                  "max": 12
+                  "max": 14
                 }
               ]
             },
             {
-              "name": "WJ1正棕(SmartX)",
-              "value": "WJ1正棕(SmartX)",
+              "name": "WF1正棕（SmartX）",
+              "value": "WF1正棕（SmartX）",
               "hide": ["anti_fake", "drying_time", "release_time"],
               "scope": [
                 {
                   "key": "viscosity",
-                  "min": 3,
-                  "max": 9
+                  "min": 5,
+                  "max": 11
+                },
+                {
+                  "key": "dryness",
+                  "min": 8,
+                  "max": 16
                 }
               ]
             },
@@ -132,18 +142,24 @@
               "scope": [
                 {
                   "key": "anti_fake",
-                  "min": 320
+                  "min": 280,
+                  "block": "SM信号值≥280"
                 },
                 {
                   "key": "viscosity",
-                  "min": 3,
-                  "max": 9
+                  "min": 5,
+                  "max": 11
+                },
+                {
+                  "key": "dryness",
+                  "min": 8,
+                  "max": 16
                 }
               ]
             },
             {
-              "name": "WJ1背主景绿",
-              "value": "WJ1背主景绿",
+              "name": "WJ1背主景蓝",
+              "value": "WJ1背主景蓝",
               "hide": ["drying_time", "release_time"],
               "scope": [
                 {
@@ -153,14 +169,19 @@
                 },
                 {
                   "key": "viscosity",
-                  "min": 5,
-                  "max": 11
+                  "min": 9,
+                  "max": 15
+                },
+                {
+                  "key": "dryness",
+                  "min": 6,
+                  "max": 14
                 }
               ]
             },
             {
-              "name": "WJ1背主景绿 (IA-M)",
-              "value": "WJ1背主景绿 (IA-M)",
+              "name": "WJ1背主景蓝 (IA-M)",
+              "value": "WJ1背主景蓝 (IA-M)",
               "hide": ["drying_time", "release_time"],
               "scope": [
                 {
@@ -170,20 +191,13 @@
                 },
                 {
                   "key": "viscosity",
-                  "min": 5,
-                  "max": 11
-                }
-              ]
-            },
-            {
-              "name": "WJ1背蓝",
-              "value": "WJ1背蓝",
-              "hide": ["anti_fake", "drying_time", "release_time"],
-              "scope": [
+                  "min": 9,
+                  "max": 15
+                },
                 {
-                  "key": "viscosity",
-                  "min": 3,
-                  "max": 9
+                  "key": "dryness",
+                  "min": 6,
+                  "max": 14
                 }
               ]
             },
@@ -194,8 +208,13 @@
               "scope": [
                 {
                   "key": "viscosity",
-                  "min": 3,
-                  "max": 9
+                  "min": 5,
+                  "max": 11
+                },
+                {
+                  "key": "dryness",
+                  "min": 8,
+                  "max": 16
                 }
               ]
             }
