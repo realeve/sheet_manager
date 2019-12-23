@@ -1,432 +1,369 @@
 {
-  "name": "油墨/凸印油墨/凸印",
-  "api": {
-    "insert": {
-      "url": "715/f176c6fe9c",
-      "param": ["rec_time", "uid"]
+    "name": "油墨/凸印油墨/凸印",
+    "api": {
+        "insert": {
+            "url": "774/sywp5m567j",
+            "param": ["rec_time", "uid"]
+        },
+        "delete": {
+            "url": "775/sywp5m567j",
+            "param": ["batch_no"]
+        },
+        "update": {
+            "url": "776/sywp5m567j",
+            "param": ["batch_no"]
+        },
+        "query": {
+            "url": "777/sywp5m567j",
+            "param": ["batch_no"]
+        },
+        "table": {
+            "url": "778/sywp5m567j"
+        }
     },
-    "delete": {
-      "url": "716/46124f7fac",
-      "param": ["batch_no"]
-    },
-    "update": {
-      "url": "717/511c6bce4f",
-      "param": ["batch_no"]
-    },
-    "query": {
-      "url": "718/dc30f39d8d",
-      "param": ["batch_no"]
-    },
-    "table": {
-      "url": "719/0a0e551574"
-    }
-  },
-  "table": "ink_code",
-  "detail": [
-    {
-      "title": "基础数据",
-      "detail": [
-        {
-          "title": "产品品种",
-          "type": "label",
-          "key": "prod_name",
-          "value": "凸印油墨"
-        },
-        {
-          "title": "油墨类型",
-          "type": "label",
-          "key": "ink_type",
-          "value": "凸印"
-        },
-        {
-          "title": "来料日期",
-          "type": "datepicker",
-          "key": "sample_date",
-          "datetype": "YYYY-MM-DD",
-          "rule": {
-            "required": true
-          }
-        },
-        {
-          "title": "生产厂家",
-          "type": "input",
-          "key": "place",
-          "rule": {
-            "required": true,
-            "msg": "请输入生产厂家"
-          },
-          "placeholder": "请输入生产厂家",
-          "defaultValue": "北京印钞",
-          "unReset": true
-        },
-        {
-          "title": "批次",
-          "type": "input",
-          "key": "batch_no",
-          "rule": {
-            "required": true,
-            "msg": "请输入批号"
-          },
-          "placeholder": "请输入批号",
-          "toupper": "true"
-        },
-        {
-          "title": "数量",
-          "type": "input",
-          "key": "prod_num",
-          "rule": {
-            "type": "int",
-            "required": true,
-            "msg": "请输入数量"
-          },
-          "suffix": "kg"
-        },
-        {
-          "title": "报检人",
-          "type": "input",
-          "key": "check_user",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "unReset": true,
-          "defaultValue": "物资库管员"
-        },
-        {
-          "title": "油墨名称",
-          "type": "select",
-          "key": "ink_name",
-          "rule": {
-            "required": true
-          },
-          "defaultOption": [
-            {
-              "name": "号码黑（MP-1）",
-              "value": "号码黑（MP-1）",
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "max": 29,
-                  "min": 19
-                },
-                {
-                  "max": 10,
-                  "key": "fineness"
-                },
-                {
-                  "key": "fluidity",
-                  "max": 27,
-                  "min": 21
-                },
-                {
-                  "key": "dryness",
-                  "max": 15,
-                  "min": 5
-                },
-                {
-                  "key": "mass_susceptibility",
-                  "min": 1750
-                }
-              ],
-              "hide": ["delta_e", "fluo", "fluo_luminance", "w_siginal", "anti_fake"]
-            },
-            {
-              "name": "号码黑（UV-8)",
-              "value": "号码黑（UV-8)",
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 19,
-                  "max": 27
-                },
-                {
-                  "max": 10,
-                  "key": "fineness"
-                },
-                {
-                  "key": "fluidity",
-                  "max": 28,
-                  "min": 22
-                },
-                {
-                  "key": "dryness",
-                  "max": 20,
-                  "min": 10
-                },
-                {
-                  "key": "fluo",
-                  "defaultValue": "有荧光，近似-微"
-                }
-              ],
-              "hide": ["delta_e", "fluo_luminance", "w_siginal", "anti_fake", "mass_susceptibility"]
-            },
-            {
-              "name": "号码红（MP-4）",
-              "value": "号码红（MP-4）",
-              "scope": [
-                {
-                  "max": 12,
-                  "key": "fineness"
-                },
-                {
-                  "key": "fluidity",
-                  "max": 29,
-                  "min": 19
-                },
-                {
-                  "key": "dryness",
-                  "max": 20
-                },
-                {
-                  "key": "mass_susceptibility",
-                  "min": 1200
-                }
-              ],
-              "hide": ["delta_e", "viscosity", "fluo", "fluo_luminance", "w_siginal", "anti_fake"]
-            },
-            {
-              "name": "号码蓝 (UV-8)",
-              "value": "号码蓝 (UV-8)",
-              "hide": [
-                "delta_e",
-                "fluo_luminance",
-                "mass_susceptibility",
-                "w_siginal",
-                "anti_fake"
-              ],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 19,
-                  "max": 27
-                },
-                {
-                  "max": 12,
-                  "key": "fineness"
-                },
-                {
-                  "key": "fluidity",
-                  "max": 29,
-                  "min": 21
-                },
-                {
-                  "key": "dryness",
-                  "max": 15,
-                  "min": 5
-                },
-                {
-                  "key": "fluo",
-                  "defaultValue": "绿光，近似-微"
-                }
-              ]
-            },
-            {
-              "name": "特种无色（UV-2）",
-              "value": "特种无色（UV-2）",
-              "hide": ["delta_e", "mass_susceptibility", "fluo", "anti_fake"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "max": 23,
-                  "min": 13
-                },
-                {
-                  "max": 10,
-                  "key": "fineness"
-                },
-                {
-                  "key": "fluidity",
-                  "max": 33,
-                  "min": 27
-                },
-                {
-                  "key": "dryness",
-                  "max": 20,
-                  "min": 8
-                },
-                {
-                  "key": "fluo_luminance",
-                  "min": 90
-                },
-                {
-                  "key": "w_siginal",
-                  "min": 115
-                }
-              ]
-            },
-            {
-              "name": "JB1号码红(96A品通用)",
-              "value": "JB1号码红(96A品通用)",
-              "hide": ["mass_susceptibility", "fluidity", "fluo", "fluo_luminance", "w_siginal"],
-              "scope": [
-                {
-                  "max": 3,
-                  "key": "delta_e"
-                },
-                {
-                  "key": "viscosity",
-                  "max": 20,
-                  "min": 12
-                },
-                {
-                  "max": 20,
-                  "key": "fineness"
-                },
-                {
-                  "key": "dryness",
-                  "max": 35,
-                  "min": 15
-                }
-              ]
+    "table": "ink_code",
+    "detail": [{
+        "title": "基础数据",
+        "detail": [{
+            "title": "产品品种",
+            "type": "label",
+            "key": "prod_name",
+            "value": "凸印油墨"
+        }, {
+            "title": "油墨类型",
+            "type": "label",
+            "key": "ink_type",
+            "value": "凸印"
+        }, {
+            "title": "来料日期",
+            "type": "datepicker",
+            "key": "sample_date",
+            "datetype": "YYYY-MM-DD",
+            "rule": {
+                "required": true
             }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "检测详情",
-      "detail": [
-        {
-          "title": "色光",
-          "block": "刮样法",
-          "type": "input",
-          "key": "coloured_light",
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "近似—微",
-          "unReset": true
-        },
-        {
-          "title": "色差△E",
-          "type": "input",
-          "key": "delta_e",
-          "block": "仪器法",
-          "rule": {
-            "type": "float",
-            "required": true
-          }
-        },
-        {
-          "title": "粘度",
-          "type": "input",
-          "key": "viscosity",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "Pa•S/30℃"
-        },
-        {
-          "title": "细度",
-          "block": "直刮法",
-          "type": "input",
-          "key": "fineness",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "μm"
-        },
-        {
-          "title": "流动度",
-          "type": "input",
-          "key": "fluidity",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "mm/23℃"
-        },
-        {
-          "title": "干性",
-          "type": "input",
-          "key": "dryness",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "Min/80℃"
-        },
-        {
-          "title": "质量磁化率",
-          "type": "input",
-          "key": "mass_susceptibility",
-          "rule": {
-            "type": "float",
-            "required": true
-          }
-        },
-        {
-          "title": "荧光特性",
-          "type": "input",
-          "key": "fluo",
-          "rule": {
-            "required": true
-          },
-          "unReset": true
-        },
-        {
-          "title": "无色荧光相对亮度",
-          "type": "input",
-          "key": "fluo_luminance",
-          "rule": {
-            "type": "float",
-            "required": true
-          }
-        },
-        {
-          "title": "W信号相对强度",
-          "type": "input",
-          "key": "w_siginal",
-          "rule": {
-            "type": "float",
-            "required": true
-          }
-        },
-        {
-          "title": "防伪特性",
-          "type": "input",
-          "key": "anti_fake",
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "无"
-        },
-        {
-          "title": "检验员",
-          "type": "input",
-          "key": "operator",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "unReset": true
-        },
-        {
-          "title": "检验结论",
-          "type": "switch",
-          "key": "result",
-          "checkedChildren": "合格",
-          "unCheckedChildren": "不合格",
-          "placeholder": "请在此填入检验结论",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "1"
-        },
-        {
-          "title": "备注",
-          "type": "input.textarea",
-          "key": "remark",
-          "placeholder": "请在此填入备注信息",
-          "span": 8,
-          "rule": {
-            "required": true
-          }
-        }
-      ]
-    }
-  ]
+        }, {
+            "title": "生产厂家",
+            "type": "input",
+            "key": "place",
+            "rule": {
+                "required": true,
+                "msg": "请输入生产厂家"
+            },
+            "placeholder": "请输入生产厂家",
+            "defaultValue": "北京印钞",
+            "unReset": true
+        }, {
+            "title": "批次",
+            "type": "input",
+            "key": "batch_no",
+            "rule": {
+                "required": true,
+                "msg": "请输入批号"
+            },
+            "placeholder": "请输入批号",
+            "toupper": "true"
+        }, {
+            "title": "数量",
+            "type": "input",
+            "key": "prod_num",
+            "rule": {
+                "type": "int",
+                "required": true,
+                "msg": "请输入数量"
+            },
+            "suffix": "kg"
+        }, {
+            "title": "报检人",
+            "type": "input",
+            "key": "check_user",
+            "span": 8,
+            "rule": {
+                "required": true
+            },
+            "unReset": true,
+            "defaultValue": "物资库管员"
+        }, {
+            "title": "油墨名称",
+            "type": "select",
+            "key": "ink_name",
+            "rule": {
+                "required": true
+            },
+            "defaultOption": [{
+                "name": "号码黑（MP-1）",
+                "value": "号码黑（MP-1）",
+                "scope": [{
+                    "key": "viscosity",
+                    "max": 29,
+                    "min": 19
+                }, {
+                    "max": 10,
+                    "key": "fineness"
+                }, {
+                    "key": "fluidity",
+                    "max": 27,
+                    "min": 21
+                }, {
+                    "key": "dryness",
+                    "max": 15,
+                    "min": 5
+                }, {
+                    "key": "mass_susceptibility",
+                    "min": 1750
+                }],
+                "hide": ["delta_e", "fluo", "fluo_luminance", "w_siginal",
+                    "anti_fake"
+                ]
+            }, {
+                "name": "号码黑（UV-8)",
+                "value": "号码黑（UV-8)",
+                "scope": [{
+                    "key": "viscosity",
+                    "min": 19,
+                    "max": 27
+                }, {
+                    "max": 10,
+                    "key": "fineness"
+                }, {
+                    "key": "fluidity",
+                    "max": 28,
+                    "min": 22
+                }, {
+                    "key": "dryness",
+                    "max": 20,
+                    "min": 10
+                }, {
+                    "key": "fluo",
+                    "defaultValue": "有荧光，近似-微"
+                }],
+                "hide": ["delta_e", "fluo_luminance", "w_siginal",
+                    "anti_fake", "mass_susceptibility"
+                ]
+            }, {
+                "name": "号码红（MP-4）",
+                "value": "号码红（MP-4）",
+                "scope": [{
+                    "max": 12,
+                    "key": "fineness"
+                }, {
+                    "key": "fluidity",
+                    "max": 29,
+                    "min": 19
+                }, {
+                    "key": "dryness",
+                    "max": 20
+                }, {
+                    "key": "mass_susceptibility",
+                    "min": 1200
+                }],
+                "hide": ["delta_e", "viscosity", "fluo", "fluo_luminance",
+                    "w_siginal", "anti_fake"
+                ]
+            }, {
+                "name": "号码蓝 (UV-8)",
+                "value": "号码蓝 (UV-8)",
+                "hide": ["delta_e", "fluo_luminance", "mass_susceptibility",
+                    "w_siginal", "anti_fake"
+                ],
+                "scope": [{
+                    "key": "viscosity",
+                    "min": 19,
+                    "max": 27
+                }, {
+                    "max": 12,
+                    "key": "fineness"
+                }, {
+                    "key": "fluidity",
+                    "max": 29,
+                    "min": 21
+                }, {
+                    "key": "dryness",
+                    "max": 15,
+                    "min": 5
+                }, {
+                    "key": "fluo",
+                    "defaultValue": "绿光，近似-微"
+                }]
+            }, {
+                "name": "特种无色（UV-2）",
+                "value": "特种无色（UV-2）",
+                "hide": ["delta_e", "mass_susceptibility", "fluo",
+                    "anti_fake"
+                ],
+                "scope": [{
+                    "key": "viscosity",
+                    "max": 23,
+                    "min": 13
+                }, {
+                    "max": 10,
+                    "key": "fineness"
+                }, {
+                    "key": "fluidity",
+                    "max": 33,
+                    "min": 27
+                }, {
+                    "key": "dryness",
+                    "max": 20,
+                    "min": 8
+                }, {
+                    "key": "fluo_luminance",
+                    "min": 90
+                }, {
+                    "key": "w_siginal",
+                    "min": 115
+                }]
+            }, {
+                "name": "JB1号码红(96A品通用)",
+                "value": "JB1号码红(96A品通用)",
+                "hide": ["mass_susceptibility", "fluidity", "fluo",
+                    "fluo_luminance", "w_siginal"
+                ],
+                "scope": [{
+                    "max": 3,
+                    "key": "delta_e"
+                }, {
+                    "key": "viscosity",
+                    "max": 20,
+                    "min": 12
+                }, {
+                    "max": 20,
+                    "key": "fineness"
+                }, {
+                    "key": "dryness",
+                    "max": 35,
+                    "min": 15
+                }]
+            }]
+        }]
+    }, {
+        "title": "检测详情",
+        "detail": [{
+            "title": "色光",
+            "block": "刮样法",
+            "type": "input",
+            "key": "coloured_light",
+            "rule": {
+                "required": true
+            },
+            "defaultValue": "近似—微",
+            "unReset": true
+        }, {
+            "title": "色差△E",
+            "type": "input",
+            "key": "delta_e",
+            "block": "仪器法",
+            "rule": {
+                "type": "float",
+                "required": true
+            }
+        }, {
+            "title": "粘度",
+            "type": "input",
+            "key": "viscosity",
+            "rule": {
+                "type": "float",
+                "required": true
+            },
+            "suffix": "Pa•S/30℃"
+        }, {
+            "title": "细度",
+            "block": "直刮法",
+            "type": "input",
+            "key": "fineness",
+            "rule": {
+                "type": "float",
+                "required": true
+            },
+            "suffix": "μm"
+        }, {
+            "title": "流动度",
+            "type": "input",
+            "key": "fluidity",
+            "rule": {
+                "type": "float",
+                "required": true
+            },
+            "suffix": "mm/23℃"
+        }, {
+            "title": "干性",
+            "type": "input",
+            "key": "dryness",
+            "rule": {
+                "type": "float",
+                "required": true
+            },
+            "suffix": "Min/80℃"
+        }, {
+            "title": "质量磁化率",
+            "type": "input",
+            "key": "mass_susceptibility",
+            "rule": {
+                "type": "float",
+                "required": true
+            }
+        }, {
+            "title": "荧光特性",
+            "type": "input",
+            "key": "fluo",
+            "rule": {
+                "required": true
+            },
+            "unReset": true
+        }, {
+            "title": "无色荧光相对亮度",
+            "type": "input",
+            "key": "fluo_luminance",
+            "rule": {
+                "type": "float",
+                "required": true
+            }
+        }, {
+            "title": "W信号相对强度",
+            "type": "input",
+            "key": "w_siginal",
+            "rule": {
+                "type": "float",
+                "required": true
+            }
+        }, {
+            "title": "防伪特性",
+            "type": "input",
+            "key": "anti_fake",
+            "rule": {
+                "required": true
+            },
+            "defaultValue": "无"
+        }, {
+            "title": "检验员",
+            "type": "input",
+            "key": "operator",
+            "span": 8,
+            "rule": {
+                "required": true
+            },
+            "unReset": true
+        }, {
+            "title": "检验结论",
+            "type": "switch",
+            "key": "result",
+            "checkedChildren": "合格",
+            "unCheckedChildren": "不合格",
+            "placeholder": "请在此填入检验结论",
+            "span": 8,
+            "rule": {
+                "required": true
+            },
+            "defaultValue": "1"
+        }, {
+            "title": "备注",
+            "type": "input.textarea",
+            "key": "remark",
+            "placeholder": "请在此填入备注信息",
+            "span": 8,
+            "rule": {
+                "required": true
+            }
+        }]
+    }]
 }

@@ -1,341 +1,281 @@
 {
-  "name": "过程检测/分百条",
-  "api": {
-    "insert": {
-      "url": "715/f176c6fe9c",
-      "param": ["rec_time", "uid"]
-    },
-    "delete": {
-      "url": "716/46124f7fac",
-      "param": ["batch_no"]
-    },
-    "update": {
-      "url": "717/511c6bce4f",
-      "param": ["batch_no"]
-    },
-    "query": {
-      "url": "718/dc30f39d8d",
-      "param": ["batch_no"]
-    },
-    "table": {
-      "url": "719/0a0e551574"
-    }
-  },
-  "table": "process_check_split_band",
-  "detail": [
-    {
-      "title": "基础数据",
-      "detail": [
-        {
-          "title": "检测日期",
-          "type": "datepicker",
-          "key": "check_date",
-          "datetype": "YYYY-MM-DD",
-          "rule": {
-            "required": true
-          }
+    "name": "过程检测/分百条",
+    "api": {
+        "insert": {
+            "url": "759/uyxowg17o",
+            "param": ["rec_time", "uid"]
         },
-        {
-          "title": "类型",
-          "type": "radio.button",
-          "key": "machine_type",
-          "defaultOption": [
-            {
-              "name": "裁封自动线",
-              "value": "裁封自动线",
-              "scope": [
-                {
-                  "key": "paste_width1",
-                  "min": 11
-                },
-                {
-                  "key": "paste_width2",
-                  "min": 11
-                },
-                {
-                  "key": "paste_width3",
-                  "min": 11
-                },
-                {
-                  "key": "paste_width4",
-                  "min": 11
-                },
-                {
-                  "key": "paste_width5",
-                  "min": 11
-                }
-              ]
-            },
-            {
-              "name": "小张检查设备",
-              "value": "小张检查设备",
-              "scope": [
-                {
-                  "key": "paste_width1",
-                  "min": 5
-                },
-                {
-                  "key": "paste_width2",
-                  "min": 5
-                },
-                {
-                  "key": "paste_width3",
-                  "min": 5
-                },
-                {
-                  "key": "paste_width4",
-                  "min": 5
-                },
-                {
-                  "key": "paste_width5",
-                  "min": 5
-                }
-              ]
-            }
-          ]
+        "delete": {
+            "url": "760/uyxowg17o",
+            "param": ["batch_no"]
         },
-        {
-          "title": "机台号",
-          "type": "select",
-          "key": "machine_name",
-          "defaultOption": [
-            {
-              "name": "裁封自动线4#",
-              "value": "裁封自动线4#"
-            },
-            {
-              "name": "裁封自动线5#",
-              "value": "裁封自动线5#"
-            },
-            {
-              "name": "裁封自动线6#",
-              "value": "裁封自动线6#"
-            },
-            {
-              "name": "裁封自动线7#",
-              "value": "裁封自动线7#"
-            },
-            {
-              "name": "裁封自动线8#",
-              "value": "裁封自动线8#"
-            },
-            {
-              "name": "裁封自动线9#",
-              "value": "裁封自动线9#"
-            },
-            {
-              "name": "裁封自动线10#",
-              "value": "裁封自动线10#"
-            },
-            {
-              "name": "进口清分机1#",
-              "value": "进口清分机1#"
-            },
-            {
-              "name": "进口清分机2#",
-              "value": "进口清分机2#"
-            },
-            {
-              "name": "进口清分机3#",
-              "value": "进口清分机3#"
-            },
-            {
-              "name": "进口清分机4#",
-              "value": "进口清分机4#"
-            },
-            {
-              "name": "进口清分机5#",
-              "value": "进口清分机5#"
-            },
-            {
-              "name": "国产清分机1#",
-              "value": "国产清分机1#"
-            },
-            {
-              "name": "国产清分机2#",
-              "value": "国产清分机2#"
-            },
-            {
-              "name": "国产清分机3#",
-              "value": "国产清分机3#"
-            },
-            {
-              "name": "挑残机1#",
-              "value": "挑残机1#"
-            },
-            {
-              "name": "挑残机2#",
-              "value": "挑残机2#"
-            },
-            {
-              "name": "X1-1#",
-              "value": "X1-1#"
-            },
-            {
-              "name": "X1-2#",
-              "value": "X1-2#"
-            }
-          ]
+        "update": {
+            "url": "761/uyxowg17o",
+            "param": ["batch_no"]
         },
-        {
-          "title": "烫头号",
-          "type": "radio.button",
-          "key": "print_head_sn",
-          "defaultOption": [
-            {
-              "name": "1#",
-              "value": "1#"
-            },
-            {
-              "name": "2#",
-              "value": "2#"
-            }
-          ]
+        "query": {
+            "url": "762/uyxowg17o",
+            "param": ["batch_no"]
+        },
+        "table": {
+            "url": "763/uyxowg17o"
         }
-      ]
     },
-    {
-      "title": "检测详情",
-      "detail": [
-        {
-          "title": "粘接宽度1",
-          "type": "input",
-          "key": "paste_width1",
-          "rule": {
-            "type": "float",
-            "required": true
-          }
-        },
-        {
-          "title": "粘接宽度2",
-          "type": "input",
-          "key": "paste_width2",
-          "rule": {
-            "type": "float",
-            "required": true
-          }
-        },
-        {
-          "title": "粘接宽度3",
-          "type": "input",
-          "key": "paste_width3",
-          "rule": {
-            "type": "float",
-            "required": true
-          }
-        },
-        {
-          "title": "粘接宽度4",
-          "type": "input",
-          "key": "paste_width4",
-          "rule": {
-            "type": "float",
-            "required": true
-          }
-        },
-        {
-          "title": "粘接宽度5",
-          "type": "input",
-          "key": "paste_width5",
-          "rule": {
-            "type": "float",
-            "required": true
-          }
-        },
-        {
-          "title": "热粘合后剥离力1",
-          "type": "input",
-          "key": "peeling_force1",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "min": 5
-          }
-        },
-        {
-          "title": "热粘合后剥离力2",
-          "type": "input",
-          "key": "peeling_force2",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "min": 5
-          }
-        },
-        {
-          "title": "热粘合后剥离力3",
-          "type": "input",
-          "key": "peeling_force3",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "min": 5
-          }
-        },
-        {
-          "title": "热粘合后剥离力4",
-          "type": "input",
-          "key": "peeling_force4",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "min": 5
-          }
-        },
-        {
-          "title": "热粘合后剥离力5",
-          "type": "input",
-          "key": "peeling_force5",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "min": 5
-          }
-        },
-        {
-          "title": "检验员",
-          "type": "input",
-          "key": "operator",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "unReset": true
-        },
-        {
-          "title": "检验结论",
-          "type": "switch",
-          "key": "result",
-          "checkedChildren": "合格",
-          "unCheckedChildren": "不合格",
-          "placeholder": "请在此填入检验结论",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "1"
-        },
-        {
-          "title": "备注",
-          "type": "input.textarea",
-          "key": "remark",
-          "placeholder": "请在此填入备注信息",
-          "span": 8,
-          "rule": {
-            "required": true
-          }
-        }
-      ]
-    }
-  ]
+    "table": "process_check_split_band",
+    "detail": [{
+        "title": "基础数据",
+        "detail": [{
+            "title": "检测日期",
+            "type": "datepicker",
+            "key": "check_date",
+            "datetype": "YYYY-MM-DD",
+            "rule": {
+                "required": true
+            }
+        }, {
+            "title": "类型",
+            "type": "radio.button",
+            "key": "machine_type",
+            "defaultOption": [{
+                "name": "裁封自动线",
+                "value": "裁封自动线",
+                "scope": [{
+                    "key": "paste_width1",
+                    "min": 11
+                }, {
+                    "key": "paste_width2",
+                    "min": 11
+                }, {
+                    "key": "paste_width3",
+                    "min": 11
+                }, {
+                    "key": "paste_width4",
+                    "min": 11
+                }, {
+                    "key": "paste_width5",
+                    "min": 11
+                }]
+            }, {
+                "name": "小张检查设备",
+                "value": "小张检查设备",
+                "scope": [{
+                    "key": "paste_width1",
+                    "min": 5
+                }, {
+                    "key": "paste_width2",
+                    "min": 5
+                }, {
+                    "key": "paste_width3",
+                    "min": 5
+                }, {
+                    "key": "paste_width4",
+                    "min": 5
+                }, {
+                    "key": "paste_width5",
+                    "min": 5
+                }]
+            }]
+        }, {
+            "title": "机台号",
+            "type": "select",
+            "key": "machine_name",
+            "defaultOption": [{
+                "name": "裁封自动线4#",
+                "value": "裁封自动线4#"
+            }, {
+                "name": "裁封自动线5#",
+                "value": "裁封自动线5#"
+            }, {
+                "name": "裁封自动线6#",
+                "value": "裁封自动线6#"
+            }, {
+                "name": "裁封自动线7#",
+                "value": "裁封自动线7#"
+            }, {
+                "name": "裁封自动线8#",
+                "value": "裁封自动线8#"
+            }, {
+                "name": "裁封自动线9#",
+                "value": "裁封自动线9#"
+            }, {
+                "name": "裁封自动线10#",
+                "value": "裁封自动线10#"
+            }, {
+                "name": "进口清分机1#",
+                "value": "进口清分机1#"
+            }, {
+                "name": "进口清分机2#",
+                "value": "进口清分机2#"
+            }, {
+                "name": "进口清分机3#",
+                "value": "进口清分机3#"
+            }, {
+                "name": "进口清分机4#",
+                "value": "进口清分机4#"
+            }, {
+                "name": "进口清分机5#",
+                "value": "进口清分机5#"
+            }, {
+                "name": "国产清分机1#",
+                "value": "国产清分机1#"
+            }, {
+                "name": "国产清分机2#",
+                "value": "国产清分机2#"
+            }, {
+                "name": "国产清分机3#",
+                "value": "国产清分机3#"
+            }, {
+                "name": "挑残机1#",
+                "value": "挑残机1#"
+            }, {
+                "name": "挑残机2#",
+                "value": "挑残机2#"
+            }, {
+                "name": "X1-1#",
+                "value": "X1-1#"
+            }, {
+                "name": "X1-2#",
+                "value": "X1-2#"
+            }]
+        }, {
+            "title": "烫头号",
+            "type": "radio.button",
+            "key": "print_head_sn",
+            "defaultOption": [{
+                "name": "1#",
+                "value": "1#"
+            }, {
+                "name": "2#",
+                "value": "2#"
+            }]
+        }]
+    }, {
+        "title": "检测详情",
+        "detail": [{
+            "title": "粘接宽度1",
+            "type": "input",
+            "key": "paste_width1",
+            "rule": {
+                "type": "float",
+                "required": true
+            }
+        }, {
+            "title": "粘接宽度2",
+            "type": "input",
+            "key": "paste_width2",
+            "rule": {
+                "type": "float",
+                "required": true
+            }
+        }, {
+            "title": "粘接宽度3",
+            "type": "input",
+            "key": "paste_width3",
+            "rule": {
+                "type": "float",
+                "required": true
+            }
+        }, {
+            "title": "粘接宽度4",
+            "type": "input",
+            "key": "paste_width4",
+            "rule": {
+                "type": "float",
+                "required": true
+            }
+        }, {
+            "title": "粘接宽度5",
+            "type": "input",
+            "key": "paste_width5",
+            "rule": {
+                "type": "float",
+                "required": true
+            }
+        }, {
+            "title": "热粘合后剥离力1",
+            "type": "input",
+            "key": "peeling_force1",
+            "rule": {
+                "type": "float",
+                "required": true
+            },
+            "scope": {
+                "min": 5
+            }
+        }, {
+            "title": "热粘合后剥离力2",
+            "type": "input",
+            "key": "peeling_force2",
+            "rule": {
+                "type": "float",
+                "required": true
+            },
+            "scope": {
+                "min": 5
+            }
+        }, {
+            "title": "热粘合后剥离力3",
+            "type": "input",
+            "key": "peeling_force3",
+            "rule": {
+                "type": "float",
+                "required": true
+            },
+            "scope": {
+                "min": 5
+            }
+        }, {
+            "title": "热粘合后剥离力4",
+            "type": "input",
+            "key": "peeling_force4",
+            "rule": {
+                "type": "float",
+                "required": true
+            },
+            "scope": {
+                "min": 5
+            }
+        }, {
+            "title": "热粘合后剥离力5",
+            "type": "input",
+            "key": "peeling_force5",
+            "rule": {
+                "type": "float",
+                "required": true
+            },
+            "scope": {
+                "min": 5
+            }
+        }, {
+            "title": "检验员",
+            "type": "input",
+            "key": "operator",
+            "span": 8,
+            "rule": {
+                "required": true
+            },
+            "unReset": true
+        }, {
+            "title": "检验结论",
+            "type": "switch",
+            "key": "result",
+            "checkedChildren": "合格",
+            "unCheckedChildren": "不合格",
+            "placeholder": "请在此填入检验结论",
+            "span": 8,
+            "rule": {
+                "required": true
+            },
+            "defaultValue": "1"
+        }, {
+            "title": "备注",
+            "type": "input.textarea",
+            "key": "remark",
+            "placeholder": "请在此填入备注信息",
+            "span": 8,
+            "rule": {
+                "required": true
+            }
+        }]
+    }]
 }
