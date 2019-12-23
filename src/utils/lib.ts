@@ -475,3 +475,11 @@ export const getTableExtraLabel = ({ header, data }) => {
   }
   return header.map((item, idx) => `${item}:${data[0][idx]}`);
 };
+
+/**
+ * https://github.com/reduxjs/redux/blob/6b3e1ceb1ddef4915b9b8e148be66c0806f9fd0a/src/utils/actionTypes.ts#L8
+ */
+export const getNonce = () =>
+  Math.random()
+    .toString(36)
+    .slice(3);

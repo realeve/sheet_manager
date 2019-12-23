@@ -1,6 +1,7 @@
 import * as lib from '@/utils/lib';
 import * as R from 'ramda';
 import qs from 'qs';
+import { axios } from '@/utils/axios';
 
 // 处理数据
 export const handler = {
@@ -158,3 +159,182 @@ export const handleOptions = (data, textVal: boolean) =>
       };
     }
   });
+
+/**
+ *   @database: { 接口管理 }
+ *   @desc:     { api接口最大id }
+ */
+export const getSysApi = () =>
+  axios({
+    url: '/6/2b9eaaabc3.json',
+  });
+
+/**
+// 更新触发器
+DROP TRIGGER IF EXISTS `api_nonce`;
+delimiter ;;
+CREATE TRIGGER `api_nonce` BEFORE INSERT ON `sys_api` FOR EACH ROW if new.nonce='' then 
+	set new.nonce = substring(MD5(RAND()*100),1,10); 
+end if
+;;
+delimiter ;
+ */
+
+export const getCreate = config => {
+  let res = R.compose(
+    R.flatten,
+    R.map(item => item.detail)
+  )(config.detail);
+  let keyStrs = res.map(item => {
+    let key = item.key;
+    if (item.type.includes('date')) {
+      return `  [${key}] datetime  DEFAULT (getdate()) NULL`;
+    } else if (item.type === 'input.number') {
+      // 字段类型
+      let filedType = 'int';
+      if (item.rule && item.rule.type === 'float') {
+        filedType = 'float(53)';
+      }
+      return `  [${key}] ${filedType} DEFAULT ((0)) NULL`;
+    }
+    return `  [${key}] nchar(40) DEFAULT ''`;
+  });
+
+  let param = config.api.insert.param || [];
+  let appendSql = '';
+  if (param.includes('rec_time')) {
+    appendSql += '[rec_time] datetime DEFAULT (getdate()) NULL,';
+  }
+  if (param.includes('uid')) {
+    appendSql += '[uid] int NULL,';
+  }
+
+  // 建表SQL
+  let createSql = `CREATE TABLE tbl_${config.table} (
+  [id] int  IDENTITY(1,1) NOT NULL,
+  ${appendSql}
+  ${keyStrs.join(',\r\n')}
+) ;`;
+
+  let getDescByField = (field, title) => `
+EXEC sp_addextendedproperty
+'MS_Description', N'${title}',
+'SCHEMA', N'dbo',
+'TABLE', N'tbl_${config.table}',
+'COLUMN', N'${field}';`;
+
+  // 添加注释
+  let desc = `
+EXEC sp_addextendedproperty
+'MS_Description', N'${config.name}',
+'SCHEMA', N'dbo',
+'TABLE', N'tbl_${config.table}';
+${getDescByField('id', '主ID')}`;
+
+  if (param.includes('rec_time')) {
+    desc += getDescByField('rec_time', '记录时间');
+  }
+  if (param.includes['uid']) {
+    desc += getDescByField('uid', '用户Uid');
+  }
+  res.forEach(item => {
+    desc += getDescByField(item.key, item.title);
+  });
+
+  // 添加注释完毕
+
+  return createSql + desc;
+};
+
+export const getApi = (config, nonce) => {
+  let res = R.compose(
+    R.flatten,
+    R.map(item => item.detail)
+  )(config.detail);
+  let keyStrs = res.map(item => item.key);
+
+  let param = {
+    insert: config.api.insert.param || [],
+    delete: config.api.delete.param || [],
+    update: config.api.update.param || [],
+    query: config.api.query.param || [],
+  };
+
+  let condition = key => ({
+    where:
+      param[key].length > 0 ? ' where ' + param[key].map(name => ` ${name}=? `).join(' and ') : '',
+    param: param[key].join(','),
+  });
+
+  let query = `
+  -- 数据载入接口
+INSERT INTO sys_api ( nonce, db_id, uid, api_name, sqlstr, param,remark )
+VALUES
+  ( '${nonce}','2','1','${config.name}_载入','select  ${keyStrs.join(',')} from  tbl_${
+    config.table
+  }  ${condition('query').where}', '${condition('query').param}','' );`;
+
+  let del = `
+-- 数据接口删除
+INSERT INTO sys_api ( nonce, db_id, uid, api_name, sqlstr, param,remark )
+VALUES
+  ( '${nonce}','2','1','${config.name}_删除','delete from  tbl_${config.table}  ${
+    condition('delete').where
+  }','${condition('delete').param}','' );`;
+
+  // 先过滤条件字段
+  let editKeys = keyStrs.filter(item => !param.update.includes(item));
+  let editStr = editKeys.map(key => `${key}=?`).join(',');
+  let paramUpdate = [...editKeys, ...param.update];
+
+  let edit = `
+-- 数据更新接口
+INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr, param,remark )
+VALUES
+  ( '${nonce}','2','1','${config.name}_更新','update tbl_${config.table} set ${editStr} ${
+    condition('update').where
+  }','${paramUpdate.join(',')}','' );`;
+
+  // 先过滤条件字段
+  let addKeys = [...keyStrs, ...param.insert];
+
+  let addStr = addKeys.map(key => `?`).join(',');
+
+  let add = `-- 数据增加接口
+INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr, param ,remark)
+VALUES
+  ( '${nonce}','2','1','${config.name}_添加','insert into  tbl_${config.table}(${addKeys.join(
+    ','
+  )}) values(${addStr})','${addKeys.join(',')}','' );`;
+
+  let review = `
+-- 查询最近录入的数据
+INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr,remark )
+VALUES
+  ( '${nonce}','2','1','${config.name} 近期录入信息','SELECT top 10 * FROM view_${config.table} ORDER BY 录入时间 desc','' );`;
+
+  return [add, del, edit, query, review].join('\r\n');
+};
+
+/**
+ *
+ * @param api 初始配置，主要是其中的param配置参数信息
+ * @param nonce 该组api的nonce信息，向API管理后台数据库写入nonce参数后，数据库端不再自动生成，以此处传入的为准。
+ */
+export const getApiConfig = async (formConfig, nonce) => {
+  let keys = ['insert', 'delete', 'update', 'query', 'table'];
+  let res = {};
+
+  let { maxid } = await getSysApi().then(res => res.data[0]);
+  maxid = parseInt(maxid);
+  keys.forEach((key, idx) => {
+    res[key] = {
+      url: `${idx + maxid}/${nonce}`,
+    };
+    if (formConfig.api[key] && formConfig.api[key].param) {
+      res[key].param = R.clone(formConfig.api[key].param);
+    }
+  });
+  formConfig.api = res;
+  return formConfig;
+};

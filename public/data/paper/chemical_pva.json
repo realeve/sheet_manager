@@ -1,285 +1,278 @@
 {
-  "name": "化工原材料——聚乙烯醇",
-  "api": {
-    "insert": {
-      "url": "720/fac2987ef5",
-      "param": ["rec_time", "uid"]
-    },
-    "delete": {
-      "url": "721/58168dab69",
-      "param": ["batch_no"]
-    },
-    "update": {
-      "url": "722/a9170175b7",
-      "param": ["batch_no"]
-    },
-    "query": {
-      "url": "723/7b2f3174d9",
-      "param": ["batch_no"]
-    },
-    "table": {
-      "url": "724/3a3c0940e3"
-    }
-  },
-  "table": "paper_material_chemical_pva",
-  "detail": [
-    {
-      "title": "基础数据",
-      "detail": [
-        {
-          "title": "产品名称",
-          "unReset": true,
-          "type": "radio.button",
-          "block": "产品名称不同时指标范围不同，请录入信息前先选择该项",
-          "defaultOption": [
-            {
-              "name": "聚乙烯醇1099",
-              "value": "聚乙烯醇1099",
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 9,
-                  "max": 11
-                },
-                {
-                  "key": "fugitive_constituent",
-                  "max": 5
-                },
-                {
-                  "key": "sodium_acetate",
-                  "max": 2
-                },
-                {
-                  "key": "ph",
-                  "max": 7.5,
-                  "min": 6
-                },
-                {
-                  "key": "alcoholysis_deg",
-                  "min": 99
-                }
-              ]
-            },
-            {
-              "name": "聚乙烯醇1799",
-              "value": "聚乙烯醇1799",
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 25,
-                  "max": 31
-                },
-                {
-                  "key": "fugitive_constituent",
-                  "max": 5
-                },
-                {
-                  "key": "sodium_acetate",
-                  "max": 2.5
-                },
-                {
-                  "key": "ph",
-                  "max": 7,
-                  "min": 5
-                },
-                {
-                  "key": "alcoholysis_deg",
-                  "min": 98.5
-                }
-              ]
-            },
-            {
-              "name": "EPVA",
-              "value": "EPVA",
-              "hide": ["sodium_acetate"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 10
-                },
-                {
-                  "key": "fugitive_constituent",
-                  "max": 5
-                },
-                {
-                  "key": "ph",
-                  "min": 3.5,
-                  "max": 7
-                },
-                {
-                  "key": "alcoholysis_deg",
-                  "min": 98.5
-                }
-              ]
-            }
-          ],
-          "key": "prod_name",
-          "rule": {
-            "required": true
-          }
+    "name": "化工原材料——聚乙烯醇",
+    "api": {
+        "insert": {
+            "url": "720/fac2987ef5",
+            "param": ["rec_time", "uid"]
         },
-        {
-          "title": "产地",
-          "type": "input",
-          "key": "place",
-          "rule": {
-            "required": true,
-            "msg": "请输入产地信息"
-          },
-          "placeholder": "请输入产地信息",
-          "maxLength": 8,
-          "unReset": true
+        "delete": {
+            "url": "721/58168dab69",
+            "param": ["batch_no"]
         },
-        {
-          "title": "批号",
-          "type": "input",
-          "key": "batch_no",
-          "rule": {
-            "required": true,
-            "msg": "请输入批号"
-          },
-          "placeholder": "请输入批号",
-          "toupper": "true"
+        "update": {
+            "url": "722/a9170175b7",
+            "param": ["batch_no"]
         },
-        {
-          "title": "数量",
-          "type": "input",
-          "key": "prod_num",
-          "rule": {
-            "type": "float",
-            "required": true,
-            "msg": "请输入数量"
-          },
-          "placeholder": "请输入数量",
-          "suffix": "吨(t)"
+        "query": {
+            "url": "723/7b2f3174d9",
+            "param": ["batch_no"]
         },
-        {
-          "title": "生产日期",
-          "type": "datepicker",
-          "key": "prod_date",
-          "datetype": "YYYY-MM-DD",
-          "rule": {
-            "required": true
-          }
-        },
-        {
-          "title": "取样日期",
-          "type": "datepicker",
-          "key": "sample_date",
-          "datetype": "YYYY-MM-DD",
-          "rule": {
-            "required": true
-          }
-        },
-        {
-          "title": "检测日期",
-          "type": "datepicker",
-          "key": "test_date",
-          "datetype": "YYYY-MM-DD",
-          "rule": {
-            "required": true
-          }
+        "table": {
+            "url": "724/3a3c0940e3"
         }
-      ]
     },
-    {
-      "title": "检测详情",
-      "detail": [
-        {
-          "title": "外观",
-          "type": "input",
-          "key": "surface",
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "白色颗粒"
+    "table": "paper_material_chemical_pva",
+    "detail": [{
+            "title": "基础数据",
+            "detail": [{
+                    "title": "产品名称",
+                    "unReset": true,
+                    "type": "select",
+                    "block": "产品名称不同时指标范围不同",
+                    "defaultOption": [{
+                            "name": "聚乙烯醇1099",
+                            "value": "聚乙烯醇1099",
+                            "scope": [{
+                                    "key": "viscosity",
+                                    "min": 9,
+                                    "max": 11
+                                },
+                                {
+                                    "key": "fugitive_constituent",
+                                    "max": 5
+                                },
+                                {
+                                    "key": "sodium_acetate",
+                                    "max": 2
+                                },
+                                {
+                                    "key": "ph",
+                                    "max": 7.5,
+                                    "min": 6
+                                },
+                                {
+                                    "key": "alcoholysis_deg",
+                                    "min": 99
+                                }
+                            ]
+                        },
+                        {
+                            "name": "聚乙烯醇1799",
+                            "value": "聚乙烯醇1799",
+                            "scope": [{
+                                    "key": "viscosity",
+                                    "min": 25,
+                                    "max": 31
+                                },
+                                {
+                                    "key": "fugitive_constituent",
+                                    "max": 5
+                                },
+                                {
+                                    "key": "sodium_acetate",
+                                    "max": 2.5
+                                },
+                                {
+                                    "key": "ph",
+                                    "max": 7,
+                                    "min": 5
+                                },
+                                {
+                                    "key": "alcoholysis_deg",
+                                    "min": 98.5
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EPVA",
+                            "value": "EPVA",
+                            "hide": ["sodium_acetate"],
+                            "scope": [{
+                                    "key": "viscosity",
+                                    "min": 10
+                                },
+                                {
+                                    "key": "fugitive_constituent",
+                                    "max": 5
+                                },
+                                {
+                                    "key": "ph",
+                                    "min": 3.5,
+                                    "max": 7
+                                },
+                                {
+                                    "key": "alcoholysis_deg",
+                                    "min": 98.5
+                                }
+                            ]
+                        }
+                    ],
+                    "key": "prod_name",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "产地",
+                    "type": "input",
+                    "key": "place",
+                    "rule": {
+                        "required": true,
+                        "msg": "请输入产地信息"
+                    },
+                    "placeholder": "请输入产地信息",
+                    "maxLength": 8,
+                    "unReset": true
+                },
+                {
+                    "title": "批号",
+                    "type": "input",
+                    "key": "batch_no",
+                    "rule": {
+                        "required": true,
+                        "msg": "请输入批号"
+                    },
+                    "placeholder": "请输入批号",
+                    "toupper": "true"
+                },
+                {
+                    "title": "数量",
+                    "type": "input",
+                    "key": "prod_num",
+                    "rule": {
+                        "type": "float",
+                        "required": true,
+                        "msg": "请输入数量"
+                    },
+                    "placeholder": "请输入数量",
+                    "suffix": "吨(t)"
+                },
+                {
+                    "title": "生产日期",
+                    "type": "datepicker",
+                    "key": "prod_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "取样日期",
+                    "type": "datepicker",
+                    "key": "sample_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "检测日期",
+                    "type": "datepicker",
+                    "key": "test_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                }
+            ]
         },
         {
-          "title": "粘度",
-          "type": "input",
-          "key": "viscosity",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "block": "(20℃, 4%)",
-          "suffix": "mPa.s"
-        },
-        {
-          "title": "挥发份",
-          "type": "input",
-          "key": "fugitive_constituent",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "%"
-        },
-        {
-          "title": "乙酸钠",
-          "type": "input",
-          "key": "sodium_acetate",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "%"
-        },
-        {
-          "title": "pH值",
-          "type": "input",
-          "key": "ph",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "%",
-          "block": " (25℃, 4%)"
-        },
-        {
-          "title": "醇解度",
-          "type": "input",
-          "key": "alcoholysis_deg",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "%(mol/mol)"
-        },
-        {
-          "title": "检验员",
-          "type": "input",
-          "key": "operator",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "unReset": true
-        },
-        {
-          "title": "检验结论",
-          "type": "switch",
-          "key": "result",
-          "checkedChildren": "合格",
-          "unCheckedChildren": "不合格",
-          "placeholder": "请在此填入检验结论",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "1"
-        },
-        {
-          "title": "备注",
-          "type": "input.textarea",
-          "key": "remark",
-          "placeholder": "请在此填入备注信息",
-          "span": 8,
-          "rule": {
-            "required": true
-          }
+            "title": "检测详情",
+            "detail": [{
+                    "title": "外观",
+                    "type": "input",
+                    "key": "surface",
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultValue": "白色颗粒"
+                },
+                {
+                    "title": "粘度",
+                    "type": "input",
+                    "key": "viscosity",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "block": "(20℃, 4%)",
+                    "suffix": "mPa.s"
+                },
+                {
+                    "title": "挥发份",
+                    "type": "input",
+                    "key": "fugitive_constituent",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "%"
+                },
+                {
+                    "title": "乙酸钠",
+                    "type": "input",
+                    "key": "sodium_acetate",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "%"
+                },
+                {
+                    "title": "pH值",
+                    "type": "input",
+                    "key": "ph",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "%",
+                    "block": " (25℃, 4%)"
+                },
+                {
+                    "title": "醇解度",
+                    "type": "input",
+                    "key": "alcoholysis_deg",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "%(mol/mol)"
+                },
+                {
+                    "title": "检验员",
+                    "type": "input",
+                    "key": "operator",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "unReset": true
+                },
+                {
+                    "title": "检验结论",
+                    "type": "switch",
+                    "key": "result",
+                    "checkedChildren": "合格",
+                    "unCheckedChildren": "不合格",
+                    "placeholder": "请在此填入检验结论",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultValue": "1"
+                },
+                {
+                    "title": "备注",
+                    "type": "input.textarea",
+                    "key": "remark",
+                    "placeholder": "请在此填入备注信息",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    }
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
