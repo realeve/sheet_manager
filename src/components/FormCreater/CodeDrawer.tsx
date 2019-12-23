@@ -184,7 +184,55 @@ SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       </CopyToClipboard>
 
       <Paragraph style={{ marginTop: 10 }}>
-        <Title level={4}>2.接口配置（手工建接口）</Title>
+        <Title level={4}>2.接口配置（批量添加）</Title>
+        在有大量表单需要处理时，建议通过以下方式手动<Text mark>在接口管理数据库中批量添加</Text>
+        ,其中db_id表示业务数据库id,uid表示接口管理用户id，可根据情况手动修改：
+      </Paragraph>
+      <CodeMirror
+        value={sql.api}
+        options={{
+          mode: 'sql',
+          lineNumbers: true,
+          styleActiveLine: true,
+          matchBrackets: true,
+          theme: 'material',
+        }}
+      />
+
+      <CopyToClipboard
+        text={sql.api}
+        onCopy={() => message.success('拷贝成功，请到数据库管理工具中初始化配置信息')}
+      >
+        <Button style={{ marginTop: 10 }} icon="copy">
+          点击复制
+        </Button>
+      </CopyToClipboard>
+
+      <Paragraph style={{ marginTop: 10 }}>
+        同时将json配置改为以下形式，其中api部分对应的接口id以及nonce信息已经更新:
+      </Paragraph>
+      <CodeMirror
+        value={sql.json}
+        options={{
+          mode: 'javascript',
+          lineNumbers: true,
+          styleActiveLine: true,
+          matchBrackets: true,
+          theme: 'material',
+        }}
+      />
+
+      <CopyToClipboard
+        text={sql.json}
+        onCopy={() => message.success('拷贝成功，请替换当前json文件')}
+      >
+        <Button style={{ marginTop: 10 }} icon="copy">
+          点击复制
+        </Button>
+      </CopyToClipboard>
+
+      <Paragraph style={{ marginTop: 10 }}>
+        <Title level={4}>3.接口配置（手工建接口）</Title>
         请到
         <Text mark>
           <a
@@ -210,53 +258,6 @@ SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       <CopyToClipboard
         text={sql.select + sql.query}
         onCopy={() => message.success('拷贝成功，请到数据库管理工具中初始化配置信息')}
-      >
-        <Button style={{ marginTop: 10 }} icon="copy">
-          点击复制
-        </Button>
-      </CopyToClipboard>
-
-      <Paragraph style={{ marginTop: 10 }}>
-        <Title level={4}>3.接口配置（批量添加）</Title>
-        在有大量表单需要处理时，建议通过以下方式手动<Text mark>在接口管理数据库中批量添加</Text>
-        ,其中db_id表示业务数据库id,uid表示接口管理用户id，可根据情况手动修改：
-      </Paragraph>
-      <CodeMirror
-        value={sql.api}
-        options={{
-          mode: 'sql',
-          lineNumbers: true,
-          styleActiveLine: true,
-          matchBrackets: true,
-          theme: 'material',
-        }}
-      />
-
-      <CopyToClipboard
-        text={sql.api}
-        onCopy={() => message.success('拷贝成功，请到数据库管理工具中初始化配置信息')}
-      >
-        <Button style={{ marginTop: 10 }} icon="copy">
-          点击复制
-        </Button>
-      </CopyToClipboard>
-      <Paragraph style={{ marginTop: 10 }}>
-        同时将json配置改为以下形式，其中api部分对应的接口id以及nonce信息已经更新:
-      </Paragraph>
-      <CodeMirror
-        value={sql.json}
-        options={{
-          mode: 'javascript',
-          lineNumbers: true,
-          styleActiveLine: true,
-          matchBrackets: true,
-          theme: 'material',
-        }}
-      />
-
-      <CopyToClipboard
-        text={sql.json}
-        onCopy={() => message.success('拷贝成功，请替换当前json文件')}
       >
         <Button style={{ marginTop: 10 }} icon="copy">
           点击复制
