@@ -107,11 +107,20 @@ http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&typ
 
 DROP TRIGGER IF EXISTS `api_nonce`;
 delimiter ;;
-CREATE TRIGGER `api_nonce` BEFORE INSERT ON `sys_api` FOR EACH ROW if new.nonce='' then
+CREATE TRIGGER `api_nonce` BEFORE INSERT ON `sys_api` FOR EACH ROW if isnull( new.nonce ) then
 	set new.nonce = substring(MD5(RAND()*100),1,10);
 end if
 ;;
 delimiter ;
+```
+
+手工处理
+
+```sql
+-- 如果nonce为空，设置值。这样同时支持两种模式
+IF isnull( new.nonce ) THEN
+	SET new.nonce = substring( MD5( RAND()* 100 ), 1, 10 );
+END IF
 ```
 
 2.更新 PHP 相关文件

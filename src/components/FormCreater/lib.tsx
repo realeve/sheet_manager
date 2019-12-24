@@ -170,11 +170,11 @@ export const getSysApi = () =>
   });
 
 /**
-// 更新触发器
+// 更新触发器 
 DROP TRIGGER IF EXISTS `api_nonce`;
 delimiter ;;
-CREATE TRIGGER `api_nonce` BEFORE INSERT ON `sys_api` FOR EACH ROW if new.nonce='' then 
-	set new.nonce = substring(MD5(RAND()*100),1,10); 
+CREATE TRIGGER `api_nonce` BEFORE INSERT ON `sys_api` FOR EACH ROW if isnull( new.nonce ) then
+	set new.nonce = substring(MD5(RAND()*100),1,10);
 end if
 ;;
 delimiter ;
