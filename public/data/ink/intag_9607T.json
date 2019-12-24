@@ -1,369 +1,358 @@
 {
-  "name": "油墨/凹印/9607T",
-  "api": {
-    "insert": {
-      "url": "715/f176c6fe9c",
-      "param": ["rec_time", "uid"]
-    },
-    "delete": {
-      "url": "716/46124f7fac",
-      "param": ["batch_no"]
-    },
-    "update": {
-      "url": "717/511c6bce4f",
-      "param": ["batch_no"]
-    },
-    "query": {
-      "url": "718/dc30f39d8d",
-      "param": ["batch_no"]
-    },
-    "table": {
-      "url": "719/0a0e551574"
-    }
-  },
-  "table": "ink_offset",
-  "detail": [
-    {
-      "title": "基础数据",
-      "detail": [
-        {
-          "title": "产品品种",
-          "type": "label",
-          "key": "prod_name",
-          "value": "9607T"
+    "name": "油墨/凹印/9607T",
+    "api": {
+        "insert": {
+            "url": "784/o3p6ldzyyc",
+            "param": ["rec_time", "uid"]
         },
-        {
-          "title": "油墨类型",
-          "type": "label",
-          "key": "ink_type",
-          "value": "凹印"
+        "delete": {
+            "url": "785/o3p6ldzyyc",
+            "param": ["batch_no"]
         },
-        {
-          "title": "来料日期",
-          "type": "datepicker",
-          "key": "sample_date",
-          "datetype": "YYYY-MM-DD",
-          "rule": {
-            "required": true
-          }
+        "update": {
+            "url": "786/o3p6ldzyyc",
+            "param": ["batch_no"]
         },
-        {
-          "title": "生产厂家",
-          "type": "input",
-          "key": "place",
-          "rule": {
-            "required": true,
-            "msg": "请输入生产厂家"
-          },
-          "placeholder": "请输入生产厂家",
-          "defaultValue": "中钞油墨",
-          "unReset": true
+        "query": {
+            "url": "787/o3p6ldzyyc",
+            "param": ["batch_no"]
         },
-        {
-          "title": "批次",
-          "type": "input",
-          "key": "batch_no",
-          "rule": {
-            "required": true,
-            "msg": "请输入批号"
-          },
-          "placeholder": "请输入批号",
-          "toupper": "true"
-        },
-        {
-          "title": "数量",
-          "type": "input",
-          "key": "prod_num",
-          "rule": {
-            "type": "int",
-            "required": true,
-            "msg": "请输入数量"
-          },
-          "suffix": "kg"
-        },
-        {
-          "title": "报检人",
-          "type": "input",
-          "key": "check_user",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "unReset": true,
-          "defaultValue": "物资库管员"
-        },
-        {
-          "title": "油墨名称",
-          "type": "select",
-          "key": "ink_name",
-          "rule": {
-            "required": true
-          },
-          "defaultOption": [
-            {
-              "name": "WJ1正主景红",
-              "value": "WJ1正主景红",
-              "hide": ["anti_fake", "dryness", "delta_e"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "max": 12,
-                  "min": 6
-                },
-                {
-                  "key": "release_time",
-                  "min": 180,
-                  "max": 300
-                }
-              ]
-            },
-            {
-              "name": "WJ1正桔黄（SM-1）",
-              "value": "WJ1正桔黄（SM-1）",
-              "hide": ["dryness", "delta_e"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "max": 8,
-                  "min": 2
-                },
-                {
-                  "key": "anti_fake",
-                  "min": 1100
-                },
-                {
-                  "key": "release_time",
-                  "min": 420,
-                  "max": 630
-                }
-              ]
-            },
-            {
-              "name": "WJ1正紫",
-              "value": "WJ1正紫",
-              "hide": ["anti_fake", "dryness", "delta_e"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "max": 8,
-                  "min": 2
-                },
-                {
-                  "key": "release_time",
-                  "min": 420,
-                  "max": 630
-                }
-              ]
-            },
-            {
-              "name": "WJ1背主景红",
-              "value": "WJ1背主景红",
-              "hide": ["dryness", "delta_e"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "max": 10,
-                  "min": 4
-                },
-                {
-                  "key": "anti_fake",
-                  "min": 50,
-                  "suffix": "%",
-                  "block": "无红外吸收，近红外反射值≥50%"
-                },
-                {
-                  "key": "release_time",
-                  "min": 200,
-                  "max": 400
-                }
-              ]
-            },
-            {
-              "name": "WJ1背主景红（IA-M）",
-              "value": "WJ1背主景红（IA-M）",
-              "hide": ["dryness", "delta_e"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "max": 10,
-                  "min": 4
-                },
-                {
-                  "key": "anti_fake",
-                  "max": 15,
-                  "suffix": "%",
-                  "block": "有红外吸收，近红外反射值≤15%"
-                },
-                {
-                  "key": "release_time",
-                  "min": 200,
-                  "max": 400
-                }
-              ]
-            },
-            {
-              "name": "WJ1背大红",
-              "value": "WJ1背大红",
-              "hide": ["anti_fake", "dryness", "delta_e"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "max": 9,
-                  "min": 3
-                },
-                {
-                  "key": "release_time",
-                  "min": 200,
-                  "max": 360
-                }
-              ]
-            },
-            {
-              "name": "WJ1背紫",
-              "value": "WJ1背紫",
-              "hide": ["anti_fake", "dryness", "delta_e"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "max": 8,
-                  "min": 2
-                },
-                {
-                  "key": "release_time",
-                  "min": 420,
-                  "max": 630
-                }
-              ]
-            }
-          ]
+        "table": {
+            "url": "788/o3p6ldzyyc"
         }
-      ]
     },
-    {
-      "title": "检测详情",
-      "detail": [
-        {
-          "title": "色光",
-          "block": "刮样法",
-          "type": "input",
-          "key": "coloured_light",
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "近似—微"
+    "table": "ink_offset",
+    "detail": [{
+            "title": "基础数据",
+            "detail": [{
+                    "title": "产品品种",
+                    "type": "label",
+                    "key": "prod_name",
+                    "value": "9607T"
+                },
+                {
+                    "title": "油墨类型",
+                    "type": "label",
+                    "key": "ink_type",
+                    "value": "凹印"
+                },
+                {
+                    "title": "来料日期",
+                    "type": "datepicker",
+                    "key": "sample_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "生产厂家",
+                    "type": "input",
+                    "key": "place",
+                    "rule": {
+                        "required": true,
+                        "msg": "请输入生产厂家"
+                    },
+                    "placeholder": "请输入生产厂家",
+                    "defaultValue": "中钞油墨",
+                    "unReset": true
+                },
+                {
+                    "title": "批次",
+                    "type": "input",
+                    "key": "batch_no",
+                    "rule": {
+                        "required": true,
+                        "msg": "请输入批号"
+                    },
+                    "placeholder": "请输入批号",
+                    "toupper": "true"
+                },
+                {
+                    "title": "数量",
+                    "type": "input",
+                    "key": "prod_num",
+                    "rule": {
+                        "type": "int",
+                        "required": true,
+                        "msg": "请输入数量"
+                    },
+                    "suffix": "kg"
+                },
+                {
+                    "title": "报检人",
+                    "type": "input",
+                    "key": "check_user",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "unReset": true,
+                    "defaultValue": "物资库管员"
+                },
+                {
+                    "title": "油墨名称",
+                    "type": "select",
+                    "key": "ink_name",
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultOption": [{
+                            "name": "WJ1正主景红",
+                            "value": "WJ1正主景红",
+                            "hide": ["anti_fake", "dryness", "delta_e"],
+                            "scope": [{
+                                    "key": "viscosity",
+                                    "max": 12,
+                                    "min": 6
+                                },
+                                {
+                                    "key": "release_time",
+                                    "min": 180,
+                                    "max": 300
+                                }
+                            ]
+                        },
+                        {
+                            "name": "WJ1正桔黄（SM-1）",
+                            "value": "WJ1正桔黄（SM-1）",
+                            "hide": ["dryness", "delta_e"],
+                            "scope": [{
+                                    "key": "viscosity",
+                                    "max": 8,
+                                    "min": 2
+                                },
+                                {
+                                    "key": "anti_fake",
+                                    "min": 1100
+                                },
+                                {
+                                    "key": "release_time",
+                                    "min": 420,
+                                    "max": 630
+                                }
+                            ]
+                        },
+                        {
+                            "name": "WJ1正紫",
+                            "value": "WJ1正紫",
+                            "hide": ["anti_fake", "dryness", "delta_e"],
+                            "scope": [{
+                                    "key": "viscosity",
+                                    "max": 8,
+                                    "min": 2
+                                },
+                                {
+                                    "key": "release_time",
+                                    "min": 420,
+                                    "max": 630
+                                }
+                            ]
+                        },
+                        {
+                            "name": "WJ1背主景红",
+                            "value": "WJ1背主景红",
+                            "hide": ["dryness", "delta_e"],
+                            "scope": [{
+                                    "key": "viscosity",
+                                    "max": 10,
+                                    "min": 4
+                                },
+                                {
+                                    "key": "anti_fake",
+                                    "min": 50,
+                                    "suffix": "%",
+                                    "block": "无红外吸收，近红外反射值≥50%"
+                                },
+                                {
+                                    "key": "release_time",
+                                    "min": 200,
+                                    "max": 400
+                                }
+                            ]
+                        },
+                        {
+                            "name": "WJ1背主景红（IA-M）",
+                            "value": "WJ1背主景红（IA-M）",
+                            "hide": ["dryness", "delta_e"],
+                            "scope": [{
+                                    "key": "viscosity",
+                                    "max": 10,
+                                    "min": 4
+                                },
+                                {
+                                    "key": "anti_fake",
+                                    "max": 15,
+                                    "suffix": "%",
+                                    "block": "有红外吸收，近红外反射值≤15%"
+                                },
+                                {
+                                    "key": "release_time",
+                                    "min": 200,
+                                    "max": 400
+                                }
+                            ]
+                        },
+                        {
+                            "name": "WJ1背大红",
+                            "value": "WJ1背大红",
+                            "hide": ["anti_fake", "dryness", "delta_e"],
+                            "scope": [{
+                                    "key": "viscosity",
+                                    "max": 9,
+                                    "min": 3
+                                },
+                                {
+                                    "key": "release_time",
+                                    "min": 200,
+                                    "max": 360
+                                }
+                            ]
+                        },
+                        {
+                            "name": "WJ1背紫",
+                            "value": "WJ1背紫",
+                            "hide": ["anti_fake", "dryness", "delta_e"],
+                            "scope": [{
+                                    "key": "viscosity",
+                                    "max": 8,
+                                    "min": 2
+                                },
+                                {
+                                    "key": "release_time",
+                                    "min": 420,
+                                    "max": 630
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
-          "title": "色差",
-          "type": "input",
-          "key": "delta_e",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "max": 3
-          },
-          "block": "△E (仪器法)"
-        },
-        {
-          "title": "粘度",
-          "type": "input",
-          "key": "viscosity",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "Pa•S/40℃"
-        },
-        {
-          "title": "细度",
-          "block": "稀释法",
-          "type": "input",
-          "key": "fineness",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "max": 16
-          },
-          "suffix": "μm"
-        },
-        {
-          "title": "释放时间",
-          "type": "input",
-          "key": "release_time",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "S"
-        },
-        {
-          "title": "自然干",
-          "type": "input",
-          "key": "drying_time",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "max": 24
-          },
-          "suffix": "h"
-        },
-        {
-          "title": "干性",
-          "type": "input",
-          "key": "dryness",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "Min/80℃"
-        },
-        {
-          "title": "防伪特性",
-          "type": "input",
-          "key": "anti_fake",
-          "rule": {
-            "type": "float",
-            "required": true
-          }
-        },
-        {
-          "title": "检验员",
-          "type": "input",
-          "key": "operator",
-          "span": 8,
-          "rule": {
-            "required": true
-          }
-        },
-        {
-          "title": "检验结论",
-          "type": "switch",
-          "key": "result",
-          "checkedChildren": "合格",
-          "unCheckedChildren": "不合格",
-          "placeholder": "请在此填入检验结论",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "1"
-        },
-        {
-          "title": "备注",
-          "type": "input.textarea",
-          "key": "remark",
-          "placeholder": "请在此填入备注信息",
-          "span": 8,
-          "rule": {
-            "required": true
-          }
+            "title": "检测详情",
+            "detail": [{
+                    "title": "色光",
+                    "block": "刮样法",
+                    "type": "input",
+                    "key": "coloured_light",
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultValue": "近似—微"
+                },
+                {
+                    "title": "色差",
+                    "type": "input",
+                    "key": "delta_e",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "max": 3
+                    },
+                    "block": "△E (仪器法)"
+                },
+                {
+                    "title": "粘度",
+                    "type": "input",
+                    "key": "viscosity",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "Pa•S/40℃"
+                },
+                {
+                    "title": "细度",
+                    "block": "稀释法",
+                    "type": "input",
+                    "key": "fineness",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "max": 16
+                    },
+                    "suffix": "μm"
+                },
+                {
+                    "title": "释放时间",
+                    "type": "input",
+                    "key": "release_time",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "S"
+                },
+                {
+                    "title": "自然干",
+                    "type": "input",
+                    "key": "drying_time",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "max": 24
+                    },
+                    "suffix": "h"
+                },
+                {
+                    "title": "干性",
+                    "type": "input",
+                    "key": "dryness",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "Min/80℃"
+                },
+                {
+                    "title": "防伪特性",
+                    "type": "input",
+                    "key": "anti_fake",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    }
+                },
+                {
+                    "title": "检验员",
+                    "type": "input",
+                    "key": "operator",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "检验结论",
+                    "type": "switch",
+                    "key": "result",
+                    "checkedChildren": "合格",
+                    "unCheckedChildren": "不合格",
+                    "placeholder": "请在此填入检验结论",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultValue": "1"
+                },
+                {
+                    "title": "备注",
+                    "type": "input.textarea",
+                    "key": "remark",
+                    "placeholder": "请在此填入备注信息",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    }
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }

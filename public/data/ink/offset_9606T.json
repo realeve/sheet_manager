@@ -1,294 +1,290 @@
 {
-  "name": "油墨/胶印/9606T",
-  "api": {
-    "insert": {
-      "url": "715/f176c6fe9c",
-      "param": ["rec_time", "uid"]
-    },
-    "delete": {
-      "url": "716/46124f7fac",
-      "param": ["batch_no"]
-    },
-    "update": {
-      "url": "717/511c6bce4f",
-      "param": ["batch_no"]
-    },
-    "query": {
-      "url": "718/dc30f39d8d",
-      "param": ["batch_no"]
-    },
-    "table": {
-      "url": "719/0a0e551574"
-    }
-  },
-  "table": "ink_offset",
-  "detail": [
-    {
-      "title": "基础数据",
-      "detail": [
-        {
-          "title": "产品品种",
-          "type": "label",
-          "key": "prod_name",
-          "value": "9606T"
+    "name": "油墨/胶印/9606T",
+    "api": {
+        "insert": {
+            "url": "789/8fdkhqmvrc",
+            "param": ["rec_time", "uid"]
         },
-        {
-          "title": "油墨类型",
-          "type": "label",
-          "key": "ink_type",
-          "value": "胶印"
+        "delete": {
+            "url": "790/8fdkhqmvrc",
+            "param": ["batch_no"]
         },
-        {
-          "title": "来料日期",
-          "type": "datepicker",
-          "key": "sample_date",
-          "datetype": "YYYY-MM-DD",
-          "rule": {
-            "required": true
-          }
+        "update": {
+            "url": "791/8fdkhqmvrc",
+            "param": ["batch_no"]
         },
-        {
-          "title": "生产厂家",
-          "type": "input",
-          "key": "place",
-          "rule": {
-            "required": true,
-            "msg": "请输入生产厂家"
-          },
-          "placeholder": "请输入生产厂家",
-          "defaultValue": "中钞油墨",
-          "unReset": true
+        "query": {
+            "url": "792/8fdkhqmvrc",
+            "param": ["batch_no"]
         },
-        {
-          "title": "批次",
-          "type": "input",
-          "key": "batch_no",
-          "rule": {
-            "required": true,
-            "msg": "请输入批号"
-          },
-          "placeholder": "请输入批号",
-          "toupper": "true"
-        },
-        {
-          "title": "数量",
-          "type": "input",
-          "key": "prod_num",
-          "rule": {
-            "type": "int",
-            "required": true,
-            "msg": "请输入数量"
-          },
-          "suffix": "kg"
-        },
-        {
-          "title": "报检人",
-          "type": "input",
-          "key": "check_user",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "unReset": true,
-          "defaultValue": "物资库管员"
-        },
-        {
-          "title": "油墨名称",
-          "type": "select",
-          "key": "ink_name",
-          "rule": {
-            "required": true
-          },
-          "defaultOption": [
-            {
-              "name": "JB3正背隔蓝绿",
-              "value": "JB3正背隔蓝绿",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB3正隔棕",
-              "value": "JB3正隔棕",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB3正隔深绿",
-              "value": "JB3正隔深绿",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB3正隔绿",
-              "value": "JB3正隔绿",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB3正隔蓝",
-              "value": "JB3正隔蓝",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB3正绿",
-              "value": "JB3正绿",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB3正背隔黄绿",
-              "value": "JB3正背隔黄绿",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB3背隔棕",
-              "value": "JB3背隔棕",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB3背隔绿",
-              "value": "JB3背隔绿",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB3背隔蓝",
-              "value": "JB3背隔蓝",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB3背黄绿(UV-2)",
-              "value": "JB3背黄绿(UV-2)",
-              "hide": ["drying_time", "release_time"]
-            }
-          ]
+        "table": {
+            "url": "793/8fdkhqmvrc"
         }
-      ]
     },
-    {
-      "title": "检测详情",
-      "detail": [
-        {
-          "title": "色光",
-          "block": "刮样法",
-          "type": "input",
-          "key": "coloured_light",
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "近似—微"
+    "table": "ink_offset",
+    "detail": [{
+            "title": "基础数据",
+            "detail": [{
+                    "title": "产品品种",
+                    "type": "label",
+                    "key": "prod_name",
+                    "value": "9606T"
+                },
+                {
+                    "title": "油墨类型",
+                    "type": "label",
+                    "key": "ink_type",
+                    "value": "胶印"
+                },
+                {
+                    "title": "来料日期",
+                    "type": "datepicker",
+                    "key": "sample_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "生产厂家",
+                    "type": "input",
+                    "key": "place",
+                    "rule": {
+                        "required": true,
+                        "msg": "请输入生产厂家"
+                    },
+                    "placeholder": "请输入生产厂家",
+                    "defaultValue": "中钞油墨",
+                    "unReset": true
+                },
+                {
+                    "title": "批次",
+                    "type": "input",
+                    "key": "batch_no",
+                    "rule": {
+                        "required": true,
+                        "msg": "请输入批号"
+                    },
+                    "placeholder": "请输入批号",
+                    "toupper": "true"
+                },
+                {
+                    "title": "数量",
+                    "type": "input",
+                    "key": "prod_num",
+                    "rule": {
+                        "type": "int",
+                        "required": true,
+                        "msg": "请输入数量"
+                    },
+                    "suffix": "kg"
+                },
+                {
+                    "title": "报检人",
+                    "type": "input",
+                    "key": "check_user",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "unReset": true,
+                    "defaultValue": "物资库管员"
+                },
+                {
+                    "title": "油墨名称",
+                    "type": "select",
+                    "key": "ink_name",
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultOption": [{
+                            "name": "JB3正背隔蓝绿",
+                            "value": "JB3正背隔蓝绿",
+                            "hide": ["anti_fake", "drying_time", "release_time"]
+                        },
+                        {
+                            "name": "JB3正隔棕",
+                            "value": "JB3正隔棕",
+                            "hide": ["anti_fake", "drying_time", "release_time"]
+                        },
+                        {
+                            "name": "JB3正隔深绿",
+                            "value": "JB3正隔深绿",
+                            "hide": ["anti_fake", "drying_time", "release_time"]
+                        },
+                        {
+                            "name": "JB3正隔绿",
+                            "value": "JB3正隔绿",
+                            "hide": ["anti_fake", "drying_time", "release_time"]
+                        },
+                        {
+                            "name": "JB3正隔蓝",
+                            "value": "JB3正隔蓝",
+                            "hide": ["anti_fake", "drying_time", "release_time"]
+                        },
+                        {
+                            "name": "JB3正绿",
+                            "value": "JB3正绿",
+                            "hide": ["anti_fake", "drying_time", "release_time"]
+                        },
+                        {
+                            "name": "JB3正背隔黄绿",
+                            "value": "JB3正背隔黄绿",
+                            "hide": ["anti_fake", "drying_time", "release_time"]
+                        },
+                        {
+                            "name": "JB3背隔棕",
+                            "value": "JB3背隔棕",
+                            "hide": ["anti_fake", "drying_time", "release_time"]
+                        },
+                        {
+                            "name": "JB3背隔绿",
+                            "value": "JB3背隔绿",
+                            "hide": ["anti_fake", "drying_time", "release_time"]
+                        },
+                        {
+                            "name": "JB3背隔蓝",
+                            "value": "JB3背隔蓝",
+                            "hide": ["anti_fake", "drying_time", "release_time"]
+                        },
+                        {
+                            "name": "JB3背黄绿(UV-2)",
+                            "value": "JB3背黄绿(UV-2)",
+                            "hide": ["drying_time", "release_time"]
+                        }
+                    ]
+                }
+            ]
         },
         {
-          "title": "色差",
-          "type": "input",
-          "key": "delta_e",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "max": 3
-          },
-          "block": "△E (仪器法)"
-        },
-        {
-          "title": "粘度",
-          "type": "input",
-          "key": "viscosity",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "max": 16,
-            "min": 8
-          },
-          "suffix": "Pa•S/40℃"
-        },
-        {
-          "title": "细度",
-          "block": "稀释法",
-          "type": "input",
-          "key": "fineness",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "max": 20
-          },
-          "suffix": "μm"
-        },
-        {
-          "title": "释放时间",
-          "type": "input",
-          "key": "release_time",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "S"
-        },
-        {
-          "title": "自然干",
-          "type": "input",
-          "key": "drying_time",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "h"
-        },
-        {
-          "title": "干性",
-          "type": "input",
-          "key": "dryness",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "Min/80℃",
-          "scope": {
-            "min": 20,
-            "max": 45
-          }
-        },
-        {
-          "title": "防伪特性",
-          "type": "input",
-          "key": "anti_fake",
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "有，黄光"
-        },
-        {
-          "title": "检验员",
-          "type": "input",
-          "key": "operator",
-          "span": 8,
-          "rule": {
-            "required": true
-          }
-        },
-        {
-          "title": "检验结论",
-          "type": "switch",
-          "key": "result",
-          "checkedChildren": "合格",
-          "unCheckedChildren": "不合格",
-          "placeholder": "请在此填入检验结论",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "1"
-        },
-        {
-          "title": "备注",
-          "type": "input.textarea",
-          "key": "remark",
-          "placeholder": "请在此填入备注信息",
-          "span": 8,
-          "rule": {
-            "required": true
-          }
+            "title": "检测详情",
+            "detail": [{
+                    "title": "色光",
+                    "block": "刮样法",
+                    "type": "input",
+                    "key": "coloured_light",
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultValue": "近似—微"
+                },
+                {
+                    "title": "色差",
+                    "type": "input",
+                    "key": "delta_e",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "max": 3
+                    },
+                    "block": "△E (仪器法)"
+                },
+                {
+                    "title": "粘度",
+                    "type": "input",
+                    "key": "viscosity",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "max": 16,
+                        "min": 8
+                    },
+                    "suffix": "Pa•S/40℃"
+                },
+                {
+                    "title": "细度",
+                    "block": "稀释法",
+                    "type": "input",
+                    "key": "fineness",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "max": 20
+                    },
+                    "suffix": "μm"
+                },
+                {
+                    "title": "释放时间",
+                    "type": "input",
+                    "key": "release_time",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "S"
+                },
+                {
+                    "title": "自然干",
+                    "type": "input",
+                    "key": "drying_time",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "h"
+                },
+                {
+                    "title": "干性",
+                    "type": "input",
+                    "key": "dryness",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "Min/80℃",
+                    "scope": {
+                        "min": 20,
+                        "max": 45
+                    }
+                },
+                {
+                    "title": "防伪特性",
+                    "type": "input",
+                    "key": "anti_fake",
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultValue": "有，黄光"
+                },
+                {
+                    "title": "检验员",
+                    "type": "input",
+                    "key": "operator",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "检验结论",
+                    "type": "switch",
+                    "key": "result",
+                    "checkedChildren": "合格",
+                    "unCheckedChildren": "不合格",
+                    "placeholder": "请在此填入检验结论",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultValue": "1"
+                },
+                {
+                    "title": "备注",
+                    "type": "input.textarea",
+                    "key": "remark",
+                    "placeholder": "请在此填入备注信息",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    }
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
