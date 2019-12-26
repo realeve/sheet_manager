@@ -255,15 +255,24 @@ export const getApi = (config, nonce) => {
 
   let param = {
     insert: config.api.insert.param || [],
-    delete: config.api.delete.param || [],
-    update: config.api.update.param || [],
-    query: config.api.query.param || [],
   };
+
+  if (config.api.delete) {
+    param.delete = config.api.delete.param || [];
+  }
+  if (config.api.update) {
+    param.update = config.api.update.param || [];
+  }
+  if (config.api.query) {
+    param.query = config.api.query.param || [];
+  }
 
   let condition = key => ({
     where:
-      param[key].length > 0 ? ' where ' + param[key].map(name => ` ${name}=? `).join(' and ') : '',
-    param: param[key].join(','),
+      param[key] && param[key].length > 0
+        ? ' where ' + param[key].map(name => ` ${name}=? `).join(' and ')
+        : '',
+    param: (param[key] || []).join(','),
   });
 
   let query = `
@@ -283,9 +292,9 @@ VALUES
   }','${condition('delete').param}','' );`;
 
   // 先过滤条件字段
-  let editKeys = keyStrs.filter(item => !param.update.includes(item));
+  let editKeys = keyStrs.filter(item => !(param.update || []).includes(item));
   let editStr = editKeys.map(key => `${key}=?`).join(',');
-  let paramUpdate = [...editKeys, ...param.update];
+  let paramUpdate = [...editKeys, ...(param.update || [])];
 
   let edit = `
 -- 数据更新接口
@@ -296,7 +305,7 @@ VALUES
   }','${paramUpdate.join(',')}','' );`;
 
   // 先过滤条件字段
-  let addKeys = [...keyStrs, ...param.insert];
+  let addKeys = [...keyStrs, ...(param.insert || [])];
 
   let addStr = addKeys.map(key => `?`).join(',');
 

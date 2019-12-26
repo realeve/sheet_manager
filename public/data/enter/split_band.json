@@ -23,312 +23,351 @@
     },
     "table": "enter_check_split_band",
     "detail": [{
-        "title": "基础数据",
-        "detail": [{
-            "title": "产品名称",
-            "type": "radio.button",
-            "key": "prod_name",
-            "defaultOption": [{
-                "name": "小张分百条",
-                "value": "小张分百条",
-                "scope": [{
+            "title": "基础数据",
+            "detail": [{
+                    "title": "产品名称",
+                    "type": "radio.button",
+                    "key": "prod_name",
+                    "defaultOption": [{
+                            "name": "小张分百条",
+                            "value": "小张分百条",
+                            "scope": [{
+                                    "key": "weight",
+                                    "min": 62,
+                                    "max": 68
+                                },
+                                {
+                                    "key": "paste_width",
+                                    "min": 5
+                                }
+                            ]
+                        },
+                        {
+                            "name": "9607T裁封自动线分百条",
+                            "value": "9607T裁封自动线分百条",
+                            "scope": [{
+                                    "key": "weight",
+                                    "min": 76,
+                                    "max": 84
+                                },
+                                {
+                                    "key": "paste_width",
+                                    "min": 11
+                                }
+                            ],
+                            "hide": [
+                                "band_length",
+                                "cursor_color",
+                                "cursor_size",
+                                "edge_distance",
+                                "glue_size",
+                                "glue_distance",
+                                "glue_distance_difference"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "title": "生产日期",
+                    "type": "datepicker",
+                    "key": "prod_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "生产厂家",
+                    "type": "input",
+                    "key": "place",
+                    "rule": {
+                        "required": true,
+                        "msg": "请输入生产厂家"
+                    },
+                    "placeholder": "请输入生产厂家",
+                    "defaultValue": "成钞金鼎",
+                    "unReset": true
+                },
+                {
+                    "title": "产品批号",
+                    "type": "input",
+                    "key": "batch_no",
+                    "rule": {
+                        "required": true,
+                        "msg": "请输入批号"
+                    },
+                    "placeholder": "请输入批号",
+                    "toupper": "true"
+                },
+                {
+                    "title": "数量",
+                    "type": "input",
+                    "key": "prod_num",
+                    "rule": {
+                        "type": "float",
+                        "required": true,
+                        "msg": "请输入数量"
+                    },
+                    "suffix": "盘"
+                },
+                {
+                    "title": "取样日期",
+                    "type": "datepicker",
+                    "key": "sample_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "报告日期",
+                    "type": "datepicker",
+                    "key": "report_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                }
+            ]
+        },
+        {
+            "title": "检测详情",
+            "detail": [{
+                    "title": "外观",
+                    "type": "switch",
+                    "key": "surface",
+                    "block": "是否符合要求",
+                    "checkedChildren": "符合",
+                    "unCheckedChildren": "不符合",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultValue": "1"
+                },
+                {
+                    "title": "定量",
+                    "type": "input",
                     "key": "weight",
-                    "min": 62,
-                    "max": 68
-                }, {
+                    "block": "g/m<sup>2</sup>",
+                    "span": 8,
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    }
+                },
+                {
+                    "title": "白度",
+                    "type": "input",
+                    "key": "whiteness",
+                    "suffix": "%",
+                    "span": 8,
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "min": 80,
+                        "max": 100
+                    }
+                },
+                {
+                    "title": "纵向裂断长",
+                    "type": "input",
+                    "key": "breaking_length_vertical",
+                    "suffix": "m",
+                    "span": 8,
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "min": 4500
+                    }
+                },
+                {
+                    "title": "纵向撕裂度",
+                    "type": "input",
+                    "key": "tear_strength_vertical",
+                    "suffix": "mN",
+                    "span": 8,
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "min": 200
+                    }
+                },
+                {
+                    "title": "纵向挺度",
+                    "type": "input",
+                    "key": "deflection_vertical",
+                    "suffix": "mN",
+                    "span": 8,
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "min": 75
+                    }
+                },
+                {
+                    "title": "分切后纸条宽度",
+                    "type": "input",
+                    "key": "cut_width",
+                    "suffix": "mm",
+                    "span": 8,
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "min": 39.5,
+                        "max": 40.5
+                    }
+                },
+                {
+                    "title": "粘接宽度",
+                    "type": "input",
                     "key": "paste_width",
-                    "min": 5
-                }]
-            }, {
-                "name": "9607T裁封自动线分百条",
-                "value": "9607T裁封自动线分百条",
-                "scope": [{
-                    "key": "weight",
-                    "min": 76,
-                    "max": 84
-                }, {
-                    "key": "paste_width",
-                    "min": 11
-                }],
-                "hide": ["band_length", "cursor_color", "cursor_size",
-                    "edge_distance", "glue_size", "glue_distance",
-                    "glue_distance_difference"
-                ]
-            }]
-        }, {
-            "title": "生产日期",
-            "type": "datepicker",
-            "key": "prod_date",
-            "datetype": "YYYY-MM-DD",
-            "rule": {
-                "required": true
-            }
-        }, {
-            "title": "生产厂家",
-            "type": "input",
-            "key": "place",
-            "rule": {
-                "required": true,
-                "msg": "请输入生产厂家"
-            },
-            "placeholder": "请输入生产厂家",
-            "defaultValue": "成钞金鼎",
-            "unReset": true
-        }, {
-            "title": "产品批号",
-            "type": "input",
-            "key": "batch_no",
-            "rule": {
-                "required": true,
-                "msg": "请输入批号"
-            },
-            "placeholder": "请输入批号",
-            "toupper": "true"
-        }, {
-            "title": "数量",
-            "type": "input",
-            "key": "prod_num",
-            "rule": {
-                "type": "int",
-                "required": true,
-                "msg": "请输入数量"
-            },
-            "suffix": "盘"
-        }, {
-            "title": "取样日期",
-            "type": "datepicker",
-            "key": "sample_date",
-            "datetype": "YYYY-MM-DD",
-            "rule": {
-                "required": true
-            }
-        }, {
-            "title": "报告日期",
-            "type": "datepicker",
-            "key": "report_date",
-            "datetype": "YYYY-MM-DD",
-            "rule": {
-                "required": true
-            }
-        }]
-    }, {
-        "title": "检测详情",
-        "detail": [{
-            "title": "外观",
-            "type": "switch",
-            "key": "surface",
-            "block": "是否符合要求",
-            "checkedChildren": "符合",
-            "unCheckedChildren": "不符合",
-            "span": 8,
-            "rule": {
-                "required": true
-            },
-            "defaultValue": "1"
-        }, {
-            "title": "定量",
-            "type": "input",
-            "key": "weight",
-            "block": "g/m<sup>2</sup>",
-            "span": 8,
-            "rule": {
-                "type": "float",
-                "required": true
-            }
-        }, {
-            "title": "白度",
-            "type": "input",
-            "key": "whiteness",
-            "suffix": "%",
-            "span": 8,
-            "rule": {
-                "type": "float",
-                "required": true
-            },
-            "scope": {
-                "min": 80,
-                "max": 100
-            }
-        }, {
-            "title": "纵向裂断长",
-            "type": "input",
-            "key": "breaking_length_vertical",
-            "suffix": "m",
-            "span": 8,
-            "rule": {
-                "type": "float",
-                "required": true
-            },
-            "scope": {
-                "min": 4500
-            }
-        }, {
-            "title": "纵向撕裂度",
-            "type": "input",
-            "key": "tear_strength_vertical",
-            "suffix": "mN",
-            "span": 8,
-            "rule": {
-                "type": "float",
-                "required": true
-            },
-            "scope": {
-                "min": 200
-            }
-        }, {
-            "title": "纵向挺度",
-            "type": "input",
-            "key": "deflection_vertical",
-            "suffix": "mN",
-            "span": 8,
-            "rule": {
-                "type": "float",
-                "required": true
-            },
-            "scope": {
-                "min": 75
-            }
-        }, {
-            "title": "分切后纸条宽度",
-            "type": "input",
-            "key": "cut_width",
-            "suffix": "mm",
-            "span": 8,
-            "rule": {
-                "type": "float",
-                "required": true
-            },
-            "scope": {
-                "min": 39.5,
-                "max": 40.5
-            }
-        }, {
-            "title": "粘接宽度",
-            "type": "input",
-            "key": "paste_width",
-            "suffix": "mm",
-            "span": 8,
-            "rule": {
-                "type": "float",
-                "required": true
-            }
-        }, {
-            "title": "热粘合后剥离力",
-            "type": "input",
-            "key": "peeling_force",
-            "suffix": "mN",
-            "span": 8,
-            "rule": {
-                "type": "float",
-                "required": true
-            },
-            "scope": {
-                "min": 5
-            }
-        }, {
-            "title": "单枚长度",
-            "type": "input",
-            "key": "band_length",
-            "suffix": "mm",
-            "span": 8,
-            "rule": {
-                "type": "float",
-                "required": true
-            }
-        }, {
-            "title": "光标块颜色",
-            "type": "input",
-            "key": "cursor_color",
-            "span": 8,
-            "rule": {
-                "required": true
-            }
-        }, {
-            "title": "光标块规格尺寸",
-            "type": "input",
-            "key": "cursor_size",
-            "span": 8,
-            "rule": {
-                "required": true
-            }
-        }, {
-            "title": "光标块边缘与分切纸边距离",
-            "type": "input",
-            "key": "edge_distance",
-            "span": 8,
-            "suffix": "mm",
-            "rule": {
-                "type": "float",
-                "required": true
-            }
-        }, {
-            "title": "涂胶块规格尺寸",
-            "type": "input",
-            "key": "glue_size",
-            "block": "≥34.0×12.0",
-            "span": 8,
-            "suffix": "mm",
-            "rule": {
-                "required": true
-            }
-        }, {
-            "title": "涂胶块边缘与分切纸边距离",
-            "type": "input",
-            "key": "glue_distance",
-            "span": 8,
-            "suffix": "mm",
-            "rule": {
-                "type": "float",
-                "required": true
-            },
-            "scope": {
-                "min": 2,
-                "max": 3.5
-            }
-        }, {
-            "title": "涂胶块与光标块套印公差",
-            "type": "input",
-            "key": "glue_distance_difference",
-            "span": 8,
-            "suffix": "mm",
-            "rule": {
-                "type": "float",
-                "required": true
-            },
-            "scope": {
-                "min": -1,
-                "max": 1
-            }
-        }, {
-            "title": "检验员",
-            "type": "input",
-            "key": "operator",
-            "span": 8,
-            "rule": {
-                "required": true
-            },
-            "unReset": true
-        }, {
-            "title": "检验结论",
-            "type": "switch",
-            "key": "result",
-            "checkedChildren": "合格",
-            "unCheckedChildren": "不合格",
-            "placeholder": "请在此填入检验结论",
-            "span": 8,
-            "rule": {
-                "required": true
-            },
-            "defaultValue": "1"
-        }, {
-            "title": "备注",
-            "type": "input.textarea",
-            "key": "remark",
-            "placeholder": "请在此填入备注信息",
-            "span": 8,
-            "rule": {
-                "required": true
-            }
-        }]
-    }]
+                    "suffix": "mm",
+                    "span": 8,
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    }
+                },
+                {
+                    "title": "热粘合后剥离力",
+                    "type": "input",
+                    "key": "peeling_force",
+                    "suffix": "mN",
+                    "span": 8,
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "min": 5
+                    }
+                },
+                {
+                    "title": "单枚长度",
+                    "type": "input",
+                    "key": "band_length",
+                    "suffix": "mm",
+                    "span": 8,
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    }
+                },
+                {
+                    "title": "光标块颜色",
+                    "type": "input",
+                    "key": "cursor_color",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "光标块规格尺寸",
+                    "type": "input",
+                    "key": "cursor_size",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "光标块边缘与分切纸边距离",
+                    "type": "input",
+                    "key": "edge_distance",
+                    "span": 8,
+                    "suffix": "mm",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    }
+                },
+                {
+                    "title": "涂胶块规格尺寸",
+                    "type": "input",
+                    "key": "glue_size",
+                    "block": "≥34.0×12.0",
+                    "span": 8,
+                    "suffix": "mm",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "涂胶块边缘与分切纸边距离",
+                    "type": "input",
+                    "key": "glue_distance",
+                    "span": 8,
+                    "suffix": "mm",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "min": 2,
+                        "max": 3.5
+                    }
+                },
+                {
+                    "title": "涂胶块与光标块套印公差",
+                    "type": "input",
+                    "key": "glue_distance_difference",
+                    "span": 8,
+                    "suffix": "mm",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "scope": {
+                        "min": -1,
+                        "max": 1
+                    }
+                },
+                {
+                    "title": "检验员",
+                    "type": "input",
+                    "key": "operator",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "unReset": true
+                },
+                {
+                    "title": "检验结论",
+                    "type": "switch",
+                    "key": "result",
+                    "checkedChildren": "合格",
+                    "unCheckedChildren": "不合格",
+                    "placeholder": "请在此填入检验结论",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultValue": "1"
+                },
+                {
+                    "title": "备注",
+                    "type": "input.textarea",
+                    "key": "remark",
+                    "placeholder": "请在此填入备注信息",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    }
+                }
+            ]
+        }
+    ]
 }

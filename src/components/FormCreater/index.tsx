@@ -13,7 +13,13 @@ import { connect } from 'dva';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
-
+let getUrl = formConfig => {
+  let url = (formConfig.api.table || { url: '' }).url.replace('.json', '.array');
+  if (!url.includes('.array')) {
+    url += '.array';
+  }
+  return url;
+};
 function FormCreater({ config, dispatch }) {
   // 增加对总分的计算，与scope字段一并处理
   let [state, setState] = useSetState();
@@ -95,7 +101,7 @@ function FormCreater({ config, dispatch }) {
 
   const { data: tblData, loading, reFetch } = useFetch({
     param: {
-      url: (formConfig.api.table || { url: '' }).url.replace('.json', '.array'),
+      url: getUrl(formConfig),
     },
     valid: () =>
       formConfig.api.table && formConfig.api.table.url && formConfig.api.table.url.length > 0,
@@ -213,6 +219,7 @@ function FormCreater({ config, dispatch }) {
     });
   }, [hideKeys]);
 
+  console.log(formConfig);
   return (
     <div>
       <CodeDrawer

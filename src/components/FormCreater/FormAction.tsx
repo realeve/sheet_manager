@@ -217,7 +217,7 @@ function formAction({
       >
         {formatMessage({ id: 'form.reset' })}
       </Button>
-      {editMethod === 'update' && (
+      {editMethod === 'update' ? (
         <Button
           type="danger"
           onClick={() => onsubmit()}
@@ -227,18 +227,19 @@ function formAction({
         >
           {formatMessage({ id: 'form.update' })}
         </Button>
+      ) : (
+        <Button
+          type="primary"
+          onClick={() => onsubmit('insert')}
+          disabled={!formstatus}
+          style={{ marginLeft: 20 }}
+          loading={submitting}
+        >
+          {formatMessage({ id: 'form.submit' })}
+        </Button>
       )}
-      <Button
-        type="primary"
-        onClick={() => onsubmit('insert')}
-        disabled={!formstatus}
-        style={{ marginLeft: 20 }}
-        loading={submitting}
-      >
-        {formatMessage({ id: 'form.submit' })}
-      </Button>
 
-      {config.api.delete && config.api.delete.url && (
+      {formConfig.api.delete && formConfig.api.delete.url && (
         <Popconfirm
           title="确定删除本条数据?"
           onConfirm={() => onDelete()}

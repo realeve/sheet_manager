@@ -73,7 +73,7 @@
                     "type": "input",
                     "key": "prod_num",
                     "rule": {
-                        "type": "int",
+                        "type": "float",
                         "required": true,
                         "msg": "请输入数量"
                     },
