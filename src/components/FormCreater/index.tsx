@@ -95,7 +95,7 @@ function FormCreater({ config, dispatch }) {
 
   const { data: tblData, loading, reFetch } = useFetch({
     param: {
-      url: (formConfig.api.table || { url: '' }).url,
+      url: (formConfig.api.table || { url: '' }).url.replace('.json', '.array'),
     },
     valid: () =>
       formConfig.api.table && formConfig.api.table.url && formConfig.api.table.url.length > 0,
