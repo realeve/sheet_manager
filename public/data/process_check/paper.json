@@ -7,15 +7,15 @@
         },
         "delete": {
             "url": "755/li4y6pztli",
-            "param": ["batch_no"]
+            "param": ["reel_no"]
         },
         "update": {
             "url": "756/li4y6pztli",
-            "param": ["batch_no"]
+            "param": ["reel_no"]
         },
         "query": {
             "url": "757/li4y6pztli",
-            "param": ["batch_no"]
+            "param": ["reel_no"]
         },
         "table": {
             "url": "758/li4y6pztli"
@@ -23,106 +23,124 @@
     },
     "table": "process_check_paper",
     "detail": [{
-        "title": "基础数据",
-        "detail": [{
-            "title": "检测日期",
-            "type": "datepicker",
-            "key": "check_date",
-            "datetype": "YYYY-MM-DD",
-            "rule": {
-                "required": true
-            }
-        }, {
-            "title": "机台号",
-            "type": "input",
-            "key": "machine_name",
-            "rule": {
-                "required": true
-            }
-        }, {
-            "title": "轴号",
-            "type": "input",
-            "key": "reel_no",
-            "rule": {
-                "type": "reel",
-                "required": true
-            }
-        }, {
-            "title": "品种",
-            "type": "input",
-            "key": "prod_name",
-            "rule": {
-                "required": true
-            },
-            "defaultOption": [{
-                "name": "103-G-2A",
-                "value": "103-G-2A"
-            }, {
-                "name": "103-G-2T",
-                "value": "103-G-2T"
-            }, {
-                "name": "103-G-3A",
-                "value": "103-G-3A"
-            }, {
-                "name": "103-G-3T",
-                "value": "103-G-3T"
-            }, {
-                "name": "103-G-4T",
-                "value": "103-G-4T"
-            }, {
-                "name": "103-G-6T",
-                "value": "103-G-6T"
-            }, {
-                "name": "103-G-7T",
-                "value": "103-G-7T"
-            }]
-        }]
-    }, {
-        "title": "检测详情",
-        "detail": [{
-            "title": "上胶量",
-            "type": "input",
-            "key": "glue_num",
-            "block": "g/m<sup>2</sup>",
-            "rule": {
-                "type": "float",
-                "required": true
-            }
-        }, {
-            "title": "成纸pH值",
-            "type": "input",
-            "key": "ph",
-            "rule": {
-                "type": "float",
-                "required": true
-            }
-        }, {
-            "title": "成纸灰份",
-            "type": "input",
-            "key": "grey",
-            "rule": {
-                "type": "float",
-                "required": true
-            },
-            "suffix": "%"
-        }, {
-            "title": "检验员",
-            "type": "input",
-            "key": "operator",
-            "span": 8,
-            "rule": {
-                "required": true
-            },
-            "unReset": true
-        }, {
-            "title": "备注",
-            "type": "input.textarea",
-            "key": "remark",
-            "placeholder": "请在此填入备注信息",
-            "span": 8,
-            "rule": {
-                "required": true
-            }
-        }]
-    }]
+            "title": "基础数据",
+            "detail": [{
+                    "title": "检测日期",
+                    "type": "datepicker",
+                    "key": "check_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "机台号",
+                    "type": "input",
+                    "key": "machine_name",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "轴号",
+                    "type": "input",
+                    "key": "reel_no",
+                    "rule": {
+                        "type": "reel",
+                        "required": true
+                    }
+                },
+                {
+                    "title": "品种",
+                    "type": "input",
+                    "key": "prod_name",
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultOption": [{
+                            "name": "103-G-2A",
+                            "value": "103-G-2A"
+                        },
+                        {
+                            "name": "103-G-2T",
+                            "value": "103-G-2T"
+                        },
+                        {
+                            "name": "103-G-3A",
+                            "value": "103-G-3A"
+                        },
+                        {
+                            "name": "103-G-3T",
+                            "value": "103-G-3T"
+                        },
+                        {
+                            "name": "103-G-4T",
+                            "value": "103-G-4T"
+                        },
+                        {
+                            "name": "103-G-6T",
+                            "value": "103-G-6T"
+                        },
+                        {
+                            "name": "103-G-7T",
+                            "value": "103-G-7T"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "检测详情",
+            "detail": [{
+                    "title": "上胶量",
+                    "type": "input",
+                    "key": "glue_num",
+                    "block": "g/m<sup>2</sup>",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    }
+                },
+                {
+                    "title": "成纸pH值",
+                    "type": "input",
+                    "key": "ph",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    }
+                },
+                {
+                    "title": "成纸灰份",
+                    "type": "input",
+                    "key": "grey",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "%"
+                },
+                {
+                    "title": "检验员",
+                    "type": "input",
+                    "key": "operator",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "unReset": true
+                },
+                {
+                    "title": "备注",
+                    "type": "input.textarea",
+                    "key": "remark",
+                    "placeholder": "请在此填入备注信息",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    }
+                }
+            ]
+        }
+    ]
 }

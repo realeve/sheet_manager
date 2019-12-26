@@ -46,6 +46,7 @@ export default function codeDrawer({
         R.flatten,
         R.map(item => item.detail)
       )(formConfig.detail);
+
       let keys = res.map(item => item.key);
 
       let condition = formConfig.api.query || {
@@ -56,7 +57,7 @@ export default function codeDrawer({
     FROM
       tbl_${formConfig.table} 
     WHERE
-      ${condition.param.map(item => `${item} = '1'`).join(' and ')}`;
+      ${(condition.param || []).map(item => `${item} = '1'`).join(' and ')}`;
 
       const create = getCreate(formConfig);
       let query = `
