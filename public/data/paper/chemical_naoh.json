@@ -1,177 +1,174 @@
 {
-  "name": "化工原材料——氢氧化钠(液碱)",
-  "api": {
-    "insert": {
-      "url": "705/87828fd8c1",
-      "param": ["rec_time", "uid"]
-    },
-    "delete": {
-      "url": "706/fb048ae5a7",
-      "param": ["batch_no"]
-    },
-    "update": {
-      "url": "707/9c21b13491",
-      "param": ["batch_no"]
-    },
-    "query": {
-      "url": "708/2146b989d4",
-      "param": ["batch_no"]
-    },
-    "table": {
-      "url": "709/4b3c4b103e"
-    }
-  },
-  "table": "paper_material_chemical_naoh",
-  "detail": [
-    {
-      "title": "基础数据",
-      "detail": [
-        {
-          "title": "产品名称",
-          "type": "label",
-          "key": "prod_name",
-          "value": "氢氧化钠(液碱)",
-          "scope": [
-            {
-              "key": "naoh",
-              "min": 30
-            },
-            {
-              "key": "naco3",
-              "max": 0.8
-            }
-          ]
+    "name": "化工原材料——氢氧化钠(液碱)",
+    "api": {
+        "insert": {
+            "url": "705/87828fd8c1",
+            "param": ["rec_time", "uid"]
         },
-        {
-          "title": "产地",
-          "type": "input",
-          "key": "place",
-          "rule": {
-            "required": true,
-            "msg": "请输入产地信息"
-          },
-          "placeholder": "请输入产地信息",
-          "maxLength": 8,
-          "unReset": true
+        "delete": {
+            "url": "706/fb048ae5a7",
+            "param": ["batch_no"]
         },
-        {
-          "title": "批号",
-          "type": "input",
-          "key": "batch_no",
-          "rule": {
-            "required": true,
-            "msg": "请输入批号"
-          },
-          "placeholder": "请输入批号",
-          "toupper": "true"
+        "update": {
+            "url": "707/9c21b13491",
+            "param": ["batch_no"]
         },
-        {
-          "title": "数量",
-          "suffix": "吨(t)",
-          "type": "input",
-          "key": "prod_num",
-          "rule": {
-            "type": "float",
-            "required": true,
-            "msg": "请输入数量"
-          },
-          "placeholder": "请输入数量"
+        "query": {
+            "url": "708/2146b989d4",
+            "param": ["batch_no"]
         },
-        {
-          "title": "生产日期",
-          "type": "datepicker",
-          "key": "prod_date",
-          "datetype": "YYYY-MM-DD",
-          "rule": {
-            "required": true
-          }
-        },
-        {
-          "title": "取样日期",
-          "type": "datepicker",
-          "key": "sample_date",
-          "datetype": "YYYY-MM-DD",
-          "rule": {
-            "required": true
-          }
-        },
-        {
-          "title": "检测日期",
-          "type": "datepicker",
-          "key": "test_date",
-          "datetype": "YYYY-MM-DD",
-          "rule": {
-            "required": true
-          }
+        "table": {
+            "url": "709/4b3c4b103e"
         }
-      ]
     },
-    {
-      "title": "检测详情",
-      "detail": [
-        {
-          "title": "外观",
-          "type": "input",
-          "key": "surface",
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "白色液体，允许微带异色"
+    "table": "paper_material_chemical_naoh",
+    "detail": [{
+            "title": "基础数据",
+            "detail": [{
+                    "title": "产品名称",
+                    "type": "label",
+                    "key": "prod_name",
+                    "value": "氢氧化钠(液碱)",
+                    "scope": [{
+                            "key": "naoh",
+                            "min": 30
+                        },
+                        {
+                            "key": "naco3",
+                            "max": 0.8,
+                            "min": 0
+                        }
+                    ]
+                },
+                {
+                    "title": "产地",
+                    "type": "input",
+                    "key": "place",
+                    "rule": {
+                        "required": true,
+                        "msg": "请输入产地信息"
+                    },
+                    "placeholder": "请输入产地信息",
+                    "maxLength": 8,
+                    "unReset": true
+                },
+                {
+                    "title": "批号",
+                    "type": "input",
+                    "key": "batch_no",
+                    "rule": {
+                        "required": true,
+                        "msg": "请输入批号"
+                    },
+                    "placeholder": "请输入批号",
+                    "toupper": "true"
+                },
+                {
+                    "title": "数量",
+                    "suffix": "吨(t)",
+                    "type": "input",
+                    "key": "prod_num",
+                    "rule": {
+                        "type": "float",
+                        "required": true,
+                        "msg": "请输入数量"
+                    },
+                    "placeholder": "请输入数量"
+                },
+                {
+                    "title": "生产日期",
+                    "type": "datepicker",
+                    "key": "prod_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "取样日期",
+                    "type": "datepicker",
+                    "key": "sample_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                },
+                {
+                    "title": "检测日期",
+                    "type": "datepicker",
+                    "key": "test_date",
+                    "datetype": "YYYY-MM-DD",
+                    "rule": {
+                        "required": true
+                    }
+                }
+            ]
         },
         {
-          "title": "氢氧化钠",
-          "type": "input",
-          "key": "naoh",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "%"
-        },
-        {
-          "title": "碳酸钠",
-          "type": "input",
-          "key": "naco3",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "%"
-        },
-        {
-          "title": "检验员",
-          "type": "input",
-          "key": "operator",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "unReset": true
-        },
-        {
-          "title": "检验结论",
-          "type": "switch",
-          "key": "result",
-          "checkedChildren": "合格",
-          "unCheckedChildren": "不合格",
-          "placeholder": "请在此填入检验结论",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "defaultValue": "1"
-        },
-        {
-          "title": "备注",
-          "type": "input.textarea",
-          "key": "remark",
-          "placeholder": "请在此填入备注信息",
-          "span": 8,
-          "rule": {
-            "required": true
-          }
+            "title": "检测详情",
+            "detail": [{
+                    "title": "外观",
+                    "type": "input",
+                    "key": "surface",
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultValue": "白色液体，允许微带异色"
+                },
+                {
+                    "title": "氢氧化钠",
+                    "type": "input",
+                    "key": "naoh",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "%"
+                },
+                {
+                    "title": "碳酸钠",
+                    "type": "input",
+                    "key": "naco3",
+                    "rule": {
+                        "type": "float",
+                        "required": true
+                    },
+                    "suffix": "%"
+                },
+                {
+                    "title": "检验员",
+                    "type": "input",
+                    "key": "operator",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "unReset": true
+                },
+                {
+                    "title": "检验结论",
+                    "type": "switch",
+                    "key": "result",
+                    "checkedChildren": "合格",
+                    "unCheckedChildren": "不合格",
+                    "placeholder": "请在此填入检验结论",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    },
+                    "defaultValue": "1"
+                },
+                {
+                    "title": "备注",
+                    "type": "input.textarea",
+                    "key": "remark",
+                    "placeholder": "请在此填入备注信息",
+                    "span": 8,
+                    "rule": {
+                        "required": true
+                    }
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }

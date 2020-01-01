@@ -177,7 +177,8 @@
                         "required": true
                     },
                     "scope": {
-                        "max": 3
+                        "max": 3,
+                        "min": 0
                     },
                     "block": "△E (仪器法)"
                 },
@@ -205,7 +206,8 @@
                         "required": true
                     },
                     "scope": {
-                        "max": 20
+                        "max": 20,
+                        "min": 0
                     },
                     "suffix": "μm"
                 },

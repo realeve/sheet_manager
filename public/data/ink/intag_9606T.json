@@ -210,7 +210,8 @@
                         "required": true
                     },
                     "scope": {
-                        "max": 3
+                        "max": 3,
+                        "min": 0
                     },
                     "block": "△E (仪器法)"
                 },
@@ -234,7 +235,8 @@
                         "required": true
                     },
                     "scope": {
-                        "max": 16
+                        "max": 16,
+                        "min": 0
                     },
                     "suffix": "μm"
                 },
@@ -257,7 +259,8 @@
                         "required": true
                     },
                     "scope": {
-                        "max": 24
+                        "max": 24,
+                        "min": 0
                     },
                     "suffix": "h"
                 },

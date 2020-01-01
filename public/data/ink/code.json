@@ -107,7 +107,8 @@
                                 },
                                 {
                                     "max": 10,
-                                    "key": "fineness"
+                                    "key": "fineness",
+                                    "min": 0
                                 },
                                 {
                                     "key": "fluidity",
@@ -136,7 +137,8 @@
                                 },
                                 {
                                     "max": 10,
-                                    "key": "fineness"
+                                    "key": "fineness",
+                                    "min": 0
                                 },
                                 {
                                     "key": "fluidity",
@@ -160,7 +162,8 @@
                             "value": "号码红（MP-4）",
                             "scope": [{
                                     "max": 12,
-                                    "key": "fineness"
+                                    "key": "fineness",
+                                    "min": 0
                                 },
                                 {
                                     "key": "fluidity",
@@ -169,7 +172,8 @@
                                 },
                                 {
                                     "key": "dryness",
-                                    "max": 20
+                                    "max": 20,
+                                    "min": 0
                                 },
                                 {
                                     "key": "mass_susceptibility",
@@ -195,7 +199,8 @@
                                 },
                                 {
                                     "max": 12,
-                                    "key": "fineness"
+                                    "key": "fineness",
+                                    "min": 0
                                 },
                                 {
                                     "key": "fluidity",
@@ -224,7 +229,8 @@
                                 },
                                 {
                                     "max": 10,
-                                    "key": "fineness"
+                                    "key": "fineness",
+                                    "min": 0
                                 },
                                 {
                                     "key": "fluidity",
@@ -252,7 +258,8 @@
                             "hide": ["mass_susceptibility", "fluidity", "fluo", "fluo_luminance", "w_siginal"],
                             "scope": [{
                                     "max": 3,
-                                    "key": "delta_e"
+                                    "key": "delta_e",
+                                    "min": 0
                                 },
                                 {
                                     "key": "viscosity",

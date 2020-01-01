@@ -138,7 +138,8 @@
                         "required": true
                     },
                     "scope": {
-                        "max": 3.5
+                        "max": 3.5,
+                        "min": 0
                     }
                 },
                 {
@@ -150,7 +151,8 @@
                         "required": true
                     },
                     "scope": {
-                        "max": 3.5
+                        "max": 3.5,
+                        "min": 0
                     }
                 },
                 {
@@ -162,7 +164,8 @@
                         "required": true
                     },
                     "scope": {
-                        "max": 3.5
+                        "max": 3.5,
+                        "min": 0
                     }
                 },
                 {
