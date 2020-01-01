@@ -18,7 +18,7 @@
 
 ## 👌 1. table 组件
 
-http://localhost:8000/table/#id=7/d0e509c803
+/table/#id=7/d0e509c803
 
 /table/#id=6/8d5b63370c&data_type=score
 
@@ -26,14 +26,14 @@ http://localhost:8000/table/#id=7/d0e509c803
 
 ## 👌 2. chart 组件
 
-http://localhost:8000/chart#id=6/8d5b63370c&data_type=answer_minutes&x=3&y=4&legend=2&type=line
+/chart#id=6/8d5b63370c&data_type=answer_minutes&x=3&y=4&legend=2&type=line
 
-http://localhost:8000/chart#id=6/8d5b63370c&data_type=dom_loaded&x=3&y=4&legend=2&type=line
+/chart#id=6/8d5b63370c&data_type=dom_loaded&x=3&y=4&legend=2&type=line
 
-http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=line
+/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=line
 
 多张图表拼合
-http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=line&smooth=1&id=6/8d5b63370c&data_type=dom_loaded&x=3&y=4&legend=2&type=line&smooth=1
+/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&type=line&smooth=1&id=6/8d5b63370c&data_type=dom_loaded&x=3&y=4&legend=2&type=line&smooth=1
 
 ---
 
@@ -97,7 +97,7 @@ http://localhost:8000/chart#id=6/8d5b63370c&data_type=score&x=3&y=4&legend=2&typ
 6. ✅ ~~车号追溯中，添加装箱信息；添加自动转工艺信息展示~~；
 7. 🍡 指定品种、生产日期、机台生产的产品实废原因分析/开包量分析；
 8. ✅ ~~🥗 车号追溯中，查询一万产品物流中转记录 @2019-05-30~~；
-9. 🍡 三维热力图，根据开位、千位查看实废分布;
+9. 🍡 ~~三维热力图，根据开位、千位查看实废分布;
 
 ## 2019-12-20 较大更新
 
@@ -129,4 +129,5 @@ END IF
 
 ## todo
 
-1. 🍡 获取当前最新的 id 号，用于表单配置信息展示;
+1. 🍡 ~~获取当前最新的 id 号，用于表单配置信息展示;
+2. 🍡 ~~判断录入信息的合格情况;查询字段添加特殊标记;
