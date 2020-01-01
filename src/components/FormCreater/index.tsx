@@ -49,15 +49,23 @@ function FormCreater({ config, dispatch }) {
     setFields(res);
   }, []);
 
+  const [qualifyKey, setQualifyKey] = useState(null);
+
   // config改变后初始化表单数据
   useEffect(() => {
     setFormConfig(config);
     let requiredFileds = [];
     let nextFields = {};
+    let observeKey = null;
     config.detail.forEach(({ detail }) => {
       detail.forEach(item => {
         if (item.rule && item.rule.required) {
           requiredFileds.push(item.key);
+        }
+
+        // 有字段表示合格时
+        if (item.checkedChildren === '合格') {
+          observeKey = item.key;
         }
 
         nextFields[item.key] = item.mode === 'tags' ? [] : '';
@@ -68,6 +76,9 @@ function FormCreater({ config, dispatch }) {
         setValidateState({ [item.key]: true });
       });
     });
+
+    // 表示结果是否“合格”的字段
+    setQualifyKey(observeKey);
 
     setFields(nextFields);
     setRequiredFileds(requiredFileds);
@@ -90,6 +101,7 @@ function FormCreater({ config, dispatch }) {
     // 必填字段状态校验
     let required = validRequire(requiredFileds, state);
     let validStatus = Object.values(validateState).filter(item => !item).length == 0;
+
     setFormstatus(validStatus && required);
   }, [state]);
 
@@ -141,9 +153,15 @@ function FormCreater({ config, dispatch }) {
     setScope(res);
   }, [state]);
 
+  // 手工决定是否继续执行重计算，当做完scope判断后，需要对 【合格】 字段重新计算是否合格，此时应该禁止再次计算，防止循环更新。
+  const [needCalc, setNeedCalc] = useState(true);
   // 不合格字段判断，总分计算
   useEffect(() => {
     if (scope.length === 0) {
+      return;
+    }
+    if (!needCalc) {
+      setNeedCalc(true);
       return;
     }
     let fields = [];
@@ -172,6 +190,10 @@ function FormCreater({ config, dispatch }) {
       setRemark('不合格项:' + fields.join('、'));
     } else {
       setRemark('');
+    }
+    if (qualifyKey) {
+      setState({ [qualifyKey]: fields.length === 0 });
+      setNeedCalc(false);
     }
   }, [state, scope]);
 
@@ -219,7 +241,6 @@ function FormCreater({ config, dispatch }) {
     });
   }, [hideKeys]);
 
-  console.log(formConfig);
   return (
     <div>
       <CodeDrawer
@@ -268,6 +289,11 @@ function FormCreater({ config, dispatch }) {
                         setState({
                           [key]: res,
                         });
+
+                        // 如果是“合格”判断的字段，不执行重计算
+                        if (key === qualifyKey) {
+                          setNeedCalc(false);
+                        }
                       }}
                       setFormstatus={setFormstatus}
                       detail={detail}
