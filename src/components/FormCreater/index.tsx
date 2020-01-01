@@ -59,11 +59,9 @@ function FormCreater({ config, dispatch }) {
     let requiredFileds = [];
     let nextFields = {};
     let observeKey = null;
-    let queryKey = [];
-    let _queryKeys = [];
 
     if (config.api && config.api.query && config.api.query.param) {
-      queryKey = config.api.query.param;
+      setQueryKey(config.api.query.param);
     }
 
     config.detail.forEach(({ detail }) => {
@@ -75,10 +73,6 @@ function FormCreater({ config, dispatch }) {
         // 有字段表示合格时
         if (item.checkedChildren === '合格') {
           observeKey = item.key;
-        }
-
-        if (queryKey.includes(item.key)) {
-          _queryKeys.push(item.title);
         }
 
         nextFields[item.key] = item.mode === 'tags' ? [] : '';
@@ -102,7 +96,6 @@ function FormCreater({ config, dispatch }) {
       },
     });
     reFetch();
-    setQueryKey(_queryKeys);
   }, [config]);
 
   // 表单字段当前状态判断
@@ -188,11 +181,11 @@ function FormCreater({ config, dispatch }) {
       if (String(val).length === 0) {
         return;
       }
-      if (max && val > max) {
+      if (!R.isNil(max) && val > max) {
         fields.push(getFieldNameByKey(key));
         sumScore -= score;
       }
-      if (min && val < min) {
+      if (!R.isNil(min) && val < min) {
         fields.push(getFieldNameByKey(key));
         sumScore -= score;
       }
@@ -282,11 +275,6 @@ function FormCreater({ config, dispatch }) {
                   {formConfig.showScore && idx === 0 && (
                     <p>
                       <small>总分：{totalScore}</small>
-                      {queryKey.length > 0 && (
-                        <small style={{ marginLeft: 20 }}>
-                          查询字段: <i style={{ color: '#e23' }}>{queryKey.join('、')}</i>
-                        </small>
-                      )}
                     </p>
                   )}
                 </span>
@@ -304,6 +292,7 @@ function FormCreater({ config, dispatch }) {
                       keyName={key}
                       state={state[key]}
                       cascade={[cascade, state[cascade]]}
+                      isQueryKey={queryKey.includes(key)}
                       setState={res => {
                         setState({
                           [key]: res,

@@ -27,11 +27,11 @@ export const handleScope = (value, option) => {
 };
 
 const getScopeRange = detail => {
-  if (detail.min && detail.max) {
+  if (!R.isNil(detail.min) && !R.isNil(detail.max)) {
     return detail.min < detail.max
       ? `[${detail.min},${detail.max}]`
       : `[${detail.max},${detail.min}]`;
-  } else if (!detail.max) {
+  } else if (R.isNil(detail.max)) {
     return `≥${detail.min}`;
   } else {
     return `≤${detail.max}`;
@@ -47,6 +47,7 @@ export default function formItem({
   detail: { title, type, block, defaultOption, span = 8, unReset, ...props },
   scope = [],
   setScope,
+  isQueryKey = false,
 }) {
   let [validateState, setValidateState] = useState(true);
 
@@ -99,7 +100,7 @@ export default function formItem({
     if (isInput && scopeDetail && (typeof __min !== 'undefined' || typeof __max !== 'undefined')) {
       // input 元素需要处理数据录入范围
 
-      if ((__min && val < __min) || (__max && val > __max)) {
+      if ((!R.isNil(__min) && val < __min) || (!R.isNil(__max) && val > __max)) {
         setValidateScope(false);
       } else {
         setValidateScope(true);
@@ -131,6 +132,7 @@ export default function formItem({
           required: props.rule && props.rule.required,
         })}
       >
+        {isQueryKey && <span title="索引字段">🔍</span>}
         {title}
       </span>
       <div
