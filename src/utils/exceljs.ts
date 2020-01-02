@@ -3,6 +3,7 @@ import { saveAs } from 'file-saver';
 import * as R from 'ramda';
 import jStat from 'jStat';
 import lib from '@/pages/chart/utils/lib';
+import * as utils from './lib';
 import { AUTHOR, config, company } from './setting';
 import { getParams, Config, BasicConfig, DstConfig } from './excelConfig';
 import { getStringWidth, getTableExtraLabel } from '@/utils/lib';
@@ -215,7 +216,6 @@ const createWorkBook = (config: Config) => {
 
     config.body = config.body.map((item, idx) => [idx + 1, ...item]);
   }
-
   // 先添加表头
   worksheet.columns = columns;
 
@@ -278,6 +278,18 @@ const createWorkBook = (config: Config) => {
   // top,left,bottom,right
   // worksheet.mergeCells(1, 3, 1, 4);
 
+  // config.body = R.map(item =>
+  //   item.map(td => {
+  //     if (utils.isNumOrFloat(td)) {
+  //       td = Number(td);
+  //     } else if (utils.isTime(td)) {
+  //       td = td.split('.')[0];
+  //     }
+  //     return td;
+  //   })
+  // )(config.body);
+
+  // console.log(config.body);
   //边框及单元格格式
   setCellBorder(worksheet, config);
   return workbook;
@@ -320,6 +332,18 @@ const setCellBorder = (worksheet, { params, columns }) => {
           fgColor: { argb: 'FFF0F0F0' },
         };
       }
+
+      if (utils.isInt(cell.value)) {
+        cell.numFmt = '#,##0';
+        cell.value = Number(cell);
+      } else if (utils.isFloat(cell.value)) {
+        cell.numFmt = '#,##0.00';
+        cell.value = Number(cell);
+      } else if (utils.isTime(cell.value)) {
+        cell.value = cell.value.split('.')[0];
+        cell.numFmt = 'yyyy/m/d h:mm:ss';
+      }
+      // console.log(cell.value);
     }
   }
 };
@@ -371,7 +395,7 @@ export const save: (config: SaveSetting) => void = ({ params, ...config }) => {
 
   let workbook = createWorkBook(newConfig);
 
-  workbook.xlsx
+  return workbook.xlsx
     .writeBuffer()
     .then(buffer => {
       saveAs(

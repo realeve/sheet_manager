@@ -127,12 +127,13 @@ class Tables extends Component {
   // 返回的值即是当前需要setState的内容
   static getDerivedStateFromProps(
     props,
-    { page, pageSize, dataSrc, columns } //, dataClone, dataSearchClone, dataSource, total
+    { page, pageSize, dataSrc, columns, loading } //, dataClone, dataSearchClone, dataSource, total
   ) {
     // if (R.equals(props.dataSrc, dataSrc)) {
     // 服务端返回hash值，表示当前data的md5指纹，指纹有变时数据才变更，提高前台效率
     if (props.dataSrc.hash === dataSrc.hash) {
-      return { loading: props.loading };
+      // return { loading: props.loading };
+      return { loading };
     }
     return db.updateState(props, { page, pageSize, columns }, props.merge);
 
@@ -302,8 +303,13 @@ class Tables extends Component {
   };
 
   downloadExcel = () => {
+    this.setState({ loading: true });
     const config = this.getExportConfig();
-    Excel.save(config);
+    console.log('download start');
+    Excel.save(config).then(() => {
+      console.log('download end');
+      this.setState({ loading: false });
+    });
   };
 
   downloadPdf = () => {
