@@ -121,29 +121,27 @@ const handleSheetHeader = tableColumn => {
 class Tables extends Component {
   constructor(props) {
     super(props);
-    this.state = db.initState(props);
+    this.state = {
+      ...db.initState(props),
+      filterIdx: [],
+    };
   }
 
   // 返回的值即是当前需要setState的内容
   static getDerivedStateFromProps(
     props,
-    { page, pageSize, dataSrc, columns, loading } //, dataClone, dataSearchClone, dataSource, total
+    { page, pageSize, dataSrc, columns, loading, filterIdx } //, dataClone, dataSearchClone, dataSource, total
   ) {
     // if (R.equals(props.dataSrc, dataSrc)) {
     // 服务端返回hash值，表示当前data的md5指纹，指纹有变时数据才变更，提高前台效率
     if (props.dataSrc.hash === dataSrc.hash) {
       // return { loading: props.loading };
-      return { loading };
+      return { loading, filterIdx };
     }
-    return db.updateState(props, { page, pageSize, columns }, props.merge);
-
-    // return {
-    //   ...db.updateState(props, { page, pageSize, columns }, props.merge),
-    //   // dataClone,
-    //   // dataSearchClone,
-    //   // dataSource,
-    //   // total,
-    // };
+    return {
+      ...db.updateState(props, { page, pageSize, columns }, props.merge),
+      filterIdx: R.range(0, props.dataSrc.rows), // 所有数据
+    };
   }
 
   // 页码更新
@@ -278,10 +276,15 @@ class Tables extends Component {
     const { title, source, header, ...props } = R.clone(this.state.dataSrc);
     const filename = `${title}`;
     const keys = header.map((item, i) => 'col' + i);
-    const body = R.compose(
+    let body = R.compose(
       R.map(item => R.map(a => (lib.hasDecimal(a) ? parseFloat(a) : a))(item)),
       R.map(R.props(keys))
     )(this.state.dataClone);
+
+    // 获取筛选后的数据
+    if (!this.props.isAntd) {
+      body = this.state.filterIdx.map(idx => body[idx]);
+    }
 
     const { dept_name, fullname } = this.props;
     const creator = `${dept_name} ${fullname}`;
@@ -304,7 +307,8 @@ class Tables extends Component {
 
   downloadExcel = () => {
     this.setState({ loading: true });
-    const config = this.getExportConfig();
+    let config = this.getExportConfig();
+
     console.log('download start');
     Excel.save(config).then(() => {
       console.log('download end');
@@ -366,7 +370,16 @@ class Tables extends Component {
       let rest = R.clone(this.props.dataSrc);
       // let nextData = R.map(item => Object.values(item).slice(1), dataSource); : nextData
 
-      return <Sheet data={{ ...rest, nestedHeaders, hidemenu }} />;
+      return (
+        <Sheet
+          data={{ ...rest, nestedHeaders, hidemenu }}
+          onFilter={filterIdx => {
+            this.setState({
+              filterIdx,
+            });
+          }}
+        />
+      );
     }
 
     let scroll = {};
@@ -506,6 +519,7 @@ class Tables extends Component {
         />
       </div>
     );
+
     let tableTitle = !notSimple ? (
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
         {SearchFilter}

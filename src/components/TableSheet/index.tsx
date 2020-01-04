@@ -12,7 +12,7 @@ import qs from 'qs';
  */
 
 let colTitles = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-const getConfig = data => {
+const getConfig = (data, afterFilter) => {
   let firstRow = (data.data && data.data[0]) || [];
   const minCols = 10; // 最少10行
   // console.log(data);
@@ -102,6 +102,7 @@ const getConfig = data => {
     manualColumnMove: true,
     contextMenu: true,
     filters: true,
+    afterFilter,
     dropdownMenu: true,
     multiColumnSorting: {
       indicator: true,
@@ -131,26 +132,38 @@ const getFreeze = () => {
   return R.range(0, Number(freeze));
 };
 
-const TableSheet = ({ data }) => {
+const TableSheet = ({ data, onFilter }) => {
   const [config, setConfig] = useState({
     licenseKey: 'non-commercial-and-evaluation',
   });
 
   const hotTable = useRef(null);
+
   useEffect(() => {
-    let cfg = getConfig(data);
+    let hot = hotTable.current.hotInstance;
+
+    // 数据过滤后返回结果，单元格由于可编辑，此处不使用 hot.getData() 拿数据。
+    const afterFilter = () => {
+      let arrs = hot.getPlugin('filters').trimRowsPlugin.rowsMapper.__arrayMap;
+      onFilter(arrs);
+    };
+
+    let cfg = getConfig(data, afterFilter);
     setConfig(cfg);
 
     // 冻结指定列
     if (hotTable) {
       let freeze = getFreeze();
-      let hot = hotTable.current.hotInstance;
       let plugin = hot.getPlugin('ManualColumnFreeze');
       freeze.forEach(idx => {
         plugin.freezeColumn(idx);
       });
       hot.render();
     }
+
+    // let hot = hotTable.current.hotInstance;
+    // const filtersPlugin = hot.getPlugin('filters');
+    // console.log(filtersPlugin);
   }, [data.hash]);
 
   return React.useMemo(() => <HotTable ref={hotTable} settings={config} />, [config]);

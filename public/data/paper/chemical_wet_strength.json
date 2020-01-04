@@ -33,7 +33,7 @@
                             "value": "湿强剂PAX-1",
                             "hide": ["cation_degree"],
                             "scope": [{
-                                    "key": "solid_content ",
+                                    "key": "solid_content",
                                     "min": 11.5,
                                     "max": 12.5
                                 },
@@ -57,7 +57,7 @@
                             "name": "湿强剂BZ-2",
                             "value": "湿强剂BZ-2",
                             "scope": [{
-                                    "key": "solid_content ",
+                                    "key": "solid_content",
                                     "min": 11,
                                     "max": 12.5
                                 },

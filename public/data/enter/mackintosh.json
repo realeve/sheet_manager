@@ -147,7 +147,7 @@
                 {
                     "title": "径向拉伸强度",
                     "type": "input",
-                    "key": "tensile_strength ",
+                    "key": "tensile_strength",
                     "suffix": "KN/m",
                     "span": 8,
                     "rule": {
