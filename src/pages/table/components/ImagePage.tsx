@@ -101,7 +101,7 @@ function Index({ data, blob, extra = null, subTitle = null, onImageClick = () =>
     let imgNum = Math.floor(maxWidth / 180);
     let gutterNum = maxWidth % 180;
     let curGutter = Math.floor(gutterNum / imgNum);
-    setGutter(curGutter);
+    setGutter(curGutter > 100 ? 5 : curGutter);
   }, [container.current.offsetWidth]);
 
   if (data.data.length === 0 || R.type(data.data[0]) === 'Object') {
