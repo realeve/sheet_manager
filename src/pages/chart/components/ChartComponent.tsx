@@ -39,6 +39,7 @@ export default class Charts extends Component<IProp> {
 
   render() {
     let { option, renderer, ...props } = this.props;
+
     return (
       <ReactEcharts
         ref={e => {

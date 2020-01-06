@@ -37,7 +37,7 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
     style: {},
     className: '',
     theme: chartConfig.theme,
-    onChartReady: () => { },
+    onChartReady: () => {},
     showLoading: false,
     loadingOption: null,
     onEvents: {},
@@ -117,7 +117,7 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
     ) {
       try {
         echartObj.resize();
-      } catch (_) { }
+      } catch (_) {}
     }
   }
 
@@ -137,7 +137,7 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
       // if elementResizeEvent.unbind exist, just do it.
       try {
         elementResizeEvent.unbind(this.echartsElement);
-      } catch (_) { }
+      } catch (_) {}
       // dispose echarts instance
       this.echartsLib.dispose(this.echartsElement);
     }
@@ -185,8 +185,8 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
   renderEchartDom = () => {
     // init the echart object
     const echartObj = this.getEchartsInstance();
-    // set the echart option
 
+    // set the echart option
     echartObj.setOption(
       this.props.option,
       this.props.notMerge || false,

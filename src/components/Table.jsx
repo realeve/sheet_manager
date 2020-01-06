@@ -123,7 +123,7 @@ class Tables extends Component {
     super(props);
     this.state = {
       ...db.initState(props),
-      filterIdx: [],
+      filterIdx: props.dataSrc.rows > 0 ? R.range(0, props.dataSrc.rows) : [],
     };
   }
 

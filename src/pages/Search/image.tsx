@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Input, Tooltip } from 'antd';
+import { Row, Col, Card, Input, Tooltip, Tabs } from 'antd';
+
 import styles from './Image.less';
 import { useFetch } from './utils/useFetch';
 import ImageItem from './components/ImageItem';
@@ -11,7 +12,11 @@ import ImageList from '@/pages/table/components/ImagePage';
 import { useSetState } from 'react-use';
 // import Err from '@/components/Err';
 
+import OpennumCart from './OpennumChart';
+
 const cx = classNames.bind(styles);
+
+const TabPane = Tabs.TabPane;
 
 function ImageSearch({ cart }) {
   const [code, setCode] = useState(null);
@@ -88,34 +93,43 @@ function ImageSearch({ cart }) {
   return (
     <>
       <Row gutter={16}>
-        <Col span={12}>
-          <Card
-            style={{ marginBottom: 20 }}
-            bodyStyle={{
-              padding: '10px 20px',
-            }}
-            title="各开位实废分布"
-            extra={
-              <div className={styles.container}>
-                {curpos > 0 && (
-                  <div className={cx('item')} style={{ cursor: 'not-allowed' }}>
-                    第{curpos}开
+        <Col span={14}>
+          <Tabs defaultActiveKey="1" animated={false} style={{ background: '#fff' }}>
+            <TabPane tab="实废分布" key="1">
+              <Card
+                style={{ marginBottom: 20 }}
+                bodyStyle={{
+                  padding: '10px 20px',
+                  height: 500,
+                }}
+                title="各开位实废分布"
+                bordered={false}
+                extra={
+                  <div className={styles.container}>
+                    {curpos > 0 && (
+                      <div className={cx('item')} style={{ cursor: 'not-allowed' }}>
+                        第{curpos}开
+                      </div>
+                    )}
+                    <div
+                      className={cx('item', 'item-active')}
+                      onClick={() => setCurpos(0)}
+                      style={{ marginRight: 10, borderColor: '#e56', backgroundColor: '#e56' }}
+                    >
+                      显示所有开
+                    </div>
                   </div>
-                )}
-                <div
-                  className={cx('item', 'item-active')}
-                  onClick={() => setCurpos(0)}
-                  style={{ marginRight: 10, borderColor: '#e56', backgroundColor: '#e56' }}
-                >
-                  显示所有开
-                </div>
-              </div>
-            }
-          >
-            <HeatmapChart cart={cart} onFilter={onFilterPos} />
-          </Card>
+                }
+              >
+                <HeatmapChart cart={cart} onFilter={onFilterPos} />
+              </Card>
+            </TabPane>
+            <TabPane tab="开包量分布" key="2">
+              <OpennumCart cart={cart} />
+            </TabPane>
+          </Tabs>
         </Col>
-        <Col span={12}>
+        <Col span={10}>
           <ImageList
             data={mainFake}
             blob={3}
@@ -143,7 +157,7 @@ function ImageSearch({ cart }) {
         </Col>
       </Row>
 
-      <Card>
+      <Card style={{ marginTop: 20 }}>
         <div className={styles.imgsearch}>
           <div className={styles.title}>
             <div className={styles.container} ref={container}>

@@ -54,22 +54,26 @@ const getConfig = (data, afterFilter) => {
         allowEmpty: true,
       };
     }
-    if (type === 'time') {
-      column.renderer = (hotInstance, TD, row, col, prop, value) => {
-        TD.innerHTML = (value || '').split('.')[0];
-      };
-      column.width = 160;
-    }
     if (lib.isCartOrReel(item)) {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
         TD.innerHTML = `<a href="${setting.searchUrl}${value}" target="_blank" style="text-decoration:none">${value}</a>`;
       };
     }
+
     if (String(item).includes('base64')) {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
         TD.innerHTML = `<img src="${value}" />`;
       };
       column.width = 200;
+    }
+
+    if (type === 'time') {
+      column.renderer = (hotInstance, TD, row, col, prop, value) => {
+        TD.innerHTML = (value || '').split('.')[0];
+      };
+      column.width = 160;
+    } else if (item.trim().length > 10) {
+      column.width = 400;
     }
 
     return column;
