@@ -20,6 +20,15 @@ let getUrl = formConfig => {
   }
   return url;
 };
+
+const getDefaultList = cfg => {
+  let defaultList = R.filter(item => item.defaultValue || item.value)(cfg);
+  let res = {};
+  defaultList.forEach(({ key, defaultValue, value }) => {
+    res[key] = value || defaultValue;
+  });
+  return res;
+};
 function FormCreater({ config, dispatch }) {
   // 增加对总分的计算，与scope字段一并处理
   let [state, setState] = useSetState();
@@ -40,21 +49,23 @@ function FormCreater({ config, dispatch }) {
 
   // 初始化defaultValue
   useEffect(() => {
-    let defaultList = R.filter(item => item.defaultValue || item.value)(cfg);
-    let res = {};
-    defaultList.forEach(({ key, defaultValue, value }) => {
-      res[key] = value || defaultValue;
-    });
+    init();
+  }, []);
+
+  const init = () => {
+    let res = getDefaultList(cfg);
     setState(res);
     setFields(res);
-  }, []);
+  };
 
   const [qualifyKey, setQualifyKey] = useState(null);
 
   const [queryKey, setQueryKey] = useState([]);
 
-  // config改变后初始化表单数据
   useEffect(() => {
+    // config改变后初始化表单数据
+    init();
+
     setFormConfig(config);
     let requiredFileds = [];
     let nextFields = {};
@@ -63,6 +74,7 @@ function FormCreater({ config, dispatch }) {
     if (config.api && config.api.query && config.api.query.param) {
       setQueryKey(config.api.query.param);
     }
+    console.log('config变更：', config);
 
     config.detail.forEach(({ detail }) => {
       detail.forEach(item => {
@@ -208,7 +220,7 @@ function FormCreater({ config, dispatch }) {
   const onReset = () => {
     let keys = R.compose(
       R.pluck('key'),
-      R.filter(item => item.unReset || item.type === 'label') // label项默认不重置、unReset项不重置
+      R.filter(item => item.unReset || item.type === 'label' || item.defaultValue) // label项默认不重置、unReset项不重置、带有defaultValue的项不重置
     )(cfg);
     if (keys.length === 0) {
       setState(fields);

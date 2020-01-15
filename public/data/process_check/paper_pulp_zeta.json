@@ -1,121 +1,125 @@
 {
-    "name": "过程检测/过程浆料Zeta和PCD检测",
-    "api": {
-        "insert": {
-            "url": "749/yjbm79kskh",
-            "param": ["rec_time", "uid"]
-        },
-        "delete": {
-            "url": "750/yjbm79kskh",
-            "param": ["batch_no"]
-        },
-        "update": {
-            "url": "751/yjbm79kskh",
-            "param": ["batch_no"]
-        },
-        "query": {
-            "url": "752/yjbm79kskh",
-            "param": ["batch_no"]
-        },
-        "table": {
-            "url": "753/yjbm79kskh"
-        }
+  "name": "过程检测/过程浆料Zeta和PCD检测",
+  "api": {
+    "insert": {
+      "url": "749/yjbm79kskh",
+      "param": ["rec_time", "uid"]
     },
-    "table": "process_check_paper_pulp_zeta",
-    "detail": [{
-            "title": "基础数据",
-            "detail": [{
-                    "title": "取样时间",
-                    "type": "datepicker",
-                    "key": "sample_date",
-                    "datetype": "YYYY-MM-DD",
-                    "rule": {
-                        "required": true
-                    }
-                },
-                {
-                    "title": "机台号",
-                    "type": "input",
-                    "key": "machine_name",
-                    "rule": {
-                        "required": true
-                    }
-                }
-            ]
+    "delete": {
+      "url": "750/yjbm79kskh",
+      "param": ["batch_no"]
+    },
+    "update": {
+      "url": "751/yjbm79kskh",
+      "param": ["batch_no"]
+    },
+    "query": {
+      "url": "752/yjbm79kskh",
+      "param": ["batch_no"]
+    },
+    "table": {
+      "url": "753/yjbm79kskh"
+    }
+  },
+  "table": "process_check_paper_pulp_zeta",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "取样时间",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true
         },
         {
-            "title": "检测详情",
-            "detail": [{
-                    "title": "调和后浆PCD",
-                    "type": "input",
-                    "key": "pcd",
-                    "suffix": "μeq/L",
-                    "rule": {
-                        "type": "float",
-                        "required": true
-                    }
-                },
-                {
-                    "title": "调和后浆Zeta",
-                    "type": "input",
-                    "key": "zeta",
-                    "suffix": "mV",
-                    "rule": {
-                        "type": "float",
-                        "required": true
-                    }
-                },
-                {
-                    "title": "上网浆PCD",
-                    "type": "input",
-                    "key": "pcd_silk",
-                    "suffix": "μeq/L",
-                    "rule": {
-                        "type": "float",
-                        "required": true
-                    }
-                },
-                {
-                    "title": "上网浆Zeta",
-                    "type": "input",
-                    "key": "zeta_silk",
-                    "suffix": "mV",
-                    "rule": {
-                        "type": "float",
-                        "required": true
-                    }
-                },
-                {
-                    "title": "白水PCD",
-                    "type": "input",
-                    "key": "pcd_water",
-                    "suffix": "mV",
-                    "rule": {
-                        "type": "float",
-                        "required": true
-                    }
-                },
-                {
-                    "title": "检验员",
-                    "type": "input",
-                    "key": "operator",
-                    "span": 8,
-                    "rule": {
-                        "required": true
-                    },
-                    "unReset": true
-                },
-                {
-                    "title": "备注",
-                    "type": "input.textarea",
-                    "key": "remark",
-                    "placeholder": "请在此填入备注信息",
-                    "span": 8,
-                    "rule": {
-                        "required": true
-                    }
-                }
-            ]
+          "title": "机台号",
+          "type": "input",
+          "key": "machine_name",
+          "rule": {
+            "required": true
+          }
         }
-    ]
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "调和后浆PCD",
+          "type": "input",
+          "key": "pcd",
+          "suffix": "μeq/L",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "调和后浆Zeta",
+          "type": "input",
+          "key": "zeta",
+          "suffix": "mV",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "上网浆PCD",
+          "type": "input",
+          "key": "pcd_silk",
+          "suffix": "μeq/L",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "上网浆Zeta",
+          "type": "input",
+          "key": "zeta_silk",
+          "suffix": "mV",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "白水PCD",
+          "type": "input",
+          "key": "pcd_water",
+          "suffix": "mV",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "检验员",
+          "type": "input",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    }
+  ]
 }

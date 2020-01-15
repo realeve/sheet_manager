@@ -1,174 +1,181 @@
 {
-    "name": "化工原材料——过氧化氢（双氧水）",
-    "api": {
-        "insert": {
-            "url": "710/6d968fc9b1",
-            "param": ["rec_time", "uid"]
-        },
-        "delete": {
-            "url": "711/167e091805",
-            "param": ["batch_no"]
-        },
-        "update": {
-            "url": "712/a385017347",
-            "param": ["batch_no"]
-        },
-        "query": {
-            "url": "713/2e4f7b808e",
-            "param": ["batch_no"]
-        },
-        "table": {
-            "url": "714/878165419b"
-        }
+  "name": "化工原材料——过氧化氢（双氧水）",
+  "api": {
+    "insert": {
+      "url": "710/6d968fc9b1",
+      "param": ["rec_time", "uid"]
     },
-    "table": "paper_material_chemical_h2o2",
-    "detail": [{
-            "title": "基础数据",
-            "detail": [{
-                    "title": "产品名称",
-                    "type": "label",
-                    "key": "prod_name",
-                    "value": "过氧化氢（双氧水）",
-                    "scope": [{
-                            "key": "h2o2",
-                            "min": 27.5
-                        },
-                        {
-                            "key": "stability",
-                            "max": 93,
-                            "min": 0
-                        }
-                    ]
-                },
-                {
-                    "title": "产地",
-                    "type": "input",
-                    "key": "place",
-                    "rule": {
-                        "required": true,
-                        "msg": "请输入产地信息"
-                    },
-                    "placeholder": "请输入产地信息",
-                    "maxLength": 8,
-                    "unReset": true
-                },
-                {
-                    "title": "批号",
-                    "type": "input",
-                    "key": "batch_no",
-                    "rule": {
-                        "required": true,
-                        "msg": "请输入批号"
-                    },
-                    "placeholder": "请输入批号",
-                    "toupper": "true"
-                },
-                {
-                    "title": "数量",
-                    "type": "input",
-                    "key": "prod_num",
-                    "rule": {
-                        "type": "float",
-                        "required": true,
-                        "msg": "请输入数量"
-                    },
-                    "placeholder": "请输入数量",
-                    "suffix": "吨(t)"
-                },
-                {
-                    "title": "生产日期",
-                    "type": "datepicker",
-                    "key": "prod_date",
-                    "datetype": "YYYY-MM-DD",
-                    "rule": {
-                        "required": true
-                    }
-                },
-                {
-                    "title": "取样日期",
-                    "type": "datepicker",
-                    "key": "sample_date",
-                    "datetype": "YYYY-MM-DD",
-                    "rule": {
-                        "required": true
-                    }
-                },
-                {
-                    "title": "检测日期",
-                    "type": "datepicker",
-                    "key": "test_date",
-                    "datetype": "YYYY-MM-DD",
-                    "rule": {
-                        "required": true
-                    }
-                }
-            ]
+    "delete": {
+      "url": "711/167e091805",
+      "param": ["batch_no"]
+    },
+    "update": {
+      "url": "712/a385017347",
+      "param": ["batch_no"]
+    },
+    "query": {
+      "url": "713/2e4f7b808e",
+      "param": ["batch_no"]
+    },
+    "table": {
+      "url": "714/878165419b"
+    }
+  },
+  "table": "paper_material_chemical_h2o2",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "产品名称",
+          "type": "label",
+          "key": "prod_name",
+          "value": "过氧化氢（双氧水）",
+          "scope": [
+            {
+              "key": "h2o2",
+              "min": 27.5
+            },
+            {
+              "key": "stability",
+              "max": 93,
+              "min": 0
+            }
+          ]
         },
         {
-            "title": "检测详情",
-            "detail": [{
-                    "title": "外观",
-                    "type": "input",
-                    "key": "surface",
-                    "rule": {
-                        "required": true
-                    },
-                    "defaultValue": "白色液体，允许微带异色"
-                },
-                {
-                    "title": "过氧化氢(H2O2)",
-                    "type": "input",
-                    "key": "h2o2",
-                    "rule": {
-                        "type": "float",
-                        "required": true
-                    },
-                    "suffix": "%"
-                },
-                {
-                    "title": "稳定度",
-                    "type": "input",
-                    "key": "stability",
-                    "rule": {
-                        "type": "float",
-                        "required": true
-                    },
-                    "suffix": "%"
-                },
-                {
-                    "title": "检验员",
-                    "type": "input",
-                    "key": "operator",
-                    "span": 8,
-                    "rule": {
-                        "required": true
-                    },
-                    "unReset": true
-                },
-                {
-                    "title": "检验结论",
-                    "type": "switch",
-                    "key": "result",
-                    "checkedChildren": "合格",
-                    "unCheckedChildren": "不合格",
-                    "placeholder": "请在此填入检验结论",
-                    "span": 8,
-                    "rule": {
-                        "required": true
-                    },
-                    "defaultValue": "1"
-                },
-                {
-                    "title": "备注",
-                    "type": "input.textarea",
-                    "key": "remark",
-                    "placeholder": "请在此填入备注信息",
-                    "span": 8,
-                    "rule": {
-                        "required": true
-                    }
-                }
-            ]
+          "title": "产地",
+          "type": "input",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入产地信息"
+          },
+          "placeholder": "请输入产地信息",
+          "maxLength": 8,
+          "unReset": true
+        },
+        {
+          "title": "批号",
+          "type": "input",
+          "key": "batch_no",
+          "rule": {
+            "required": true,
+            "msg": "请输入批号"
+          },
+          "placeholder": "请输入批号",
+          "toupper": "true"
+        },
+        {
+          "title": "数量",
+          "type": "input",
+          "key": "prod_num",
+          "rule": {
+            "type": "float",
+            "required": true,
+            "msg": "请输入数量"
+          },
+          "placeholder": "请输入数量",
+          "suffix": "吨(t)"
+        },
+        {
+          "title": "生产日期",
+          "type": "datepicker",
+          "key": "prod_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "取样日期",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "检测日期",
+          "type": "datepicker",
+          "key": "test_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true
         }
-    ]
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "外观",
+          "type": "input",
+          "key": "surface",
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "白色液体，允许微带异色"
+        },
+        {
+          "title": "过氧化氢(H2O2)",
+          "type": "input",
+          "key": "h2o2",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "suffix": "%"
+        },
+        {
+          "title": "稳定度",
+          "type": "input",
+          "key": "stability",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "suffix": "%"
+        },
+        {
+          "title": "检验员",
+          "type": "input",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "检验结论",
+          "type": "switch",
+          "key": "result",
+          "checkedChildren": "合格",
+          "unCheckedChildren": "不合格",
+          "placeholder": "请在此填入检验结论",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "1"
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    }
+  ]
 }

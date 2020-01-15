@@ -1,181 +1,188 @@
 {
-    "name": "化工原材料——磺化蓖麻油酸钠（太古油）",
-    "api": {
-        "insert": {
-            "url": "739/83carsqhu",
-            "param": ["rec_time", "uid"]
-        },
-        "delete": {
-            "url": "740/83carsqhu",
-            "param": ["batch_no"]
-        },
-        "update": {
-            "url": "741/83carsqhu",
-            "param": ["batch_no"]
-        },
-        "query": {
-            "url": "742/83carsqhu",
-            "param": ["batch_no"]
-        },
-        "table": {
-            "url": "743/83carsqhu"
-        }
+  "name": "化工原材料——磺化蓖麻油酸钠（太古油）",
+  "api": {
+    "insert": {
+      "url": "739/83carsqhu",
+      "param": ["rec_time", "uid"]
     },
-    "table": "paper_material_chemical_alizarin_oil",
-    "detail": [{
-            "title": "基础数据",
-            "detail": [{
-                    "title": "产品名称",
-                    "type": "label",
-                    "key": "prod_name",
-                    "value": "磺化蓖麻油酸钠（太古油）",
-                    "scope": [{
-                            "key": "ph",
-                            "min": 7.8,
-                            "max": 9
-                        },
-                        {
-                            "key": "oil_content",
-                            "min": 40
-                        }
-                    ]
-                },
-                {
-                    "title": "产地",
-                    "type": "input",
-                    "key": "place",
-                    "rule": {
-                        "required": true,
-                        "msg": "请输入产地信息"
-                    },
-                    "placeholder": "请输入产地信息",
-                    "maxLength": 8,
-                    "unReset": true
-                },
-                {
-                    "title": "批号",
-                    "type": "input",
-                    "key": "batch_no",
-                    "rule": {
-                        "required": true,
-                        "msg": "请输入批号"
-                    },
-                    "placeholder": "请输入批号",
-                    "toupper": "true"
-                },
-                {
-                    "title": "数量",
-                    "type": "input",
-                    "key": "prod_num",
-                    "rule": {
-                        "type": "float",
-                        "required": true,
-                        "msg": "请输入数量"
-                    },
-                    "suffix": "吨"
-                },
-                {
-                    "title": "生产日期",
-                    "type": "datepicker",
-                    "key": "prod_date",
-                    "datetype": "YYYY-MM-DD",
-                    "rule": {
-                        "required": true
-                    }
-                },
-                {
-                    "title": "取样日期",
-                    "type": "datepicker",
-                    "key": "sample_date",
-                    "datetype": "YYYY-MM-DD",
-                    "rule": {
-                        "required": true
-                    }
-                },
-                {
-                    "title": "检测日期",
-                    "type": "datepicker",
-                    "key": "test_date",
-                    "datetype": "YYYY-MM-DD",
-                    "rule": {
-                        "required": true
-                    }
-                }
-            ]
+    "delete": {
+      "url": "740/83carsqhu",
+      "param": ["batch_no"]
+    },
+    "update": {
+      "url": "741/83carsqhu",
+      "param": ["batch_no"]
+    },
+    "query": {
+      "url": "742/83carsqhu",
+      "param": ["batch_no"]
+    },
+    "table": {
+      "url": "743/83carsqhu"
+    }
+  },
+  "table": "paper_material_chemical_alizarin_oil",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "产品名称",
+          "type": "label",
+          "key": "prod_name",
+          "value": "磺化蓖麻油酸钠（太古油）",
+          "scope": [
+            {
+              "key": "ph",
+              "min": 7.8,
+              "max": 9
+            },
+            {
+              "key": "oil_content",
+              "min": 40
+            }
+          ]
         },
         {
-            "title": "检测详情",
-            "detail": [{
-                    "title": "外观",
-                    "type": "input",
-                    "key": "surface",
-                    "rule": {
-                        "required": true
-                    },
-                    "defaultValue": "透明，呈淡黄色至红棕色粘稠物质"
-                },
-                {
-                    "title": "稳定性",
-                    "type": "input",
-                    "key": "stability",
-                    "rule": {
-                        "required": true
-                    },
-                    "defaultValue": "清澈、透明，无析出物",
-                    "block": "24h/室温"
-                },
-                {
-                    "title": "pH",
-                    "type": "input",
-                    "key": "ph",
-                    "rule": {
-                        "type": "float",
-                        "required": true
-                    }
-                },
-                {
-                    "title": "含油量",
-                    "type": "input",
-                    "key": "oil_content",
-                    "rule": {
-                        "type": "float",
-                        "required": true
-                    }
-                },
-                {
-                    "title": "检验员",
-                    "type": "input",
-                    "key": "operator",
-                    "span": 8,
-                    "rule": {
-                        "required": true
-                    },
-                    "unReset": true
-                },
-                {
-                    "title": "检验结论",
-                    "type": "switch",
-                    "key": "result",
-                    "checkedChildren": "合格",
-                    "unCheckedChildren": "不合格",
-                    "placeholder": "请在此填入检验结论",
-                    "span": 8,
-                    "rule": {
-                        "required": true
-                    },
-                    "defaultValue": "1"
-                },
-                {
-                    "title": "备注",
-                    "type": "input.textarea",
-                    "key": "remark",
-                    "placeholder": "请在此填入备注信息",
-                    "span": 8,
-                    "rule": {
-                        "required": true
-                    }
-                }
-            ]
+          "title": "产地",
+          "type": "input",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入产地信息"
+          },
+          "placeholder": "请输入产地信息",
+          "maxLength": 8,
+          "unReset": true
+        },
+        {
+          "title": "批号",
+          "type": "input",
+          "key": "batch_no",
+          "rule": {
+            "required": true,
+            "msg": "请输入批号"
+          },
+          "placeholder": "请输入批号",
+          "toupper": "true"
+        },
+        {
+          "title": "数量",
+          "type": "input",
+          "key": "prod_num",
+          "rule": {
+            "type": "float",
+            "required": true,
+            "msg": "请输入数量"
+          },
+          "suffix": "吨"
+        },
+        {
+          "title": "生产日期",
+          "type": "datepicker",
+          "key": "prod_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "取样日期",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "检测日期",
+          "type": "datepicker",
+          "key": "test_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true
         }
-    ]
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "外观",
+          "type": "input",
+          "key": "surface",
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "透明，呈淡黄色至红棕色粘稠物质"
+        },
+        {
+          "title": "稳定性",
+          "type": "input",
+          "key": "stability",
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "清澈、透明，无析出物",
+          "block": "24h/室温"
+        },
+        {
+          "title": "pH",
+          "type": "input",
+          "key": "ph",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "含油量",
+          "type": "input",
+          "key": "oil_content",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "检验员",
+          "type": "input",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "检验结论",
+          "type": "switch",
+          "key": "result",
+          "checkedChildren": "合格",
+          "unCheckedChildren": "不合格",
+          "placeholder": "请在此填入检验结论",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "1"
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        }
+      ]
+    }
+  ]
 }
