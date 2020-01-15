@@ -127,13 +127,27 @@
         },
         {
           "title": "检验员",
-          "type": "input",
+          "type": "select",
           "key": "operator",
           "span": 8,
           "rule": {
             "required": true
           },
-          "unReset": true
+          "unReset": true,
+          "defaultOption": [
+            { "name": "李虹斌", "value": "李虹斌" },
+            { "name": "杨阳", "value": "杨阳" },
+            { "name": "何馥利", "value": "何馥利" },
+            { "name": "吴艳", "value": "吴艳" },
+            { "name": "夏继红", "value": "夏继红" },
+            { "name": "徐雯君", "value": "徐雯君" },
+            { "name": "肖平", "value": "肖平" },
+            { "name": "李京燕", "value": "李京燕" },
+            { "name": "唐玲", "value": "唐玲" },
+            { "name": "罗莉", "value": "罗莉" },
+            { "name": "奚山鹰", "value": "奚山鹰" },
+            { "name": "杨靖姝", "value": "杨靖姝" }
+          ]
         },
         {
           "title": "备注",
