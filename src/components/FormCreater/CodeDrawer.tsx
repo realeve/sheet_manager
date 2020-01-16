@@ -86,6 +86,18 @@ SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
                 ? `CONVERT ( VARCHAR, ${item.key}, 120 )`
                 : `CONVERT ( VARCHAR(10), ${item.key}, 120 )`;
           }
+          if (item.type === 'switch') {
+            keyName = `(
+              CASE ${item.key}
+              WHEN '1' THEN
+                '${item.checkedChildren || '合格'}'
+              WHEN 'true' THEN
+                '${item.checkedChildren || '合格'}'
+              ELSE 
+              '${item.unCheckedChildren || '不合格'}'
+              END
+            ) `;
+          }
           return `${keyName} ${item.title}`;
         })
         .join(',\r\n        ')},

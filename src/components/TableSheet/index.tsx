@@ -44,7 +44,7 @@ const getConfig = (data, afterFilter) => {
       };
       if (lib.isFloat(item)) {
         column.renderer = (hotInstance, TD, row, col, prop, value) => {
-          TD.innerHTML = value ? Number(Number(value).toFixed(3)) : value;
+          TD.innerHTML = value ? Number(Number(value).toFixed(3)) : value || '';
         };
       }
     } else if (type === 'date' || type === 'time') {
@@ -56,13 +56,15 @@ const getConfig = (data, afterFilter) => {
     }
     if (lib.isCartOrReel(item)) {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
-        TD.innerHTML = `<a href="${setting.searchUrl}${value}" target="_blank" style="text-decoration:none">${value}</a>`;
+        TD.innerHTML = value
+          ? `<a href="${setting.searchUrl}${value}" target="_blank" style="text-decoration:none">${value}</a>`
+          : '';
       };
     }
 
     if (String(item).includes('base64')) {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
-        TD.innerHTML = `<img src="${value}" />`;
+        TD.innerHTML = value ? `<img src="${value}" />` : '';
       };
       column.width = 200;
     }
@@ -83,8 +85,10 @@ const getConfig = (data, afterFilter) => {
     let nextCol = R.slice(columns.length, minCols)(colTitles);
     columns = [...columns, ...nextCol.map(title => ({ title }))];
   }
+
   let isSearch = window.location.pathname.includes('/search');
   let minRows = isSearch ? 13 : 31;
+
   let config = {
     stretchH: 'all',
     autoWrapRow: true,
@@ -153,6 +157,7 @@ const TableSheet = ({ data, onFilter }) => {
     };
 
     let cfg = getConfig(data, afterFilter);
+
     setConfig(cfg);
 
     // 冻结指定列

@@ -332,7 +332,7 @@
             "type": "float",
             "required": true
           },
-          "suffix": "Pa•S/30℃"
+          "suffix": "Pa•S/40℃"
         },
         {
           "title": "细度",

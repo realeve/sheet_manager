@@ -25,9 +25,9 @@ interface Rules {
   reel: RegExp;
 }
 const rules: Rules = {
-  cart: /^[1-9]\d{3}[A-Za-z]\d{3}$/,
+  cart: /^[0-9]\d{3}[A-Za-z]\d{3}$/,
   // reel: /^[1-9]\d{6}(|[A-Ca-c])$|[A-Z]\d{11}[A-Z]/, //^[1-9]\d{4}[A-Ca-c]$|
-  reel: /^[1-9]\d{6}[A-Ca-c]$|[A-Z]\d{11}[A-Z]/, //^[1-9]\d{4}[A-Ca-c]$|
+  reel: /^[0-9]\d{6}([A-Ca-c]|)$|[A-Z]\d{11}([A-Z]|)/, //^[1-9]\d{4}[A-Ca-c]$|
 };
 
 interface CartReelReg {
@@ -433,6 +433,7 @@ export const isChineseWord = str => new RegExp(/[\u00A1-\uFFFF]/).test(str);
 // 中文宽1，其余宽0.7
 export const getStringWidth = str =>
   String(str)
+    .trim()
     .split('')
     .reduce((x, y) => x + (isChineseWord(y) ? 1 : 0.7), 0);
 

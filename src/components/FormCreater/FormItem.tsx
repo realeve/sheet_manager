@@ -147,7 +147,7 @@ export default function formItem({
         {type === 'input.textarea' && (
           <TextArea
             style={{ width: '100%' }}
-            autoSize={{ minRows: 1, maxRows: 2 }}
+            autoSize={{ minRows: 2, maxRows: 4 }}
             value={state}
             onChange={e => onChange(e.target.value, props)}
             {...props}

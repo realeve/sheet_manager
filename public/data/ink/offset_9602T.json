@@ -140,6 +140,10 @@
                   "key": "dryness",
                   "min": 15,
                   "max": 40
+                },
+                {
+                  "key": "anti_fake",
+                  "defaultValue": "有，黄光"
                 }
               ]
             },
@@ -343,8 +347,7 @@
           "key": "anti_fake",
           "rule": {
             "required": true
-          },
-          "defaultValue": "有，黄光"
+          }
         },
         {
           "title": "检验员",

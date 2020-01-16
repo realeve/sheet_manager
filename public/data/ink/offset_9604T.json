@@ -90,7 +90,13 @@
             {
               "name": "JB3 背隔棕（UV-2）",
               "value": "JB3 背隔棕（UV-2）",
-              "hide": ["drying_time", "release_time"]
+              "hide": ["drying_time", "release_time"],
+              "scope": [
+                {
+                  "key": "anti_fake",
+                  "defaultValue": "有，黄光"
+                }
+              ]
             },
             {
               "name": "JB3 背红紫",

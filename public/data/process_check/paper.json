@@ -113,6 +113,10 @@
           "rule": {
             "type": "float",
             "required": true
+          },
+          "scope": {
+            "max": 8.5,
+            "min": 6.5
           }
         },
         {

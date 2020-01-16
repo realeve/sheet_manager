@@ -73,8 +73,8 @@
                 },
                 {
                   "key": "viscosity",
-                  "min": 8,
-                  "max": 11
+                  "min": 20,
+                  "max": 50
                 },
                 {
                   "key": "cation_degree",

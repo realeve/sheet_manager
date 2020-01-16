@@ -70,7 +70,7 @@
             "required": true,
             "msg": "请输入数量"
           },
-          "suffix": "件"
+          "suffix": "吨"
         },
         {
           "title": "生产日期",

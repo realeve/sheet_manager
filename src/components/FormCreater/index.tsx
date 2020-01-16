@@ -146,13 +146,9 @@ function FormCreater({ config, dispatch }) {
     return res.title;
   };
 
-  // 变更时收集scope
-  useEffect(() => {
-    if (scope.length > 0) {
-      return;
-    }
-    // console.log(cfg);
+  const refreshScope = () => {
     // 收集初始scope
+    let cfg = R.flatten(R.map(R.prop('detail'))(config.detail));
     let res = R.compose(
       R.flatten,
       R.filter(item => item),
@@ -169,9 +165,21 @@ function FormCreater({ config, dispatch }) {
         return item.scope;
       })
     )(cfg);
-
     setScope(res);
-  }, [state]);
+  };
+
+  // 变更时收集scope
+  // useEffect(() => {
+  //   if (scope.length > 0) {
+  //     return;
+  //   }
+  //   // console.log(cfg);
+  //   refreshScope();
+  // }, [state]);
+
+  useEffect(() => {
+    refreshScope();
+  }, [config]);
 
   // 手工决定是否继续执行重计算，当做完scope判断后，需要对 【合格】 字段重新计算是否合格，此时应该禁止再次计算，防止循环更新。
   const [needCalc, setNeedCalc] = useState(true);

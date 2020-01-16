@@ -236,7 +236,7 @@
             "required": true
           },
           "scope": {
-            "max": 3,
+            "max": 1.5,
             "min": 0
           },
           "block": "△E (仪器法)"

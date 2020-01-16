@@ -134,7 +134,7 @@
             "required": true
           },
           "scope": {
-            "min": 0.28,
+            "min": 0.48,
             "max": 0.52
           }
         },

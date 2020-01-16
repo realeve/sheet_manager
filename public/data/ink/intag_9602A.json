@@ -80,6 +80,10 @@
                   "key": "dryness",
                   "min": 10,
                   "max": 18
+                },
+                {
+                  "key": "anti_fake",
+                  "min": 900
                 }
               ]
             }
@@ -202,7 +206,7 @@
             "required": true
           },
           "scope": {
-            "max": 20,
+            "max": 16,
             "min": 0
           },
           "suffix": "μm"
@@ -242,7 +246,7 @@
           "rule": {
             "required": true
           },
-          "defaultValue": "SM特性信号值≥900"
+          "block": "SM特性信号值≥900"
         },
         {
           "title": "检验员",

@@ -447,7 +447,7 @@
           "type": "input.textarea",
           "key": "remark",
           "placeholder": "请在此填入备注信息",
-          "span": 8,
+          "span": 12,
           "rule": {
             "required": true
           }

@@ -85,6 +85,7 @@ export function handleColumns(
     }
 
     const isCart: boolean = lib.isCart(tdValue);
+
     if (lib.isReel(tdValue) || isCart) {
       item.render = text => {
         let url = cartLinkPrefix;
