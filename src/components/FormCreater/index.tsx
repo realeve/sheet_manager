@@ -316,7 +316,8 @@ function FormCreater({ config, dispatch }) {
             <Row gutter={15}>
               {detailArr.map(
                 ({ key, cascade, ...detail }) =>
-                  !hideKeys.includes(key) && (
+                  !hideKeys.includes(key) &&
+                  !detail.hide && (
                     <FormItem
                       key={key}
                       keyName={key}

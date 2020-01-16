@@ -218,7 +218,8 @@
           "rule": {
             "required": true
           },
-          "suffix": "S"
+          "suffix": "S",
+          "hide": true
         },
         {
           "title": "自然干",
@@ -227,7 +228,8 @@
           "rule": {
             "required": true
           },
-          "suffix": "h"
+          "suffix": "h",
+          "hide": true
         },
         {
           "title": "干性",

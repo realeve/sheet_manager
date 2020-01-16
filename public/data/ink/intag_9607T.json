@@ -333,7 +333,8 @@
             "type": "float",
             "required": true
           },
-          "suffix": "Min/80℃"
+          "suffix": "Min/80℃",
+          "hide": true
         },
         {
           "title": "防伪特性",

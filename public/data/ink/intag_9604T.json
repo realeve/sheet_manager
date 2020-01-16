@@ -293,7 +293,8 @@
             "type": "float",
             "required": true
           },
-          "suffix": "S"
+          "suffix": "S",
+          "hide": true
         },
         {
           "title": "自然干",
@@ -307,7 +308,8 @@
             "max": 24,
             "min": 0
           },
-          "suffix": "h"
+          "suffix": "h",
+          "hide": true
         },
         {
           "title": "干性",
