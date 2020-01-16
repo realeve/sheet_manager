@@ -199,52 +199,63 @@
       "title": "检测详情",
       "detail": [
         {
-          "title": "粘接宽度1",
+          "title": "宽度1",
+          "block": "粘接宽度",
           "type": "input",
           "key": "paste_width1",
           "rule": {
             "type": "float",
             "required": true
-          }
+          },
+          "span": 4
         },
         {
-          "title": "粘接宽度2",
+          "title": "宽度2",
+          "block": "粘接宽度",
           "type": "input",
           "key": "paste_width2",
           "rule": {
             "type": "float",
             "required": true
-          }
+          },
+          "span": 5
         },
         {
-          "title": "粘接宽度3",
+          "title": "宽度3",
+          "block": "粘接宽度",
           "type": "input",
           "key": "paste_width3",
           "rule": {
             "type": "float",
             "required": true
-          }
+          },
+          "span": 5
         },
         {
-          "title": "粘接宽度4",
+          "title": "宽度4",
+          "block": "粘接宽度",
           "type": "input",
           "key": "paste_width4",
           "rule": {
             "type": "float",
             "required": true
-          }
+          },
+          "span": 5
         },
         {
-          "title": "粘接宽度5",
+          "title": "宽度5",
+          "block": "粘接宽度",
           "type": "input",
           "key": "paste_width5",
           "rule": {
             "type": "float",
             "required": true
-          }
+          },
+          "span": 5
         },
         {
-          "title": "热粘合后剥离力1",
+          "title": "剥离力1",
+          "block": "热粘合后剥离力",
           "type": "input",
           "key": "peeling_force1",
           "rule": {
@@ -253,10 +264,12 @@
           },
           "scope": {
             "min": 5
-          }
+          },
+          "span": 4
         },
         {
-          "title": "热粘合后剥离力2",
+          "title": "剥离力2",
+          "block": "热粘合后剥离力",
           "type": "input",
           "key": "peeling_force2",
           "rule": {
@@ -265,10 +278,12 @@
           },
           "scope": {
             "min": 5
-          }
+          },
+          "span": 5
         },
         {
-          "title": "热粘合后剥离力3",
+          "title": "剥离力3",
+          "block": "热粘合后剥离力",
           "type": "input",
           "key": "peeling_force3",
           "rule": {
@@ -277,10 +292,12 @@
           },
           "scope": {
             "min": 5
-          }
+          },
+          "span": 5
         },
         {
-          "title": "热粘合后剥离力4",
+          "title": "剥离力4",
+          "block": "热粘合后剥离力",
           "type": "input",
           "key": "peeling_force4",
           "rule": {
@@ -289,10 +306,12 @@
           },
           "scope": {
             "min": 5
-          }
+          },
+          "span": 5
         },
         {
-          "title": "热粘合后剥离力5",
+          "title": "剥离力5",
+          "block": "热粘合后剥离力",
           "type": "input",
           "key": "peeling_force5",
           "rule": {
@@ -301,13 +320,13 @@
           },
           "scope": {
             "min": 5
-          }
+          },
+          "span": 5
         },
         {
           "title": "检验员",
           "type": "select",
           "key": "operator",
-          "span": 8,
           "rule": {
             "required": true
           },
@@ -325,7 +344,8 @@
             { "name": "罗莉", "value": "罗莉" },
             { "name": "奚山鹰", "value": "奚山鹰" },
             { "name": "杨靖姝", "value": "杨靖姝" }
-          ]
+          ],
+          "span": 4
         },
         {
           "title": "检验结论",
@@ -334,17 +354,19 @@
           "checkedChildren": "合格",
           "unCheckedChildren": "不合格",
           "placeholder": "请在此填入检验结论",
-          "span": 8,
           "rule": {
             "required": true
-          }
+          },
+          "defaultValue": true,
+          "unReset": true,
+          "span": 5
         },
         {
           "title": "备注",
           "type": "input.textarea",
           "key": "remark",
           "placeholder": "请在此填入备注信息",
-          "span": 8,
+          "span": 7,
           "rule": {
             "required": true
           }
