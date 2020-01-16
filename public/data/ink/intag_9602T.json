@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "785/o3p6ldzyyc",
-      "param": ["batch_no"]
+      "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
     },
     "update": {
       "url": "786/o3p6ldzyyc",
-      "param": ["batch_no"]
+      "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
     },
     "query": {
       "url": "787/o3p6ldzyyc",
-      "param": ["batch_no"]
+      "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
     },
     "table": {
       "url": "788/o3p6ldzyyc"
@@ -36,71 +36,13 @@
           "title": "油墨类型",
           "type": "label",
           "key": "ink_type",
-          "value": "凹印"
-        },
-        {
-          "title": "来料日期",
-          "type": "datepicker",
-          "key": "sample_date",
-          "datetype": "YYYY-MM-DD",
-          "rule": {
-            "required": true
-          },
-          "unReset": true
-        },
-        {
-          "title": "生产厂家",
-          "type": "input",
-          "key": "place",
-          "rule": {
-            "required": true,
-            "msg": "请输入生产厂家"
-          },
-          "placeholder": "请输入生产厂家",
-          "defaultValue": "中钞油墨",
-          "unReset": true
-        },
-        {
-          "title": "批次",
-          "type": "input",
-          "key": "batch_no",
-          "rule": {
-            "required": true,
-            "msg": "请输入批号"
-          },
-          "placeholder": "请输入批号",
-          "toupper": "true"
-        },
-        {
-          "title": "数量",
-          "type": "input",
-          "key": "prod_num",
-          "rule": {
-            "type": "float",
-            "required": true,
-            "msg": "请输入数量"
-          },
-          "suffix": "kg"
-        },
-        {
-          "title": "报检人",
-          "type": "select",
-          "key": "check_user",
-          "span": 8,
-          "rule": {
-            "required": true
-          },
-          "unReset": true,
-          "defaultOption": [
-            { "name": "李群英", "value": "李群英" },
-            { "name": "刘哲萍", "value": "刘哲萍" },
-            { "name": "胡艳", "value": "胡艳" }
-          ]
+          "value": "凹印油墨"
         },
         {
           "title": "油墨名称",
           "type": "select",
           "key": "ink_name",
+          "unReset": true,
           "rule": {
             "required": true
           },
@@ -163,6 +105,69 @@
               ]
             }
           ]
+        },
+        {
+          "title": "来料日期",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "生产厂家",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入生产厂家"
+          },
+          "placeholder": "请输入生产厂家",
+          "type": "select",
+          "defaultOption": [
+            { "name": "中钞油墨", "value": "中钞油墨" },
+            { "name": "锡克拜", "value": "锡克拜" },
+            { "name": "北京印钞", "value": "北京印钞" }
+          ],
+          "unReset": true
+        },
+        {
+          "title": "批次",
+          "type": "input",
+          "key": "batch_no",
+          "rule": {
+            "required": true,
+            "msg": "请输入批号"
+          },
+          "placeholder": "请输入批号",
+          "toupper": "true"
+        },
+        {
+          "title": "数量",
+          "type": "input",
+          "key": "prod_num",
+          "rule": {
+            "type": "float",
+            "required": true,
+            "msg": "请输入数量"
+          },
+          "suffix": "kg"
+        },
+        {
+          "title": "报检人",
+          "type": "select",
+          "key": "check_user",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true,
+          "defaultOption": [
+            { "name": "李群英", "value": "李群英" },
+            { "name": "刘哲萍", "value": "刘哲萍" },
+            { "name": "胡艳", "value": "胡艳" }
+          ]
         }
       ]
     },
@@ -177,6 +182,7 @@
           "rule": {
             "required": true
           },
+          "unReset": true,
           "defaultValue": "近似—微"
         },
         {
@@ -294,8 +300,7 @@
           "span": 8,
           "rule": {
             "required": true
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "title": "备注",

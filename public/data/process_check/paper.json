@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "755/li4y6pztli",
-      "param": ["reel_no"]
+      "param": ["machine_name", "check_date", "reel_no", "prod_name"]
     },
     "update": {
       "url": "756/li4y6pztli",
-      "param": ["reel_no"]
+      "param": ["machine_name", "check_date", "reel_no", "prod_name"]
     },
     "query": {
       "url": "757/li4y6pztli",
-      "param": ["reel_no"]
+      "param": ["machine_name", "check_date", "reel_no", "prod_name"]
     },
     "table": {
       "url": "758/li4y6pztli"

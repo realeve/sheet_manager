@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "770/as09746whf",
-      "param": ["batch_no"]
+      "param": ["prod_name", "place", "batch_no", "sample_date"]
     },
     "update": {
       "url": "771/as09746whf",
-      "param": ["batch_no"]
+      "param": ["prod_name", "place", "batch_no", "sample_date"]
     },
     "query": {
       "url": "772/as09746whf",
-      "param": ["batch_no"]
+      "param": ["prod_name", "place", "batch_no", "sample_date"]
     },
     "table": {
       "url": "773/as09746whf"
@@ -377,8 +377,7 @@
           "span": 8,
           "rule": {
             "required": true
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "title": "备注",

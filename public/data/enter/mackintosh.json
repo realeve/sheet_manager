@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "765/0v63cacz6h",
-      "param": ["batch_no"]
+      "param": ["prod_size", "place", "sample_date", "batch_no"]
     },
     "update": {
       "url": "766/0v63cacz6h",
-      "param": ["batch_no"]
+      "param": ["prod_size", "place", "sample_date", "batch_no"]
     },
     "query": {
       "url": "767/0v63cacz6h",
-      "param": ["batch_no"]
+      "param": ["prod_size", "place", "sample_date", "batch_no"]
     },
     "table": {
       "url": "768/0v63cacz6h"
@@ -30,13 +30,16 @@
           "title": "产品名称",
           "type": "label",
           "key": "prod_name",
-          "value": "凹印机橡皮布（Ⅰ型 ）"
+          "value": "凹印机橡皮布（一布一胶）Ⅰ型"
         },
         {
           "title": "产品规格",
-          "type": "label",
           "key": "prod_size",
-          "value": "1100*870*0.5"
+          "type": "select",
+          "defaultOption": [
+            { "name": "1100*870*0.5", "value": "1100*870*0.5" },
+            { "name": "1050*850*0.5", "value": "1050*850*0.5" }
+          ]
         },
         {
           "title": "生产厂家",
@@ -225,8 +228,7 @@
           "span": 8,
           "rule": {
             "required": true
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "title": "备注",

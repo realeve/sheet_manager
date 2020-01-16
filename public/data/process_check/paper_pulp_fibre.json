@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "745/tzzq7te3e8",
-      "param": ["pulp_name_sn"]
+      "param": ["pulp_name_sn", "check_date"]
     },
     "update": {
       "url": "746/tzzq7te3e8",
-      "param": ["pulp_name_sn"]
+      "param": ["pulp_name_sn", "check_date"]
     },
     "query": {
       "url": "747/tzzq7te3e8",
-      "param": ["pulp_name_sn"]
+      "param": ["pulp_name_sn", "check_date"]
     },
     "table": {
       "url": "748/tzzq7te3e8"
@@ -38,7 +38,12 @@
         },
         {
           "title": "浆料名称",
-          "type": "input",
+          "type": "select",
+          "defaultOption": [
+            { "name": "1#机上网浆", "value": "1#机上网浆" },
+            { "name": "2#机上网浆", "value": "2#机上网浆" },
+            { "name": "3#机上网浆", "value": "3#机上网浆" }
+          ],
           "block": "编号",
           "key": "pulp_name_sn",
           "rule": {

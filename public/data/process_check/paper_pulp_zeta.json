@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "750/yjbm79kskh",
-      "param": ["batch_no"]
+      "param": ["sample_date", "machine_name"]
     },
     "update": {
       "url": "751/yjbm79kskh",
-      "param": ["batch_no"]
+      "param": ["sample_date", "machine_name"]
     },
     "query": {
       "url": "752/yjbm79kskh",
-      "param": ["batch_no"]
+      "param": ["sample_date", "machine_name"]
     },
     "table": {
       "url": "753/yjbm79kskh"
@@ -38,7 +38,12 @@
         },
         {
           "title": "机台号",
-          "type": "input",
+          "type": "select",
+          "defaultOption": [
+            { "name": "1#机", "value": "1#机" },
+            { "name": "2#机", "value": "2#机" },
+            { "name": "3#机", "value": "3#机" }
+          ],
           "key": "machine_name",
           "rule": {
             "required": true

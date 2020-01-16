@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "735/n50x19f8xg",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "update": {
       "url": "736/n50x19f8xg",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "query": {
       "url": "737/n50x19f8xg",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "table": {
       "url": "738/n50x19f8xg"
@@ -166,7 +166,8 @@
           "key": "surface",
           "rule": {
             "required": true
-          }
+          },
+          "unReset": true
         },
         {
           "title": "固含量",
@@ -243,8 +244,7 @@
           "span": 8,
           "rule": {
             "required": true
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "title": "备注",

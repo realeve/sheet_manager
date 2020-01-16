@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "740/83carsqhu",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "update": {
       "url": "741/83carsqhu",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "query": {
       "url": "742/83carsqhu",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "table": {
       "url": "743/83carsqhu"
@@ -183,8 +183,7 @@
           "span": 8,
           "rule": {
             "required": true
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "title": "备注",

@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "721/58168dab69",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "update": {
       "url": "722/a9170175b7",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "query": {
       "url": "723/7b2f3174d9",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "table": {
       "url": "724/3a3c0940e3"
@@ -288,8 +288,7 @@
           "span": 8,
           "rule": {
             "required": true
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "title": "备注",

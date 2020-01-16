@@ -273,7 +273,10 @@ SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       </Paragraph>
 
       <CodeMirror
-        value={`       JSON.stringify(
+        value={`
+        // 将以下文字粘贴至调试控制台
+
+        let str = JSON.stringify(
         \`JB2 正棕
         JB2 正桔红 
         \`.split('\\n')
@@ -285,7 +288,18 @@ SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
           "suffix": "%",
           "block": "有红外吸收，近红外反射值≤15%"
         }
-      ]})))`}
+      ]})));
+     console.log(\` {
+       "title":"某值",
+       "key":"key",
+      "type": "select",
+      "defaultOption":\$\{str\},
+      "rule": { 
+        "required": true
+      }
+    }\`);
+      
+      `}
         options={{
           mode: 'javascript',
           lineNumbers: true,

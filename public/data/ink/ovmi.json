@@ -57,7 +57,16 @@
           "title": "油墨类型",
           "type": "label",
           "key": "ink_type",
-          "value": "丝印"
+          "value": "丝印油墨"
+        },
+        {
+          "title": "油墨名称",
+          "type": "input",
+          "key": "ink_name",
+          "unReset": true,
+          "rule": {
+            "required": true
+          }
         },
         {
           "title": "来料日期",
@@ -71,14 +80,18 @@
         },
         {
           "title": "生产厂家",
-          "type": "input",
           "key": "place",
           "rule": {
             "required": true,
             "msg": "请输入生产厂家"
           },
           "placeholder": "请输入生产厂家",
-          "defaultValue": "中钞油墨",
+          "type": "select",
+          "defaultOption": [
+            { "name": "中钞油墨", "value": "中钞油墨" },
+            { "name": "锡克拜", "value": "锡克拜" },
+            { "name": "北京印钞", "value": "北京印钞" }
+          ],
           "unReset": true
         },
         {
@@ -117,14 +130,6 @@
             { "name": "刘哲萍", "value": "刘哲萍" },
             { "name": "胡艳", "value": "胡艳" }
           ]
-        },
-        {
-          "title": "油墨名称",
-          "type": "input",
-          "key": "ink_name",
-          "rule": {
-            "required": true
-          }
         }
       ]
     },
@@ -261,8 +266,7 @@
           "span": 8,
           "rule": {
             "required": true
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "title": "备注",

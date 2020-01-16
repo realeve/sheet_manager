@@ -206,7 +206,7 @@ export default function formItem({
         {type === 'switch' && (
           <Switch
             defaultChecked
-            checked={Boolean(state)}
+            checked={[true, 'true', '1'].includes(state)}
             onChange={value => onChange(value)}
             {...props}
           />

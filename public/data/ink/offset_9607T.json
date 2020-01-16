@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "790/8fdkhqmvrc",
-      "param": ["batch_no"]
+      "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
     },
     "update": {
       "url": "791/8fdkhqmvrc",
-      "param": ["batch_no"]
+      "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
     },
     "query": {
       "url": "792/8fdkhqmvrc",
-      "param": ["batch_no"]
+      "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
     },
     "table": {
       "url": "793/8fdkhqmvrc"
@@ -36,7 +36,64 @@
           "title": "油墨类型",
           "type": "label",
           "key": "ink_type",
-          "value": "胶印"
+          "value": "胶印油墨"
+        },
+        {
+          "title": "油墨名称",
+          "type": "select",
+          "key": "ink_name",
+          "rule": {
+            "required": true
+          },
+          "unReset": true,
+          "span": 8,
+          "defaultOption": [
+            {
+              "name": "JB2 正隔红",
+              "value": "JB2 正隔红",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB2 正隔红紫",
+              "value": "JB2 正隔红紫",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB2 正棕",
+              "value": "JB2 正棕",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB2 正桔红",
+              "value": "JB2 正桔红",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB2 正背桔红",
+              "value": "JB2 正背桔红",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB2 背浅紫",
+              "value": "JB2 背浅紫",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB2 背隔红",
+              "value": "JB2 背隔红",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB2 背隔黄",
+              "value": "JB2 背隔黄",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB2 背红(UV-2)",
+              "value": "JB2 背红(UV-2)",
+              "hide": ["drying_time", "release_time"]
+            }
+          ]
         },
         {
           "title": "来料日期",
@@ -110,62 +167,6 @@
             { "name": "刘哲萍", "value": "刘哲萍" },
             { "name": "胡艳", "value": "胡艳" }
           ]
-        },
-        {
-          "title": "油墨名称",
-          "type": "select",
-          "key": "ink_name",
-          "rule": {
-            "required": true
-          },
-          "span": 8,
-          "defaultOption": [
-            {
-              "name": "JB2 正隔红",
-              "value": "JB2 正隔红",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB2 正隔红紫",
-              "value": "JB2 正隔红紫",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB2 正棕",
-              "value": "JB2 正棕",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB2 正桔红",
-              "value": "JB2 正桔红",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB2 正背桔红",
-              "value": "JB2 正背桔红",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB2 背浅紫",
-              "value": "JB2 背浅紫",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB2 背隔红",
-              "value": "JB2 背隔红",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB2 背隔黄",
-              "value": "JB2 背隔黄",
-              "hide": ["anti_fake", "drying_time", "release_time"]
-            },
-            {
-              "name": "JB2 背红(UV-2)",
-              "value": "JB2 背红(UV-2)",
-              "hide": ["drying_time", "release_time"]
-            }
-          ]
         }
       ]
     },
@@ -180,6 +181,7 @@
           "rule": {
             "required": true
           },
+          "unReset": true,
           "defaultValue": "近似—微"
         },
         {
@@ -302,8 +304,7 @@
           "span": 8,
           "rule": {
             "required": true
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "title": "备注",

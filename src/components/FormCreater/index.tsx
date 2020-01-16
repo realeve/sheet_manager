@@ -142,6 +142,7 @@ function FormCreater({ config, dispatch }) {
   let [remark, setRemark] = useState('');
   const getFieldNameByKey = key => {
     let res = R.find(R.propEq('key', key))(cfg);
+    // console.log(key, res);
     return res.title;
   };
 
@@ -220,7 +221,16 @@ function FormCreater({ config, dispatch }) {
   const onReset = () => {
     let keys = R.compose(
       R.pluck('key'),
-      R.filter(item => item.unReset || item.type === 'label' || item.defaultValue) // label项默认不重置、unReset项不重置、带有defaultValue的项不重置
+      R.filter(
+        item =>
+          item.unReset ||
+          item.type === 'label' ||
+          item.defaultValue ||
+          item.value ||
+          item.defaultOption ||
+          item.url
+      ) // label项默认不重置、unReset项不重置、带有defaultValue的项不重置,带有value的项不重置
+      // 带有defaultOption及url的下拉项不重置
     )(cfg);
     if (keys.length === 0) {
       setState(fields);

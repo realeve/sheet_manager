@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "760/uyxowg17o",
-      "param": ["batch_no"]
+      "param": ["check_date", "machine_name", "print_head_sn"]
     },
     "update": {
       "url": "761/uyxowg17o",
-      "param": ["batch_no"]
+      "param": ["check_date", "machine_name", "print_head_sn"]
     },
     "query": {
       "url": "762/uyxowg17o",
-      "param": ["batch_no"]
+      "param": ["check_date", "machine_name", "print_head_sn"]
     },
     "table": {
       "url": "763/uyxowg17o"
@@ -337,8 +337,7 @@
           "span": 8,
           "rule": {
             "required": true
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "title": "备注",

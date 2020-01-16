@@ -7,15 +7,15 @@
     },
     "delete": {
       "url": "730/4hhkp7d14",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "update": {
       "url": "731/4hhkp7d14",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "query": {
       "url": "732/4hhkp7d14",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "table": {
       "url": "733/4hhkp7d14"
@@ -204,8 +204,7 @@
           "span": 8,
           "rule": {
             "required": true
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "title": "备注",

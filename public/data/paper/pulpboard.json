@@ -7,15 +7,15 @@
     },
     "query": {
       "url": "700/1c0cc98ebe.json",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "delete": {
       "url": "701/002daaaf1a.json",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "update": {
       "url": "702/68e4a4ec47.json",
-      "param": ["batch_no"]
+      "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "table": {
       "url": "703/2d8f9bd190.json"
@@ -31,6 +31,7 @@
           "title": "产品名称",
           "type": "select",
           "block": "产品名称不同时指标范围不同",
+          "unReset": true,
           "defaultOption": [
             {
               "name": "三级棉浆板",
@@ -236,14 +237,24 @@
         },
         {
           "title": "产地",
-          "type": "input",
+          "type": "select",
           "key": "place",
           "rule": {
             "required": true,
             "msg": "请输入产地信息"
           },
           "placeholder": "请输入产地信息",
-          "maxLength": 8
+          "unReset": true,
+          "defaultOption": [
+            { "name": "合肥银山", "value": "合肥银山" },
+            { "name": "湖北明丰", "value": "湖北明丰" },
+            { "name": "阜阳银丰", "value": "阜阳银丰" },
+            { "name": "河北欣望", "value": "河北欣望" },
+            { "name": "安徽雪龙", "value": "安徽雪龙" },
+            { "name": "山东银鹰", "value": "山东银鹰" },
+            { "name": "青岛汉唐", "value": "青岛汉唐" },
+            { "name": "深州东初", "value": "深州东初" }
+          ]
         },
         {
           "title": "批号",
@@ -259,10 +270,11 @@
         {
           "title": "数量",
           "block": "单位:件",
-          "type": "input.number",
+          "type": "input",
           "key": "prod_num",
           "rule": {
             "required": true,
+            "type": "int",
             "msg": "请输入数量"
           },
           "placeholder": "请输入数量"
@@ -314,7 +326,7 @@
       "detail": [
         {
           "title": "白度",
-          "type": "input.number",
+          "type": "input",
           "key": "whiteness",
           "block": "(单位：%)",
           "rule": {
@@ -324,7 +336,7 @@
         },
         {
           "title": "尘埃度",
-          "type": "input.number",
+          "type": "input",
           "key": "dirt_count",
           "block": "(单位：mm<sup>2</sup>/500g)",
           "rule": {
@@ -334,7 +346,7 @@
         },
         {
           "title": "水分",
-          "type": "input.number",
+          "type": "input",
           "key": "moisture_count",
           "scope": {
             "max": 13,
@@ -348,7 +360,7 @@
         },
         {
           "title": "荧光物质",
-          "type": "input.number",
+          "type": "input",
           "key": "fluo",
           "block": "(单位：mm<sup>2</sup>/500g)",
           "rule": {
@@ -358,7 +370,7 @@
         },
         {
           "title": "平均纤维长",
-          "type": "input.number",
+          "type": "input",
           "key": "avg_fiber_length",
           "block": "(单位：mm)",
           "rule": {
@@ -368,7 +380,7 @@
         },
         {
           "title": "耐折度(双次)",
-          "type": "input.number",
+          "type": "input",
           "key": "folding_strength",
           "rule": {
             "type": "float",
@@ -377,7 +389,7 @@
         },
         {
           "title": "裂断长",
-          "type": "input.number",
+          "type": "input",
           "key": "breaking_length",
           "block": "(单位：m)",
           "rule": {
@@ -387,7 +399,7 @@
         },
         {
           "title": "pH值",
-          "type": "input.number",
+          "type": "input",
           "key": "ph",
           "rule": {
             "type": "float",
@@ -428,8 +440,7 @@
           "span": 8,
           "rule": {
             "required": true
-          },
-          "defaultValue": "1"
+          }
         },
         {
           "title": "备注",
