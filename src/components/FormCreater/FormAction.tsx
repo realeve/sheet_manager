@@ -6,6 +6,8 @@ import * as R from 'ramda';
 import { formatMessage } from 'umi/locale';
 import styles from './index.less';
 import { connect } from 'dva';
+import { useLocation } from 'react-use';
+import qs from 'qs';
 
 function formAction({
   fields,
@@ -25,6 +27,26 @@ function formAction({
 }) {
   // 当前数据提交状态，提交时禁止重复提交
   const [submitting, setSubmitting] = useState(false);
+  const { hash } = useLocation();
+  useEffect(() => {
+    let { api } = config;
+
+    // 载入历史数据
+    if (!api.load || !api.load.url) {
+      return;
+    }
+
+    let param = qs.parse(hash.slice(1));
+    if (!param._id) {
+      return;
+    }
+
+    // 如果有 id
+    setLoadOption({
+      url: api.load.url,
+      params: { _id: param._id },
+    });
+  }, [hash]);
 
   const formInstance = {
     set(data) {
@@ -55,6 +77,10 @@ function formAction({
     }
 
     axios(loadOption).then(({ data }) => {
+      notification.success({
+        message: '系统提示',
+        description: '历史数据载入成功.',
+      });
       if (data.length === 0) {
         return;
       }

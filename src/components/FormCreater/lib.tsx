@@ -322,7 +322,15 @@ INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr,remark )
 VALUES
   ( '${nonce}','2','1','${config.name} 近期录入信息','SELECT top 10 * FROM view_${config.table} ORDER BY 录入时间 desc','' );`;
 
-  return [add, del, edit, query, review].join('\r\n');
+  const load = `
+  -- 历史数据载入功能
+  INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr,param,remark )
+  VALUES
+    ( '${nonce}','2','1','${config.name} 载入历史数据','SELECT ${keyStrs.join(',')}  FROM tbl_${
+    config.table
+  } where id = ?','_id','' );`;
+
+  return [add, del, edit, query, review, load].join('\r\n');
 };
 
 /**
@@ -331,7 +339,7 @@ VALUES
  * @param nonce 该组api的nonce信息，向API管理后台数据库写入nonce参数后，数据库端不再自动生成，以此处传入的为准。
  */
 export const getApiConfig = async (formConfig, nonce) => {
-  let keys = ['insert', 'delete', 'update', 'query', 'table'];
+  let keys = ['insert', 'delete', 'update', 'query', 'table', 'load'];
   let res = {};
 
   let { maxid } = await getSysApi().then(res => res.data[0]);
@@ -341,9 +349,28 @@ export const getApiConfig = async (formConfig, nonce) => {
       url: `${idx + maxid}/${nonce}`,
     };
     if (formConfig.api[key] && formConfig.api[key].param) {
-      res[key].param = R.clone(formConfig.api[key].param);
+      res[key].param = R.clone(formConfig.api[key].param || []);
     }
   });
   formConfig.api = res;
   return formConfig;
+};
+
+export const beforeSheetRender = ({ columns, ...config }) => {
+  let colConfig = R.clone(columns);
+  let idx = R.findIndex(R.propEq('title', 'id'))(colConfig);
+  let item = R.nth(idx, colConfig);
+  let { hash } = window.location;
+  let param = qs.parse(hash.slice(1));
+  let id = param.id;
+
+  item.renderer = (hotInstance, TD, row, col, prop, _id) => {
+    TD.innerHTML = _id
+      ? `<a href="#id=${id}&_id=${_id}"  style="text-decoration:none;margin:3px;" class="ant-btn ant-btn-primary"> 载入 </a>`
+      : '';
+  };
+  item.title = '操作';
+  // console.log(item);
+  colConfig = R.update(idx, item)(colConfig);
+  return { columns: colConfig, ...config };
 };

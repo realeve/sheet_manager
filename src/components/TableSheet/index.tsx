@@ -140,7 +140,7 @@ const getFreeze = () => {
   return R.range(0, Number(freeze));
 };
 
-const TableSheet = ({ data, onFilter }) => {
+const TableSheet = ({ data, onFilter, beforeRender = e => e }) => {
   const [config, setConfig] = useState({
     licenseKey: 'non-commercial-and-evaluation',
   });
@@ -157,7 +157,7 @@ const TableSheet = ({ data, onFilter }) => {
     };
 
     let cfg = getConfig(data, afterFilter);
-
+    cfg = beforeRender && beforeRender(cfg);
     setConfig(cfg);
 
     // 冻结指定列

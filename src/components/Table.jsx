@@ -360,19 +360,15 @@ class Tables extends Component {
     } = this.state;
 
     let tableColumn = this.appendActions(columns);
-    if (this.props.beforeRender) {
-      tableColumn = this.props.beforeRender(tableColumn);
-    }
 
     if (!isAntd) {
       let nestedHeaders = handleSheetHeader(tableColumn);
-      // console.log(nestedHeaders);
       let rest = R.clone(this.props.dataSrc);
-      // let nextData = R.map(item => Object.values(item).slice(1), dataSource); : nextData
 
       return (
         <Sheet
           data={{ ...rest, nestedHeaders, hidemenu }}
+          beforeRender={this.props.beforeRender}
           onFilter={filterIdx => {
             this.setState({
               filterIdx,
@@ -380,6 +376,10 @@ class Tables extends Component {
           }}
         />
       );
+    }
+
+    if (this.props.beforeRender) {
+      tableColumn = this.props.beforeRender(tableColumn);
     }
 
     let scroll = {};

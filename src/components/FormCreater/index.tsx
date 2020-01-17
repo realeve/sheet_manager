@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
 import { Card, Row, Icon } from 'antd';
 import styles from './index.less';
-import { validRequire } from './lib';
+import { validRequire, beforeSheetRender } from './lib';
 import FormItem from './FormItem';
 import CodeDrawer from './CodeDrawer';
 import FormAction from './FormAction';
@@ -12,6 +12,8 @@ import * as R from 'ramda';
 import { connect } from 'dva';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+
+import qs from 'qs';
 moment.locale('zh-cn');
 let getUrl = formConfig => {
   let url = (formConfig.api.table || { url: '' }).url.replace('.json', '.array');
@@ -29,6 +31,7 @@ const getDefaultList = cfg => {
   });
   return res;
 };
+
 function FormCreater({ config, dispatch }) {
   // 增加对总分的计算，与scope字段一并处理
   let [state, setState] = useSetState();
@@ -370,7 +373,12 @@ function FormCreater({ config, dispatch }) {
         ))}
         {tblData && (
           <Card>
-            <VTable dataSrc={tblData} loading={loading} merge={false} />
+            <VTable
+              dataSrc={tblData}
+              beforeRender={beforeSheetRender}
+              loading={loading}
+              merge={false}
+            />
           </Card>
         )}
       </div>
