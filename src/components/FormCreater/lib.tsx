@@ -350,6 +350,8 @@ export const getApiConfig = async (formConfig, nonce) => {
     };
     if (formConfig.api[key] && formConfig.api[key].param) {
       res[key].param = R.clone(formConfig.api[key].param || []);
+    } else if (key === 'load') {
+      res[key].param = ['_id'];
     }
   });
   formConfig.api = res;
@@ -359,6 +361,9 @@ export const getApiConfig = async (formConfig, nonce) => {
 export const beforeSheetRender = ({ columns, ...config }) => {
   let colConfig = R.clone(columns);
   let idx = R.findIndex(R.propEq('title', 'id'))(colConfig);
+  if (idx < 0) {
+    return { columns, ...config };
+  }
   let item = R.nth(idx, colConfig);
   let { hash } = window.location;
   let param = qs.parse(hash.slice(1));

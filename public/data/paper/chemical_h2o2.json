@@ -19,6 +19,10 @@
     },
     "table": {
       "url": "714/878165419b"
+    },
+    "load": {
+      "url": "804/9euxgr7yx.json",
+      "param": ["_id"]
     }
   },
   "table": "paper_material_chemical_h2o2",

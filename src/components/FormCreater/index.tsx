@@ -13,7 +13,6 @@ import { connect } from 'dva';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
-import qs from 'qs';
 moment.locale('zh-cn');
 let getUrl = formConfig => {
   let url = (formConfig.api.table || { url: '' }).url.replace('.json', '.array');
@@ -139,6 +138,10 @@ function FormCreater({ config, dispatch }) {
     },
     valid: () =>
       formConfig.api.table && formConfig.api.table.url && formConfig.api.table.url.length > 0,
+    // callback: ({ data, ...res }) => {
+    //   data = data.map(tr => tr.map(td => (td ? td.trim() : '')));
+    //   return { data, ...res };
+    // },
   });
 
   // 设置不合格数据
@@ -375,7 +378,7 @@ function FormCreater({ config, dispatch }) {
           <Card>
             <VTable
               dataSrc={tblData}
-              beforeRender={beforeSheetRender}
+              beforeRender={formConfig.api.load ? beforeSheetRender : e => e}
               loading={loading}
               merge={false}
             />

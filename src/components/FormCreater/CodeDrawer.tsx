@@ -15,7 +15,7 @@ const { Title, Paragraph, Text } = Typography;
 import styles from './CodeDrawer.less';
 import * as R from 'ramda';
 import { getNonce } from '@/utils/lib';
-import { getApiConfig, getApi, getCreate } from './lib';
+import { getApiConfig, getApi, getCreate, getSysApi } from './lib';
 
 import { formatMessage } from 'umi/locale';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -68,6 +68,16 @@ SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       let nonce = getNonce();
       const api = getApi(formConfig, nonce);
       let jsonCfg = await getApiConfig(R.clone(formConfig), nonce);
+
+      let { maxid } = await getSysApi().then(res => res.data[0]);
+      console.log(api);
+      console.log(
+        JSON.stringify({
+          load: { url: `${maxid}/${nonce}.json`, param: ['_id'] },
+        })
+          .replace('{', ',')
+          .slice(0, -1)
+      );
 
       setSql({
         select,

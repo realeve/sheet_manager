@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "733/4hhkp7d14"
-    }
+    },
+    "load": { "url": "807/5nyuu4vyqv5.json", "param": ["_id"] }
   },
   "table": "paper_material_chemical_tio2",
   "detail": [

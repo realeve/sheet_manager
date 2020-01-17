@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "763/uyxowg17o"
-    }
+    },
+    "load": { "url": "813/9c3fnytsnk.json", "param": ["_id"] }
   },
   "table": "process_check_split_band",
   "detail": [

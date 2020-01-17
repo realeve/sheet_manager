@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "738/n50x19f8xg"
-    }
+    },
+    "load": { "url": "808/c2czkg0l6l.json", "param": ["_id"] }
   },
   "table": "paper_material_chemical_wet_strength",
   "detail": [

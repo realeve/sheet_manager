@@ -19,6 +19,10 @@
     },
     "table": {
       "url": "719/0a0e551574"
+    },
+    "load": {
+      "url": "806/5z7sqcr2p.json",
+      "param": ["_id"]
     }
   },
   "table": "paper_material_chemical_hcl",

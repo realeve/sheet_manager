@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "743/83carsqhu"
-    }
+    },
+    "load": { "url": "809/ytcmtxluxp.json", "param": ["_id"] }
   },
   "table": "paper_material_chemical_alizarin_oil",
   "detail": [

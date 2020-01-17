@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "788/o3p6ldzyyc"
-    }
+    },
+    "load": { "url": "819/to6f7xujo.json", "param": ["_id"] }
   },
   "table": "ink_offset",
   "detail": [

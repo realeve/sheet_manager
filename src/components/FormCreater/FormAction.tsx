@@ -8,6 +8,7 @@ import styles from './index.less';
 import { connect } from 'dva';
 import { useLocation } from 'react-use';
 import qs from 'qs';
+import router from 'umi/router';
 
 function formAction({
   fields,
@@ -88,7 +89,8 @@ function formAction({
       // 去除空格
       let res = data[0];
       Object.keys(res).map(key => {
-        res[key] = res[key].trim();
+        // console.log(res[key]);
+        res[key] = res[key] ? res[key].trim() : '';
       });
       formInstance.set(res);
 
@@ -165,7 +167,22 @@ function formAction({
       message: '系统提示',
       description: '提交成功.',
     });
+
+    let { api } = config;
     onReset();
+
+    // 载入历史数据
+    if (!api.load || !api.load.url) {
+      return;
+    }
+
+    let param = qs.parse(hash.slice(1));
+    if (!param._id) {
+      return;
+    }
+
+    // 关闭载入模式;
+    router.push('#id=' + param.id);
   };
 
   // 根据索引字段删除数据，建议用至少一个字段作为索引，推荐用_id(需在查询中一并附带)

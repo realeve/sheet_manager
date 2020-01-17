@@ -19,6 +19,10 @@
     },
     "table": {
       "url": "709/4b3c4b103e"
+    },
+    "load": {
+      "url": "803/eltkebgoz7i.json",
+      "param": ["_id"]
     }
   },
   "table": "paper_material_chemical_naoh",

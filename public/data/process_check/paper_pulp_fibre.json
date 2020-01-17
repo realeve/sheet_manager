@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "748/tzzq7te3e8"
-    }
+    },
+    "load": { "url": "810/c9wqwtohsp.json", "param": ["_id"] }
   },
   "table": "process_check_paper_pulp_fibre",
   "detail": [

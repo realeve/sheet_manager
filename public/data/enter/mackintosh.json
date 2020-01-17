@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "768/0v63cacz6h"
-    }
+    },
+    "load": { "url": "814/7yy4b9wudk.json", "param": ["_id"] }
   },
   "table": "enter_check_mackintosh",
   "detail": [

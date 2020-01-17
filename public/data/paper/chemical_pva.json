@@ -19,6 +19,10 @@
     },
     "table": {
       "url": "724/3a3c0940e3"
+    },
+    "load": {
+      "url": "805/ujghd0qk5s.json",
+      "param": ["_id"]
     }
   },
   "table": "paper_material_chemical_pva",

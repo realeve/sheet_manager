@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "758/li4y6pztli"
-    }
+    },
+    "load": { "url": "812/4ihq3k92zrl.json", "param": ["_id"] }
   },
   "table": "process_check_paper",
   "detail": [

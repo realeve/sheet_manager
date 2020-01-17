@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "753/yjbm79kskh"
-    }
+    },
+    "load": { "url": "811/cuvuni9uks.json", "param": ["_id"] }
   },
   "table": "process_check_paper_pulp_zeta",
   "detail": [

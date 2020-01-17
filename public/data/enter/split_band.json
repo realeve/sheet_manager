@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "773/as09746whf"
-    }
+    },
+    "load": { "url": "815/mighmxtnpe.json", "param": ["_id"] }
   },
   "table": "enter_check_split_band",
   "detail": [

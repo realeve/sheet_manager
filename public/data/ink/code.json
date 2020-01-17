@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "778/sywp5m567j"
-    }
+    },
+    "load": { "url": "816/gknw81881y.json", "param": ["_id"] }
   },
   "table": "ink_code",
   "detail": [

@@ -19,7 +19,8 @@
     },
     "table": {
       "url": "783/d0h20vqg3k"
-    }
+    },
+    "load": { "url": "817/lakgtzbasq.json", "param": ["_id"] }
   },
   "table": "ink_ovmi",
   "detail": [

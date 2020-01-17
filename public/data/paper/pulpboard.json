@@ -21,7 +21,8 @@
       "url": "703/2d8f9bd190.json"
     },
     "load": {
-      "url": "802/71wyfprk7.json"
+      "url": "802/71wyfprk7.json",
+      "param": ["_id"]
     }
   },
   "table": "paper_material_pulpboard",
