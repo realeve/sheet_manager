@@ -15,7 +15,7 @@ npm-debug.log*
 .umi-production
 
 /docs/json
-/public/data/*.json
+# /public/data/*.json
 *.log*
 
 /coverage
