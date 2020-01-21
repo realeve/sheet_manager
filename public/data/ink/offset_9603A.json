@@ -1,26 +1,26 @@
 {
-  "name": "油墨/凹印/9606T",
+  "name": "油墨/胶印/9603A",
   "api": {
     "insert": {
-      "url": "784/o3p6ldzyyc",
+      "url": "789/8fdkhqmvrc",
       "param": ["rec_time", "uid"]
     },
     "delete": {
-      "url": "785/o3p6ldzyyc",
+      "url": "790/8fdkhqmvrc",
       "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
     },
     "update": {
-      "url": "786/o3p6ldzyyc",
+      "url": "791/8fdkhqmvrc",
       "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
     },
     "query": {
-      "url": "787/o3p6ldzyyc",
+      "url": "792/8fdkhqmvrc",
       "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
     },
     "table": {
-      "url": "788/o3p6ldzyyc.array?prod=9606T"
+      "url": "793/8fdkhqmvrc.array?prod=9603A"
     },
-    "load": { "url": "819/to6f7xujo.json", "param": ["_id"] }
+    "load": { "url": "818/xle6ag5qgc.json", "param": ["_id"] }
   },
   "table": "ink_offset",
   "detail": [
@@ -31,13 +31,13 @@
           "title": "产品品种",
           "type": "label",
           "key": "prod_name",
-          "value": "9606T"
+          "value": "9603A"
         },
         {
           "title": "油墨类型",
           "type": "label",
           "key": "ink_type",
-          "value": "凹印油墨"
+          "value": "胶印油墨"
         },
         {
           "title": "油墨名称",
@@ -47,105 +47,62 @@
             "required": true
           },
           "unReset": true,
-          "span": 8,
           "defaultOption": [
             {
-              "name": "WJ1正主景绿",
-              "value": "WJ1正主景绿",
-              "hide": ["anti_fake", "drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 6,
-                  "max": 12
-                }
-              ]
+              "name": "JB1正蓝",
+              "value": "JB1正蓝",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "WJ1正棕(SmartX)",
-              "value": "WJ1正棕(SmartX)",
-              "hide": ["anti_fake", "drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 3,
-                  "max": 9
-                }
-              ]
+              "name": "JB1正紫",
+              "value": "JB1正紫",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "WJ1正蓝(SM-1)",
-              "value": "WJ1正蓝(SM-1)",
+              "name": "JB1正背桔红",
+              "value": "JB1正背桔红",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB1正隔蓝",
+              "value": "JB1正隔蓝",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB1正隔黄绿",
+              "value": "JB1正隔黄绿",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB1正隔紫",
+              "value": "JB1正隔紫",
+              "hide": ["anti_fake", "drying_time", "release_time"]
+            },
+            {
+              "name": "JB1背绿（UV-2）",
+              "value": "JB1背绿（UV-2）",
               "hide": ["drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "anti_fake",
-                  "min": 320
-                },
-                {
-                  "key": "viscosity",
-                  "min": 3,
-                  "max": 9
-                }
-              ]
+              "scope": [{ "key": "anti_fake", "defaultValue": "有，绿光" }]
             },
             {
-              "name": "WJ1背主景绿",
-              "value": "WJ1背主景绿",
-              "hide": ["drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "anti_fake",
-                  "block": "红外吸收特性：无",
-                  "defaultValue": "红外吸收特性：无"
-                },
-                {
-                  "key": "viscosity",
-                  "min": 5,
-                  "max": 11
-                }
-              ]
+              "name": "JB1背隔紫红",
+              "value": "JB1背隔紫红",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "WJ1背主景绿 (IA-M)",
-              "value": "WJ1背主景绿 (IA-M)",
-              "hide": ["drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "anti_fake",
-                  "block": "红外吸收特性：有",
-                  "defaultValue": "红外吸收特性：有"
-                },
-                {
-                  "key": "viscosity",
-                  "min": 5,
-                  "max": 11
-                }
-              ]
+              "name": "JB1背隔蓝",
+              "value": "JB1背隔蓝",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "WJ1背蓝",
-              "value": "WJ1背蓝",
-              "hide": ["anti_fake", "drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 3,
-                  "max": 9
-                }
-              ]
+              "name": "JB1背隔黄",
+              "value": "JB1背隔黄",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             },
             {
-              "name": "WJ1背浅棕",
-              "value": "WJ1背浅棕",
-              "hide": ["anti_fake", "drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "viscosity",
-                  "min": 3,
-                  "max": 9
-                }
-              ]
+              "name": "JB1背隔紫",
+              "value": "JB1背隔紫",
+              "hide": ["anti_fake", "drying_time", "release_time"]
             }
           ]
         },
@@ -237,7 +194,7 @@
             "required": true
           },
           "scope": {
-            "max": 1.5,
+            "max": 3,
             "min": 0
           },
           "block": "△E (仪器法)"
@@ -249,6 +206,10 @@
           "rule": {
             "type": "float",
             "required": true
+          },
+          "scope": {
+            "max": 15,
+            "min": 7
           },
           "suffix": "Pa•S/40℃"
         },
@@ -262,7 +223,7 @@
             "required": true
           },
           "scope": {
-            "max": 16,
+            "max": 20,
             "min": 0
           },
           "suffix": "μm"
@@ -275,7 +236,8 @@
             "type": "float",
             "required": true
           },
-          "suffix": "S"
+          "suffix": "S",
+          "hide": true
         },
         {
           "title": "自然干",
@@ -285,11 +247,8 @@
             "type": "float",
             "required": true
           },
-          "scope": {
-            "max": 24,
-            "min": 0
-          },
-          "suffix": "h"
+          "suffix": "h",
+          "hide": true
         },
         {
           "title": "干性",
@@ -300,7 +259,10 @@
             "required": true
           },
           "suffix": "Min/80℃",
-          "hide": true
+          "scope": {
+            "min": 10,
+            "max": 30
+          }
         },
         {
           "title": "防伪特性",

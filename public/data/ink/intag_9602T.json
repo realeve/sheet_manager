@@ -18,7 +18,7 @@
       "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
     },
     "table": {
-      "url": "788/o3p6ldzyyc"
+      "url": "788/o3p6ldzyyc.array?prod=9602T"
     },
     "load": { "url": "819/to6f7xujo.json", "param": ["_id"] }
   },

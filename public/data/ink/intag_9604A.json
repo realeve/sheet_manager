@@ -1,5 +1,5 @@
 {
-  "name": "油墨/凹印/9606T",
+  "name": "油墨/凹印/9604A",
   "api": {
     "insert": {
       "url": "784/o3p6ldzyyc",
@@ -18,7 +18,7 @@
       "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
     },
     "table": {
-      "url": "788/o3p6ldzyyc.array?prod=9606T"
+      "url": "788/o3p6ldzyyc.array?prod=9604A"
     },
     "load": { "url": "819/to6f7xujo.json", "param": ["_id"] }
   },
@@ -31,7 +31,7 @@
           "title": "产品品种",
           "type": "label",
           "key": "prod_name",
-          "value": "9606T"
+          "value": "9604A"
         },
         {
           "title": "油墨类型",
@@ -47,103 +47,124 @@
             "required": true
           },
           "unReset": true,
-          "span": 8,
           "defaultOption": [
             {
-              "name": "WJ1正主景绿",
-              "value": "WJ1正主景绿",
+              "name": "正主景紫",
+              "value": "正主景紫",
               "hide": ["anti_fake", "drying_time", "release_time"],
               "scope": [
                 {
                   "key": "viscosity",
                   "min": 6,
                   "max": 12
+                },
+                {
+                  "key": "dryness",
+                  "min": 7,
+                  "max": 15
                 }
               ]
             },
             {
-              "name": "WJ1正棕(SmartX)",
-              "value": "WJ1正棕(SmartX)",
+              "name": "正紫红",
+              "value": "正紫红",
               "hide": ["anti_fake", "drying_time", "release_time"],
               "scope": [
                 {
                   "key": "viscosity",
-                  "min": 3,
+                  "min": 3.5,
                   "max": 9
+                },
+                {
+                  "key": "dryness",
+                  "min": 8,
+                  "max": 16
                 }
               ]
             },
             {
-              "name": "WJ1正蓝(SM-1)",
-              "value": "WJ1正蓝(SM-1)",
+              "name": "正红（SM-1）",
+              "value": "正红（SM-1）",
               "hide": ["drying_time", "release_time"],
               "scope": [
-                {
-                  "key": "anti_fake",
-                  "min": 320
-                },
+                { "key": "anti_fake", "min": 1200, "block": "SM信号值≥1200" },
                 {
                   "key": "viscosity",
-                  "min": 3,
-                  "max": 9
+                  "min": 3.5,
+                  "max": 8.5
+                },
+                {
+                  "key": "dryness",
+                  "min": 10,
+                  "max": 18
                 }
               ]
             },
             {
-              "name": "WJ1背主景绿",
-              "value": "WJ1背主景绿",
-              "hide": ["drying_time", "release_time"],
+              "name": "背主景紫",
+              "value": "背主景紫",
+              "hide": ["anti_fake", "drying_time", "release_time"],
               "scope": [
                 {
-                  "key": "anti_fake",
-                  "block": "红外吸收特性：无",
-                  "defaultValue": "红外吸收特性：无"
+                  "key": "viscosity",
+                  "min": 6,
+                  "max": 13
                 },
+                {
+                  "key": "dryness",
+                  "min": 7,
+                  "max": 15
+                }
+              ]
+            },
+            {
+              "name": "背紫红",
+              "value": "背紫红",
+              "hide": ["anti_fake", "drying_time", "release_time"],
+              "scope": [
                 {
                   "key": "viscosity",
                   "min": 5,
                   "max": 11
-                }
-              ]
-            },
-            {
-              "name": "WJ1背主景绿 (IA-M)",
-              "value": "WJ1背主景绿 (IA-M)",
-              "hide": ["drying_time", "release_time"],
-              "scope": [
-                {
-                  "key": "anti_fake",
-                  "block": "红外吸收特性：有",
-                  "defaultValue": "红外吸收特性：有"
                 },
                 {
-                  "key": "viscosity",
-                  "min": 5,
-                  "max": 11
+                  "key": "dryness",
+                  "min": 8,
+                  "max": 16
                 }
               ]
             },
             {
-              "name": "WJ1背蓝",
-              "value": "WJ1背蓝",
+              "name": "背蓝",
+              "value": "背蓝",
               "hide": ["anti_fake", "drying_time", "release_time"],
               "scope": [
                 {
                   "key": "viscosity",
-                  "min": 3,
+                  "min": 3.5,
                   "max": 9
+                },
+                {
+                  "key": "dryness",
+                  "min": 10,
+                  "max": 18
                 }
               ]
             },
             {
-              "name": "WJ1背浅棕",
-              "value": "WJ1背浅棕",
+              "name": "背浅红",
+              "value": "背浅红",
               "hide": ["anti_fake", "drying_time", "release_time"],
               "scope": [
                 {
                   "key": "viscosity",
-                  "min": 3,
-                  "max": 9
+                  "min": 3.5,
+                  "max": 9.5
+                },
+                {
+                  "key": "dryness",
+                  "min": 10,
+                  "max": 18
                 }
               ]
             }
@@ -237,8 +258,7 @@
             "required": true
           },
           "scope": {
-            "max": 1.5,
-            "min": 0
+            "max": 3
           },
           "block": "△E (仪器法)"
         },
@@ -307,6 +327,7 @@
           "type": "input",
           "key": "anti_fake",
           "rule": {
+            "type": "float",
             "required": true
           }
         },
