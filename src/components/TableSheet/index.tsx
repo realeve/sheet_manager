@@ -74,7 +74,7 @@ const getConfig = (data, afterFilter) => {
         TD.innerHTML = (value || '').split('.')[0];
       };
       column.width = 160;
-    } else if (String(item).trim().length > 10) {
+    } else if (lib.getStringWidth(String(item).trim()) > 10) {
       column.width = 400;
     }
 
