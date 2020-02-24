@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
-import { Card, Row, Icon } from 'antd';
+import { Card, Row, Icon, Switch } from 'antd';
 import styles from './index.less';
 import { validRequire, beforeSheetRender } from './lib';
 import FormItem from './FormItem';
@@ -12,6 +12,9 @@ import * as R from 'ramda';
 import { connect } from 'dva';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import qs from 'qs';
+import { useLocation } from 'react-use';
+import router from 'umi/router';
 
 moment.locale('zh-cn');
 let getUrl = formConfig => {
@@ -63,6 +66,7 @@ function FormCreater({ config, dispatch }) {
   const [qualifyKey, setQualifyKey] = useState(null);
 
   const [queryKey, setQueryKey] = useState([]);
+  const { hash } = useLocation();
 
   useEffect(() => {
     // config改变后初始化表单数据
@@ -299,6 +303,7 @@ function FormCreater({ config, dispatch }) {
             title={
               <div>
                 {idx === 0 && <h3 style={{ marginBottom: 10 }}>{formConfig.name}</h3>}
+
                 <span>
                   {idx + 1}.{mainTitle}
                   {idx === 0 && (
@@ -318,6 +323,32 @@ function FormCreater({ config, dispatch }) {
             }
             style={{ marginBottom: 20 }}
             key={mainTitle}
+            extra={
+              idx === 0 &&
+              location.href.includes('&_id=') && (
+                <Switch
+                  checked={editMethod === 'update'}
+                  title="数据更新模式，将覆盖当前数据，点击切换到普通模式"
+                  checkedChildren="更新模式"
+                  unCheckedChildren="编辑模式"
+                  onClick={() => {
+                    let param = qs.parse(hash.slice(1));
+                    if (!param._id) {
+                      return;
+                    }
+
+                    // 关闭载入模式;
+                    router.push('#id=' + param.id);
+
+                    let status = {
+                      insert: 'update',
+                      update: 'insert',
+                    };
+                    setEditMethod(status[editMethod]);
+                  }}
+                />
+              )
+            }
           >
             <Row gutter={15}>
               {detailArr.map(

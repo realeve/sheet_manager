@@ -268,7 +268,7 @@ function formAction({
           style={{ marginLeft: 20 }}
           loading={submitting}
         >
-          {formatMessage({ id: 'form.update' })}
+          {formatMessage({ id: 'form.update' }) + '当前数据'}
         </Button>
       ) : (
         <Button
