@@ -120,3 +120,17 @@ export const setSysUser = params =>
     url: '/26/0d3c8d84a5.json',
     params,
   });
+
+/**
+ *   @database: { 接口管理 }
+ *   @desc:     { 获取接口名称 }
+ */
+export const getSysApiName = (
+  token //  DEV ? mock(require('@/mock/7_da5d288355.json')) :
+) =>
+  axios({
+    url: '/7/da5d288355.json',
+    params: {
+      token,
+    },
+  }).then(({ data }) => (data[0] ? data[0].api_name : '获取标题失败'));

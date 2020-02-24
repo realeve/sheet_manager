@@ -136,7 +136,7 @@ class Tables extends Component {
     // 服务端返回hash值，表示当前data的md5指纹，指纹有变时数据才变更，提高前台效率
     if (props.dataSrc.hash === dataSrc.hash) {
       // return { loading: props.loading };
-      return { loading, filterIdx };
+      return { loading: false, filterIdx };
     }
     return {
       ...db.updateState(props, { page, pageSize, columns }, props.merge),

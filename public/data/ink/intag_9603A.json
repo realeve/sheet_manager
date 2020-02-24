@@ -333,7 +333,7 @@
           "rule": {
             "required": true
           },
-          "block": "SM特性信号值≥900"
+          "block": "SM特性信号值≥1200"
         },
         {
           "title": "检验员",

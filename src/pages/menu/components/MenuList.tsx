@@ -9,6 +9,12 @@ import { TMenuItem } from './MenuItem';
 
 const R = require('ramda');
 
+// MES系统及质量平台的菜单不允许删除
+enum ENUM_MENU {
+  QUALITY = 3,
+  MES,
+}
+
 interface IMenuListProps {
   onEdit?: (menuItem: TMenuItem, operateType: 'edit' | 'del') => string;
   dispatch?: (action: { type: string; payload: any }) => void;
@@ -147,15 +153,17 @@ class MenuList extends Component<IMenuListProps> {
                       icon="edit"
                       onClick={() => this.editMenu(item)}
                     />
-                    <Popconfirm
-                      title="确定删除该菜单配置?"
-                      okText="是"
-                      cancelText="否"
-                      icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                      onConfirm={() => this.removeMenu(item, idx)}
-                    >
-                      <Button shape="circle" title="删除" type="danger" icon="delete" />
-                    </Popconfirm>
+                    {![ENUM_MENU.QUALITY, ENUM_MENU.MES].includes(parseInt(item.id)) && (
+                      <Popconfirm
+                        title="确定删除该菜单配置?"
+                        okText="是"
+                        cancelText="否"
+                        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                        onConfirm={() => this.removeMenu(item, idx)}
+                      >
+                        <Button shape="circle" title="删除" type="danger" icon="delete" />
+                      </Popconfirm>
+                    )}
                   </>
                 )}
                 <Button

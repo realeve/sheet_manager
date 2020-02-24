@@ -3,6 +3,8 @@ import { Modal, Button, Input, Tag, Icon } from 'antd';
 import styles from './menuitem.less';
 import IconList from './IconList';
 import util from '@/utils/pinyin';
+import * as db from '@/pages/menu/service';
+
 const R = require('ramda');
 
 export interface TMenuItem {
@@ -33,6 +35,15 @@ const mapPropsToState: (IProps) => IState = props => ({
   menuItem: props.menuItem,
   editMode: props.editMode,
 });
+
+// 根据
+const getUrlTitle = async href => {
+  let token = (href.match(/[&|#]id=(\d+\/\S{10})/) || [])[1];
+  if (!token) {
+    return '';
+  }
+  return await db.getSysApiName(token);
+};
 
 class MenuItem extends Component<IProps, IState> {
   static defaultProps: Partial<IProps> = {
@@ -96,9 +107,12 @@ class MenuItem extends Component<IProps, IState> {
     this.setState({ menuItem });
   };
 
-  updateState: (key: string, e: React.ChangeEvent<HTMLInputElement>) => void = (key, e) => {
+  updateState: (key: string, e: React.ChangeEvent<HTMLInputElement> | string) => void = (
+    key,
+    e
+  ) => {
     let { menuItem }: { menuItem: TMenuItem } = this.state;
-    let { value } = e.target;
+    let value = typeof e === 'string' ? e : e.target.value;
     let pinyinDetail = {};
     if (key === 'title') {
       pinyinDetail = {
@@ -114,6 +128,13 @@ class MenuItem extends Component<IProps, IState> {
     this.setState({ menuItem });
   };
 
+  // 自动获取名称
+  getTitle = async () => {
+    let url = this.state.menuItem.url;
+    let title = await getUrlTitle(url);
+    this.updateState('title', title);
+  };
+
   render() {
     let { menuItem, editMode, iconVisible } = this.state;
     let urlIcon = menuItem.icon === '' ? '图标' : <Icon type={menuItem.icon} />;
@@ -127,6 +148,7 @@ class MenuItem extends Component<IProps, IState> {
         cancelText="取消"
       >
         <IconList visible={iconVisible} onCancel={this.toggleIconList} onOk={this.updateIcon} />
+
         <div className={styles.title}>
           <Button onClick={this.chooseIcon}>{urlIcon}</Button>
           <Input
@@ -135,12 +157,19 @@ class MenuItem extends Component<IProps, IState> {
             onChange={e => this.updateState('title', e)}
           />
         </div>
-        <Input
-          className={styles.input}
-          placeholder="链接地址"
-          value={menuItem.url}
-          onChange={e => this.updateState('url', e)}
-        />
+
+        <div className={styles.title}>
+          <Input
+            className={styles.input}
+            placeholder="链接地址"
+            value={menuItem.url}
+            onChange={e => this.updateState('url', e)}
+          />
+          <Button onClick={this.getTitle} style={{ marginLeft: 20 }}>
+            自动获取名称
+          </Button>
+        </div>
+
         <div className={styles.tags}>
           <Tag color="#f50" onClick={() => this.addLink('chart')}>
             图表

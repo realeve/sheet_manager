@@ -88,11 +88,14 @@ const getConfig = (data, afterFilter) => {
 
   let isSearch = window.location.pathname.includes('/search');
   let minRows = isSearch ? 13 : 31;
+  // if (data.data.length < 10) {
+  //   minRows = 10;
+  // }
 
   let config = {
     stretchH: 'all',
     autoWrapRow: true,
-    height: isSearch ? 250 : `calc( 100vh - ${data.hidemenu ? 220 : 270}px)`,
+    height: isSearch ? 260 : `calc( 100vh - ${data.hidemenu ? 220 : 270}px)`, //  data.data.length < 20 ||
     rowHeaders: true,
     colHeaders: data.header,
     columns,

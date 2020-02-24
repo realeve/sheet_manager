@@ -271,6 +271,8 @@ const createWorkBook = (config: Config) => {
           start = end;
         }
       }
+      // bug待修复
+      // console.log(key, rows, start);
       mergeCol(start, rows.length, key);
     });
   }
