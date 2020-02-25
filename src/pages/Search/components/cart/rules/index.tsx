@@ -12,6 +12,7 @@ export default () => {
         onClick={() => {
           setVisible(true);
         }}
+        style={{ cursor: 'pointer' }}
       >
         📢 车号编码规则
       </div>
