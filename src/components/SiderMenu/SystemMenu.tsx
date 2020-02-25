@@ -6,6 +6,12 @@ import { connect } from 'dva';
 import userTool from '@/utils/users';
 import * as R from 'ramda';
 
+const refreshMenu = (data, id) => {
+  let menuId = window.localStorage.getItem('_userMenuId') || id;
+  let menu = R.find(R.propEq('id', Number(menuId)))(data) || { detail: '[]' };
+  return menu.detail;
+};
+
 function SystemMenu({ logo, uid, menu_title, dispatch }) {
   const [menuList, setMenuList] = useState([]);
   const [curMenuId, setCurMenuId] = useState([]);
@@ -16,6 +22,16 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
         setMenuList(data);
         let menu_id = R.findIndex(R.propEq('title', menu_title))(data);
         setCurMenuId(menu_id);
+
+        let menu = refreshMenu(data, menu_id);
+        dispatch({
+          type: 'common/setStore',
+          payload: {
+            userSetting: {
+              menu,
+            },
+          },
+        });
       })
       .catch(({ message, description, url }) => {
         notification.error({
@@ -44,7 +60,8 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
 
     let { data } = userTool.getUserSetting();
     data.setting.menu = menu;
-    userTool.saveUserSetting(data, menu_title);
+
+    userTool.saveUserSetting(data, menu_title, menuList[menu_id].id);
 
     dispatch({
       type: 'common/setStore',
@@ -64,7 +81,12 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
 
   const menu = (
     <div>
-      <Menu theme="dark" style={{ background: '#002140' }} selectedKeys={[String(curMenuId)]} onClick={onMenuClick}>
+      <Menu
+        theme="dark"
+        style={{ background: '#002140' }}
+        selectedKeys={[String(curMenuId)]}
+        onClick={onMenuClick}
+      >
         {menuList.map(({ title }, id) => (
           <Menu.Item key={String(id)}>{title}</Menu.Item>
         ))}

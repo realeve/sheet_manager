@@ -73,7 +73,8 @@ class MenuList extends Component<IMenuListProps> {
 
     let { data } = userTool.getUserSetting();
     data.setting.menu = menu;
-    userTool.saveUserSetting(data, title);
+
+    userTool.saveUserSetting(data, title, menu_id);
 
     // 刷新
     // window.location.reload();

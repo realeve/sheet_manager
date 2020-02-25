@@ -77,6 +77,7 @@ class BasicLayout extends PureComponent {
     // this.getPageTitle = memoizeOne(this.getPageTitle);
     this.getBreadcrumbNameMap = memoizeOne(this.getBreadcrumbNameMap, isEqual);
     const { menu, previewMenu } = props;
+
     const menuData = getMenuData(props);
     this.breadcrumbNameMap = this.getBreadcrumbNameMap(menuData);
     this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual);

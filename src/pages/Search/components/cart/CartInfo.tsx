@@ -3,6 +3,7 @@ import { Card, Icon } from 'antd';
 import styles from './ProdList.less';
 import * as R from 'ramda';
 import classNames from 'classnames/bind';
+import CartRules from './rules';
 const cx = classNames.bind(styles);
 
 export default function CartInfo({ cartInfo }) {
@@ -29,7 +30,7 @@ export default function CartInfo({ cartInfo }) {
       style={{ marginBottom: 10 }}
       className={styles.cart}
       loading={loading}
-      // extra={<ProdSelect />}
+      extra={<CartRules />}
     >
       <div className={styles.detail}>
         <ul>

@@ -5,6 +5,7 @@ const { default: priv_key } = require('./rsa/rsa_1024_priv.js');
 const { default: pub_key } = require('./rsa/rsa_1024_pub.js');
 const _lsKey: string = '_userSetting';
 const _menu: string = '_userMenu';
+const _menuId: string = '_userMenuId';
 const _login: string = '_islogin';
 const _menuTitle: string = '_userMenuTitle';
 const CryptoJS = require('crypto-js');
@@ -38,7 +39,7 @@ const decodeStr = (ciphertext: string) => {
   return JSON.parse(plainText);
 };
 
-const saveUserSetting = (data, menuTitle = systemName) => {
+const saveUserSetting = (data, menuTitle = systemName, menu_id: string | number) => {
   let obj = R.clone(data);
   let { menu } = obj.setting;
   // console.log(data, '_menuTitle');
@@ -53,6 +54,10 @@ const saveUserSetting = (data, menuTitle = systemName) => {
 
   window.localStorage.setItem(_lsKey, encodeStr(obj));
   window.localStorage.setItem(_menu, JSON.stringify(menu));
+
+  console.log(menu_id);
+  window.localStorage.setItem(_menuId, String(menu_id));
+
   window.localStorage.setItem(_menuTitle, menuTitle);
 };
 
@@ -67,6 +72,7 @@ const getUserSetting = () => {
   let menu_title = window.localStorage.getItem(_menuTitle);
 
   let menu: string = window.localStorage.getItem(_menu);
+
   let data = decodeStr(_userSetting);
   data.setting = Object.assign(data.setting, {
     menu: JSON.parse(menu),
