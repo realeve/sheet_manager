@@ -34,7 +34,7 @@ export default () => {
             <div className={styles.item4}>车号编码</div>
           </div>
           <div className={styles.cart}>
-            <div className={cx(styles.line, styles.item2)}>19</div>
+            <div className={cx(styles.line, styles.item2)}>20</div>
             <div className={cx(styles.item1, styles.line)}>
               <span>2</span>
               <span>|</span>
