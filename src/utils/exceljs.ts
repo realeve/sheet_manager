@@ -265,7 +265,7 @@ const createWorkBook = (config: Config) => {
       let rows = lib.getDataByIdx({ key, data: config.body });
       let start = 0;
       for (let end = 1; end < rows.length; end++) {
-        if (rows[end] != rows[start]) {
+        if ((rows[end] || '').trim() != (rows[start] || '').trim()) {
           mergeCol(start, end, key);
           // 向右移动新的起始指针
           start = end;
