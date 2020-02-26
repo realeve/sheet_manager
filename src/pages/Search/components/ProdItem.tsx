@@ -18,7 +18,7 @@ function ProdItem({ cart, onClose, dispatch }) {
     setState(cart);
   }, [cart]);
 
-  const prodList = ['9602A', '9603A', '9604A', '9606T', '9607T'];
+  const prodList = ['9602A', '9602T', '9603A', '9603T', '9604A', '9604T', '9606T', '9607T'];
 
   const confirm = cart => {
     let type = lib.getProdType(cart);
