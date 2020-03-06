@@ -1,12 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Exception from 'ant-design-pro/lib/Exception';
-import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
+import { formatMessage } from 'umi/locale';
+import router from 'umi/router';
+import { Result, Button } from 'antd';
 export default () => (
-  <Exception
-    type="404"
+  <Result
+    status="404"
+    title="404"
     style={{ minHeight: 500, height: '100%' }}
-    linkElement={Link}
-    img="/img/404.svg"
+    subTitle={formatMessage({ id: 'app.exception.description.403' })}
+    extra={
+      <Button
+        type="primary"
+        onClick={() => {
+          router.goBack();
+        }}
+      >
+        {formatMessage({ id: 'app.exception.back' })}
+      </Button>
+    }
   />
 );

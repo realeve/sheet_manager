@@ -9,8 +9,6 @@ import { Input, Button, Popover, Progress, Select, notification } from 'antd';
 import styles from './Register.less';
 import * as db from './service';
 
-import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
-
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -351,6 +349,7 @@ class Register extends Component {
                 placeholder={formatMessage({
                   id: 'validation.dept',
                 })}
+                style={{ width: 200 }}
               >
                 {depts.map(({ id, value }) => (
                   <Option value={id} key={id}>
@@ -370,6 +369,8 @@ class Register extends Component {
             >
               <FormattedMessage id="app.register.register" />
             </Button>
+          </FormItem>
+          <FormItem>
             <Link className={styles.login} to={`/login${search}`}>
               <FormattedMessage id="app.register.sing-in" />
             </Link>

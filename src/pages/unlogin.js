@@ -1,13 +1,10 @@
 import React from 'react';
 import { formatMessage } from 'umi/locale';
-import Exception from 'ant-design-pro/lib/Exception';
-import { Button } from 'antd';
-// import router from 'umi/router'; //这样会报错
+import { Button, Result } from 'antd';
 import router from '@/utils/router';
 import qs from 'qs';
 
 export const redirectLogin = ({ href, origin }) => {
-  // let { href, origin } = window.location;
   router.push({
     pathname: '/login',
     search: qs.stringify({
@@ -15,21 +12,17 @@ export const redirectLogin = ({ href, origin }) => {
     }),
   });
 };
-const actions = (
-  <div>
-    <Button type="primary" onClick={() => redirectLogin(window.location)}>
-      {formatMessage({ id: 'app.login.login' })}
-    </Button>
-  </div>
-);
 
 const UnLogin = () => (
-  <Exception
-    type="403"
-    desc={formatMessage({ id: 'app.exception.description.unlogin' })}
-    img="/img/403.svg"
-    actions={actions}
-    title="401"
+  <Result
+    status="403"
+    title="403"
+    subTitle={formatMessage({ id: 'app.exception.description.unlogin' })}
+    extra={
+      <Button type="primary" onClick={() => redirectLogin(window.location)}>
+        {formatMessage({ id: 'app.login.login' })}
+      </Button>
+    }
   />
 );
 

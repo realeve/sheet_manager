@@ -1,10 +1,20 @@
-import React, { Component } from 'react';
-import Exception from 'ant-design-pro/lib/Exception';
-import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
-
-class ForOFor extends Component {
-  render() {
-    return <Exception type="500" img="/img/500.svg" />;
-  }
-}
-export default ForOFor;
+import React from 'react';
+import router from 'umi/router';
+import { Result, Button } from 'antd';
+export default () => (
+  <Result
+    status="500"
+    title="500"
+    subTitle="抱歉,服务器出错了."
+    extra={
+      <Button
+        type="primary"
+        onClick={() => {
+          router.goBack();
+        }}
+      >
+        返回
+      </Button>
+    }
+  />
+);

@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import Exception from 'ant-design-pro/lib/Exception';
 import CartDetail from './CartDetail';
 import ProdItem from './components/ProdItem';
-import { Card } from 'antd';
+import { Card, Result } from 'antd';
 import styles from './components/ProdSelect.less';
 import ReelDetail from './ReelDetail';
 const Link = () => (
@@ -13,15 +12,7 @@ const Link = () => (
 );
 function SearchPage({ type }) {
   if (type === 'unknown') {
-    return (
-      <Exception
-        type="403"
-        title="信息追溯"
-        desc="查车号、查轴号、查冠字"
-        linkElement={Link}
-        img="/img/403.svg"
-      />
-    );
+    return <Result status="403" title="信息追溯" subTitle="查车号、查轴号、查冠字" extra={Link} />;
   } else if (['cart', 'gz'].includes(type)) {
     return <CartDetail />;
   }

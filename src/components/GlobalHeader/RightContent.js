@@ -4,11 +4,10 @@ import { Tag, Tooltip, Button } from 'antd';
 import { Icon } from '@ant-design/compatible';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
-import NoticeIcon from 'ant-design-pro/lib/NoticeIcon';
+import NoticeIcon from '../NoticeIcon';
 import SearchComponent from './SearchComponent';
 import AvatarView from './AvatarView';
 import { CUR_COMPANY } from '@/utils/setting';
-// import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
 
 import styles from './index.less';
 
@@ -115,6 +114,7 @@ export default class RightContent extends PureComponent {
                   id: 'component.globalHeader.notification.empty',
                 })}
                 emptyImage="/img/bell.svg"
+                tabKey="notification"
               />
               <NoticeIcon.Tab
                 list={noticeData.message}
@@ -123,6 +123,7 @@ export default class RightContent extends PureComponent {
                   id: 'component.globalHeader.message.empty',
                 })}
                 emptyImage="/img/notify.svg"
+                tabKey="message"
               />
               <NoticeIcon.Tab
                 list={noticeData.event}
@@ -131,6 +132,7 @@ export default class RightContent extends PureComponent {
                   id: 'component.globalHeader.event.empty',
                 })}
                 emptyImage="/img/flag.svg"
+                tabKey="event"
               />
             </NoticeIcon>
           </>
