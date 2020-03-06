@@ -496,7 +496,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
           </div>
         }
         extra={
-          <Button type="primary" shape="circle" icon="setting" onClick={() => this.showConfig()} />
+          <Button type="primary" shape="circle" icon={<LegacyIcon type="setting" />} onClick={() => this.showConfig()} />
         }
         headStyle={{ borderBottom: '1px solid #e8e8e8' }}
         bordered={false}

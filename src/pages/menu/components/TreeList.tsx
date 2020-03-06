@@ -61,7 +61,7 @@ function TreeList({ uid, treeDataLeft: treeList, editMenuItem, dispatch }) {
             buttons: [
               <Button
                 size="small"
-                icon="edit"
+                icon={<LegacyIcon type="edit" />}
                 title="编辑"
                 style={{ marginRight: 5 }}
                 onClick={() => editMenuItem(treeItem)}
@@ -73,7 +73,7 @@ function TreeList({ uid, treeDataLeft: treeList, editMenuItem, dispatch }) {
                 icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                 onConfirm={() => removeMenuItem(treeItem)}
               >
-                <Button size="small" title="删除" icon="delete" />
+                <Button size="small" title="删除" icon={<LegacyIcon type="delete" />} />
               </Popconfirm>,
             ],
           };

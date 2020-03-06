@@ -8,6 +8,7 @@ import omit from 'omit.js';
 import styles from './index.less';
 import ThemeColor from './ThemeColor';
 import BlockChecbox from './BlockChecbox';
+import { CopyOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -226,7 +227,7 @@ class SettingDrawer extends PureComponent {
             text={JSON.stringify(omit(setting, ['colorWeak']), null, 2)}
             onCopy={() => message.success(formatMessage({ id: 'app.setting.copyinfo' }))}
           >
-            <Button block icon="copy">
+            <Button block icon={<CopyOutlined />}>
               {formatMessage({ id: 'app.setting.copy' })}
             </Button>
           </CopyToClipboard>

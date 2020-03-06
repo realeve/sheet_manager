@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Form, Input, Select, Button, message } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Select, Button, message } from 'antd';
 import { connect } from 'dva';
 import styles from './BaseView.less';
 import * as db from '@/pages/login/service';

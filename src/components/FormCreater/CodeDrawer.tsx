@@ -6,6 +6,9 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
 import beautify from 'js-beautify';
 import 'codemirror/mode/sql/sql';
+import { CopyOutlined } from '@ant-design/icons';
+
+// import { Icon as LegacyIcon } from '@ant-design/compatible';
 
 import { Drawer, Button, notification, Typography, Divider, message } from 'antd';
 import { host } from '@/utils/setting';
@@ -201,7 +204,7 @@ SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         text={sql.create + sql.view}
         onCopy={() => message.success('拷贝成功，请到api管理平台建立接口')}
       >
-        <Button style={{ marginTop: 10 }} icon="copy">
+        <Button style={{ marginTop: 10 }} icon={<CopyOutlined />}>
           点击复制
         </Button>
       </CopyToClipboard>
@@ -226,7 +229,7 @@ SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         text={sql.api}
         onCopy={() => message.success('拷贝成功，请到数据库管理工具中初始化配置信息')}
       >
-        <Button style={{ marginTop: 10 }} icon="copy">
+        <Button style={{ marginTop: 10 }} icon={<CopyOutlined />}>
           点击复制
         </Button>
       </CopyToClipboard>
@@ -249,7 +252,7 @@ SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         text={sql.json}
         onCopy={() => message.success('拷贝成功，请替换当前json文件')}
       >
-        <Button style={{ marginTop: 10 }} icon="copy">
+        <Button style={{ marginTop: 10 }} icon={<CopyOutlined />}>
           点击复制
         </Button>
       </CopyToClipboard>
@@ -282,7 +285,7 @@ SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         text={sql.select + sql.query}
         onCopy={() => message.success('拷贝成功，请到数据库管理工具中初始化配置信息')}
       >
-        <Button style={{ marginTop: 10 }} icon="copy">
+        <Button style={{ marginTop: 10 }} icon={<CopyOutlined />}>
           点击复制
         </Button>
       </CopyToClipboard>

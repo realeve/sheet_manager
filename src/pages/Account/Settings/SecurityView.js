@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Form, Input, Popover, Progress, Button, message } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Popover, Progress, Button, message } from 'antd';
 import { connect } from 'dva';
 import styles from '@/pages/login/Register.less';
 import { passwordStatusMap, passwordProgressMap } from '@/pages/login/register';

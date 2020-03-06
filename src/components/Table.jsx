@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Table, Pagination, Card, Button, Input, Menu, Dropdown, Form, Switch } from 'antd';
-import { Icon } from '@ant-design/compatible';
+import { Table, Pagination, Card, Button, Input, Menu, Dropdown, Switch } from 'antd';
+import { Form, Icon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import * as db from '@/services/table';
 import styles from './Table.less';
 import * as setting from '../utils/setting';

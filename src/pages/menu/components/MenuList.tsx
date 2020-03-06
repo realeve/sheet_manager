@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { Button, Popconfirm, notification } from 'antd';
-import { Icon } from '@ant-design/compatible';
+import {
+  EditOutlined,
+  QuestionCircleOutlined,
+  DeleteOutlined,
+  LikeOutlined,
+  HomeOutlined,
+} from '@ant-design/icons';
 import { connect } from 'dva';
 import styles from './MenuList.less';
 import * as db from '../service';
@@ -152,7 +158,7 @@ class MenuList extends Component<IMenuListProps> {
                     <Button
                       shape="circle"
                       title="编辑"
-                      icon="edit"
+                      icon={<EditOutlined />}
                       onClick={() => this.editMenu(item)}
                     />
                     {![ENUM_MENU.QUALITY, ENUM_MENU.MES].includes(parseInt(item.id)) && (
@@ -160,10 +166,10 @@ class MenuList extends Component<IMenuListProps> {
                         title="确定删除该菜单配置?"
                         okText="是"
                         cancelText="否"
-                        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                         onConfirm={() => this.removeMenu(item, idx)}
                       >
-                        <Button shape="circle" title="删除" danger icon="delete" />
+                        <Button shape="circle" title="删除" danger icon={<DeleteOutlined />} />
                       </Popconfirm>
                     )}
                   </>
@@ -171,14 +177,14 @@ class MenuList extends Component<IMenuListProps> {
                 <Button
                   shape="circle"
                   title="设为当前菜单"
-                  icon="home"
+                  icon={<HomeOutlined />}
                   onClick={() => this.setCurMenu(item)}
                 />
                 <Button
                   shape="circle"
                   type="primary"
                   title="预览"
-                  icon="like"
+                  icon={<LikeOutlined />}
                   onClick={() => this.previewMenu(item)}
                 />
               </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Button, Input, Tag, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Modal, Button, Input, Tag } from 'antd';
 import styles from './menuitem.less';
 import IconList from './IconList';
 import util from '@/utils/pinyin';
@@ -137,7 +138,7 @@ class MenuItem extends Component<IProps, IState> {
 
   render() {
     let { menuItem, editMode, iconVisible } = this.state;
-    let urlIcon = menuItem.icon === '' ? '图标' : <Icon type={menuItem.icon} />;
+    let urlIcon = menuItem.icon === '' ? '图标' : <LegacyIcon type={menuItem.icon} />;
     return (
       <Modal
         title={editMode ? '编辑菜单项' : '新增菜单项'}

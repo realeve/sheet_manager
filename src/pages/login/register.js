@@ -3,7 +3,9 @@ import router from 'umi/router';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
-import { Form, Input, Button, Popover, Progress, Select, notification } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Button, Popover, Progress, Select, notification } from 'antd';
 import styles from './Register.less';
 import * as db from './service';
 

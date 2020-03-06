@@ -5,6 +5,7 @@ import { Button, Input, Popconfirm, notification } from 'antd';
 import { Icon } from '@ant-design/compatible';
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
+import { FileOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import * as treeUtil from './tree-data-utils';
 import * as db from '../service';
@@ -219,7 +220,7 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState> {
 
         <div className={cx('action', 'action-submit')} style={{ paddingLeft: 0 }}>
           <Button onClick={this.expandAll}>{expanded ? '全部展开' : '全部折叠'}</Button>
-          <Button onClick={this.props.onNew} icon="file">
+          <Button onClick={this.props.onNew} icon={<FileOutlined />}>
             新建
           </Button>
           <Button
@@ -247,7 +248,7 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState> {
                   icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                   onConfirm={() => this.removeMenuItem(treeItem)}
                 >
-                  <Button size="small" icon="delete" />
+                  <Button size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>,
               ],
             })}
