@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Popconfirm, Icon, notification } from 'antd';
+import { Button, Popconfirm, notification } from 'antd';
 
+import { Icon } from '@ant-design/compatible';
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 import FileExplorerTheme from 'react-sortable-tree-theme-minimal';

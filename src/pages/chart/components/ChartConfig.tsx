@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Card, Select, Switch, Row, Col, Slider, Input, Icon, Button } from 'antd';
+import { Card, Select, Switch, Row, Col, Slider, Input, Button } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import styles from './Chart.less';
 import { formatMessage } from 'umi/locale';
 import { chartTypeList } from '../utils/charts';

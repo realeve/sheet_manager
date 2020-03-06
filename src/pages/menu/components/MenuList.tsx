@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Popconfirm, Icon, notification } from 'antd';
+import { Button, Popconfirm, notification } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import { connect } from 'dva';
 import styles from './MenuList.less';
 import * as db from '../service';
@@ -162,7 +163,7 @@ class MenuList extends Component<IMenuListProps> {
                         icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                         onConfirm={() => this.removeMenu(item, idx)}
                       >
-                        <Button shape="circle" title="删除" type="danger" icon="delete" />
+                        <Button shape="circle" title="删除" danger icon="delete" />
                       </Popconfirm>
                     )}
                   </>

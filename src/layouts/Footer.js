@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { Layout, Icon } from 'antd';
+import { Layout } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import GlobalFooter from 'ant-design-pro/lib/GlobalFooter';
 import { AUTHOR, CUR_COMPANY } from '@/utils/setting';
 import styles from './index.less';

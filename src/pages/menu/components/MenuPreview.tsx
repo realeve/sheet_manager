@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Button, Input, Popconfirm, notification, Icon } from 'antd';
+import { Button, Input, Popconfirm, notification } from 'antd';
 
+import { Icon } from '@ant-design/compatible';
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 
@@ -41,7 +42,7 @@ interface IPreviewProps {
 
 // 左侧菜单项更新时，菜单列表中对应信息一并更新
 const updateMenuItem = (detail, menuList) => {
-  return detail.map((item) => {
+  return detail.map(item => {
     if (item.children) {
       item.children = updateMenuItem(item.children, menuList);
     } else {
@@ -54,10 +55,10 @@ const updateMenuItem = (detail, menuList) => {
   });
 };
 
-@connect((state) => ({
-  menuList: state.menu.treeDataLeft
+@connect(state => ({
+  menuList: state.menu.treeDataLeft,
 }))
-class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
+class MenuPreview extends Component<IPreviewProps, IPreviewState> {
   static defaultProps: Partial<IPreviewProps> = {
     externalNodeType: 'shareNodeType',
     menuDetail: {
@@ -65,10 +66,10 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
       detail: [],
       title: '',
       icon: '',
-      url: ''
+      url: '',
     },
     editMode: false,
-    treeData: []
+    treeData: [],
   };
 
   constructor(props) {
@@ -81,7 +82,7 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
       editMode: props.editMode,
       menu_id: 0,
       uid: props.uid,
-      title: ''
+      title: '',
     };
   }
 
@@ -95,12 +96,12 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
       treeData,
       menu_id,
       title,
-      editMode: nextProps.editMode
+      editMode: nextProps.editMode,
     };
   }
 
   // 菜单层级调整
-  onTreeChange = (treeData) => {
+  onTreeChange = treeData => {
     this.setState({ treeData });
     // console.log('菜单项调整：', treeData);
   };
@@ -109,7 +110,7 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
   expandAll = () => {
     let {
       expanded,
-      treeData
+      treeData,
     }: {
       expanded: boolean;
       treeData: TMenuList;
@@ -121,14 +122,14 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
   // 移除菜单项
   removeMenuItem = async ({ path }) => {
     let {
-      treeData
+      treeData,
     }: {
       treeData: TMenuList;
     } = R.clone(this.state);
     treeData = treeUtil.removeNodeAtPath({
       treeData,
       path,
-      getNodeKey: treeUtil.getNodeKey
+      getNodeKey: treeUtil.getNodeKey,
     });
 
     this.setState({ treeData });
@@ -138,7 +139,7 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
     // 数据插入失败
     notification.error({
       message: '系统提示',
-      description: '菜单配置信息调整失败，请稍后重试.'
+      description: '菜单配置信息调整失败，请稍后重试.',
     });
   };
 
@@ -151,11 +152,11 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
     } = {
       title,
       detail: JSON.stringify(detail),
-      uid
+      uid,
     };
 
     if (!editMode) {
-      let { data } = await db.addBaseMenuList(params).catch((e) => {
+      let { data } = await db.addBaseMenuList(params).catch(e => {
         return [{ affected_rows: 0 }];
       });
       if (data[0].affected_rows === 0) {
@@ -168,12 +169,12 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
 
       this.setState({
         editMode: true,
-        menu_id: data[0].id
+        menu_id: data[0].id,
       });
     } else {
       let updateParam = R.clone(params);
       updateParam._id = menu_id;
-      let { data } = await db.setBaseMenuList(updateParam).catch((e) => {
+      let { data } = await db.setBaseMenuList(updateParam).catch(e => {
         return [{ affected_rows: 0 }];
       });
       if (data[0].affected_rows === 0) {
@@ -186,11 +187,11 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
 
     notification.success({
       message: '系统提示',
-      description: '菜单项调整成功.'
+      description: '菜单项调整成功.',
     });
     this.props.dispatch({
-      type: 'menu/refreshMenuList'
-    })
+      type: 'menu/refreshMenuList',
+    });
     // window.location.reload();
   };
 
@@ -201,7 +202,7 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
       treeData,
       expanded,
       editMode,
-      title
+      title,
     } = this.state;
     return (
       <>
@@ -212,23 +213,20 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
             prefix={<Icon type="edit" />}
             placeholder="菜单名称"
             value={title}
-            onChange={(e) => this.setState({ title: e.target.value })}
+            onChange={e => this.setState({ title: e.target.value })}
           />
         </div>
 
-        <div
-          className={cx('action', 'action-submit')}
-          style={{ paddingLeft: 0 }}>
-          <Button onClick={this.expandAll}>
-            {expanded ? '全部展开' : '全部折叠'}
-          </Button>
+        <div className={cx('action', 'action-submit')} style={{ paddingLeft: 0 }}>
+          <Button onClick={this.expandAll}>{expanded ? '全部展开' : '全部折叠'}</Button>
           <Button onClick={this.props.onNew} icon="file">
             新建
           </Button>
           <Button
             type="primary"
             onClick={this.submitMenu}
-            disabled={R.isNil(treeData) || treeData.length === 0}>
+            disabled={R.isNil(treeData) || treeData.length === 0}
+          >
             {editMode ? '更新' : '新增'}
           </Button>
         </div>
@@ -240,19 +238,18 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState>  {
             rowHeight={45}
             dndType={externalNodeType}
             shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
-            generateNodeProps={(treeItem) => ({
+            generateNodeProps={treeItem => ({
               buttons: [
                 <Popconfirm
                   title="确定删除该菜单项?"
                   okText="是"
                   cancelText="否"
-                  icon={
-                    <Icon type="question-circle-o" style={{ color: 'red' }} />
-                  }
-                  onConfirm={() => this.removeMenuItem(treeItem)}>
+                  icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                  onConfirm={() => this.removeMenuItem(treeItem)}
+                >
                   <Button size="small" icon="delete" />
-                </Popconfirm>
-              ]
+                </Popconfirm>,
+              ],
             })}
           />
         </div>

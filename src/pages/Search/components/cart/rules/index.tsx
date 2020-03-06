@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Icon } from 'antd';
+import { Modal } from 'antd';
 import styles from './index.less';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Icon, Empty } from 'antd';
+import { Card } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import styles from './ProdList.less';
 import * as R from 'ramda';
 import { useFetch } from '@/pages/Search/utils/useFetch';

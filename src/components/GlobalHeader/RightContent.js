@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { FormattedMessage, formatMessage, setLocale, getLocale } from 'umi/locale';
-import { Tag, Icon, Tooltip, Button } from 'antd';
+import { Tag, Tooltip, Button } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import NoticeIcon from 'ant-design-pro/lib/NoticeIcon';

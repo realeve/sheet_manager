@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { Skeleton, Badge, Icon, Empty } from 'antd';
+import { Skeleton, Badge, Empty } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import styles from './ProdList.less';
 import * as R from 'ramda';
 import * as lib from '@/utils/lib';

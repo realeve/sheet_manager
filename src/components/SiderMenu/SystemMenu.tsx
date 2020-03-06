@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Dropdown, Icon, notification } from 'antd';
+import { Menu, Dropdown, notification } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import * as dbMenu from '@/pages/menu/service';
 // import { FormattedMessage } from 'umi/locale';
 import { connect } from 'dva';

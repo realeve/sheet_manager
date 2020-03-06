@@ -74,7 +74,7 @@ export default function Dashboard() {
                   <div className={styles.desc}>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <Button
-                        type="danger"
+                        danger
                         onClick={() => {
                           setVisible(true);
                           setCurIdx(idx);

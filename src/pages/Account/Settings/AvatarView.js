@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'umi/locale';
-import { Upload, message, Icon, Button } from 'antd';
+import { Upload, message, Button } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import { connect } from 'dva';
 import styles from './BaseView.less';
 import * as util from '@/utils/setting';

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
-import { Card, Row, Icon, Switch } from 'antd';
+import { Card, Row, Switch } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import styles from './index.less';
 import { validRequire, beforeSheetRender } from './lib';
 import FormItem from './FormItem';

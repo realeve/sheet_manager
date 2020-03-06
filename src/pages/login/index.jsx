@@ -4,7 +4,8 @@ import { connect } from 'dva';
 import { FormattedMessage } from 'umi/locale';
 // import 'ant-design-pro/dist/ant-design-pro.css'; // 统一引入样式
 
-import { Alert, Checkbox, Icon, Input } from 'antd';
+import { Icon } from '@ant-design/compatible';
+import { Alert, Checkbox, Input } from 'antd';
 import Login from 'ant-design-pro/lib/Login';
 import styles from './index.less';
 import * as db from './service';

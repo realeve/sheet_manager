@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Input, Icon, notification } from 'antd';
+import { Input, notification } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import { connect } from 'dva';
 import * as treeUtil from './tree-data-utils';
 import * as db from '../service';

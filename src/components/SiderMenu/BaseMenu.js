@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Menu, Icon } from 'antd';
+import { Menu } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import Link from 'umi/link';
 import styles from './index.less';
 import { getFlatMenuKeys } from './util';

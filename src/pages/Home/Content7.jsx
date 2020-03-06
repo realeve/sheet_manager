@@ -1,7 +1,8 @@
 import React from 'react';
 import TweenOne from 'rc-tween-one';
 import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
-import { Tabs, Icon, Row, Col } from 'antd';
+import { Tabs, Row, Col } from 'antd';
+import { Icon } from '@ant-design/compatible';
 
 const TabPane = Tabs.TabPane;
 
@@ -13,7 +14,7 @@ class Content7 extends React.Component {
     };
   }
 
-  onChange = (key) => {
+  onChange = key => {
     this.setState({ current: parseFloat(key) });
   };
 
@@ -47,11 +48,7 @@ class Content7 extends React.Component {
           component=""
         >
           {this.state.current === i + 1 && (
-            <Row
-              key="content"
-              className={content.className}
-              gutter={content.gutter}
-            >
+            <Row key="content" className={content.className} gutter={content.gutter}>
               <Col className={text.className} xs={text.xs} md={text.md}>
                 {textChildren}
               </Col>
@@ -80,9 +77,7 @@ class Content7 extends React.Component {
                 item.name.indexOf('title') === 0 ? 'h1' : 'div',
                 { key: i.toString(), ...item },
                 typeof item.children === 'string' &&
-                item.children.match(
-                  /\.(svg|gif|jpg|jpeg|png|JPG|PNG|GIF|JPEG)$/
-                )
+                  item.children.match(/\.(svg|gif|jpg|jpeg|png|JPG|PNG|GIF|JPEG)$/)
                   ? React.createElement('img', {
                       src: item.children,
                       alt: 'img',

@@ -262,7 +262,7 @@ function formAction({
       </Button>
       {editMethod === 'update' ? (
         <Button
-          type="danger"
+          danger
           onClick={() => onsubmit()}
           disabled={!formstatus}
           style={{ marginLeft: 20 }}
@@ -289,12 +289,7 @@ function formAction({
           okText="是"
           cancelText="否"
         >
-          <Button
-            type="danger"
-            disabled={!formstatus}
-            style={{ marginLeft: 20 }}
-            loading={submitting}
-          >
+          <Button danger disabled={!formstatus} style={{ marginLeft: 20 }} loading={submitting}>
             {formatMessage({ id: 'form.delete' })}
           </Button>
         </Popconfirm>

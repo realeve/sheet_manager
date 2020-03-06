@@ -1,7 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'umi/locale';
 
-import { Menu, Icon, Spin, Dropdown, Avatar } from 'antd';
+import { Menu, Spin, Dropdown, Avatar } from 'antd';
+import { Icon } from '@ant-design/compatible';
 
 import styles from './AvatarView.less';
 

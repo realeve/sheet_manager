@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Collapse, Icon } from 'antd';
+import { Modal, Collapse } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import icons from './iconListArr';
 import styles from './iconList.less';
 
@@ -12,13 +13,13 @@ interface IProps extends IState {
   onCancel: (status: boolean) => void;
   onOk: (icon: string) => void;
 }
-const mapPropsToState = (props) => ({
-  visible: props.visible
+const mapPropsToState = props => ({
+  visible: props.visible,
 });
 
 class IconList extends Component<IProps, IState> {
   static defaultProps: Partial<IProps> = {
-    visible: false
+    visible: false,
   };
 
   constructor(props) {
@@ -48,22 +49,14 @@ class IconList extends Component<IProps, IState> {
   render() {
     // accordion
     interface IconItemsFun {
-      (
-        props: {
-          list: Array<string>;
-        }
-      ): JSX.Element;
+      (props: { list: Array<string> }): JSX.Element;
     }
     const IconItems: IconItemsFun = ({ list }) => {
       return (
         <ul className={styles.anticons}>
-          {list.map((type) => (
+          {list.map(type => (
             <li key={type}>
-              <Icon
-                onClick={() => this.selectIcon(type)}
-                type={type}
-                style={{ fontSize: 36 }}
-              />
+              <Icon onClick={() => this.selectIcon(type)} type={type} style={{ fontSize: 36 }} />
             </li>
           ))}
         </ul>
@@ -77,7 +70,8 @@ class IconList extends Component<IProps, IState> {
         onOk={this.handleOk}
         onCancel={this.handleCancel}
         okText="确认"
-        cancelText="取消">
+        cancelText="取消"
+      >
         <Collapse bordered={false} defaultActiveKey={['2', '3', '4', '5']}>
           {icons.map(({ type, list }, key) => (
             <Panel header={key + 1 + '. ' + type} key={String(key)}>

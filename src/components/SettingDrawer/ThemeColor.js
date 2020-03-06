@@ -1,5 +1,6 @@
 import React from 'react';
-import { Tooltip, Icon } from 'antd';
+import { Tooltip } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import { formatMessage } from 'umi/locale';
 import styles from './ThemeColor.less';
 

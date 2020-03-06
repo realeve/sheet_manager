@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Select, message, Drawer, List, Switch, Divider, Icon, Button, Alert, Tooltip } from 'antd';
+import { Select, message, Drawer, List, Switch, Divider, Button, Alert, Tooltip } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import { formatMessage } from 'umi/locale';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { connect } from 'dva';

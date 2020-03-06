@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import QueueAnim from 'rc-queue-anim';
 import TweenOne, { TweenOneGroup } from 'rc-tween-one';
 import BannerAnim, { Element } from 'rc-banner-anim';

@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
-import { List, Icon, Avatar, Tag } from 'antd';
+import { List, Avatar, Tag } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import moment from 'moment';
 import { connect } from 'dva';
 import stylesArticles from '../../List/Articles.less';
 import styles from './Articles.less';
 
 @connect(({ list }) => ({
-  list
+  list,
 }))
 class Center extends PureComponent {
   render() {
@@ -19,9 +20,7 @@ class Center extends PureComponent {
         {text}
       </span>
     );
-    const ListContent = ({
-      data: { content, updatedAt, avatar, owner, href }
-    }) => (
+    const ListContent = ({ data: { content, updatedAt, avatar, owner, href } }) => (
       <div className={stylesArticles.listContent}>
         <div className={stylesArticles.description}>{content}</div>
         <div className={stylesArticles.extra}>
@@ -45,13 +44,12 @@ class Center extends PureComponent {
             actions={[
               <IconText type="star-o" text={item.star} />,
               <IconText type="like-o" text={item.like} />,
-              <IconText type="message" text={item.message} />
-            ]}>
+              <IconText type="message" text={item.message} />,
+            ]}
+          >
             <List.Item.Meta
               title={
-                <a
-                  className={stylesArticles.listItemMetaTitle}
-                  href={item.href}>
+                <a className={stylesArticles.listItemMetaTitle} href={item.href}>
                   {item.title}
                 </a>
               }
