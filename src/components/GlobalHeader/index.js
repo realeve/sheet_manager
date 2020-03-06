@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { Icon } from '@ant-design/compatible';
 import Link from 'umi/link';
 import Debounce from 'lodash-decorators/debounce';
 import styles from './index.less';
@@ -7,6 +6,7 @@ import RightContent from './RightContent';
 import Bind from 'lodash-decorators/bind';
 import { DateRangePicker } from '@/components/QueryCondition';
 import { connect } from 'dva';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
 class GlobalHeader extends PureComponent {
   componentWillUnmount() {
@@ -38,11 +38,9 @@ class GlobalHeader extends PureComponent {
         )}
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           {!hidemenu && (
-            <Icon
-              className={styles.trigger}
-              type={collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggle}
-            />
+            <div className={styles.trigger} onClick={this.toggle}>
+              {collapsed ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
+            </div>
           )}
           {!isMobile && this.props.selectList.length + this.props.textAreaList.length === 0 && (
             <DateRangePicker
