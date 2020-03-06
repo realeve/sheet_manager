@@ -6,7 +6,7 @@ import { FormattedMessage } from 'umi/locale';
 
 import { Icon } from '@ant-design/compatible';
 import { Alert, Checkbox, Input } from 'antd';
-import Login from 'ant-design-pro/lib/Login';
+import Login from './components/Login';
 import styles from './index.less';
 import * as db from './service';
 import userTool from '@/utils/users';

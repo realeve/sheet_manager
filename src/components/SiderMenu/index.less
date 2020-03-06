@@ -42,7 +42,7 @@
 
     :global(.ant-menu-root) {
       overflow-y: auto;
-      height:~'calc(100vh - @{nav-header-height})';
+      height: ~'calc(100vh - @{nav-header-height})';
     }
   }
 
@@ -61,6 +61,12 @@
 
     :global(.ant-menu-light) {
       border-right-color: transparent;
+    }
+  }
+  :global {
+    .ant-input-affix-wrapper {
+      background-color: transparent;
+      border: none;
     }
   }
 }
@@ -85,18 +91,22 @@
   }
 
   .ant-menu-inline-collapsed {
-
-    &>.ant-menu-item .sider-menu-item-img+span,
-    &>.ant-menu-item-group>.ant-menu-item-group-list>.ant-menu-item .sider-menu-item-img+span,
-    &>.ant-menu-submenu>.ant-menu-submenu-title .sider-menu-item-img+span {
+    & > .ant-menu-item .sider-menu-item-img + span,
+    &
+      > .ant-menu-item-group
+      > .ant-menu-item-group-list
+      > .ant-menu-item
+      .sider-menu-item-img
+      + span,
+    & > .ant-menu-submenu > .ant-menu-submenu-title .sider-menu-item-img + span {
       max-width: 0;
       display: inline-block;
       opacity: 0;
     }
   }
 
-  .ant-menu-item .sider-menu-item-img+span,
-  .ant-menu-submenu-title .sider-menu-item-img+span {
+  .ant-menu-item .sider-menu-item-img + span,
+  .ant-menu-submenu-title .sider-menu-item-img + span {
     transition: opacity 0.3s @ease-in-out, width 0.3s @ease-in-out;
     opacity: 1;
   }

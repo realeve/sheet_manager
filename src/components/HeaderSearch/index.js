@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { Input, AutoComplete } from 'antd';
 import { Icon } from '@ant-design/compatible';
 import classNames from 'classnames';
-import Debounce from 'lodash-decorators/debounce';
-import Bind from 'lodash-decorators/bind';
 import styles from './index.less';
 
 export default class HeaderSearch extends PureComponent {
@@ -12,22 +10,18 @@ export default class HeaderSearch extends PureComponent {
     className: PropTypes.string,
     placeholder: PropTypes.string,
     onSearch: PropTypes.func,
-    onPressEnter: PropTypes.func,
     defaultActiveFirstOption: PropTypes.bool,
-    dataSource: PropTypes.array,
+    options: PropTypes.array,
     defaultOpen: PropTypes.bool,
-    onVisibleChange: PropTypes.func,
   };
 
   static defaultProps = {
     defaultActiveFirstOption: false,
-    onPressEnter: () => {},
     onSearch: () => {},
     className: '',
     placeholder: '',
-    dataSource: [],
+    options: [],
     defaultOpen: false,
-    onVisibleChange: () => {},
   };
 
   static getDerivedStateFromProps(props) {
@@ -52,16 +46,6 @@ export default class HeaderSearch extends PureComponent {
     clearTimeout(this.timeout);
   }
 
-  onKeyDown = e => {
-    if (e.key === 'Enter') {
-      const { onPressEnter } = this.props;
-      const { value } = this.state;
-      this.timeout = setTimeout(() => {
-        onPressEnter(value); // Fix duplicate onPressEnter
-      }, 0);
-    }
-  };
-
   onChange = value => {
     const { onChange } = this.props;
     value = value.toUpperCase();
@@ -72,8 +56,6 @@ export default class HeaderSearch extends PureComponent {
   };
 
   enterSearchMode = () => {
-    const { onVisibleChange } = this.props;
-    onVisibleChange(true);
     this.setState({ searchMode: true }, () => {
       const { searchMode } = this.state;
       if (searchMode) {
@@ -89,34 +71,12 @@ export default class HeaderSearch extends PureComponent {
     });
   };
 
-  // NOTE: 不能小于500，如果长按某键，第一次触发auto repeat的间隔是500ms，小于500会导致触发2次
-  @Bind()
-  @Debounce(500, {
-    leading: true,
-    trailing: false,
-  })
-  debouncePressEnter() {
-    const { onPressEnter } = this.props;
-    const { value } = this.state;
-    onPressEnter(value);
-  }
-
   render() {
     const { className, placeholder, open, ...restProps } = this.props;
     const { searchMode, value } = this.state;
-    // delete restProps.defaultOpen; // for rc-select not affected
 
     return (
-      <span
-        className={classNames(className, styles.headerSearch)}
-        onClick={this.enterSearchMode}
-        onTransitionEnd={({ propertyName }) => {
-          if (propertyName === 'width' && !searchMode) {
-            const { onVisibleChange } = this.props;
-            onVisibleChange(searchMode);
-          }
-        }}
-      >
+      <span className={classNames(className, styles.headerSearch)} onClick={this.enterSearchMode}>
         <Icon type="search" key="Icon" />
         <AutoComplete
           key="AutoComplete"
@@ -133,7 +93,6 @@ export default class HeaderSearch extends PureComponent {
             }}
             aria-label={placeholder}
             placeholder={placeholder}
-            onKeyDown={this.onKeyDown}
             onBlur={this.leaveSearchMode}
           />
         </AutoComplete>
