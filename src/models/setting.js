@@ -13,7 +13,8 @@ const updateTheme = primaryColor => {
   }
   const hideMessage = message.loading('正在编译主题！', 0);
   function buildIt() {
-    if (!window.less) {
+    if (!window.less && !window.less.modifyVars) {
+      message('less未加载.');
       return;
     }
     setTimeout(() => {
@@ -44,7 +45,7 @@ const updateTheme = primaryColor => {
         javascriptEnabled: true
       };
     `;
-    lessScriptNode.src = 'https://gw.alipayobjects.com/os/lib/less.js/3.8.1/less.min.js';
+    lessScriptNode.src = '/doc/less.min.js';
     lessScriptNode.async = true;
     lessScriptNode.onload = () => {
       buildIt();

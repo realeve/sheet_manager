@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Card, Select, Switch, Row, Col, Slider, Input, Button } from 'antd';
-import { Icon } from '@ant-design/compatible';
+import {
+  SettingOutlined,
+  DownOutlined,
+  EditOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons';
 import styles from './Chart.less';
 import { formatMessage } from 'umi/locale';
 import { chartTypeList } from '../utils/charts';
@@ -475,7 +480,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               style={{ marginLeft: 10 }}
               title={formatMessage({ id: 'component.globalHeader.help' })}
             >
-              <Icon type="question-circle-o" />
+              <QuestionCircleOutlined />
             </a>
             <a
               className={styles.action}
@@ -483,7 +488,7 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               title="在线编辑图表"
               onClick={this.props.onEdit}
             >
-              <Icon type="edit" />
+              <EditOutlined />
             </a>
             <a
               className={styles.action}
@@ -491,12 +496,17 @@ export default class ChartConfig extends Component<IConfigProps, IConfigState> {
               title="下载为html文件"
               onClick={this.props.onDownload}
             >
-              <Icon type="download" />
+              <DownOutlined />
             </a>
           </div>
         }
         extra={
-          <Button type="primary" shape="circle" icon={<LegacyIcon type="setting" />} onClick={() => this.showConfig()} />
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<SettingOutlined />}
+            onClick={() => this.showConfig()}
+          />
         }
         headStyle={{ borderBottom: '1px solid #e8e8e8' }}
         bordered={false}
