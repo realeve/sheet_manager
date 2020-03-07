@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Popconfirm, notification } from 'antd';
 
-import { Icon } from '@ant-design/compatible';
+import { EditOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 import FileExplorerTheme from 'react-sortable-tree-theme-minimal';
@@ -61,7 +61,7 @@ function TreeList({ uid, treeDataLeft: treeList, editMenuItem, dispatch }) {
             buttons: [
               <Button
                 size="small"
-                icon={<LegacyIcon type="edit" />}
+                icon={<EditOutlined />}
                 title="编辑"
                 style={{ marginRight: 5 }}
                 onClick={() => editMenuItem(treeItem)}
@@ -70,10 +70,10 @@ function TreeList({ uid, treeDataLeft: treeList, editMenuItem, dispatch }) {
                 title="确定删除该菜单项?"
                 okText="是"
                 cancelText="否"
-                icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                icon={<QuestionCircleOutlined />}
                 onConfirm={() => removeMenuItem(treeItem)}
               >
-                <Button size="small" title="删除" icon={<LegacyIcon type="delete" />} />
+                <Button size="small" title="删除" icon={<DeleteOutlined />} />
               </Popconfirm>,
             ],
           };

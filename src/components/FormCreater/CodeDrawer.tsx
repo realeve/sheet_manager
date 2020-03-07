@@ -8,8 +8,6 @@ import beautify from 'js-beautify';
 import 'codemirror/mode/sql/sql';
 import { CopyOutlined } from '@ant-design/icons';
 
-// import { Icon as LegacyIcon } from '@ant-design/compatible';
-
 import { Drawer, Button, notification, Typography, Divider, message } from 'antd';
 import { host } from '@/utils/setting';
 
@@ -20,7 +18,6 @@ import * as R from 'ramda';
 import { getNonce } from '@/utils/lib';
 import { getApiConfig, getApi, getCreate, getSysApi } from './lib';
 
-import { formatMessage } from 'umi/locale';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export default function codeDrawer({

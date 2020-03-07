@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Button, Input, Popconfirm, notification } from 'antd';
 
-import { Icon } from '@ant-design/compatible';
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
-import { FileOutlined, DeleteOutlined } from '@ant-design/icons';
+import {
+  FileOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons';
 
 import * as treeUtil from './tree-data-utils';
 import * as db from '../service';
@@ -211,7 +215,7 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState> {
         <div className={styles.action} style={{ paddingLeft: 0 }}>
           <span style={{ width: 100 }}>菜单标题：</span>
           <Input
-            prefix={<Icon type="edit" />}
+            prefix={<EditOutlined />}
             placeholder="菜单名称"
             value={title}
             onChange={e => this.setState({ title: e.target.value })}
@@ -245,7 +249,7 @@ class MenuPreview extends Component<IPreviewProps, IPreviewState> {
                   title="确定删除该菜单项?"
                   okText="是"
                   cancelText="否"
-                  icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                  icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                   onConfirm={() => this.removeMenuItem(treeItem)}
                 >
                   <Button size="small" icon={<DeleteOutlined />} />

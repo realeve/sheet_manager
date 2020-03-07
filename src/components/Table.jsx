@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { Table, Pagination, Card, Button, Input, Menu, Dropdown, Switch } from 'antd';
-import { Form, Icon } from '@ant-design/compatible';
+import { Form } from '@ant-design/compatible';
+import {
+  FileExcelOutlined,
+  FilePdfOutlined,
+  QuestionCircleOutlined,
+  DownloadOutlined,
+} from '@ant-design/icons';
 import '@ant-design/compatible/assets/index.css';
 import * as db from '@/services/table';
 import styles from './Table.less';
@@ -468,13 +474,13 @@ class Tables extends Component {
         <Menu>
           <Menu.Item>
             <a rel="noopener noreferrer" onClick={this.downloadExcel}>
-              <Icon type="file-excel" />
+              <FileExcelOutlined />
               excel
             </a>
           </Menu.Item>
           <Menu.Item>
             <a rel="noopener noreferrer" onClick={this.downloadPdf}>
-              <Icon type="file-pdf" />
+              <FilePdfOutlined />
               PDF
             </a>
           </Menu.Item>
@@ -487,7 +493,7 @@ class Tables extends Component {
               marginLeft: 0,
             }}
           >
-            {formatMessage({ id: 'table.download' })} <Icon type="down" />
+            {formatMessage({ id: 'table.download' })} <DownloadOutlined />
           </Button>
         </Dropdown>
       );
@@ -539,7 +545,7 @@ class Tables extends Component {
               style={{ marginLeft: 10 }}
               title="参数设置"
             >
-              <Icon type="question-circle-o" />
+              <QuestionCircleOutlined />
             </a>
             <a
               target="_blank"
@@ -549,7 +555,7 @@ class Tables extends Component {
               style={{ marginLeft: 10 }}
               title="下载Office兼容性插件"
             >
-              <Icon type="download" />
+              <DownloadOutlined />
             </a>
           </div>
           {tTitle}

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { FormattedMessage, formatMessage, setLocale, getLocale } from 'umi/locale';
 import { Tag, Tooltip, Button } from 'antd';
-import { Icon } from '@ant-design/compatible';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import NoticeIcon from '../NoticeIcon';
@@ -91,7 +91,7 @@ export default class RightContent extends PureComponent {
                 className={styles.action}
                 title={formatMessage({ id: 'component.globalHeader.help' })}
               >
-                <Icon type="question-circle-o" />
+                <QuestionCircleOutlined />
               </a>
             </Tooltip>
             <NoticeIcon
