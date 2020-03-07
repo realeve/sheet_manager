@@ -20,46 +20,48 @@ let getRouter = () => {
  * */
 const FULL_MODE = BUILD_TYPE !== 'lite';
 
+export let onSearch = value => {
+  value = value.trim().toUpperCase();
+  let splitStr = [' ', ','].find(item => value.includes(item));
+  if (splitStr) {
+    // 分割为数组
+    let arr = value.split(splitStr);
+    if (lib.isCart(arr[0])) {
+      console.log('批量车号');
+    } else if (lib.isGZ(arr[0])) {
+      console.log('批量冠号');
+    }
+    return false;
+  }
+
+  let pathname = getRouter();
+
+  if (lib.isCart(value)) {
+    if (pathname == '/search/image') {
+      router.push('/search/image#' + value);
+    } else {
+      router.push('/search#' + value);
+    }
+    return true;
+  }
+
+  if (lib.isGZ(value)) {
+    router.push('/search#' + value);
+    return true;
+  }
+
+  if (lib.isReel(value)) {
+    router.push('/search#' + value);
+    return true;
+  }
+
+  console.log('全局搜索', value); // eslint-disable-line
+  return lib.mayBeCartOrReel(value);
+};
+
 function SearchComponent() {
   let pathname = getRouter();
   console.log('当前路由:', pathname);
-
-  let onSearch = value => {
-    value = value.trim().toUpperCase();
-    let splitStr = [' ', ','].find(item => value.includes(item));
-    if (splitStr) {
-      // 分割为数组
-      let arr = value.split(splitStr);
-      if (lib.isCart(arr[0])) {
-        console.log('批量车号');
-      } else if (lib.isGZ(arr[0])) {
-        console.log('批量冠号');
-      }
-      return;
-    }
-
-    let pathname = getRouter();
-
-    if (lib.isCart(value)) {
-      if (pathname == '/search/image') {
-        router.push('/search/image#' + value);
-      } else {
-        router.push('/search#' + value);
-      }
-      return;
-    }
-
-    if (lib.isGZ(value)) {
-      router.push('/search#' + value);
-      return;
-    }
-
-    if (lib.isReel(value)) {
-      router.push('/search#' + value);
-      return;
-    }
-    console.log('全局搜索', value); // eslint-disable-line
-  };
 
   return (
     FULL_MODE && (

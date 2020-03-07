@@ -95,7 +95,7 @@ const getConfig = (data, afterFilter) => {
   let config = {
     stretchH: 'all',
     autoWrapRow: true,
-    height: isSearch ? 260 : `calc( 100vh - ${data.hidemenu ? 220 : 270}px)`, //  data.data.length < 20 ||
+    height: isSearch ? 300 : `calc( 100vh - ${data.hidemenu ? 180 : 230}px)`, //  data.data.length < 20 ||
     rowHeaders: true,
     colHeaders: data.header,
     columns,

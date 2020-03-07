@@ -41,6 +41,12 @@ export const isCartOrReel: CartReelReg = str => {
 export const isCart: CartReelReg = str => rules.cart.test(String(str).trim());
 export const isReel: CartReelReg = str => rules.reel.test(String(str).trim());
 
+// 车号/冠号/轴号的起始2位
+export const mayBeCartOrReel: CartReelReg = str => {
+  let _str = String(str).trim();
+  return _str.length === 1 ? /\d/.test(_str) : /^(\d{2}|[A-Z]\d)$/.test(_str.slice(0, 2));
+};
+
 export const isDateTime: CartReelReg = str =>
   /^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d$|^\d{4}(-|\/|)[0-1]\d(-|\/|)[0-3]\d [0-2][0-9]:[0-5][0-9](:[0-5][0-9])$|^[0-2][0-9]:[0-5][0-9](:[0-5][0-9])$/.test(
     String(str).trim()

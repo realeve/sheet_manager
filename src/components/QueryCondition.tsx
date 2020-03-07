@@ -15,7 +15,7 @@ export const isDisabled = ({ selectValue, selectList, textAreaList, select, text
   Object.keys(selectValue).length < (select || selectList).length ||
   Object.values(textAreaValue).filter(item => String(item).length > 0).length < textAreaList.length;
 
-export const DateRangePicker = ({ dispatch, refresh, dateRange }) => {
+export const DateRangePicker = ({ dispatch, refresh, dateRange, style }) => {
   let queryType = window.location.pathname.includes('/table')
     ? 'table'
     : window.location.pathname.includes('/chart')
@@ -49,11 +49,14 @@ export const DateRangePicker = ({ dispatch, refresh, dateRange }) => {
     }
   };
 
+  console.log(queryType);
+
   return (
     queryType !== 'none' && (
       <DatePicker
         className={refresh ? styles.setting : null}
         value={dateRange}
+        style={style}
         onChange={dateStrings => onDateChange(dateStrings, refresh)}
       />
     )

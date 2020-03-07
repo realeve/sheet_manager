@@ -34,10 +34,12 @@
       color: @dark-text-color;
     }
   }
-  &,
-  &:hover,
+  border-bottom: 1px solid @dark-text-color;
+  &:hover {
+    border-bottom: 1px solid @primary-color;
+  }
   &:focus {
-    border-bottom: 1px solid @dark-text-color;
+    outline: none;
   }
   &.show {
     width: 95%;

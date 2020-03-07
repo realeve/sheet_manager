@@ -9,8 +9,10 @@ import { urlToList } from '../_utils/pathTools';
 import MenuSearch from '@/components/HeaderSearch/menu';
 import router from 'umi/router';
 import SystemMenu from './SystemMenu';
-
+import { onSearch as onCartSearch } from '../GlobalHeader/SearchComponent';
 import classNames from 'classnames/bind';
+import { formatMessage } from 'umi/locale';
+
 const cx = classNames.bind(styles);
 
 const { Sider } = Layout;
@@ -85,8 +87,14 @@ export default class SiderMenu extends PureComponent {
   };
 
   onSearch = ({ target: { value } }) => {
-    value = value.toLowerCase();
     let { menuData } = this.props;
+    // 全局车号搜索
+    if (onCartSearch(value)) {
+      this.setState({ menuData, searchValue: value.toUpperCase() });
+      return;
+    }
+
+    value = value.toLowerCase();
     const redirectRouter = func => {
       this.timeout = setTimeout(() => {
         func();
@@ -159,7 +167,9 @@ export default class SiderMenu extends PureComponent {
           value={searchValue}
           collapsed={collapsed}
           onChange={this.onSearch}
-          placeholder="快速检索菜单"
+          placeholder={formatMessage({
+            id: 'component.globalHeader.search',
+          })}
           style={{ marginTop: 5 }}
         />
         <BaseMenu

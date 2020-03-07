@@ -15,7 +15,7 @@ import logo from '../assets/logo.svg';
 import Footer from './Footer';
 import Header from './Header';
 import Context from './MenuContext';
-
+import { DateRangePicker } from '@/components/QueryCondition';
 // import userTool from '../utils/users';
 // import router from 'umi/router';
 
@@ -259,7 +259,7 @@ class BasicLayout extends PureComponent {
             minHeight: '100vh',
           }}
         >
-          {!hidemenu && (
+          {/* {!hidemenu && (
             <Header
               menuData={menuData}
               onCollapse={this.handleMenuCollapse}
@@ -267,8 +267,16 @@ class BasicLayout extends PureComponent {
               isMobile={isMobile}
               {...this.props}
             />
-          )}
+          )} */}
           <Content style={this.getContentStyle()}>
+            {this.props.selectList.length + this.props.textAreaList.length === 0 && (
+              <DateRangePicker
+                refresh={true}
+                dispatch={this.props.dispatch}
+                dateRange={this.props.dateRange}
+                style={{ position: 'fixed', right: 20, top: 20, zIndex: 10 }}
+              />
+            )}
             {notAllowed ? <ForOThree /> : !hidemenu && !isLogin ? <UnLogin /> : children}
           </Content>
           <Footer hidemenu={hidemenu} />
@@ -300,6 +308,9 @@ export default connect(
       userSetting: { menu, previewMenu, user_type },
       isLogin,
       hidemenu,
+      dateRange,
+      selectList,
+      textAreaList,
     },
   }) => ({
     collapsed: global.collapsed,
@@ -310,5 +321,8 @@ export default connect(
     user_type,
     isLogin,
     hidemenu,
+    dateRange,
+    selectList,
+    textAreaList,
   })
 )(BasicLayout);

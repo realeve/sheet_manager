@@ -5,7 +5,7 @@ import { Icon } from '@ant-design/compatible';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import NoticeIcon from '../NoticeIcon';
-import SearchComponent from './SearchComponent';
+// import SearchComponent from './SearchComponent';
 import AvatarView from './AvatarView';
 import { CUR_COMPANY } from '@/utils/setting';
 
@@ -82,7 +82,7 @@ export default class RightContent extends PureComponent {
       <div className={className}>
         {FULL_MODE && (
           <>
-            <SearchComponent />
+            {/* <SearchComponent /> */}
             <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
               <a
                 target="_blank"

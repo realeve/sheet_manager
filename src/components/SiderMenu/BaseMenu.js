@@ -4,7 +4,11 @@ import { Icon } from '@ant-design/compatible';
 import Link from 'umi/link';
 import styles from './index.less';
 import { getFlatMenuKeys } from './util';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { connect } from 'dva';
 
+import Debounce from 'lodash-decorators/debounce';
+import Bind from 'lodash-decorators/bind';
 const { SubMenu } = Menu;
 
 // Allow menu.js config icon as string or ReactNode
@@ -21,7 +25,7 @@ const getIcon = icon => {
   return icon;
 };
 
-export default class BaseMenu extends PureComponent {
+class BaseMenu extends PureComponent {
   constructor(props) {
     super(props);
     this.flatMenuKeys = getFlatMenuKeys(props.menuData);
@@ -129,6 +133,28 @@ export default class BaseMenu extends PureComponent {
     return `/${path || ''}`.replace(/\/+/g, '/');
   };
 
+  componentWillUnmount() {
+    this.triggerResizeEvent.cancel();
+  }
+  /* eslint-disable*/
+  @Bind()
+  @Debounce(600)
+  triggerResizeEvent() {
+    // eslint-disable-line
+    const event = document.createEvent('HTMLEvents');
+    event.initEvent('resize', true, false);
+    window.dispatchEvent(event);
+  }
+  toggle = () => {
+    const { collapsed, dispatch } = this.props;
+    // console.log(collapsed, '手工调整');
+    dispatch({
+      type: 'global/changeLayoutCollapsed',
+      payload: !collapsed,
+    });
+    this.triggerResizeEvent();
+  };
+
   render() {
     let { openKeys, theme, mode, selectedKeys, handleOpenChange, style, menuData } = this.props;
     const needOpenKeys = openKeys ? { openKeys } : {};
@@ -148,7 +174,17 @@ export default class BaseMenu extends PureComponent {
         {...defaultProps}
       >
         {this.getNavMenuItems(menuData)}
+        <Menu.Item key="togleSidebar" onClick={this.toggle}>
+          <a>
+            {this.props.collapsed ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
+            <span>折叠菜单</span>
+          </a>
+        </Menu.Item>
       </Menu>
     );
   }
 }
+export default connect(({ global, common }) => ({
+  collapsed: global.collapsed,
+  hidemenu: common.hidemenu,
+}))(BaseMenu);
