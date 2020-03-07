@@ -99,6 +99,7 @@ class LoginComponent extends Component {
           notice: '',
         });
       }
+      // console.log(userSetting);
 
       userSetting.menu = JSON.parse(userSetting.menu);
 

@@ -78,7 +78,7 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
     });
 
     dbMenu.setSysUser({
-      menu_id,
+      menu_id: menuList[menu_id].id,
       _id: uid,
     });
   };
