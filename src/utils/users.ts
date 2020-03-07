@@ -1,4 +1,4 @@
-import { systemName } from '@/utils/setting';
+import { systemName, DEFAULT_MENU_ID } from '@/utils/setting';
 import JSEncrypt from 'jsencrypt';
 import * as R from 'ramda';
 const { default: priv_key } = require('./rsa/rsa_1024_priv.js');
@@ -39,7 +39,11 @@ const decodeStr = (ciphertext: string) => {
   return JSON.parse(plainText);
 };
 
-const saveUserSetting = (data, menuTitle = systemName, menu_id: string | number) => {
+const saveUserSetting = (
+  data,
+  menuTitle = systemName,
+  menu_id: string | number = DEFAULT_MENU_ID
+) => {
   let obj = R.clone(data);
   let { menu } = obj.setting;
   // console.log(data, '_menuTitle');

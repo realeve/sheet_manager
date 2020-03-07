@@ -47,6 +47,7 @@ export let config = {
 // export const CUR_COMPANY = 'kunshan';
 
 export const CUR_COMPANY = 'chengdu';
+export const DEFAULT_MENU_ID = 3;
 
 let defaultTitle = window.localStorage.getItem('_userMenuTitle');
 

@@ -6,9 +6,12 @@ import * as dbMenu from '@/pages/menu/service';
 import { connect } from 'dva';
 import userTool from '@/utils/users';
 import * as R from 'ramda';
-
-const refreshMenu = (data, id) => {
+import { DEFAULT_MENU_ID } from '@/utils/setting';
+const refreshMenu = (data, id = DEFAULT_MENU_ID) => {
   let menuId = window.localStorage.getItem('_userMenuId') || id;
+  if (menuId == 'undefined') {
+    menuId = id;
+  }
   let menu = R.find(R.propEq('id', Number(menuId)))(data) || { detail: '[]' };
   return menu.detail;
 };
