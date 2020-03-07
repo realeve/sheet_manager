@@ -31,7 +31,7 @@ class ToggleMenu extends PureComponent {
     const style = this.props.inside_menu ? { color: '#fff' } : {};
     return (
       !this.props.hidemenu && (
-        <div className={styles.trigger} onClick={this.toggle}>
+        <div className={styles.trigger} style={this.props.style} onClick={this.toggle}>
           {this.props.collapsed ? (
             <MenuFoldOutlined style={style} />
           ) : (

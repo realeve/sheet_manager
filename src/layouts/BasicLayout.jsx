@@ -13,9 +13,10 @@ import SiderMenu from '@/components/SiderMenu';
 import SettingDrawer from '@/components/SettingDrawer';
 import logo from '../assets/logo.svg';
 import Footer from './Footer';
-import Header from './Header';
+// import Header from './Header';
 import Context from './MenuContext';
 import { DateRangePicker } from '@/components/QueryCondition';
+import ToggleMenu from '@/components/GlobalHeader/ToggleMenu';
 // import userTool from '../utils/users';
 // import router from 'umi/router';
 
@@ -239,6 +240,11 @@ class BasicLayout extends PureComponent {
     // 未登录，未在允许菜单列表中搜索到且用户身份类型>=4时，表示非法访问。
     const notAllowed = breadcrumbList.length === 0 && user_type >= 4;
 
+    const dateStyle = isMobile
+      ? {
+          paddingBottom: 10,
+        }
+      : { position: 'fixed', right: 20, top: 20, zIndex: 10 };
     const layout = (
       <Layout>
         {hidemenu || menuData.length === 0 || (isTop && !isMobile) ? null : (
@@ -259,24 +265,16 @@ class BasicLayout extends PureComponent {
             minHeight: '100vh',
           }}
         >
-          {/* {!hidemenu && (
-            <Header
-              menuData={menuData}
-              onCollapse={this.handleMenuCollapse}
-              logo={logo}
-              isMobile={isMobile}
-              {...this.props}
-            />
-          )} */}
           <Content style={this.getContentStyle()}>
             {this.props.selectList.length + this.props.textAreaList.length === 0 && (
               <DateRangePicker
                 refresh={true}
                 dispatch={this.props.dispatch}
                 dateRange={this.props.dateRange}
-                style={{ position: 'fixed', right: 20, top: 20, zIndex: 10 }}
+                style={dateStyle}
               />
             )}
+            {isMobile && <ToggleMenu style={{ position: 'fixed', right: 10, top: 10 }} />}
             {notAllowed ? <ForOThree /> : !hidemenu && !isLogin ? <UnLogin /> : children}
           </Content>
           <Footer hidemenu={hidemenu} />
