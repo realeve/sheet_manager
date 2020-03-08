@@ -2,6 +2,7 @@ import React from 'react';
 import { Select } from 'antd';
 import pinyin from '@/utils/pinyin.js';
 import * as R from 'ramda';
+import { FilterFunc } from 'rc-select/lib/interface/generator';
 
 const Option = Select.Option;
 
@@ -30,20 +31,22 @@ export interface OptionProps {
 export default function PinyinSelect(props: IProps) {
   const onFilter:
     | boolean
-    | ((inputValue: string, option: React.ReactElement<OptionProps>) => any) = (
-      searchText: string,
-      { props: { children: text } }
-    ) => {
-      text = String(text)
-        .trim()
-        .toLowerCase();
-      searchText = searchText.trim().toLowerCase();
-      return [
-        text,
-        pinyin.toPinYin(text).toLowerCase(),
-        pinyin.toPinYinFull(text).toLowerCase(),
-      ].find(a => a.includes(searchText));
-    };
+    | FilterFunc<{
+        key: string;
+        value: string;
+        children: React.ReactNode;
+      }> = (searchText: string, { children: text }) => {
+    text = String(text)
+      .trim()
+      .toLowerCase();
+    searchText = searchText.trim().toLowerCase();
+
+    return [
+      text,
+      pinyin.toPinYin(text).toLowerCase(),
+      pinyin.toPinYinFull(text).toLowerCase(),
+    ].find(a => a.includes(searchText));
+  };
 
   let { placeholder, options, value, onChange, className, ...prop } = props;
 
@@ -53,12 +56,12 @@ export default function PinyinSelect(props: IProps) {
       showSearch
       optionFilterProp="children"
       onChange={onChange}
-      value={R.isNil(value) ? [""] : value}
+      value={R.isNil(value) ? [''] : value}
       filterOption={onFilter}
       className={className}
     >
       {options.map(({ value, name }: OptionItem) => (
-        <Option value={value} key={R.isNil(name) ? "" : value}>
+        <Option value={value} key={R.isNil(name) ? '' : value}>
           {name}
         </Option>
       ))}

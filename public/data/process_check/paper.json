@@ -39,11 +39,26 @@
         },
         {
           "title": "机台号",
-          "type": "input",
+          "type": "select",
           "key": "machine_name",
           "rule": {
             "required": true
-          }
+          },
+          "defaultOption": [
+            {
+              "name": "新线-1号纸机",
+              "value": "新线-1号纸机"
+            },
+            {
+              "name": "新线-2号纸机",
+              "value": "新线-2号纸机"
+            },
+            {
+              "name": "老线-3号纸机",
+
+              "value": "老线-3号纸机"
+            }
+          ]
         },
         {
           "title": "轴号",
@@ -175,7 +190,7 @@
           "placeholder": "请在此填入备注信息",
           "span": 8,
           "rule": {
-            "required": true
+            "required": false
           }
         }
       ]

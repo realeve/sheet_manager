@@ -164,8 +164,8 @@
                 },
                 {
                   "key": "dryness",
-                  "max": 15,
-                  "min": 5
+                  "max": 20,
+                  "min": 10
                 },
                 {
                   "key": "fluo",
@@ -454,7 +454,7 @@
           "placeholder": "请在此填入备注信息",
           "span": 8,
           "rule": {
-            "required": true
+            "required": false
           }
         }
       ]

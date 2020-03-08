@@ -125,7 +125,11 @@ export default function formItem({
       md={span}
       sm={12}
       xs={24}
-      className={classNames(styles['form-item'], { [styles['form-center']]: type === 'radio' })}
+      className={classNames(styles['form-item'], {
+        [styles['form-center']]: type === 'radio',
+        ['ant-form-item-has-error']: !validateState,
+        ['ant-form-item-has-warning']: !validateScope,
+      })}
     >
       <span
         className={cx('title', {
@@ -206,7 +210,7 @@ export default function formItem({
         {type === 'switch' && (
           <Switch
             defaultChecked
-            checked={[true, 'true', '1'].includes(state)}
+            checked={[true, 'true', '1', 1].includes(state)}
             onChange={value => onChange(value)}
             {...props}
           />

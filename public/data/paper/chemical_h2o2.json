@@ -42,8 +42,8 @@
             },
             {
               "key": "stability",
-              "max": 93,
-              "min": 0
+              "min": 93,
+              "max": 100
             }
           ]
         },
@@ -124,7 +124,7 @@
           "rule": {
             "required": true
           },
-          "defaultValue": "白色液体，允许微带异色"
+          "defaultValue": "无色透明液体"
         },
         {
           "title": "过氧化氢(H2O2)",
@@ -189,7 +189,7 @@
           "placeholder": "请在此填入备注信息",
           "span": 8,
           "rule": {
-            "required": true
+            "required": false
           }
         }
       ]

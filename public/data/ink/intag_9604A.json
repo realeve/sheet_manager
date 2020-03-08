@@ -374,7 +374,7 @@
           "placeholder": "请在此填入备注信息",
           "span": 8,
           "rule": {
-            "required": true
+            "required": false
           }
         }
       ]

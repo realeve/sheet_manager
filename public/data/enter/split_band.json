@@ -33,23 +33,8 @@
           "key": "prod_name",
           "defaultOption": [
             {
-              "name": "小张分百条",
-              "value": "小张分百条",
-              "scope": [
-                {
-                  "key": "weight",
-                  "min": 62,
-                  "max": 68
-                },
-                {
-                  "key": "paste_width",
-                  "min": 5
-                }
-              ]
-            },
-            {
-              "name": "9607T裁封自动线分百条",
-              "value": "9607T裁封自动线分百条",
+              "name": "7T裁封线分百条",
+              "value": "7T裁封线分百条",
               "scope": [
                 {
                   "key": "weight",
@@ -69,6 +54,21 @@
                 "glue_size",
                 "glue_distance",
                 "glue_distance_difference"
+              ]
+            },
+            {
+              "name": "小张分百条",
+              "value": "小张分百条",
+              "scope": [
+                {
+                  "key": "weight",
+                  "min": 62,
+                  "max": 68
+                },
+                {
+                  "key": "paste_width",
+                  "min": 5
+                }
               ]
             }
           ]
@@ -387,7 +387,7 @@
           "placeholder": "请在此填入备注信息",
           "span": 8,
           "rule": {
-            "required": true
+            "required": false
           }
         }
       ]
