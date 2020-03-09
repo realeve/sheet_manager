@@ -52,7 +52,7 @@
             {
               "name": "WJ1正主景绿",
               "value": "WJ1正主景绿",
-              "hide": ["anti_fake", "drying_time"],
+              "hide": ["anti_fake"],
               "scope": [
                 {
                   "key": "viscosity",
@@ -69,7 +69,7 @@
             {
               "name": "WJ1正棕(SmartX)",
               "value": "WJ1正棕(SmartX)",
-              "hide": ["anti_fake", "drying_time"],
+              "hide": ["anti_fake"],
               "scope": [
                 {
                   "key": "viscosity",
@@ -86,7 +86,6 @@
             {
               "name": "WJ1正蓝(SM-1)",
               "value": "WJ1正蓝(SM-1)",
-              "hide": ["drying_time"],
               "scope": [
                 {
                   "key": "anti_fake",
@@ -107,7 +106,6 @@
             {
               "name": "WJ1背主景绿",
               "value": "WJ1背主景绿",
-              "hide": ["drying_time"],
               "scope": [
                 {
                   "key": "anti_fake",
@@ -129,7 +127,6 @@
             {
               "name": "WJ1背主景绿 (IA-M)",
               "value": "WJ1背主景绿 (IA-M)",
-              "hide": ["drying_time"],
               "scope": [
                 {
                   "key": "anti_fake",
@@ -151,7 +148,7 @@
             {
               "name": "WJ1背蓝",
               "value": "WJ1背蓝",
-              "hide": ["anti_fake", "drying_time"],
+              "hide": ["anti_fake"],
               "scope": [
                 {
                   "key": "viscosity",
@@ -168,7 +165,7 @@
             {
               "name": "WJ1背浅棕",
               "value": "WJ1背浅棕",
-              "hide": ["anti_fake", "drying_time"],
+              "hide": ["anti_fake"],
               "scope": [
                 {
                   "key": "viscosity",
