@@ -43,17 +43,8 @@
                 },
                 {
                   "key": "paste_width",
-                  "min": 11
+                  "min": 5
                 }
-              ],
-              "hide": [
-                "band_length",
-                "cursor_color",
-                "cursor_size",
-                "edge_distance",
-                "glue_size",
-                "glue_distance",
-                "glue_distance_difference"
               ]
             },
             {
@@ -67,8 +58,17 @@
                 },
                 {
                   "key": "paste_width",
-                  "min": 5
+                  "min": 11
                 }
+              ],
+              "hide": [
+                "band_length",
+                "cursor_color",
+                "cursor_size",
+                "edge_distance",
+                "glue_size",
+                "glue_distance",
+                "glue_distance_difference"
               ]
             }
           ]

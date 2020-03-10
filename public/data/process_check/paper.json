@@ -39,24 +39,24 @@
         },
         {
           "title": "机台号",
-          "type": "select",
+          "type": "radio.button",
           "key": "machine_name",
           "rule": {
             "required": true
           },
           "defaultOption": [
             {
-              "name": "新线-1号纸机",
-              "value": "新线-1号纸机"
+              "name": "新线-1号",
+              "value": "新线-1号"
             },
             {
-              "name": "新线-2号纸机",
-              "value": "新线-2号纸机"
+              "name": "新线-2号",
+              "value": "新线-2号"
             },
             {
-              "name": "老线-3号纸机",
+              "name": "老线-3号",
 
-              "value": "老线-3号纸机"
+              "value": "老线-3号"
             }
           ]
         },
@@ -71,7 +71,7 @@
         },
         {
           "title": "品种",
-          "type": "input",
+          "type": "select",
           "key": "prod_name",
           "rule": {
             "required": true
