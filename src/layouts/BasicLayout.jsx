@@ -232,6 +232,7 @@ class BasicLayout extends PureComponent {
       location,
       hidemenu,
       user_type,
+      dateType = ['none'],
       isLogin,
     } = this.props;
     const { isMobile, menuData, breadcrumbList, nextUrl } = this.state;
@@ -245,6 +246,7 @@ class BasicLayout extends PureComponent {
           paddingBottom: 10,
         }
       : { position: 'fixed', right: 20, top: 20, zIndex: 10 };
+
     const layout = (
       <Layout>
         {hidemenu || menuData.length === 0 || (isTop && !isMobile) ? null : (
@@ -266,14 +268,16 @@ class BasicLayout extends PureComponent {
           }}
         >
           <Content style={this.getContentStyle()}>
-            {this.props.selectList.length + this.props.textAreaList.length === 0 && (
-              <DateRangePicker
-                refresh={true}
-                dispatch={this.props.dispatch}
-                dateRange={this.props.dateRange}
-                style={dateStyle}
-              />
-            )}
+            {['/table', '/chart'].includes(location.pathname) &&
+              this.props.selectList.length + this.props.textAreaList.length === 0 &&
+              dateType[0] !== 'none' && (
+                <DateRangePicker
+                  refresh={true}
+                  dispatch={this.props.dispatch}
+                  dateRange={this.props.dateRange}
+                  style={dateStyle}
+                />
+              )}
             {isMobile && <ToggleMenu style={{ position: 'fixed', right: 10, top: 10 }} />}
             {notAllowed ? <ForOThree /> : !hidemenu && !isLogin ? <UnLogin /> : children}
           </Content>
@@ -303,6 +307,7 @@ export default connect(
     global,
     setting,
     common: {
+      dateType,
       userSetting: { menu, previewMenu, user_type },
       isLogin,
       hidemenu,
@@ -311,6 +316,7 @@ export default connect(
       textAreaList,
     },
   }) => ({
+    dateType,
     collapsed: global.collapsed,
     layout: setting.layout,
     ...setting,

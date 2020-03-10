@@ -3,6 +3,7 @@ import { Col, Card, Tabs } from 'antd';
 import VTable from '@/components/Table';
 import { useFetch } from '@/pages/Search/utils/useFetch';
 import * as R from 'ramda';
+import { getType } from '@/utils/lib';
 
 const TabPane = Tabs.TabPane;
 
@@ -48,12 +49,14 @@ export default function PackageInfo({ prod, code }) {
   });
 
   const beforeRender = option =>
-    option.map(item => {
-      Reflect.deleteProperty(item, 'sorter');
-      Reflect.deleteProperty(item, 'filters');
-      Reflect.deleteProperty(item, 'filteredValue');
-      return item;
-    });
+    getType(option) === 'object'
+      ? option
+      : option.map(item => {
+          Reflect.deleteProperty(item, 'sorter');
+          Reflect.deleteProperty(item, 'filters');
+          Reflect.deleteProperty(item, 'filteredValue');
+          return item;
+        });
 
   return (
     <Col span={24}>

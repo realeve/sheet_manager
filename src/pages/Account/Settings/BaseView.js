@@ -7,6 +7,7 @@ import { connect } from 'dva';
 import styles from './BaseView.less';
 import * as db from '@/pages/login/service';
 import AvatarView from './AvatarView';
+import * as lib from '@/utils/lib';
 // import UserPreview from './UserPreview';
 
 const R = require('ramda');
@@ -42,6 +43,9 @@ class BaseView extends Component {
     const {
       userSetting: { dept_name },
     } = this.props;
+    if (lib.isInt(dept_name)) {
+      return parseInt(dept_name);
+    }
     const { depts } = this.state;
     let dept = R.find(R.propEq('value', dept_name))(depts);
     return dept ? dept.id : 0;
@@ -85,6 +89,7 @@ class BaseView extends Component {
     } = this.props;
     const { depts, submitting } = this.state;
     const dept_id = this.getDeptId();
+
     return (
       <div className={styles.baseView}>
         <div className={styles.left}>

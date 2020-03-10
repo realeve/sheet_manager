@@ -12,7 +12,8 @@ import { enquireScreen, unenquireScreen } from 'enquire-js';
 const { TextArea } = Input;
 
 export const isDisabled = ({ selectValue, selectList, textAreaList, select, textAreaValue }) =>
-  Object.keys(selectValue).length < (select || selectList).length ||
+  (select && selectList.length + textAreaList.length == 0) ||
+  Object.keys(selectValue).length < selectList.length ||
   Object.values(textAreaValue).filter(item => String(item).length > 0).length < textAreaList.length;
 
 export const DateRangePicker = ({ dispatch, refresh, dateRange, style }) => {
