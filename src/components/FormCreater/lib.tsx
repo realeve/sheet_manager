@@ -391,11 +391,7 @@ export const beforeSheetRender = ({ columns, ...config }) => {
   return { columns: colConfig, ...config };
 };
 
-export enum ENUM_INCREASE {
-  reel_cart, // 车号
-  box_no, // 箱号
-  pallet, // 批号
-}
+export type tIncrease = 'reel_cart' | 'box_no' | 'pallet'; // 车号-箱号-拍号
 
 const nextChar: (char: string, idx: number) => string = (char, idx = 0) =>
   String.fromCharCode(char.charCodeAt(idx) + 1);
@@ -405,9 +401,9 @@ const nextChar: (char: string, idx: number) => string = (char, idx = 0) =>
  * @param str 待处理字符串
  * @return string 处理结果
  */
-export const handleIncrease: (type: ENUM_INCREASE, val) => string = (type, str) => {
+export const handleIncrease: (type: tIncrease, val) => string = (type, str) => {
   switch (type) {
-    case ENUM_INCREASE.reel_cart:
+    case 'reel_cart':
       str = str.toUpper();
       // 前四位数字不变
       let strHead = str.substr(0, 4);
@@ -428,10 +424,10 @@ export const handleIncrease: (type: ENUM_INCREASE, val) => string = (type, str) 
         B: 'A',
       };
       return strHead + alpha + num + tail[strTail];
-    case ENUM_INCREASE.box_no:
+    case 'box_no':
       // 6位箱号，自动加1
       return String(parseInt(str) + 1).padStart(6, '0');
-    case ENUM_INCREASE.pallet:
+    case 'pallet':
       let strPallet = str.substr(8);
       let strEnd = String(parseInt(strPallet) + 1).padStart(5, '0');
       return str.substr(0, 8) + strEnd;

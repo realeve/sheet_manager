@@ -181,7 +181,8 @@
           "rule": {
             "required": true
           },
-          "span": 6
+          "span": 6,
+          "unReset": true
         },
         {
           "title": "箱号",
@@ -190,7 +191,8 @@
           "rule": {
             "required": true
           },
-          "span": 6
+          "span": 6,
+          "increase": "box_no"
         },
         {
           "title": "车号",
@@ -200,7 +202,8 @@
             "type": "cart",
             "required": true
           },
-          "span": 6
+          "span": 6,
+          "increase": "reel_cart"
         },
         {
           "title": "拍号",
@@ -209,7 +212,8 @@
           "rule": {
             "required": true
           },
-          "span": 6
+          "span": 6,
+          "increase": "pallet_no"
         },
         {
           "title": "小计令数",
