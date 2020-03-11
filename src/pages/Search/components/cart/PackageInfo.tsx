@@ -48,6 +48,7 @@ export default function PackageInfo({ prod, code }) {
       beforeFetch(params) && !R.isNil(params.codenum) && params.codenum.length > 0,
   });
 
+  // 20206T2   500001箱号 1900E366A 拍号
   const beforeRender = option =>
     getType(option) === 'object'
       ? option

@@ -91,6 +91,8 @@ export const onValidate = (value, rule) => {
   }
 
   let status: boolean = true;
+
+  // 扩展数据校验规则
   switch (pattern) {
     case 'cart':
       status = lib.isCart(value);
@@ -109,6 +111,15 @@ export const onValidate = (value, rule) => {
       break;
     case 'float':
       status = lib.isFloat(value);
+      break;
+    case 'reel_cart':
+      status = lib.rules.reel_cart.test(value);
+      break;
+    case 'reel_patch':
+      status = lib.rules.reel_patch.test(value);
+      break;
+    case 'pallet':
+      status = lib.rules.pallet.test(value);
       break;
     default:
       break;
@@ -378,4 +389,51 @@ export const beforeSheetRender = ({ columns, ...config }) => {
   // console.log(item);
   colConfig = R.update(idx, item)(colConfig);
   return { columns: colConfig, ...config };
+};
+
+export enum ENUM_INCREASE {
+  reel_cart, // 车号
+  box_no, // 箱号
+  pallet, // 批号
+}
+
+const nextChar: (char: string, idx: number) => string = (char, idx = 0) =>
+  String.fromCharCode(char.charCodeAt(idx) + 1);
+/**
+ * 处理纸张各类号码自增逻辑
+ * @param type 处理类型
+ * @param str 待处理字符串
+ * @return string 处理结果
+ */
+export const handleIncrease: (type: ENUM_INCREASE, val) => string = (type, str) => {
+  switch (type) {
+    case ENUM_INCREASE.reel_cart:
+      str = str.toUpper();
+      // 前四位数字不变
+      let strHead = str.substr(0, 4);
+
+      // 尾部字母
+      let strTail = str.substr(-1);
+
+      //车号后三位
+      let cardNo = strTail === 'A' ? str.substr(5, 3) : (parseInt(str.substr(5, 3)) + 1) % 1000;
+
+      //字母处理
+      let alpha = cardNo == 0 ? nextChar(str, 4) : str.substr(4, 1);
+
+      // 数字进1
+      let num = String(cardNo).padStart(3, '0');
+      let tail = {
+        A: 'B',
+        B: 'A',
+      };
+      return strHead + alpha + num + tail[strTail];
+    case ENUM_INCREASE.box_no:
+      // 6位箱号，自动加1
+      return String(parseInt(str) + 1).padStart(6, '0');
+    case ENUM_INCREASE.pallet:
+      let strPallet = str.substr(8);
+      let strEnd = String(parseInt(strPallet) + 1).padStart(5, '0');
+      return str.substr(0, 8) + strEnd;
+  }
 };

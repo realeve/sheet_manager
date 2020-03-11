@@ -1,0 +1,407 @@
+{
+  "name": "钞纸成品装箱记录",
+  "api": {
+    "insert": {},
+    "delete": {},
+    "update": {},
+    "query": {},
+    "load": {}
+  },
+  "table": "package_box",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "产品名称",
+          "type": "select",
+          "unReset": true,
+          "defaultOption": [
+            {
+              "name": "103-G-2T",
+              "value": "103-G-2T"
+            },
+            {
+              "name": "103-G-2A",
+              "value": "103-G-2A"
+            },
+            {
+              "name": "103-G-3T",
+              "value": "103-G-3T"
+            },
+            {
+              "name": "103-G-4T",
+              "value": "103-G-4T"
+            },
+            {
+              "name": "103-G-6T",
+              "value": "103-G-6T"
+            },
+            {
+              "name": "103-G-7T",
+              "value": "103-G-7T"
+            }
+          ],
+          "key": "prod_name",
+          "rule": {
+            "required": true
+          },
+          "span": 6
+        },
+        {
+          "title": "码包时间",
+          "type": "datepicker",
+          "key": "package_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true,
+          "span": 6
+        },
+        {
+          "title": "班次",
+          "type": "input",
+          "key": "class_type",
+          "rule": {
+            "required": true,
+            "msg": "请输入班次"
+          },
+          "placeholder": "请输入班次",
+          "unReset": true,
+          "span": 6
+        },
+        {
+          "title": "班别",
+          "type": "input",
+          "key": "class_name",
+          "rule": {
+            "required": true,
+            "msg": "请输入班别"
+          },
+          "placeholder": "请输入班别",
+          "unReset": true,
+          "span": 6
+        },
+        {
+          "title": "查纸1",
+          "type": "input",
+          "key": "user_check_paper1",
+          "rule": {
+            "required": true
+          },
+          "placeholder": "请输入查纸人员",
+          "unReset": true,
+          "span": 6
+        },
+        {
+          "title": "查纸2",
+          "type": "input",
+          "key": "user_check_paper2",
+          "rule": {
+            "required": true
+          },
+          "placeholder": "请输入查纸人员",
+          "unReset": true,
+          "span": 6
+        },
+        {
+          "title": "罩口袋",
+          "type": "input",
+          "key": "user_package",
+          "rule": {
+            "required": true
+          },
+          "placeholder": "请输入罩口袋人员",
+          "unReset": true,
+          "span": 6
+        },
+        {
+          "title": "记轴号",
+          "type": "input",
+          "key": "user_record_reel",
+          "rule": {
+            "required": true
+          },
+          "placeholder": "请输入罩记轴号人员",
+          "unReset": true,
+          "span": 6
+        },
+        {
+          "title": "记轴号2",
+          "type": "input",
+          "key": "user_record_reel2",
+          "rule": {
+            "required": true
+          },
+          "placeholder": "请输入罩记轴号人员",
+          "unReset": true,
+          "span": 6
+        },
+        {
+          "title": "码垛工艺",
+          "type": "radio.button",
+          "key": "proc_type",
+          "defaultOption": [
+            {
+              "value": "入立体库",
+              "name": "入立体库",
+              "scope": [
+                {
+                  "key": "ream_count",
+                  "max": 20,
+                  "min": 1
+                }
+              ],
+              "hide": ["patch_no", "box_no", "pallet_no"]
+            },
+            {
+              "value": "外调",
+              "name": "外调",
+              "scope": [
+                {
+                  "key": "ream_count",
+                  "max": 20,
+                  "min": 1
+                }
+              ],
+              "hide": ["cart_num"]
+            }
+          ],
+          "rule": {
+            "required": true
+          },
+          "unReset": true,
+          "span": 6
+        },
+        {
+          "title": "批号",
+          "type": "input",
+          "key": "patch_no",
+          "rule": {
+            "required": true
+          },
+          "span": 6
+        },
+        {
+          "title": "箱号",
+          "type": "input.number",
+          "key": "box_no",
+          "rule": {
+            "required": true
+          },
+          "span": 6
+        },
+        {
+          "title": "车号",
+          "type": "input",
+          "key": "cart_num",
+          "rule": {
+            "type": "cart",
+            "required": true
+          },
+          "span": 6
+        },
+        {
+          "title": "拍号",
+          "type": "input",
+          "key": "pallet_no",
+          "rule": {
+            "required": true
+          },
+          "span": 6
+        },
+        {
+          "title": "小计令数",
+          "type": "input",
+          "key": "ream_count",
+          "rule": {
+            "type": "int",
+            "required": true
+          },
+          "span": 6
+        }
+      ]
+    },
+    {
+      "title": "记录详情",
+      "detail": [
+        {
+          "title": "轴号1",
+          "type": "input",
+          "key": "reel_no1",
+          "rule": {
+            "type": "int",
+            "required": true
+          },
+          "span": 4
+        },
+        {
+          "title": "令数1",
+          "type": "input",
+          "key": "ream_num1",
+          "rule": {
+            "type": "int",
+            "required": true
+          },
+          "span": 4
+        },
+        {
+          "title": "轴号2",
+          "type": "input",
+          "key": "reel_no2",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "令数2",
+          "type": "input",
+          "key": "ream_num2",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "轴号3",
+          "type": "input",
+          "key": "reel_no3",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "令数3",
+          "type": "input",
+          "key": "ream_num3",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+
+        {
+          "title": "轴号4",
+          "type": "input",
+          "key": "reel_no4",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "令数4",
+          "type": "input",
+          "key": "ream_num4",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "轴号5",
+          "type": "input",
+          "key": "reel_no5",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "令数5",
+          "type": "input",
+          "key": "ream_num5",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "轴号6",
+          "type": "input",
+          "key": "reel_no6",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "令数6",
+          "type": "input",
+          "key": "ream_num6",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "轴号7",
+          "type": "input",
+          "key": "reel_no7",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "令数7",
+          "type": "input",
+          "key": "ream_num7",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "轴号8",
+          "type": "input",
+          "key": "reel_no8",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "令数8",
+          "type": "input",
+          "key": "ream_num8",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "轴号9",
+          "type": "input",
+          "key": "reel_no9",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "令数9",
+          "type": "input",
+          "key": "ream_num9",
+          "rule": {
+            "type": "int"
+          },
+          "span": 4
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 12,
+          "rule": {
+            "required": false
+          }
+        }
+      ]
+    }
+  ]
+}

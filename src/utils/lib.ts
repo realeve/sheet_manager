@@ -20,14 +20,27 @@ export { searchUrl, imgUrl, systemName, host as apiHost } from './setting';
 
 // export const apiHost: string = setting.host;
 
+/**
+ * cart:车号
+ * reel:轴号
+ * reel_cart:纸张上下5千车号
+ * reel_patch:纸张批次号
+ * pallet:纸张拍号
+ */
 interface Rules {
   cart: RegExp;
   reel: RegExp;
+  reel_cart: RegExp;
+  reel_patch: RegExp;
+  pallet: RegExp;
 }
-const rules: Rules = {
-  cart: /^[0-9]\d{3}[A-Za-z]\d{3}$/,
+export const rules: Rules = {
+  cart: /^[0-9]\d{3}[A-Za-z]\d{3}$/, // 车号
   // reel: /^[1-9]\d{6}(|[A-Ca-c])$|[A-Z]\d{11}[A-Z]/, //^[1-9]\d{4}[A-Ca-c]$|
-  reel: /^[0-9]\d{6}([A-Ca-c]|)$|[A-Z]\d{11}([A-Z]|)/, //^[1-9]\d{4}[A-Ca-c]$|
+  reel: /^[0-9]\d{6}([A-Ca-c]|)$|[A-Z]\d{11}([A-Z]|)/, // 轴号 //^[1-9]\d{4}[A-Ca-c]$|
+  reel_cart: /^[0-9]\d{3}[A-Za-z]\d{3}([A-B]|[a-b])$/,
+  reel_patch: /^\d{5}([A-Z|a-z])\d$/, //2020 6T 2
+  pallet: /^\d{2}(0[1-9]|1[0-2])\d{2}(1|2)\d{6}$/,
 };
 
 interface CartReelReg {
