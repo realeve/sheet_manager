@@ -9,6 +9,7 @@ import { connect } from 'dva';
 import { useLocation } from 'react-use';
 import qs from 'qs';
 import router from 'umi/router';
+import * as lib from '@/utils/lib';
 
 function formAction({
   fields,
@@ -91,6 +92,9 @@ function formAction({
       Object.keys(res).map(key => {
         // console.log(res[key]);
         res[key] = res[key] ? res[key].trim() : '';
+        if (lib.isFloat(res[key])) {
+          res[key] = Number(res[key]).toFixed(2);
+        }
       });
       formInstance.set(res);
 

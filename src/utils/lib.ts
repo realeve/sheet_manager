@@ -437,11 +437,15 @@ export const setStore = (state, store: Store) => {
 export const isChineseWord = str => new RegExp(/[\u00A1-\uFFFF]/).test(str);
 
 // 中文宽1，其余宽0.7
-export const getStringWidth = str =>
-  String(str)
+export const getStringWidth = str => {
+  if (isFloat(str)) {
+    str = Number(str).toFixed(2);
+  }
+  return String(str)
     .trim()
     .split('')
     .reduce((x, y) => x + (isChineseWord(y) ? 1 : 0.7), 0);
+};
 
 // 将带,;及换行符的字符串转换为数组文本
 export const str2Arr: (str: string, needTrim?: boolean) => string[] = (str, needTrim = true) => {
