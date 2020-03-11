@@ -238,6 +238,8 @@ function FormCreater({ config, dispatch }) {
 
   // 数据重置：配置中 unReset 的项在重置时保持上次结果
   const onReset = () => {
+    // -- TODO 2020-03-12 在处理处理increse重置的逻辑
+
     let keys = R.compose(
       R.pluck('key'),
       R.filter(
