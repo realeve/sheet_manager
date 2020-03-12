@@ -179,16 +179,19 @@
           "type": "input",
           "key": "patch_no",
           "rule": {
+            "type": "patch_no",
             "required": true
           },
           "span": 6,
-          "unReset": true
+          "unReset": true,
+          "toupper": "true"
         },
         {
           "title": "箱号",
           "type": "input.number",
           "key": "box_no",
           "rule": {
+            "type": "box_no",
             "required": true
           },
           "span": 6,
@@ -199,21 +202,24 @@
           "type": "input",
           "key": "cart_num",
           "rule": {
-            "type": "cart",
+            "type": "reel_cart",
             "required": true
           },
           "span": 6,
-          "increase": "reel_cart"
+          "increase": "reel_cart",
+          "toupper": "true"
         },
         {
           "title": "拍号",
           "type": "input",
           "key": "pallet_no",
           "rule": {
+            "type": "pallet_no",
             "required": true
           },
           "span": 6,
-          "increase": "pallet_no"
+          "increase": "pallet",
+          "toupper": "true"
         },
         {
           "title": "小计令数",
@@ -235,10 +241,11 @@
           "type": "input",
           "key": "reel_no1",
           "rule": {
-            "type": "int",
+            "type": "reel",
             "required": true
           },
-          "span": 4
+          "span": 4,
+          "toupper": "true"
         },
         {
           "title": "令数1",
@@ -255,9 +262,10 @@
           "type": "input",
           "key": "reel_no2",
           "rule": {
-            "type": "int"
+            "type": "reel"
           },
-          "span": 4
+          "span": 4,
+          "toupper": "true"
         },
         {
           "title": "令数2",
@@ -273,9 +281,10 @@
           "type": "input",
           "key": "reel_no3",
           "rule": {
-            "type": "int"
+            "type": "reel"
           },
-          "span": 4
+          "span": 4,
+          "toupper": "true"
         },
         {
           "title": "令数3",
@@ -292,9 +301,10 @@
           "type": "input",
           "key": "reel_no4",
           "rule": {
-            "type": "int"
+            "type": "reel"
           },
-          "span": 4
+          "span": 4,
+          "toupper": "true"
         },
         {
           "title": "令数4",
@@ -310,9 +320,10 @@
           "type": "input",
           "key": "reel_no5",
           "rule": {
-            "type": "int"
+            "type": "reel"
           },
-          "span": 4
+          "span": 4,
+          "toupper": "true"
         },
         {
           "title": "令数5",
@@ -328,9 +339,10 @@
           "type": "input",
           "key": "reel_no6",
           "rule": {
-            "type": "int"
+            "type": "reel"
           },
-          "span": 4
+          "span": 4,
+          "toupper": "true"
         },
         {
           "title": "令数6",
@@ -346,9 +358,10 @@
           "type": "input",
           "key": "reel_no7",
           "rule": {
-            "type": "int"
+            "type": "reel"
           },
-          "span": 4
+          "span": 4,
+          "toupper": "true"
         },
         {
           "title": "令数7",
@@ -364,9 +377,10 @@
           "type": "input",
           "key": "reel_no8",
           "rule": {
-            "type": "int"
+            "type": "reel"
           },
-          "span": 4
+          "span": 4,
+          "toupper": "true"
         },
         {
           "title": "令数8",
@@ -382,9 +396,10 @@
           "type": "input",
           "key": "reel_no9",
           "rule": {
-            "type": "int"
+            "type": "reel"
           },
-          "span": 4
+          "span": 4,
+          "toupper": "true"
         },
         {
           "title": "令数9",

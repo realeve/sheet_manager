@@ -3,7 +3,7 @@ import { useSetState } from 'react-use';
 import { Card, Row, Switch } from 'antd';
 import { Icon } from '@ant-design/compatible';
 import styles from './index.less';
-import { validRequire, beforeSheetRender } from './lib';
+import { validRequire, beforeSheetRender, getIncrease } from './lib';
 import FormItem from './FormItem';
 import CodeDrawer from './CodeDrawer';
 import FormAction from './FormAction';
@@ -238,8 +238,6 @@ function FormCreater({ config, dispatch }) {
 
   // 数据重置：配置中 unReset 的项在重置时保持上次结果
   const onReset = () => {
-    // -- TODO 2020-03-12 在处理处理increse重置的逻辑
-
     let keys = R.compose(
       R.pluck('key'),
       R.filter(
@@ -253,20 +251,40 @@ function FormCreater({ config, dispatch }) {
       ) // label项默认不重置、unReset项不重置、带有defaultValue的项不重置,带有value的项不重置
       // 带有defaultOption及url的下拉项不重置
     )(cfg);
+
     if (keys.length === 0) {
       setState(fields);
       return;
     }
 
     let prevFileds = R.pick(keys)(state);
+
+    let increaseFileds = handleIncrease();
+
     let nextFields = {
       ...fields,
       ...prevFileds,
+      ...increaseFileds,
     };
     setFields(nextFields);
-
     setState(nextFields);
     setTotalScore(100);
+  };
+
+  const handleIncrease = () => {
+    // -- TODO 2020-03-12 在处理处理increse重置的逻辑
+
+    // 当前隐藏的字段不用处理,当前显示的字段，有自增需求的才需处理
+    let keys = R.compose(
+      R.map(R.pick(['key', 'increase'])),
+      R.filter(item => item.increase && !hideKeys.includes(item.increase))
+    )(cfg);
+    let nextFileds = {};
+    keys.map(({ key, increase }) => {
+      let item = state[key];
+      nextFileds[key] = getIncrease(increase, item);
+    });
+    return nextFileds;
   };
 
   // http://localhost:8000/form#id=./form/paper/chemical_pva.json

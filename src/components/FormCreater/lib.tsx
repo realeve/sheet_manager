@@ -391,7 +391,7 @@ export const beforeSheetRender = ({ columns, ...config }) => {
   return { columns: colConfig, ...config };
 };
 
-export type tIncrease = 'reel_cart' | 'box_no' | 'pallet'; // 车号-箱号-拍号
+export type tIncrease = 'reel_cart' | 'box_no' | 'pallet' | 'number'; // 车号-箱号-拍号-普通数字
 
 const nextChar: (char: string, idx: number) => string = (char, idx = 0) =>
   String.fromCharCode(char.charCodeAt(idx) + 1);
@@ -401,10 +401,14 @@ const nextChar: (char: string, idx: number) => string = (char, idx = 0) =>
  * @param str 待处理字符串
  * @return string 处理结果
  */
-export const handleIncrease: (type: tIncrease, val) => string = (type, str) => {
+export const getIncrease: (type: tIncrease, val) => string = (type, str) => {
+  // 空字符串不处理
+  if (String(str).trim().length === 0) {
+    return str;
+  }
   switch (type) {
     case 'reel_cart':
-      str = str.toUpper();
+      str = str.toUpperCase();
       // 前四位数字不变
       let strHead = str.substr(0, 4);
 
@@ -415,7 +419,7 @@ export const handleIncrease: (type: tIncrease, val) => string = (type, str) => {
       let cardNo = strTail === 'A' ? str.substr(5, 3) : (parseInt(str.substr(5, 3)) + 1) % 1000;
 
       //字母处理
-      let alpha = cardNo == 0 ? nextChar(str, 4) : str.substr(4, 1);
+      let alpha = '999B' === str.substr(-4) ? nextChar(str, 4) : str.substr(4, 1);
 
       // 数字进1
       let num = String(cardNo).padStart(3, '0');
@@ -431,5 +435,7 @@ export const handleIncrease: (type: tIncrease, val) => string = (type, str) => {
       let strPallet = str.substr(8);
       let strEnd = String(parseInt(strPallet) + 1).padStart(5, '0');
       return str.substr(0, 8) + strEnd;
+    case 'number':
+      return parseInt(str) + 1;
   }
 };
