@@ -45,12 +45,7 @@ export let onSearch = value => {
     return true;
   }
 
-  if (lib.isGZ(value)) {
-    router.push('/search#' + value);
-    return true;
-  }
-
-  if (lib.isReel(value)) {
+  if (lib.isGZ(value) || lib.isReel(value) || lib.isPlate(value)) {
     router.push('/search#' + value);
     return true;
   }
@@ -71,7 +66,7 @@ function SearchComponent() {
         placeholder={formatMessage({
           id: 'component.globalHeader.search',
         })}
-        onSearch={debounce(onSearch, 400)}
+        onSearch={debounce(onSearch, 700)}
       />
     )
   );

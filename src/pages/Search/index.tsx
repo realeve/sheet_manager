@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'dva';
 import CartDetail from './CartDetail';
 import ProdItem from './components/ProdItem';
-import { Card, Result } from 'antd';
+import { Card } from 'antd';
 import styles from './components/ProdSelect.less';
 import ReelDetail from './ReelDetail';
+import PlateSearch from './components/plate';
 
 function SearchPage({ type }) {
   if (type === 'unknown') {
@@ -39,6 +40,8 @@ function SearchPage({ type }) {
     );
   } else if (['cart', 'gz'].includes(type)) {
     return <CartDetail />;
+  } else if (type === 'plate') {
+    return <PlateSearch />;
   }
   return <ReelDetail />;
 }

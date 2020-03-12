@@ -132,6 +132,7 @@ class Tables extends Component {
     this.state = {
       ...db.initState(props),
       filterIdx: props.dataSrc.rows > 0 ? R.range(0, props.dataSrc.rows) : [],
+      keyword: '',
     };
   }
 
@@ -273,6 +274,7 @@ class Tables extends Component {
         dataClone,
         dataSearchClone,
         total: dataClone.length,
+        keyword: key,
       },
       () => {
         this.refreshByPage();
@@ -365,6 +367,7 @@ class Tables extends Component {
       page,
       pageSize,
       bordered,
+      keyword,
     } = this.state;
 
     let tableColumn = this.appendActions(columns);
@@ -372,6 +375,18 @@ class Tables extends Component {
     if (!isAntd) {
       let nestedHeaders = handleSheetHeader(tableColumn);
       let rest = R.clone(this.props.dataSrc);
+      if (keyword.length > 0) {
+        let data = R.clone(this.state.dataClone).map(item => Object.values(item).slice(1));
+
+        rest = {
+          ...rest,
+          data,
+          rows: data.length,
+          hash: Math.random()
+            .toString(36)
+            .slice(3),
+        };
+      }
 
       return (
         <Sheet

@@ -1,4 +1,4 @@
-import { setStore, isReel, isCart, isGZ } from '@/utils/lib';
+import { setStore, isReel, isCart, isGZ, isPlate } from '@/utils/lib';
 
 export const getProdType = number => {
   let key;
@@ -8,6 +8,8 @@ export const getProdType = number => {
     key = 'cart';
   } else if (isGZ(number)) {
     key = 'gz';
+  } else if (isPlate(number)) {
+    key = 'plate';
   } else {
     key = 'unknown';
   }

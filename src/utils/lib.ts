@@ -26,6 +26,7 @@ export { searchUrl, imgUrl, systemName, host as apiHost } from './setting';
  * reel_cart:纸张上下5千车号
  * reel_patch:纸张批次号
  * pallet:纸张拍号
+ * plate:印版
  */
 interface Rules {
   cart: RegExp;
@@ -33,6 +34,7 @@ interface Rules {
   reel_cart: RegExp;
   reel_patch: RegExp;
   pallet: RegExp;
+  plate: RegExp;
 }
 export const rules: Rules = {
   cart: /^[0-9]\d{3}[A-Za-z]\d{3}$/, // 车号
@@ -41,6 +43,7 @@ export const rules: Rules = {
   reel_cart: /^[0-9]\d{3}[A-Za-z]\d{3}([A-B]|[a-b])$/,
   reel_patch: /^\d{5}([A-Z|a-z])\d$/, //2020 6T 2
   pallet: /^\d{2}(0[1-9]|1[0-2])\d{2}(1|2)\d{6}$/,
+  plate: /^[A-Z|a-z]{2}\d{6}/,
 };
 
 interface CartReelReg {
@@ -53,6 +56,7 @@ export const isCartOrReel: CartReelReg = str => {
 
 export const isCart: CartReelReg = str => rules.cart.test(String(str).trim());
 export const isReel: CartReelReg = str => rules.reel.test(String(str).trim());
+export const isPlate: CartReelReg = str => rules.plate.test(String(str).trim());
 
 // 车号/冠号/轴号的起始2位
 export const mayBeCartOrReel: CartReelReg = str => {

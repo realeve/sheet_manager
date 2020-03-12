@@ -98,7 +98,7 @@ export default function CartInfo({ cartInfo }) {
             </li>
           )}
         </ul>
-        <div style={{ float: 'right' }}>
+        <div>
           <a
             className={cx(['ant', 'ant-btn', styles.btnDanger])}
             href={`/search/image#${CartNumber}`}
