@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
-import { Card, Row, Switch } from 'antd';
+import { Card, Row, Switch, notification } from 'antd';
 import { Icon } from '@ant-design/compatible';
 import styles from './index.less';
 import { validRequire, beforeSheetRender, getIncrease } from './lib';
@@ -54,6 +54,10 @@ function FormCreater({ config, dispatch }) {
   let cfg = R.flatten(R.map(R.prop('detail'))(config.detail));
 
   // 初始化defaultValue
+  /**
+   * @wiki https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+   * 处理带function的JSON文件
+   */
   useEffect(() => {
     init();
   }, []);
@@ -119,11 +123,44 @@ function FormCreater({ config, dispatch }) {
 
   // 表单字段当前状态判断
   const [formstatus, setFormstatus] = useState(false);
+
+  /**
+   * 此处定义beforeInsert，对应配置中的JSON信息；
+   * JSON配置中支持定义 beforeInsert 字段，内容为函数表达式，默认仅传入当前数据值，如：
+   * {
+   *  beforeInsert:{
+   *    rule:"beforeInsert = function(state){return state.username == '张三'}"
+   *  }
+   * }
+   * 
+   * "beforeInsert": {
+        "rule": "beforeInsert = function(state)\n{return state.ream_count == state.ream_num1+state.ream_num2  }",
+    "msg": "小计令数与详情数据校验失败，两者和不相等"
+  }
+   * 用于校验用户信息是否为张三，该场景用在多个内部字段的联合校验上，适用于单字段无法处理的场景
+   */
+
   useEffect(() => {
     if (!Object.keys(state).length) {
       setFormstatus(false);
       return;
     }
+    let beforeInsert = null;
+    if (config.beforeInsert && config.beforeInsert.rule) {
+      eval(config.beforeInsert.rule);
+    }
+
+    console.log(state, beforeInsert);
+    // 处理用户自定义数据校验逻辑
+    if (beforeInsert && !beforeInsert(state)) {
+      notification.error({
+        message: '系统提示',
+        description: config.beforeInsert.msg,
+      });
+      setFormstatus(false);
+      return;
+    }
+
     // 必填字段状态校验
     let required = validRequire(requiredFileds, state);
     let validStatus = Object.values(validateState).filter(item => !item).length == 0;
@@ -282,7 +319,9 @@ function FormCreater({ config, dispatch }) {
     let nextFileds = {};
     keys.map(({ key, increase }) => {
       let item = state[key];
-      nextFileds[key] = getIncrease(increase, item);
+
+      // 是否继续录入，用于关闭数据自增逻辑
+      nextFileds[key] = state.ignoreIncrese ? item : getIncrease(increase, item);
     });
     return nextFileds;
   };
@@ -413,7 +452,7 @@ function FormCreater({ config, dispatch }) {
                   setState={setState}
                   fields={fields}
                   setEditMethod={setEditMethod}
-                  formstatus={formstatus}
+                  formstatus={formstatus} // 数据校验字段，为false时禁止提交
                   editMethod={editMethod}
                   formConfig={formConfig}
                   config={config}

@@ -8,6 +8,10 @@
     "load": {}
   },
   "table": "package_box",
+  "beforeInsert": {
+    "rule": "beforeInsert = function(state)\n{if('undefined'==typeof state.ream_count) return true;return state.ream_count == Number(state.ream_num1||0)+Number(state.ream_num2||'0')+Number(state.ream_num3||'0')+Number(state.ream_num4||'0')+Number(state.ream_num5||'0')+Number(state.ream_num6||'0')+Number(state.ream_num7||'0')+Number(state.ream_num8||'0')+Number(state.ream_num9||'0' ) }",
+    "msg": "小计令数与详情数据校验失败，两者和不相等"
+  },
   "detail": [
     {
       "title": "基础数据",
@@ -149,8 +153,8 @@
               "scope": [
                 {
                   "key": "ream_count",
-                  "max": 20,
-                  "min": 1
+                  "max": 10,
+                  "min": 0
                 }
               ],
               "hide": ["patch_no", "box_no", "pallet_no"]
@@ -161,8 +165,8 @@
               "scope": [
                 {
                   "key": "ream_count",
-                  "max": 20,
-                  "min": 1
+                  "max": 36,
+                  "min": 0
                 }
               ],
               "hide": ["cart_num"]
@@ -229,7 +233,15 @@
             "type": "int",
             "required": true
           },
-          "span": 6
+          "span": 6,
+          "defaultValue": 0
+        },
+        {
+          "title": "关闭数据自增",
+          "block": "关闭后，自增字段不自动增长，用于数据持续录入,保留字段:ignoreIncrese。",
+          "type": "switch",
+          "key": "ignoreIncrese",
+          "unReset": true
         }
       ]
     },
@@ -255,7 +267,8 @@
             "type": "int",
             "required": true
           },
-          "span": 4
+          "span": 4,
+          "defaultValue": 0
         },
         {
           "title": "轴号2",
@@ -274,7 +287,8 @@
           "rule": {
             "type": "int"
           },
-          "span": 4
+          "span": 4,
+          "defaultValue": 0
         },
         {
           "title": "轴号3",
@@ -293,7 +307,8 @@
           "rule": {
             "type": "int"
           },
-          "span": 4
+          "span": 4,
+          "defaultValue": 0
         },
 
         {
@@ -313,7 +328,8 @@
           "rule": {
             "type": "int"
           },
-          "span": 4
+          "span": 4,
+          "defaultValue": 0
         },
         {
           "title": "轴号5",
@@ -332,7 +348,8 @@
           "rule": {
             "type": "int"
           },
-          "span": 4
+          "span": 4,
+          "defaultValue": 0
         },
         {
           "title": "轴号6",
@@ -351,7 +368,8 @@
           "rule": {
             "type": "int"
           },
-          "span": 4
+          "span": 4,
+          "defaultValue": 0
         },
         {
           "title": "轴号7",
@@ -370,7 +388,8 @@
           "rule": {
             "type": "int"
           },
-          "span": 4
+          "span": 4,
+          "defaultValue": 0
         },
         {
           "title": "轴号8",
@@ -389,7 +408,8 @@
           "rule": {
             "type": "int"
           },
-          "span": 4
+          "span": 4,
+          "defaultValue": 0
         },
         {
           "title": "轴号9",
@@ -408,7 +428,8 @@
           "rule": {
             "type": "int"
           },
-          "span": 4
+          "span": 4,
+          "defaultValue": 0
         },
         {
           "title": "备注",

@@ -210,6 +210,7 @@ function formAction({
     if (submitting) {
       return;
     }
+
     // 必填数据是否填写
     let status = validRequire(requiredFileds, state);
     if (!status) {
@@ -217,11 +218,21 @@ function formAction({
         message: '系统提示',
         description: '必填字段校验失败',
       });
+      return;
     }
 
     let params = formInstance.get();
+    console.log(params);
+
     let axiosConfig = getPostData({ config, params, editMethod: editType, uid });
     console.log('插入/更新数据', axiosConfig);
+    if (!axiosConfig) {
+      notification.error({
+        message: '系统提示',
+        description: '数据写入接口未配置',
+      });
+      return;
+    }
 
     setSubmitting(true);
     let {

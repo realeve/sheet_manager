@@ -62,6 +62,9 @@ export const getPostData = ({ config, params, editMethod, uid }) => {
     }
   }
   let url = getUrl(method);
+  if (!url) {
+    return false;
+  }
   let [id, nonce] = url.match(/(\d+)\/(\w+)/g)[0].split('/');
   // 随url自带的固定参数
   let ex = url.includes('?') ? qs.parse(url.split('?')[1]) : {};

@@ -44,7 +44,7 @@ export default function formItem({
   setFormstatus,
   keyName: key,
   cascade,
-  detail: { title, type, block, defaultOption, span = 8, unReset, ...props },
+  detail: { title, type, block, defaultOption, span = 8, unReset, increase, ...props },
   scope = [],
   setScope,
   isQueryKey = false,
@@ -137,6 +137,7 @@ export default function formItem({
         })}
       >
         {isQueryKey && <span title="索引字段">🔍</span>}
+        {increase && <span title="自增字段">⬆</span>}
         {title}
       </span>
       <div
