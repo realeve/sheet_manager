@@ -225,7 +225,7 @@ function QueryCondition({
             <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer} key={key}>
               <span className={styles.title}>{title}:</span>
               <PinyinSelect
-                style={{ width: 150 }}
+                style={{ width: 260 }}
                 value={selectValue[key]}
                 onSelect={value => onSelectChange(value, idx, key)}
                 options={selectorData}

@@ -110,7 +110,9 @@ export default {
         let param = axiosOptions[idx];
 
         let { data, method } = param;
+
         dataSource[idx] = yield call(db.fetchData, param);
+
         // 将apiid绑定在接口上，方便对数据设置存储
         dataSource[idx].api_id = method === 'get' ? param.url : `${data.id}/${data.nonce}`;
         curPageName = dataSource[idx].title || '';

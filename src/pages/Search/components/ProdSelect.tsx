@@ -6,7 +6,6 @@ import ProdItem from './ProdItem';
 export default function ProdSelect({ type }) {
   const [visible, setVisible] = useState(type);
 
-  console.log(type);
   useEffect(() => {
     setVisible(type);
   }, [type]);
