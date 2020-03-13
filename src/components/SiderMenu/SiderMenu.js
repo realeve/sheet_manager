@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
-// import Link from 'umi/link';
 import styles from './index.less';
 import BaseMenu from './BaseMenu';
 // import * as setting from '@/utils/setting';
@@ -86,9 +85,11 @@ export default class SiderMenu extends PureComponent {
     });
   };
 
-  onSearch = ({ target: { value } }) => {
+  onSearch = value => {
     let { menuData } = this.props;
+
     // 全局车号搜索
+
     if (onCartSearch(value)) {
       this.setState({ menuData, searchValue: value.toUpperCase() });
       return;

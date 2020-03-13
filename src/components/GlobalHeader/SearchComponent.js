@@ -3,8 +3,8 @@ import HeaderSearch from '@/components/HeaderSearch';
 import { formatMessage } from 'umi/locale';
 import styles from './index.less';
 import * as lib from '@/utils/lib';
-import debounce from 'lodash/debounce';
 import router from 'umi/router';
+import { useDebounce } from 'react-use';
 
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
@@ -45,7 +45,7 @@ export let onSearch = value => {
     return true;
   }
 
-  if (lib.isGZ(value) || lib.isReel(value) || lib.isPlate(value)) {
+  if (lib.isPlate(value) || lib.isReel(value) || lib.isGZ(value)) {
     router.push('/search#' + value);
     return true;
   }
@@ -58,6 +58,15 @@ function SearchComponent() {
   let pathname = getRouter();
   console.log('当前路由:', pathname);
 
+  const [state, setState] = useState('');
+  useDebounce(
+    () => {
+      onSearch(state);
+    },
+    600,
+    [state]
+  );
+
   return (
     FULL_MODE && (
       <HeaderSearch
@@ -66,7 +75,10 @@ function SearchComponent() {
         placeholder={formatMessage({
           id: 'component.globalHeader.search',
         })}
-        onSearch={debounce(onSearch, 700)}
+        onSearch={val => {
+          console.log(val);
+          setState(val.trim());
+        }}
       />
     )
   );

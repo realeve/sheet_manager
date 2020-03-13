@@ -61,7 +61,7 @@ let lang = {
   },
   component: {
     globalHeader: {
-      search: '搜索菜单/车号/冠字/轴号',
+      search: '菜单/车号/冠字/轴号/印版号',
       help: '使用文档',
       notification: '通知',
       'notification.empty': '你已查看所有通知',
