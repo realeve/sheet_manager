@@ -63,7 +63,7 @@ function SearchComponent() {
     () => {
       onSearch(state);
     },
-    600,
+    800,
     [state]
   );
 

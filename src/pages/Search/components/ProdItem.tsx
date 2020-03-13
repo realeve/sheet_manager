@@ -6,6 +6,7 @@ import * as R from 'ramda';
 import { connect } from 'dva';
 import * as lib from '../models/search.js';
 import { formatMessage } from 'umi/locale';
+import { useDebounce } from 'react-use';
 
 import CartRule from './cart/rules';
 const RadioButton = Radio.Button;
@@ -22,9 +23,10 @@ function ProdItem({ cart, onClose, dispatch }) {
 
   const confirm = cart => {
     let type = lib.getProdType(cart);
+
     if (type === 'unknown' || (type === 'gz' && R.isNil(prod))) {
       return;
-    } else if (type === 'reel') {
+    } else if (['reel', 'plate'].includes(type)) {
       router.push('#' + cart);
       return;
     }
@@ -42,8 +44,15 @@ function ProdItem({ cart, onClose, dispatch }) {
   const searchChange = value => {
     let val = value.trim().toUpperCase();
     setState(val);
-    confirm(val);
   };
+
+  useDebounce(
+    () => {
+      confirm(state);
+    },
+    800,
+    [state]
+  );
 
   const onQuery = () => {
     confirm(state);
@@ -69,17 +78,17 @@ function ProdItem({ cart, onClose, dispatch }) {
         </Col>
       </Row>
       <Row className={styles['form-control']}>
-        <Col span={8}>冠字/车号/轴号</Col>
+        <Col span={8}>冠字/车号/轴号/印版</Col>
         <Col span={16}>
           <Input
             size="small"
-            placeholder="输入冠字或车号信息(A0A001)"
+            placeholder="输入冠字、车号、印版信息(A0A001)"
             allowClear
             defaultValue={cart}
             value={state}
             onChange={e => searchChange(e.target.value)}
-            style={{ width: 210 }}
-            maxLength={8}
+            style={{ width: 250 }}
+            maxLength={12}
           />
         </Col>
       </Row>

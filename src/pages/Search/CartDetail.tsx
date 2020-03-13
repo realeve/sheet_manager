@@ -30,7 +30,7 @@ function CartDetail({ dispatch, ...params }) {
   return (
     <>
       <div className={styles.header}>
-        <ProdSelect />
+        <ProdSelect type={type == 'gz'} />
       </div>
       <Row gutter={10}>
         <BasicInfo {...params} onRefresh={onRefresh} />

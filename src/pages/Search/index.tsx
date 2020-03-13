@@ -22,7 +22,7 @@ function SearchPage({ type }) {
         >
           <div className="ant-result-title">信息追溯</div>
           <div className="ant-result-subtitle" style={{ marginBottom: 25 }}>
-            查车号、查轴号、查冠字
+            查车号、查轴号、查冠字、查版号
           </div>
           <div
             style={{

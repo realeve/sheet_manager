@@ -18,7 +18,7 @@ const MenuSearch = ({ placeholder, collapsed, onChange, style, theme, value }: I
     () => {
       onChange(state);
     },
-    1000,
+    800,
     [state]
   );
   useEffect(() => {

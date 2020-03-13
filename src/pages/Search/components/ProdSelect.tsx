@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Popover } from 'antd';
 import styles from './ProdSelect.less';
 import ProdItem from './ProdItem';
 
-export default function ProdSelect() {
-  const [visible, setVisible] = useState(false);
+export default function ProdSelect({ type }) {
+  const [visible, setVisible] = useState(type);
+
+  console.log(type);
+  useEffect(() => {
+    setVisible(type);
+  }, [type]);
 
   const handleVisibleChange = visible => {
     setVisible(visible);
   };
+
   return (
     <Popover
       placement="rightBottom"
