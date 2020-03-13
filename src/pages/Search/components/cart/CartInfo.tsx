@@ -33,7 +33,7 @@ export default function CartInfo({ cartInfo }) {
       loading={loading}
       extra={<CartRules />}
     >
-      <div className={styles.detail}>
+      <div className={styles.detail} style={{ flexDirection: 'column' }}>
         <ul>
           <li>
             <strong>

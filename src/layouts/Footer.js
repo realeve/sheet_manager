@@ -33,7 +33,7 @@ const FooterView = ({ color, hidemenu }) => (
   <Footer className={styles.footer}>
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {!hidemenu && (
-        <p style={{ color: color || 'rgba(0,0,0,0.45)' }}>
+        <p style={{ color: color || 'rgba(0,0,0,0.45)' ,marginBottom:5}}>
           <Icon type="copyright" /> 2019 {AUTHOR}
         </p>
       )}

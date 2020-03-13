@@ -389,15 +389,21 @@ class Tables extends Component {
       }
 
       return (
-        <Sheet
-          data={{ ...rest, nestedHeaders, hidemenu }}
-          beforeRender={this.props.beforeRender}
-          onFilter={filterIdx => {
-            this.setState({
-              filterIdx,
-            });
-          }}
-        />
+        <>
+          <Sheet
+            data={{ ...rest, nestedHeaders, hidemenu }}
+            beforeRender={this.props.beforeRender}
+            onFilter={filterIdx => {
+              this.setState({
+                filterIdx,
+              });
+            }}
+            sheetHeight={this.props.sheetHeight}
+          />
+          <p style={{ padding: '5px 0', marginBottom: 0 }}>
+            {source} (共耗时{timing})
+          </p>
+        </>
       );
     }
 

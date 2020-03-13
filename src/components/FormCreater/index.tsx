@@ -150,7 +150,6 @@ function FormCreater({ config, dispatch }) {
       eval(config.beforeInsert.rule);
     }
 
-    console.log(state, beforeInsert);
     // 处理用户自定义数据校验逻辑
     if (beforeInsert && !beforeInsert(state)) {
       notification.error({

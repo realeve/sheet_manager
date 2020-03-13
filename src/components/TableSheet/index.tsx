@@ -12,7 +12,7 @@ import qs from 'qs';
  */
 
 let colTitles = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-const getConfig = (data, afterFilter) => {
+const getConfig = (data, afterFilter, sheetHeight) => {
   let firstRow = (data.data && data.data[0]) || [];
   const minCols = 10; // 最少10行
   // console.log(data);
@@ -54,7 +54,7 @@ const getConfig = (data, afterFilter) => {
         allowEmpty: true,
       };
     }
-    if (lib.isCartOrReel(item)) {
+    if (lib.isCartOrReel(item) || lib.isPlate(item)) {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
         TD.innerHTML = value
           ? `<a href="${setting.searchUrl}${value}" target="_blank" style="text-decoration:none">${value}</a>`
@@ -93,14 +93,11 @@ const getConfig = (data, afterFilter) => {
 
   let isSearch = window.location.pathname.includes('/search');
   let minRows = isSearch ? 13 : 31;
-  // if (data.data.length < 10) {
-  //   minRows = 10;
-  // }
 
   let config = {
     stretchH: 'all',
     autoWrapRow: true,
-    height: isSearch ? 300 : `calc( 100vh - ${data.hidemenu ? 180 : 230}px)`, //  data.data.length < 20 ||
+    height: sheetHeight || (isSearch ? 300 : `calc( 100vh - ${data.hidemenu ? 180 : 230}px)`), //  data.data.length < 20 ||
     rowHeaders: true,
     colHeaders: data.header,
     columns,
@@ -148,7 +145,7 @@ const getFreeze = () => {
   return R.range(0, Number(freeze));
 };
 
-const TableSheet = ({ data, onFilter, beforeRender = e => e }) => {
+const TableSheet = ({ data, onFilter, beforeRender = e => e, sheetHeight }) => {
   const [config, setConfig] = useState({
     licenseKey: 'non-commercial-and-evaluation',
   });
@@ -164,7 +161,7 @@ const TableSheet = ({ data, onFilter, beforeRender = e => e }) => {
       onFilter(arrs);
     };
 
-    let cfg = getConfig(data, afterFilter);
+    let cfg = getConfig(data, afterFilter, sheetHeight);
     cfg = beforeRender && beforeRender(cfg);
     setConfig(cfg);
 
