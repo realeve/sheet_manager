@@ -108,6 +108,48 @@ export default function tableConfig() {
               </a>
             </div>
           </li>
+
+          <li>
+            <div className={styles.tip}>通用参数4：数据库间联接查询</div>
+            <div className={styles.desc}>innerjoin 及 innerjoinkey </div>
+            <div>
+              以下列接口配置为例，数据请求流程如下：
+              <br />
+              <ul>
+                <li>
+                  1.<i>select字段</i>:请求接口869/7173a7b6b0得到select列表，字段名mid
+                </li>
+                <li>2.用户选择select内容后，选择数据请求日期(此处没有 datetype=none 标记)</li>
+                <li>
+                  3.<i>id字段</i>以id号：870/1d0d927821
+                  请求第一个接口返回的数据，自动获取数据列第一列的值。注：在该次请求中会忽略掉blob及blob_type(服务端会处理blob字段逻辑，如果指定字段不是blob类型会抛错)
+                </li>
+                <li>
+                  4.<i>innerjoin字段</i>
+                  :以innerjoin字段指定的接口为id，以innerjoinkey指定的值作为参数名，向服务端发起post操作（上一次请求中可能存在多个数据）
+                </li>
+              </ul>
+            </div>
+            <div className={styles.demoLink}>
+              <a
+                href="/table#id=870/1d0d927821&select=869/7173a7b6b0&selectkey=mid&innerjoin=527/3dc3d3d2da&innerjoinkey=carts&blob=4&blob_type=jpg"
+                target="_blank"
+              >
+                /table#id=870/1d0d927821&select=869/7173a7b6b0&selectkey=mid&innerjoin=527/3dc3d3d2da&innerjoinkey=carts&blob=4&blob_type=jpg
+              </a>
+            </div>
+            <div className={styles.desc}>
+              该业务类似于以下逻辑：
+              <br />
+              select innerjoin.* from 业务数据库 as innerjoin where innerjoin.innerjoinkey in
+              (select 车号列表 from 生产数据库)
+              <br />
+              适用场景：
+              <br />
+              从生产系统中获取一组满足特定条件的产品车号列表，查询业务数据库中该车号列表对应的业务数据。
+            </div>
+          </li>
+
           <li>
             <div className={styles.tip}>通用参数5:菜单折叠</div>
             <div className={styles.desc}>menufold </div>
