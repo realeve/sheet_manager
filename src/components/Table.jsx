@@ -11,7 +11,7 @@ import '@ant-design/compatible/assets/index.css';
 import * as db from '@/services/table';
 import styles from './Table.less';
 import * as setting from '../utils/setting';
-import pdf from '../utils/pdf';
+// import pdf from '../utils/pdf';
 import * as lib from '../utils/lib';
 import { formatMessage } from 'umi/locale';
 import * as Excel from '@/utils/exceljs';
@@ -326,20 +326,20 @@ class Tables extends Component {
     });
   };
 
-  downloadPdf = () => {
-    let { title, source } = this.state.dataSrc;
-    const { subTitle } = this.props;
-    let config = this.getExportConfig();
-    let queryTime = '下载时间：' + lib.now();
-    config = Object.assign(config, {
-      download: 'open',
-      title,
-      orientation: config.header.length > 10 ? 'landscape' : 'portrait',
-      pageSize: config.header.length > 10 ? 'A2' : config.header.length > 15 ? 'A3' : 'A4',
-      message: `\n${subTitle || ''}\n${queryTime}\n${source}\n(c) ${setting.AUTHOR}`,
-    });
-    pdf(config);
-  };
+  // downloadPdf = () => {
+  //   let { title, source } = this.state.dataSrc;
+  //   const { subTitle } = this.props;
+  //   let config = this.getExportConfig();
+  //   let queryTime = '下载时间：' + lib.now();
+  //   config = Object.assign(config, {
+  //     download: 'open',
+  //     title,
+  //     orientation: config.header.length > 10 ? 'landscape' : 'portrait',
+  //     pageSize: config.header.length > 10 ? 'A2' : config.header.length > 15 ? 'A3' : 'A4',
+  //     message: `\n${subTitle || ''}\n${queryTime}\n${source}\n(c) ${setting.AUTHOR}`,
+  //   });
+  //   pdf(config);
+  // };
 
   // 为每行增加自定义附加操作
   appendActions = columns => {
@@ -499,12 +499,12 @@ class Tables extends Component {
               excel
             </a>
           </Menu.Item>
-          <Menu.Item>
+          {/* <Menu.Item>
             <a rel="noopener noreferrer" onClick={this.downloadPdf}>
               <FilePdfOutlined />
               PDF
             </a>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       );
       return (

@@ -9,10 +9,8 @@ import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
 import SiderMenu from '@/components/SiderMenu';
-
-// import SettingDrawer from '@/components/SettingDrawer';
-
-import { SettingDrawer } from '@ant-design/pro-layout';
+import SettingDrawer from '../components/SettingDrawer1';
+// import { SettingDrawer } from '@ant-design/pro-layout';
 import logo from '../assets/logo.svg';
 import Footer from './Footer';
 // import Header from './Header';
@@ -93,7 +91,7 @@ class BasicLayout extends PureComponent {
       pathname: props.location.pathname,
       breadcrumbList: getBreadcrumbList(menuData),
       nextUrl: '',
-      settings: {},
+      settings: props.settings,
     };
     // this.renderRef = React.createRef();
   }
@@ -276,7 +274,10 @@ class BasicLayout extends PureComponent {
 
             <SettingDrawer
               settings={this.state.settings}
-              onSettingChange={settings => this.setState({ settings })}
+              onSettingChange={settings => {
+                console.log(settings);
+                this.setState({ settings });
+              }}
             />
           </Content>
           <Footer hidemenu={hidemenu} />
@@ -317,7 +318,7 @@ export default connect(
     dateType,
     collapsed: global.collapsed,
     layout: setting.layout,
-    ...setting,
+    settings: { ...setting },
     menu,
     previewMenu,
     user_type,

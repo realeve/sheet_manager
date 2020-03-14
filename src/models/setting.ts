@@ -1,5 +1,14 @@
 import { message } from 'antd';
-import defaultSettings from '../components/defaultSettings';
+import { Reducer } from 'redux';
+import defaultSettings, { DefaultSettings } from '../../config/defaultSettings';
+
+export interface SettingModelType {
+  namespace: 'settings';
+  state: DefaultSettings;
+  reducers: {
+    changeSetting: Reducer<DefaultSettings>;
+  };
+}
 
 let lessNodesAppended;
 const updateTheme = primaryColor => {
@@ -60,11 +69,37 @@ const updateTheme = primaryColor => {
   }
 };
 
-const updateColorWeak = colorWeak => {
-  document.body.className = colorWeak ? 'colorWeak' : '';
+// const updateColorWeak = colorWeak => {
+//   document.body.className = colorWeak ? 'colorWeak' : '';
+// };
+
+const updateColorWeak: (colorWeak: boolean) => void = colorWeak => {
+  const root = document.getElementById('root');
+  if (root) {
+    root.className = colorWeak ? 'colorWeak' : '';
+  }
 };
 
-export default {
+// const SettingModel: SettingModelType = {
+//   namespace: 'settings',
+//   state: defaultSettings,
+//   reducers: {
+//     changeSetting(state = defaultSettings, { payload }) {
+//       const { colorWeak, contentWidth } = payload;
+
+//       if (state.contentWidth !== contentWidth && window.dispatchEvent) {
+//         window.dispatchEvent(new Event('resize'));
+//       }
+//       updateColorWeak(!!colorWeak);
+//       return {
+//         ...state,
+//         ...payload,
+//       };
+//     },
+//   },
+// };
+
+const SettingModel: SettingModelType = {
   namespace: 'setting',
   state: defaultSettings,
   reducers: {
@@ -126,3 +161,5 @@ export default {
     },
   },
 };
+
+export default SettingModel;

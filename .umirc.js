@@ -12,20 +12,13 @@ export default {
           hmr: true,
         },
         antd: true, // antd 默认不开启，如有使用需自行配置
-        // routes: {
-        //   exclude: [
-        //     /models\//,
-        //     /services\//,
-        //     /components\//,
-        //     /utils\//,
-        //     /service\.js/
-        //   ]
-        // },
         locale: {
-          antd: true,
-          enable: true, //false, // default false
-          default: 'zh-CN', // default zh-CN
-          baseNavigator: false, // default true, when it is true, will use `navigator.language` overwrite default
+          // default false
+          enable: true,
+          // default zh-CN
+          default: 'zh-CN',
+          // default true, when it is true, will use `navigator.language` overwrite default
+          baseNavigator: true,
         },
         // dynamicImport: {
         //   webpackChunkName: true,
