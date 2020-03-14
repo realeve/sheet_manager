@@ -2,7 +2,6 @@
 
 import pageRoutes from './config/router.config';
 import themePluginConfig from './config/themePluginConfig';
-// import defaultSettings from './defaultSettings
 
 export default {
   plugins: [
@@ -44,7 +43,7 @@ export default {
         },
       },
     ],
-    // ['umi-plugin-antd-theme', themePluginConfig],
+    ['umi-plugin-antd-theme', themePluginConfig],
   ],
   define: {
     APP_TYPE: process.env.APP_TYPE || '',

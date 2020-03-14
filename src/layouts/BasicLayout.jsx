@@ -10,7 +10,9 @@ import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
 import SiderMenu from '@/components/SiderMenu';
 
-import SettingDrawer from '@/components/SettingDrawer';
+// import SettingDrawer from '@/components/SettingDrawer';
+
+import { SettingDrawer } from '@ant-design/pro-layout';
 import logo from '../assets/logo.svg';
 import Footer from './Footer';
 // import Header from './Header';
