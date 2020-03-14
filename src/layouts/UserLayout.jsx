@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styles from './UserLayout.less';
 import GlobalFooter from '@/layouts/Footer';
 import * as setting from '@/utils/setting';
-
+import classnames from 'classnames';
 import logo from '../assets/logo.svg';
 
 export default class UserLayout extends PureComponent {
@@ -20,7 +20,7 @@ export default class UserLayout extends PureComponent {
             </div>
             <div className={styles.desc}>让数据栩栩如生</div>
           </div>
-          <div className={styles.main}>{children}</div>
+          <div className={classnames(styles.main, 'loginMain')}>{children}</div>
           <GlobalFooter className={styles.footer} color="rgba(255, 255, 255, 0.6)" />
         </div>
       </div>
