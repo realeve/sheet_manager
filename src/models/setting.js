@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import defaultSettings from '../defaultSettings';
+import defaultSettings from '../components/defaultSettings';
 
 let lessNodesAppended;
 const updateTheme = primaryColor => {
@@ -108,6 +108,9 @@ export default {
         }
       });
       const { primaryColor, colorWeak, contentWidth } = payload;
+
+      console.log('主色', state.primaryColor, primaryColor);
+
       if (state.primaryColor !== primaryColor) {
         updateTheme(primaryColor);
       }

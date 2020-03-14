@@ -168,6 +168,13 @@ class SettingDrawer extends PureComponent {
                   url: '/img/light.svg',
                   title: formatMessage({ id: 'app.setting.pagestyle.light' }),
                 },
+                {
+                  key: 'realDark',
+                  url: '/img/reeldark.svg',
+                  title: formatMessage({
+                    id: 'app.setting.pagestyle.dark',
+                  }),
+                },
               ]}
               value={navTheme}
               onChange={value => this.changeSetting('navTheme', value)}
@@ -181,7 +188,7 @@ class SettingDrawer extends PureComponent {
           />
 
           <Divider />
-
+          {/* 导航模式
           <Body title={formatMessage({ id: 'app.setting.navigationmode' })}>
             <BlockChecbox
               list={[
@@ -199,7 +206,7 @@ class SettingDrawer extends PureComponent {
               value={layout}
               onChange={value => this.changeSetting('layout', value)}
             />
-          </Body>
+          </Body> */}
 
           <List
             split={false}
@@ -231,7 +238,7 @@ class SettingDrawer extends PureComponent {
               {formatMessage({ id: 'app.setting.copy' })}
             </Button>
           </CopyToClipboard>
-          <Alert
+          {/* <Alert
             type="warning"
             className={styles.productionHint}
             message={
@@ -246,7 +253,7 @@ class SettingDrawer extends PureComponent {
                 </a>
               </div>
             }
-          />
+          /> */}
         </div>
       </Drawer>
     );

@@ -1,10 +1,11 @@
 import React from 'react';
 import styles from '../config.less';
 import { IChart } from '../utils/lib';
+import classnames from 'classnames';
 const R = require('ramda');
 
 export interface configItemProps {
-  config: IChart
+  config: IChart;
   //  {
   //   key: string;
   //   type?: string;
@@ -24,21 +25,21 @@ export default function configItem(props: configItemProps) {
         {type && <span>type:{type}</span>}
       </div>
 
-      <div className={styles.desc}> {title} </div>
+      <div className={classnames(styles.desc, 'configDemoDesc')}> {title} </div>
       {!R.isNil(defaultVal) && <div>默认值：{defaultVal}</div>}
       {!R.isNil(url) && (
-        <div className={styles.demoLink}>
+        <div className={classnames(styles.desc, 'configDemoDesc')}>
           {typeof url === 'string' ? (
             <a href={url} target="_blank">
               {url}
             </a>
           ) : (
-              url.map(u => (
-                <a href={u} target="_blank" key={u}>
-                  {u}
-                </a>
-              ))
-            )}
+            url.map(u => (
+              <a href={u} target="_blank" key={u}>
+                {u}
+              </a>
+            ))
+          )}
         </div>
       )}
     </li>

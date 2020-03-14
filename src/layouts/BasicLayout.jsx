@@ -91,6 +91,7 @@ class BasicLayout extends PureComponent {
       pathname: props.location.pathname,
       breadcrumbList: getBreadcrumbList(menuData),
       nextUrl: '',
+      settings: {},
     };
     // this.renderRef = React.createRef();
   }
@@ -214,16 +215,6 @@ class BasicLayout extends PureComponent {
     });
   };
 
-  renderSettingDrawer() {
-    // Do not render SettingDrawer in production
-    // unless it is deployed in preview.pro.ant.design as demo
-    const { rendering } = this.state;
-    if (rendering || (process.env.NODE_ENV === 'production' && APP_TYPE !== 'site')) {
-      return null;
-    }
-    return <SettingDrawer />;
-  }
-
   render() {
     const {
       navTheme,
@@ -280,6 +271,11 @@ class BasicLayout extends PureComponent {
               )}
             {isMobile && <ToggleMenu style={{ position: 'fixed', right: 10, top: 10 }} />}
             {notAllowed ? <ForOThree /> : !hidemenu && !isLogin ? <UnLogin /> : children}
+
+            <SettingDrawer
+              settings={this.state.settings}
+              onSettingChange={settings => this.setState({ settings })}
+            />
           </Content>
           <Footer hidemenu={hidemenu} />
         </Layout>
@@ -296,11 +292,11 @@ class BasicLayout extends PureComponent {
             </Context.Provider>
           )}
         </ContainerQuery>
-        {this.renderSettingDrawer()}
       </React.Fragment>
     );
   }
 }
+// process.env.NODE_ENV === 'production' &&
 
 export default connect(
   ({

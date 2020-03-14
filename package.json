@@ -76,7 +76,7 @@
     "react-use": "^7.3.1",
     "rebound": "^0.1.0",
     "sinon": "^7.2.2",
-    "umi": "^2.6.1",
+    "umi": "^3",
     "umi-plugin-locale": "^2.1.1",
     "use-merge-value": "^1.0.1",
     "x2js": "^3.2.6"
@@ -111,7 +111,8 @@
     "regenerator-runtime": "^0.13.1",
     "ts-jest": "^23.10.5",
     "typescript": "^3.3.3",
-    "umi-plugin-react": "^1.4.1"
+    "umi-plugin-antd-theme": "^2.1.1",
+    "@umijs/preset-react": "^1"
   },
   "resolutions": {
     "react-sortable-tree/**/react-dnd": "7.0.2"

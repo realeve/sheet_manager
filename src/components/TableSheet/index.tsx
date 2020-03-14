@@ -182,11 +182,7 @@ const TableSheet = ({ data, onFilter, beforeRender = e => e, sheetHeight }) => {
   }, [data.hash]);
 
   return React.useMemo(
-    () => (
-      <div>
-        <HotTable className={styles.tableSheet} ref={hotTable} settings={config} />
-      </div>
-    ),
+    () => <HotTable className={styles.tableSheet} ref={hotTable} settings={config} />,
     [config]
   );
 };

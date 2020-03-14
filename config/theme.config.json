@@ -1,0 +1,19 @@
+{
+  "theme": [
+    {
+      "theme": "dark",
+      "fileName": "dark.css"
+    },
+    {
+      "fileName": "mingQing.css",
+      "modifyVars": {
+        "@primary-color": "#13C2C2"
+      }
+    }
+  ],
+  "min": true,
+  "isModule": true,
+  "ignoreAntd": false,
+  "ignoreProLayout": false,
+  "cache": true
+}
