@@ -58,7 +58,7 @@
                 },
                 {
                   "key": "paste_width",
-                  "min": 11
+                  "min": 5
                 }
               ],
               "hide": [

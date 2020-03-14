@@ -29,15 +29,15 @@ const { Footer } = Layout;
 //   ];
 // }
 
-const FooterView = ({ color, hidemenu }) => (
-  <Footer className={styles.footer}>
+const FooterView = ({ hidemenu }) => (
+  <Footer className="footer">
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {!hidemenu && (
-        <p style={{ color: color || 'rgba(0,0,0,0.45)' ,marginBottom:5}}>
+        <p style={{ marginBottom: 5 }}>
           <Icon type="copyright" /> 2019 {AUTHOR}
         </p>
       )}
-      <p style={{ color: color || 'rgba(0,0,0,0.45)' }}>
+      <p>
         Copyright <Icon type="copyright" /> 2019 CBPC All Rights Reserved
       </p>
     </div>

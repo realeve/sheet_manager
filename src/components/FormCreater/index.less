@@ -22,7 +22,7 @@
       text-align: right;
       padding-right: 10px;
       position: relative;
-      width: 160px;
+      width: 120px;
       line-height: 32px;
 
       &::after {
@@ -35,7 +35,7 @@
 
     .element {
       min-width: 100px;
-      max-width: 300px;
+      max-width: 400px;
       width: 80%;
       &Large {
         max-width: 600px;
@@ -46,6 +46,12 @@
       .ant-form-explain {
         display: inherit;
         margin-top: 3px;
+      }
+      .has-error {
+        .ant-form-explain {
+          color: #e23;
+          font-size: 12px;
+        }
       }
       textarea.ant-input {
         max-width: unset;

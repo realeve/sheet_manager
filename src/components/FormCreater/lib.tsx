@@ -77,15 +77,17 @@ export const getPostData = ({ config, params, editMethod, uid }) => {
 };
 
 // 数据有效性校验
-export const onValidate = (value, rule) => {
+interface IRule {
+  type: string;
+  msg?: string;
+  calc?: string;
+  requires?: boolean;
+}
+export const onValidate = (value, rule: IRule | string) => {
   if (R.isNil(rule)) {
     return true;
   }
-  let pattern = rule;
-
-  if (lib.getType(rule) === 'object') {
-    pattern = rule.type;
-  }
+  let pattern: string = typeof rule !== 'string' ? rule.type : rule;
 
   // 执行自定义 regExp
   if (pattern && pattern.includes('/')) {
@@ -127,6 +129,13 @@ export const onValidate = (value, rule) => {
     default:
       break;
   }
+
+  if (!status) {
+    return status;
+  }
+
+  // 处理公式校验逻辑
+
   return status;
 };
 
@@ -334,7 +343,7 @@ VALUES
 -- 查询最近录入的数据
 INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr,remark )
 VALUES
-  ( '${nonce}','2','1','${config.name} 近期录入信息','SELECT top 10 * FROM view_${config.table} ORDER BY 录入时间 desc','' );`;
+  ( '${nonce}','2','1','${config.name} 近期录入信息','SELECT top 50 * FROM view_${config.table} ORDER BY 录入时间 desc','' );`;
 
   const load = `
   -- 历史数据载入功能

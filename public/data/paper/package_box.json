@@ -226,6 +226,7 @@
           "title": "小计令数",
           "type": "input",
           "key": "ream_count",
+          "block": "小计令数=令数1+令数2+令数3+令数4+令数5+令数6+令数7+令数8+令数9",
           "rule": {
             "type": "int",
             "required": true
@@ -262,7 +263,9 @@
           "key": "ream_num1",
           "rule": {
             "type": "int",
-            "required": true
+            "calc": "小计令数=令数1+令数2+令数3+令数4+令数5+令数6+令数7+令数8+令数9",
+            "required": true,
+            "msg": "小计令数与记录详情校验失败，两者和不相等"
           },
           "span": 4,
           "defaultValue": 0

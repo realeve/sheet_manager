@@ -87,7 +87,7 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
     <div>
       <Menu
         theme="dark"
-        style={{ background: '#002140' }}
+        style={{ boxShadow: ' -3px 5px 2px rgba(0, 0, 0, 0.15)' }}
         selectedKeys={[String(curMenuId)]}
         onClick={onMenuClick}
       >

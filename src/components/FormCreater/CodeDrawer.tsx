@@ -63,7 +63,7 @@ export default function codeDrawer({
       let query = `
 
 -- 下列语句用于查看最近录入的10条数据
-SELECT top 10 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
+SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
 
       let nonce = getNonce();
       const api = getApi(formConfig, nonce);

@@ -110,7 +110,7 @@ export default function tableConfig() {
           </li>
 
           <li>
-            <div className={styles.tip}>通用参数4：数据库间联接查询</div>
+            <div className={styles.tip}>通用参数4：跨数据库联接查询</div>
             <div className={styles.desc}>innerjoin 及 innerjoinkey </div>
             <div>
               以下列接口配置为例，数据请求流程如下：
@@ -143,6 +143,7 @@ export default function tableConfig() {
               <br />
               select innerjoin.* from 业务数据库 as innerjoin where innerjoin.innerjoinkey in
               (select 车号列表 from 生产数据库)
+              <br />
               <br />
               适用场景：
               <br />

@@ -1,6 +1,7 @@
 @import './pages/Home/less/antMotionStyle.less';
 
-// @import '~antd/dist/antd.dark.less';
+@import '~antd/dist/antd.dark.less';
+@import './black.less';
 
 html,
 body,
@@ -102,24 +103,12 @@ ol {
 .ant-tabs-nav-scroll {
   padding-left: 10px;
 }
-// scroll bar
-// ::-webkit-scrollbar {
-//   width: 12px;
-//   // height: 8px;
-// }
 
-// ::-webkit-scrollbar-track-piece {
-//   background-color: #eef1f5;
-//   // border-radius: 8px;
-// }
-
-// ::-webkit-scrollbar-thumb:vertical {
-//   background-color: rgba(51, 51, 51, 0.3);
-//   // border-radius: 8px;
-// }
-
-// ::-webkit-scrollbar-thumb:horizontal {
-//   width: 12px;
-//   background-color: rgba(51, 51, 51, 0.3);
-//   // border-radius: 8px;
-// }
+.footer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+  padding: 0 16px;
+}

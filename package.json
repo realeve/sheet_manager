@@ -41,6 +41,7 @@
     "jszip": "^3.1.5",
     "keyboardjs": "^2.5.1",
     "lodash-decorators": "^6.0.1",
+    "mathjs": "^6.6.1",
     "memoize-one": "^4.0.0",
     "micro": "^9.3.3",
     "moment": "^2.23.0",
