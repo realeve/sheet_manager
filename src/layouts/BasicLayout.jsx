@@ -190,13 +190,15 @@ class BasicLayout extends PureComponent {
 
   getLayoutStyle = () => {
     const { isMobile } = this.state;
-    const { fixSiderbar, collapsed, layout } = this.props;
+    const {  collapsed, layout } = this.props;
+    let {fixSiderbar} = this.props.settings;
+    
     if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
       return {
         paddingLeft: collapsed ? '80px' : '256px',
       };
     }
-    return null;
+    return null
   };
 
   getContentStyle = () => {

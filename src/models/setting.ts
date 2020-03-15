@@ -79,68 +79,45 @@ const updateColorWeak: (colorWeak: boolean) => void = colorWeak => {
     root.className = colorWeak ? 'colorWeak' : '';
   }
 };
-
-// const SettingModel: SettingModelType = {
-//   namespace: 'settings',
-//   state: defaultSettings,
-//   reducers: {
-//     changeSetting(state = defaultSettings, { payload }) {
-//       const { colorWeak, contentWidth } = payload;
-
-//       if (state.contentWidth !== contentWidth && window.dispatchEvent) {
-//         window.dispatchEvent(new Event('resize'));
-//       }
-//       updateColorWeak(!!colorWeak);
-//       return {
-//         ...state,
-//         ...payload,
-//       };
-//     },
-//   },
-// };
-
-const handleDarkTheme = (theme) => {
-  
-
+ 
+const handleDarkTheme = theme => {
   let styleLink = document.getElementById('theme-style');
   let body = document.getElementsByTagName('body')[0];
   if (styleLink) {
-    if( theme=== 'realDark')
-    { 
+    if (theme === 'realDark') {
       // 假如存在id为theme-style 的link标签，直接修改其href
       styleLink.href = '/theme/dark.css'; // 切换 ant design 组件主题
       body.className = 'body-wrap-dark'; // 切换自定义组件的主题
-    }else{
+    } else {
       // 假如存在id为theme-style 的link标签，直接修改其href
       styleLink.href = ''; // 切换 ant design 组件主题
       body.className = ''; // 切换自定义组件的主题
     }
     return;
   }
-  
+
   // 不存在的话，则新建一个
   styleLink = document.createElement('link');
   styleLink.type = 'text/css';
   styleLink.rel = 'stylesheet';
   styleLink.id = 'theme-style';
 
-  if( theme=== 'realDark')
-    { 
-      // 假如存在id为theme-style 的link标签，直接修改其href
-      styleLink.href = '/theme/dark.css'; // 切换 ant design 组件主题
-      body.className = 'body-wrap-dark'; // 切换自定义组件的主题
-    }else{
-      // 假如存在id为theme-style 的link标签，直接修改其href
-      styleLink.href = ''; // 切换 ant design 组件主题
-      body.className = ''; // 切换自定义组件的主题
-    }
+  if (theme === 'realDark') {
+    // 假如存在id为theme-style 的link标签，直接修改其href
+    styleLink.href = '/theme/dark.css'; // 切换 ant design 组件主题
+    body.className = 'body-wrap-dark'; // 切换自定义组件的主题
+  } else {
+    // 假如存在id为theme-style 的link标签，直接修改其href
+    styleLink.href = ''; // 切换 ant design 组件主题
+    body.className = ''; // 切换自定义组件的主题
+  }
 
   document.body.append(styleLink);
 };
 
 const SettingModel: SettingModelType = {
   namespace: 'setting',
-  state: {},
+  state: defaultSettings,
   reducers: {
     getSetting(state) {
       const config = JSON.parse(window.localStorage.getItem(settingKey) || '{}');
@@ -154,9 +131,9 @@ const SettingModel: SettingModelType = {
       if (state.primaryColor !== primaryColor) {
         updateTheme(primaryColor);
       }
-      updateColorWeak(colorWeak);
+      // updateColorWeak(colorWeak);
 
-      handleDarkTheme(config.navTheme)
+      handleDarkTheme(config.navTheme);
       // console.log(config);
       return {
         ...state,
@@ -166,19 +143,21 @@ const SettingModel: SettingModelType = {
     changeSetting(state, { payload }) {
       const { primaryColor, contentWidth } = payload;
 
-      console.log('主色', state.primaryColor, primaryColor);
+      // console.log('主色', state.primaryColor, primaryColor);
 
       if (state.primaryColor !== primaryColor) {
         updateTheme(primaryColor);
       }
-      if (state.contentWidth !== contentWidth && window.dispatchEvent) {
-        window.dispatchEvent(new Event('resize'));
-      }
+      // if (state.contentWidth !== contentWidth && window.dispatchEvent) {
+      //   window.dispatchEvent(new Event('resize'));
+      // }
 
       // updateColorWeak(colorWeak);
       window.localStorage.setItem(settingKey, JSON.stringify(payload));
 
-      handleDarkTheme(payload.navTheme)
+      handleDarkTheme(payload.navTheme);
+      console.log({  ...state,
+        ...payload,})
       return {
         ...state,
         ...payload,

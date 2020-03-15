@@ -154,6 +154,7 @@ class SettingDrawer extends PureComponent {
         style={{
           zIndex: 999,
         }}
+        width={300}
       >
         <div className={styles.content}>
           <Body title={formatMessage({ id: 'app.setting.pagestyle' })}>

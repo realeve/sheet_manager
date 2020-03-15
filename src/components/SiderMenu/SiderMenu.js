@@ -137,15 +137,16 @@ export default class SiderMenu extends PureComponent {
   }
 
   render() {
-    const { logo, collapsed, fixSiderbar, setting } = this.props;
+    const { logo, collapsed, setting } = this.props;
     const { selectedKeys, openKeys, searchValue } = this.state;
     const defaultProps = { selectedKeys, openKeys }; //collapsed ? {} : { selectedKeys, openKeys };
-    let theme = setting.navTheme; 
-
+    let {navTheme:theme,fixSiderbar} = setting; 
+    
     const siderClassName = cx('sider', {
-      fixSiderbar,
+      fixSiderbar:fixSiderbar,
       light: theme === 'light',
     });
+     
 
     const { menuData, ...baseMenuDefaultProps } = this.props;
     return (
