@@ -167,7 +167,7 @@ class BaseMenu extends PureComponent {
       className: mode === 'horizontal' ? 'top-nav-menu' : '',
     };
     // console.log('themeBaseMenu', this.props.theme);
-
+ 
     return (
       <Menu
         onOpenChange={handleOpenChange}

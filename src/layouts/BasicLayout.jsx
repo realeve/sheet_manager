@@ -93,7 +93,7 @@ class BasicLayout extends PureComponent {
       pathname: props.location.pathname,
       breadcrumbList: getBreadcrumbList(menuData),
       nextUrl: '',
-      settings: props.settings,
+      settings: props.setting,
     };
     // this.renderRef = React.createRef();
   }
@@ -241,9 +241,10 @@ class BasicLayout extends PureComponent {
         }
       : { position: 'fixed', right: 20, top: 20, zIndex: 10 };
 
+      // console.log(menuData,hidemenu,isTop,isMobile)  
     const layout = (
       <Layout>
-        {hidemenu || menuData.length === 0 || (isTop && !isMobile) ? null : (
+        {hidemenu || (isTop && !isMobile) ? null : (
           <SiderMenu
             logo={logo}
             onCollapse={this.handleMenuCollapse}

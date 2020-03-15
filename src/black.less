@@ -164,4 +164,32 @@ black 主题
   .ant-input-affix-wrapper .ant-input-suffix {
     color: rgba(255, 255, 255, 0.65);
   }
+  .ant-table {
+    table,
+    th {
+      color: rgba(255, 255, 255, 0.65);
+    }
+    thead th.ant-table-column-has-sorters:hover,
+    &-tbody > tr:hover:not(.ant-table-expanded-row) > td,
+    td.ant-table-column-sort,
+    &-filter-trigger-container{
+      background: @dark-mid;
+      &:hover,&-open {
+        background: @dark-mid;
+      }
+    }
+    &-filter-dropdown{
+      background:@dark;
+    }
+    &-footer{
+      color:rgba(255,255,255,0.65)
+    }
+    
+  }
+  .ant-dropdown-menu{
+    background:@dark;
+    &-item-selected{
+      background:@dark-mid;
+    }
+  }
 }
