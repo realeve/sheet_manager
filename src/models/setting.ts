@@ -34,7 +34,8 @@ const updateTheme = primaryColor => {
         .then(() => {
           hideMessage();
         })
-        .catch(() => {
+        .catch(e => {
+          console.error(e);
           message.error('Failed to update theme');
           hideMessage();
         });
