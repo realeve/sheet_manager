@@ -59,7 +59,7 @@ const saveUserSetting = (
   window.localStorage.setItem(_lsKey, encodeStr(obj));
   window.localStorage.setItem(_menu, JSON.stringify(menu));
 
-  console.log(menu_id);
+  // console.log(menu_id);
   window.localStorage.setItem(_menuId, String(menu_id));
 
   window.localStorage.setItem(_menuTitle, menuTitle);

@@ -79,7 +79,7 @@ const updateColorWeak: (colorWeak: boolean) => void = colorWeak => {
     root.className = colorWeak ? 'colorWeak' : '';
   }
 };
- 
+
 const handleDarkTheme = theme => {
   let styleLink = document.getElementById('theme-style');
   let body = document.getElementsByTagName('body')[0];
@@ -117,24 +117,28 @@ const handleDarkTheme = theme => {
 
 const SettingModel: SettingModelType = {
   namespace: 'setting',
-  state: defaultSettings,
+  state: {},
   reducers: {
     getSetting(state) {
-      const config = JSON.parse(window.localStorage.getItem(settingKey) || '{}');
-
+      const config = JSON.parse(window.localStorage.getItem(settingKey) || '{"collapse":true,"primaryColor":"#1890FF","navTheme":"dark"}');
+      config.primaryColor = config.primaryColor || defaultSettings.primaryColor;
       Object.keys(state).forEach(key => {
         if (config[key]) {
           config[key] = config[key] === '1' ? true : config[key];
         }
       });
       const { primaryColor, colorWeak } = config;
+
+      console.log(primaryColor)
       if (state.primaryColor !== primaryColor) {
         updateTheme(primaryColor);
       }
+
       // updateColorWeak(colorWeak);
 
       handleDarkTheme(config.navTheme);
       // console.log(config);
+      console.log(config);
       return {
         ...state,
         ...config,
@@ -156,8 +160,7 @@ const SettingModel: SettingModelType = {
       window.localStorage.setItem(settingKey, JSON.stringify(payload));
 
       handleDarkTheme(payload.navTheme);
-      console.log({  ...state,
-        ...payload,})
+      console.log({ ...state, ...payload });
       return {
         ...state,
         ...payload,
