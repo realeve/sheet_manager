@@ -93,7 +93,7 @@ black 主题
   }
 
   ::-webkit-scrollbar-thumb:vertical {
-    background-color: #333
+    background-color: #333;
   }
 
   ::-webkit-scrollbar-thumb:horizontal {
@@ -172,24 +172,39 @@ black 主题
     thead th.ant-table-column-has-sorters:hover,
     &-tbody > tr:hover:not(.ant-table-expanded-row) > td,
     td.ant-table-column-sort,
-    &-filter-trigger-container{
+    &-filter-trigger-container {
       background: @dark-mid;
-      &:hover,&-open {
+      &:hover,
+      &-open {
         background: @dark-mid;
       }
     }
-    &-filter-dropdown{
-      background:@dark;
+    &-filter-dropdown {
+      background: @dark;
     }
-    &-footer{
-      color:rgba(255,255,255,0.65)
+    &-footer {
+      color: rgba(255, 255, 255, 0.65);
     }
-    
   }
-  .ant-dropdown-menu{
-    background:@dark;
-    &-item-selected{
-      background:@dark-mid;
+  .ant-dropdown-menu {
+    background: @dark;
+    &-item-selected {
+      background: @dark-mid;
+    }
+  }
+  .ant-col {
+    ul {
+      li {
+        &:hover {
+          background: @dark-mid;
+        }
+      }
+    }
+  }
+  .at-menu-item {
+    &-selected,
+    &-active {
+      background: @dark;
     }
   }
 }
