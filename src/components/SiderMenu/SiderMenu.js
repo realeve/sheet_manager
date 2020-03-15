@@ -137,13 +137,11 @@ export default class SiderMenu extends PureComponent {
   }
 
   render() {
-    const { logo, collapsed, fixSiderbar, theme } = this.props;
+    const { logo, collapsed, fixSiderbar, setting } = this.props;
     const { selectedKeys, openKeys, searchValue } = this.state;
     const defaultProps = { selectedKeys, openKeys }; //collapsed ? {} : { selectedKeys, openKeys };
-    // const siderClassName = classNames(styles.sider, {
-    //   [styles.fixSiderbar]: fixSiderbar,
-    //   [styles.light]: theme === 'light'
-    // });
+    let theme = setting.navTheme; 
+
     const siderClassName = cx('sider', {
       fixSiderbar,
       light: theme === 'light',
@@ -181,6 +179,7 @@ export default class SiderMenu extends PureComponent {
           onOpenChange={this.handleOpenChange}
           style={{ padding: '10px 0 16px 0', width: '100%' }}
           {...defaultProps}
+          theme={theme}
         />
       </Sider>
     );

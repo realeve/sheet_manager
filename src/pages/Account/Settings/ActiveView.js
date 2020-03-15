@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { List } from 'antd';
 import * as db from '@/pages/login/service';
 import * as dbMenu from '@/pages/menu/service';
@@ -75,17 +75,15 @@ class ActiveView extends Component {
 
   render() {
     return (
-      <Fragment>
-        <List
-          itemLayout="horizontal"
-          dataSource={this.getData()}
-          renderItem={item => (
-            <List.Item actions={item.actions}>
-              <List.Item.Meta title={item.title} description={item.description} />
-            </List.Item>
-          )}
-        />
-      </Fragment>
+      <List
+        itemLayout="horizontal"
+        dataSource={this.getData()}
+        renderItem={item => (
+          <List.Item actions={item.actions}>
+            <List.Item.Meta title={item.title} description={item.description} />
+          </List.Item>
+        )}
+      />
     );
   }
 }

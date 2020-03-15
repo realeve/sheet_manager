@@ -1,7 +1,6 @@
 import { message } from 'antd';
 import { Reducer } from 'redux';
 import defaultSettings, { DefaultSettings } from '../../config/defaultSettings';
-
 export interface SettingModelType {
   namespace: 'settings';
   state: DefaultSettings;
@@ -9,7 +8,7 @@ export interface SettingModelType {
     changeSetting: Reducer<DefaultSettings>;
   };
 }
-
+const settingKey = '_sheet_theme';
 let lessNodesAppended;
 const updateTheme = primaryColor => {
   // Don't compile less in production!
@@ -100,50 +99,72 @@ const updateColorWeak: (colorWeak: boolean) => void = colorWeak => {
 //   },
 // };
 
+const handleDarkTheme = (theme) => {
+  
+
+  let styleLink = document.getElementById('theme-style');
+  let body = document.getElementsByTagName('body')[0];
+  if (styleLink) {
+    if( theme=== 'realDark')
+    { 
+      // 假如存在id为theme-style 的link标签，直接修改其href
+      styleLink.href = '/theme/dark.css'; // 切换 ant design 组件主题
+      body.className = 'body-wrap-dark'; // 切换自定义组件的主题
+    }else{
+      // 假如存在id为theme-style 的link标签，直接修改其href
+      styleLink.href = ''; // 切换 ant design 组件主题
+      body.className = ''; // 切换自定义组件的主题
+    }
+    return;
+  }
+  
+  // 不存在的话，则新建一个
+  styleLink = document.createElement('link');
+  styleLink.type = 'text/css';
+  styleLink.rel = 'stylesheet';
+  styleLink.id = 'theme-style';
+
+  if( theme=== 'realDark')
+    { 
+      // 假如存在id为theme-style 的link标签，直接修改其href
+      styleLink.href = '/theme/dark.css'; // 切换 ant design 组件主题
+      body.className = 'body-wrap-dark'; // 切换自定义组件的主题
+    }else{
+      // 假如存在id为theme-style 的link标签，直接修改其href
+      styleLink.href = ''; // 切换 ant design 组件主题
+      body.className = ''; // 切换自定义组件的主题
+    }
+
+  document.body.append(styleLink);
+};
+
 const SettingModel: SettingModelType = {
   namespace: 'setting',
-  state: defaultSettings,
+  state: {},
   reducers: {
     getSetting(state) {
-      const setting = {};
-      const urlParams = new URL(window.location.href);
+      const config = JSON.parse(window.localStorage.getItem(settingKey) || '{}');
+
       Object.keys(state).forEach(key => {
-        if (urlParams.searchParams.has(key)) {
-          const value = urlParams.searchParams.get(key);
-          setting[key] = value === '1' ? true : value;
+        if (config[key]) {
+          config[key] = config[key] === '1' ? true : config[key];
         }
       });
-      const { primaryColor, colorWeak } = setting;
+      const { primaryColor, colorWeak } = config;
       if (state.primaryColor !== primaryColor) {
         updateTheme(primaryColor);
       }
       updateColorWeak(colorWeak);
 
+      handleDarkTheme(config.navTheme)
+      // console.log(config);
       return {
         ...state,
-        ...setting,
+        ...config,
       };
     },
     changeSetting(state, { payload }) {
-      const urlParams = new URL(window.location.href);
-      Object.keys(defaultSettings).forEach(key => {
-        if (urlParams.searchParams.has(key)) {
-          urlParams.searchParams.delete(key);
-        }
-      });
-      Object.keys(payload).forEach(key => {
-        if (key === 'collapse') {
-          return;
-        }
-        let value = payload[key];
-        if (value === true) {
-          value = 1;
-        }
-        if (defaultSettings[key] !== value) {
-          urlParams.searchParams.set(key, value);
-        }
-      });
-      const { primaryColor, colorWeak, contentWidth } = payload;
+      const { primaryColor, contentWidth } = payload;
 
       console.log('主色', state.primaryColor, primaryColor);
 
@@ -153,8 +174,11 @@ const SettingModel: SettingModelType = {
       if (state.contentWidth !== contentWidth && window.dispatchEvent) {
         window.dispatchEvent(new Event('resize'));
       }
-      updateColorWeak(colorWeak);
-      window.history.replaceState(null, 'setting', urlParams.href);
+
+      // updateColorWeak(colorWeak);
+      window.localStorage.setItem(settingKey, JSON.stringify(payload));
+
+      handleDarkTheme(payload.navTheme)
       return {
         ...state,
         ...payload,

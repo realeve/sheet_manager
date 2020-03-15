@@ -4,12 +4,12 @@ import router from 'umi/router';
 import { FormattedMessage } from 'umi/locale';
 import { Menu } from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
-import styles from './index.less';
-
+import styles from './index.less'; 
+import classNames from 'classnames'
 const { Item } = Menu;
 
-@connect(({ common: { userSetting } }) => ({
-  userSetting,
+@connect(({ common: { userSetting } ,setting}) => ({
+  userSetting,setting
 }))
 class Info extends Component {
   constructor(props) {
@@ -95,7 +95,7 @@ class Info extends Component {
   };
 
   render() {
-    const { children, userSetting } = this.props;
+    const { children, userSetting ,setting} = this.props;
     if (!userSetting.uid) {
       return '';
     }
@@ -109,7 +109,7 @@ class Info extends Component {
           }}
         >
           <div className={styles.leftmenu}>
-            <Menu theme="dark" mode={mode} selectedKeys={[selectKey]} onClick={this.selectKey}>
+            <Menu theme={setting.navTheme} className={classNames({realDark:setting.navTheme==='realDark'})} mode={mode} selectedKeys={[selectKey]} onClick={this.selectKey}>
               {this.getmenu()}
             </Menu>
           </div>

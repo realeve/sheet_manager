@@ -82,6 +82,8 @@ class BasicLayout extends PureComponent {
     const menuData = getMenuData(props);
     this.breadcrumbNameMap = this.getBreadcrumbNameMap(menuData);
     this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual);
+
+
     this.state = {
       menuData,
       rendering: true,
@@ -217,7 +219,6 @@ class BasicLayout extends PureComponent {
 
   render() {
     const {
-      navTheme,
       layout: PropsLayout,
       children,
       location,
@@ -243,7 +244,6 @@ class BasicLayout extends PureComponent {
         {hidemenu || menuData.length === 0 || (isTop && !isMobile) ? null : (
           <SiderMenu
             logo={logo}
-            theme={navTheme}
             onCollapse={this.handleMenuCollapse}
             menuData={menuData}
             isMobile={isMobile}

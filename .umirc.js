@@ -1,7 +1,6 @@
 // https://umijs.org/config/
 
 import pageRoutes from './config/router.config';
-import themePluginConfig from './config/themePluginConfig';
 
 export default {
   plugins: [
@@ -36,7 +35,6 @@ export default {
         },
       },
     ],
-    ['umi-plugin-antd-theme', themePluginConfig],
   ],
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
@@ -63,10 +61,7 @@ export default {
   routes: pageRoutes,
   // Theme for antd
   // https://ant.design/docs/react/customize-theme-cn
-  theme: {
-    // 'primary-color': '#1DA57A',
-    // 'body-background': '#222',
-  },
+  theme: {},
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,

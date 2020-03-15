@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react';
 import { Select, message, Drawer, List, Switch, Divider, Button, Alert, Tooltip } from 'antd';
 import { Icon } from '@ant-design/compatible';
 import { formatMessage } from 'umi/locale';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+// import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { connect } from 'dva';
 import omit from 'omit.js';
 import styles from './index.less';
 import ThemeColor from './ThemeColor';
 import BlockChecbox from './BlockChecbox';
-import { CopyOutlined } from '@ant-design/icons';
+// import { CopyOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -35,48 +35,48 @@ class SettingDrawer extends PureComponent {
       setting: { contentWidth, fixedHeader, layout, autoHideHeader, fixSiderbar },
     } = this.props;
     return [
-      {
-        title: formatMessage({ id: 'app.setting.content-width' }),
-        action: (
-          <Select
-            value={contentWidth}
-            size="small"
-            onSelect={value => this.changeSetting('contentWidth', value)}
-            style={{ width: 80 }}
-          >
-            {layout === 'sidemenu' ? null : (
-              <Option value="Fixed">
-                {formatMessage({ id: 'app.setting.content-width.fixed' })}
-              </Option>
-            )}
-            <Option value="Fluid">
-              {formatMessage({ id: 'app.setting.content-width.fluid' })}
-            </Option>
-          </Select>
-        ),
-      },
-      {
-        title: formatMessage({ id: 'app.setting.fixedheader' }),
-        action: (
-          <Switch
-            size="small"
-            checked={!!fixedHeader}
-            onChange={checked => this.changeSetting('fixedHeader', checked)}
-          />
-        ),
-      },
-      {
-        title: formatMessage({ id: 'app.setting.hideheader' }),
-        disabled: !fixedHeader,
-        disabledReason: formatMessage({ id: 'app.setting.hideheader.hint' }),
-        action: (
-          <Switch
-            size="small"
-            checked={!!autoHideHeader}
-            onChange={checked => this.changeSetting('autoHideHeader', checked)}
-          />
-        ),
-      },
+      // {
+      //   title: formatMessage({ id: 'app.setting.content-width' }),
+      //   action: (
+      //     <Select
+      //       value={contentWidth}
+      //       size="small"
+      //       onSelect={value => this.changeSetting('contentWidth', value)}
+      //       style={{ width: 80 }}
+      //     >
+      //       {layout === 'sidemenu' ? null : (
+      //         <Option value="Fixed">
+      //           {formatMessage({ id: 'app.setting.content-width.fixed' })}
+      //         </Option>
+      //       )}
+      //       <Option value="Fluid">
+      //         {formatMessage({ id: 'app.setting.content-width.fluid' })}
+      //       </Option>
+      //     </Select>
+      //   ),
+      // },
+      // {
+      //   title: formatMessage({ id: 'app.setting.fixedheader' }),
+      //   action: (
+      //     <Switch
+      //       size="small"
+      //       checked={!!fixedHeader}
+      //       onChange={checked => this.changeSetting('fixedHeader', checked)}
+      //     />
+      //   ),
+      // },
+      // {
+      //   title: formatMessage({ id: 'app.setting.hideheader' }),
+      //   disabled: !fixedHeader,
+      //   disabledReason: formatMessage({ id: 'app.setting.hideheader.hint' }),
+      //   action: (
+      //     <Switch
+      //       size="small"
+      //       checked={!!autoHideHeader}
+      //       onChange={checked => this.changeSetting('autoHideHeader', checked)}
+      //     />
+      //   ),
+      // },
       {
         title: formatMessage({ id: 'app.setting.fixedsidebar' }),
         disabled: layout === 'topmenu',
@@ -101,6 +101,7 @@ class SettingDrawer extends PureComponent {
     } else if (key === 'fixedHeader' && !value) {
       nextState.autoHideHeader = false;
     }
+
     this.setState(nextState, () => {
       const { dispatch } = this.props;
       dispatch({
@@ -214,7 +215,7 @@ class SettingDrawer extends PureComponent {
             renderItem={this.renderLayoutSettingItem}
           />
 
-          <Divider />
+          {/* <Divider />
 
           <Body title={formatMessage({ id: 'app.setting.othersettings' })}>
             <List.Item
@@ -228,8 +229,8 @@ class SettingDrawer extends PureComponent {
             >
               {formatMessage({ id: 'app.setting.weakmode' })}
             </List.Item>
-          </Body>
-          <Divider />
+          </Body> */}
+          {/* <Divider />
           <CopyToClipboard
             text={JSON.stringify(omit(setting, ['colorWeak']), null, 2)}
             onCopy={() => message.success(formatMessage({ id: 'app.setting.copyinfo' }))}
@@ -237,7 +238,7 @@ class SettingDrawer extends PureComponent {
             <Button block icon={<CopyOutlined />}>
               {formatMessage({ id: 'app.setting.copy' })}
             </Button>
-          </CopyToClipboard>
+          </CopyToClipboard> */}
           {/* <Alert
             type="warning"
             className={styles.productionHint}
