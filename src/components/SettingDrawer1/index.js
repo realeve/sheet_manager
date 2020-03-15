@@ -140,7 +140,7 @@ class SettingDrawer extends PureComponent {
         onClose={this.togglerContent}
         placement="right"
         handler={
-          <div className={styles.handle}>
+          <div className="ant_theme_handle">
             <Icon
               type={collapse ? 'close' : 'setting'}
               style={{

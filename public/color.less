@@ -2279,3 +2279,26 @@ html {
 .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected {
   background-color: color(~`colorPalette("@{primary-color}", 2)`);
 }  
+
+.ant-menu-vertical .ant-menu-item::after, .ant-menu-vertical-left .ant-menu-item::after, .ant-menu-vertical-right .ant-menu-item::after, .ant-menu-inline .ant-menu-item::after {
+   
+  border-right: 3px solid @primary-color;}
+
+  .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+    border: 1px solid @primary-color; 
+}
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner, .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner, .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  background: @primary-color;
+}
+.ant-picker-today-btn{
+  color:@primary-color;
+}
+.ant-picker:hover, .ant-picker-focused{
+  border-color: @primary-7!important;
+}
+.ant-menu-submenu-selected {
+  color: @primary-color;
+} 
+.ant_theme_handle{
+  background:@primary-color;
+}
