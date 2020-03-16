@@ -28,10 +28,11 @@ export const DateRangePicker = ({ dispatch,refresh = false, dateRange, style = {
       type: 'common/setStore',
       payload: { dateRange: dateStrings },
     }); 
-    onQuery(); 
-    // if (refresh) {
-    //   onQuery();
-    // }
+
+    // 是否立即执行查询，在只有时间条件时，立即查询，否则点确定按钮再查询
+    if (refresh) {
+      onQuery();
+    }
   };
 
   const onQuery = async () => {

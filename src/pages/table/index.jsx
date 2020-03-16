@@ -94,7 +94,7 @@ function Tables({
           (axiosOptions[key].data || axiosOptions[key].params) &&
           (axiosOptions[key].data || axiosOptions[key].params).blob;
 
-        console.log(axiosOptions[key], blob);
+        // console.log(axiosOptions[key], blob);
 
         if (!R.isNil(blob)) {
           return <ImageList data={dataSrc} blob={blob} key={key} subTitle={subTitle} />;
