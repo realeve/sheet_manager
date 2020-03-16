@@ -3,6 +3,20 @@
 import pageRoutes from './config/router.config';
 
 export default {
+  extraBabelPlugins: [
+    [
+      'react-css-modules',
+      {
+        exclude: 'node_modules',
+        generateScopedName: '[name]__[local]___[hash:base64:5]',
+        filetypes: {
+          '.less': {
+            syntax: 'postcss-less',
+          },
+        },
+      },
+    ],
+  ],
   plugins: [
     [
       'umi-plugin-react',

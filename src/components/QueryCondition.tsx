@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, Button, Input } from 'antd';
-import styles from '@/pages/table/index.less';
+import styles from '../pages/table/index.less';
 import { formatMessage } from 'umi/locale';
 import { connect } from 'dva';
 import DatePicker from './DatePicker';
@@ -23,34 +23,34 @@ export const DateRangePicker = ({ dispatch, refresh, dateRange, style = {} }) =>
     ? '/chart'
     : 'none';
 
-  const onDateChange = async (dateStrings: Array<string>, refresh: boolean = true) => {
+  const onDateChange = async (dateStrings: Array<string> ) => {
     await dispatch({
       type: 'common/setStore',
       payload: { dateRange: dateStrings },
-    });
-    if (refresh) {
-      onQuery();
-    }
+    }); 
+    onQuery(); 
+    // if (refresh) {
+    //   onQuery();
+    // }
   };
 
   const onQuery = async () => {
-    // console.log(queryType);
-    if (queryType === 'table') {
+ 
+    if (['table','/table'].includes(queryType)) {
       await dispatch({
         type: 'table/updateParams',
       });
       await dispatch({
         type: 'table/refreshData',
-      });
-      return;
-    } else if (queryType === 'chart') {
+      }); 
+    } else if (['chart','/chart'].includes(queryType)) {
+ 
       dispatch({
         type: 'chart/refreshData',
       });
     }
   };
-
-  console.log(queryType);
+ 
 
   return (
     queryType !== 'none' && (
@@ -58,7 +58,7 @@ export const DateRangePicker = ({ dispatch, refresh, dateRange, style = {} }) =>
         className={refresh ? styles.setting : null}
         value={dateRange}
         style={style}
-        onChange={dateStrings => onDateChange(dateStrings, refresh)}
+        onChange={dateStrings => onDateChange(dateStrings)}
       />
     )
   );
@@ -111,6 +111,7 @@ function QueryCondition({
     select,
   });
 
+  // const [refresh,setRefresh] = useState(false)
   const [textVal, setTextVal] = useState({});
 
   useEffect(() => {
@@ -135,20 +136,20 @@ function QueryCondition({
     });
   }, [textAreaList.length, selectList.length, dateType]);
 
-  const onQuery = async () => {
+  const onQuery = async () => { 
     if (queryType === 'table') {
       await dispatch({
         type: 'table/updateParams',
       });
       await dispatch({
         type: 'table/refreshData',
-      });
+      }); 
       return;
     }
 
     dispatch({
       type: 'chart/refreshData',
-    });
+    }); 
   };
 
   const [isMobile, setIsMobile] = useState(false);
@@ -163,11 +164,12 @@ function QueryCondition({
     };
   }, []);
 
+
   if (isMobile || hidemenu) {
     if (textAreaList.length + selectList.length === 0 && dateType !== 'none') {
       return (
         <div className={styles.dateRange} style={{ marginBottom: 10 }}>
-          <DateRangePicker refresh={true} dispatch={dispatch} dateRange={dateRange} />
+          <DateRangePicker  dispatch={dispatch} dateRange={dateRange} />
         </div>
       );
     }
@@ -185,7 +187,7 @@ function QueryCondition({
         <Row>
           {dateType !== 'none' && (
             <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
-              <DateRangePicker refresh={false} dispatch={dispatch} dateRange={dateRange} />
+              <DateRangePicker ispatch={dispatch} dateRange={dateRange} />
             </Col>
           )}
           {textAreaList.map(({ key, title }) => (

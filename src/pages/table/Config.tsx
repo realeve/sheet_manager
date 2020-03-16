@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'antd';
-import styles from '@/pages/chart/config.less';
+import styles from '../chart/config.less';
 import classnames from 'classnames';
 
 export default function tableConfig() {

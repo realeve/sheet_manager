@@ -4,10 +4,10 @@ import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 import { Input, Popover, Progress, Button, message } from 'antd';
 import { connect } from 'dva';
-import styles from '@/pages/login/Register.less';
-import { passwordStatusMap, passwordProgressMap } from '@/pages/login/register';
+import styles from '../../login/Register.less';
+import { passwordStatusMap, passwordProgressMap } from '../../login/register';
 import * as lib from '@/utils/lib';
-import * as db from '@/pages/login/service';
+import * as db from '../..//login/service';
 
 const FormItem = Form.Item;
 

@@ -137,8 +137,7 @@ const SettingModel: SettingModelType = {
       // updateColorWeak(colorWeak);
 
       handleDarkTheme(config.navTheme);
-      // console.log(config);
-      console.log(config);
+      
       return {
         ...state,
         ...config,
