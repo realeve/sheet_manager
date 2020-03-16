@@ -16,7 +16,7 @@ export const isDisabled = ({ selectValue, selectList, textAreaList, select, text
   Object.keys(selectValue).length < selectList.length ||
   Object.values(textAreaValue).filter(item => String(item).length > 0).length < textAreaList.length;
 
-export const DateRangePicker = ({ dispatch, refresh, dateRange, style = {} }) => {
+export const DateRangePicker = ({ dispatch,refresh = false, dateRange, style = {} }) => {
   let queryType = window.location.pathname.includes('/table')
     ? 'table'
     : window.location.pathname.includes('/chart')
@@ -169,7 +169,7 @@ function QueryCondition({
     if (textAreaList.length + selectList.length === 0 && dateType !== 'none') {
       return (
         <div className={styles.dateRange} style={{ marginBottom: 10 }}>
-          <DateRangePicker  dispatch={dispatch} dateRange={dateRange} />
+          <DateRangePicker refresh dispatch={dispatch} dateRange={dateRange} />
         </div>
       );
     }
@@ -187,7 +187,7 @@ function QueryCondition({
         <Row>
           {dateType !== 'none' && (
             <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
-              <DateRangePicker ispatch={dispatch} dateRange={dateRange} />
+              <DateRangePicker dispatch={dispatch} dateRange={dateRange} />
             </Col>
           )}
           {textAreaList.map(({ key, title }) => (
