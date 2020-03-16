@@ -5,7 +5,7 @@ const themeConfig = {
   '#FA541C': 'volcano',
   '#FAAD14': 'sunset',
   '#13C2C2': 'cyan',
-  '#52C41A': 'green',
+  '#1da57a': 'green',
   '#2F54EB': 'geekblue',
   '#722ED1': 'purple',
 };

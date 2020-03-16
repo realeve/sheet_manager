@@ -12,9 +12,10 @@ const settingKey = '_sheet_theme';
 let lessNodesAppended;
 const updateTheme = primaryColor => {
   // Don't compile less in production!
-  if (APP_TYPE !== 'site') {
-    return;
-  }
+  // if (APP_TYPE !== 'site') {
+  //   return;
+  // }
+  
   // Determine if the component is remounted
   if (!primaryColor) {
     return;
@@ -120,7 +121,7 @@ const SettingModel: SettingModelType = {
   state: {},
   reducers: {
     getSetting(state) {
-      const config = JSON.parse(window.localStorage.getItem(settingKey) || '{"collapse":true,"primaryColor":"#1890FF","navTheme":"dark"}');
+      const config = JSON.parse(window.localStorage.getItem(settingKey) || '{"collapse":true,"primaryColor":"#1da57a","navTheme":"dark"}');
       config.primaryColor = config.primaryColor || defaultSettings.primaryColor;
       Object.keys(state).forEach(key => {
         if (config[key]) {

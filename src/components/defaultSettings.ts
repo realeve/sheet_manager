@@ -19,7 +19,7 @@ const colorList = [
   },
   {
     key: 'green',
-    color: '#52C41A',
+    color: '#1da57a',
   },
   {
     key: 'daybreak',
@@ -87,6 +87,6 @@ const defaultSettings: Settings = {
   title: 'Ant Design Pro',
   iconfontUrl: '',
   autoHideHeader: false, // auto hide header
-  primaryColor: '#1890ff',
+  primaryColor: '#1da57a',
 };
 export default defaultSettings;
