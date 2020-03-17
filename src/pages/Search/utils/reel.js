@@ -62,6 +62,19 @@ export const getViewPaperSurface = reel =>
         },
       });
 
+     /**
+ *   @database: { 质量信息系统 }
+ *   @desc:     { 纸张过程检测 } 
+ */
+export const getViewProcessCheckPaper = reel => DEV ? mock(require(
+  '@/mock/874_c17de8b1c5.json')) : axios({
+  url: '/874/c17de8b1c5.json',
+  params: {
+    reel
+  },
+});
+ 
+
 /**
  *   @database: { 质量信息系统 }
  *   @desc:     { 轴号追溯_非常规 }
