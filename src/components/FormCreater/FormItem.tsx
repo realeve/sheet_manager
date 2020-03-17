@@ -47,6 +47,7 @@ export default function formItem({
   detail: { title, type, block, defaultOption, span = 8, unReset, increase, ...props },
   scope = [],
   setScope,
+  calcValid,
   isQueryKey = false,
 }) {
   let [validateState, setValidateState] = useState(true);
@@ -118,6 +119,7 @@ export default function formItem({
     }
     return R.isNil(val) ? null : val;
   };
+  let invalidCalc = calcValid.key === key && !calcValid.status;
 
   return (
     <Col
@@ -127,7 +129,7 @@ export default function formItem({
       xs={24}
       className={classNames(styles['form-item'], {
         [styles['form-center']]: type === 'radio',
-        ['ant-form-item-has-error']: !validateState,
+        ['ant-form-item-has-error']: !validateState || invalidCalc,
         ['ant-form-item-has-warning']: !validateScope,
       })}
     >
@@ -142,7 +144,7 @@ export default function formItem({
       </span>
       <div
         className={cx(
-          { 'has-error': false === validateState || false === validateScope },
+          { 'has-error': invalidCalc || false === validateState || false === validateScope },
           'element',
           {
             elementLarge: ['radio', 'radio.button', 'check'].includes(type), // 'select',
@@ -277,7 +279,7 @@ export default function formItem({
           </span>
         )}
 
-        {!validateState && props.rule ? (
+        {invalidCalc || (!validateState && props.rule) ? (
           <label className="ant-form-explain">{getRuleMsg(props.rule, title)}</label>
         ) : (
           (__block || block) && (

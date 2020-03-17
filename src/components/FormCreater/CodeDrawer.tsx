@@ -20,6 +20,14 @@ import { getApiConfig, getApi, getCreate, getSysApi } from './lib';
 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
+const jsOption = {
+  mode: 'javascript',
+  lineNumbers: true,
+  styleActiveLine: true,
+  matchBrackets: true,
+  theme: 'material',
+};
+
 export default function codeDrawer({
   modalVisible,
   setModalVisible,
@@ -160,13 +168,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       </Paragraph>
       <CodeMirror
         value={beautyConfig}
-        options={{
-          mode: 'javascript',
-          lineNumbers: true,
-          styleActiveLine: true,
-          matchBrackets: true,
-          theme: 'material',
-        }}
+        options={jsOption}
         onBeforeChange={(editor, data, value) => {
           setBeautyConfig(value);
         }}
@@ -234,16 +236,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       <Paragraph style={{ marginTop: 10 }}>
         同时将json配置改为以下形式，其中api部分对应的接口id以及nonce信息已经更新:
       </Paragraph>
-      <CodeMirror
-        value={sql.json}
-        options={{
-          mode: 'javascript',
-          lineNumbers: true,
-          styleActiveLine: true,
-          matchBrackets: true,
-          theme: 'material',
-        }}
-      />
+      <CodeMirror value={sql.json} options={jsOption} />
 
       <CopyToClipboard
         text={sql.json}
@@ -322,14 +315,65 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
     }\`);
       
       `}
-        options={{
-          mode: 'javascript',
-          lineNumbers: true,
-          styleActiveLine: true,
-          matchBrackets: true,
-          theme: 'material',
-        }}
+        options={jsOption}
       />
+
+      <Paragraph style={{ marginTop: 10 }}>
+        <Title level={4}>5.数据复杂校验-calc字段</Title>
+        <Text>
+          如果在校验规则rule中配置类似了calc字段，则表明字段间存在联动的需求。如以下配置为例，小计令数等于令数1至9相加，系统会自动据此等式做校验：
+        </Text>
+
+        <CodeMirror
+          value={`{
+          "title": "令数1",
+          "type": "input",
+          "key": "ream_num1",
+          "rule": {
+            "type": "int",  // 表示字段类型为int整型
+            "calc": "小计令数=令数1+令数2+令数3+令数4+令数5+令数6+令数7+令数8+令数9", 
+            // calc 表示数据联动校验规则，如果校验不通过将红色显示，此时不可提交数据
+            "required": true, // 表示数据必填
+            "msg": "小计令数与记录详情校验失败，两者和不相等" //表示校验失败时系统的提示信息
+          }, 
+        }
+      `}
+          options={jsOption}
+        />
+      </Paragraph>
+      <p>在以上例子中，小计令数作为汇总字段，其值为其余相加，此时将令数1设为必填，将calc信息挂载到令数1中触发校验规则，校验不通过时显示对应的msg信息</p>
+      <Text>在数据联动的校验中还支持以下方式的更复杂校验规则(更多信息可以看<a href="https://mathjs.org/docs/getting_started.html" target="_blank">https://mathjs.org/docs/getting_started.html</a>)：</Text>
+       
+        <CodeMirror
+          value={`// sin 与 平方
+         calc = sin(45 deg) ^ 2 // 返回0.5
+         // 开方
+         calc = sqrt(9) // 返回 3
+
+         // 平方
+         calc = 3 ^ 2 // 返回 9
+
+         // 带括号的四则运算
+         calc = (3+2)*4/(6-1) // 返回4
+
+         // 取余
+         calc = 6*3%10 // 返回8
+
+         // js语法
+         calc = "0820015A".substr(2,1) // 返回 2
+
+         // 通过将以上方式的组合可以满足大部分场景的需要，如:
+
+         {
+           rule:{
+             required: true
+             calc: 某字段 = (字段1+字段2)*2/(字段3+字段4)
+           }
+         }
+
+      `}
+          options={jsOption}
+        />
     </Drawer>
   );
 }

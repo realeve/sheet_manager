@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
-import { Card, Row, Switch, notification } from 'antd';
+import { Card, Row, Switch } from 'antd';
 import { Icon } from '@ant-design/compatible';
 import styles from './index.less';
-import { validRequire, beforeSheetRender, getIncrease } from './lib';
+import { validRequire, beforeSheetRender, getIncrease, validCalcKeys } from './lib';
 import FormItem from './FormItem';
 import CodeDrawer from './CodeDrawer';
 import FormAction from './FormAction';
@@ -46,6 +46,7 @@ function FormCreater({ config, dispatch }) {
   // 初始化空数据，获取必填字段
   let [fields, setFields] = useState({});
   let [requiredFileds, setRequiredFileds] = useState([]);
+  let [calcFields, setCalcFields] = useState([]);
 
   let [modalVisible, setModalVisible] = useState(false);
 
@@ -73,6 +74,11 @@ function FormCreater({ config, dispatch }) {
   const [queryKey, setQueryKey] = useState([]);
   const { hash } = useLocation();
 
+  const [calcValid, setCalcValid] = useState({
+    key: '',
+    status: true,
+  });
+
   useEffect(() => {
     // config改变后初始化表单数据
     init();
@@ -81,6 +87,8 @@ function FormCreater({ config, dispatch }) {
     let requiredFileds = [];
     let nextFields = {};
     let observeKey = null;
+    let calcFields = [];
+    
 
     if (config.api && config.api.query && config.api.query.param) {
       setQueryKey(config.api.query.param);
@@ -89,8 +97,18 @@ function FormCreater({ config, dispatch }) {
 
     config.detail.forEach(({ detail }) => {
       detail.forEach(item => {
-        if (item.rule && item.rule.required) {
-          requiredFileds.push(item.key);
+        if (item.rule) {
+          if (item.rule.required) {
+            requiredFileds.push(item.key);
+          }
+
+          // 计算校验的字段
+          if (item.rule.calc) {
+            calcFields.push({
+              key: item.key,
+              calc: item.rule.calc,
+            });
+          }
         }
 
         // 有字段表示合格时
@@ -112,17 +130,28 @@ function FormCreater({ config, dispatch }) {
 
     setFields(nextFields);
     setRequiredFileds(requiredFileds);
+
+    setCalcFields(calcFields);
+
+    setCalcValid({
+      key: '',
+      status: true,
+    })
+
     dispatch({
       type: 'common/setStore',
       payload: {
         curPageName: config.name,
       },
     });
+
+
     reFetch();
   }, [config]);
 
   // 表单字段当前状态判断
   const [formstatus, setFormstatus] = useState(false);
+
 
   useEffect(() => {
     if (!Object.keys(state).length) {
@@ -132,9 +161,14 @@ function FormCreater({ config, dispatch }) {
 
     // 必填字段状态校验
     let required = validRequire(requiredFileds, state);
+
+    // 正则处理
     let validStatus = Object.values(validateState).filter(item => !item).length == 0;
 
-    setFormstatus(validStatus && required);
+    // 单独运算的字段处理
+    let calcStatus = validCalcKeys(state, calcFields, config,setCalcValid);
+
+    setFormstatus(validStatus && required && calcStatus);
   }, [state]);
 
   // console.log(config, state, '🌸');
@@ -386,6 +420,7 @@ function FormCreater({ config, dispatch }) {
                       state={state[key]}
                       cascade={[cascade, state[cascade]]}
                       isQueryKey={queryKey.includes(key)}
+                      calcValid={calcValid}
                       setState={res => {
                         setState({
                           [key]: res,

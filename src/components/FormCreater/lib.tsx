@@ -2,7 +2,8 @@ import * as lib from '@/utils/lib';
 import * as R from 'ramda';
 import qs from 'qs';
 import { axios } from '@/utils/axios';
-
+import * as mathjs from 'mathjs';
+console.log(mathjs);
 // 处理数据
 export const handler = {
   toUpper(str) {
@@ -450,4 +451,59 @@ export const getIncrease: (type: tIncrease, val) => string = (type, str) => {
     case 'number':
       return parseInt(str) + 1;
   }
+};
+
+/**
+ * 处理需要四则运算及复杂运算的场景
+ * @param state 当前数据state
+ * @param fields 字段名
+ * @param config 原始配置
+ */
+export let validCalcKeys = (state, fields, config, setCalcValid) => {
+  if (fields.length === 0) {
+    return false;
+  }
+
+  let cfg = R.flatten(R.map(R.prop('detail'))(config.detail));
+  let _state = R.clone(state);
+
+  let status = true;
+  let len = fields.length,
+    i = 0;
+  while (status && i < len) {
+    // 字段 key,计算规则
+    let { key, calc } = fields[i];
+
+    // 当前数据未填写时不校验;
+    if ('undefined' === typeof _state[key] || String(_state[key]).length === 0) {
+      break;
+    }
+
+    // 处理calc字段,先移除空格,如果双等号不存在，将等于替换为双等号;
+    if (!calc.includes('==')) {
+      calc = calc.replace(/=/, '==');
+    }
+
+    cfg.forEach(item => {
+      let reg = new RegExp(item.title, 'g');
+      calc = calc.replace(reg, item.key);
+
+      if (calc.includes(item.key)) {
+        // 未录入视为0
+        if ('undefined' === typeof _state[item.key] || !lib.isNumOrFloat(_state[item.key])) {
+          _state[item.key] = item.defaultValue || 0;
+        }
+      }
+    });
+    console.log(calc, _state);
+
+    status = mathjs.evaluate(calc, _state);
+    setCalcValid({
+      key,
+      status,
+    });
+    i++;
+  }
+
+  return status;
 };
