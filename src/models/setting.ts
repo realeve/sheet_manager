@@ -130,7 +130,6 @@ const SettingModel: SettingModelType = {
       });
       const { primaryColor, colorWeak } = config;
 
-      console.log(primaryColor)
       if (state.primaryColor !== primaryColor) {
         updateTheme(primaryColor);
       }

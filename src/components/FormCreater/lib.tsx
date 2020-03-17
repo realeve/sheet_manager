@@ -3,7 +3,7 @@ import * as R from 'ramda';
 import qs from 'qs';
 import { axios } from '@/utils/axios';
 import * as mathjs from 'mathjs';
-console.log(mathjs);
+
 // 处理数据
 export const handler = {
   toUpper(str) {

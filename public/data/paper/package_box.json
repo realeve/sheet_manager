@@ -61,31 +61,307 @@
         },
         {
           "title": "班次",
-          "type": "input",
+          "type": "select",
           "key": "class_type",
+          "defaultOption": [
+            {
+              "name": "光切1班",
+              "value": "光切1班",
+              "scope": [
+                {
+                  "key": [
+                    "user_check_paper1",
+                    "user_check_paper2",
+                    "user_package",
+                    "user_record_reel1",
+                    "user_record_reel2"
+                  ],
+                  "defaultOption": [
+                    "胡江",
+                    "李志杨",
+                    "周园园",
+                    "许剑",
+                    "何宇辉",
+                    "梁晨",
+                    "王黎",
+                    "张泽英",
+                    "张艳",
+                    "韩瑶"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "光切2班",
+              "value": "光切2班",
+              "scope": [
+                {
+                  "key": [
+                    "user_check_paper1",
+                    "user_check_paper2",
+                    "user_package",
+                    "user_record_reel1",
+                    "user_record_reel2"
+                  ],
+                  "defaultOption": [
+                    "谭忠琴",
+                    "邓厚明",
+                    "张文",
+                    "周萍",
+                    "孙梦凡",
+                    "邱元超",
+                    "李思然",
+                    "付元刚",
+                    "马和平",
+                    "罗程"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "光切3班",
+              "value": "光切3班",
+              "scope": [
+                {
+                  "key": [
+                    "user_check_paper1",
+                    "user_check_paper2",
+                    "user_package",
+                    "user_record_reel1",
+                    "user_record_reel2"
+                  ],
+                  "defaultOption": [
+                    "黄严",
+                    "全格庆",
+                    "谭万能",
+                    "左震华",
+                    "王锐",
+                    "常征",
+                    "蒋溱",
+                    "陈晓艳",
+                    "罗实",
+                    "黄燕"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "光切5班",
+              "value": "光切5班",
+              "scope": [
+                {
+                  "key": [
+                    "user_check_paper1",
+                    "user_check_paper2",
+                    "user_package",
+                    "user_record_reel1",
+                    "user_record_reel2"
+                  ],
+                  "defaultOption": ["孟俊华", "董艳姝", "艾萍", "周金辉", "魏蔓"]
+                }
+              ]
+            },
+            {
+              "name": "光切6班",
+              "value": "光切6班",
+              "scope": [
+                {
+                  "key": [
+                    "user_check_paper1",
+                    "user_check_paper2",
+                    "user_package",
+                    "user_record_reel1",
+                    "user_record_reel2"
+                  ],
+                  "defaultOption": [
+                    "陈旭",
+                    "谭枫",
+                    "郑高",
+                    "汪泉",
+                    "李娟",
+                    "雷文波",
+                    "陈伟",
+                    "魏冬梅",
+                    "朱坤",
+                    "袁兰"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "光切7班",
+              "value": "光切7班",
+              "scope": [
+                {
+                  "key": [
+                    "user_check_paper1",
+                    "user_check_paper2",
+                    "user_package",
+                    "user_record_reel1",
+                    "user_record_reel2"
+                  ],
+                  "defaultOption": [
+                    "李东升",
+                    "母红",
+                    "许黎黎",
+                    "白莉",
+                    "王银",
+                    "易兵",
+                    "王勇",
+                    "梁曦",
+                    "吴健",
+                    "石晓红"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "光切8班",
+              "value": "光切8班",
+              "scope": [
+                {
+                  "key": [
+                    "user_check_paper1",
+                    "user_check_paper2",
+                    "user_package",
+                    "user_record_reel1",
+                    "user_record_reel2"
+                  ],
+                  "defaultOption": [
+                    "赵勇",
+                    "刘昱",
+                    "梁超",
+                    "赵薇",
+                    "彭娟",
+                    "周吉",
+                    "黎明",
+                    "杨薇",
+                    "邓寓芳",
+                    "尤姗姗"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "数封1班",
+              "value": "数封1班",
+              "scope": [
+                {
+                  "key": [
+                    "user_check_paper1",
+                    "user_check_paper2",
+                    "user_package",
+                    "user_record_reel1",
+                    "user_record_reel2"
+                  ],
+                  "defaultOption": [
+                    "张文正",
+                    "李敏",
+                    "刘莉",
+                    "张娟",
+                    "张凤鸣",
+                    "周莘粦",
+                    "何平",
+                    "罗丹",
+                    "肖勇",
+                    "陈红兵",
+                    "周科",
+                    "罗忠明"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "数封2班",
+              "value": "数封2班",
+              "scope": [
+                {
+                  "key": [
+                    "user_check_paper1",
+                    "user_check_paper2",
+                    "user_package",
+                    "user_record_reel1",
+                    "user_record_reel2"
+                  ],
+                  "defaultOption": [
+                    "李华章",
+                    "杨丹妮",
+                    "高冬梅",
+                    "何兰",
+                    "于东",
+                    "张世兵",
+                    "胡敬",
+                    "李涛",
+                    "李欣",
+                    "刘涛",
+                    "王正奇",
+                    "赵仕军"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "打件班",
+              "value": "打件班",
+              "scope": [
+                {
+                  "key": [
+                    "user_check_paper1",
+                    "user_check_paper2",
+                    "user_package",
+                    "user_record_reel1",
+                    "user_record_reel2"
+                  ],
+                  "defaultOption": [
+                    "张琦",
+                    "张辉",
+                    "刘欣梅",
+                    "刘静",
+                    "向雪萍",
+                    "何娟娟",
+                    "李昱",
+                    "龚晓琴",
+                    "周友华",
+                    "李凡福",
+                    "吴彬",
+                    "杜定权",
+                    "蔡强",
+                    "蔡成"
+                  ]
+                }
+              ]
+            }
+          ],
           "rule": {
             "required": true,
             "msg": "请输入班次"
           },
-          "placeholder": "请输入班次",
+          "placeholder": "请输入班次，用拼音缩写快速录入",
           "unReset": true,
           "span": 6
         },
         {
           "title": "班别",
-          "type": "input",
+          "type": "radio.button",
           "key": "class_name",
           "rule": {
             "required": true,
             "msg": "请输入班别"
           },
+          "defaultOption": [
+            { "name": "白班", "value": "白班" },
+            { "name": "中班", "value": "中班" },
+            { "name": "夜班", "value": "夜班" }
+          ],
           "placeholder": "请输入班别",
           "unReset": true,
           "span": 6
         },
         {
           "title": "查纸1",
-          "type": "input",
+          "type": "select",
+          "url": "80/5a60996975.json",
+
           "key": "user_check_paper1",
           "rule": {
             "required": true
@@ -96,8 +372,9 @@
         },
         {
           "title": "查纸2",
-          "type": "input",
+          "type": "select",
           "key": "user_check_paper2",
+
           "rule": {
             "required": true
           },
@@ -107,8 +384,9 @@
         },
         {
           "title": "罩口袋",
-          "type": "input",
+          "type": "select",
           "key": "user_package",
+
           "rule": {
             "required": true
           },
@@ -118,8 +396,9 @@
         },
         {
           "title": "记轴号",
-          "type": "input",
-          "key": "user_record_reel",
+          "type": "select",
+          "key": "user_record_reel1",
+
           "rule": {
             "required": true
           },
@@ -129,8 +408,8 @@
         },
         {
           "title": "记轴号2",
-          "type": "input",
-          "key": "user_record_reel2",
+          "type": "select",
+          "key": "user_record_reel2", 
           "rule": {
             "required": true
           },

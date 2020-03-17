@@ -13,7 +13,7 @@ export const getViewPaperQuality = async reel => {
     : await axios({
         url: '/504/c9e662a163.json',
         params: {
-          reel,
+          reel:reel+'%',
         },
       });
   res.data = res.data.map(item => {
