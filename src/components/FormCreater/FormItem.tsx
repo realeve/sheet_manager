@@ -44,7 +44,7 @@ export default function formItem({
   setFormstatus,
   keyName: key,
   cascade,
-  detail: { title, type, block, defaultOption, span = 8, unReset, increase, ...props },
+  detail: { title, type, block, defaultOption, span = 8, unReset, rule, increase, ...props },
   scope = [],
   setScope,
   calcValid,
@@ -86,7 +86,7 @@ export default function formItem({
 
   const onChange = (val: any, props: { [key: string]: any } = {}) => {
     let value = handler.trim(val);
-    let { toupper, tolower, rule } = props;
+    let { toupper, tolower } = props;
     if (toupper) {
       value = handler.toUpper(val);
     } else if (tolower) {
@@ -135,11 +135,12 @@ export default function formItem({
     >
       <span
         className={cx('title', {
-          required: props.rule && props.rule.required,
+          required: rule && rule.required,
         })}
       >
         {isQueryKey && <span title="索引字段">🔍</span>}
         {increase && <span title="自增字段">⬆</span>}
+        {rule && rule.calc && <span title="关联计算">🔗</span>}
         {title}
       </span>
       <div
@@ -279,8 +280,8 @@ export default function formItem({
           </span>
         )}
 
-        {invalidCalc || (!validateState && props.rule) ? (
-          <label className="ant-form-explain">{getRuleMsg(props.rule, title)}</label>
+        {invalidCalc || (!validateState && rule) ? (
+          <label className="ant-form-explain">{getRuleMsg(rule, title)}</label>
         ) : (
           (__block || block) && (
             <label

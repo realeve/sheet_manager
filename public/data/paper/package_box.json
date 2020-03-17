@@ -3,8 +3,7 @@
   "api": {
     "insert": {},
     "delete": {},
-    "update": {},
-    "query": {},
+    "update": {}, 
     "load": {}
   },
   "table": "package_box",
