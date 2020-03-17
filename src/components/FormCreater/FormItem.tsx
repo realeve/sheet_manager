@@ -20,6 +20,7 @@ const { TextArea } = Input;
 
 export const handleScope = (value, option) => {
   let item = R.find(R.propEq('value', value))(option);
+  
   return {
     scope: (item && item.scope) || [],
     hide: (item && item.hide) || [], // 需要隐藏的字段
@@ -56,7 +57,7 @@ export default function formItem({
 
   const isInput = ['input', 'input.number'].includes(type);
 
-  let scopeDetail = isInput ? R.find(R.propEq('key', key))(scope) : false;
+  let scopeDetail = R.find(R.propEq('key', key))(scope);
 
   // scope中注入一些参数
   let {
@@ -132,7 +133,6 @@ export default function formItem({
         ['ant-form-item-has-error']: !validateState || invalidCalc,
         ['ant-form-item-has-warning']: !validateScope,
       })}
-
     >
       <span
         className={cx('title', {
@@ -142,7 +142,7 @@ export default function formItem({
         {isQueryKey && <span title="索引字段:录入所有索引字段后可点击载入历史数据">🔍</span>}
         {increase && <span title="自增字段:录入后，下次信息将按规则自动增加">⬆</span>}
         {rule && rule.calc && <span title="关联计算:与其它字段一起计算关联规则">🔗</span>}
-        {unReset && <span title="固定字段:录入后字段值保持，不清空">📌</span> }
+        {unReset && <span title="固定字段:录入后字段值保持，不清空">📌</span>}
         {title}
       </span>
       <div
@@ -227,9 +227,9 @@ export default function formItem({
             value={getValue(props)}
             onChange={(val, scopeItem) => {
               onChange(val);
-              setScope(scopeItem);
+              scopeItem && setScope(scopeItem);
             }}
-            defaultOption={defaultOption}
+            defaultOption={restScope.defaultOption || defaultOption}
             state={state}
             db_key={key}
             style={{ width: '100%' }}
@@ -243,9 +243,9 @@ export default function formItem({
             url={props.url}
             onChange={(val, scopeItem) => {
               onChange(val);
-              setScope(scopeItem);
+              scopeItem && setScope(scopeItem);
             }}
-            defaultOption={defaultOption}
+            defaultOption={restScope.defaultOption || defaultOption}
             {...props}
           />
         )}
@@ -255,9 +255,9 @@ export default function formItem({
             url={props.url}
             onChange={(val, scopeItem) => {
               onChange(val);
-              setScope(scopeItem);
+              scopeItem && setScope(scopeItem);
             }}
-            defaultOption={defaultOption}
+            defaultOption={restScope.defaultOption || defaultOption}
             {...props}
           />
         )}
@@ -266,7 +266,7 @@ export default function formItem({
             value={state}
             url={props.url}
             onChange={value => onChange(value)}
-            defaultOption={defaultOption}
+            defaultOption={restScope.defaultOption || defaultOption}
             {...props}
           />
         )}

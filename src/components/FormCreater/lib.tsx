@@ -173,6 +173,15 @@ export const getRuleMsg = (rule, title = '本字段') => {
 // 处理传入的options选项，适用{name,value}及{id,value}形式
 export const handleOptions = (data, textVal: boolean) =>
   data.map(item => {
+    // 处理只有字符串数组的情况
+    if (lib.getType(item) === 'string') {
+      return {
+        name: item,
+        value: item,
+        label: item,
+      };
+    }
+
     if (item.name) {
       return { ...item, label: item.name };
     } else {

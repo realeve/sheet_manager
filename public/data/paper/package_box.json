@@ -16,32 +16,7 @@
           "title": "产品名称",
           "type": "select",
           "unReset": true,
-          "defaultOption": [
-            {
-              "name": "103-G-2T",
-              "value": "103-G-2T"
-            },
-            {
-              "name": "103-G-2A",
-              "value": "103-G-2A"
-            },
-            {
-              "name": "103-G-3T",
-              "value": "103-G-3T"
-            },
-            {
-              "name": "103-G-4T",
-              "value": "103-G-4T"
-            },
-            {
-              "name": "103-G-6T",
-              "value": "103-G-6T"
-            },
-            {
-              "name": "103-G-7T",
-              "value": "103-G-7T"
-            }
-          ],
+          "defaultOption": ["103-G-2T", "103-G-2A", "103-G-3T", "103-G-4T", "103-G-6T", "103-G-7T"],
           "key": "prod_name",
           "rule": {
             "required": true
@@ -348,11 +323,7 @@
             "required": true,
             "msg": "请输入班别"
           },
-          "defaultOption": [
-            { "name": "白班", "value": "白班" },
-            { "name": "中班", "value": "中班" },
-            { "name": "夜班", "value": "夜班" }
-          ],
+          "defaultOption": ["白班", "中班", "夜班"],
           "placeholder": "请输入班别",
           "unReset": true,
           "span": 6
@@ -361,7 +332,7 @@
           "title": "查纸1",
           "type": "select",
           "url": "80/5a60996975.json",
-
+          "mode": "multiple",
           "key": "user_check_paper1",
           "rule": {
             "required": true
@@ -374,7 +345,7 @@
           "title": "查纸2",
           "type": "select",
           "key": "user_check_paper2",
-
+          "mode": "multiple",
           "rule": {
             "required": true
           },
@@ -386,7 +357,7 @@
           "title": "罩口袋",
           "type": "select",
           "key": "user_package",
-
+          "mode": "multiple",
           "rule": {
             "required": true
           },
@@ -398,7 +369,7 @@
           "title": "记轴号",
           "type": "select",
           "key": "user_record_reel1",
-
+          "mode": "multiple",
           "rule": {
             "required": true
           },
@@ -409,7 +380,8 @@
         {
           "title": "记轴号2",
           "type": "select",
-          "key": "user_record_reel2", 
+          "key": "user_record_reel2",
+          "mode": "multiple",
           "rule": {
             "required": true
           },

@@ -75,6 +75,7 @@ export default function PinyinSelector({
     setSelectedItems(val);
     onChange(val);
   };
+  
   const onSingleChange = value => {
     if (props.mode === 'tags') {
       handleOption(value);
