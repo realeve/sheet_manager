@@ -87,12 +87,15 @@ export default function PinyinSelector({
 
   let [selectVal, setSelectVal] = useState({});
   useEffect(() => {
-    let nextState = props.mode !== 'tags' ? optVal : value;
-    console.log(optVal,value,props.mode)
-   
+    let nextState = props.mode !== 'tags' ? optVal : value;    
     setSelectVal(R.isNil(nextState) ? {} : { value: nextState });
   }, [value, optVal]);
    
+  // 选择项变更时清除历史数据
+  useEffect(()=>{
+    setOptVal([])
+  },[defaultOption])
+  
   return (
     <PinyinSelect
       style={{ width: props.mode === 'multiple' ? 230 : 150 }}
