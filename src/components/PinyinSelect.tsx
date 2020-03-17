@@ -48,17 +48,14 @@ export default function PinyinSelect(props: IProps) {
     ].find(a => a.includes(searchText));
   };
 
-  let { placeholder, options, value, onChange, className, ...prop } = props;
-
+  let { options,  ...prop } = props;
+  
   return (
     <Select
       {...prop}
       showSearch
-      optionFilterProp="children"
-      onChange={onChange}
-      value={R.isNil(value) ? [''] : value}
-      filterOption={onFilter}
-      className={className}
+      optionFilterProp="children"  
+      filterOption={onFilter} 
     >
       {options.map(({ value, name }: OptionItem) => (
         <Option value={value} key={R.isNil(name) ? '' : value}>

@@ -347,6 +347,7 @@ function FormCreater({ config, dispatch }) {
     });
   }, [hideKeys]);
 
+  // -TODO 多选状态下select展示的问题
   console.log(state)
   return (
     <div>
@@ -426,7 +427,6 @@ function FormCreater({ config, dispatch }) {
                         setState({
                           [key]: res,
                         });
-
                         // 如果是“合格”判断的字段，不执行重计算
                         if (key === qualifyKey) {
                           setNeedCalc(false);

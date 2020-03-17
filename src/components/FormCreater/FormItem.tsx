@@ -14,7 +14,7 @@ import classNames from 'classnames/bind';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
-
+import * as lib from '@/utils/lib';
 const cx = classNames.bind(styles);
 const { TextArea } = Input;
 
@@ -108,20 +108,22 @@ export default function formItem({
         setValidateScope(true);
       }
     }
-
-    console.log(val, key,value);
-    // console.log('数据变更');
   };
 
-  const getValue = ({ mode }: { mode: 'multiple' | 'single' | null }) => {
-    let val = state;
-    if (mode === 'multiple') {
-      return val ? val.split(',') : [];
+  const getValue = () => { 
+    let val = state || '';
+    if (props.mode === 'multiple') {
+      return val.length === 0 ? [] : val.split(',');
     }
-    return R.isNil(val) ? null : val;
+    return val;
   };
+
+  useEffect(() => {
+    console.log(scopeDetail, 'scopedetail updated');
+    setState('');
+  }, [scopeDetail]);
+
   let invalidCalc = calcValid.key === key && !calcValid.status;
- 
 
   return (
     <Col
@@ -225,7 +227,7 @@ export default function formItem({
         {type === 'select' && (
           <PinyinSelector
             url={props.url}
-            value={getValue(props)}
+            value={getValue()}
             onChange={(val, scopeItem) => {
               onChange(val);
               scopeItem && setScope(scopeItem);

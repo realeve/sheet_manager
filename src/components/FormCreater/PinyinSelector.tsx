@@ -32,7 +32,7 @@ export default function PinyinSelector({
     textVal,
     cascade,
   });
-  const [optVal, setOptVal] = useState();
+  const [optVal, setOptVal] = useState([]);
   useEffect(() => {
     let detail = R.filter(item =>
       props.mode === 'multiple' ? value.includes(String(item.value)) : item.value == value
@@ -48,12 +48,12 @@ export default function PinyinSelector({
   let [selectedItems, setSelectedItems] = useState([]);
 
   const [option, setOption] = useState([]);
-  
+
   useEffect(() => {
     let res = options.filter(o => !selectedItems.includes(o.value));
     setOption(res);
   }, [options, selectedItems]);
-
+   
   const handleOption = value => {
     if (R.isNil(value) || props.mode !== 'tags') {
       return;
@@ -76,7 +76,7 @@ export default function PinyinSelector({
     setSelectedItems(val);
     onChange(val);
   };
-  
+
   const onSingleChange = value => {
     if (props.mode === 'tags') {
       handleOption(value);
@@ -85,22 +85,21 @@ export default function PinyinSelector({
     onChange(value, handleScope(value, options));
   };
 
-  let selectVal =
-    props.mode !== 'tags'
-      ? R.isNil(optVal)
-        ? {}
-        : { value: optVal }
-      : R.isNil(value)
-      ? {}
-      : { value };
+  let [selectVal, setSelectVal] = useState({});
+  useEffect(() => {
+    let nextState = props.mode !== 'tags' ? optVal : value;
+   
+    setSelectVal(R.isNil(nextState) ? {} : { value: [] });
+  }, [value, optVal]);
+   
+
   return (
     <PinyinSelect
       style={{ width: props.mode === 'multiple' ? 230 : 150 }}
-      {...selectVal}
       onChange={props.mode === 'multiple' ? onMultipleChange : onSingleChange}
       options={cascade && R.isNil(params[cascade]) ? [] : option}
       placeholder="拼音首字母过滤"
-      {...props}
+      {...props} 
     />
   );
 }
