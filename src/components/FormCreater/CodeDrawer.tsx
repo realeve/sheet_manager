@@ -51,6 +51,7 @@ export default function codeDrawer({
     }
     (async () => {
       let res = R.compose(
+        R.reject(R.propEq('key', 'ignoreIncrese')),
         R.flatten,
         R.map(item => item.detail)
       )(formConfig.detail);
@@ -142,7 +143,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       });
     }
   };
-
+ 
   return (
     <Drawer
       placement="right"

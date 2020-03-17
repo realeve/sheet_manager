@@ -215,9 +215,11 @@ delimiter ;
 
 export const getCreate = config => {
   let res = R.compose(
+    R.reject(R.propEq('key', 'ignoreIncrese')),
     R.flatten,
     R.map(item => item.detail)
-  )(config.detail);
+  )(config.detail); 
+
   let keyStrs = res.map(item => {
     let key = item.key;
     if (item.type.includes('date')) {
@@ -281,9 +283,11 @@ ${getDescByField('id', '主ID')}`;
 
 export const getApi = (config, nonce) => {
   let res = R.compose(
+    R.reject(R.propEq('key', 'ignoreIncrese')),
     R.flatten,
     R.map(item => item.detail)
-  )(config.detail);
+  )(config.detail); 
+
   let keyStrs = res.map(item => item.key);
 
   let param = {
@@ -375,7 +379,7 @@ export const getApiConfig = async (formConfig, nonce) => {
   let keys = ['insert', 'delete', 'update', 'query', 'table', 'load'];
   let res = {};
 
-  let { maxid } = await getSysApi().then(res => res.data[0]);
+  let { maxid } = await getSysApi().then(res => res.data[0]) 
   maxid = parseInt(maxid);
   keys.forEach((key, idx) => {
     res[key] = {
