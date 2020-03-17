@@ -20,7 +20,7 @@ const { TextArea } = Input;
 
 export const handleScope = (value, option) => {
   let item = R.find(R.propEq('value', value))(option);
-  
+
   return {
     scope: (item && item.scope) || [],
     hide: (item && item.hide) || [], // 需要隐藏的字段
@@ -109,7 +109,7 @@ export default function formItem({
       }
     }
 
-    // console.log(val, key);
+    console.log(val, key,value);
     // console.log('数据变更');
   };
 
@@ -121,6 +121,7 @@ export default function formItem({
     return R.isNil(val) ? null : val;
   };
   let invalidCalc = calcValid.key === key && !calcValid.status;
+ 
 
   return (
     <Col

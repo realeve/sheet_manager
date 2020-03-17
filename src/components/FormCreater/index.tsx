@@ -347,6 +347,7 @@ function FormCreater({ config, dispatch }) {
     });
   }, [hideKeys]);
 
+  console.log(state)
   return (
     <div>
       <CodeDrawer
@@ -437,8 +438,24 @@ function FormCreater({ config, dispatch }) {
                       setScope={({ scope: nextScope, hide }) => {
                         let keys = R.map(R.prop('key'))(nextScope); 
                         let prevScope = R.reject(item => keys.includes(item.key))(scope); 
-                        setScope([...prevScope, ...nextScope]);
+                        let nextState= [...prevScope, ...nextScope];
+
+                        // 如果nextScope中存在默认选择项，此时清空对应的项
+                        let changedState = {};
+                        let status = false;
+                        nextScope.forEach(item=>{
+                          if(item.defaultOption){
+                            changedState[item.key] = '';
+                            status = true;
+                          }
+                        })
+                        console.log(changedState)
+                         
+                        setScope(nextState);
                         setHideKeys(hide);
+                        if(status){
+                          setState(changedState)
+                        }
                       }}
                     />
                   )

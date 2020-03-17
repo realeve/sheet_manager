@@ -48,6 +48,7 @@ export default function PinyinSelector({
   let [selectedItems, setSelectedItems] = useState([]);
 
   const [option, setOption] = useState([]);
+  
   useEffect(() => {
     let res = options.filter(o => !selectedItems.includes(o.value));
     setOption(res);
