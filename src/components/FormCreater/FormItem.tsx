@@ -132,15 +132,17 @@ export default function formItem({
         ['ant-form-item-has-error']: !validateState || invalidCalc,
         ['ant-form-item-has-warning']: !validateScope,
       })}
+
     >
       <span
         className={cx('title', {
           required: rule && rule.required,
         })}
       >
-        {isQueryKey && <span title="索引字段">🔍</span>}
-        {increase && <span title="自增字段">⬆</span>}
-        {rule && rule.calc && <span title="关联计算">🔗</span>}
+        {isQueryKey && <span title="索引字段:录入所有索引字段后可点击载入历史数据">🔍</span>}
+        {increase && <span title="自增字段:录入后，下次信息将按规则自动增加">⬆</span>}
+        {rule && rule.calc && <span title="关联计算:与其它字段一起计算关联规则">🔗</span>}
+        {unReset && <span title="固定字段:录入后字段值保持，不清空">📌</span> }
         {title}
       </span>
       <div

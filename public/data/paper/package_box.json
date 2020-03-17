@@ -3,7 +3,7 @@
   "api": {
     "insert": {},
     "delete": {},
-    "update": {}, 
+    "update": {},
     "load": {}
   },
   "table": "package_box",
@@ -149,8 +149,9 @@
               "scope": [
                 {
                   "key": "ream_count",
-                  "max": 10,
-                  "min": 0
+                  "max": 20,
+                  "min": 0,
+                  "defaultValue": 10
                 }
               ],
               "hide": ["patch_no", "box_no", "pallet_no"]
@@ -162,7 +163,8 @@
                 {
                   "key": "ream_count",
                   "max": 36,
-                  "min": 0
+                  "min": 0,
+                  "defaultValue": 36
                 }
               ],
               "hide": ["cart_num"]
@@ -170,7 +172,7 @@
           ],
           "rule": {
             "required": true
-          }, 
+          },
           "unReset": true,
           "span": 6
         },
@@ -253,7 +255,7 @@
             "type": "reel",
             "required": true
           },
-          "span": 4,
+          "span": 6,
           "toupper": "true"
         },
         {
@@ -266,7 +268,7 @@
             "required": true,
             "msg": "小计令数与记录详情校验失败，两者和不相等"
           },
-          "span": 4,
+          "span": 6,
           "defaultValue": 0
         },
         {
@@ -276,7 +278,7 @@
           "rule": {
             "type": "reel"
           },
-          "span": 4,
+          "span": 6,
           "toupper": "true"
         },
         {
@@ -286,7 +288,7 @@
           "rule": {
             "type": "int"
           },
-          "span": 4,
+          "span": 6,
           "defaultValue": 0
         },
         {
@@ -296,7 +298,7 @@
           "rule": {
             "type": "reel"
           },
-          "span": 4,
+          "span": 6,
           "toupper": "true"
         },
         {
@@ -306,7 +308,7 @@
           "rule": {
             "type": "int"
           },
-          "span": 4,
+          "span": 6,
           "defaultValue": 0
         },
 
@@ -317,7 +319,7 @@
           "rule": {
             "type": "reel"
           },
-          "span": 4,
+          "span": 6,
           "toupper": "true"
         },
         {
@@ -327,7 +329,7 @@
           "rule": {
             "type": "int"
           },
-          "span": 4,
+          "span": 6,
           "defaultValue": 0
         },
         {
@@ -337,7 +339,7 @@
           "rule": {
             "type": "reel"
           },
-          "span": 4,
+          "span": 6,
           "toupper": "true"
         },
         {
@@ -347,7 +349,7 @@
           "rule": {
             "type": "int"
           },
-          "span": 4,
+          "span": 6,
           "defaultValue": 0
         },
         {
@@ -357,7 +359,7 @@
           "rule": {
             "type": "reel"
           },
-          "span": 4,
+          "span": 6,
           "toupper": "true"
         },
         {
@@ -367,7 +369,7 @@
           "rule": {
             "type": "int"
           },
-          "span": 4,
+          "span": 6,
           "defaultValue": 0
         },
         {
@@ -377,7 +379,7 @@
           "rule": {
             "type": "reel"
           },
-          "span": 4,
+          "span": 6,
           "toupper": "true"
         },
         {
@@ -387,7 +389,7 @@
           "rule": {
             "type": "int"
           },
-          "span": 4,
+          "span": 6,
           "defaultValue": 0
         },
         {
@@ -397,7 +399,7 @@
           "rule": {
             "type": "reel"
           },
-          "span": 4,
+          "span": 6,
           "toupper": "true"
         },
         {
@@ -407,7 +409,7 @@
           "rule": {
             "type": "int"
           },
-          "span": 4,
+          "span": 6,
           "defaultValue": 0
         },
         {
@@ -417,7 +419,7 @@
           "rule": {
             "type": "reel"
           },
-          "span": 4,
+          "span": 6,
           "toupper": "true"
         },
         {
@@ -427,7 +429,7 @@
           "rule": {
             "type": "int"
           },
-          "span": 4,
+          "span": 6,
           "defaultValue": 0
         },
         {
