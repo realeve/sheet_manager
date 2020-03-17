@@ -88,11 +88,11 @@ export default function PinyinSelector({
   let [selectVal, setSelectVal] = useState({});
   useEffect(() => {
     let nextState = props.mode !== 'tags' ? optVal : value;
+    console.log(optVal,value,props.mode)
    
-    setSelectVal(R.isNil(nextState) ? {} : { value: [] });
+    setSelectVal(R.isNil(nextState) ? {} : { value: nextState });
   }, [value, optVal]);
    
-
   return (
     <PinyinSelect
       style={{ width: props.mode === 'multiple' ? 230 : 150 }}
@@ -100,6 +100,7 @@ export default function PinyinSelector({
       options={cascade && R.isNil(params[cascade]) ? [] : option}
       placeholder="拼音首字母过滤"
       {...props} 
+      {...selectVal}
     />
   );
 }

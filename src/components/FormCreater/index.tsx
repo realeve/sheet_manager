@@ -93,7 +93,6 @@ function FormCreater({ config, dispatch }) {
     if (config.api && config.api.query && config.api.query.param) {
       setQueryKey(config.api.query.param);
     }
-    console.log('config变更：', config);
 
     config.detail.forEach(({ detail }) => {
       detail.forEach(item => {
@@ -347,6 +346,27 @@ function FormCreater({ config, dispatch }) {
     });
   }, [hideKeys]);
 
+  const updateScope = ({ scope: nextScope, hide }) => {
+    let keys = R.map(R.prop('key'))(nextScope); 
+    let prevScope = R.reject(item => keys.includes(item.key))(scope); 
+    let nextState= [...prevScope, ...nextScope];
+
+    // 如果nextScope中存在默认选择项，此时清空对应的项
+    let changedState = {};
+    let status = false;
+    nextScope.forEach(item=>{
+      if(item.defaultOption){
+        changedState[item.key] = '';
+        status = true;
+      }
+    })                         
+    setScope(nextState);
+    setHideKeys(hide);
+    if(status){
+      setState(changedState)
+    }
+  }
+
   // -TODO 多选状态下select展示的问题
   console.log(state)
   return (
@@ -427,6 +447,8 @@ function FormCreater({ config, dispatch }) {
                         setState({
                           [key]: res,
                         });
+                        console.log({[key]:res})
+
                         // 如果是“合格”判断的字段，不执行重计算
                         if (key === qualifyKey) {
                           setNeedCalc(false);
@@ -435,28 +457,7 @@ function FormCreater({ config, dispatch }) {
                       setFormstatus={setFormstatus}
                       detail={detail}
                       scope={scope}
-                      setScope={({ scope: nextScope, hide }) => {
-                        let keys = R.map(R.prop('key'))(nextScope); 
-                        let prevScope = R.reject(item => keys.includes(item.key))(scope); 
-                        let nextState= [...prevScope, ...nextScope];
-
-                        // 如果nextScope中存在默认选择项，此时清空对应的项
-                        let changedState = {};
-                        let status = false;
-                        nextScope.forEach(item=>{
-                          if(item.defaultOption){
-                            changedState[item.key] = '';
-                            status = true;
-                          }
-                        })
-                        console.log(changedState)
-                         
-                        setScope(nextState);
-                        setHideKeys(hide);
-                        if(status){
-                          setState(changedState)
-                        }
-                      }}
+                      setScope={updateScope}
                     />
                   )
               )}

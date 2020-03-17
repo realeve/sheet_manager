@@ -114,14 +114,14 @@ export default function formItem({
     let val = state || '';
     if (props.mode === 'multiple') {
       return val.length === 0 ? [] : val.split(',');
-    }
-    return val;
+    } 
+    return [val];
   };
 
-  useEffect(() => {
-    console.log(scopeDetail, 'scopedetail updated');
-    setState('');
-  }, [scopeDetail]);
+  // useEffect(() => {
+  //   console.log(scopeDetail, 'scopedetail updated');
+  //   setState('');
+  // }, [scopeDetail]);
 
   let invalidCalc = calcValid.key === key && !calcValid.status;
 
@@ -227,7 +227,6 @@ export default function formItem({
         {type === 'select' && (
           <PinyinSelector
             url={props.url}
-            value={getValue()}
             onChange={(val, scopeItem) => {
               onChange(val);
               scopeItem && setScope(scopeItem);
@@ -237,6 +236,7 @@ export default function formItem({
             db_key={key}
             style={{ width: '100%' }}
             {...props}
+            value={getValue()}
             cascade={cascade}
           />
         )}

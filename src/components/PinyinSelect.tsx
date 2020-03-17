@@ -50,6 +50,7 @@ export default function PinyinSelect(props: IProps) {
 
   let { options,  ...prop } = props;
   
+  // 使用value属性，调整受控组件
   return (
     <Select
       {...prop}
