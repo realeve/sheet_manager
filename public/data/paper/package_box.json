@@ -1,12 +1,24 @@
 {
   "name": "钞纸成品装箱记录",
   "api": {
-    "insert": {},
-    "delete": {},
-    "update": {},
-    "load": {}
+   
+    "insert": {
+      "url": "875/fqp2l23ubm",
+      "param": ["rec_time"]
+    }, 
+    "update": {
+      "url": "877/fqp2l23ubm",
+      "param": ["cart_num","pallet_no"]
+    }, 
+    "table": {
+      "url": "879/fqp2l23ubm"
+    },
+    "load": {
+      "url": "880/fqp2l23ubm",
+      "param": ["_id"]
+    }
   },
-  "table": "package_box",
+  "table": "paper_package_box",
   "beforeInsert": "/data/paper/package_box.js",
   "detail": [
     {
@@ -331,7 +343,6 @@
         {
           "title": "查纸1",
           "type": "select",
-          "url": "80/5a60996975.json",
           "mode": "multiple",
           "key": "user_check_paper1",
           "rule": {
@@ -484,7 +495,8 @@
             "required": true
           },
           "span": 6,
-          "defaultValue": 0
+          "defaultValue": 0,
+          "unReset": true
         },
         {
           "title": "关闭数据自增",

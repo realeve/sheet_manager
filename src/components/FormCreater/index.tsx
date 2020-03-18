@@ -166,6 +166,8 @@ function FormCreater({ config, dispatch }) {
 
     // 单独运算的字段处理
     let calcStatus = validCalcKeys(state, calcFields, config,setCalcValid);
+    
+    console.log('数据状态',validStatus,required,calcStatus);
 
     setFormstatus(validStatus && required && calcStatus);
   }, [state]);

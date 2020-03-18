@@ -43,6 +43,7 @@ export const validRequire = (requiredFileds, state) => {
   requiredFileds.forEach(key => {
     if (R.isNil(state[key])) {
       status = false;
+      console.log(key+'校验未通过',requiredFileds)
     }
   });
   return status;
@@ -511,7 +512,7 @@ export let validCalcKeys = (state, fields, config, setCalcValid) => {
         }
       }
     });
-    console.log(calc, _state);
+    // console.log(calc, _state);
 
     status = mathjs.evaluate(calc, _state);
     setCalcValid({

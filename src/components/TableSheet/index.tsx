@@ -5,8 +5,7 @@ import 'handsontable/languages/zh-CN';
 import * as lib from '@/utils/lib';
 import * as R from 'ramda';
 import * as setting from '@/utils/setting';
-import qs from 'qs';
-import styles from './index.less';
+import qs from 'qs'; 
 
 /**
  * wiki: https://handsontable.com/docs/7.2.2/Options.html#mergeCells
@@ -182,7 +181,7 @@ const TableSheet = ({ data, onFilter, beforeRender = e => e, sheetHeight }) => {
   }, [data.hash]);
 
   return React.useMemo(
-    () => <HotTable className={styles.tableSheet} ref={hotTable} settings={config} />,
+    () => <HotTable ref={hotTable} settings={config} />,
     [config]
   );
 };
