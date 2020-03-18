@@ -1,7 +1,8 @@
 import * as lib from '@/utils/lib';
 import * as R from 'ramda';
 import qs from 'qs';
-import { axios } from '@/utils/axios';
+import { axios, mockData } from '@/utils/axios';
+import { DEV } from '@/utils/setting';
 import * as mathjs from 'mathjs';
 
 // 处理数据
@@ -198,9 +199,11 @@ export const handleOptions = (data, textVal: boolean) =>
  *   @desc:     { api接口最大id }
  */
 export const getSysApi = () =>
-  axios({
-    url: '/6/2b9eaaabc3.json',
-  });
+  DEV
+    ? mockData({ data: [{ maxid: 12 }] })
+    : axios({
+        url: '/6/2b9eaaabc3.json',
+      });
 
 /**
 // 更新触发器 
@@ -218,7 +221,7 @@ export const getCreate = config => {
     R.reject(R.propEq('key', 'ignoreIncrese')),
     R.flatten,
     R.map(item => item.detail)
-  )(config.detail); 
+  )(config.detail);
 
   let keyStrs = res.map(item => {
     let key = item.key;
@@ -286,7 +289,7 @@ export const getApi = (config, nonce) => {
     R.reject(R.propEq('key', 'ignoreIncrese')),
     R.flatten,
     R.map(item => item.detail)
-  )(config.detail); 
+  )(config.detail);
 
   let keyStrs = res.map(item => item.key);
 
@@ -379,7 +382,7 @@ export const getApiConfig = async (formConfig, nonce) => {
   let keys = ['insert', 'delete', 'update', 'query', 'table', 'load'];
   let res = {};
 
-  let { maxid } = await getSysApi().then(res => res.data[0]) 
+  let { maxid } = await getSysApi().then(res => res.data[0]);
   maxid = parseInt(maxid);
   keys.forEach((key, idx) => {
     res[key] = {
