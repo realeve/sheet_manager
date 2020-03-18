@@ -88,10 +88,13 @@ function FormCreater({ config, dispatch }) {
     let nextFields = {};
     let observeKey = null;
     let calcFields = [];
-    
 
-    if (config.api && config.api.query && config.api.query.param) {
-      setQueryKey(config.api.query.param);
+    if (
+      config.api &&
+      ((config.api.query && config.api.query.param) ||
+        (config.api.update && config.api.update.param))
+    ) {
+      setQueryKey((config.api.query || config.api.update).param);
     }
 
     config.detail.forEach(({ detail }) => {
@@ -135,7 +138,7 @@ function FormCreater({ config, dispatch }) {
     setCalcValid({
       key: '',
       status: true,
-    })
+    });
 
     dispatch({
       type: 'common/setStore',
@@ -144,13 +147,11 @@ function FormCreater({ config, dispatch }) {
       },
     });
 
-
     reFetch();
   }, [config]);
 
   // 表单字段当前状态判断
   const [formstatus, setFormstatus] = useState(false);
-
 
   useEffect(() => {
     if (!Object.keys(state).length) {
@@ -165,9 +166,9 @@ function FormCreater({ config, dispatch }) {
     let validStatus = Object.values(validateState).filter(item => !item).length == 0;
 
     // 单独运算的字段处理
-    let calcStatus = validCalcKeys(state, calcFields, config,setCalcValid);
-    
-    console.log('数据状态',validStatus,required,calcStatus);
+    let calcStatus = validCalcKeys(state, calcFields, config, setCalcValid);
+
+    // console.log('数据状态',validStatus,required,calcStatus);
 
     setFormstatus(validStatus && required && calcStatus);
   }, [state]);
@@ -178,12 +179,33 @@ function FormCreater({ config, dispatch }) {
   const [scope, setScope] = useState([]);
   const [hideKeys, setHideKeys] = useState([]);
 
+  const shouldRefreshHistoryData = () => {
+    let status =
+      formConfig.api.table && formConfig.api.table.url && formConfig.api.table.url.length > 0;
+    if (status) {
+      let params = (formConfig.api.table.param||[]).filter(item=>!hideKeys.includes(item));
+      console.log(params)
+      if (params.length>0) {
+        // 根据参数列表取值    
+        params.forEach(key => {
+          let item = state[key];
+          if (typeof item === 'undefined' || String(item).length === 0) {
+            status = false;
+          }
+        });
+      }
+    }
+    console.log(status)
+    return status;
+  };
+
+  // 底部table支持注入查询参数
   const { data: tblData, loading, reFetch } = useFetch({
     param: {
       url: getUrl(formConfig),
+      params: R.pick(formConfig.api.table.param || [])(state),
     },
-    valid: () =>
-      formConfig.api.table && formConfig.api.table.url && formConfig.api.table.url.length > 0,
+    valid: shouldRefreshHistoryData,
   });
 
   // 设置不合格数据
@@ -349,25 +371,25 @@ function FormCreater({ config, dispatch }) {
   }, [hideKeys]);
 
   const updateScope = ({ scope: nextScope, hide }) => {
-    let keys = R.map(R.prop('key'))(nextScope); 
-    let prevScope = R.reject(item => keys.includes(item.key))(scope); 
-    let nextState= [...prevScope, ...nextScope];
+    let keys = R.map(R.prop('key'))(nextScope);
+    let prevScope = R.reject(item => keys.includes(item.key))(scope);
+    let nextState = [...prevScope, ...nextScope];
 
     // 如果nextScope中存在默认选择项，此时清空对应的项
     let changedState = {};
     let status = false;
-    nextScope.forEach(item=>{
-      if(item.defaultOption){
+    nextScope.forEach(item => {
+      if (item.defaultOption) {
         changedState[item.key] = '';
         status = true;
       }
-    })                         
+    });
     setScope(nextState);
     setHideKeys(hide);
-    if(status){
-      setState(changedState)
+    if (status) {
+      setState(changedState);
     }
-  }
+  };
 
   return (
     <div>
@@ -425,6 +447,10 @@ function FormCreater({ config, dispatch }) {
                       insert: 'update',
                       update: 'insert',
                     };
+
+                    //注入 _id 字段
+                    setState({ _id: param._id });
+
                     setEditMethod(status[editMethod]);
                   }}
                 />
@@ -474,6 +500,7 @@ function FormCreater({ config, dispatch }) {
                   remark={remark}
                   onReset={onReset}
                   score={totalScore}
+                  hideKeys={hideKeys}
                 />
               )}
             </Row>

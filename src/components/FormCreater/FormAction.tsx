@@ -26,6 +26,7 @@ function formAction({
   remark,
   onReset: resetForm, //重置
   score, // 总分
+  hideKeys,
 }) {
   // 当前数据提交状态，提交时禁止重复提交
   const [submitting, setSubmitting] = useState(false);
@@ -77,6 +78,7 @@ function formAction({
     if (!loadOption.url) {
       return;
     }
+    console.log(loadOption);
 
     axios(loadOption).then(({ data }) => {
       notification.success({
@@ -96,6 +98,7 @@ function formAction({
           res[key] = Number(res[key]).toFixed(2);
         }
       });
+      // res._id =
       formInstance.set(res);
 
       setEditMethod('update');
@@ -221,8 +224,7 @@ function formAction({
       return;
     }
 
-    let params = formInstance.get();
-    console.log(params);
+    let params = formInstance.get(); 
 
     let axiosConfig = getPostData({ config, params, editMethod: editType, uid });
     console.log('插入/更新数据', axiosConfig);
@@ -252,11 +254,14 @@ function formAction({
       return;
     }
     let valid = true;
+
+    // 2020/3/18 数据载入时不必要求字段必须显示
     formConfig.api.query.param.forEach(key => {
-      if (state[key] === '' || R.isNil(state[key])) {
+      if (!hideKeys.includes(key) && (state[key] === '' || R.isNil(state[key]))) {
         valid = false;
       }
     });
+
     setShouldLoad(valid);
   }, [formConfig, state]);
 

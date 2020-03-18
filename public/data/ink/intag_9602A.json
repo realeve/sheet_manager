@@ -41,7 +41,7 @@
         },
         {
           "title": "油墨名称",
-          "type": "radio.button",
+          "type": "select",
           "key": "ink_name",
           "unReset": true,
           "rule": {

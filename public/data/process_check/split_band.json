@@ -183,16 +183,7 @@
           "title": "烫头号",
           "type": "radio.button",
           "key": "print_head_sn",
-          "defaultOption": [
-            {
-              "name": "1#",
-              "value": "1#"
-            },
-            {
-              "name": "2#",
-              "value": "2#"
-            }
-          ]
+          "defaultOption": ["1#", "2#", "3#", "4#", "5#"]
         }
       ]
     },

@@ -1,20 +1,24 @@
 {
   "name": "钞纸成品装箱记录",
   "api": {
-   
     "insert": {
-      "url": "875/fqp2l23ubm",
+      "url": "875/8ab54jm40a",
       "param": ["rec_time"]
-    }, 
+    },
     "update": {
-      "url": "877/fqp2l23ubm",
-      "param": ["cart_num","pallet_no"]
-    }, 
+      "url": "876/8ab54jm40a",
+      "param": ["cart_num", "pallet_no"]
+    },
+    "query": {
+      "url": "877/8ab54jm40a",
+      "param": ["cart_num", "pallet_no"]
+    },
     "table": {
-      "url": "879/fqp2l23ubm"
+      "url": "878/8ab54jm40a",
+      "param": ["class_type"]
     },
     "load": {
-      "url": "880/fqp2l23ubm",
+      "url": "879/8ab54jm40a",
       "param": ["_id"]
     }
   },
@@ -28,7 +32,15 @@
           "title": "产品名称",
           "type": "select",
           "unReset": true,
-          "defaultOption": ["103-G-2T", "103-G-2A", "103-G-3T", "103-G-4T", "103-G-6T", "103-G-7T"],
+          "defaultOption": [
+            "103-G-2T",
+            "103-G-2A",
+            "103-G-3TZ",
+            "103-G-4T",
+            "103-G-6T",
+            "103-G-7T",
+            "试验品"
+          ],
           "key": "prod_name",
           "rule": {
             "required": true

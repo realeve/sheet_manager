@@ -43,7 +43,7 @@ export const validRequire = (requiredFileds, state) => {
   requiredFileds.forEach(key => {
     if (R.isNil(state[key])) {
       status = false;
-      console.log(key+'校验未通过',requiredFileds)
+      // console.log(key+'校验未通过',requiredFileds)
     }
   });
   return status;
@@ -299,13 +299,13 @@ export const getApi = (config, nonce) => {
   };
 
   if (config.api.delete) {
-    param.delete = config.api.delete.param || [];
+    param.delete = config.api.delete.param || ['_id'];
   }
   if (config.api.update) {
-    param.update = config.api.update.param || [];
+    param.update = config.api.update.param || ['_id'];
   }
   if (config.api.query) {
-    param.query = config.api.query.param || [];
+    param.query = config.api.query.param || ['_id'];
   }
 
   let condition = key => ({
@@ -316,21 +316,25 @@ export const getApi = (config, nonce) => {
     param: (param[key] || []).join(','),
   });
 
-  let query = `
+  let query = !config.api.query
+    ? ''
+    : `
   -- 数据载入接口
 INSERT INTO sys_api ( nonce, db_id, uid, api_name, sqlstr, param,remark )
 VALUES
   ( '${nonce}','2','1','${config.name}_载入','select  ${keyStrs.join(',')} from  tbl_${
-    config.table
-  }  ${condition('query').where}', '${condition('query').param}','' );`;
+        config.table
+      }  ${condition('query').where}', '${condition('query').param}','' );`;
 
-  let del = `
--- 数据接口删除
-INSERT INTO sys_api ( nonce, db_id, uid, api_name, sqlstr, param,remark )
-VALUES
-  ( '${nonce}','2','1','${config.name}_删除','delete from  tbl_${config.table}  ${
-    condition('delete').where
-  }','${condition('delete').param}','' );`;
+  let del = !config.api.delete
+    ? ''
+    : `
+    -- 数据接口删除
+    INSERT INTO sys_api ( nonce, db_id, uid, api_name, sqlstr, param,remark )
+    VALUES
+      ( '${nonce}','2','1','${config.name}_删除','delete from  tbl_${config.table}  ${
+        condition('delete').where
+      }','${condition('delete').param}','' );`;
 
   // 先过滤条件字段
   let editKeys = keyStrs.filter(item => !(param.update || []).includes(item));
@@ -351,25 +355,38 @@ VALUES
   let addStr = addKeys.map(key => `?`).join(',');
 
   let add = `-- 数据增加接口
-INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr, param ,remark)
-VALUES
-  ( '${nonce}','2','1','${config.name}_添加','insert into  tbl_${config.table}(${addKeys.join(
+  INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr, param ,remark)
+  VALUES
+    ( '${nonce}','2','1','${config.name}_添加','insert into  tbl_${config.table}(${addKeys.join(
     ','
   )}) values(${addStr})','${addKeys.join(',')}','' );`;
 
-  let review = `
--- 查询最近录入的数据
-INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr,remark )
-VALUES
-  ( '${nonce}','2','1','${config.name} 近期录入信息','SELECT top 50 * FROM view_${config.table} ORDER BY 录入时间 desc','' );`;
+  let review = '',
+    load = '';
 
-  const load = `
-  -- 历史数据载入功能
-  INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr,param,remark )
-  VALUES
-    ( '${nonce}','2','1','${config.name} 载入历史数据','SELECT ${keyStrs.join(',')}  FROM tbl_${
-    config.table
-  } where id = ?','_id','' );`;
+  if (config.api.table) {
+    addKeys = config.api.table.param || [];
+    addStr = addKeys.map(key => `${key}=?`).join(' and ');
+    let whereStr = addStr.length === 0 ? ' ' : ` where ${addStr} `;
+
+    review = `
+    -- 查询最近录入的数据
+    INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr,param,remark )
+    VALUES
+      ( '${nonce}','2','1','${config.name} 近期录入信息','SELECT top 50 * FROM view_${
+      config.table
+    } ${whereStr} ORDER BY 录入时间 desc','${(config.table.param || []).join(',')}' ,'');`;
+  }
+
+  if (config.api.load) {
+    load = `
+      -- 历史数据载入功能
+      INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr,param,remark )
+      VALUES
+        ( '${nonce}','2','1','${config.name} 载入历史数据','SELECT ${keyStrs.join(',')}  FROM tbl_${
+      config.table
+    } where id = ?','_id','' );`;
+  }
 
   return [add, del, edit, query, review, load].join('\r\n');
 };
@@ -381,6 +398,9 @@ VALUES
  */
 export const getApiConfig = async (formConfig, nonce) => {
   let keys = ['insert', 'delete', 'update', 'query', 'table', 'load'];
+  let formKeys = Object.keys(formConfig.api);
+  keys = keys.filter(item => formKeys.includes(item));
+
   let res = {};
 
   let { maxid } = await getSysApi().then(res => res.data[0]);
@@ -478,7 +498,7 @@ export const getIncrease: (type: tIncrease, val) => string = (type, str) => {
  */
 export let validCalcKeys = (state, fields, config, setCalcValid) => {
   if (fields.length === 0) {
-    return false;
+    return true;
   }
 
   let cfg = R.flatten(R.map(R.prop('detail'))(config.detail));
