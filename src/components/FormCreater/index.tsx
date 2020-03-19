@@ -35,7 +35,7 @@ const getDefaultList = cfg => {
   return res;
 };
 
-function FormCreater({ config, dispatch }) {
+function FormCreater({ config, hidemenu, dispatch }) {
   // 增加对总分的计算，与scope字段一并处理
   let [state, setState] = useSetState();
   let [totalScore, setTotalScore] = useState(100);
@@ -158,9 +158,9 @@ function FormCreater({ config, dispatch }) {
       setFormstatus(false);
       return;
     }
- 
+
     // 必填字段状态校验(需排除掉隐藏的字段)
-    let required = validRequire( requiredFileds, hideKeys,state);
+    let required = validRequire(requiredFileds, hideKeys, state);
 
     // 正则处理
     let validStatus = Object.values(validateState).filter(item => !item).length == 0;
@@ -183,10 +183,10 @@ function FormCreater({ config, dispatch }) {
     let status =
       formConfig.api.table && formConfig.api.table.url && formConfig.api.table.url.length > 0;
     if (status) {
-      let params = (formConfig.api.table.param||[]).filter(item=>!hideKeys.includes(item));
+      let params = (formConfig.api.table.param || []).filter(item => !hideKeys.includes(item));
       // console.log(params)
-      if (params.length>0) {
-        // 根据参数列表取值    
+      if (params.length > 0) {
+        // 根据参数列表取值
         params.forEach(key => {
           let item = state[key];
           if (typeof item === 'undefined' || String(item).length === 0) {
@@ -309,7 +309,7 @@ function FormCreater({ config, dispatch }) {
           item.url
       ) // label项默认不重置、unReset项不重置、带有defaultValue的项不重置,带有value的项不重置
       // 带有defaultOption及url的下拉项不重置
-    )(cfg); 
+    )(cfg);
 
     if (keys.length === 0) {
       setState(fields);
@@ -320,25 +320,24 @@ function FormCreater({ config, dispatch }) {
 
     let increaseFileds = handleIncrease();
 
-    
     // 提交数据后，新一轮提交状态默认置为false
     let resetFileds = {};
-    requiredFileds.forEach(key=>{
+    requiredFileds.forEach(key => {
       resetFileds[key] = ''; // 先置空，再由其它字段填充
-    })
+    });
 
     let nextFields = {
       ...resetFileds,
       ...fields,
       ...prevFileds,
       ...increaseFileds,
-    }; 
+    };
 
-    console.log(nextFields)
+    console.log(nextFields);
 
     setFields(nextFields);
     setState(nextFields);
-    setTotalScore(100); 
+    setTotalScore(100);
   };
 
   const handleIncrease = () => {
@@ -396,7 +395,7 @@ function FormCreater({ config, dispatch }) {
       }
     });
     setScope(nextState);
-    setHideKeys(hide); 
+    setHideKeys(hide);
     if (status) {
       setState(changedState);
     }
@@ -451,8 +450,9 @@ function FormCreater({ config, dispatch }) {
                       return;
                     }
 
+                    let hidemenuUrl = hidemenu ? '&hidemenu=1' : '';
                     // 关闭载入模式;
-                    router.push('#id=' + param.id);
+                    router.push('#id=' + param.id + hidemenuUrl);
 
                     let status = {
                       insert: 'update',
@@ -532,4 +532,4 @@ function FormCreater({ config, dispatch }) {
   );
 }
 
-export default connect()(FormCreater);
+export default connect(({ common: { hidemenu } }) => ({ hidemenu }))(FormCreater);

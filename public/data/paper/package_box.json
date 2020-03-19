@@ -346,7 +346,7 @@
             "required": true,
             "msg": "请输入班别"
           },
-          "defaultOption": ["白班", "中班", "夜班"],
+          "defaultOption": ["白班", "中班"],
           "placeholder": "请输入班别",
           "unReset": true,
           "span": 6

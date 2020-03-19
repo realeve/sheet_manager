@@ -124,7 +124,7 @@ export const onValidate = (value, rule: IRule | string) => {
     case 'reel_cart':
     case 'reel_patch':
     case 'pallet':
-    case 'phone': 
+    case 'phone':
       status = lib.rules[pattern].test(value);
       break;
     default:
@@ -424,13 +424,15 @@ export const beforeSheetRender = ({ columns, ...config }) => {
     return { columns, ...config };
   }
   let item = R.nth(idx, colConfig);
-  let { hash } = window.location;
+  let { hash, href } = window.location;
   let param = qs.parse(hash.slice(1));
   let id = param.id;
+  let hideMenu = href.includes('hidemenu=1') ? '&hidemenu=1' : '';
 
   item.renderer = (hotInstance, TD, row, col, prop, _id) => {
     TD.innerHTML = _id
-      ? `<a href="#id=${id}&_id=${_id}"  style="text-decoration:none;margin:3px;" class="ant-btn ant-btn-primary"> 载入 </a>`
+      ? `<a href="#id=${id}&_id=${_id +
+          hideMenu}"  style="text-decoration:none;margin:3px;" class="ant-btn ant-btn-primary"> 载入 </a>`
       : '';
   };
   item.title = '操作';

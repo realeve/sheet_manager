@@ -79,14 +79,14 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       let jsonCfg = await getApiConfig(R.clone(formConfig), nonce);
 
       let { maxid } = await getSysApi().then(res => res.data[0]);
-      console.log(api);
-      console.log(
-        JSON.stringify({
-          load: { url: `${maxid}/${nonce}.json`, param: ['_id'] },
-        })
-          .replace('{', ',')
-          .slice(0, -1)
-      );
+    
+      // console.log(
+      //   JSON.stringify({
+      //     load: { url: `${maxid}/${nonce}.json`, param: ['_id'] },
+      //   })
+      //     .replace('{', ',')
+      //     .slice(0, -1)
+      // );
 
       setSql({
         select,
@@ -95,7 +95,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         json: beautify(JSON.stringify(jsonCfg), beautyOption),
         view: `
     CREATE VIEW  view_${formConfig.table} AS
-      SELECT id,
+      SELECT id,CONVERT ( VARCHAR, rec_time, 120 ) 录入时间,
       ${res
         .map(item => {
           let keyName = item.key;
@@ -119,8 +119,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
           }
           return `${keyName} ${item.title}`;
         })
-        .join(',\r\n        ')},
-    CONVERT ( VARCHAR, rec_time, 120 ) 录入时间
+        .join(',\r\n        ')} 
       FROM
       tbl_${formConfig.table};
       EXEC sp_addextendedproperty
