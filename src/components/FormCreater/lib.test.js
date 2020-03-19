@@ -27,7 +27,7 @@ test('数据转换处理', () => {
 });
 
 test('判断必填字段完整性', () => {
-  expect(validRequire(['a', 'b'], { a: 2 })).toBeFalsy();
+  expect(validRequire(['a', 'b', 'c'], ['c'], { a: 2 })).toBeFalsy();
 });
 
 test('处理提交至数据库后台的数据', () => {

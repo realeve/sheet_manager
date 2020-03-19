@@ -38,10 +38,11 @@ export let getUrl = obj => {
 };
 
 // 校验 required
-export const validRequire = (requiredFileds, state) => {
+export const validRequire = (requiredFileds, hideKeys, state) => {
   let status: boolean = true;
-  requiredFileds.forEach(key => {
-    if (R.isNil(state[key])) {
+  let keys = R.without(hideKeys, requiredFileds);
+  keys.forEach(key => {
+    if (R.isNil(state[key]) || String(state[key]).length === 0) {
       status = false;
       // console.log(key+'校验未通过',requiredFileds)
     }

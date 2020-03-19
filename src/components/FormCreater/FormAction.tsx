@@ -215,7 +215,7 @@ function formAction({
     }
 
     // 必填数据是否填写
-    let status = validRequire(requiredFileds, state);
+    let status = validRequire(requiredFileds, hideKeys,state);
     if (!status) {
       notification.error({
         message: '系统提示',
