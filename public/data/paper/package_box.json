@@ -22,8 +22,7 @@
       "param": ["_id"]
     }
   },
-  "table": "paper_package_box",
-  "beforeInsert": "/data/paper/package_box.js",
+  "table": "paper_package_box", 
   "detail": [
     {
       "title": "基础数据",

@@ -7,6 +7,7 @@ import * as lib from '@/utils/lib';
 
 const callback = res => {
   // 集中处理detail字段，对其中scope字段一个key有多个字段的数据打散
+ 
   res.detail = res.detail.map(detail => {
     detail.detail = detail.detail.map(item => {
       if (!item.defaultOption) {

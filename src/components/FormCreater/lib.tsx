@@ -122,13 +122,10 @@ export const onValidate = (value, rule: IRule | string) => {
       status = lib.isFloat(value);
       break;
     case 'reel_cart':
-      status = lib.rules.reel_cart.test(value);
-      break;
     case 'reel_patch':
-      status = lib.rules.reel_patch.test(value);
-      break;
     case 'pallet':
-      status = lib.rules.pallet.test(value);
+    case 'phone': 
+      status = lib.rules[pattern].test(value);
       break;
     default:
       break;
@@ -320,10 +317,10 @@ export const getApi = (config, nonce) => {
   let query = !config.api.query
     ? ''
     : `
-  -- 数据载入接口
+  -- 数据载入接口(此处将id转为_id，注入查询结果，用于数据更新)
 INSERT INTO sys_api ( nonce, db_id, uid, api_name, sqlstr, param,remark )
 VALUES
-  ( '${nonce}','2','1','${config.name}_载入','select  ${keyStrs.join(',')} from  tbl_${
+  ( '${nonce}','2','1','${config.name}_载入','select id _id, ${keyStrs.join(',')} from  tbl_${
         config.table
       }  ${condition('query').where}', '${condition('query').param}','' );`;
 

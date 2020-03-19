@@ -93,13 +93,14 @@ function formAction({
       let res = data[0];
       Object.keys(res).map(key => {
         // console.log(res[key]);
-        res[key] = res[key] ? res[key].trim() : '';
+        res[key] = res[key] ? String(res[key]).trim() : '';
         if (lib.isFloat(res[key])) {
-          res[key] = Number(res[key]).toFixed(2);
+          res[key] = Number(res[key]);//.toFixed(2);
         }
-      });
-      // res._id =
+      }); 
       formInstance.set(res);
+
+      console.log(res);
 
       setEditMethod('update');
     });

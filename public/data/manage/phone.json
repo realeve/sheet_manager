@@ -1,0 +1,77 @@
+{
+  "name": "成钞信息网电话编辑",
+  "api": {
+    "insert": {
+      "url": "885/54a3a8056f" 
+    },
+    "update": {
+      "url": "882/0b8b622c5a",
+      "param": ["_id"]
+    },
+    "query": {
+      "url": "881/8fb28673fd",
+      "param": ["dept_id", "username"]
+    },
+    "table": {
+      "url": "883/ef552d0572",
+      "param": ["dept_id"]
+    },
+    "load": {
+      "url": "884/27f9eae0ad",
+      "param": ["_id"]
+    }
+  },
+  "table": "base_phone",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "部门",
+          "type": "select",
+          "key": "dept_id",
+          "url": "880/6bcd815737",
+          "rule": {
+            "required": true
+          },
+          "placeholder": "请选择部门信息",
+          "span": 6
+        },
+        {
+          "title": "姓名",
+          "type": "input",
+          "key": "username",
+          "rule": {
+            "required": true,
+            "msg": "请输入姓名"
+          },
+          "placeholder": "请输入姓名",
+          "span": 6
+        },
+        {
+          "title": "电话",
+          "type": "input.number",
+          "key": "phone",
+          "rule": {
+            "type": "phone",
+            "required": true,
+            "msg": "请输入电话"
+          },
+          "placeholder": "请输入电话",
+          "span": 6
+        },
+        {
+          "title": "显示序号",
+          "type": "input.number",
+          "key": "order_index",
+          "rule": {
+            "required": true,
+            "msg": "请输入显示序号"
+          },
+          "placeholder": "请输入显示序号",
+          "span": 6
+        }
+      ]
+    }
+  ]
+}

@@ -35,6 +35,7 @@ interface Rules {
   reel_patch: RegExp;
   pallet: RegExp;
   plate: RegExp;
+  phone: RegExp;
 }
 export const rules: Rules = {
   cart: /^[0-9]\d{3}[A-Za-z]\d{3}$/, // 车号
@@ -44,6 +45,7 @@ export const rules: Rules = {
   reel_patch: /^\d{5}([A-Z|a-z])\d$/, //2020 6T 2
   pallet: /^\d{2}(0[1-9]|1[0-2])\d{2}(1|2)\d{6}$/,
   plate: /^[A-Z|a-z]{2}\d{6}/,
+  phone: /^\d{8}$|^\d{11}$/,
 };
 
 interface CartReelReg {

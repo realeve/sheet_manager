@@ -101,6 +101,7 @@
           "type": "select",
           "key": "machine_name",
           "defaultOption": [
+            { "name": "裁封自动线3#", "value": "裁封自动线3#" },
             {
               "name": "裁封自动线4#",
               "value": "裁封自动线4#"
@@ -176,6 +177,10 @@
             {
               "name": "X1-2#",
               "value": "X1-2#"
+            },
+            {
+              "name": "X1-3#",
+              "value": "X1-3#"
             }
           ]
         },
