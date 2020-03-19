@@ -7,11 +7,11 @@
     },
     "update": {
       "url": "876/8ab54jm40a",
-      "param": ["cart_num", "pallet_no"]
+      "param": ["cart_num", "patch_no", "box_no"]
     },
     "query": {
       "url": "877/8ab54jm40a",
-      "param": ["cart_num", "pallet_no"]
+      "param": ["cart_num", "patch_no", "box_no"]
     },
     "table": {
       "url": "878/8ab54jm40a",
@@ -355,10 +355,7 @@
           "title": "查纸1",
           "type": "select",
           "mode": "multiple",
-          "key": "user_check_paper1",
-          "rule": {
-            "required": true
-          },
+          "key": "user_check_paper1", 
           "placeholder": "请输入查纸人员",
           "unReset": true,
           "span": 6
@@ -367,10 +364,7 @@
           "title": "查纸2",
           "type": "select",
           "key": "user_check_paper2",
-          "mode": "multiple",
-          "rule": {
-            "required": true
-          },
+          "mode": "multiple", 
           "placeholder": "请输入查纸人员",
           "unReset": true,
           "span": 6
@@ -379,10 +373,7 @@
           "title": "罩口袋",
           "type": "select",
           "key": "user_package",
-          "mode": "multiple",
-          "rule": {
-            "required": true
-          },
+          "mode": "multiple", 
           "placeholder": "请输入罩口袋人员",
           "unReset": true,
           "span": 6
@@ -391,11 +382,8 @@
           "title": "记轴号",
           "type": "select",
           "key": "user_record_reel1",
-          "mode": "multiple",
-          "rule": {
-            "required": true
-          },
-          "placeholder": "请输入罩记轴号人员",
+          "mode": "multiple", 
+          "placeholder": "请输入记轴号人员",
           "unReset": true,
           "span": 6
         },
@@ -403,11 +391,8 @@
           "title": "记轴号2",
           "type": "select",
           "key": "user_record_reel2",
-          "mode": "multiple",
-          "rule": {
-            "required": true
-          },
-          "placeholder": "请输入罩记轴号人员",
+          "mode": "multiple", 
+          "placeholder": "请输入记轴号人员",
           "unReset": true,
           "span": 6
         },
@@ -427,7 +412,7 @@
                   "defaultValue": 10
                 }
               ],
-              "hide": ["patch_no", "box_no", "pallet_no"]
+              "hide": ["patch_no", "box_no"]
             },
             {
               "value": "外调",
@@ -483,19 +468,7 @@
           "span": 6,
           "increase": "reel_cart",
           "toupper": "true"
-        },
-        {
-          "title": "拍号",
-          "type": "input",
-          "key": "pallet_no",
-          "rule": {
-            "type": "pallet_no",
-            "required": true
-          },
-          "span": 6,
-          "increase": "pallet",
-          "toupper": "true"
-        },
+        }, 
         {
           "title": "小计令数",
           "type": "input",
