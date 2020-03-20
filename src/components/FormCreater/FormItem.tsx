@@ -50,6 +50,7 @@ export default function formItem({
   setScope,
   calcValid,
   isQueryKey = false,
+  formLayout,
 }) {
   let [validateState, setValidateState] = useState(true);
 
@@ -110,14 +111,14 @@ export default function formItem({
     }
   };
 
-  const getValue = () => { 
+  const getValue = () => {
     let val = state || '';
     if (props.mode === 'multiple') {
       return val.length === 0 ? [] : val.split(',');
-    } 
+    }
     return [val];
   };
- 
+
   let invalidCalc = calcValid.key === key && !calcValid.status;
 
   return (
@@ -130,6 +131,7 @@ export default function formItem({
         [styles['form-center']]: type === 'radio',
         ['ant-form-item-has-error']: !validateState || invalidCalc,
         ['ant-form-item-has-warning']: !validateScope,
+        [styles['form-item-vertical']]: formLayout === 'vertical',
       })}
     >
       <span

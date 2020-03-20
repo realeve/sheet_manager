@@ -401,6 +401,10 @@ function FormCreater({ config, hidemenu, dispatch }) {
     }
   };
 
+  const [formLayout, setFormLayout] = useState(
+    window.localStorage.getItem('_formLayout') || 'horizontal'
+  );
+
   return (
     <div>
       <CodeDrawer
@@ -437,35 +441,48 @@ function FormCreater({ config, hidemenu, dispatch }) {
             style={{ marginBottom: 20 }}
             key={mainTitle}
             extra={
-              idx === 0 &&
-              location.href.includes('&_id=') && (
-                <Switch
-                  checked={editMethod === 'update'}
-                  title="数据更新模式，将覆盖当前数据，点击切换到普通模式"
-                  checkedChildren="更新模式"
-                  unCheckedChildren="编辑模式"
-                  onClick={() => {
-                    let param = qs.parse(hash.slice(1));
-                    if (!param._id) {
-                      return;
-                    }
+              <>
+                {idx === 0 && location.href.includes('&_id=') && (
+                  <Switch
+                    checked={editMethod === 'update'}
+                    title="数据更新模式，将覆盖当前数据，点击切换到普通模式"
+                    checkedChildren="更新模式"
+                    unCheckedChildren="编辑模式"
+                    onClick={() => {
+                      let param = qs.parse(hash.slice(1));
+                      if (!param._id) {
+                        return;
+                      }
 
-                    let hidemenuUrl = hidemenu ? '&hidemenu=1' : '';
-                    // 关闭载入模式;
-                    router.push('#id=' + param.id + hidemenuUrl);
+                      let hidemenuUrl = hidemenu ? '&hidemenu=1' : '';
+                      // 关闭载入模式;
+                      router.push('#id=' + param.id + hidemenuUrl);
 
-                    let status = {
-                      insert: 'update',
-                      update: 'insert',
-                    };
+                      let status = {
+                        insert: 'update',
+                        update: 'insert',
+                      };
 
-                    //注入 _id 字段
-                    setState({ _id: param._id });
+                      //注入 _id 字段
+                      setState({ _id: param._id });
 
-                    setEditMethod(status[editMethod]);
-                  }}
-                />
-              )
+                      setEditMethod(status[editMethod]);
+                    }}
+                  />
+                )}
+                {idx === 0 && (
+                  <Switch
+                    checked={formLayout === 'horizontal'}
+                    title="输入项布局"
+                    checkedChildren="横向布局"
+                    unCheckedChildren="纵向布局"
+                    onClick={val => {
+                      setFormLayout(val ? 'horizontal' : 'vertical');
+                      window.localStorage.setItem('_formLayout', val ? 'horizontal' : 'vertical');
+                    }}
+                  />
+                )}
+              </>
             }
           >
             <Row gutter={15}>
@@ -480,6 +497,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
                       cascade={[cascade, state[cascade]]}
                       isQueryKey={queryKey.includes(key)}
                       calcValid={calcValid}
+                      formLayout={formLayout}
                       setState={res => {
                         setState({
                           [key]: res,
