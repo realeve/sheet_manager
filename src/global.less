@@ -111,4 +111,12 @@ ol {
   color: rgba(0, 0, 0, 0.45);
   font-size: 14px;
   padding: 0 16px;
-} 
+}
+
+// 修复屏幕足够宽的情况下，显示文字过窄的问题。
+.ant-select-selection {
+  &-item,
+  &-placeholder {
+    width: 90%;
+  }
+}

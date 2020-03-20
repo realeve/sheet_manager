@@ -31,20 +31,24 @@
         top: 0px;
       }
     }
+
+    .element {
+      min-width: 100px;
+      max-width: 600px;
+      width: 100%;
+      &Large {
+        max-width: 600px;
+      }
+    }
     &-vertical {
       flex-direction: column;
       .title {
         text-align: left;
         width: auto;
       }
-    }
-
-    .element {
-      min-width: 100px;
-      max-width: 400px;
-      width: 80%;
-      &Large {
-        max-width: 600px;
+      .element {
+        min-width: 100px; 
+        width: 100%; 
       }
     }
 

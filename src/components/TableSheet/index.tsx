@@ -5,7 +5,22 @@ import 'handsontable/languages/zh-CN';
 import * as lib from '@/utils/lib';
 import * as R from 'ramda';
 import * as setting from '@/utils/setting';
-import qs from 'qs'; 
+import qs from 'qs';
+import chartLib from '@/pages/chart/utils/lib';
+
+export const getFirstRow = data => {
+  if (!data.data || !data.data[0]) {
+    return [];
+  }
+  return data.header.map((item, idx) => {
+    let row = chartLib.getDataByIdx({
+      key: idx,
+      data: data.data,
+    });
+    row = row.filter(item => String(item).trim().length > 0); 
+    return row[0] || '';
+  });
+};
 
 /**
  * wiki: https://handsontable.com/docs/7.2.2/Options.html#mergeCells
@@ -13,7 +28,8 @@ import qs from 'qs';
 
 let colTitles = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const getConfig = (data, afterFilter, sheetHeight) => {
-  let firstRow = (data.data && data.data[0]) || [];
+  let firstRow = getFirstRow(data);
+  
   const minCols = 10; // 最少10行
   // console.log(data);
   let columns = (data.header || []).map((title, idx) => {
@@ -54,6 +70,7 @@ const getConfig = (data, afterFilter, sheetHeight) => {
         allowEmpty: true,
       };
     }
+    
     if (lib.isCartOrReel(item) || lib.isPlate(item)) {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
         TD.innerHTML = value
@@ -180,10 +197,7 @@ const TableSheet = ({ data, onFilter, beforeRender = e => e, sheetHeight }) => {
     // console.log(filtersPlugin);
   }, [data.hash]);
 
-  return React.useMemo(
-    () => <HotTable ref={hotTable} settings={config} />,
-    [config]
-  );
+  return React.useMemo(() => <HotTable ref={hotTable} settings={config} />, [config]);
 };
 
 export default TableSheet;
