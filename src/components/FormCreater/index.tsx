@@ -380,7 +380,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
     });
   }, [hideKeys]);
 
-  const updateScope = ({ scope: nextScope, hide }) => {
+  const updateScope = ({ scope: nextScope, hide }, handleHideKeys) => {
     let keys = R.map(R.prop('key'))(nextScope);
     let prevScope = R.reject(item => keys.includes(item.key))(scope);
     let nextState = [...prevScope, ...nextScope];
@@ -395,7 +395,12 @@ function FormCreater({ config, hidemenu, dispatch }) {
       }
     });
     setScope(nextState);
-    setHideKeys(hide);
+
+    // 🐛:没有hide处理的字段，不应对全局hide的状态进行处理
+    if (handleHideKeys) {
+      setHideKeys(hide);
+    }
+
     if (status) {
       setState(changedState);
     }

@@ -121,6 +121,8 @@ export default function formItem({
 
   let invalidCalc = calcValid.key === key && !calcValid.status;
 
+  let haveHideKeys = (restScope.defaultOption || defaultOption || []).find(item => item.hide);
+
   return (
     <Col
       span={span}
@@ -226,7 +228,7 @@ export default function formItem({
             url={props.url}
             onChange={(val, scopeItem) => {
               onChange(val);
-              scopeItem && setScope(scopeItem);
+              scopeItem && setScope(scopeItem, haveHideKeys);
             }}
             defaultOption={restScope.defaultOption || defaultOption}
             state={state}
@@ -243,7 +245,7 @@ export default function formItem({
             url={props.url}
             onChange={(val, scopeItem) => {
               onChange(val);
-              scopeItem && setScope(scopeItem);
+              scopeItem && setScope(scopeItem, haveHideKeys);
             }}
             defaultOption={restScope.defaultOption || defaultOption}
             {...props}
@@ -255,7 +257,7 @@ export default function formItem({
             url={props.url}
             onChange={(val, scopeItem) => {
               onChange(val);
-              scopeItem && setScope(scopeItem);
+              scopeItem && setScope(scopeItem, haveHideKeys);
             }}
             defaultOption={restScope.defaultOption || defaultOption}
             {...props}
