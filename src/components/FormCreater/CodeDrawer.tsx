@@ -102,8 +102,8 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
           if (item.type.includes('date')) {
             keyName =
               item.datetype === 'YYYY-MM-DD hh:mm:ss'
-                ? `CONVERT ( VARCHAR, ${item.key}, 120 )`
-                : `CONVERT ( VARCHAR(10), ${item.key}, 120 )`;
+                ? `CONVERT ( VARCHAR, ${item.key}, 112 )`
+                : `CONVERT ( VARCHAR(10), ${item.key}, 112 )`;
           }
           if (item.type === 'switch') {
             keyName = `(

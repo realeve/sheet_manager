@@ -196,6 +196,7 @@
             {
               "name": "针叶木浆板",
               "value": "针叶木浆板",
+              "hide": ["avg_fiber_length", "ph"],
               "scope": [
                 {
                   "key": "whiteness",
