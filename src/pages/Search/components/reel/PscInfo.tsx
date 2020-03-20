@@ -1,33 +1,9 @@
 import React from 'react';
-import { Col, Card, Empty, Tabs } from 'antd';
+import { Col, Card, Tabs } from 'antd';
 import styles from '../cart/ProdList.less';
 import { useFetch } from '@/pages/Search/utils/useFetch';
-import Err from '@/components/Err';
-import * as R from 'ramda';
+import SimpleList from '../SimpleList';
 const TabPane = Tabs.TabPane;
-
-const DetailList = ({ res }) =>
-  res.err ? (
-    <Err err={res.err} />
-  ) : res.rows === 0 ? (
-    <Empty />
-  ) : (
-    <div className={styles.detail}>
-      {R.splitEvery(Math.ceil(res.header.length / 3), res.header).map((item, idx) => (
-        <Col span={8} key={idx}>
-          {item.map(title => (
-            <ul key={title}>
-              <li>
-                <strong>{title}</strong>
-                {res.data[0][title] === '0.0' ? '' : res.data[0][title]}
-              </li>
-            </ul>
-          ))}
-        </Col>
-      ))}
-    </div>
-  );
-
 let tabs = [
   '物理站',
   '物理外观检测',
@@ -70,7 +46,7 @@ export default function PscInfo({ reel }) {
           {state.length &&
             tabs.map((tab, i) => (
               <TabPane tab={tab} key={String(i)}>
-                <DetailList res={state[i]} />
+                <SimpleList data={state[i]} span={6} />
               </TabPane>
             ))}
         </Tabs>

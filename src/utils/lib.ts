@@ -90,7 +90,8 @@ export const isNumOrFloat: CartReelReg = str =>
 export const isInt: CartReelReg = str => /^(-|\+)?[1-9]\d*$/.test(String(str));
 
 // 浮点
-export const isFloat: CartReelReg = str => /^(-|\+|)\d+\.\d+$|^(-|\+|)\d+$/.test(String(str));
+export const isFloat: CartReelReg = str =>
+  /^(-|\+|)\d+\.\d+(|e|E)(|\-|\+)\d+$|^(-|\+|)\d+(|e|E)(|\-|\+)\d+$/.test(String(str));
 export const hasDecimal: CartReelReg = str => /^(-|\+|)\d+\.\d+$/.test(String(str));
 export const parseNumber: {
   (str: number): number | string;

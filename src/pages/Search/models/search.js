@@ -38,11 +38,12 @@ export default {
         }
         let number = hash.slice(1);
         let key = getProdType(number);
+        let newNumber = key === 'cart' ? number.substring(0, 8) : number;
 
         dispatch({
           type: 'setStore',
           payload: {
-            [key === 'gz' ? 'cart' : key]: number,
+            [key === 'gz' ? 'cart' : key]: newNumber,
             type: key,
           },
         });

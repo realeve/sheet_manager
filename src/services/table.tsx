@@ -3,6 +3,7 @@ import * as lib from '../utils/lib';
 import styles from '../components/Table.less';
 import * as setting from '../utils/setting';
 import * as R from 'ramda';
+import chartLib from '@/pages/chart/utils/lib';
 
 const isFilterColumn: <T>(
   data: Array<any>,
@@ -49,7 +50,7 @@ export function handleColumns(
     return [];
   }
   let showURL: boolean = typeof data !== 'undefined';
-
+ 
   let column = header.map((title, i) => {
     let key = 'col' + i;
     let item: {
@@ -76,7 +77,9 @@ export function handleColumns(
       return item;
     }
 
-    let tdValue = data[0][key];
+    let colData = chartLib.getUniqByIdx({ key, data });
+    colData = colData.filter(item => String(item).trim().length > 0);
+    let tdValue = colData[0] || '';
 
     if (lib.isNumOrFloat(tdValue)) {
       item.sorter = (a, b) => a[key] - b[key];

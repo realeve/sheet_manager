@@ -114,9 +114,11 @@ ol {
 }
 
 // 修复屏幕足够宽的情况下，显示文字过窄的问题。
-.ant-select-selection {
-  &-item,
-  &-placeholder {
-    width: 90%;
+.ant-select-single {
+  .ant-select-selection {
+    &-item,
+    &-placeholder {
+      width: 90%;
+    }
   }
 }
