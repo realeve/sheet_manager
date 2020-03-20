@@ -32,6 +32,27 @@
       "title": "基础数据",
       "detail": [
         {
+          "title": "产地",
+          "type": "select",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入产地信息"
+          },
+          "placeholder": "请输入产地信息",
+          "unReset": true,
+          "defaultOption": [
+            { "name": "合肥银山", "value": "合肥银山" },
+            { "name": "湖北明丰", "value": "湖北明丰" },
+            { "name": "阜阳银丰", "value": "阜阳银丰" },
+            { "name": "河北欣望", "value": "河北欣望" },
+            { "name": "安徽雪龙", "value": "安徽雪龙" },
+            { "name": "山东银鹰", "value": "山东银鹰" },
+            { "name": "青岛汉唐", "value": "青岛汉唐" },
+            { "name": "深州东初", "value": "深州东初" }
+          ]
+        },
+        {
           "title": "产品名称",
           "type": "select",
           "block": "产品名称不同时指标范围不同",
@@ -239,27 +260,6 @@
           "rule": {
             "required": true
           }
-        },
-        {
-          "title": "产地",
-          "type": "select",
-          "key": "place",
-          "rule": {
-            "required": true,
-            "msg": "请输入产地信息"
-          },
-          "placeholder": "请输入产地信息",
-          "unReset": true,
-          "defaultOption": [
-            { "name": "合肥银山", "value": "合肥银山" },
-            { "name": "湖北明丰", "value": "湖北明丰" },
-            { "name": "阜阳银丰", "value": "阜阳银丰" },
-            { "name": "河北欣望", "value": "河北欣望" },
-            { "name": "安徽雪龙", "value": "安徽雪龙" },
-            { "name": "山东银鹰", "value": "山东银鹰" },
-            { "name": "青岛汉唐", "value": "青岛汉唐" },
-            { "name": "深州东初", "value": "深州东初" }
-          ]
         },
         {
           "title": "批号",
