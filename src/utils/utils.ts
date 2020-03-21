@@ -1,6 +1,6 @@
 const themeConfig = {
   daybreak: 'daybreak',
-  '#1890ff': 'daybreak',
+  '#1da57a': 'daybreak',
   '#F5222D': 'dust',
   '#FA541C': 'volcano',
   '#FAAD14': 'sunset',
@@ -37,7 +37,7 @@ export function guid() {
 }
 
 /**
- * #1890ff -> daybreak
+ * #1da57a -> daybreak
  * @param val
  */
 export function genThemeToString(val?: string): string {
@@ -45,7 +45,7 @@ export function genThemeToString(val?: string): string {
 }
 
 /**
- * daybreak-> #1890ff
+ * daybreak-> #1da57a
  * @param val
  */
 export function genStringToTheme(val?: string): string {

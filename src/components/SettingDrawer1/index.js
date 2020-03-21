@@ -183,11 +183,11 @@ class SettingDrawer extends PureComponent {
             />
           </Body>
 
-          <ThemeColor
+          {/* <ThemeColor
             title={formatMessage({ id: 'app.setting.themecolor' })}
             value={primaryColor}
             onChange={color => this.changeSetting('primaryColor', color)}
-          />
+          /> */}
 
           <Divider />
           {/* 导航模式

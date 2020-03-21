@@ -198,7 +198,7 @@ const getThemeList = () => {
   }[] = [
     {
       key: 'daybreak',
-      color: '#1890ff',
+      color: '#1da57a',
       theme: 'dark',
     },
   ];
@@ -210,7 +210,7 @@ const getThemeList = () => {
   }[] = [
     {
       key: 'daybreak',
-      color: '#1890ff',
+      color: '#1da57a',
       theme: 'dark',
     },
   ];

@@ -23,7 +23,7 @@ const colorList = [
   },
   {
     key: 'daybreak',
-    color: '#1890FF',
+    color: '#1da57a',
   },
   {
     key: 'geekblue',

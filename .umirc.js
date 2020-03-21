@@ -75,7 +75,9 @@ export default {
   routes: pageRoutes,
   // Theme for antd
   // https://ant.design/docs/react/customize-theme-cn
-  theme: {},
+  theme: {
+    'primary-color': '#1DA57A',
+  },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,

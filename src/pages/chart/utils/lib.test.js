@@ -430,7 +430,7 @@ test('处理色彩信息', () => {
   ).toEqual({
     series: [{ name: '9602A' }, { name: 'unknown' }],
     legend: { data: ['9602A', 'unknown'] },
-    color: ['#7ECF51', '#1890FF'],
+    color: ['#7ECF51', '#1da57a'],
   });
 });
 

@@ -113,7 +113,7 @@ const handleDarkTheme = theme => {
     body.className = ''; // 切换自定义组件的主题
   }
 
-  document.body.append(styleLink);
+  document.body.appendChild(styleLink);
 };
 
 const SettingModel: SettingModelType = {
@@ -130,9 +130,9 @@ const SettingModel: SettingModelType = {
       });
       const { primaryColor, colorWeak } = config;
 
-      if (state.primaryColor !== primaryColor) {
-        updateTheme(primaryColor);
-      }
+      // if (state.primaryColor !== primaryColor) {
+      //   updateTheme(primaryColor);
+      // }
 
       // updateColorWeak(colorWeak);
 
@@ -148,9 +148,9 @@ const SettingModel: SettingModelType = {
 
       // console.log('主色', state.primaryColor, primaryColor);
 
-      if (state.primaryColor !== primaryColor) {
-        updateTheme(primaryColor);
-      }
+      // if (state.primaryColor !== primaryColor) {
+      //   updateTheme(primaryColor);
+      // }
       // if (state.contentWidth !== contentWidth && window.dispatchEvent) {
       //   window.dispatchEvent(new Event('resize'));
       // }
