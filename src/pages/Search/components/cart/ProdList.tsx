@@ -102,7 +102,7 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
         // }}
         // hoverable
         style={{ marginBottom: 10, padding: '10px 20px 0 20px' }}
-        className={styles.cart}
+        className={styles.detail}
         // loading={loading}
       >
         {loading ? (
