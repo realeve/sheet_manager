@@ -22,7 +22,7 @@
       "param": ["_id"]
     }
   },
-  "table": "paper_cut_log",
+  "table": "paper_cutwaste",
   "detail": [
     {
       "title": "基础信息",
@@ -54,9 +54,20 @@
             {
               "name": "必诺1#",
               "value": "必诺1#",
-              "hide": ["operator_paper_check", "operator_counter", "operator_package"]
+              "hide": [
+                "ream_69",
+                "ream_49",
+                "ream_package",
+                "operator_paper_check",
+                "operator_counter",
+                "operator_package"
+              ]
             },
-            "帕萨班",
+            {
+              "name": "帕萨班",
+              "value": "帕萨班",
+              "hide": ["ream_69", "ream_49"]
+            },
             "切纸4#"
           ],
 
@@ -100,7 +111,7 @@
             "required": true,
             "msg": "请输入班别"
           },
-          "defaultOption": ["白班", "中班"],
+          "defaultOption": ["白班", "中班", "夜班"],
           "placeholder": "请输入班别",
           "unReset": true,
           "span": 6
