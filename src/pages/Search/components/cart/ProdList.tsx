@@ -144,6 +144,7 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
                     mid,
                     remark,
                     remark_type,
+                    TechTypeName,
                   },
                   idx
                 ) => (
@@ -204,6 +205,15 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
                             </strong>
                             {PrintNum}
                           </li>
+                          {TechTypeName !== '不分工艺' && (
+                            <li>
+                              <strong>
+                                <Icon type="share-alt" />
+                                工艺
+                              </strong>
+                              {TechTypeName}
+                            </li>
+                          )}
                           {WorkInfo && (
                             <li>
                               <strong>
