@@ -54,7 +54,7 @@ export default function SearchPage({ onRefresh, ...params }) {
         {visible && <ProcAdjustList cart={cart} />}
       </Col>
       <Col span={8} lg={8} md={24} sm={24} xs={24}>
-        <CartInfo cartInfo={cartInfo} />
+        <CartInfo cartInfo={cartInfo} cart={cart} />
         {visible && (
           <>
             <LockReason cart={cart} />
