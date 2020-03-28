@@ -161,6 +161,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
 
     // 必填字段状态校验(需排除掉隐藏的字段)
     let required = validRequire(requiredFileds, hideKeys, state);
+    console.log(requiredFileds, hideKeys, state);
 
     // 正则处理
     let validStatus = Object.values(validateState).filter(item => !item).length == 0;
@@ -168,7 +169,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
     // 单独运算的字段处理
     let calcStatus = validCalcKeys(state, calcFields, config, setCalcValid);
 
-    // console.log('数据状态',state,validStatus,required,calcStatus, R.without(hideKeys, requiredFileds),validateState);
+    console.log('数据状态', validStatus, required, calcStatus);
 
     setFormstatus(validStatus && required && calcStatus);
   }, [state]);
@@ -396,9 +397,11 @@ function FormCreater({ config, hidemenu, dispatch }) {
     });
     setScope(nextState);
 
+    let _hide = cfg.filter(item => item.hide).map(item => item.key);
+
     // 🐛:没有hide处理的字段，不应对全局hide的状态进行处理
     if (handleHideKeys) {
-      setHideKeys(hide);
+      setHideKeys([...hide, ..._hide]);
     }
 
     if (status) {

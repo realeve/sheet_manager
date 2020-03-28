@@ -44,7 +44,7 @@ export const rules: Rules = {
   reel_cart: /^[0-9]\d{3}[A-Za-z]\d{3}([A-B]|[a-b])$/,
   reel_patch: /^\d{5}([A-Z|a-z])\d$/, //2020 6T 2
   pallet: /^\d{2}(0[1-9]|1[0-2])\d{2}(1|2)\d{6}$/,
-  plate: /^[A-Z|a-z]{2}\d{6}/,
+  plate: /^[A-Z|a-z]{2}\d{6}$|^\d{8}$|^\d{6}$/,
   phone: /^\d{8}$|^\d{11}$/,
 };
 
@@ -93,7 +93,7 @@ export const isInt: CartReelReg = str => /^(-|\+)?[1-9]\d*$/.test(String(str));
 export const isFloat: CartReelReg = str =>
   isNumOrFloat(str) ||
   /^(-|\+|)\d+\.\d+(|e|E)(|\-|\+)\d+$|^(-|\+|)\d+(|e|E)(|\-|\+)\d+$/.test(String(str));
-  
+
 export const hasDecimal: CartReelReg = str => /^(-|\+|)\d+\.\d+$/.test(String(str));
 export const parseNumber: {
   (str: number): number | string;

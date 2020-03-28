@@ -95,9 +95,9 @@ function formAction({
         // console.log(res[key]);
         res[key] = res[key] ? String(res[key]).trim() : '';
         if (lib.isFloat(res[key])) {
-          res[key] = Number(res[key]);//.toFixed(2);
+          res[key] = Number(res[key]); //.toFixed(2);
         }
-      }); 
+      });
       formInstance.set(res);
 
       console.log(res);
@@ -216,7 +216,7 @@ function formAction({
     }
 
     // 必填数据是否填写
-    let status = validRequire(requiredFileds, hideKeys,state);
+    let status = validRequire(requiredFileds, hideKeys, state);
     if (!status) {
       notification.error({
         message: '系统提示',
@@ -225,7 +225,7 @@ function formAction({
       return;
     }
 
-    let params = formInstance.get(); 
+    let params = formInstance.get();
 
     let axiosConfig = getPostData({ config, params, editMethod: editType, uid });
     console.log('插入/更新数据', axiosConfig);
