@@ -161,7 +161,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
 
     // 必填字段状态校验(需排除掉隐藏的字段)
     let required = validRequire(requiredFileds, hideKeys, state);
-    console.log(requiredFileds, hideKeys, state);
+    // console.log(requiredFileds, hideKeys, state);
 
     // 正则处理
     let validStatus = Object.values(validateState).filter(item => !item).length == 0;
@@ -169,7 +169,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
     // 单独运算的字段处理
     let calcStatus = validCalcKeys(state, calcFields, config, setCalcValid);
 
-    console.log('数据状态', validStatus, required, calcStatus);
+    // console.log('数据状态', validStatus, required, calcStatus);
 
     setFormstatus(validStatus && required && calcStatus);
   }, [state]);
@@ -334,7 +334,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
       ...increaseFileds,
     };
 
-    console.log(nextFields);
+    // console.log(nextFields);
 
     setFields(nextFields);
     setState(nextFields);
