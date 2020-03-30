@@ -9,6 +9,7 @@ import * as db from '@/pages/Search/utils/db';
 import Err from '@/components/Err';
 
 import CartsByDate from './CartsByDate';
+import RepairInfo from './RepairInfo';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -24,9 +25,11 @@ interface CartConfig {
 
 export default function ProdList({ onRefresh, beforeRender, ...params }: CartConfig) {
   const [visible, setVisible] = useState(false);
-  const [cartDetail, setCartDetail] = useState({ mid: 0, tstart: '', machine: '' });
+  const [cartDetail, setCartDetail] = useState({ mid: 0, tstart: '', rec_time: '', machine: '' });
   const [res, setRes] = useState({ loading: true, rows: 0, data: [] });
   const [err, setErr] = useState(false);
+
+  const [showRepair, setShowRepair] = useState(false);
 
   let callback = ({ data, rows }) => {
     setVisible(false);
@@ -79,22 +82,27 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
   }, [params.cart, params.prod]);
 
   const { loading, data: prodDetail, rows } = res;
-  // 显示当天生产的其它车号
-  useEffect(() => {
-    if (cartDetail.mid > 0) {
-      setVisible(true);
-    }
-  }, [cartDetail.mid]);
 
   const onToggle = () => {
     setVisible(false);
-    setCartDetail({ mid: 0, tstart: '', machine: '' });
+    setCartDetail({ mid: 0, tstart: '', rec_time: '', machine: '' });
+  };
+
+  const onRepairToggle = () => {
+    setShowRepair(false);
   };
 
   // let cartName: string = rows ? `(${prodDetail[0].CartNumber})` : '';
   return (
     <>
       <CartsByDate {...cartDetail} visible={visible} onToggle={onToggle} />
+      <RepairInfo
+        equid={cartDetail.mid}
+        rec_time={cartDetail.rec_time}
+        visible={showRepair}
+        setVisible={onRepairToggle}
+        title={cartDetail.machine}
+      />
       <div
         // title={`生产信息${cartName}`}
         // bodyStyle={{
@@ -149,23 +157,40 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
                   idx
                 ) => (
                   <li key={key_recid}>
-                    <div>
+                    <div style={{ width: '100%' }}>
                       <div className={styles.title}>
                         <div>
                           <div className={styles.text}>
                             {idx + 1}.{ProcName}：
                             <a
-                              onClick={() =>
+                              onClick={() => {
+                                setVisible(true);
                                 setCartDetail({
                                   mid,
                                   tstart: moment(StartDate).format('YYYYMMDD'),
                                   machine: MachineName,
-                                })
-                              }
+                                  rec_time: StartDate,
+                                });
+                              }}
+                              title="点击查看当日生产记录"
                             >
                               {MachineName}
                             </a>
                           </div>
+                          <a
+                            onClick={() => {
+                              setShowRepair(true);
+                              setCartDetail({
+                                mid,
+                                tstart: moment(StartDate).format('YYYYMMDD'),
+                                machine: MachineName,
+                                rec_time: StartDate,
+                              });
+                            }}
+                            title="点击查看近期设备维修记录"
+                          >
+                            设备维修记录
+                          </a>
                           <Badge
                             count={WorkClassName}
                             className={styles.workclass}
