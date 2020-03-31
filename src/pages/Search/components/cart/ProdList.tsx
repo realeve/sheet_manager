@@ -10,6 +10,7 @@ import Err from '@/components/Err';
 
 import CartsByDate from './CartsByDate';
 import RepairInfo from './RepairInfo';
+import PlateInfo from './PlateInfo';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -92,6 +93,7 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
     setShowRepair(false);
   };
 
+  const [showPlate, setShowPlate] = useState(false);
   // let cartName: string = rows ? `(${prodDetail[0].CartNumber})` : '';
   return (
     <>
@@ -101,6 +103,13 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
         rec_time={cartDetail.rec_time}
         visible={showRepair}
         setVisible={onRepairToggle}
+        title={cartDetail.machine}
+      />
+      <PlateInfo
+        visible={showPlate}
+        setVisible={setShowPlate}
+        equid={cartDetail.mid}
+        rec_time={cartDetail.rec_time}
         title={cartDetail.machine}
       />
       <div
@@ -161,7 +170,7 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
                       <div className={styles.title}>
                         <div>
                           <div className={styles.text}>
-                            {idx + 1}.{ProcName}：
+                            {idx + 1}.{ProcName}：{MachineName}
                             <a
                               onClick={() => {
                                 setVisible(true);
@@ -172,25 +181,45 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
                                   rec_time: StartDate,
                                 });
                               }}
+                              style={{ marginLeft: 10 }}
                               title="点击查看当日生产记录"
                             >
-                              {MachineName}
+                              生产记录
                             </a>
+                            <a
+                              onClick={() => {
+                                setShowRepair(true);
+                                setCartDetail({
+                                  mid,
+                                  tstart: moment(StartDate).format('YYYYMMDD'),
+                                  machine: MachineName,
+                                  rec_time: StartDate,
+                                });
+                              }}
+                              style={{ margin: '0 10px' }}
+                              title="点击查看近期设备维修记录"
+                            >
+                              设备维修
+                            </a>
+                            {(ProcName.includes('胶') || ProcName.includes('凹')) && (
+                              <a
+                                onClick={() => {
+                                  setShowPlate(true);
+                                  setCartDetail({
+                                    mid,
+                                    tstart: moment(StartDate).format('YYYYMMDD'),
+                                    machine: MachineName,
+                                    rec_time: StartDate,
+                                  });
+                                }}
+                                title="点击查看上机印版记录"
+                              >
+                                上机印版
+                              </a>
+                            )}
                           </div>
-                          <a
-                            onClick={() => {
-                              setShowRepair(true);
-                              setCartDetail({
-                                mid,
-                                tstart: moment(StartDate).format('YYYYMMDD'),
-                                machine: MachineName,
-                                rec_time: StartDate,
-                              });
-                            }}
-                            title="点击查看近期设备维修记录"
-                          >
-                            设备维修记录
-                          </a>
+                        </div>
+                        <div className={styles.alignRow}>
                           <Badge
                             count={WorkClassName}
                             className={styles.workclass}
@@ -201,8 +230,8 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
                             className={styles.workclass}
                             style={{ backgroundColor: '#337ab7' }}
                           />
+                          <h4>{StartDate}</h4>
                         </div>
-                        <h4>{StartDate}</h4>
                       </div>
                       <div className={styles.detail}>
                         <ul>

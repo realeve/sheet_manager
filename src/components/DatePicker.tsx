@@ -91,7 +91,7 @@ function DatePick({
         // mode={dateType}
         // onPanelChange={handlePanelChange}
         onChange={onRangeChange}
-        style={{ width: 190 }}
+        style={{ width: 220 }}
         size="small"
         allowClear={false}
         locale={{

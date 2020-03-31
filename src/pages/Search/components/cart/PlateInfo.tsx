@@ -6,7 +6,7 @@ import SimpleTable from '@/pages/Search/components/SimpleTable';
 export default ({ equid, rec_time, title = '', visible = false, setVisible }) => {
   let { data, loading } = useFetch({
     param: {
-      url: '/922/f85bf29a64.json',
+      url: '/923/00499d89d2.json',
       params: { equid, rec_time },
     },
     valid: () => visible && equid > 0 && rec_time,
@@ -18,7 +18,7 @@ export default ({ equid, rec_time, title = '', visible = false, setVisible }) =>
 
   return (
     <Modal
-      title={`${title} 在时间 ${rec_time} 前后设备维修记录`}
+      title={`${title} 在时间 ${rec_time} 前上机印版记录`}
       visible={visible}
       onCancel={() => setVisible(false)}
       width={1000}

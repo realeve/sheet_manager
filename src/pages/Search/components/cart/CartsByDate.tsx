@@ -57,7 +57,7 @@ export default function CartsByDate({
         </div>
       }
       visible={visible}
-      width="800px"
+      width="1200px"
       footer={null}
       bodyStyle={{ paddingTop: 10 }}
       onCancel={() => onToggle(false)}
