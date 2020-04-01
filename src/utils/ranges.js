@@ -51,7 +51,7 @@ export default {
       .subtract(1, 'month')
       .endOf('month'),
   ],
-  本月: [moment().startOf('month'), moment()],
+  本月: [moment().startOf('month'), moment().endOf('month')],
   '7天前': [moment().subtract(1, 'week'), moment()],
   上周: [
     moment()

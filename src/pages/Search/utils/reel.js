@@ -13,7 +13,7 @@ export const getViewPaperQuality = async reel => {
     : await axios({
         url: '/504/c9e662a163.json',
         params: {
-          reel:reel+'%',
+          reel: reel + '%',
         },
       });
   res.data = res.data.map(item => {
@@ -62,18 +62,19 @@ export const getViewPaperSurface = reel =>
         },
       });
 
-     /**
+/**
  *   @database: { 质量信息系统 }
- *   @desc:     { 纸张过程检测 } 
+ *   @desc:     { 纸张过程检测 }
  */
-export const getViewProcessCheckPaper = reel => DEV ? mock(require(
-  '@/mock/874_c17de8b1c5.json')) : axios({
-  url: '/874/c17de8b1c5.json',
-  params: {
-    reel
-  },
-});
- 
+export const getViewProcessCheckPaper = reel =>
+  DEV
+    ? mock(require('@/mock/874_c17de8b1c5.json'))
+    : axios({
+        url: '/874/c17de8b1c5.json',
+        params: {
+          reel,
+        },
+      });
 
 /**
  *   @database: { 质量信息系统 }
@@ -112,7 +113,7 @@ export const getViewPaperValidate = reel =>
     : axios({
         url: '/508/99b1cd2c29.json',
         params: {
-          reel,
+          reel: `%${reel}%`,
         },
       });
 
@@ -126,7 +127,7 @@ export const getPaperValidate = reel =>
     : axios({
         url: '/509/270920daeb.json',
         params: {
-          reel,
+          reel: `%${reel}%`,
         },
       });
 
@@ -140,6 +141,6 @@ export const getViewPaperCutwaste = reel =>
     : axios({
         url: '/510/e74f253d29.json',
         params: {
-          reel,
+          reel: `%${reel}%`,
         },
       });

@@ -40,7 +40,7 @@ interface Rules {
 export const rules: Rules = {
   cart: /^[0-9]\d{3}[A-Za-z]\d{3}(|[a-bA-B])$/, // 车号
   // reel: /^[1-9]\d{6}(|[A-Ca-c])$|[A-Z]\d{11}[A-Z]/, //^[1-9]\d{4}[A-Ca-c]$|
-  reel: /^[0-9]\d{6}([A-Ca-c]|)$|[A-Z]\d{11}([A-Z]|)/, // 轴号 //^[1-9]\d{4}[A-Ca-c]$|
+  reel: /^[0-9]\d{6}([A-Ca-c]|)$|[A-Z]\d{11}([A-Z]|)|^\d{3}[A-Z]\d{5}(|[A-Z])$/, // 轴号 //^[1-9]\d{4}[A-Ca-c]$|
   reel_cart: /^[0-9]\d{3}[A-Za-z]\d{3}([A-B]|[a-b])$/,
   reel_patch: /^\d{5}([A-Z|a-z])\d$/, //2020 6T 2
   pallet: /^\d{2}(0[1-9]|1[0-2])\d{2}(1|2)\d{6}$/,
