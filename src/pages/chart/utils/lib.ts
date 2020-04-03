@@ -154,9 +154,13 @@ let handleDefaultOption = (option, config, showDateRange = true) => {
         type: axisPointerType,
       },
       formatter: function(p) {
-        let title = null;
+        let title: boolean | string = false;
         let str = '';
         p = p.filter(item => typeof item.value !== 'undefined');
+
+        if (p.length === 0) {
+          return;
+        }
 
         p.forEach((item, idx) => {
           if (!title) {
@@ -176,8 +180,11 @@ let handleDefaultOption = (option, config, showDateRange = true) => {
         if (unit) {
           str = unit + str;
         }
+        if (title) {
+          title = `<div style="font-weight:bold;font-size:20px;height:30px;">${title}</div>`;
+        }
 
-        return `<div style="font-weight:bold;font-size:20px;height:30px;">${title}</div>${str}`;
+        return `${title}${str}` || false;
       },
     };
 

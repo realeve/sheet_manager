@@ -250,14 +250,21 @@ let getOption = options => {
 
 let handleDataWithLegend = (srcData, option) => {
   let {
-    data,
+    data: _data,
     header,
   }: {
     data: any;
     header: Array<string>;
   } = srcData;
-  let { xAxis, xAxisType } = util.getAxis(srcData, option.x);
+  let data = R.clone(_data);
   let { x, y }: { x: string | number; y: string | number } = option;
+  let valKey = header[y];
+
+  // 过滤返回值中为空的信息
+  data = data.filter(item => !R.isNil(item[valKey]) && String(item[valKey]).trim().length > 0);
+
+  let { xAxis, xAxisType } = util.getAxis({ ...srcData, data }, option.x);
+
   // let reverse = false;
   // if (xAxisType == 'value') {
   //   let res = util.getAxis(srcData, option.y);

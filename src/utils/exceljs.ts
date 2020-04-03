@@ -339,7 +339,10 @@ const setCellBorder = (worksheet, { params, columns }) => {
         cell.numFmt = '#,##0';
         cell.value = Number(cell);
       } else if (utils.isFloat(cell.value)) {
-        cell.numFmt = '#,##0.00';
+        let decimal = params.decimal || '2';
+        let append = '0'.padStart(Number(decimal), '0');
+        // 单元格计数默认小数位
+        cell.numFmt = `#,##0.${append}`;
         cell.value = Number(cell);
       } else if (utils.isTime(cell.value)) {
         cell.value = cell.value.split('.')[0];

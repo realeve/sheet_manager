@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, Tag } from 'antd';
 import styles from '../chart/config.less';
 import classnames from 'classnames';
 
@@ -111,7 +111,9 @@ export default function tableConfig() {
           </li>
 
           <li>
-            <div className={styles.tip}>通用参数4：跨数据库联接查询</div>
+            <div className={styles.tip}>
+              <Tag color="#e23">新功能</Tag> 通用参数5：跨数据库联接查询
+            </div>
             <div className={classnames(styles.desc, 'configDemoDesc')}>
               innerjoin 及 innerjoinkey{' '}
             </div>
@@ -155,7 +157,7 @@ export default function tableConfig() {
           </li>
 
           <li>
-            <div className={styles.tip}>通用参数5:菜单折叠</div>
+            <div className={styles.tip}>通用参数6:菜单折叠</div>
             <div className={classnames(styles.desc, 'configDemoDesc')}>menufold </div>
             <div>默认值：0,设为1时折叠菜单，适用于报表内容较多，需要显示更多内容</div>
             <div className={classnames(styles.demoLink, 'configDemoLink')}>
@@ -168,7 +170,7 @@ export default function tableConfig() {
             </div>
           </li>
           <li>
-            <div className={styles.tip}>通用参数6:日期类型</div>
+            <div className={styles.tip}>通用参数7:日期类型</div>
             <div className={classnames(styles.desc, 'configDemoDesc')}>datetype </div>
             <div>
               默认值：date,可选项为 year|month|date ，设定后默认向后台发起YYYY | YYYYMM | YYYYMMDD
@@ -181,7 +183,7 @@ export default function tableConfig() {
             </div>
           </li>
           <li>
-            <div className={styles.tip}>通用参数7:文本查询条件——标题</div>
+            <div className={styles.tip}>通用参数8:文本查询条件——标题</div>
             <div className={classnames(styles.desc, 'configDemoDesc')}>textarea </div>
             <div>
               默认值：设置该参数后，条件查询中将渲染textarea，设置多个时用逗号或分号分开，每个textarea对应一个参数值(textareakey)
@@ -196,7 +198,7 @@ export default function tableConfig() {
             </div>
           </li>
           <li>
-            <div className={styles.tip}>通用参数8:文本查询条件——参数值</div>
+            <div className={styles.tip}>通用参数9:文本查询条件——参数值</div>
             <div className={classnames(styles.desc, 'configDemoDesc')}>textareakey </div>
             <div>
               默认值：设置后将textarea中的内容作为值，以当前key为参数发起查询请求，设置多个参数时以逗号或分号分开。内容中如果含逗号、分号或换行符(从Excel中直接复制)时，系统将自动分割为数组发起请求，否则以字符串发起请求。
@@ -211,6 +213,26 @@ export default function tableConfig() {
                 target="_blank"
               >
                 /table#id=76/dd3cf2e48e&data_type=score&textarea=冠字信息&textareakey=gzinfo
+              </a>
+            </div>
+          </li>
+          <li>
+            <div className={styles.tip}>
+              <Tag color="#e23">新功能</Tag> 通用参数10:文件导出后，小数有效位数
+            </div>
+            <div className={classnames(styles.desc, 'configDemoDesc')}>decimal </div>
+            <div>
+              默认值：2
+              <br />
+              <br />
+              默认导出的数据由于js浮点数精度的原因，默认将以小数点后2位显示，如果业务中有需要可调整为指定数值
+            </div>
+            <div className={classnames(styles.demoLink, 'configDemoLink')}>
+              <a
+                href="/table#id=608/4e00407442&merge=1-2&mergetext=投入&merge=2-15&mergetext=在制品库存数&merge=3-5&mergetext=付出数&select=546/db53f036f0&selectkey=product&cache=0&daterange=9&menufold=1&extra=614/142956c77b"
+                target="_blank"
+              >
+                /table#id=608/4e00407442&merge=1-2&mergetext=投入&merge=2-15&mergetext=在制品库存数&merge=3-5&mergetext=付出数&select=546/db53f036f0&selectkey=product&cache=0&daterange=9&menufold=1&extra=614/142956c77b&decimal=3
               </a>
             </div>
           </li>
