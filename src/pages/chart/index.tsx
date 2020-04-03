@@ -27,7 +27,6 @@ function Charts({ dispatch, config, spinning, tid, query }) {
     });
   };
 
-  console.log(config)
   return (
     <Spin size="large" tip="载入中..." spinning={spinning}>
       <QueryCondition onQuery={refreshData} />

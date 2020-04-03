@@ -50,33 +50,25 @@ const Charts = ({ dispatch, ...props }: IProp) => {
 
   const [option, setOption] = useState([]);
 
-  const setLoadingStatus = spinning => {
-    dispatch({
-      type: 'common/setStore',
-      payload: {
-        spinning,
-      },
-    });
-  };
-
   const init = async () => {
-    // setLoadingStatus(true);
-
+    setState({ loading: true });
     let params = R.clone(props.config);
     let nextParam: IConfigState = getParams(params);
     params = Object.assign(params, nextParam, appendParams);
     setState({ params });
     if (R.equals(params, {})) {
+      setState({ loading: false });
       return;
     }
 
-    let { dataSrc, option } = await db.computeDerivedState({
-      method: props.textAreaList.length > 0 ? 'post' : 'get',
-      params,
-    });
-    // .finally(e => {
-    //   setLoadingStatus(false);
-    // });
+    let { dataSrc, option } = await db
+      .computeDerivedState({
+        method: props.textAreaList.length > 0 ? 'post' : 'get',
+        params,
+      })
+      .finally(e => {
+        setState({ loading: false });
+      });
 
     setOption(option);
     setState({ showErr: false, dataSrc });
@@ -213,7 +205,6 @@ const Charts = ({ dispatch, ...props }: IProp) => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
-
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab={formatMessage({ id: 'chart.tab.chart' })} key="1">
           {dataSrc.header && (

@@ -20,7 +20,7 @@ export default {
     *refreshData(_, { put, select }) {
       let common = yield select(state => state.common);
       let disabled = isDisabled({ ...common, select: common.query.select });
- 
+
       if (disabled) {
         return;
       }
@@ -33,8 +33,7 @@ export default {
         textAreaValue,
         dateType: [dateType],
       } = common;
-      
-      
+
       // console.log('refresh chart data',dateRange,tid);
       if (!tid) {
         return;

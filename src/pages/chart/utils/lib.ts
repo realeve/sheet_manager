@@ -135,10 +135,49 @@ let handleDefaultOption = (option, config, showDateRange = true) => {
       //   axisPointerType = 'cross';
       // break;
     }
+    let title = config?.data?.title;
+    let unit: boolean | string = false;
+    let res = title.match(/\((\S+)\)/);
+    if (res && res[1]) {
+      unit = `<div style="margin-bottom:5px;display:block;">(单位:${res[1]})</div>`;
+    }
+
+    /**
+     * 该语法可代替
+     * let axisName = option&&option.yAxis&&option.yAxis.name;
+     */
+    let axisName = option?.yAxis?.name;
+
     option.tooltip = {
       trigger: tooltipTrigger,
       axisPointer: {
         type: axisPointerType,
+      },
+      formatter: function(p) {
+        let title = null;
+        let str = '';
+        p = p.filter(item => typeof item.value !== 'undefined');
+
+        p.forEach((item, idx) => {
+          if (!title) {
+            title = item.name;
+          }
+          if (title !== item.name) {
+            return;
+          }
+
+          if (typeof item.value !== 'undefined' && item.value !== '-') {
+            str += `<div style="display:flex;flex-direction:row;align-items:center;height:25px;"><div style="width:10px;height:10px;border-radius:50%;background-color:${
+              item.color
+            };margin-right:10px;"></div><span style="font-size:17px;">${item.seriesName ||
+              axisName}：${item.value}</span></div>`;
+          }
+        });
+        if (unit) {
+          str = unit + str;
+        }
+
+        return `<div style="font-weight:bold;font-size:20px;height:30px;">${title}</div>${str}`;
       },
     };
 
