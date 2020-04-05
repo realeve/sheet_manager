@@ -191,9 +191,17 @@ export type TAxisName =
   | 'circleshape';
 
 const coordinateAxis = type =>
-  !['pie', 'treemap', 'calendar', 'paralell', 'heatmap', 'sankey', 'sunburst', 'bullet'].includes(
-    type
-  );
+  ![
+    'pie',
+    'treemap',
+    'tree',
+    'calendar',
+    'paralell',
+    'heatmap',
+    'sankey',
+    'sunburst',
+    'bullet',
+  ].includes(type);
 const chartDesc = {
   x: 'X轴所在数据列',
   y: 'Y轴所在数据列',
@@ -249,9 +257,16 @@ const getCommonOptions: (key: string, state: IConfigState) => boolean | string |
       res = ['paralell'].includes(type) ? true : ['calendar'].includes(type) ? false : legend;
       break;
     case 'group':
-      res = ['radar', 'themeriver', 'sankey', 'sunburst', 'treemap', 'pie', 'paralell'].includes(
-        type
-      )
+      res = [
+        'radar',
+        'themeriver',
+        'sankey',
+        'sunburst',
+        'treemap',
+        'tree',
+        'pie',
+        'paralell',
+      ].includes(type)
         ? true
         : group;
       break;
@@ -321,6 +336,7 @@ const getInputOptions = type => {
   let opts = [];
   switch (type) {
     case 'treemap':
+    case 'tree':
       opts.push('scale');
       break;
     case 'calendar':

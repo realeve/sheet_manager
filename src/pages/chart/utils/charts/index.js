@@ -39,8 +39,13 @@ export let chartTypeList = [
       icon: '/img/icons/sankey.png',
     },
     {
-      name: '树图',
+      name: '树形矩图',
       value: 'treemap',
+      icon: '/img/icons/treemap.png',
+    },
+    {
+      name: '树图',
+      value: 'tree',
       icon: '/img/icons/treemap.png',
     },
   ],
@@ -82,6 +87,7 @@ export default {
   radar,
   sankey,
   treemap,
+  tree: treemap,
   themeriver,
   paralell,
   heatmap,

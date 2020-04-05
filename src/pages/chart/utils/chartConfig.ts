@@ -24,21 +24,21 @@ const commonConfig: Array<{
   {
     key: 'prefix',
     title: '前缀，该值作为参数请求API，同时将显示在标题的前面',
-    default: 'string'
+    default: 'string',
   },
   {
     key: 'suffix',
     title: '后缀，该值作为参数请求API，同时将显示在标题的后面',
-    default: 'string'
+    default: 'string',
   },
   {
     key: 'height',
-    title: '图表高度,默认500'
+    title: '图表高度,默认500',
   },
   {
     key: 'render',
     title: '渲染模式，当某些图表类型渲染异常时，建议改为canvas',
-    default: '系统根据图表类型默认自动选择，可选项为 canvas 或 svg'
+    default: '系统根据图表类型默认自动选择，可选项为 canvas 或 svg',
   },
   {
     key: 'group',
@@ -47,87 +47,91 @@ const commonConfig: Array<{
     default: 'string|number',
     url: [
       '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=0&x=1&y=2&group=3',
-      '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=3&x=1&y=2&group=0'
-    ]
+      '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=3&x=1&y=2&group=0',
+    ],
   },
   {
     key: 'simple',
     title: '简洁模式，移除toolbox,title,copyright,数据来源等信息',
     default: 'string|number',
     url: [
-      '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=3&x=1&y=2&group=0&simple=1'
-    ]
-  }
+      '/chart#id=50/f317ed4bb9&render=canvas&type=line&smooth=1&stack=1&legend=3&x=1&y=2&group=0&simple=1',
+    ],
+  },
 ];
 const config = {
   bar: {
     name: '柱状图',
-    config: bar
+    config: bar,
   },
   line: {
     name: '曲线图',
-    config: bar
+    config: bar,
   },
   scatter: {
     name: '散点图',
-    config: bar
+    config: bar,
   },
   boxplot: {
     name: '箱线图',
-    config: bar
+    config: bar,
   },
   pie: {
     name: '饼图',
-    config: pie
+    config: pie,
   },
   sunburst: {
     name: '旭日图',
-    config: sunburst
+    config: sunburst,
   },
   radar: {
     name: '雷达图',
-    config: radar
+    config: radar,
   },
   sankey: {
     name: '桑基图',
-    config: sankey
+    config: sankey,
   },
   treemap: {
     name: '矩形树图',
-    config: treemap
+    config: treemap,
+  },
+  tree: {
+    name: '树图',
+    config: treemap,
   },
   themeriver: {
     name: '主题河流图',
-    config: themeriver
+    config: themeriver,
   },
   paralell: {
     name: '平行坐标系',
-    config: paralell
+    config: paralell,
   },
   heatmap: {
     name: '热力图',
-    config: heatmap
+    config: heatmap,
   },
   calendar: {
     name: '日历图',
-    config: calendar
+    config: calendar,
   },
   bar3d: {
     name: '三维柱状图',
-    config: bar3d
+    config: bar3d,
   },
   line3d: {
     name: '三维曲线图',
-    config: bar3d
+    config: bar3d,
   },
   scatter3d: {
     name: '三维散点图',
-    config: bar3d
+    config: bar3d,
   },
   surface: {
     name: '三维曲面图',
-    config: bar3d
-  }
+    config: bar3d,
+  },
 };
 let chartsList = R.keys(config);
 export default R.values(config).map((chartItem, i) => {
