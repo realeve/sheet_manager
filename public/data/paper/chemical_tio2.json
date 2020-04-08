@@ -173,6 +173,21 @@
           }
         },
         {
+          "title": "白度",
+          "type": "input",
+          "key": "whiteness",
+          "suffix": "%",
+          "span": 8,
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 94,
+            "max": 100
+          }
+        },
+        {
           "title": "检验员",
           "type": "select",
           "key": "operator",
