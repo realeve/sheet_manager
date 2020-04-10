@@ -414,6 +414,7 @@ export const getApiConfig = async (formConfig, nonce) => {
   return formConfig;
 };
 
+// TODO 增加删除按钮
 export const beforeSheetRender = ({ columns, ...config }) => {
   let colConfig = R.clone(columns);
   let idx = R.findIndex(R.propEq('title', 'id'))(colConfig);
