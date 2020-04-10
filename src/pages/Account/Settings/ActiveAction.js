@@ -91,8 +91,8 @@ class ActiveAction extends Component {
         <Switch
           checked={this.state.checked}
           disabled={this.state.user_type === 0}
-          checkedChildren={formatMessage({ id: 'app.settings.active' })}
-          unCheckedChildren={formatMessage({ id: 'app.settings.unactive' })}
+          checkedChildren={formatMessage({ id: 'app.active' })}
+          unCheckedChildren={formatMessage({ id: 'app.unactive' })}
           onChange={e => this.onChange(e, uid)}
         />
       </>

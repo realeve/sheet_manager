@@ -215,7 +215,6 @@
         },
         {
           "title": "细度",
-          "block": "稀释法",
           "type": "input",
           "key": "fineness",
           "rule": {

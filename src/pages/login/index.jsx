@@ -25,9 +25,9 @@ class LoginComponent extends Component {
     submitting: false,
     ip: '',
     depts: [],
-    dept: null,
+    dept: [],
     userList: [],
-    uid: null,
+    uid: [],
     username: '',
   };
 

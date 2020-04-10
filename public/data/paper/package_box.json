@@ -3,11 +3,11 @@
   "api": {
     "insert": {
       "url": "875/8ab54jm40a",
-      "param": ["rec_time"]
+      "param": ["rec_time", "uid"]
     },
     "update": {
       "url": "876/8ab54jm40a",
-      "param": ["cart_num", "patch_no", "box_no"]
+      "param": ["cart_num", "patch_no", "box_no", "uid"]
     },
     "query": {
       "url": "877/8ab54jm40a",
@@ -15,7 +15,7 @@
     },
     "table": {
       "url": "878/8ab54jm40a",
-      "param": ["class_type"]
+      "param": ["class_type", "uid"]
     },
     "load": {
       "url": "879/8ab54jm40a",

@@ -432,7 +432,7 @@ export const beforeSheetRender = ({ columns, ...config }) => {
   item.renderer = (hotInstance, TD, row, col, prop, _id) => {
     TD.innerHTML = _id
       ? `<a href="#id=${id}&_id=${_id +
-          hideMenu}"  style="text-decoration:none;margin:3px;" class="ant-btn ant-btn-primary"> 载入 </a>`
+          hideMenu}"  style="text-decoration:none;margin:3px;" class="ant-btn ant-btn-primary">载入</a>`
       : '';
   };
   item.title = '操作';
@@ -543,4 +543,24 @@ export let validCalcKeys = (state, fields, config, setCalcValid) => {
   }
 
   return status;
+};
+
+export const handleDefaultHiddenKeys = (cfg, state) => {
+  let hideKeys = [];
+  let scope = [];
+
+  cfg.forEach(({ key, hide, defaultOption }) => {
+    if (defaultOption) {
+      defaultOption.forEach(item => {
+        if (state[key] == item.value && item.hide) {
+          hideKeys = [...hideKeys, ...item.hide];
+          scope = item.scope || [];
+        }
+      });
+    }
+    if (hide) {
+      hideKeys = [...hideKeys, ...hide];
+    }
+  });
+  return { hide: hideKeys, scope };
 };

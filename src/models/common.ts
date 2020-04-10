@@ -72,37 +72,72 @@ const getDateFormatByHash = hash => {
 };
 
 const namespace = 'common';
+export interface IUserSetting {
+  uid: string;
+  avatar: string;
+  menu: string;
+  menu_title: string;
+  previewMenu: any[];
+  username: string;
+  fullname: string;
+  user_type: number;
+  actived: number;
+  dept_name: string;
+  dateType: string[];
+  dateFormat: string;
+}
+
+const defaultUserSetting: IUserSetting = {
+  uid: '',
+  avatar: '',
+  menu: '',
+  menu_title: '',
+  previewMenu: [],
+  username: '',
+  fullname: '',
+  user_type: 0,
+  actived: 0,
+  dept_name: '',
+  dateType: ['date', 'date'],
+  dateFormat: 'YYYYMMDD',
+};
+
+export interface ICommon {
+  userSetting: IUserSetting;
+  hidemenu: boolean;
+  isLogin: boolean;
+  curPageName: string;
+  dateRange: any[];
+  tid: any[];
+  query: {};
+  selectList: any[];
+  selectValue: {};
+  textAreaList: any[];
+  textAreaValue: {};
+  showDateRange: boolean;
+  spinning: boolean;
+  curUrl: string;
+}
+const defaultState: ICommon = {
+  userSetting: defaultUserSetting,
+  hidemenu: false,
+  isLogin: false,
+  curPageName: '',
+  dateRange: [],
+  tid: [],
+  query: {},
+  selectList: [],
+  selectValue: {},
+  textAreaList: [],
+  textAreaValue: {},
+  showDateRange: false,
+  spinning: false,
+  curUrl: '',
+};
+
 export default {
   namespace,
-  state: {
-    userSetting: {
-      uid: '',
-      avatar: '',
-      menu: '',
-      menu_title: '',
-      previewMenu: [],
-      username: '',
-      fullname: '',
-      user_type: 0,
-      actived: 0,
-      dept_name: '',
-      dateType: ['date', 'date'],
-      dateFormat: 'YYYYMMDD',
-    },
-    hidemenu: false,
-    isLogin: false,
-    curPageName: '',
-    dateRange: [],
-    tid: [],
-    query: {},
-    selectList: [],
-    selectValue: {},
-    textAreaList: [],
-    textAreaValue: {},
-    showDateRange: false,
-    spinning: false,
-    curUrl: '',
-  },
+  state: defaultState,
   reducers: {
     setStore,
     initQuery(state, { payload }) {

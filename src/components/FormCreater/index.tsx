@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
-import { Card, Row, Switch } from 'antd';
+import { Card, Row, Switch, Avatar } from 'antd';
 import { Icon } from '@ant-design/compatible';
 import styles from './index.less';
-import { validRequire, beforeSheetRender, getIncrease, validCalcKeys } from './lib';
+import {
+  validRequire,
+  beforeSheetRender,
+  getIncrease,
+  validCalcKeys,
+  handleDefaultHiddenKeys,
+} from './lib';
 import FormItem from './FormItem';
 import CodeDrawer from './CodeDrawer';
 import FormAction from './FormAction';
@@ -16,8 +22,10 @@ import 'moment/locale/zh-cn';
 import qs from 'qs';
 import { useLocation } from 'react-use';
 import router from 'umi/router';
+import { ICommon } from '@/models/common';
 
 moment.locale('zh-cn');
+
 let getUrl = formConfig => {
   let url = (formConfig.api.table || { url: '' }).url.replace('.json', '.array');
   if (!url.includes('.array')) {
@@ -35,7 +43,7 @@ const getDefaultList = cfg => {
   return res;
 };
 
-function FormCreater({ config, hidemenu, dispatch }) {
+function FormCreater({ config, hidemenu, dispatch, user }) {
   // 增加对总分的计算，与scope字段一并处理
   let [state, setState] = useSetState();
   let [totalScore, setTotalScore] = useState(100);
@@ -189,7 +197,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
       if (params.length > 0) {
         // 根据参数列表取值
         params.forEach(key => {
-          let item = state[key];
+          let item = state[key] || user[key];
           if (typeof item === 'undefined' || String(item).length === 0) {
             status = false;
           }
@@ -204,7 +212,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
   const { data: tblData, loading, reFetch } = useFetch({
     param: {
       url: getUrl(formConfig),
-      params: R.pick(formConfig.api.table.param || [])(state),
+      params: R.pick(formConfig.api.table.param || [])({ ...state, ...user }),
     },
     valid: shouldRefreshHistoryData,
   });
@@ -413,6 +421,19 @@ function FormCreater({ config, hidemenu, dispatch }) {
     window.localStorage.getItem('_formLayout') || 'horizontal'
   );
 
+  // TODO 待测试
+  const loadHisData = state => {
+    // 还需处理初始时字段隐藏逻辑
+    let { hide, scope } = handleDefaultHiddenKeys(cfg, state);
+    setState(state);
+
+    // 隐藏字段
+    setHideKeys(hide);
+    setScope(scope);
+    // 可以点击提交
+    setFormstatus(true);
+  };
+
   return (
     <div>
       <CodeDrawer
@@ -449,36 +470,42 @@ function FormCreater({ config, hidemenu, dispatch }) {
             style={{ marginBottom: 20 }}
             key={mainTitle}
             extra={
-              <>
-                {idx === 0 && location.href.includes('&_id=') && (
-                  <Switch
-                    checked={editMethod === 'update'}
-                    title="数据更新模式，将覆盖当前数据，点击切换到普通模式"
-                    checkedChildren="更新模式"
-                    unCheckedChildren="编辑模式"
-                    onClick={() => {
-                      let param = qs.parse(hash.slice(1));
-                      if (!param._id) {
-                        return;
-                      }
+              idx == 0 && (
+                <>
+                  {location.href.includes('&_id=') && (
+                    <Switch
+                      checked={editMethod === 'update'}
+                      title="数据更新模式，将覆盖当前数据，点击切换到普通模式"
+                      checkedChildren="更新模式"
+                      unCheckedChildren="编辑模式"
+                      onClick={() => {
+                        let param = qs.parse(hash.slice(1));
+                        if (!param._id) {
+                          return;
+                        }
 
-                      let hidemenuUrl = hidemenu ? '&hidemenu=1' : '';
-                      // 关闭载入模式;
-                      router.push('#id=' + param.id + hidemenuUrl);
+                        let hidemenuUrl = hidemenu ? '&hidemenu=1' : '';
+                        // 关闭载入模式;
+                        router.push('#id=' + param.id + hidemenuUrl);
 
-                      let status = {
-                        insert: 'update',
-                        update: 'insert',
-                      };
+                        let status = {
+                          insert: 'update',
+                          update: 'insert',
+                        };
 
-                      //注入 _id 字段
-                      setState({ _id: param._id });
+                        //注入 _id 字段
+                        setState({ _id: param._id });
 
-                      setEditMethod(status[editMethod]);
-                    }}
-                  />
-                )}
-                {idx === 0 && (
+                        setEditMethod(status[editMethod]);
+                      }}
+                    />
+                  )}
+
+                  <div style={{ marginBottom: 10 }}>
+                    <Avatar className={styles.avatar} src={user.avatar} alt="avatar" />
+                    <span className={styles.name}>{user.fullname}</span>
+                  </div>
+
                   <Switch
                     checked={formLayout === 'horizontal'}
                     title="输入项布局"
@@ -489,8 +516,8 @@ function FormCreater({ config, hidemenu, dispatch }) {
                       window.localStorage.setItem('_formLayout', val ? 'horizontal' : 'vertical');
                     }}
                   />
-                )}
-              </>
+                </>
+              )
             }
           >
             <Row gutter={15}>
@@ -519,6 +546,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
                       detail={detail}
                       scope={scope}
                       setScope={updateScope}
+                      user={user}
                     />
                   )
               )}
@@ -526,7 +554,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
                 <FormAction
                   requiredFileds={requiredFileds}
                   state={state}
-                  setState={setState}
+                  setState={loadHisData}
                   fields={fields}
                   setEditMethod={setEditMethod}
                   formstatus={formstatus} // 数据校验字段，为false时禁止提交
@@ -558,4 +586,7 @@ function FormCreater({ config, hidemenu, dispatch }) {
   );
 }
 
-export default connect(({ common: { hidemenu } }) => ({ hidemenu }))(FormCreater);
+export default connect(({ common: { hidemenu, userSetting: user } }: { common: ICommon }) => ({
+  hidemenu,
+  user,
+}))(FormCreater);

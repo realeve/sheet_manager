@@ -28,6 +28,7 @@ function formAction({
   score, // 总分
   hideKeys,
 }) {
+  const [_id, setId] = useState(0);
   // 当前数据提交状态，提交时禁止重复提交
   const [submitting, setSubmitting] = useState(false);
   const { hash } = useLocation();
@@ -41,8 +42,10 @@ function formAction({
 
     let param = qs.parse(hash.slice(1));
     if (!param._id) {
+      setId(0);
       return;
     }
+    setId(param._id);
 
     // 如果有 id
     setLoadOption({
@@ -201,6 +204,11 @@ function formAction({
     }
     let { param, url } = api.delete;
     let params = R.pick(param, state);
+    params = {
+      ...params,
+      _id,
+      uid,
+    };
     let {
       data: [affected_rows],
     } = await axios({ url, params });
@@ -227,6 +235,13 @@ function formAction({
 
     let params = formInstance.get();
 
+    // 注入_id，uid信息，支持用户信息调整
+    params = {
+      ...params,
+      _id,
+      uid,
+    };
+
     let axiosConfig = getPostData({ config, params, editMethod: editType, uid });
     console.log('插入/更新数据', axiosConfig);
     if (!axiosConfig) {
@@ -238,6 +253,15 @@ function formAction({
     }
 
     setSubmitting(true);
+
+    // console.log(axiosConfig);
+
+    // notification.success({
+    //   message: 'tips',
+    //   description: '数据提交测试中',
+    // });
+    // return;
+
     let {
       data: [{ affected_rows }],
     } = await axios(axiosConfig).finally(() => {
