@@ -36,7 +36,7 @@ export default {
         if (!match) {
           return;
         }
-        let number = hash.slice(1);
+        let number = hash.slice(1).replace('&hidemenu=1', '');
         let key = getProdType(number);
         let newNumber = key === 'cart' ? number.substring(0, 8) : number;
 

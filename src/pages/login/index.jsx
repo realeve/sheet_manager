@@ -246,7 +246,7 @@ class LoginComponent extends Component {
           <div style={{ marginTop: 20, marginBottom: 20 }}>
             <Icon type="home" theme="twoTone" />
             <PinyinSelect
-              style={{ width: 190, marginLeft: 10 }}
+              style={{ width: 290, marginLeft: 10 }}
               size="large"
               className={styles.selector}
               value={dept}
@@ -259,7 +259,7 @@ class LoginComponent extends Component {
           <div style={{ marginTop: 20, marginBottom: 20 }}>
             <Icon type="user" />
             <PinyinSelect
-              style={{ width: 190, marginLeft: 10 }}
+              style={{ width: 290, marginLeft: 10 }}
               size="large"
               className={styles.selector}
               value={uid}
@@ -277,7 +277,7 @@ class LoginComponent extends Component {
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Icon type="eye-invisible" theme="twoTone" style={{ height: 32, lineHeight: '32px' }} />
             <Input
-              style={{ width: 190, marginLeft: 10 }}
+              style={{ width: 290, marginLeft: 10 }}
               type="password"
               value={password}
               placeholder="密码"

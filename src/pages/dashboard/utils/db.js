@@ -16,7 +16,7 @@ export const getViewPrintOnlineQuality = async () => {
         params: {
           blob: ['image_1', 'image_2', 'image_3'],
           blob_type: 'jpg',
-          cache: 0.25,
+          cache: 0,
         },
       });
   res.data = R.sortBy(R.prop('good_rate'))(res.data);
