@@ -67,6 +67,11 @@ export default function codeDrawer({
       tbl_${formConfig.table} 
     WHERE
       ${(condition.param || []).map(item => `${item} = '1'`).join(' and ')}`;
+      let quick = `      SELECT 
+      ${keys.join(',\r\n        ')} 
+    FROM
+      tbl_${formConfig.table} 
+    WHERE uid=1 and id=2`;
 
       const create = getCreate(formConfig);
       let query = `
@@ -79,7 +84,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       let jsonCfg = await getApiConfig(R.clone(formConfig), nonce);
 
       let { maxid } = await getSysApi().then(res => res.data[0]);
-    
+
       // console.log(
       //   JSON.stringify({
       //     load: { url: `${maxid}/${nonce}.json`, param: ['_id'] },
@@ -92,6 +97,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         select,
         create,
         api,
+        quick,
         json: beautify(JSON.stringify(jsonCfg), beautyOption),
         view: `
     CREATE VIEW  view_${formConfig.table} AS
@@ -142,7 +148,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       });
     }
   };
- 
+
   return (
     <Drawer
       placement="right"
@@ -262,7 +268,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         添加接口的增、删、改。
       </Paragraph>
       <CodeMirror
-        value={sql.select + sql.query}
+        value={sql.quick}
         options={{
           mode: 'sql',
           lineNumbers: true,
@@ -272,7 +278,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         }}
       />
       <CopyToClipboard
-        text={sql.select + sql.query}
+        text={sql.quick}
         onCopy={() => message.success('拷贝成功，请到数据库管理工具中初始化配置信息')}
       >
         <Button style={{ marginTop: 10 }} icon={<CopyOutlined />}>
@@ -301,7 +307,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
           "key": "anti_fake",
           "max": 15,
           "suffix": "%",
-          "block": "有红外吸收，近红外反射值≤15%"
+          "block": "有红外吸收"
         }
       ]})));
      console.log(\` {
@@ -341,11 +347,19 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
           options={jsOption}
         />
       </Paragraph>
-      <p>在以上例子中，小计令数作为汇总字段，其值为其余相加，此时将令数1设为必填，将calc信息挂载到令数1中触发校验规则，校验不通过时显示对应的msg信息</p>
-      <Text>在数据联动的校验中还支持以下方式的更复杂校验规则(更多信息可以看<a href="https://mathjs.org/docs/getting_started.html" target="_blank">https://mathjs.org/docs/getting_started.html</a>)：</Text>
-       
-        <CodeMirror
-          value={`// sin 与 平方
+      <p>
+        在以上例子中，小计令数作为汇总字段，其值为其余相加，此时将令数1设为必填，将calc信息挂载到令数1中触发校验规则，校验不通过时显示对应的msg信息
+      </p>
+      <Text>
+        在数据联动的校验中还支持以下方式的更复杂校验规则(更多信息可以看
+        <a href="https://mathjs.org/docs/getting_started.html" target="_blank">
+          https://mathjs.org/docs/getting_started.html
+        </a>
+        )：
+      </Text>
+
+      <CodeMirror
+        value={`// sin 与 平方
          calc = sin(45 deg) ^ 2 // 返回0.5
          // 开方
          calc = sqrt(9) // 返回 3
@@ -372,9 +386,8 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
          }
 
       `}
-          options={jsOption}
-        />
+        options={jsOption}
+      />
     </Drawer>
   );
 }
-

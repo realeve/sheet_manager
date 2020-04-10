@@ -212,7 +212,7 @@ function FormCreater({ config, hidemenu, dispatch, user }) {
   const { data: tblData, loading, reFetch } = useFetch({
     param: {
       url: getUrl(formConfig),
-      params: R.pick(formConfig.api.table.param || [])({ ...state, ...user }),
+      params: R.pick(formConfig?.api?.table?.param || [])({ ...state, ...user }),
     },
     valid: shouldRefreshHistoryData,
   });

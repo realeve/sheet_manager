@@ -324,15 +324,14 @@ VALUES
         config.table
       }  ${condition('query').where}', '${condition('query').param}','' );`;
 
+  // ${condition('delete').param}
   let del = !config.api.delete
     ? ''
     : `
     -- 数据接口删除
     INSERT INTO sys_api ( nonce, db_id, uid, api_name, sqlstr, param,remark )
     VALUES
-      ( '${nonce}','2','1','${config.name}_删除','delete from  tbl_${config.table}  ${
-        condition('delete').where
-      }','${condition('delete').param}','' );`;
+      ( '${nonce}','2','1','${config.name}_删除','delete from  tbl_${config.table} where id=?','_id','' );`;
 
   // 先过滤条件字段
   let editKeys = keyStrs.filter(item => !(param.update || []).includes(item));
@@ -343,9 +342,7 @@ VALUES
 -- 数据更新接口
 INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr, param,remark )
 VALUES
-  ( '${nonce}','2','1','${config.name}_更新','update tbl_${config.table} set ${editStr} ${
-    condition('update').where
-  }','${paramUpdate.join(',')}','' );`;
+  ( '${nonce}','2','1','${config.name}_更新','update tbl_${config.table} set ${editStr} where id=?','_id','' );`;
 
   // 先过滤条件字段
   let addKeys = [...keyStrs, ...(param.insert || [])];

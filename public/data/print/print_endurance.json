@@ -1,0 +1,163 @@
+{
+  "name": "物化耐性检验",
+  "api": {
+    "insert": {
+      "url": "81/7e63360284",
+      "param": ["rec_time", "uid"]
+    },
+    "update": {
+      "url": "83/ae9b8e8b0f",
+      "param": ["_id"]
+    },
+    "delete": {
+      "url": "84/dac2a713d0",
+      "param": ["_id"]
+    },
+    "query": {
+      "url": "82/ef0905c692?param1=2",
+      "param": ["data_type", "data_value"]
+    }
+  },
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "冠字号",
+          "type": "input",
+          "key": "gznumber",
+          "rule": {
+            "required": true,
+            "pattern": "/^[A-Z](|\\*+)[A-Z]$/"
+          },
+          "maxLength": 6,
+          "toupper": "true"
+        },
+        {
+          "title": "品种",
+          "type": "select",
+          "key": "prod_id",
+          "rule": {
+            "required": true
+          },
+          "defaultOption": [
+            {
+              "name": "9602A",
+              "value": "9602A",
+              "hide": ["anti_CreaseB", "anti_CreaseOVMI", "washB", "anti_scrab"]
+            },
+            { "name": "9602T", "value": "9602T" },
+            { "name": "9603A", "value": "9603A", "hide": ["anti_CreaseOVMI", "anti_scrab"] },
+            { "name": "9603TZ", "value": "9603TZ" },
+            { "name": "9604T", "value": "9604T" },
+            { "name": "9606T", "value": "9606T" },
+            { "name": "9607T", "value": "9607T" }
+          ]
+        },
+        {
+          "title": "检测日期",
+          "type": "datepicker",
+          "key": "rec_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        }
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "耐干皱折正面",
+          "type": "input",
+          "key": "anti_CreaseF",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 0,
+            "max": 5
+          }
+        },
+        {
+          "title": "耐干皱折背面",
+          "type": "input",
+          "key": "anti_CreaseB",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 0,
+            "max": 5
+          }
+        },
+        {
+          "title": "耐干皱折OVMI",
+          "type": "input",
+          "key": "anti_CreaseOVMI",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 0,
+            "max": 5
+          }
+        },
+        {
+          "title": "耐机洗正",
+          "type": "input",
+          "key": "washF",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 0,
+            "max": 5
+          }
+        },
+        {
+          "title": "耐机洗背",
+          "type": "input",
+          "key": "washB",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 0,
+            "max": 5
+          }
+        },
+        {
+          "title": "抗剥离",
+          "type": "input",
+          "key": "anti_scrab",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 0,
+            "max": 5
+          }
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": false
+          }
+        }
+      ]
+    }
+  ]
+}
