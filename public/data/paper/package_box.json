@@ -428,6 +428,16 @@
           "defaultValue": 0
         },
         {
+          "title": "令数10",
+          "type": "input",
+          "key": "ream_num10",
+          "rule": {
+            "type": "int"
+          },
+          "span": 6,
+          "defaultValue": 0
+        },
+        {
           "title": "备注",
           "type": "input.textarea",
           "key": "remark",
