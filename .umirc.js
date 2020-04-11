@@ -33,10 +33,10 @@ export default {
           // default true, when it is true, will use `navigator.language` overwrite default
           baseNavigator: true,
         },
-        // dynamicImport: {
-        //   webpackChunkName: true,
-        //   loadingComponent: './components/PageLoading/Loading3.jsx',
-        // },
+        dynamicImport: {
+          webpackChunkName: true,
+          loadingComponent: './components/PageLoading/LoadingDefault.jsx', // Loading2
+        },
         // pwa: true,
         fastClick: true,
         targets: {
@@ -59,9 +59,9 @@ export default {
   // publicPath: 'http://localhost:70/sheet/',
   hash: true, //添加hash后缀
   treeShaking: true,
-  exportStatic: {
-    // htmlSuffix: true, // 静态化文件
-  },
+  // exportStatic: {
+  // htmlSuffix: true, // 静态化文件
+  // },
   // exportStatic: false,
   targets: {
     ie: 11,

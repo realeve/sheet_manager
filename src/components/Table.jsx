@@ -118,12 +118,13 @@ const handleSheetHeader = tableColumn => {
       userSetting: { dept_name, fullname },
       hidemenu,
     },
-    table: { isAntd: antdTable },
+    // table: { isAntd: antdTable },
+    table,
   }) => ({
     dept_name,
     fullname,
     hidemenu,
-    antdTable,
+    antdTable: table && table.isAntd,
   })
 )
 class Tables extends Component {
@@ -522,19 +523,19 @@ class Tables extends Component {
     let notSimple = !this.props.simple;
 
     const TableSetting = () =>
-      !notSimple
-        ? !!this.props.showDownload && (
-            <div style={{ marginTop: 10 }}>
-              <Action />
-            </div>
-          )
-        : (this.props.isAntd || this.props.antdTable) && (
-            <Form layout="inline" className={styles.tblSetting} style={{ paddingLeft: 15 }}>
-              <FormItem label={formatMessage({ id: 'table.border' })}>
-                <Switch checked={this.state.bordered} onChange={this.handleToggle('bordered')} />
-              </FormItem>
-            </Form>
-          );
+      !notSimple ? (
+        !!this.props.showDownload && (
+          <div style={{ marginTop: 10 }}>
+            <Action />
+          </div>
+        )
+      ) : this.props.isAntd || this.props.antdTable ? (
+        <Form layout="inline" className={styles.tblSetting} style={{ paddingLeft: 15 }}>
+          <FormItem label={formatMessage({ id: 'table.border' })}>
+            <Switch checked={this.state.bordered} onChange={this.handleToggle('bordered')} />
+          </FormItem>
+        </Form>
+      ) : null;
 
     let SearchFilter = (
       <div className={styles.search}>
