@@ -1,9 +1,7 @@
 {
   "name": "sheet_manager",
   "private": true,
-  "main": "server.js",
   "scripts": {
-    "start-micro": "micro -p 8080",
     "start": "cross-env APP_TYPE=site UMI_UI=none umi dev",
     "build": "umi build",
     "lite": "cross-env BUILD_TYPE=lite umi dev",
@@ -44,7 +42,6 @@
     "lodash-decorators": "^6.0.1",
     "mathjs": "^6.6.1",
     "memoize-one": "^4.0.0",
-    "micro": "^9.3.3",
     "moment": "^2.23.0",
     "nzh": "^1.0.3",
     "omit.js": "^1.0.0",

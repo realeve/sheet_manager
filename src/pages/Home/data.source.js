@@ -11,10 +11,10 @@ export const Banner20DataSource = {
         page: { className: 'home-page banner2-page' },
         textWrapper: { className: 'banner2-text-wrapper' },
         bg: { className: 'bg bg0' },
-        title: { className: 'banner2-title', children: '通用数据报表与图表生成系统' },
+        title: { className: 'banner2-title', children: '生产质量信息平台' },
         content: {
           className: 'banner2-content',
-          children: '一个高效的数据系统解决方案，提供报表及图表模块化操作',
+          children: '纸钞生产、质量信息一体化解决方案',
         },
         button: { className: 'banner2-button', children: '登录' },
       },

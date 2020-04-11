@@ -5,7 +5,7 @@ export let config = {
   chengdu: {
     company: '成都印钞有限公司',
     api: 'http://10.8.1.25:100',
-    footer: '成都印钞有限公司 印钞管理部',
+    footer: '成都印钞有限公司',
     systemName: '质量信息管理平台',
     uploadHost: 'http://10.8.1.25:100/upload/',
     host: 'http://10.8.2.133:8000',

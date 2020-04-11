@@ -59,10 +59,10 @@ export default {
   // publicPath: 'http://localhost:70/sheet/',
   hash: true, //添加hash后缀
   treeShaking: true,
-  // exportStatic: {
-  //   htmlSuffix: false, // 静态化文件
-  // },
-  exportStatic: false,
+  exportStatic: {
+    // htmlSuffix: true, // 静态化文件
+  },
+  // exportStatic: false,
   targets: {
     ie: 11,
     chrome: 49,
