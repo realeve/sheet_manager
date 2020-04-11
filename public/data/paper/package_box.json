@@ -428,6 +428,16 @@
           "defaultValue": 0
         },
         {
+          "title": "轴号10",
+          "type": "input",
+          "key": "reel_no10",
+          "rule": {
+            "type": "reel"
+          },
+          "span": 6,
+          "toupper": "true"
+        },
+        {
           "title": "令数10",
           "type": "input",
           "key": "ream_num10",
