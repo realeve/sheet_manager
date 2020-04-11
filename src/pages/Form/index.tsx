@@ -1,13 +1,13 @@
 import React from 'react';
 import FormCreater from '@/components/FormCreater';
-import { Card } from 'antd';
+import { Card, Tabs } from 'antd';
 import qs from 'qs';
 import useFetch from '@/components/hooks/useFetch';
 import * as lib from '@/utils/lib';
 
 const callback = res => {
   // 集中处理detail字段，对其中scope字段一个key有多个字段的数据打散
- 
+
   res.detail = res.detail.map(detail => {
     detail.detail = detail.detail.map(item => {
       if (!item.defaultOption) {
@@ -55,18 +55,37 @@ export default function page(): JSX.Element {
   const { data } = useFetch({
     param: { url },
     valid: () => url.length > 0,
-    callback,
+    callback: res => {
+      if (lib.getType(res) == 'array') {
+        return res.map(callback);
+      }
+      callback(res);
+    },
   });
- 
-  return !data ? (
-    <Card>
-      <h3>请设置表单配置信息</h3>
-      <p>
-        可尝试访问示例链接：
-        <a href="/form#id=./data/paper/pulpboard.json">/form#id=./data/paper/pulpboard.json</a>
-      </p>
-    </Card>
-  ) : (
-    <FormCreater config={data} />
-  );
+
+  if (!data) {
+    return (
+      <Card>
+        <h3>请设置表单配置信息</h3>
+        <p>
+          可尝试访问示例链接：
+          <a href="/form#id=./data/paper/pulpboard.json">/form#id=./data/paper/pulpboard.json</a>
+        </p>
+      </Card>
+    );
+  }
+
+  if (lib.getType(data) === 'array') {
+    return (
+      <Tabs defaultActiveKey="0" type="line">
+        {data.map((item, idx) => (
+          <Tabs.TabPane tab={item.name} key={String(idx)}>
+            <FormCreater config={item} />
+          </Tabs.TabPane>
+        ))}
+      </Tabs>
+    );
+  }
+
+  return <FormCreater config={data} />;
 }

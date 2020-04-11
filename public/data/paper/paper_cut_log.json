@@ -217,16 +217,6 @@
           "toupper": "true"
         },
         {
-          "title": "纸轴抄重",
-          "key": "reel_weight",
-          "type": "input.number",
-          "rule": {
-            "type": "int",
-            "required": true
-          },
-          "span": 4
-        },
-        {
           "title": "封包令数",
           "key": "ream_package",
           "type": "input.number",
@@ -235,6 +225,17 @@
             "required": true
           },
           "span": 4
+        },
+        {
+          "title": "纸轴抄重",
+          "key": "reel_weight",
+          "type": "input",
+          "rule": {
+            "type": "int",
+            "required": true
+          },
+          "span": 4,
+          "suffix": "kg"
         },
         {
           "title": "抽检令数",
@@ -277,6 +278,16 @@
           "span": 4
         },
         {
+          "title": "切纸机废纸仓总数",
+          "key": "waste_num",
+          "type": "input.number",
+          "rule": {
+            "type": "int",
+            "required": true
+          },
+          "span": 4
+        },
+        {
           "title": "切纸机怀疑仓总数",
           "key": "suspect_num",
           "type": "input.number",
@@ -287,14 +298,15 @@
           "span": 4
         },
         {
-          "title": "切纸机废纸仓总数",
-          "key": "waste_num",
-          "type": "input.number",
+          "title": "好品率",
+          "key": "goodrate",
+          "type": "input",
           "rule": {
-            "type": "int",
+            "type": "float",
             "required": true
           },
-          "span": 4
+          "span": 4,
+          "suffix": "%"
         },
         {
           "title": "质量情况描述",

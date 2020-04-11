@@ -1,3 +1,4 @@
+import React from 'react';
 import http from 'axios';
 import qs from 'qs';
 import { host } from './setting';
@@ -153,7 +154,14 @@ export const handleError = error => {
 
     const errortext = (codeMessage[status] || '') + (data.msg || '');
     notification.error({
-      message: `请求错误 ${status}: ${config.url}`,
+      message: (
+        <div>
+          请求错误 {status}: <br />
+          <a href={config.url} target="_blank">
+            {config.url.replace('http://', '')}
+          </a>
+        </div>
+      ),
       description: errortext || '',
       duration: 10,
     });

@@ -448,17 +448,20 @@ function FormCreater({ config, hidemenu, dispatch, user }) {
           <Card
             title={
               <div>
-                {idx === 0 && <h3 style={{ marginBottom: 10 }}>{formConfig.name}</h3>}
+                {idx === 0 && (
+                  <h3 style={{ marginBottom: 10 }}>
+                    {formConfig.name}
 
-                <span>
-                  {idx + 1}.{mainTitle}
-                  {idx === 0 && (
                     <Icon
                       style={{ paddingLeft: 10 }}
                       type="question-circle-o"
                       onClick={() => setModalVisible(true)}
                     />
-                  )}
+                  </h3>
+                )}
+
+                <span>
+                  {mainTitle}
                   {formConfig.showScore && idx === 0 && (
                     <p>
                       <small>总分：{totalScore}</small>
@@ -468,7 +471,7 @@ function FormCreater({ config, hidemenu, dispatch, user }) {
               </div>
             }
             style={{ marginBottom: 20 }}
-            key={mainTitle}
+            key={idx}
             extra={
               idx == 0 && (
                 <>
@@ -501,21 +504,22 @@ function FormCreater({ config, hidemenu, dispatch, user }) {
                     />
                   )}
 
-                  <div style={{ marginBottom: 10 }}>
+                  <div>
                     <Avatar className={styles.avatar} src={user.avatar} alt="avatar" />
-                    <span className={styles.name}>{user.fullname}</span>
+                    <span className={styles.name} style={{ margin: '0 10px' }}>
+                      {user.fullname}
+                    </span>
+                    <Switch
+                      checked={formLayout === 'horizontal'}
+                      title="输入项布局"
+                      checkedChildren="横向布局"
+                      unCheckedChildren="纵向布局"
+                      onClick={val => {
+                        setFormLayout(val ? 'horizontal' : 'vertical');
+                        window.localStorage.setItem('_formLayout', val ? 'horizontal' : 'vertical');
+                      }}
+                    />
                   </div>
-
-                  <Switch
-                    checked={formLayout === 'horizontal'}
-                    title="输入项布局"
-                    checkedChildren="横向布局"
-                    unCheckedChildren="纵向布局"
-                    onClick={val => {
-                      setFormLayout(val ? 'horizontal' : 'vertical');
-                      window.localStorage.setItem('_formLayout', val ? 'horizontal' : 'vertical');
-                    }}
-                  />
                 </>
               )
             }

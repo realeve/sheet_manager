@@ -1,0 +1,410 @@
+[
+  {
+    "name": "交接班记录",
+    "api": {
+      "insert": {
+        "url": "875/8ab54jm40a",
+        "param": ["rec_time"]
+      },
+      "update": {
+        "url": "876/8ab54jm40a",
+        "param": ["patch_no", "box_no"]
+      },
+      "query": {
+        "url": "877/8ab54jm40a",
+        "param": ["patch_no", "box_no"]
+      },
+      "table": {
+        "url": "878/8ab54jm40a",
+        "param": ["class_type"]
+      },
+      "load": {
+        "url": "879/8ab54jm40a",
+        "param": ["_id"]
+      }
+    },
+    "table": "paper_cutwaste",
+    "detail": [
+      {
+        "detail": [
+          {
+            "title": "品种",
+            "type": "select",
+            "unReset": true,
+            "defaultOption": [
+              "103-G-2T",
+              "103-G-2A",
+              "103-G-3TZ",
+              "103-G-4T",
+              "103-G-6T",
+              "103-G-7T",
+              "试验品"
+            ],
+            "key": "prod_id",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "机台",
+            "type": "select",
+            "key": "machine_id",
+            "defaultOption": [
+              {
+                "name": "必诺1#",
+                "value": "必诺1#",
+                "hide": [
+                  "ream_69",
+                  "ream_49",
+                  "ream_package",
+                  "operator_paper_check",
+                  "operator_counter",
+                  "operator_package"
+                ]
+              },
+              {
+                "name": "帕萨班",
+                "value": "帕萨班",
+                "hide": ["ream_69", "ream_49"]
+              },
+              "切纸4#"
+            ],
+
+            "rule": {
+              "required": true,
+              "msg": "请输入机台"
+            },
+            "placeholder": "请输入机台，用拼音缩写快速录入",
+            "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "班次",
+            "type": "select",
+            "key": "class_type",
+            "defaultOption": [
+              "光切1班",
+              "光切2班",
+              "光切3班",
+              "光切5班",
+              "光切6班",
+              "光切7班",
+              "光切8班",
+              "数封1班",
+              "数封2班",
+              "打件班"
+            ],
+            "rule": {
+              "required": true,
+              "msg": "请输入班次"
+            },
+            "placeholder": "请输入班次，用拼音缩写快速录入",
+            "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "班别",
+            "type": "radio.button",
+            "key": "class_name",
+            "rule": {
+              "required": true,
+              "msg": "请输入班别"
+            },
+            "defaultOption": ["白班", "中班", "夜班"],
+            "placeholder": "请输入班别",
+            "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "生产日期",
+            "type": "datepicker",
+            "key": "rec_date",
+            "datetype": "YYYY-MM-DD",
+            "rule": {
+              "required": true
+            },
+            "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "导边",
+            "type": "select",
+            "key": "operator_guide_edge",
+            "mode": "multiple",
+            "placeholder": "请输入导边人员",
+            "url": "./data/base/paper_cut_user.json",
+            "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "导边记录",
+            "type": "input.textarea",
+            "key": "remark_operator_guide_edge",
+            "placeholder": "导边记录",
+            "defaultValue": "正常",
+            "unReset": true,
+            "span": 8
+          },
+          {
+            "title": "质检",
+            "type": "select",
+            "key": "operator_quality_check",
+            "mode": "multiple",
+            "placeholder": "请输入质检人员",
+            "url": "./data/base/paper_cut_user.json",
+            "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "质检记录",
+            "type": "input.textarea",
+            "key": "remark_operator_quality_check",
+            "placeholder": "质检记录",
+            "defaultValue": "正常",
+            "unReset": true,
+            "span": 8
+          },
+          {
+            "title": "纸斗",
+            "type": "select",
+            "key": "operator_paper_container",
+            "mode": "multiple",
+            "placeholder": "请输入纸斗人员",
+            "url": "./data/base/paper_cut_user.json",
+            "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "纸斗记录",
+            "type": "input.textarea",
+            "key": "remark_operator_paper_container",
+            "defaultValue": "正常",
+            "unReset": true,
+            "span": 8
+          },
+          {
+            "title": "查纸",
+            "type": "select",
+            "key": "operator_paper_check",
+            "mode": "multiple",
+            "placeholder": "请输入查纸人员",
+            "url": "./data/base/paper_cut_user.json",
+            "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "查纸记录",
+            "type": "input.textarea",
+            "key": "remark_operator_paper_check",
+            "defaultValue": "正常",
+            "unReset": true,
+            "span": 8
+          },
+          {
+            "title": "数数",
+            "type": "select",
+            "key": "operator_counter",
+            "mode": "multiple",
+            "placeholder": "请输入数数人员",
+            "url": "./data/base/paper_cut_user.json",
+            "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "数数记录",
+            "type": "input.textarea",
+            "key": "remark_operator_counter",
+            "defaultValue": "正常",
+            "unReset": true,
+            "span": 8
+          },
+          {
+            "title": "封包",
+            "type": "select",
+            "key": "operator_package",
+            "mode": "multiple",
+            "placeholder": "请输入封包人员",
+            "url": "./data/base/paper_cut_user.json",
+            "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "封包记录",
+            "type": "input.textarea",
+            "key": "remark_operator_package",
+            "defaultValue": "正常",
+            "unReset": true,
+            "span": 8
+          },
+          {
+            "title": "机长",
+            "type": "select",
+            "key": "operator_captain",
+            "mode": "multiple",
+            "placeholder": "请输入封包人员",
+            "url": "./data/base/paper_cut_user.json",
+            "unReset": true,
+            "span": 6,
+            "rule": {
+              "required": true
+            }
+          },
+          {
+            "title": "机长记录",
+            "type": "input.textarea",
+            "key": "remark_operator_captain",
+            "defaultValue": "正常",
+            "unReset": true,
+            "span": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "生产原始记录",
+    "api": {
+      "insert": {
+        "url": "875/8ab54jm40a",
+        "param": ["rec_time"]
+      },
+      "update": {
+        "url": "876/8ab54jm40a",
+        "param": ["patch_no", "box_no"]
+      },
+      "query": {
+        "url": "877/8ab54jm40a",
+        "param": ["patch_no", "box_no"]
+      },
+      "table": {
+        "url": "878/8ab54jm40a",
+        "param": ["class_type"]
+      },
+      "load": {
+        "url": "879/8ab54jm40a",
+        "param": ["_id"]
+      }
+    },
+    "table": "paper_cutwaste",
+    "detail": [
+      {
+        "detail": [
+          {
+            "title": "轴号",
+            "type": "input",
+            "key": "reel_code",
+            "rule": {
+              "type": "reel",
+              "required": true
+            },
+            "span": 4,
+            "toupper": "true"
+          },
+          {
+            "title": "封包令数",
+            "key": "ream_package",
+            "type": "input.number",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 4
+          },
+          {
+            "title": "纸轴抄重",
+            "key": "reel_weight",
+            "type": "input",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 4,
+            "suffix": "kg"
+          },
+          {
+            "title": "抽检令数",
+            "key": "ream_check",
+            "type": "input.number",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 4
+          },
+          {
+            "title": "6.9转数封令数",
+            "key": "ream_69",
+            "type": "input.number",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 4
+          },
+          {
+            "title": "4.9转数封令数",
+            "key": "ream_49",
+            "type": "input.number",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 4
+          },
+          {
+            "title": "轴头尾令数",
+            "key": "ream_reel_head_tail",
+            "type": "input.number",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 4
+          },
+          {
+            "title": "切纸机废纸仓总数",
+            "key": "waste_num",
+            "type": "input.number",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 4
+          },
+          {
+            "title": "切纸机怀疑仓总数",
+            "key": "suspect_num",
+            "type": "input.number",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 4
+          },
+          {
+            "title": "好品率",
+            "key": "goodrate",
+            "type": "input",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 4,
+            "suffix": "%"
+          },
+          {
+            "title": "质量情况描述",
+            "type": "input.textarea",
+            "key": "remark",
+            "placeholder": "请在此填入质量情况描述信息",
+            "span": 8,
+            "rule": {
+              "required": false
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
