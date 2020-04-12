@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FormCreater from '@/components/FormCreater';
 import { Card, Tabs } from 'antd';
 import qs from 'qs';
@@ -63,6 +63,11 @@ export default function page(): JSX.Element {
     },
   });
 
+  const [parentConfig, setParentConfig] = useState({
+    hide: [],
+    scope: [],
+  });
+
   if (!data) {
     return (
       <Card>
@@ -80,7 +85,12 @@ export default function page(): JSX.Element {
       <Tabs defaultActiveKey="0" type="line">
         {data.map((item, idx) => (
           <Tabs.TabPane tab={item.name} key={String(idx)}>
-            <FormCreater config={item} />
+            <FormCreater
+              config={item}
+              parentConfig={parentConfig}
+              setParentConfig={setParentConfig}
+              shouldConnect
+            />
           </Tabs.TabPane>
         ))}
       </Tabs>

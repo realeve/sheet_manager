@@ -43,7 +43,15 @@ const getDefaultList = cfg => {
   return res;
 };
 
-function FormCreater({ config, hidemenu, dispatch, user }) {
+function FormCreater({
+  config,
+  hidemenu,
+  dispatch,
+  user,
+  shouldConnect,
+  parentConfig,
+  setParentConfig,
+}) {
   // 增加对总分的计算，与scope字段一并处理
   let [state, setState] = useSetState();
   let [totalScore, setTotalScore] = useState(100);
@@ -187,6 +195,31 @@ function FormCreater({ config, hidemenu, dispatch, user }) {
   // 对应指标数据范围
   const [scope, setScope] = useState([]);
   const [hideKeys, setHideKeys] = useState([]);
+
+  // 跨页面联动
+  useEffect(() => {
+    if (!shouldConnect) {
+      return;
+    }
+    console.log(hideKeys, scope);
+    setParentConfig({
+      hide: hideKeys,
+      scope,
+    });
+  }, [scope, hideKeys]);
+
+  useEffect(() => {
+    if (!shouldConnect) {
+      return;
+    }
+    console.log(parentConfig, hideKeys);
+    if (!R.equals(parentConfig.hide, hideKeys)) {
+      setHideKeys[parentConfig.hide];
+    }
+    if (!R.equals(parentConfig.scope, scope)) {
+      setScope[parentConfig.scope];
+    }
+  }, [parentConfig]);
 
   const shouldRefreshHistoryData = () => {
     let status =

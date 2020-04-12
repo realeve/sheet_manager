@@ -217,7 +217,8 @@ delimiter ;
 
 export const getCreate = config => {
   let res = R.compose(
-    R.reject(R.propEq('key', 'ignoreIncrese')),
+    // R.reject(R.propEq('key', 'ignoreIncrese')),
+    R.reject(item => item.key.includes('ignore')),
     R.flatten,
     R.map(item => item.detail)
   )(config.detail);
@@ -285,7 +286,8 @@ ${getDescByField('id', '主ID')}`;
 
 export const getApi = (config, nonce) => {
   let res = R.compose(
-    R.reject(R.propEq('key', 'ignoreIncrese')),
+    // R.reject(R.propEq('key', 'ignoreIncrese')),
+    R.reject(item => item.key.includes('ignore')),
     R.flatten,
     R.map(item => item.detail)
   )(config.detail);

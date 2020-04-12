@@ -60,15 +60,38 @@
                   "ream_package",
                   "operator_paper_check",
                   "operator_counter",
-                  "operator_package"
-                ]
+                  "operator_package",
+                  "remark_operator_paper_check",
+                  "remark_operator_counter",
+                  "remark_operator_package",
+                  "ream_choose",
+                  "ream_reel_head_tail",
+                  "ccd_fake",
+                  "ccd_well",
+                  "suspect_num"
+                ],
+                "scope": [{ "key": "speed", "defaultValue": 300 }]
               },
               {
                 "name": "帕萨班",
                 "value": "帕萨班",
-                "hide": ["ream_69", "ream_49"]
+                "hide": [
+                  "ream_69",
+                  "ream_49",
+                  "ream_choose",
+                  "ream_reel_head_tail",
+                  "ccd_fake",
+                  "ream_warehouse",
+                  "machinecheck_weel_num"
+                ],
+                "scope": [{ "key": "speed", "defaultValue": 280 }]
               },
-              "切纸4#"
+              {
+                "name": "切纸4#",
+                "value": "切纸4#",
+                "scope": [{ "key": "speed", "defaultValue": 300 }],
+                "hide": ["ream_69", "ream_warehouse", "machinecheck_weel_num", "ccd_well"]
+              }
             ],
 
             "rule": {
@@ -80,7 +103,7 @@
             "span": 6
           },
           {
-            "title": "班次",
+            "title": "班别",
             "type": "select",
             "key": "class_type",
             "defaultOption": [
@@ -104,7 +127,7 @@
             "span": 6
           },
           {
-            "title": "班别",
+            "title": "班次",
             "type": "radio.button",
             "key": "class_name",
             "rule": {
@@ -114,6 +137,35 @@
             "defaultOption": ["白班", "中班", "夜班"],
             "placeholder": "请输入班别",
             "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "温度",
+            "key": "temprature",
+            "type": "input",
+            "rule": {
+              "type": "float"
+            },
+            "suffix": "℃",
+            "span": 6
+          },
+          {
+            "title": "湿度",
+            "key": "humidity",
+            "type": "input",
+            "rule": {
+              "type": "float"
+            },
+            "span": 6
+          },
+          {
+            "title": "车速",
+            "key": "speed",
+            "type": "input",
+            "suffix": "m/min",
+            "rule": {
+              "type": "float"
+            },
             "span": 6
           },
           {
@@ -143,8 +195,7 @@
             "key": "remark_operator_guide_edge",
             "placeholder": "导边记录",
             "defaultValue": "正常",
-            "unReset": true,
-            "span": 8
+            "span": 6
           },
           {
             "title": "质检",
@@ -162,8 +213,7 @@
             "key": "remark_operator_quality_check",
             "placeholder": "质检记录",
             "defaultValue": "正常",
-            "unReset": true,
-            "span": 8
+            "span": 6
           },
           {
             "title": "纸斗",
@@ -180,8 +230,7 @@
             "type": "input.textarea",
             "key": "remark_operator_paper_container",
             "defaultValue": "正常",
-            "unReset": true,
-            "span": 8
+            "span": 6
           },
           {
             "title": "查纸",
@@ -198,8 +247,7 @@
             "type": "input.textarea",
             "key": "remark_operator_paper_check",
             "defaultValue": "正常",
-            "unReset": true,
-            "span": 8
+            "span": 6
           },
           {
             "title": "数数",
@@ -216,8 +264,7 @@
             "type": "input.textarea",
             "key": "remark_operator_counter",
             "defaultValue": "正常",
-            "unReset": true,
-            "span": 8
+            "span": 6
           },
           {
             "title": "封包",
@@ -234,8 +281,7 @@
             "type": "input.textarea",
             "key": "remark_operator_package",
             "defaultValue": "正常",
-            "unReset": true,
-            "span": 8
+            "span": 6
           },
           {
             "title": "机长",
@@ -255,7 +301,6 @@
             "type": "input.textarea",
             "key": "remark_operator_captain",
             "defaultValue": "正常",
-            "unReset": true,
             "span": 8
           }
         ]
@@ -298,39 +343,53 @@
               "type": "reel",
               "required": true
             },
-            "span": 4,
+            "span": 6,
             "toupper": "true"
+          },
+          {
+            "title": "抄重",
+            "key": "reel_weight",
+            "type": "input",
+            "block": "抄自于纸机来的通知单",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 6,
+            "suffix": "kg"
           },
           {
             "title": "封包令数",
             "key": "ream_package",
             "type": "input.number",
+            "block": "人工统计令数,与装箱令数相同",
             "rule": {
               "type": "int",
               "required": true
             },
-            "span": 4
+            "span": 6
           },
           {
-            "title": "纸轴抄重",
-            "key": "reel_weight",
-            "type": "input",
+            "title": "立体库令数",
+            "key": "ream_warehouse",
+            "type": "input.number",
+            "block": "人工统计令数",
             "rule": {
               "type": "int",
               "required": true
             },
-            "span": 4,
-            "suffix": "kg"
+            "span": 6
           },
           {
             "title": "抽检令数",
             "key": "ream_check",
             "type": "input.number",
+            "block": "人工统计令数",
             "rule": {
               "type": "int",
               "required": true
             },
-            "span": 4
+            "span": 6
           },
           {
             "title": "6.9转数封令数",
@@ -340,7 +399,8 @@
               "type": "int",
               "required": true
             },
-            "span": 4
+            "span": 6,
+            "block": "人工统计令数"
           },
           {
             "title": "4.9转数封令数",
@@ -350,58 +410,131 @@
               "type": "int",
               "required": true
             },
-            "span": 4
+            "span": 6,
+            "block": "人工统计令数"
           },
           {
             "title": "轴头尾令数",
             "key": "ream_reel_head_tail",
             "type": "input.number",
+            "block": "人工统计令数",
             "rule": {
               "type": "int",
               "required": true
             },
-            "span": 4
+            "span": 6
           },
           {
-            "title": "切纸机废纸仓总数",
-            "key": "waste_num",
+            "title": "转选纸段令数",
+            "key": "ream_choose",
             "type": "input.number",
+            "block": "人工统计令数",
             "rule": {
               "type": "int",
               "required": true
             },
-            "span": 4
+            "span": 6
           },
           {
-            "title": "切纸机怀疑仓总数",
+            "title": "3仓张数",
             "key": "suspect_num",
             "type": "input.number",
+            "block": "每轴结束后抄自于机器控制屏",
             "rule": {
               "type": "int",
               "required": true
             },
-            "span": 4
+            "span": 6
           },
           {
-            "title": "好品率",
+            "title": "机好张数",
+            "key": "machinecheck_weel_num",
+            "type": "input.number",
+            "block": "每轴结束后抄自于机器控制屏",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "机废张数",
+            "key": "waste_num",
+            "type": "input.number",
+            "block": "每轴结束后抄自于机器控制屏",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "下纸道",
+            "key": "complete_num",
+            "type": "input.number",
+            "block": "每轴结束后抄自于机器控制屏",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "CCD好纸张数",
+            "key": "ccd_well",
+            "type": "input.number",
+            "block": "抄自于CCD结果",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "CCD废张数",
+            "key": "ccd_fake",
+            "type": "input.number",
+            "block": "抄自于CCD结果",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "好纸率",
             "key": "goodrate",
             "type": "input",
+            "block": "抄自于CCD结果",
             "rule": {
               "type": "float",
               "required": true
             },
-            "span": 4,
+            "span": 6,
             "suffix": "%"
           },
           {
-            "title": "质量情况描述",
+            "title": "绿色通道",
+            "type": "switch",
+            "key": "quick_channel",
+            "rule": {
+              "required": true
+            },
+            "defaultValue": false,
+            "checkedChildren": "是",
+            "unCheckedChildren": "否",
+            "span": 6
+          },
+          {
+            "title": "质量情况",
             "type": "input.textarea",
             "key": "remark",
             "placeholder": "请在此填入质量情况描述信息",
-            "span": 8,
+            "span": 6,
             "rule": {
               "required": false
-            }
+            },
+            "block": "每轴手工录入"
           }
         ]
       }
