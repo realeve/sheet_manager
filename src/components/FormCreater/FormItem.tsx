@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Input, Col, Switch, InputNumber, DatePicker, Rate } from 'antd';
+import { Input, Col, Switch, InputNumber, DatePicker, Rate, notification } from 'antd';
 import PinyinSelector from './PinyinSelector';
 import RadioSelector from './RadioSelector';
 import RadioButton from './RadioButton';
@@ -8,6 +8,8 @@ import CheckSelector from './CheckSelector';
 
 import { handler, onValidate, getRuleMsg } from './lib';
 import * as R from 'ramda';
+
+import { axios } from '@/utils/axios';
 
 import styles from './index.less';
 import classNames from 'classnames/bind';
@@ -45,7 +47,19 @@ export default function formItem({
   setFormstatus,
   keyName: key,
   cascade,
-  detail: { title, type, block, defaultOption, span = 8, unReset, rule, increase, ...props },
+  dev,
+  detail: {
+    title,
+    type,
+    block,
+    defaultOption,
+    span = 8,
+    ignore,
+    unReset,
+    rule,
+    increase,
+    ...props
+  },
   scope = [],
   setScope,
   calcValid,
@@ -122,6 +136,25 @@ export default function formItem({
   let invalidCalc = calcValid.key === key && !calcValid.status;
 
   let haveHideKeys = (restScope.defaultOption || defaultOption || []).find(item => item.hide);
+
+  useEffect(() => {
+    if (!(['input', 'label'].includes(type) && props.url)) {
+      return;
+    }
+
+    // 处理默认载入数据的场景;
+    axios({ url: props.url }).then(res => {
+      if (res.rows == 0 && rule.required) {
+        notification.error({
+          message: '初始数据载入错误',
+          description: rule.msg,
+          duration: 10,
+        });
+        return;
+      }
+      setState(res.data[0]);
+    });
+  }, []);
 
   return (
     <Col
@@ -228,7 +261,7 @@ export default function formItem({
             url={props.url}
             onChange={(val, scopeItem) => {
               onChange(val);
-              scopeItem && setScope(scopeItem, haveHideKeys);
+              scopeItem && setScope(scopeItem, haveHideKeys || scopeItem.hide);
             }}
             defaultOption={restScope.defaultOption || defaultOption}
             state={state}
@@ -245,7 +278,7 @@ export default function formItem({
             url={props.url}
             onChange={(val, scopeItem) => {
               onChange(val);
-              scopeItem && setScope(scopeItem, haveHideKeys);
+              scopeItem && setScope(scopeItem, haveHideKeys || scopeItem.hide);
             }}
             defaultOption={restScope.defaultOption || defaultOption}
             {...props}
@@ -257,7 +290,7 @@ export default function formItem({
             url={props.url}
             onChange={(val, scopeItem) => {
               onChange(val);
-              scopeItem && setScope(scopeItem, haveHideKeys);
+              scopeItem && setScope(scopeItem, haveHideKeys || scopeItem.hide);
             }}
             defaultOption={restScope.defaultOption || defaultOption}
             {...props}
@@ -295,6 +328,12 @@ export default function formItem({
               }}
             ></label>
           )
+        )}
+        {/* 开发模式显示字段值 */}
+        {dev && state && (
+          <label className="ant-form-explain">
+            {key}:{state}
+          </label>
         )}
       </div>
     </Col>

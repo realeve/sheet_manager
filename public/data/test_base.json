@@ -1,0 +1,6 @@
+{
+  "rows": 1,
+  "data": [{ "cut_baseid": 23 }],
+  "header": ["cut_baseid"],
+  "title": "当前班组今日接班信息"
+}

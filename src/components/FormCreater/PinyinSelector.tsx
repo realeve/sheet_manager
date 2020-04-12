@@ -32,6 +32,7 @@ export default function PinyinSelector({
     textVal,
     cascade,
   });
+
   const [optVal, setOptVal] = useState([]);
   useEffect(() => {
     let detail = R.filter(item =>
@@ -53,7 +54,7 @@ export default function PinyinSelector({
     let res = options.filter(o => !selectedItems.includes(o.value));
     setOption(res);
   }, [options, selectedItems]);
-   
+
   const handleOption = value => {
     if (R.isNil(value) || props.mode !== 'tags') {
       return;
@@ -87,22 +88,22 @@ export default function PinyinSelector({
 
   let [selectVal, setSelectVal] = useState({});
   useEffect(() => {
-    let nextState = props.mode !== 'tags' ? optVal : value;    
+    let nextState = props.mode !== 'tags' ? optVal : value;
     setSelectVal(R.isNil(nextState) ? {} : { value: nextState });
   }, [value, optVal]);
-   
+
   // 选择项变更时清除历史数据
-  useEffect(()=>{
-    setOptVal([])
-  },[defaultOption])
-  
+  useEffect(() => {
+    setOptVal([]);
+  }, [defaultOption]);
+
   return (
     <PinyinSelect
       style={{ width: props.mode === 'multiple' ? 230 : 150 }}
       onChange={props.mode === 'multiple' ? onMultipleChange : onSingleChange}
       options={cascade && R.isNil(params[cascade]) ? [] : option}
       placeholder="拼音首字母过滤"
-      {...props} 
+      {...props}
       {...selectVal}
     />
   );

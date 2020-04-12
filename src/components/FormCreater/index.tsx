@@ -23,6 +23,7 @@ import qs from 'qs';
 import { useLocation } from 'react-use';
 import router from 'umi/router';
 import { ICommon } from '@/models/common';
+import * as lib from '@/utils/lib';
 
 moment.locale('zh-cn');
 
@@ -48,9 +49,9 @@ function FormCreater({
   hidemenu,
   dispatch,
   user,
-  shouldConnect,
-  parentConfig,
-  setParentConfig,
+  shouldConnect = false,
+  // parentConfig = { hide: [], scope: [] },
+  // setParentConfig,
 }) {
   // 增加对总分的计算，与scope字段一并处理
   let [state, setState] = useSetState();
@@ -197,29 +198,30 @@ function FormCreater({
   const [hideKeys, setHideKeys] = useState([]);
 
   // 跨页面联动
-  useEffect(() => {
-    if (!shouldConnect) {
-      return;
-    }
-    console.log(hideKeys, scope);
-    setParentConfig({
-      hide: hideKeys,
-      scope,
-    });
-  }, [scope, hideKeys]);
+  // useEffect(() => {
+  //   if (!shouldConnect) {
+  //     return;
+  //   }
 
-  useEffect(() => {
-    if (!shouldConnect) {
-      return;
-    }
-    console.log(parentConfig, hideKeys);
-    if (!R.equals(parentConfig.hide, hideKeys)) {
-      setHideKeys[parentConfig.hide];
-    }
-    if (!R.equals(parentConfig.scope, scope)) {
-      setScope[parentConfig.scope];
-    }
-  }, [parentConfig]);
+  //   setParentConfig({
+  //     hide: hideKeys,
+  //     scope,
+  //   });
+  // }, [scope, hideKeys]);
+
+  // useEffect(() => {
+  //   if (!shouldConnect) {
+  //     return;
+  //   }
+
+  //   if (!R.equals(parentConfig.hide, hideKeys)  ) {
+  //     setHideKeys(parentConfig.hide);
+  //   }
+
+  //   if (!R.equals(parentConfig.scope, scope)  ) {
+  //     setScope(parentConfig.scope);
+  //   }
+  // }, [parentConfig]);
 
   const shouldRefreshHistoryData = () => {
     let status =
@@ -408,6 +410,7 @@ function FormCreater({
       return;
     }
     let nextState = {};
+    // console.log(hideKeys);
     hideKeys.forEach(key => {
       nextState[key] = '';
     });
@@ -570,7 +573,12 @@ function FormCreater({
                       isQueryKey={queryKey.includes(key)}
                       calcValid={calcValid}
                       formLayout={formLayout}
+                      dev={formConfig.dev}
                       setState={res => {
+                        if (lib.getType(res) === 'object') {
+                          setState(res);
+                          return;
+                        }
                         setState({
                           [key]: res,
                         });

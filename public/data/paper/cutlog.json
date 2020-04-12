@@ -23,7 +23,7 @@
         "param": ["_id"]
       }
     },
-    "table": "paper_cutwaste",
+    "table": "paper_cutwaste_base",
     "detail": [
       {
         "detail": [
@@ -50,50 +50,7 @@
             "title": "机台",
             "type": "select",
             "key": "machine_id",
-            "defaultOption": [
-              {
-                "name": "必诺1#",
-                "value": "必诺1#",
-                "hide": [
-                  "ream_69",
-                  "ream_49",
-                  "ream_package",
-                  "operator_paper_check",
-                  "operator_counter",
-                  "operator_package",
-                  "remark_operator_paper_check",
-                  "remark_operator_counter",
-                  "remark_operator_package",
-                  "ream_choose",
-                  "ream_reel_head_tail",
-                  "ccd_fake",
-                  "ccd_well",
-                  "suspect_num"
-                ],
-                "scope": [{ "key": "speed", "defaultValue": 300 }]
-              },
-              {
-                "name": "帕萨班",
-                "value": "帕萨班",
-                "hide": [
-                  "ream_69",
-                  "ream_49",
-                  "ream_choose",
-                  "ream_reel_head_tail",
-                  "ccd_fake",
-                  "ream_warehouse",
-                  "machinecheck_weel_num"
-                ],
-                "scope": [{ "key": "speed", "defaultValue": 280 }]
-              },
-              {
-                "name": "切纸4#",
-                "value": "切纸4#",
-                "scope": [{ "key": "speed", "defaultValue": 300 }],
-                "hide": ["ream_69", "ream_warehouse", "machinecheck_weel_num", "ccd_well"]
-              }
-            ],
-
+            "url": "./data/base/paper_cutlog_machine.json",
             "rule": {
               "required": true,
               "msg": "请输入机台"
@@ -309,6 +266,7 @@
   },
   {
     "name": "生产原始记录",
+    "dev": true,
     "api": {
       "insert": {
         "url": "875/8ab54jm40a",
@@ -331,10 +289,35 @@
         "param": ["_id"]
       }
     },
-    "table": "paper_cutwaste",
+    "table": "paper_cutwaste_log",
     "detail": [
       {
         "detail": [
+          {
+            "title": "记录id",
+            "type": "label",
+            "key": "cut_baseid",
+            "span": 6,
+            "url": "./data/test_base.json",
+            "rule": {
+              "required": true,
+              "msg": "交接班基础信息未填写，请切换选项卡填写"
+            }
+          },
+          {
+            "title": "机台",
+            "type": "select",
+            "key": "machine_id",
+            "url": "./data/base/paper_cutlog_machine.json",
+            "rule": {
+              "required": true,
+              "msg": "请输入机台"
+            },
+            "placeholder": "请输入机台，用拼音缩写快速录入",
+            "unReset": true,
+            "span": 6,
+            "ignore": true
+          },
           {
             "title": "轴号",
             "type": "input",
@@ -470,7 +453,7 @@
           },
           {
             "title": "下纸道",
-            "key": "complete_num",
+            "key": "machine_waste_num",
             "type": "input.number",
             "block": "每轴结束后抄自于机器控制屏",
             "rule": {
@@ -517,10 +500,7 @@
             "title": "绿色通道",
             "type": "switch",
             "key": "quick_channel",
-            "rule": {
-              "required": true
-            },
-            "defaultValue": false,
+            "defaultValue": "0",
             "checkedChildren": "是",
             "unCheckedChildren": "否",
             "span": 6

@@ -1,0 +1,61 @@
+{
+  "title": "切纸机原始记录机台列表",
+  "rows": 3,
+  "header": ["name", "value", "hide", "scope"],
+  "data": [
+    {
+      "name": "必诺1#",
+      "value": "必诺1#",
+      "hide": [
+        "ream_69",
+        "ream_49",
+        "ream_package",
+        "operator_paper_check",
+        "operator_counter",
+        "operator_package",
+        "remark_operator_paper_check",
+        "remark_operator_counter",
+        "remark_operator_package",
+        "ream_choose",
+        "ream_reel_head_tail",
+        "ream_warehouse",
+        "suspect_num",
+        "ream_check"
+      ],
+      "scope": [{ "key": "speed", "defaultValue": 300 }]
+    },
+    {
+      "name": "帕萨班",
+      "value": "帕萨班",
+      "hide": [
+        "ream_69",
+        "ream_49",
+        "ream_choose",
+        "ccd_fake",
+        "ream_warehouse",
+        "ccd_well",
+        "machinecheck_weel_num",
+        "machine_waste_num"
+      ],
+      "scope": [{ "key": "speed", "defaultValue": 280 }]
+    },
+    {
+      "name": "切纸4#",
+      "value": "切纸4#",
+      "scope": [{ "key": "speed", "defaultValue": 300 }],
+      "hide": [
+        "operator_paper_check",
+        "operator_counter",
+        "operator_package",
+        "remark_operator_paper_check",
+        "remark_operator_counter",
+        "remark_operator_package",
+        "ream_69",
+        "ream_warehouse",
+        "machinecheck_weel_num",
+        "ccd_well",
+        "machine_waste_num"
+      ]
+    }
+  ]
+}

@@ -63,10 +63,10 @@ export default function page(): JSX.Element {
     },
   });
 
-  const [parentConfig, setParentConfig] = useState({
-    hide: [],
-    scope: [],
-  });
+  // const [parentConfig, setParentConfig] = useState({
+  //   hide: [],
+  //   scope: [],
+  // });
 
   if (!data) {
     return (
@@ -87,9 +87,9 @@ export default function page(): JSX.Element {
           <Tabs.TabPane tab={item.name} key={String(idx)}>
             <FormCreater
               config={item}
-              parentConfig={parentConfig}
-              setParentConfig={setParentConfig}
-              shouldConnect
+              // parentConfig={parentConfig}
+              // setParentConfig={setParentConfig}
+              // shouldConnect
             />
           </Tabs.TabPane>
         ))}
