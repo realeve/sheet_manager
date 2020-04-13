@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactEcharts from './echarts-for-react';
 import { tRender } from '../utils/lib';
+
 interface IProp {
   renderer?: tRender;
   option: any;

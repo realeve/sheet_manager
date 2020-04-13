@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
-import { Card, Tabs } from 'antd';
+import { Card, Tabs, Modal } from 'antd';
 import * as db from '../services/chart';
 import styles from './Chart.less';
 import VTable from '@/components/Table.jsx';
@@ -12,6 +12,7 @@ import lib from '../utils/lib';
 import { useSetState } from 'react-use';
 import CodeDrawer from './code';
 import beautify from 'js-beautify';
+import { handleSimpleMode, CHART_MODE } from '../utils/lib';
 
 const R = require('ramda');
 const TabPane = Tabs.TabPane;
@@ -193,6 +194,25 @@ const Charts = ({ dispatch, ...props }: IProp) => {
       link.click();
   };
 
+  const [drill, setDrill] = useSetState({
+    visible: false,
+  });
+
+  const handleClick = (param, instance) => {
+    console.log(state.params);
+
+    let { name, seriesName } = param;
+    name = String(name).trim();
+    seriesName = String(seriesName).trim();
+    console.log(name, seriesName);
+
+    // 隐藏tooltip
+    instance.dispatchAction({
+      type: 'hideTip',
+    });
+    setDrill({ visible: true });
+  };
+
   let { loading, dataSrc } = state;
   let tblDataSrc = R.clone(dataSrc);
   tblDataSrc.data = tblDataSrc.data.map(item => Object.values(item));
@@ -205,6 +225,22 @@ const Charts = ({ dispatch, ...props }: IProp) => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
+      <Modal
+        title={null}
+        visible={drill.visible}
+        footer={null}
+        onCancel={() => setDrill({ visible: false })}
+        width={800}
+      >
+        {option[0] && (
+          <ChartComponent
+            option={handleSimpleMode(R.clone(option[0]), { simple: CHART_MODE.SHOW_TITLE })}
+            renderer="canvas"
+            style={{ width: '100%', height: 450 }}
+          />
+        )}
+      </Modal>
+
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
         <TabPane tab={formatMessage({ id: 'chart.tab.chart' })} key="1">
           {dataSrc.header && (
@@ -239,9 +275,7 @@ const Charts = ({ dispatch, ...props }: IProp) => {
                   marginTop: key ? 40 : 0,
                 }}
                 onEvents={{
-                  click: e => {
-                    console.log(e);
-                  },
+                  click: handleClick,
                 }}
               />
             ))}

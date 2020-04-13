@@ -174,7 +174,9 @@ let handleDefaultOption = (option, config, showDateRange = true) => {
             str += `<div style="display:flex;flex-direction:row;align-items:center;height:25px;"><div style="width:10px;height:10px;border-radius:50%;background-color:${
               item.color
             };margin-right:10px;"></div><span style="font-size:17px;">${item.seriesName ||
-              axisName}：${item.value}</span></div>`;
+              axisName}：${
+              typeof item.value === 'string' ? Number(item.value) : item.value
+            }</span></div>`;
           }
         });
         if (unit) {
@@ -199,8 +201,13 @@ let handleDefaultOption = (option, config, showDateRange = true) => {
   return option;
 };
 
+export enum CHART_MODE {
+  HIDE_DESC = 1,
+  HIDE_ALL = 2,
+  SHOW_TITLE = 3,
+}
 // 简洁模式
-const handleSimpleMode = (option, config) => {
+export const handleSimpleMode = (option, config) => {
   if (!config.simple) {
     return option;
   }
@@ -222,12 +229,23 @@ const handleSimpleMode = (option, config) => {
     option = Object.assign(option, { xAxis, yAxis });
   }
 
-  if (config.simple == '1') {
+  if (config.simple == CHART_MODE.HIDE_DESC) {
     // Reflect.deleteProperty(option, 'toolbox');
     let [title]: string = option.title;
     option.title = title;
-  } else if (config.simple == '2') {
+  } else if (config.simple == CHART_MODE.HIDE_ALL) {
     option.title = {};
+    option.toolbox = {};
+    option.grid = {
+      left: 35,
+      right: 10,
+      top: 10,
+      bottom: 20,
+    };
+    Reflect.deleteProperty(option, 'dataZoom');
+  } else if (config.simple == CHART_MODE.SHOW_TITLE) {
+    let [title]: string = option.title;
+    option.title = title;
     option.toolbox = {};
     option.grid = {
       left: 35,
