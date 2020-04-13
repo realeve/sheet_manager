@@ -59,14 +59,9 @@ export default function page(): JSX.Element {
       if (lib.getType(res) == 'array') {
         return res.map(callback);
       }
-      callback(res);
+      return callback(res);
     },
   });
-
-  // const [parentConfig, setParentConfig] = useState({
-  //   hide: [],
-  //   scope: [],
-  // });
 
   if (!data) {
     return (
@@ -80,6 +75,7 @@ export default function page(): JSX.Element {
     );
   }
 
+  console.log(lib.getType(data), data);
   if (lib.getType(data) === 'array') {
     return (
       <Tabs defaultActiveKey="0" type="line">
