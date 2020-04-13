@@ -119,6 +119,7 @@ export const getDrivedState = ({ dataSrc, params }) => {
     if (lib.isInt(param)) {
       param = R.nth(param, dataSrc.header);
     }
+
     let dataList = R.groupBy(R.prop(param))(dataSrc.data);
 
     option = R.compose(

@@ -238,6 +238,11 @@ const Charts = ({ dispatch, ...props }: IProp) => {
                   height: lib.getChartHeight(state.params, option),
                   marginTop: key ? 40 : 0,
                 }}
+                onEvents={{
+                  click: e => {
+                    console.log(e);
+                  },
+                }}
               />
             ))}
           </Card>
