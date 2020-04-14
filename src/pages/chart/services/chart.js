@@ -91,15 +91,21 @@ export const computeDerivedState = async ({
 }) => {
   console.time(`加载图表${id}`);
   // post模式无法缓存数据，自动适应为get及post模式
+  let _params = {};
+  Object.keys(params)
+    .filter(key => !/^dr\d+\_/.test(key))
+    .forEach(key => {
+      _params[key] = params[key];
+    });
   let option =
     method === 'post'
       ? {
           method,
-          data: { id, nonce, cache, ...params },
+          data: { id, nonce, cache, ..._params },
         }
       : {
           method,
-          params,
+          params: _params,
         };
   if (!url && method !== 'post') {
     url = `${id}/${nonce}/${cache}`;
@@ -109,7 +115,7 @@ export const computeDerivedState = async ({
   }
   let dataSrc = await axios(option);
   console.timeEnd(`加载图表${id}`);
-  return getDrivedState({ dataSrc, params });
+  return getDrivedState({ dataSrc, params: _params });
 };
 
 export const getDrivedState = ({ dataSrc, params }) => {

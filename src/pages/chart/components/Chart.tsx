@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
-import { Card, Tabs, Modal } from 'antd';
+import { Card, Tabs, Modal, Spin } from 'antd';
 import * as db from '../services/chart';
 import styles from './Chart.less';
 import VTable from '@/components/Table.jsx';
@@ -13,6 +13,7 @@ import { useSetState } from 'react-use';
 import CodeDrawer from './code';
 import beautify from 'js-beautify';
 import { handleSimpleMode, CHART_MODE } from '../utils/lib';
+import { getDrillParam } from './DrillChart';
 
 const R = require('ramda');
 const TabPane = Tabs.TabPane;
@@ -196,21 +197,42 @@ const Charts = ({ dispatch, ...props }: IProp) => {
 
   const [drill, setDrill] = useSetState({
     visible: false,
+    option: null,
+    loading: false,
   });
 
-  const handleClick = (param, instance) => {
-    console.log(state.params);
+  const handleClick = async (param, instance) => {
+    if (!state.params.dr0_id) {
+      return;
+    }
+
+    let params = getDrillParam(props.config, 0);
 
     let { name, seriesName } = param;
     name = String(name).trim();
     seriesName = String(seriesName).trim();
-    console.log(name, seriesName);
+
+    params = { ...params, name, seriesName };
+    console.log(params);
+
+    setDrill({ loading: true, option: null, visible: true });
+    let { option } = await db
+      .computeDerivedState({
+        method: props.textAreaList.length > 0 ? 'post' : 'get',
+        params,
+      })
+      .finally(e => {
+        setDrill({ loading: false });
+      });
+
+    setDrill({
+      option: handleSimpleMode(R.clone(option[0]), { simple: CHART_MODE.SHOW_TITLE }),
+    });
 
     // 隐藏tooltip
     instance.dispatchAction({
       type: 'hideTip',
     });
-    setDrill({ visible: true });
   };
 
   let { loading, dataSrc } = state;
@@ -231,14 +253,17 @@ const Charts = ({ dispatch, ...props }: IProp) => {
         footer={null}
         onCancel={() => setDrill({ visible: false })}
         width={800}
+        bodyStyle={{ minHeight: 500 }}
       >
-        {option[0] && (
-          <ChartComponent
-            option={handleSimpleMode(R.clone(option[0]), { simple: CHART_MODE.SHOW_TITLE })}
-            renderer="canvas"
-            style={{ width: '100%', height: 450 }}
-          />
-        )}
+        <Spin spinning={drill.loading} tip="加载中...">
+          {drill.option && (
+            <ChartComponent
+              option={drill.option}
+              renderer="canvas"
+              style={{ width: '100%', height: 450 }}
+            />
+          )}
+        </Spin>
       </Modal>
 
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
