@@ -147,6 +147,7 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
     const { onEvents, onChartReady } = this.props;
 
     const echartObj = this.renderEchartDom();
+
     this.bindEvents(echartObj, onEvents || {});
 
     // fix bug of 100px width * height.
@@ -168,15 +169,18 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
         // binding event
         // instance.off(eventName); // 已经 dispose 在重建，所以无需 off 操作
         instance.on(eventName, param => {
-          func(param, instance);
+          // 将外部数据注入
+          func(param, instance, this.props.append || {});
         });
       }
     };
 
+    // 将外部数据注入
+
     // loop and bind
     for (const eventName in events) {
       if (Object.prototype.hasOwnProperty.call(events, eventName)) {
-        _bindEvent(eventName, events[eventName]);
+        _bindEvent(eventName, events[eventName], this.props.append || {});
       }
     }
   };
@@ -208,6 +212,7 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
       height: 300,
       ...style,
     };
+
     // for render
     return (
       <div

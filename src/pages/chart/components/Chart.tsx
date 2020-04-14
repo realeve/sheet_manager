@@ -13,7 +13,7 @@ import { useSetState } from 'react-use';
 import CodeDrawer from './code';
 import beautify from 'js-beautify';
 import { handleSimpleMode, CHART_MODE } from '../utils/lib';
-import { getDrillParam } from './DrillChart';
+import { getDrillParam, DrillChart } from './DrillChart';
 
 const R = require('ramda');
 const TabPane = Tabs.TabPane;
@@ -199,6 +199,7 @@ const Charts = ({ dispatch, ...props }: IProp) => {
     visible: false,
     option: null,
     loading: false,
+    title: null,
   });
 
   const handleClick = async (param, instance) => {
@@ -213,12 +214,11 @@ const Charts = ({ dispatch, ...props }: IProp) => {
     seriesName = String(seriesName).trim();
 
     params = { ...params, name, seriesName };
-    console.log(params);
 
-    setDrill({ loading: true, option: null, visible: true });
+    setDrill({ title: name, loading: true, option: null, visible: true });
     let { option } = await db
       .computeDerivedState({
-        method: props.textAreaList.length > 0 ? 'post' : 'get',
+        method: 'get',
         params,
       })
       .finally(e => {
@@ -253,17 +253,13 @@ const Charts = ({ dispatch, ...props }: IProp) => {
         footer={null}
         onCancel={() => setDrill({ visible: false })}
         width={800}
-        bodyStyle={{ minHeight: 500 }}
       >
-        <Spin spinning={drill.loading} tip="加载中...">
-          {drill.option && (
-            <ChartComponent
-              option={drill.option}
-              renderer="canvas"
-              style={{ width: '100%', height: 450 }}
-            />
-          )}
-        </Spin>
+        <DrillChart
+          title={drill.title}
+          loading={drill.loading}
+          option={drill.option || {}}
+          config={props.config}
+        />
       </Modal>
 
       <Tabs defaultActiveKey="1" className={styles.chartContainer}>
