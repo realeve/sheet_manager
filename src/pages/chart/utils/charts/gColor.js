@@ -35,7 +35,7 @@ let handleColor = option => {
   }
   let idx = 0;
 
-  console.log(option);
+  // console.log(option);
 
   let color = R.map(({ name }) =>
     !R.isNil(gColor[name])

@@ -52,6 +52,15 @@ const Charts = ({ dispatch, ...props }: IProp) => {
 
   const [option, setOption] = useState([]);
 
+  const [drill, setDrill] = useSetState({
+    visible: false,
+    option: null,
+    loading: false,
+    title: null,
+    groupList: [],
+    group_name: '',
+  });
+
   const init = async () => {
     setState({ loading: true });
     let params = R.clone(props.config);
@@ -63,7 +72,7 @@ const Charts = ({ dispatch, ...props }: IProp) => {
       return;
     }
 
-    let { dataSrc, option } = await db
+    let { dataSrc, option, groupList } = await db
       .computeDerivedState({
         method: props.textAreaList.length > 0 ? 'post' : 'get',
         params,
@@ -71,6 +80,8 @@ const Charts = ({ dispatch, ...props }: IProp) => {
       .finally(e => {
         setState({ loading: false });
       });
+
+    setDrill({ groupList });
 
     setOption(option);
     setState({ showErr: false, dataSrc });
@@ -195,27 +206,14 @@ const Charts = ({ dispatch, ...props }: IProp) => {
       link.click();
   };
 
-  const [drill, setDrill] = useSetState({
-    visible: false,
-    option: null,
-    loading: false,
-    title: null,
-  });
-
-  const handleClick = async (param, instance) => {
+  const handleClick = async (param, instance, group_name) => {
     if (!state.params.dr0_id) {
       return;
     }
 
-    let params = getDrillParam(props.config, 0);
+    let params = getDrillParam({ ...props.config, group_name }, param, 0);
 
-    let { name, seriesName } = param;
-    name = String(name).trim();
-    seriesName = String(seriesName).trim();
-
-    params = { ...params, name, seriesName };
-
-    setDrill({ title: name, loading: true, option: null, visible: true });
+    setDrill({ title: params.name, loading: true, option: null, visible: true });
     let { option } = await db
       .computeDerivedState({
         method: 'get',
@@ -252,13 +250,14 @@ const Charts = ({ dispatch, ...props }: IProp) => {
         visible={drill.visible}
         footer={null}
         onCancel={() => setDrill({ visible: false })}
-        width={800}
+        width={960}
       >
         <DrillChart
           title={drill.title}
           loading={drill.loading}
           option={drill.option || {}}
           config={props.config}
+          group_name={drill.group_name}
         />
       </Modal>
 
@@ -296,7 +295,12 @@ const Charts = ({ dispatch, ...props }: IProp) => {
                   marginTop: key ? 40 : 0,
                 }}
                 onEvents={{
-                  click: handleClick,
+                  click: (a, b) => {
+                    setDrill({
+                      group_name: drill.groupList[key],
+                    });
+                    handleClick(a, b, drill.groupList[key]);
+                  },
                 }}
               />
             ))}

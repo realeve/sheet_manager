@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Spin, Breadcrumb } from 'antd';
 import * as db from '../services/chart';
 import ChartComponent from './ChartComponent';
@@ -6,12 +6,19 @@ import { useCounter } from 'react-use';
 import { handleSimpleMode, CHART_MODE } from '../utils/lib';
 import * as R from 'ramda';
 import { HomeOutlined } from '@ant-design/icons';
+import SimpleTable from '@/pages/Search/components/SimpleTable';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 const { Item } = Breadcrumb;
 
-export const getDrillParam = (params, level = 0) => {
+export const getDrillParam = ({ select, ...params }, param, level = 0) => {
   let reg = new RegExp('^dr' + level + '_');
-  let _param = {};
+
+  let { name, seriesName: series_name } = param;
+  name = String(name).trim();
+  series_name = String(series_name).trim();
+  let _param = { name, series_name };
+
   Object.keys(params)
     .filter(key => reg.test(key))
     .forEach(key => {
@@ -24,10 +31,17 @@ export const getDrillParam = (params, level = 0) => {
         _param[nextKey] = val;
       }
     });
-  return _param;
+  return { ...params, ..._param };
 };
 
-export const DrillChart = ({ loading: modalLoading, title, option, config, ...props }) => {
+export const DrillChart = ({
+  loading: modalLoading,
+  group_name,
+  title,
+  option,
+  config,
+  ...props
+}) => {
   const [options, setOptions] = useState([option]);
   const [loading, setLoading] = useState(false);
 
@@ -35,37 +49,40 @@ export const DrillChart = ({ loading: modalLoading, title, option, config, ...pr
 
   const [titles, setTitles] = useState([title]);
 
+  const [data, setData] = useState(null);
+  const [showTable, setShowTable] = useState(false);
+
   useEffect(() => {
     reset();
     setOptions([option]);
     setTitles([title]);
+    setData(null);
   }, [JSON.stringify(option)]);
 
-  const handleClick = async (param, instance, { level, options, titles }) => {
+  // 第三个参数传入，用于echarts内部绑定的事件中，引用外部数据。不传入时无法读到外部数据
+  const handleClick = async (param, instance, { level, options, group_name, titles }) => {
     let nextLevel = level + 1;
     if (!config[`dr${nextLevel}_id`]) {
       return;
     }
-    console.log('load', nextLevel);
-
     inc(1);
-
-    let params = getDrillParam(config, nextLevel);
-
-    let { name, seriesName } = param;
-    name = String(name).trim();
-    seriesName = String(seriesName).trim();
-
-    console.log(param, name, seriesName);
+    let params = getDrillParam({ ...config, group_name }, param, nextLevel);
 
     let nextTitle = R.clone(titles);
-    nextTitle[nextLevel] = name;
+    nextTitle[nextLevel] = params.name;
     setTitles(nextTitle);
 
-    params = { ...params, name, seriesName };
-
     setLoading(true);
-    let { option } = await db
+
+    let drilltype = params.drilltype;
+    if (drilltype === 'table') {
+      setShowTable(true);
+      setData({});
+    } else {
+      setShowTable(false);
+    }
+
+    let { option, dataSrc } = await db
       .computeDerivedState({
         method: 'get',
         params,
@@ -74,11 +91,14 @@ export const DrillChart = ({ loading: modalLoading, title, option, config, ...pr
         setLoading(false);
       });
 
-    let _option = handleSimpleMode(R.clone(option[0]), { simple: CHART_MODE.SHOW_TITLE });
-    let nextOption = R.clone(options);
-    nextOption[nextLevel] = _option;
-
-    setOptions(nextOption);
+    if (typeof drilltype === 'undefined' || drilltype == 'chart') {
+      let _option = handleSimpleMode(R.clone(option[0]), { simple: CHART_MODE.SHOW_TITLE });
+      let nextOption = R.clone(options);
+      nextOption[nextLevel] = _option;
+      setOptions(nextOption);
+    } else if (drilltype == 'table') {
+      setData(dataSrc);
+    }
 
     // 隐藏tooltip
     instance.dispatchAction({
@@ -92,6 +112,7 @@ export const DrillChart = ({ loading: modalLoading, title, option, config, ...pr
     let nextOption = R.slice(0, idx + 1)(options);
     setOptions(nextOption);
     setTitles(R.slice(0, idx + 1)(titles));
+    setShowTable(false);
   };
 
   return (
@@ -109,15 +130,28 @@ export const DrillChart = ({ loading: modalLoading, title, option, config, ...pr
         ))}
       </Breadcrumb>
 
-      <ChartComponent
-        option={level == 0 ? option : options[level] || {}}
-        renderer="canvas"
-        style={{ width: '100%', height: 450 }}
-        onEvents={{
-          click: handleClick,
-        }}
-        append={{ level, options, titles }}
-      />
+      {!showTable && (
+        <ChartComponent
+          option={level == 0 ? option : options[!showTable ? level : Math.max(level - 1, 0)] || {}}
+          renderer="canvas"
+          style={{ width: '100%', height: 500 }}
+          onEvents={{
+            click: handleClick,
+          }}
+          append={{ level, options, group_name, titles }}
+        />
+      )}
+      {showTable && (
+        <Scrollbars
+          autoHide
+          style={{
+            height: 500,
+            marginTop: 20,
+          }}
+        >
+          <SimpleTable data={data} loading={loading} />
+        </Scrollbars>
+      )}
     </Spin>
   );
 };

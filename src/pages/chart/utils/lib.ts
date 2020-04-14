@@ -261,12 +261,14 @@ export const handleSimpleMode = (option, config) => {
 
 // 字符串转日期
 let str2Date: (str: string) => string = str => {
+  str = String(str);
   let needConvert: boolean = /^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$|^[1-9]\d{3}(0[1-9]|1[0-2])$/.test(
     str
   );
   if (!needConvert) {
     return str;
   }
+
   let dates: Array<string> = [str.substr(0, 4), str.substr(4, 2)];
   if (str.length === 8) {
     dates[2] = str.substr(6, 2);

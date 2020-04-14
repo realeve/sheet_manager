@@ -120,6 +120,7 @@ export const computeDerivedState = async ({
 
 export const getDrivedState = ({ dataSrc, params }) => {
   let option = [];
+  let groupList = [];
   if (params.group) {
     let param = params.group;
     if (lib.isInt(param)) {
@@ -127,6 +128,9 @@ export const getDrivedState = ({ dataSrc, params }) => {
     }
 
     let dataList = R.groupBy(R.prop(param))(dataSrc.data);
+
+    // 分组列表
+    groupList = R.keys(dataList);
 
     option = R.compose(
       R.map(prefix => {
@@ -162,6 +166,7 @@ export const getDrivedState = ({ dataSrc, params }) => {
   return {
     dataSrc,
     option,
+    groupList,
   };
 };
 

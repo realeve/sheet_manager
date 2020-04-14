@@ -6,6 +6,7 @@ import { notification } from 'antd';
 // import router from 'umi/router';
 import router from './router';
 import * as R from 'ramda';
+import * as lib from './lib';
 export interface GlobalAxios {
   host: string;
   token: string;
@@ -194,6 +195,27 @@ export const handleData = ({ data }) => {
     // 移除token
     Reflect.deleteProperty(data, 'token');
   }
+
+  // handle data.data
+  data.data = data.data.map(item => {
+    if (getType(item) === 'array') {
+      return item.map(td =>
+        lib.isNumOrFloat(td)
+          ? Number(Number(td).toFixed(4))
+          : typeof td === 'string'
+          ? td.trim()
+          : td
+      );
+    }
+    Object.keys(item).forEach(key => {
+      item[key] = lib.isNumOrFloat(item[key])
+        ? Number(Number(item[key]).toFixed(4))
+        : typeof item[key] === 'string'
+        ? item[key].trim()
+        : item[key];
+    });
+    return item;
+  });
   return data;
 };
 
