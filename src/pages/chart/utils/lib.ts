@@ -148,6 +148,8 @@ let handleDefaultOption = (option, config, showDateRange = true) => {
      */
     let axisName = option?.yAxis?.name;
 
+    let shouldDrill = window.location.hash.includes('dr0_id=');
+    let drillTipText = shouldDrill ? '<div style="color:#e23;">( 点击查看详情 )</div>' : '';
     option.tooltip = {
       trigger: tooltipTrigger,
       axisPointer: {
@@ -186,7 +188,7 @@ let handleDefaultOption = (option, config, showDateRange = true) => {
           title = `<div style="font-weight:bold;font-size:20px;height:30px;">${title}</div>`;
         }
 
-        return `${title}${str}` || false;
+        return `${title}${str}${drillTipText}` || false;
       },
     };
 
