@@ -196,26 +196,29 @@ export const handleData = ({ data }) => {
     Reflect.deleteProperty(data, 'token');
   }
 
-  // handle data.data
-  data.data = data.data.map(item => {
-    if (getType(item) === 'array') {
-      return item.map(td =>
-        lib.isNumOrFloat(td)
-          ? Number(Number(td).toFixed(4))
-          : typeof td === 'string'
-          ? td.trim()
-          : td
-      );
-    }
-    Object.keys(item).forEach(key => {
-      item[key] = lib.isNumOrFloat(item[key])
-        ? Number(Number(item[key]).toFixed(4))
-        : typeof item[key] === 'string'
-        ? item[key].trim()
-        : item[key];
+  if (getType(data.data) === 'array') {
+    // handle data.data
+    data.data = data.data.map(item => {
+      if (getType(item) === 'array') {
+        return item.map(td =>
+          lib.isNumOrFloat(td)
+            ? Number(Number(td).toFixed(4))
+            : typeof td === 'string'
+            ? td.trim()
+            : td
+        );
+      }
+      Object.keys(item).forEach(key => {
+        item[key] = lib.isNumOrFloat(item[key])
+          ? Number(Number(item[key]).toFixed(4))
+          : typeof item[key] === 'string'
+          ? item[key].trim()
+          : item[key];
+      });
+      return item;
     });
-    return item;
-  });
+  }
+
   return data;
 };
 

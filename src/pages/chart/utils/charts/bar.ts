@@ -666,13 +666,13 @@ let getChartConfig: (
     yAxis,
     legend,
     dataZoom: [
-      {
-        type: 'inside',
-        realtime: true,
-        start: 0,
-        end: 100,
-        xAxisIndex: 0,
-      },
+      // {
+      //   type: 'inside',
+      //   realtime: true,
+      //   start: 0,
+      //   end: 100,
+      //   xAxisIndex: 0,
+      // },
     ],
   };
 };
@@ -949,13 +949,15 @@ let bar = options => {
   }
 
   if (!options.stack) {
-    option.dataZoom.push({
-      type: 'inside',
-      realtime: true,
-      start: 0,
-      end: 100,
-      yAxisIndex: 0,
-    });
+    // option.dataZoom.push(
+    //   {
+    //   type: 'inside',
+    //   realtime: true,
+    //   start: 0,
+    //   end: 100,
+    //   yAxisIndex: 0,
+    // }
+    // );
   }
 
   if (options.zoom) {
