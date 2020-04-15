@@ -114,6 +114,30 @@ export const computeDerivedState = async ({
     option.url = url;
   }
   let dataSrc = await axios(option);
+
+  [
+    'name1',
+    'name2',
+    'name3',
+    'name4',
+    'name5',
+    'series_name1',
+    'series_name2',
+    'series_name3',
+    'series_name4',
+    'series_name5',
+    'series_name',
+    'group_name',
+    'name',
+  ].forEach(key => {
+    dataSrc.title = dataSrc.title.replace(key, params[key]);
+  });
+
+  // 处理图表标题注入结果
+  Object.keys(params).forEach(key => {
+    dataSrc.title = dataSrc.title.replace(key, params[key]);
+  });
+
   console.timeEnd(`加载图表${id}`);
   return getDrivedState({ dataSrc, params: _params });
 };

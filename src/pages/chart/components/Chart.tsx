@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
-import { Card, Tabs, Modal, Spin } from 'antd';
+import { Card, Tabs, Modal } from 'antd';
 import * as db from '../services/chart';
 import styles from './Chart.less';
 import VTable from '@/components/Table.jsx';
@@ -56,9 +56,10 @@ const Charts = ({ dispatch, ...props }: IProp) => {
     visible: false,
     option: null,
     loading: false,
-    title: null,
     groupList: [],
+    title: null,
     group_name: '',
+    series_name: '',
   });
 
   const init = async () => {
@@ -211,9 +212,20 @@ const Charts = ({ dispatch, ...props }: IProp) => {
       return;
     }
 
+    // 隐藏tooltip
+    instance.dispatchAction({
+      type: 'hideTip',
+    });
+
     let params = getDrillParam({ ...props.config, group_name }, param, 0);
 
-    setDrill({ title: params.name, loading: true, option: null, visible: true });
+    setDrill({
+      title: params.name,
+      series_name: params.series_name,
+      loading: true,
+      option: null,
+      visible: true,
+    });
     let { option } = await db
       .computeDerivedState({
         method: 'get',
@@ -225,11 +237,6 @@ const Charts = ({ dispatch, ...props }: IProp) => {
 
     setDrill({
       option: handleSimpleMode(R.clone(option[0]), { simple: CHART_MODE.SHOW_TITLE }),
-    });
-
-    // 隐藏tooltip
-    instance.dispatchAction({
-      type: 'hideTip',
     });
   };
 
@@ -258,6 +265,9 @@ const Charts = ({ dispatch, ...props }: IProp) => {
           option={drill.option || {}}
           config={props.config}
           group_name={drill.group_name}
+          name={drill.title}
+          series_name={drill.series_name}
+          visible={drill.visible}
         />
       </Modal>
 

@@ -250,7 +250,7 @@ export const handleSimpleMode = (option, config) => {
     option.grid = {
       left: 35,
       right: 10,
-      top: 25,
+      top: 45,
       bottom: 20,
     };
     Reflect.deleteProperty(option, 'dataZoom');

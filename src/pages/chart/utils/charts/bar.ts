@@ -358,9 +358,9 @@ let handleSeriesItem = option => seriesItem => {
     seriesItem = R.assoc('data', R.map(util.str2Num)(seriesItem.data))(seriesItem);
   }
 
-  if (option.barWidth || option.barwidth) {
-    seriesItem.barMaxWidth = option.barWidth || option.barwidth;
-  }
+  // if (option.barWidth || option.barwidth) {
+  seriesItem.barMaxWidth = option.barWidth || option.barwidth || 60;
+  // }
 
   if (option.type === 'pictorialBar') {
     seriesItem = Object.assign({}, seriesItem, {
