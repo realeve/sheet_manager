@@ -2,22 +2,30 @@
   "name": "物化耐性检验",
   "api": {
     "insert": {
-      "url": "81/7e63360284",
+      "url": "944/2uo98bjlni",
       "param": ["rec_time", "uid"]
     },
-    "update": {
-      "url": "83/ae9b8e8b0f",
+    "delete": {
+      "url": "945/2uo98bjlni",
       "param": ["_id"]
     },
-    "delete": {
-      "url": "84/dac2a713d0",
+    "update": {
+      "url": "946/2uo98bjlni",
       "param": ["_id"]
     },
     "query": {
-      "url": "82/ef0905c692?param1=2",
+      "url": "947/2uo98bjlni",
       "param": ["data_type", "data_value"]
+    },
+    "table": {
+      "url": "948/vkwjcewui"
+    },
+    "load": {
+      "url": "949/vkwjcewui",
+      "param": ["_id"]
     }
   },
+  "table": "Print_Endurance",
   "detail": [
     {
       "title": "基础数据",

@@ -75,7 +75,7 @@ export default function page(): JSX.Element {
     );
   }
 
-  console.log(lib.getType(data), data);
+  // console.log(lib.getType(data), data);
   if (lib.getType(data) === 'array') {
     return (
       <Tabs defaultActiveKey="0" type="line">
