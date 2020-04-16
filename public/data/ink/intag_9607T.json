@@ -313,15 +313,14 @@
         },
         {
           "title": "自然干",
-          "type": "input",
+          "type": "switch",
           "key": "drying_time",
+          "checkedChildren": "是",
+          "unCheckedChildren": "否",
+          "block": "是否≤24小时",
+          "defaultValue": 1,
           "rule": {
-            "type": "float",
             "required": true
-          },
-          "scope": {
-            "max": 24,
-            "min": 0
           },
           "suffix": "h"
         },

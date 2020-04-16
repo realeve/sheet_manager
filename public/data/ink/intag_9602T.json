@@ -84,8 +84,8 @@
               ]
             },
             {
-              "name": "WJ1正蓝(SM-1)",
-              "value": "WJ1正蓝(SM-1)",
+              "name": "WJ1正棕(SM-1)",
+              "value": "WJ1正棕(SM-1)",
               "hide": ["drying_time", "release_time"],
               "scope": [
                 {

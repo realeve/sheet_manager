@@ -149,7 +149,7 @@
           "unReset": true
         },
         {
-          "title": "△L",
+          "title": "|△L|",
           "type": "input",
           "key": "delta_l",
           "rule": {
@@ -162,7 +162,7 @@
           }
         },
         {
-          "title": "△C",
+          "title": "|△C|",
           "type": "input",
           "key": "delta_c",
           "rule": {
@@ -175,7 +175,7 @@
           }
         },
         {
-          "title": "△H",
+          "title": "|△H|",
           "type": "input",
           "key": "delta_h",
           "rule": {
