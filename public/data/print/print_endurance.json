@@ -56,7 +56,7 @@
             },
             { "name": "9602T", "value": "9602T", "hide": ["anti_CreaseOVMI", "anti_scrab"] },
             { "name": "9603A", "value": "9603A", "hide": ["anti_CreaseOVMI", "anti_scrab"] },
-            { "name": "9603TZ", "value": "9603TZ" },
+            { "name": "9603T", "value": "9603T" },
             { "name": "9604T", "value": "9604T" },
             { "name": "9606T", "value": "9606T" },
             { "name": "9607T", "value": "9607T" }

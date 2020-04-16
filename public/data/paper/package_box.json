@@ -7,7 +7,7 @@
     },
     "update": {
       "url": "876/8ab54jm40a",
-      "param": ["cart_num", "patch_no", "box_no", "uid"]
+      "param": ["_id", "uid"]
     },
     "query": {
       "url": "877/8ab54jm40a",
@@ -19,7 +19,7 @@
     },
     "load": {
       "url": "879/8ab54jm40a",
-      "param": ["_id"]
+      "param": ["_id", "uid"]
     }
   },
   "table": "paper_package_box",
@@ -221,7 +221,7 @@
           "title": "小计令数",
           "type": "input",
           "key": "ream_count",
-          "block": "小计令数=令数1+令数2+...+令数8+令数9",
+          "block": "小计令数=令数1+令数2+...+令数8+令数9+令数10",
           "rule": {
             "type": "int",
             "required": true
@@ -259,7 +259,7 @@
           "key": "ream_num1",
           "rule": {
             "type": "int",
-            "calc": "小计令数=令数1+令数2+令数3+令数4+令数5+令数6+令数7+令数8+令数9",
+            "calc": "小计令数=令数1+令数2+令数3+令数4+令数5+令数6+令数7+令数8+令数9+令数10",
             "required": true,
             "msg": "小计令数与记录详情校验失败，两者和不相等"
           },

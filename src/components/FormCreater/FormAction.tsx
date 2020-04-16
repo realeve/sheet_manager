@@ -50,7 +50,7 @@ function formAction({
     // 如果有 id
     setLoadOption({
       url: api.load.url,
-      params: { _id: param._id },
+      params: { _id: param._id, uid },
     });
   }, [hash]);
 

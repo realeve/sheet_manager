@@ -208,6 +208,9 @@ export const handleData = ({ data }) => {
             : td
         );
       }
+      if (getType(item) !== 'object') {
+        return item;
+      }
       Object.keys(item).forEach(key => {
         item[key] = lib.isNumOrFloat(item[key])
           ? Number(Number(item[key]).toFixed(4))
