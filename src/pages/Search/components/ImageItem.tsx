@@ -1,43 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../Image.less';
 import 'animate.css';
 import copy from 'copy-to-clipboard';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import * as R from 'ramda';
+
 const prefix = 'data:image/jpg;base64,';
 // todo 增加点击复制url链接功能.
 
-const ImageTitle = ({ data: { camera, macro_id, pos, code } }) => (
-  <div>
-    <p>
+const ImageTitle = ({ data: { camera, macro_id, pos, code }, ...props }) => (
+  <div {...props}>
+    <p style={{ marginBottom: 0 }}>
       相机：{camera} / 宏区{macro_id} / 第{pos}开
     </p>
-    <p>印码号：{code}</p>
+    <p style={{ marginBottom: 0 }}>印码号：{code}</p>
   </div>
 );
 
 function ImageItem({ data, type, visible, gutter }) {
-  const copyImg = img => {
+  const [show, setShow] = useState(false);
+  const [id, setId] = useState(-1);
+  const copyImg = (img, idx) => {
     copy(img);
     message.success('图像拷贝成功');
+    setShow(true);
+    setId(idx);
   };
+
   return (
-    visible &&
-    data.map((item, idx) => (
-      <li
-        key={type + idx}
-        className="animated zoomIn"
-        onClick={() => copyImg(`${prefix}${item.image}`)}
-        style={{ marginRight: gutter }}
-      >
-        <div className={styles.wrap}>
-          <img src={`${prefix}${item.image}`} alt={item.code} />
-        </div>
-        <div className={styles.desc}>
-          <ImageTitle data={item} key={idx} />
-        </div>
-      </li>
-    ))
+    <>
+      <Modal title="图片详情" visible={show} onCancel={() => setShow(false)} footer={null}>
+        {id >= 0 && (
+          <img style={{ width: '100%' }} src={`${prefix}${data[id].image}`} alt="图片详情" />
+        )}
+
+        {id >= 0 && <ImageTitle data={data[id]} style={{ marginTop: 5 }} />}
+      </Modal>
+      {visible &&
+        data.map((item, idx) => (
+          <li
+            key={type + idx}
+            className="animated zoomIn"
+            onClick={() => copyImg(`${prefix}${item.image}`, idx)}
+            style={{ marginRight: gutter }}
+          >
+            <div className={styles.wrap}>
+              <img src={`${prefix}${item.image}`} alt={item.code} />
+            </div>
+            <div className={styles.desc}>
+              <ImageTitle data={item} key={idx} />
+            </div>
+          </li>
+        ))}
+    </>
   );
 }
 

@@ -10,7 +10,6 @@ import * as R from 'ramda';
 import HeatmapChart from './HeatmapChart';
 import ImageList from '@/pages/table/components/ImagePage';
 import { useSetState } from 'react-use';
-// import Err from '@/components/Err';
 
 import OpennumCart from './OpennumChart';
 
@@ -22,8 +21,12 @@ function ImageSearch({ cart }) {
   const [code, setCode] = useState(null);
   const [filter, setFilter] = useState(0);
   const res = useFetch({ params: cart, api: 'getQfmWipJobsHechaImage', init: [cart] });
-  const { data: silk } = useFetch({ params: cart, api: 'getWipJobsSilkImage', init: [cart] });
-  const { data: codeList, err: errCode } = useFetch({
+  const { data: silk, hash: silkHash } = useFetch({
+    params: cart,
+    api: 'getWipJobsSilkImage',
+    init: [cart],
+  });
+  const { data: codeList, err: errCode, hash: codeHash } = useFetch({
     params: cart,
     api: 'getWipJobsCodeImage',
     init: [cart],
@@ -34,7 +37,7 @@ function ImageSearch({ cart }) {
   const mainFake = useFetch({ params: cart, api: 'getQfmWipJobsMain', init: [cart] });
 
   let imgnum = [
-    hecha.length + silk.length + (codeList ? codeList.length : 0) + tubu.length,
+    res.rows + silk.length + (codeList ? codeList.length : 0),
     hecha.length,
     silk.length,
     codeList.length,
@@ -60,13 +63,15 @@ function ImageSearch({ cart }) {
   let [fakeInfo, setFakeInfo] = useSetState({ camera: '0', macro: '0' });
 
   const getCurData = data => {
-    let dataByPos = curpos > 0 ? R.filter(R.propEq('pos', String(curpos)), data) : data;
+    let dataByPos = curpos > 0 ? R.filter(R.propEq('pos', curpos), data) : data;
+
     if (fakeInfo.camera > '0') {
-      return R.filter(
-        item => item.camera.slice(0, 2) == fakeInfo.camera && item.macro_id == fakeInfo.macro
+      dataByPos = R.filter(
+        item =>
+          String(item.camera).slice(0, 2) == fakeInfo.camera && item.macro_id == fakeInfo.macro
       )(dataByPos);
     }
-    return dataByPos;
+    return R.filter(onFilter, dataByPos);
   };
 
   let container = useRef({ current: { offsetWidth: 0 } });
@@ -89,6 +94,36 @@ function ImageSearch({ cart }) {
     setGutter(getGutter(180, maxWidth));
     setGutterCode(getGutter(320, maxWidth));
   }, [container.current.offsetWidth]);
+
+  const [imgs, setImgs] = useState([]);
+
+  useEffect(() => {
+    let list = [];
+    switch (filter) {
+      case 0:
+        if (!res.hash) {
+          list = R.concat(silk || [], codeList || []);
+        } else {
+          list = R.concat(R.concat(res.data, silk || []), codeList || []);
+        }
+        break;
+      case 1:
+        if (res.hash) {
+          list = hecha;
+        }
+        break;
+      case 2:
+        list = silk || [];
+        break;
+      case 3:
+        list = codeList || [];
+        break;
+      case 4:
+        list = tubu || [];
+        break;
+    }
+    setImgs(getCurData(list));
+  }, [filter, res.hash, codeHash, silkHash, code, curpos, fakeInfo]);
 
   return (
     <>
@@ -183,33 +218,9 @@ function ImageSearch({ cart }) {
               />
             </div>
           </div>
+
           <ul className={styles.content}>
-            {!errCode && (
-              <ImageItem
-                visible={[0, 3].includes(filter)}
-                data={R.filter(onFilter, getCurData(codeList))}
-                type="code"
-                gutter={gutterCode}
-              />
-            )}
-            <ImageItem
-              visible={[0, 2].includes(filter)}
-              data={R.filter(onFilter, getCurData(silk))}
-              type="silk"
-              gutter={gutter}
-            />
-            <ImageItem
-              visible={[0, 1].includes(filter)}
-              data={R.filter(onFilter, getCurData(hecha))}
-              type="hecha"
-              gutter={gutter}
-            />
-            <ImageItem
-              visible={[0, 4].includes(filter)}
-              data={getCurData(tubu)}
-              type="tubu"
-              gutter={gutter}
-            />
+            <ImageItem visible data={imgs} type="tubu" gutter={gutter} />
           </ul>
         </div>
       </Card>
