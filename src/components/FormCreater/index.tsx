@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
-import { Card, Row, Switch, Avatar } from 'antd';
+import { Card, Row, Switch } from 'antd';
 import { Icon } from '@ant-design/compatible';
 import styles from './index.less';
 import {
@@ -24,6 +24,7 @@ import { useLocation } from 'react-use';
 import router from 'umi/router';
 import { ICommon } from '@/models/common';
 import * as lib from '@/utils/lib';
+import User from './user';
 
 moment.locale('zh-cn');
 
@@ -541,10 +542,7 @@ function FormCreater({
                   )}
 
                   <div>
-                    <Avatar className={styles.avatar} src={user.avatar} alt="avatar" />
-                    <span className={styles.name} style={{ margin: '0 10px' }}>
-                      {user.fullname}
-                    </span>
+                    <User user={user} />
                     <Switch
                       checked={formLayout === 'horizontal'}
                       title="输入项布局"

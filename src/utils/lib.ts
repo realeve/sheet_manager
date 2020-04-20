@@ -44,7 +44,7 @@ export const rules: Rules = {
   reel_cart: /^[0-9]\d{3}[A-Za-z]\d{3}([A-B]|[a-b])$/,
   reel_patch: /^\d{5}([A-Z|a-z])\d$/, //2020 6T 2
   pallet: /^\d{2}(0[1-9]|1[0-2])\d{2}(1|2)\d{6}$/,
-  plate: /^[A-Z|a-z]{2}\d{6}$|^\d{8}$|^\d{6}$/,
+  plate: /^[A-Z|a-z]{2}\d{6}$|^[A-Z|a-z]{2}\d{8}$|^\d{8}$|^\d{6}$/,
   phone: /^\d{8}$|^\d{11}$/,
 };
 

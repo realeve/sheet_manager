@@ -115,8 +115,8 @@ class LoginComponent extends Component {
       window.localStorage.setItem('_userMenuTitle', userSetting.menu_title);
       userTool.saveLoginStatus(1);
 
-      const query = this.props.location.query;
-      let nextUrl = query.redirect || userTool.readLastRouter();
+      // const query = this.props.location.query;
+      let nextUrl = window.location.href.split('?redirect=')[1] || userTool.readLastRouter();
       window.location.href = nextUrl;
       // router.push(nextUrl);
       return;
