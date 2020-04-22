@@ -252,7 +252,9 @@ export const getCreate = config => {
   [id] int  IDENTITY(1,1) NOT NULL,
   ${appendSql}
   ${keyStrs.join(',\r\n')}
-) ;`;
+) ;
+ALTER TABLE tbl_${config.table} ADD PRIMARY KEY ([id]);
+`;
 
   let getDescByField = (field, title) => `
 EXEC sp_addextendedproperty

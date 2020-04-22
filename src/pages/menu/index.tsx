@@ -84,7 +84,7 @@ class VTree extends Component<ITreeProps, ITreeState> {
           <Col md={8} sm={24}>
             <MenuItemList externalNodeType={externalNodeType} />
           </Col>
-          <Col md={8} sm={24}>
+          <Col md={9} sm={24}>
             <MenuPreview
               externalNodeType={externalNodeType}
               menuDetail={menuDetail}
@@ -93,7 +93,7 @@ class VTree extends Component<ITreeProps, ITreeState> {
               uid={this.props.uid}
             />
           </Col>
-          <Col md={8} sm={24}>
+          <Col md={6} sm={24} offset={1}>
             <MenuList onEdit={this.editMenu} uid={this.props.uid} />
           </Col>
         </Row>
