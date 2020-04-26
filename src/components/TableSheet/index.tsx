@@ -17,7 +17,7 @@ export const getFirstRow = data => {
       key: idx,
       data: data.data,
     });
-    row = row.filter(item => String(item).trim().length > 0); 
+    row = row.filter(item => String(item).trim().length > 0);
     return row[0] || '';
   });
 };
@@ -29,7 +29,7 @@ export const getFirstRow = data => {
 let colTitles = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const getConfig = (data, afterFilter, sheetHeight) => {
   let firstRow = getFirstRow(data);
-  
+
   const minCols = 10; // 最少10行
   // console.log(data);
   let columns = (data.header || []).map((title, idx) => {
@@ -70,7 +70,7 @@ const getConfig = (data, afterFilter, sheetHeight) => {
         allowEmpty: true,
       };
     }
-    
+
     if (lib.isCartOrReel(item) || lib.isPlate(item)) {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
         TD.innerHTML = value
@@ -149,7 +149,7 @@ const getConfig = (data, afterFilter, sheetHeight) => {
     undo: true,
     colWidths: 100,
   };
-  if (data.nestedHeaders && data.nestedHeaders[0] && data.nestedHeaders[0][0]) {
+  if (data?.nestedHeaders?.[0]?.[0]) {
     config.nestedHeaders = data.nestedHeaders;
   }
 

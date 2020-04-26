@@ -147,7 +147,7 @@ function formAction({
       let cfgItem = R.find(R.propEq('key', key))(cfg);
 
       // 是否为有效值
-      let result = onValidate(val, (cfgItem && cfgItem.rule) || {});
+      let result = onValidate(val, cfgItem?.rule || {});
 
       if (!result) {
         valid = false;
@@ -292,7 +292,7 @@ function formAction({
 
   return (
     <Col span={24} className={styles.submit}>
-      {formConfig.api && formConfig.api.query && (
+      {formConfig?.api?.query && (
         <Button type="primary" onClick={() => loadHistoryData()} disabled={!shouldLoad}>
           载入历史数据
         </Button>

@@ -230,7 +230,7 @@ export const getCreate = config => {
     } else if (item.type === 'input.number') {
       // 字段类型
       let filedType = 'int';
-      if (item.rule && item.rule.type === 'float') {
+      if (item?.rule?.type === 'float') {
         filedType = 'float(53)';
       }
       return `  [${key}] ${filedType} DEFAULT ((0)) NULL`;
@@ -408,7 +408,7 @@ export const getApiConfig = async (formConfig, nonce) => {
     res[key] = {
       url: `${idx + maxid}/${nonce}`,
     };
-    if (formConfig.api[key] && formConfig.api[key].param) {
+    if (formConfig?.api[key]?.param) {
       res[key].param = R.clone(formConfig.api[key].param || []);
     } else if (key === 'load') {
       res[key].param = ['_id'];

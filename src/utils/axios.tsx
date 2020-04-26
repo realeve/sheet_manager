@@ -226,7 +226,7 @@ export const handleData = ({ data }) => {
 };
 
 export const handleUrl = option => {
-  if (option.url && option.url[0] === '.') {
+  if (option?.url?.[0] === '.') {
     option.url = window.location.origin + option.url.slice(1);
   }
   return option;

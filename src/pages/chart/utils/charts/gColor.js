@@ -30,12 +30,11 @@ let gColor = {
 };
 
 let handleColor = option => {
-  if (!option.series || !R.keys(gColor).includes(option.series[0].name)) {
+  let name = option?.series?.[0];
+  if (!name || !R.keys(gColor).includes(name)) {
     return option;
   }
   let idx = 0;
-
-  // console.log(option);
 
   let color = R.map(({ name }) =>
     !R.isNil(gColor[name])

@@ -228,7 +228,7 @@ const createWorkBook = (config: Config) => {
 
     // 如果额外增加两行，需要插入两行空数据，否则前两条数据会失效
     // 2019-09-10
-    let extra = config.extra && config.extra.rows > 0 ? [...headRow, [], []] : headRow;
+    let extra = config?.extra?.rows > 0 ? [...headRow, [], []] : headRow;
 
     config.body = [...extra, ...config.body];
   }

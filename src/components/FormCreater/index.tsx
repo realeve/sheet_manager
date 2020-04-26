@@ -107,11 +107,7 @@ function FormCreater({
     let observeKey = null;
     let calcFields = [];
 
-    if (
-      config.api &&
-      ((config.api.query && config.api.query.param) ||
-        (config.api.update && config.api.update.param))
-    ) {
+    if (config?.api?.query?.param || config?.api?.update?.param) {
       setQueryKey((config.api.query || config.api.update).param);
     }
 
@@ -225,8 +221,7 @@ function FormCreater({
   // }, [parentConfig]);
 
   const shouldRefreshHistoryData = () => {
-    let status =
-      formConfig.api.table && formConfig.api.table.url && formConfig.api.table.url.length > 0;
+    let status = formConfig.api?.table?.url?.length > 0;
     if (status) {
       let params = (formConfig.api.table.param || []).filter(item => !hideKeys.includes(item));
       // console.log(params)
