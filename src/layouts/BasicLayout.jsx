@@ -25,6 +25,9 @@ import ForOThree from '@/pages/403';
 import UnLogin from '@/pages/unlogin';
 import * as lib from '@/utils/setting';
 
+import { ConfigProvider } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
+
 const { Content } = Layout;
 const R = require('ramda');
 
@@ -82,7 +85,6 @@ class BasicLayout extends PureComponent {
     const menuData = getMenuData(props);
     this.breadcrumbNameMap = this.getBreadcrumbNameMap(menuData);
     this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual);
-
 
     this.state = {
       menuData,
@@ -190,15 +192,15 @@ class BasicLayout extends PureComponent {
 
   getLayoutStyle = () => {
     const { isMobile } = this.state;
-    const {  collapsed, layout } = this.props;
-    let {fixSiderbar} = this.props.settings;
-    
+    const { collapsed, layout } = this.props;
+    let { fixSiderbar } = this.props.settings;
+
     if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
       return {
         paddingLeft: collapsed ? '80px' : '256px',
       };
     }
-    return null
+    return null;
   };
 
   getContentStyle = () => {
@@ -241,7 +243,7 @@ class BasicLayout extends PureComponent {
         }
       : { position: 'fixed', right: 20, top: 20, zIndex: 10 };
 
-      // console.log(menuData,hidemenu,isTop,isMobile)  
+    // console.log(menuData,hidemenu,isTop,isMobile)
     const layout = (
       <Layout>
         {hidemenu || (isTop && !isMobile) ? null : (
@@ -291,13 +293,15 @@ class BasicLayout extends PureComponent {
     return (
       <React.Fragment>
         <DocumentTitle title={this.getPageTitle(location.pathname)} />
-        <ContainerQuery query={query}>
-          {params => (
-            <Context.Provider value={this.getContext()}>
-              <div className={classNames(params)}>{layout}</div>
-            </Context.Provider>
-          )}
-        </ContainerQuery>
+        <ConfigProvider locale={zhCN}>
+          <ContainerQuery query={query}>
+            {params => (
+              <Context.Provider value={this.getContext()}>
+                <div className={classNames(params)}>{layout}</div>
+              </Context.Provider>
+            )}
+          </ContainerQuery>
+        </ConfigProvider>
       </React.Fragment>
     );
   }
