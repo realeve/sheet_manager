@@ -12,5 +12,5 @@ export default ({ reel }) => {
     },
     valid: () => reel && reel.length > 0,
   });
-  return data && <SimpleList span={6} removeEmpty data={{ ...data, err: error }} />;
+  return data && <SimpleList span={6} removeEmpty removeZero data={{ ...data, err: error }} />;
 };

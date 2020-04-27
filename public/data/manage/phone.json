@@ -2,7 +2,7 @@
   "name": "成钞信息网电话编辑",
   "api": {
     "insert": {
-      "url": "885/54a3a8056f" 
+      "url": "885/54a3a8056f"
     },
     "update": {
       "url": "882/0b8b622c5a",
@@ -18,6 +18,10 @@
     },
     "load": {
       "url": "884/27f9eae0ad",
+      "param": ["_id"]
+    },
+    "delete": {
+      "url": "962/cc8cb16c91",
       "param": ["_id"]
     }
   },

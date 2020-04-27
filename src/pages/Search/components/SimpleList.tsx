@@ -22,11 +22,16 @@ export const renderItem = item => {
   return item;
 };
 
-const ListItem = ({ data, header, span }) => {
+const ListItem = ({ data, header, span, removeZero, removeEmpty }) => {
   let newHeader = [];
   header.forEach(key => {
-    if (String(data[key]).trim().length > 0) {
-      newHeader.push(key);
+    let notEmpty = removeEmpty && String(data[key]).trim().length > 0;
+    if (notEmpty) {
+      if (removeZero && String(data[key]) != '0') {
+        newHeader.push(key);
+      } else if (!removeZero) {
+        newHeader.push(key);
+      }
     }
   });
   return <ListItemFull data={data} header={newHeader} span={span} />;
@@ -56,9 +61,12 @@ export default ({
   data,
   span = 8,
   removeEmpty = false,
+  removeZero = false,
 }: {
   span: tListWidth;
   removeEmpty?: boolean;
+  removeZero?: boolean;
+  data?: any;
 }) => {
   if (data.err) {
     return <Err err={data.err} />;
@@ -70,8 +78,15 @@ export default ({
   return (
     <Row className={styles.detail}>
       {data.data.map((srcData, rowId) =>
-        removeEmpty ? (
-          <ListItem key={rowId} header={data.header} data={srcData} span={span} />
+        removeEmpty || removeZero ? (
+          <ListItem
+            key={rowId}
+            removeZero={removeZero}
+            removeEmpty={removeEmpty}
+            header={data.header}
+            data={srcData}
+            span={span}
+          />
         ) : (
           <ListItemFull key={rowId} header={data.header} data={srcData} span={span} />
         )
