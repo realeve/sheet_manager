@@ -275,9 +275,9 @@ class LoginComponent extends Component {
               <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
                 <FormattedMessage id="app.login.remember-me" />
               </Checkbox>
-              <a style={{ float: 'right' }} onClick={this.forgetPsw}>
+              {/* <a style={{ float: 'right' }} onClick={this.forgetPsw}>
                 <FormattedMessage id="app.login.forgot-password" />
-              </a>
+              </a> */}
             </div>
             <div className={styles.action}>
               <Submit loading={submitting}>
@@ -338,9 +338,9 @@ class LoginComponent extends Component {
               <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
                 <FormattedMessage id="app.login.remember-me" />
               </Checkbox>
-              <a style={{ float: 'right' }} onClick={this.forgetPsw}>
+              {/* <a style={{ float: 'right' }} onClick={this.forgetPsw}>
                 <FormattedMessage id="app.login.forgot-password" />
-              </a>
+              </a> */}
             </div>
             <div className={styles.action}>
               <Submit loading={submitting}>

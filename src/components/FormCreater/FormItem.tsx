@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-import { Input, Col, Switch, InputNumber, DatePicker, Rate, notification } from 'antd';
+import {
+  Input,
+  Col,
+  Switch,
+  InputNumber,
+  DatePicker,
+  Rate,
+  notification,
+  Button,
+  Modal,
+} from 'antd';
 import PinyinSelector from './PinyinSelector';
 import RadioSelector from './RadioSelector';
 import RadioButton from './RadioButton';
@@ -10,6 +20,7 @@ import { handler, onValidate, getRuleMsg } from './lib';
 import * as R from 'ramda';
 
 import { axios } from '@/utils/axios';
+import SimpleList from '@/pages/Search/components/SimpleList';
 
 import styles from './index.less';
 import classNames from 'classnames/bind';
@@ -65,7 +76,11 @@ export default function formItem({
   calcValid,
   isQueryKey = false,
   formLayout,
+  user,
 }) {
+  let [append, setAppend] = useState(null);
+  const [appendShow, setAppendShow] = useState(false);
+
   let [validateState, setValidateState] = useState(true);
 
   let [validateScope, setValidateScope] = useState(true);
@@ -143,7 +158,12 @@ export default function formItem({
     }
 
     // 处理默认载入数据的场景;
-    axios({ url: props.url }).then(res => {
+    axios({
+      url: props.url,
+      params: {
+        uid: user.uid,
+      },
+    }).then(res => {
       if (res.rows == 0 && rule.required) {
         notification.error({
           message: '初始数据载入错误',
@@ -152,6 +172,7 @@ export default function formItem({
         });
         return;
       }
+      setAppend(res);
       setState(res.data[0]);
     });
   }, []);
@@ -169,6 +190,19 @@ export default function formItem({
         [styles['form-item-vertical']]: formLayout === 'vertical',
       })}
     >
+      {append && (
+        <Modal
+          title="查看详情"
+          visible={appendShow}
+          footer={null}
+          onCancel={() => setAppendShow(false)}
+          onOk={() => setAppendShow(false)}
+          width={1080}
+        >
+          <SimpleList removeEmpty data={{ ...append, error: null }} />
+        </Modal>
+      )}
+
       <span
         className={cx('title', {
           required: rule?.required,
@@ -334,6 +368,11 @@ export default function formItem({
           <label className="ant-form-explain">
             {key}:{state}
           </label>
+        )}
+        {append && (
+          <Button size="small" type="primary" onClick={() => setAppendShow(true)}>
+            详情
+          </Button>
         )}
       </div>
     </Col>

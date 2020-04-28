@@ -63,7 +63,7 @@ export default ({
   removeEmpty = false,
   removeZero = false,
 }: {
-  span: tListWidth;
+  span?: tListWidth;
   removeEmpty?: boolean;
   removeZero?: boolean;
   data?: any;
