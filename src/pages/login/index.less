@@ -5,7 +5,11 @@
   line-height: 1.5em;
   font-weight: lighter; // color: #fff;
 }
-
+.alignRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 a {
   text-decoration: underline; // color: #fff;
 }
@@ -14,12 +18,12 @@ a {
 .avatar {
   height: @avatar-size;
   border-radius: 50%;
-  position: absolute;
-  top: -@avatar-size / 2;
-  left: 50%;
-  margin-left: -@avatar-size / 2; // border: 5px #fff solid;
-  box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56),
-    0 4px 25px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  margin-right: 20px;
+  // position: absolute;
+  // top: -@avatar-size / 2;
+  // left: 50%;
+  // margin-left: -@avatar-size / 2; // border: 5px #fff solid;
+  // box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12),    0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
 :global(.ant-form-item) {

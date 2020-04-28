@@ -7,7 +7,7 @@ import logo from '../assets/logo.svg';
 
 export default class UserLayout extends PureComponent {
   render() {
-    const { children } = this.props;
+    const { children, avatar } = this.props;
     return (
       <div className={styles.container}>
         <div className={styles.content}>
@@ -20,7 +20,21 @@ export default class UserLayout extends PureComponent {
             </div>
             <div className={styles.desc}>让数据栩栩如生</div>
           </div>
-          <div className={classnames(styles.main, 'loginMain')}>{children}</div>
+          <div className={classnames(styles.main, 'loginMain')}>
+            <div
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                width: '100%',
+                height: '100%',
+                background: `url(${avatar}) no-repeat`,
+                backgroundSize: 'cover',
+                filter: 'blur(35px)',
+              }}
+            ></div>
+            {children}
+          </div>
           <GlobalFooter className={styles.footer} color="rgba(255, 255, 255, 0.6)" />
         </div>
       </div>

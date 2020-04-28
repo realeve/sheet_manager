@@ -1,6 +1,7 @@
 import React from 'react';
 import BasicLayout from './BasicLayout';
 import UserLayout from './UserLayout';
+import { connect } from 'dva';
 
 const { registerObserver } = require('react-perf-devtool');
 if (process.env.NODE_ENV === 'development') {
@@ -14,6 +15,9 @@ if (process.env.NODE_ENV === 'development') {
   window.observer = registerObserver();
 }
 
+@connect(({ common: { userSetting } }) => ({
+  avatar: userSetting.avatar,
+}))
 class MainLayout extends React.PureComponent {
   render() {
     let pathname = this.props.location.pathname;

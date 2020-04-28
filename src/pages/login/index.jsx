@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import { FormattedMessage } from 'umi/locale';
 
 import { Icon } from '@ant-design/compatible';
-import { Alert, Checkbox, Input } from 'antd';
+import { Alert, Checkbox, Input, Tabs, message } from 'antd';
 import Login from './components/Login';
 import styles from './index.less';
 import * as db from './service';
@@ -77,29 +77,21 @@ class LoginComponent extends Component {
         });
       })
       .catch(e => {
-        this.setState({
-          notice: '系统错误，登录失败，请稍后重试',
-        });
+        message.error('系统错误，登录失败，请稍后重试');
+
         return {
           rows: -1,
         };
       });
 
-    console.log(userInfo);
+    // console.log(userInfo);
 
     if (userInfo.rows > 0) {
       let userSetting = userInfo.data[0] || userInfo.data;
       if (userSetting.actived === 0) {
-        this.setState({
-          notice: '帐户未激活，请联系管理员',
-        });
+        message.error('帐户未激活，请联系管理员');
         return;
-      } else {
-        this.setState({
-          notice: '',
-        });
       }
-      // console.log(userSetting);
 
       userSetting.menu = JSON.parse(userSetting.menu);
 
@@ -121,9 +113,7 @@ class LoginComponent extends Component {
       // router.push(nextUrl);
       return;
     } else if (userInfo.rows == 0) {
-      this.setState({
-        notice: '账号或密码错误！',
-      });
+      message.error('账号或密码错误！');
     }
   };
 
@@ -144,12 +134,9 @@ class LoginComponent extends Component {
         this.setState({
           notice: (
             <div>
-              测试用户
-              <p>
-                用户名：jitai
-                <br />
-                密码：12345
-              </p>
+              测试用户：jitai
+              <br />
+              密码：12345
             </div>
           ),
         });
@@ -228,84 +215,144 @@ class LoginComponent extends Component {
       location: { search },
     } = this.props;
     return (
-      <Login defaultActiveKey={this.state.type} onSubmit={this.onSubmit}>
-        <div>
-          <img alt="avatar" className={styles.avatar} src={avatar} />
-          <h2 className={styles.title}>
-            <FormattedMessage id="app.login.login" />
-          </h2>
-          {this.state.notice && (
-            <Alert
-              style={{ marginBottom: 24 }}
-              message={this.state.notice}
-              type="error"
-              showIcon
-              closable
-            />
-          )}
-          <div style={{ marginTop: 20, marginBottom: 20 }}>
-            <Icon type="home" theme="twoTone" />
-            <PinyinSelect
-              style={{ width: 290, marginLeft: 10 }}
-              size="large"
-              className={styles.selector}
-              value={dept}
-              onSelect={this.onDeptChange}
-              options={depts || []}
-              placeholder="选择所在部门"
-              mode="default"
-            />
-          </div>
-          <div style={{ marginTop: 20, marginBottom: 20 }}>
-            <Icon type="user" />
-            <PinyinSelect
-              style={{ width: 290, marginLeft: 10 }}
-              size="large"
-              className={styles.selector}
-              value={uid}
-              onSelect={this.onUserChange}
-              options={userList || []}
-              placeholder="姓名或用户名"
-              mode="tags"
-              maxTagCount={1}
-              maxTagPlaceholder="请输入姓名或用户名"
-              onDeselect={() => {
-                this.setState({ uid: null });
-              }}
-            />
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Icon type="eye-invisible" theme="twoTone" style={{ height: 32, lineHeight: '32px' }} />
-            <Input
-              style={{ width: 290, marginLeft: 10 }}
-              type="password"
-              value={password}
-              placeholder="密码"
-              autoComplete="false"
-              onPressEnter={this.login}
-              size="large"
-              onChange={e => this.setState({ password: e.target.value })}
-            />
-          </div>
-          {/* <UserName name="username" placeholder="用户名" autoComplete="false" /> */}
-        </div>
-        <div>
-          <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-            <FormattedMessage id="app.login.remember-me" />
-          </Checkbox>
-          <a style={{ float: 'right' }} onClick={this.forgetPsw}>
-            <FormattedMessage id="app.login.forgot-password" />
-          </a>
-        </div>
-        <div className={styles.action}>
-          <Submit loading={submitting}>
-            <FormattedMessage id="app.login.login" />
-          </Submit>
-          <Link style={{ float: 'right', marginBottom: 12 }} to={`/login/register${search}`}>
-            <FormattedMessage id="app.login.signup" />
-          </Link>
-        </div>
-      </Login>
+      <Tabs defaultActiveKey="1" type="line">
+        <Tabs.TabPane tab="OA登录" key="1">
+          <Login defaultActiveKey={this.state.type} onSubmit={this.onSubmit}>
+            <div className={styles.alignRow}>
+              <img alt="avatar" className={styles.avatar} src={avatar} />
+              <div>
+                <div style={{ marginTop: 20, marginBottom: 20 }}>
+                  <Icon type="home" theme="twoTone" />
+                  <PinyinSelect
+                    style={{ width: 290, marginLeft: 10 }}
+                    size="large"
+                    className={styles.selector}
+                    value={dept}
+                    onSelect={this.onDeptChange}
+                    options={depts || []}
+                    placeholder="选择所在部门"
+                    mode="default"
+                  />
+                </div>
+                <div style={{ marginTop: 20, marginBottom: 20 }}>
+                  <Icon type="user" />
+                  <PinyinSelect
+                    style={{ width: 290, marginLeft: 10 }}
+                    size="large"
+                    className={styles.selector}
+                    value={uid}
+                    onSelect={this.onUserChange}
+                    options={userList || []}
+                    placeholder="姓名或用户名"
+                    mode="tags"
+                    maxTagCount={1}
+                    maxTagPlaceholder="请输入姓名或用户名"
+                    onDeselect={() => {
+                      this.setState({ uid: null });
+                    }}
+                  />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Icon
+                    type="eye-invisible"
+                    theme="twoTone"
+                    style={{ height: 32, lineHeight: '32px' }}
+                  />
+                  <Input
+                    style={{ width: 290, marginLeft: 10 }}
+                    type="password"
+                    value={password}
+                    placeholder="密码"
+                    autoComplete="false"
+                    onPressEnter={this.login}
+                    size="large"
+                    onChange={e => this.setState({ password: e.target.value })}
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
+                <FormattedMessage id="app.login.remember-me" />
+              </Checkbox>
+              <a style={{ float: 'right' }} onClick={this.forgetPsw}>
+                <FormattedMessage id="app.login.forgot-password" />
+              </a>
+            </div>
+            <div className={styles.action}>
+              <Submit loading={submitting}>
+                <FormattedMessage id="app.login.login" />
+              </Submit>
+              <Link style={{ float: 'right', marginBottom: 12 }} to={`/login/register${search}`}>
+                <FormattedMessage id="app.login.signup" />
+              </Link>
+            </div>
+          </Login>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="帐户登录" key="2">
+          <Login defaultActiveKey={this.state.type} onSubmit={this.onSubmit}>
+            {this.state.notice && (
+              <Alert
+                style={{ marginBottom: 12 }}
+                message={this.state.notice}
+                type="error"
+                showIcon
+                closable
+              />
+            )}
+            <div className={styles.alignRow}>
+              <img alt="avatar" className={styles.avatar} src={avatar} />
+              <div>
+                <div style={{ marginTop: 20, marginBottom: 20 }}>
+                  <Icon type="user" />
+                  <Input
+                    style={{ width: 290, marginLeft: 10 }}
+                    size="large"
+                    className={styles.selector}
+                    value={this.state.username}
+                    onChange={e => this.setState({ username: e.target.value, uid: 0, dept: '' })}
+                    options={userList || []}
+                    placeholder="测试用户:test"
+                  />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Icon
+                    type="eye-invisible"
+                    theme="twoTone"
+                    style={{ height: 32, lineHeight: '32px' }}
+                  />
+                  <Input
+                    style={{ width: 290, marginLeft: 10 }}
+                    type="password"
+                    value={password}
+                    placeholder="测试密码:12345"
+                    autoComplete="false"
+                    onPressEnter={this.login}
+                    size="large"
+                    onChange={e => this.setState({ password: e.target.value })}
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
+                <FormattedMessage id="app.login.remember-me" />
+              </Checkbox>
+              <a style={{ float: 'right' }} onClick={this.forgetPsw}>
+                <FormattedMessage id="app.login.forgot-password" />
+              </a>
+            </div>
+            <div className={styles.action}>
+              <Submit loading={submitting}>
+                <FormattedMessage id="app.login.login" />
+              </Submit>
+              <Link style={{ float: 'right', marginBottom: 12 }} to={`/login/register${search}`}>
+                <FormattedMessage id="app.login.signup" />
+              </Link>
+            </div>
+          </Login>
+        </Tabs.TabPane>
+      </Tabs>
     );
   }
 }
