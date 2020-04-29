@@ -12,6 +12,7 @@ export default function PinyinSelector({
   db_key,
   state,
   cascade: [cascade = false, cascadeVal = false],
+  outterTrigger,
   ...props
 }) {
   const textVal = props.mode === 'tags';
@@ -44,7 +45,7 @@ export default function PinyinSelector({
     }
     let val = detail.map(({ name }) => name);
     setOptVal(val);
-  }, [options, value, props.cascade]);
+  }, [options, value.join(','), props.cascade]);
 
   let [selectedItems, setSelectedItems] = useState([]);
 
@@ -83,24 +84,35 @@ export default function PinyinSelector({
       handleOption(value);
       value = [R.last(value)];
     }
-    onChange(value, handleScope(value, options));
+    let scope = handleScope(R.type(value) == 'Array' ? value[0] : value, options);
+
+    onChange(value, scope);
   };
 
   let [selectVal, setSelectVal] = useState({});
   useEffect(() => {
     let nextState = props.mode !== 'tags' ? optVal : value;
     setSelectVal(R.isNil(nextState) ? {} : { value: nextState });
-  }, [value, optVal]);
+  }, [value.join(','), optVal]);
 
   // 选择项变更时清除历史数据
   useEffect(() => {
     setOptVal([]);
   }, [defaultOption]);
 
+  const onSelect = e => (props.mode === 'multiple' ? onMultipleChange(e) : onSingleChange(e));
+
+  // 历史数据加载完毕后，需要重置一次scope状态
+  useEffect(() => {
+    if (props.mode !== 'multiple' && value.length > 0 && options.length > 0) {
+      onSelect(value);
+    }
+  }, [outterTrigger]);
+
   return (
     <PinyinSelect
       style={{ width: props.mode === 'multiple' ? 230 : 150 }}
-      onChange={props.mode === 'multiple' ? onMultipleChange : onSingleChange}
+      onChange={onSelect}
       options={cascade && R.isNil(params[cascade]) ? [] : option}
       placeholder="拼音首字母过滤"
       {...props}

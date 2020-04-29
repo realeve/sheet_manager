@@ -469,6 +469,8 @@ function FormCreater({
     setFormstatus(true);
   };
 
+  const [outterTrigger, setOutterTrigger] = useState(lib.timestamp());
+
   return (
     <div>
       <CodeDrawer
@@ -590,6 +592,7 @@ function FormCreater({
                       scope={scope}
                       setScope={updateScope}
                       user={user}
+                      outterTrigger={outterTrigger}
                     />
                   )
               )}
@@ -614,6 +617,7 @@ function FormCreater({
                   hideKeys={hideKeys}
                   tabId={tabId}
                   hidemenu={hidemenu}
+                  setOutterTrigger={setOutterTrigger}
                 />
               )}
             </Row>

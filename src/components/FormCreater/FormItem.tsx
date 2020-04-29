@@ -78,6 +78,7 @@ export default function formItem({
   formLayout,
   user,
   innerTrigger = 0,
+  outterTrigger,
 }) {
   let [append, setAppend] = useState(null);
   const [appendShow, setAppendShow] = useState(false);
@@ -151,7 +152,12 @@ export default function formItem({
 
   let invalidCalc = calcValid.key === key && !calcValid.status;
 
-  let haveHideKeys = (restScope.defaultOption || defaultOption || []).find(item => item.hide);
+  let [haveHideKeys, setHaveHideKeys] = useState(false);
+  useEffect(() => {
+    setHaveHideKeys(
+      !R.isNil((restScope.defaultOption || defaultOption || []).find(item => item.hide))
+    );
+  }, [restScope.defaultOption, defaultOption]);
 
   useEffect(() => {
     if (!(['input', 'input.number', 'label'].includes(type) && props.url)) {
@@ -305,6 +311,7 @@ export default function formItem({
             {...props}
             value={getValue()}
             cascade={cascade}
+            outterTrigger={outterTrigger}
           />
         )}
         {type === 'radio.button' && (
@@ -317,6 +324,7 @@ export default function formItem({
             }}
             defaultOption={restScope.defaultOption || defaultOption}
             {...props}
+            outterTrigger={outterTrigger}
           />
         )}
         {type === 'radio' && (
@@ -329,6 +337,7 @@ export default function formItem({
             }}
             defaultOption={restScope.defaultOption || defaultOption}
             {...props}
+            outterTrigger={outterTrigger}
           />
         )}
         {type === 'check' && (
@@ -338,6 +347,7 @@ export default function formItem({
             onChange={value => onChange(value)}
             defaultOption={restScope.defaultOption || defaultOption}
             {...props}
+            outterTrigger={outterTrigger}
           />
         )}
         {type === 'rate' && (

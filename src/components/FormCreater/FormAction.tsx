@@ -29,6 +29,7 @@ function formAction({
   hideKeys,
   tabId = -1,
   hidemenu,
+  setOutterTrigger,
 }) {
   const [_id, setId] = useState(0);
   // 当前数据提交状态，提交时禁止重复提交
@@ -90,7 +91,6 @@ function formAction({
     if (!loadOption.url) {
       return;
     }
-    console.log(loadOption);
 
     axios(loadOption).then(({ data }) => {
       notification.success({
@@ -112,7 +112,8 @@ function formAction({
       });
       formInstance.set(res);
 
-      console.log(res);
+      // 已完成数据加载
+      setOutterTrigger(lib.timestamp());
 
       setEditMethod('update');
     });

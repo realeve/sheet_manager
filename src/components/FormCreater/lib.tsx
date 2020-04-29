@@ -446,7 +446,7 @@ export const beforeSheetRender = ({ columns, ...config }, renderParam) => {
     TD.innerHTML = _id
       ? `<a href="#id=${id}&_id=${_id +
           hideMenu +
-          tabid}"  style="text-decoration:none;margin:3px;" class="ant-btn ant-btn-primary">载入</a>`
+          tabid}" style="text-decoration:none;margin:3px;" class="ant-btn ant-btn-primary">载入</a>`
       : '';
   };
   item.title = '操作';
