@@ -162,7 +162,7 @@ const getFreeze = () => {
   return R.range(0, Number(freeze));
 };
 
-const TableSheet = ({ data, onFilter, beforeRender = e => e, sheetHeight }) => {
+const TableSheet = ({ data, onFilter, beforeRender, sheetHeight, renderParam = {} }) => {
   const [config, setConfig] = useState({
     licenseKey: 'non-commercial-and-evaluation',
   });
@@ -179,7 +179,7 @@ const TableSheet = ({ data, onFilter, beforeRender = e => e, sheetHeight }) => {
     };
 
     let cfg = getConfig(data, afterFilter, sheetHeight);
-    cfg = beforeRender && beforeRender(cfg);
+    cfg = beforeRender && beforeRender(cfg, renderParam);
     setConfig(cfg);
 
     // 冻结指定列

@@ -427,7 +427,7 @@ export const getApiConfig = async (formConfig, nonce) => {
 };
 
 // TODO 增加删除按钮
-export const beforeSheetRender = ({ columns, ...config }) => {
+export const beforeSheetRender = ({ columns, ...config }, renderParam) => {
   let colConfig = R.clone(columns);
   let idx = R.findIndex(R.propEq('title', 'id'))(colConfig);
   if (idx < 0) {
@@ -439,10 +439,14 @@ export const beforeSheetRender = ({ columns, ...config }) => {
   let id = param.id;
   let hideMenu = href.includes('hidemenu=1') ? '&hidemenu=1' : '';
 
+  let tabId = renderParam?.tabId;
+  let tabid = tabId > -1 ? '&tabid=' + tabId : '';
+
   item.renderer = (hotInstance, TD, row, col, prop, _id) => {
     TD.innerHTML = _id
       ? `<a href="#id=${id}&_id=${_id +
-          hideMenu}"  style="text-decoration:none;margin:3px;" class="ant-btn ant-btn-primary">载入</a>`
+          hideMenu +
+          tabid}"  style="text-decoration:none;margin:3px;" class="ant-btn ant-btn-primary">载入</a>`
       : '';
   };
   item.title = '操作';

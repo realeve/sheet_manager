@@ -394,6 +394,7 @@ class Tables extends Component {
           <Sheet
             data={{ ...rest, nestedHeaders, hidemenu }}
             beforeRender={this.props.beforeRender}
+            renderParam={this.props.renderParam || {}}
             onFilter={filterIdx => {
               this.setState({
                 filterIdx,

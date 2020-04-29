@@ -52,6 +52,7 @@ function FormCreater({
   user,
   innerTrigger,
   setInnerTrigger,
+  tabId = -1,
   shouldConnect = false,
   // parentConfig = { hide: [], scope: [] },
   // setParentConfig,
@@ -522,8 +523,9 @@ function FormCreater({
                         }
 
                         let hidemenuUrl = hidemenu ? '&hidemenu=1' : '';
+                        let tabid = tabId > -1 ? '&tabid=' + tabId : '';
                         // 关闭载入模式;
-                        router.push('#id=' + param.id + hidemenuUrl);
+                        router.push('#id=' + param.id + hidemenuUrl + tabid);
 
                         let status = {
                           insert: 'update',
@@ -610,6 +612,8 @@ function FormCreater({
                   onReset={onReset}
                   score={totalScore}
                   hideKeys={hideKeys}
+                  tabId={tabId}
+                  hidemenu={hidemenu}
                 />
               )}
             </Row>
@@ -620,6 +624,7 @@ function FormCreater({
             <VTable
               dataSrc={tblData}
               beforeRender={formConfig.api.load ? beforeSheetRender : e => e}
+              renderParam={{ tabId }}
               loading={loading}
               merge={false}
             />

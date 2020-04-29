@@ -101,6 +101,7 @@ export default function page(): JSX.Element {
               // shouldConnect
               innerTrigger={innerTrigger}
               setInnerTrigger={setInnerTrigger}
+              tabId={idx}
             />
           </Tabs.TabPane>
         ))}
@@ -108,5 +109,12 @@ export default function page(): JSX.Element {
     );
   }
 
-  return <FormCreater config={data} />;
+  return (
+    <FormCreater
+      config={data}
+      innerTrigger={innerTrigger}
+      setInnerTrigger={setInnerTrigger}
+      tabId={-1}
+    />
+  );
 }

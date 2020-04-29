@@ -27,6 +27,8 @@ function formAction({
   onReset: resetForm, //重置
   score, // 总分
   hideKeys,
+  tabId = -1,
+  hidemenu,
 }) {
   const [_id, setId] = useState(0);
   // 当前数据提交状态，提交时禁止重复提交
@@ -45,6 +47,13 @@ function formAction({
       setId(0);
       return;
     }
+
+    // tabid 不一致时，退出
+    param.tabid = R.isNil(param.tabid) ? -1 : param.tabid;
+    if (param.tabid != tabId) {
+      return;
+    }
+
     setId(param._id);
 
     // 如果有 id
@@ -192,8 +201,10 @@ function formAction({
       return;
     }
 
+    let hidemenuUrl = hidemenu ? '&hidemenu=1' : '';
+    let tabid = tabId > -1 ? '&tabid=' + tabId : '';
     // 关闭载入模式;
-    router.push('#id=' + param.id);
+    router.push('#id=' + param.id + hidemenuUrl + tabid);
   };
 
   // 根据索引字段删除数据，建议用至少一个字段作为索引，推荐用_id(需在查询中一并附带)
