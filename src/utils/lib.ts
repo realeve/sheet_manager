@@ -109,6 +109,8 @@ export const weeks = () => moment().weeks();
 
 export const ymd = () => moment().format('YYYYMMDD');
 
+export const timestamp = () => moment().format('x');
+
 interface lastAlpha {
   (str: string): string;
 }

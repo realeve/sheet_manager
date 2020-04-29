@@ -244,6 +244,7 @@ function formAction({
 
     let axiosConfig = getPostData({ config, params, editMethod: editType, uid });
     console.log('插入/更新数据', axiosConfig);
+
     if (!axiosConfig) {
       notification.error({
         message: '系统提示',
@@ -269,6 +270,7 @@ function formAction({
     });
 
     notity(affected_rows);
+
     reFetch && reFetch();
   };
 

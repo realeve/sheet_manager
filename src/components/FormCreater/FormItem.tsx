@@ -77,6 +77,7 @@ export default function formItem({
   isQueryKey = false,
   formLayout,
   user,
+  innerTrigger = 0,
 }) {
   let [append, setAppend] = useState(null);
   const [appendShow, setAppendShow] = useState(false);
@@ -153,7 +154,7 @@ export default function formItem({
   let haveHideKeys = (restScope.defaultOption || defaultOption || []).find(item => item.hide);
 
   useEffect(() => {
-    if (!(['input', 'label'].includes(type) && props.url)) {
+    if (!(['input', 'input.number', 'label'].includes(type) && props.url)) {
       return;
     }
 
@@ -175,7 +176,7 @@ export default function formItem({
       setAppend(res);
       setState(res.data[0]);
     });
-  }, []);
+  }, [innerTrigger]);
 
   return (
     <Col

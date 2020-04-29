@@ -227,7 +227,7 @@ export const getCreate = config => {
     let key = item.key;
     if (item.type.includes('date')) {
       return `  [${key}] datetime  DEFAULT (getdate()) NULL`;
-    } else if (item.type === 'input.number') {
+    } else if (['input.number', 'switch'].includes(item.type)) {
       // 字段类型
       let filedType = 'int';
       if (item?.rule?.type === 'float') {
@@ -244,14 +244,13 @@ export const getCreate = config => {
     appendSql += '[rec_time] datetime DEFAULT (getdate()) NULL,';
   }
   if (param.includes('uid')) {
-    appendSql += '[uid] int NULL,';
+    appendSql += '\r\n  [uid] int NULL,';
   }
 
   // 建表SQL
   let createSql = `CREATE TABLE tbl_${config.table} (
   [id] int  IDENTITY(1,1) NOT NULL,
-  ${appendSql}
-  ${keyStrs.join(',\r\n')}
+  ${appendSql}\r\n${keyStrs.join(',\r\n')}
 ) ;
 ALTER TABLE tbl_${config.table} ADD PRIMARY KEY ([id]);
 `;
@@ -287,12 +286,12 @@ ${getDescByField('id', '主ID')}`;
 };
 
 export const getApi = (config, nonce) => {
-  let res = R.compose(
-    // R.reject(R.propEq('key', 'ignoreIncrese')),
-    R.reject(item => item.key.includes('ignore') || item.ignore),
+  let res2 = R.compose(
     R.flatten,
     R.map(item => item.detail)
   )(config.detail);
+
+  let res = R.reject(item => item.key.includes('ignore') || item.ignore)(res2);
 
   let keyStrs = res.map(item => item.key);
 
@@ -340,13 +339,15 @@ VALUES
   // 先过滤条件字段
   let editKeys = keyStrs.filter(item => !(param.update || []).includes(item));
   let editStr = editKeys.map(key => `${key}=?`).join(',');
-  let paramUpdate = [...editKeys, ...(param.update || [])];
+  // let paramUpdate = [...editKeys, ...(param.update || [])];
 
   let edit = `
 -- 数据更新接口
 INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr, param,remark )
 VALUES
-  ( '${nonce}','2','1','${config.name}_更新','update tbl_${config.table} set ${editStr} where id=?','_id','' );`;
+  ( '${nonce}','2','1','${config.name}_更新','update tbl_${
+    config.table
+  } set ${editStr} where id=?','${editKeys.join(',')},_id','' );`;
 
   // 先过滤条件字段
   let addKeys = [...keyStrs, ...(param.insert || [])];
@@ -365,7 +366,14 @@ VALUES
 
   if (config.api.table) {
     addKeys = config.api.table.param || [];
-    addStr = addKeys.map(key => `${key}=?`).join(' and ');
+
+    addStr = addKeys
+      .map(key => {
+        let dist = R.find(R.propEq('key', key))(res2) || { title: key };
+        return `${dist.title}=?`;
+      })
+      .join(' and ');
+
     let whereStr = addStr.length === 0 ? ' ' : ` where ${addStr} `;
 
     review = `
@@ -374,7 +382,7 @@ VALUES
     VALUES
       ( '${nonce}','2','1','${config.name} 近期录入信息','SELECT top 50 * FROM view_${
       config.table
-    } ${whereStr} ORDER BY 录入时间 desc','${(config.table.param || []).join(',')}' ,'');`;
+    } ${whereStr} ORDER BY 录入时间 desc','${(config.api.table.param || []).join(',')}' ,'');`;
   }
 
   if (config.api.load) {

@@ -102,7 +102,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         json: beautify(JSON.stringify(jsonCfg), beautyOption),
         view: `
     CREATE VIEW  view_${formConfig.table} AS
-      SELECT id,CONVERT ( VARCHAR, rec_time, 120 ) 录入时间,
+      SELECT uid,id,CONVERT ( VARCHAR, rec_time, 120 ) 录入时间,
       ${res
         .map(item => {
           let keyName = item.key;

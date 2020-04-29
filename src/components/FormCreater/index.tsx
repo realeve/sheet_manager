@@ -50,6 +50,8 @@ function FormCreater({
   hidemenu,
   dispatch,
   user,
+  innerTrigger,
+  setInnerTrigger,
   shouldConnect = false,
   // parentConfig = { hide: [], scope: [] },
   // setParentConfig,
@@ -567,6 +569,7 @@ function FormCreater({
                       calcValid={calcValid}
                       formLayout={formLayout}
                       dev={formConfig.dev}
+                      innerTrigger={innerTrigger}
                       setState={res => {
                         if (lib.getType(res) === 'object') {
                           setState(res);
@@ -599,7 +602,10 @@ function FormCreater({
                   editMethod={editMethod}
                   formConfig={formConfig}
                   config={config}
-                  reFetch={reFetch}
+                  reFetch={() => {
+                    reFetch();
+                    setInnerTrigger(lib.timestamp());
+                  }}
                   remark={remark}
                   onReset={onReset}
                   score={totalScore}

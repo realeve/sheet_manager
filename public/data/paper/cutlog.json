@@ -12,7 +12,7 @@
       },
       "table": {
         "url": "968/du2j6x6oqf",
-        "param": ["class_type"]
+        "param": ["machine_id"]
       },
       "load": {
         "url": "969/du2j6x6oqf",
@@ -265,23 +265,19 @@
     "dev": true,
     "api": {
       "insert": {
-        "url": "875/8ab54jm40a",
-        "param": ["rec_time"]
+        "url": "971/7fx7doeq4h",
+        "param": ["rec_time", "uid"]
       },
       "update": {
-        "url": "876/8ab54jm40a",
-        "param": ["patch_no", "box_no"]
-      },
-      "query": {
-        "url": "877/8ab54jm40a",
-        "param": ["patch_no", "box_no"]
+        "url": "972/7fx7doeq4h",
+        "param": ["_id"]
       },
       "table": {
-        "url": "878/8ab54jm40a",
-        "param": ["class_type"]
+        "url": "973/7fx7doeq4h",
+        "param": ["machine_id"]
       },
       "load": {
-        "url": "879/8ab54jm40a",
+        "url": "974/7fx7doeq4h",
         "param": ["_id"]
       }
     },
@@ -291,7 +287,8 @@
         "detail": [
           {
             "title": "记录id",
-            "type": "label",
+            "type": "input.number",
+            "disabled": true,
             "key": "cut_baseid",
             "span": 6,
             "url": "/970/280796efa5.json",
