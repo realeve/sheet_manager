@@ -206,7 +206,7 @@ class BasicLayout extends PureComponent {
   getContentStyle = () => {
     const { fixedHeader } = this.props;
     return {
-      margin: '12px 12px 0',
+      margin: '0 12px',
       paddingTop: fixedHeader ? 64 : 0,
     };
   };

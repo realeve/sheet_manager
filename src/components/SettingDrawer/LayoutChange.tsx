@@ -80,7 +80,7 @@ const LayoutSetting: React.FC<{
           action: (
             <Switch
               size="small"
-              checked={!!fixSiderbar}
+              checked={true == fixSiderbar}
               onChange={checked => changeSetting('fixSiderbar', checked)}
             />
           ),

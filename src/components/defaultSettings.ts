@@ -80,7 +80,7 @@ const defaultSettings: Settings = {
   layout: 'sidemenu',
   contentWidth: 'Fluid',
   fixedHeader: false,
-  fixSiderbar: false,
+  fixSiderbar: true,
   menu: {
     locale: true,
   },

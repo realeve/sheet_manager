@@ -26,6 +26,7 @@ function Tables({
   dateFormat,
   common,
   axiosOptions,
+  darkTheme,
 }) {
   const [tableIds, setTableIds] = useState(common.tid);
   const [query, setQuery] = useState(common.query);
@@ -101,7 +102,16 @@ function Tables({
         }
 
         return (
-          <div key={key} className={cx({ tableContainer: key, dataList: !key, tabs: true })}>
+          <div
+            key={key}
+            className={cx({
+              tableContainer: key,
+              dataList: !key,
+              dark: darkTheme,
+              white: !darkTheme,
+              tabs: true,
+            })}
+          >
             <Tabs defaultActiveKey="1" animated={false}>
               <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="1">
                 <VTable
@@ -139,6 +149,7 @@ function mapStateToProps(state) {
     dateFormat: state.common.dateFormat,
     dateRange: state.common.dateRange,
     common: state.common,
+    darkTheme: state.setting.navTheme === 'realDark',
   };
 }
 

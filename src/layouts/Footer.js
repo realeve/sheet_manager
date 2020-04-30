@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout } from 'antd';
 import { Icon } from '@ant-design/compatible';
 import { AUTHOR, CUR_COMPANY } from '@/utils/setting';
-import styles from './index.less';
+// import styles from './index.less';
 const { Footer } = Layout;
 // let links = [];
 
@@ -30,16 +30,12 @@ const { Footer } = Layout;
 // }
 
 const FooterView = ({ hidemenu }) => (
-  <Footer className="footer">
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      {!hidemenu && (
-        <p style={{ marginBottom: 5 }}>
-          <Icon type="copyright" /> 2019 {AUTHOR}
-        </p>
-      )}
-      <p>
-        Copyright <Icon type="copyright" /> 2019 CBPC All Rights Reserved
-      </p>
+  <Footer
+    className="footer"
+    style={{ display: 'flex', alignItems: 'center', height: 30, background: 'transparent' }}
+  >
+    <div>
+      <Icon type="copyright" /> 2019 {AUTHOR}
     </div>
   </Footer>
 );

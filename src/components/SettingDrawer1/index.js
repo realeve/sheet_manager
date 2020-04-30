@@ -84,7 +84,7 @@ class SettingDrawer extends PureComponent {
         action: (
           <Switch
             size="small"
-            checked={!!fixSiderbar}
+            checked={true == fixSiderbar}
             onChange={checked => this.changeSetting('fixSiderbar', checked)}
           />
         ),
