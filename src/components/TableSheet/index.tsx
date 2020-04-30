@@ -179,7 +179,11 @@ const TableSheet = ({ data, onFilter, beforeRender, sheetHeight, renderParam = {
     };
 
     let cfg = getConfig(data, afterFilter, sheetHeight);
-    cfg = beforeRender && beforeRender(cfg, renderParam);
+
+    if (beforeRender) {
+      cfg = beforeRender(cfg, renderParam);
+    }
+
     setConfig(cfg);
 
     // 冻结指定列
