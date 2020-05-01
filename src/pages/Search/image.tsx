@@ -158,11 +158,7 @@ function ImageSearch({ cart }) {
                   </div>
                 }
               >
-                <HeatmapChart
-                  cart={cart}
-                  onFilter={onFilterPos}
-                  style={{ width: 10 * 50 + 35, height: 7 * 50 + 49 }}
-                />
+                <HeatmapChart cart={cart} onFilter={onFilterPos} />
               </Card>
             </TabPane>
             <TabPane tab="开包量分布" key="2">
