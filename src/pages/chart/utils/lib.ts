@@ -558,7 +558,7 @@ let handleMinMax: (params: {
 
 let getLegend: (
   params: any,
-  selectedMode: string
+  selectedMode?: string
 ) => {
   show?: boolean;
   selectedMode?: string;

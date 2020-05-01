@@ -31,7 +31,9 @@ function ImageSearch({ cart }) {
     api: 'getWipJobsCodeImage',
     init: [cart],
   });
+
   let hecha = R.filter(R.propEq('type', 'mahou'))(res.data);
+
   let tubu = R.filter(R.propEq('type', 'tubu'))(res.data);
 
   const mainFake = useFetch({ params: cart, api: 'getQfmWipJobsMain', init: [cart] });
@@ -156,7 +158,11 @@ function ImageSearch({ cart }) {
                   </div>
                 }
               >
-                <HeatmapChart cart={cart} onFilter={onFilterPos} />
+                <HeatmapChart
+                  cart={cart}
+                  onFilter={onFilterPos}
+                  style={{ width: 10 * 50 + 35, height: 7 * 50 + 49 }}
+                />
               </Card>
             </TabPane>
             <TabPane tab="开包量分布" key="2">
