@@ -247,9 +247,13 @@ const createWorkBook = (config: Config) => {
       return;
     }
 
-    let offset = needHandleMerge ? 3 : 2;
     // 第key+1 列，合并第 start+1,end+1
-    worksheet.mergeCells(start + offset, key + 1, end + offset - 1, key + 1);
+    try {
+      worksheet.mergeCells(start + 2, key + 1, end + 1, key + 1);
+    } catch (e) {
+      console.log(e);
+    }
+    let offset = needHandleMerge ? 3 : 2;
     const row = worksheet.getRow(start + offset);
     let cell = row.getCell(key + 1);
     // 垂直、水平居中、自动换行
