@@ -237,6 +237,30 @@ export default function tableConfig() {
             </div>
           </li>
           <li>
+            <div className={styles.tip}>
+              <Tag color="#e23">新功能</Tag> 通用参数11:文件导出后，增加数据按列汇总功能
+            </div>
+            <div className={classnames(styles.desc, 'configDemoDesc')}>stat_sum,stat_avg </div>
+            <div>
+              <br />
+              导出的数据分别增加2行（汇总：求和，汇总：平均值），用法同参数【mergev】,【merge】。
+              <br />
+              <br />
+              <div className={classnames(styles.desc, 'configDemoDesc')}>
+                注：受Excel的安全性设置，下载的文件将会显示【受保护视图】并导致公式区域的内容无法显示，关闭方法如下：【文件】——【选项】——【信任中心】-【信任中心设置】-【受保护的视图】中，关闭【为来自Internet的文件启用受保护的视图】
+                <img src="/img/desc.jpg" />
+              </div>
+            </div>
+            <div className={classnames(styles.demoLink, 'configDemoLink')}>
+              <a
+                href="/table#id=963/a8fa87f276&daterange=9&merge=6-7&mergetext=准确&merge=7-8&mergetext=修改准确&merge=8-9&mergetext=干预准确&merge=9-10&mergetext=不准确&merge=10-11&mergetext=不数&merge=11-12&mergetext=抽数&merge=12-13&mergetext=必数&merge=6-9&mergetext=清数情况&merge=7-9&mergetext=过数情况&mergev=0&stat_sum=2,6,8,10,12,14,16,18&stat_avg=3,4,5,7,9,11,13,15,17,19"
+                target="_blank"
+              >
+                /table#id=963/a8fa87f276&daterange=9&merge=6-7&mergetext=准确&merge=7-8&mergetext=修改准确&merge=8-9&mergetext=干预准确&merge=9-10&mergetext=不准确&merge=10-11&mergetext=不数&merge=11-12&mergetext=抽数&merge=12-13&mergetext=必数&merge=6-9&mergetext=清数情况&merge=7-9&mergetext=过数情况&mergev=0&stat_sum=2,6,8,10,12,14,16,18&stat_avg=3,4,5,7,9,11,13,15,17,19
+              </a>
+            </div>
+          </li>
+          <li>
             <div className={styles.tip}>专用参数1.表头合并</div>
             <div className={classnames(styles.desc, 'configDemoDesc')}>merge </div>
             <div>默认值：不设置，此时不合并表头</div>

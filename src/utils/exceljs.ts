@@ -201,6 +201,33 @@ const mergeRowWithWorksheet = (setting, worksheet, extra) => {
   });
 };
 
+const handleFormula = (worksheet, config: Config) => {
+  // console.log(config);
+  let alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+  var rowValues = [];
+  let cols = config.params.stat_sum || [];
+  if (cols.length > 0) {
+    rowValues[0] = '汇总：求和';
+    cols.forEach(i => {
+      let col = alpha[i - 1];
+      rowValues[i] = { formula: `=SUM(${col}2:${col}${config.body.length + 1})` };
+    });
+    worksheet.addRow(rowValues);
+  }
+
+  let avgCol = config.params.stat_avg || [];
+
+  if (avgCol.length > 0) {
+    rowValues = ['汇总：平均值'];
+    avgCol.forEach(i => {
+      let col = alpha[i - 1];
+      rowValues[i] = { formula: `=AVERAGE(${col}2:${col}${config.body.length + 1})` };
+    });
+    worksheet.addRow(rowValues);
+  }
+};
+
 const createWorkBook = (config: Config) => {
   let { worksheet, workbook } = initWorkSheet(config);
   let { params } = config;
@@ -235,6 +262,9 @@ const createWorkBook = (config: Config) => {
 
   // 添加数据
   worksheet.addRows(config.body);
+
+  // 处理公式
+  handleFormula(worksheet, config);
 
   // 合并列
   if (needHandleMerge) {

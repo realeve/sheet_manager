@@ -473,6 +473,9 @@ export const getStringWidth = str => {
 
 // 将带,;及换行符的字符串转换为数组文本
 export const str2Arr: (str: string, needTrim?: boolean) => string[] = (str, needTrim = true) => {
+  if (!str) {
+    return [];
+  }
   str = String(str).trim();
   let res = [];
   if (str.includes(',')) {

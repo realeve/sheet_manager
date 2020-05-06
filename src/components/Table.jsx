@@ -304,6 +304,10 @@ class Tables extends Component {
     let params = R.clone(this.props.config);
     params = Object.assign({}, params, R.pick(['merge', 'mergesize', 'mergetext'], props));
 
+    ['stat_sum', 'stat_avg'].forEach(key => {
+      params[key] = lib.str2Arr(params[key]);
+    });
+
     return {
       columns: this.state.columns,
       creator,
