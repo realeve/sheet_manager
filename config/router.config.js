@@ -41,11 +41,11 @@ export default [
       },
       {
         path: '/',
-        component: './Home',
+        component: './Home/index',
       },
       {
         path: '/home',
-        component: './Home',
+        component: './Home/index',
       },
       {
         path: '/menu',
