@@ -12,6 +12,8 @@ export default () => {
           查看详情
         </Button>
       }
-    ></Card>
+    >
+      好品率、成品率、封包率
+    </Card>
   );
 };

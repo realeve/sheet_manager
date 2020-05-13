@@ -521,3 +521,5 @@ export const getNonce = () =>
   Math.random()
     .toString(36)
     .slice(3);
+
+export const jump = url => router.push(url);

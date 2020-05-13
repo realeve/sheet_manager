@@ -12,6 +12,8 @@ export default () => {
           查看详情
         </Button>
       }
-    ></Card>
+    >
+      作废率、开包量
+    </Card>
   );
 };

@@ -55,14 +55,14 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Vis
       <ChartCard
         bordered={false}
         loading={loading}
-        title="本月印钞产量(五月)"
+        title="印钞入库总数(1-5月)"
         action={
           <Tooltip title="数据来源：MES系统">
             <InfoCircleOutlined />
           </Tooltip>
         }
         total={numeral(2133).format('0,0')}
-        footer={<Field label="1-5月累计产量" value={numeral(41378).format('0,0')} />}
+        footer={<Field label="累计解缴" value={numeral(1945).format('0,0')} />}
         contentHeight={46}
       >
         <MiniBar data={visitData} />
