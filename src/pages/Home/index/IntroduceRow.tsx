@@ -4,7 +4,6 @@ import React from 'react';
 import numeral from 'numeral';
 import { ChartCard, MiniArea, MiniBar, MiniProgress, Field, Yuan, Trend } from '../components/';
 import { VisitDataType } from '../data';
-import styles from '../style.less';
 
 const topColResponsiveProps = {
   xs: 24,
@@ -20,23 +19,18 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Vis
     <Col {...topColResponsiveProps}>
       <ChartCard
         bordered={false}
-        title="总销售额"
+        title="销售收入"
         action={
-          <Tooltip title="指标说明">
+          <Tooltip title="数据来源：财务报表系统">
             <InfoCircleOutlined />
           </Tooltip>
         }
         loading={loading}
-        total={() => <Yuan>126560</Yuan>}
-        footer={<Field label="日销售额" value={`￥${numeral(12423).format('0,0')}`} />}
+        total={() => <Yuan>12656023</Yuan>}
+        footer={<Field label="完成率" value={`47.3%`} />}
         contentHeight={46}
       >
-        <Trend flag="up" style={{ marginRight: 16 }}>
-          周同比<span className={styles.trendText}>12%</span>
-        </Trend>
-        <Trend flag="down">
-          日同比<span className={styles.trendText}>11%</span>
-        </Trend>
+        <MiniProgress percent={47.3} strokeWidth={8} target={50} />
       </ChartCard>
     </Col>
 
@@ -44,14 +38,14 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Vis
       <ChartCard
         bordered={false}
         loading={loading}
-        title="访问量"
+        title="利润"
         action={
-          <Tooltip title="指标说明">
+          <Tooltip title="数据来源：财务报表系统">
             <InfoCircleOutlined />
           </Tooltip>
         }
-        total={numeral(8846).format('0,0')}
-        footer={<Field label="日访问量" value={numeral(1234).format('0,0')} />}
+        total={() => <Yuan>6522198</Yuan>}
+        footer={<Field label="完成率" value={`42.8%`} />}
         contentHeight={46}
       >
         <MiniArea color="#975FE4" data={visitData} />
@@ -61,14 +55,14 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Vis
       <ChartCard
         bordered={false}
         loading={loading}
-        title="支付笔数"
+        title="本月印钞产量(五月)"
         action={
-          <Tooltip title="指标说明">
+          <Tooltip title="数据来源：MES系统">
             <InfoCircleOutlined />
           </Tooltip>
         }
-        total={numeral(6560).format('0,0')}
-        footer={<Field label="转化率" value="60%" />}
+        total={numeral(2133).format('0,0')}
+        footer={<Field label="1-5月累计产量" value={numeral(41378).format('0,0')} />}
         contentHeight={46}
       >
         <MiniBar data={visitData} />
@@ -78,27 +72,17 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Vis
       <ChartCard
         loading={loading}
         bordered={false}
-        title="运营活动效果"
+        title="本月钞纸产量(五月)"
         action={
-          <Tooltip title="指标说明">
+          <Tooltip title="数据来源：MES系统">
             <InfoCircleOutlined />
           </Tooltip>
         }
-        total="78%"
-        footer={
-          <div style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
-            <Trend flag="up" style={{ marginRight: 16 }}>
-              周同比<span className={styles.trendText}>12%</span>
-            </Trend>
-            <Trend flag="down">
-              日同比
-              <span className={styles.trendText}>11%</span>
-            </Trend>
-          </div>
-        }
+        total={numeral(1265).format('0,0')}
+        footer={<Field label="1-5月累计产量" value={numeral(4096).format('0,0')} />}
         contentHeight={46}
       >
-        <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" />
+        <MiniArea line data={visitData} borderColor="#13C2C2" />
       </ChartCard>
     </Col>
   </Row>

@@ -56,11 +56,11 @@ class ChartCard extends React.Component<ChartCardProps> {
             {renderTotal(total)}
           </div>
         </div>
-        {children && (
-          <div className={styles.content} style={{ height: contentHeight || 'auto' }}>
-            <div className={contentHeight && styles.contentFixed}>{children}</div>
-          </div>
-        )}
+
+        <div className={styles.content} style={{ height: contentHeight || 'auto' }}>
+          {children && <div className={contentHeight && styles.contentFixed}>{children}</div>}
+        </div>
+
         {footer && (
           <div
             className={classNames(styles.footer, {
