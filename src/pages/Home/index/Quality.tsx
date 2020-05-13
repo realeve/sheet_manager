@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Col, Row } from 'antd';
-const Print = React.lazy(() => import('./components/product_print'));
-const Paper = React.lazy(() => import('./components/product_paper'));
+const Print = React.lazy(() => import('./components/quality_print'));
+const Paper = React.lazy(() => import('./components/quality_paper'));
 
 export default () => {
   return (
