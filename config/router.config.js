@@ -41,7 +41,7 @@ export default [
       },
       {
         path: '/',
-        redirect: '/account/settings/base',
+        component: './Home',
       },
       {
         path: '/home',
