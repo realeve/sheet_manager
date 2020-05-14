@@ -572,7 +572,8 @@ export const handleDefaultHiddenKeys = (cfg, state) => {
         }
       });
     }
-    if (hide) {
+    if (lib.getType(hide) === 'array') {
+      // console.log(hide, hideKeys);
       hideKeys = [...hideKeys, ...hide];
     }
   });

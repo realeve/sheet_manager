@@ -29,7 +29,7 @@
       "detail": [
         {
           "title": "产品名称",
-          "type": "radio.button",
+          "type": "select",
           "key": "prod_name",
           "defaultOption": [
             {
@@ -44,6 +44,26 @@
                 {
                   "key": "paste_width",
                   "min": 5
+                }
+              ]
+            },
+            {
+              "name": "6T裁封线分百条",
+              "value": "6T裁封线分百条",
+              "scope": [
+                {
+                  "key": "weight",
+                  "min": 76,
+                  "max": 84
+                },
+                {
+                  "key": "paste_width",
+                  "min": 5
+                },
+                {
+                  "key": "band_length",
+                  "min": 182.5,
+                  "max": 183.5
                 }
               ]
             },
@@ -171,10 +191,10 @@
           "type": "input",
           "key": "whiteness",
           "suffix": "%",
+          "hide": true,
           "span": 8,
           "rule": {
-            "type": "float",
-            "required": true
+            "type": "float"
           },
           "scope": {
             "min": 80,
