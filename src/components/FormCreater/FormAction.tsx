@@ -359,7 +359,7 @@ function formAction({
           type="primary"
           style={{ marginLeft: 20 }}
           onClick={() => {
-            window.open(formConfig.api.print.url, '_blank');
+            window.open(formConfig.api.print.url + `&uid=${uid}`, '_blank');
           }}
         >
           打印填写记录
