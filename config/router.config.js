@@ -61,6 +61,10 @@ export default [
             path: '/form',
             component: './Form',
           },
+          {
+            path: '/form/print',
+            component: './Form/print',
+          },
         ],
       },
       {

@@ -42,10 +42,15 @@
         line-height: 1.42857;
         font-size: 14px;
 
-        max-width: 400px;
+        max-width: 160px;
         &:first-child {
           text-align: right;
           // border-right: 1px solid #F0F3F6;
+        }
+      }
+      @media print {
+        td {
+          padding: 0;
         }
       }
     }

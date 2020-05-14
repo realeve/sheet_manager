@@ -53,7 +53,7 @@ export const fetchData = async cfg => {
   return axios({ data: { id, nonce, ...data }, method });
 };
 
-export const handleParams = ({ tid, params, dateRange, dateType, textAreaList }) => {
+export const handleParams = ({ tid, params, dateRange, dateType, textAreaList, ...props }) => {
   const [tstart, tend] = dateRange;
   let param =
     dateType === 'none'
@@ -70,8 +70,8 @@ export const handleParams = ({ tid, params, dateRange, dateType, textAreaList })
           mode: 'array',
         };
 
-  let method = textAreaList.length > 0 ? 'post' : 'get';
-  let option = tid.map(url => {
+  let method = (textAreaList || []).length > 0 ? 'post' : 'get';
+  let option = (tid || props.id).map(url => {
     if (!url.includes('http')) {
       let [id, nonce] = url.split('/').filter(item => item.length > 0);
       return {
@@ -85,6 +85,7 @@ export const handleParams = ({ tid, params, dateRange, dateType, textAreaList })
       method,
     };
   });
+
   let paramKeys = Object.keys(params);
 
   // 对传入参数补齐

@@ -17,6 +17,9 @@
       "load": {
         "url": "969/du2j6x6oqf",
         "param": ["_id"]
+      },
+      "print": {
+        "url": "/form/print#id=981/9c1be28459&id=982/fdc20db98b&daterange=14&tabletype=list&tabletype=table"
       }
     },
     "table": "paper_cutwaste_base",

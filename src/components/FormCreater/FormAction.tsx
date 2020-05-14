@@ -353,6 +353,18 @@ function formAction({
           </Button>
         </Popconfirm>
       )}
+
+      {formConfig?.api?.print?.url && (
+        <Button
+          type="primary"
+          style={{ marginLeft: 20 }}
+          onClick={() => {
+            window.open(formConfig.api.print.url, '_blank');
+          }}
+        >
+          打印填写记录
+        </Button>
+      )}
     </Col>
   );
 }

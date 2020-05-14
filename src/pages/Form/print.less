@@ -1,0 +1,17 @@
+.print {
+  padding: 20px;
+  .title {
+    font-weight: bold;
+  }
+  .action {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    flex-direction: row-reverse;
+  }
+  @media print {
+    .action {
+      display: none;
+    }
+  }
+}

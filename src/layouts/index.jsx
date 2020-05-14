@@ -21,7 +21,8 @@ if (process.env.NODE_ENV === 'development') {
 class MainLayout extends React.PureComponent {
   render() {
     let pathname = this.props.location.pathname;
-    if (pathname === '/home') {
+
+    if (['/home', '/form/print'].includes(pathname)) {
       return this.props.children;
     }
     return pathname.includes('/login') ? (

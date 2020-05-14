@@ -1,10 +1,17 @@
 .detail {
-  padding: 10px 0;
+  padding: 0;
   display: flex;
   width: 100%;
   ul {
     list-style: none;
     width: 100%;
+    margin-bottom: 0;
+
+    @media print {
+      li {
+        line-height: 27px;
+      }
+    }
     li {
       &:hover {
         background-color: #eef1f5;

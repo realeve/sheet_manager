@@ -40,8 +40,9 @@ const ListItem = ({ data, header, span, removeZero, removeEmpty }) => {
 const ListItemFull = ({ data, header, span }) => {
   // 自动清除空数据
   let headerData = R.splitEvery(Math.ceil(header.length / Math.ceil(24 / span)), header);
+  // style={{ marginBottom: 15 }}
   return headerData.map((item, idx) => (
-    <Col span={span} key={idx} style={{ marginBottom: 15 }}>
+    <Col span={span} key={idx}>
       <ul style={{ marginRight: 15 }}>
         {item.map(title => (
           <li key={title}>
