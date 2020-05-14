@@ -16,18 +16,31 @@ export const isDisabled = ({ selectValue, selectList, textAreaList, select, text
   Object.keys(selectValue).length < selectList.length ||
   Object.values(textAreaValue).filter(item => String(item).length > 0).length < textAreaList.length;
 
-export const DateRangePicker = ({ dispatch,refresh = false, dateRange, style = {} }) => {
+export const DateRangePicker = ({
+  dispatch,
+  dateType = 'date',
+  refresh = false,
+  dateRange,
+  style = {},
+}) => {
   let queryType = window.location.pathname.includes('/table')
     ? 'table'
     : window.location.pathname.includes('/chart')
     ? '/chart'
     : 'none';
 
-  const onDateChange = async (dateStrings: Array<string> ) => {
+  const onDateChange = async (dateStrings: Array<string>) => {
+    let strDate = dateStrings;
+    if (dateType == 'month') {
+      strDate = strDate.map(item => item.substr(0, 6));
+    } else if (dateType == 'year') {
+      strDate = strDate.map(item => item.substr(0, 4));
+    }
+    console.log(strDate, dateType);
     await dispatch({
       type: 'common/setStore',
-      payload: { dateRange: dateStrings },
-    }); 
+      payload: { dateRange: strDate },
+    });
 
     // 是否立即执行查询，在只有时间条件时，立即查询，否则点确定按钮再查询
     if (refresh) {
@@ -36,22 +49,19 @@ export const DateRangePicker = ({ dispatch,refresh = false, dateRange, style = {
   };
 
   const onQuery = async () => {
- 
-    if (['table','/table'].includes(queryType)) {
+    if (['table', '/table'].includes(queryType)) {
       await dispatch({
         type: 'table/updateParams',
       });
       await dispatch({
         type: 'table/refreshData',
-      }); 
-    } else if (['chart','/chart'].includes(queryType)) {
- 
+      });
+    } else if (['chart', '/chart'].includes(queryType)) {
       dispatch({
         type: 'chart/refreshData',
       });
     }
   };
- 
 
   return (
     queryType !== 'none' && (
@@ -137,20 +147,20 @@ function QueryCondition({
     });
   }, [textAreaList.length, selectList.length, dateType]);
 
-  const onQuery = async () => { 
+  const onQuery = async () => {
     if (queryType === 'table') {
       await dispatch({
         type: 'table/updateParams',
       });
       await dispatch({
         type: 'table/refreshData',
-      }); 
+      });
       return;
     }
 
     dispatch({
       type: 'chart/refreshData',
-    }); 
+    });
   };
 
   const [isMobile, setIsMobile] = useState(false);
@@ -165,12 +175,11 @@ function QueryCondition({
     };
   }, []);
 
-
   if (isMobile || hidemenu) {
     if (textAreaList.length + selectList.length === 0 && dateType !== 'none') {
       return (
         <div className={styles.dateRange} style={{ marginBottom: 10 }}>
-          <DateRangePicker refresh dispatch={dispatch} dateRange={dateRange} />
+          <DateRangePicker dateType={dateType} refresh dispatch={dispatch} dateRange={dateRange} />
         </div>
       );
     }
@@ -188,7 +197,7 @@ function QueryCondition({
         <Row>
           {dateType !== 'none' && (
             <Col span={8} md={8} sm={12} xs={24} className={styles.selectContainer}>
-              <DateRangePicker dispatch={dispatch} dateRange={dateRange} />
+              <DateRangePicker dateType={dateType} dispatch={dispatch} dateRange={dateRange} />
             </Col>
           )}
           {textAreaList.map(({ key, title }) => (

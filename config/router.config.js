@@ -41,7 +41,8 @@ export default [
       },
       {
         path: '/',
-        component: './Home/index',
+        // component: './Home/index',
+        component: './Account/Settings/BaseView',
       },
       {
         path: '/home',
@@ -117,29 +118,29 @@ export default [
         icon: 'user',
         path: '/account',
         routes: [
-          {
-            path: '/account/center',
-            name: 'center',
-            component: './Account/Center/Center',
-            routes: [
-              {
-                path: '/account/center',
-                redirect: '/account/center/myarticle',
-              },
-              {
-                path: '/account/center/myarticle',
-                component: './Account/Center/Articles',
-              },
-              {
-                path: '/account/center/aboutme',
-                component: './Account/Center/Aboutme',
-              },
-              {
-                path: '/account/center/hot',
-                component: './Account/Center/Hot',
-              },
-            ],
-          },
+          // {
+          //   path: '/account/center',
+          //   name: 'center',
+          //   component: './Account/Center/Center',
+          //   routes: [
+          //     {
+          //       path: '/account/center',
+          //       redirect: '/account/center/myarticle',
+          //     },
+          //     {
+          //       path: '/account/center/myarticle',
+          //       component: './Account/Center/Articles',
+          //     },
+          //     {
+          //       path: '/account/center/aboutme',
+          //       component: './Account/Center/Aboutme',
+          //     },
+          //     {
+          //       path: '/account/center/hot',
+          //       component: './Account/Center/Hot',
+          //     },
+          //   ],
+          // },
           {
             path: '/account/settings',
             name: 'settings',

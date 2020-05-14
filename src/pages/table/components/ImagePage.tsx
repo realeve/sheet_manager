@@ -94,7 +94,7 @@ function Index({ data, blob, extra = null, subTitle = null, onImageClick = () =>
 
   // 自动调整间隙占满容器
   useEffect(() => {
-    if (!container.current.offsetWidth) {
+    if (!container?.current?.offsetWidth) {
       return;
     }
     let maxWidth = container.current.offsetWidth - 16;
@@ -102,7 +102,7 @@ function Index({ data, blob, extra = null, subTitle = null, onImageClick = () =>
     let gutterNum = maxWidth % 180;
     let curGutter = Math.floor(gutterNum / imgNum);
     setGutter(curGutter > 100 ? 5 : curGutter);
-  }, [container.current.offsetWidth]);
+  }, [container?.current?.offsetWidth]);
 
   if (data.data.length === 0 || R.type(data.data[0]) === 'Object') {
     return null;
