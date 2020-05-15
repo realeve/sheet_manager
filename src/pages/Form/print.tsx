@@ -34,16 +34,24 @@ const handleParam = (hash, uid, tabletype) => {
 const handleTableType = hash => {
   let res = qs.parse(hash.slice(1));
   let tabletype = res.tabletype || 'list';
+  let span = res.span || '6';
+
   if (typeof res.id == 'string') {
     res.id = [res.id];
   }
   if (typeof tabletype == 'string') {
     tabletype = [tabletype];
   }
+  if (typeof span == 'string') {
+    span = [span];
+  }
   tabletype = res.id.map((_, id) => {
     return tabletype[id] || R.last(tabletype);
   });
-  return tabletype;
+  span = res.id.map((_, id) => {
+    return Number(span[id] || R.last(tabletype));
+  });
+  return { tabletype, span };
 };
 
 const removeEmptyData = res => {
@@ -72,13 +80,15 @@ const Index = ({ user }) => {
   const { hash } = useLocation();
   const [state, setState] = useSetState({});
   const [tabletype, setTabletype] = useState(['list']);
+  const [span, setSpan] = useState([6]);
   useEffect(() => {
     if (!user.uid) {
       setState({});
       return;
     }
-    let tabletype = handleTableType(hash);
+    let { tabletype, span } = handleTableType(hash);
     setTabletype(tabletype);
+    setSpan(span);
 
     let param = handleParam(hash, user.uid, tabletype);
 
@@ -99,7 +109,7 @@ const Index = ({ user }) => {
     <div className={styles.print}>
       {Object.values(state).map((item, i) => {
         let TableItem = tabletype[i] === 'list' ? SimpleList : SimpleTable;
-        let props = { data: item, span: 6 };
+        let props = { data: item, span: span[i] };
         if (tabletype[i] === 'list') {
           props = {
             ...props,

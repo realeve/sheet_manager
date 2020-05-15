@@ -46,7 +46,7 @@ const ListItemFull = ({ data, header, span }) => {
       <ul style={{ marginRight: 15 }}>
         {item.map(title => (
           <li key={title}>
-            <strong>{title}</strong>
+            <strong style={{ fontWeight: 800 }}>{title}</strong>
             {data[title] === '0.0' ? '' : renderItem(data[title])}
           </li>
         ))}

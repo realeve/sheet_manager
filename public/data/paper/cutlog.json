@@ -19,7 +19,7 @@
         "param": ["_id"]
       },
       "print": {
-        "url": "/form/print#id=981/9c1be28459&id=982/fdc20db98b&daterange=14&tabletype=list&tabletype=table"
+        "url": "/form/print#id=981/9c1be28459&id=984/5625c69ca4&id=983/fd99ca7638&id=982/fdc20db98b&daterange=14&tabletype=list&tabletype=list&tabletype=table&span=6&span=12"
       }
     },
     "table": "paper_cutwaste_base",
