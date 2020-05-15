@@ -8,12 +8,13 @@ import * as R from 'ramda';
 const prefix = 'data:image/jpg;base64,';
 // todo 增加点击复制url链接功能.
 
-const ImageTitle = ({ data: { camera, macro_id, pos, code }, ...props }) => (
+const ImageTitle = ({ data: { camera, macro_id, pos, code, sheet_num }, ...props }) => (
   <div {...props}>
     <p style={{ marginBottom: 0 }}>
       相机：{camera} / 宏区{macro_id} / 第{pos}开
     </p>
     <p style={{ marginBottom: 0 }}>印码号：{code}</p>
+    {sheet_num.length > 0 && <p style={{ marginBottom: 0 }}>大张喷码号：{sheet_num}</p>}
   </div>
 );
 
