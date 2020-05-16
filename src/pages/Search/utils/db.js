@@ -288,6 +288,21 @@ export const getMahoudataLog = cart =>
 
 /**
  *   @database: { 接口管理 }
+ *   @desc:     {  }
+ */
+export const getViewPrintTubu = cart =>
+  DEV
+    ? mock(require('@/mock/421_5c62aa7417.json'))
+    : axios({
+        url: '/985/c7929ede68.json',
+        params: {
+          cart,
+          cache,
+        },
+      });
+
+/**
+ *   @database: { 接口管理 }
  *   @desc:     { OCR信息查询 }
  */
 export const getViewPrintOcr = async cart => {
