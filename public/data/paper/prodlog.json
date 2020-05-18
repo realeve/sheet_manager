@@ -651,6 +651,22 @@
               "required": true
             },
             "span": 6
+          },
+          {
+            "title": "专责",
+            "type": "input",
+            "key": "operator",
+            "placeholder": "专责人员，需提供列表",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "生产记事",
+            "type": "input.textarea",
+            "key": "remark",
+            "span": 6
           }
         ]
       }
@@ -803,6 +819,22 @@
               "required": true
             },
             "span": 6
+          },
+          {
+            "title": "专责",
+            "type": "input",
+            "key": "operator",
+            "placeholder": "专责人员，需提供列表",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "生产记事",
+            "type": "input.textarea",
+            "key": "remark",
+            "span": 6
           }
         ]
       }
@@ -878,6 +910,38 @@
               "type": "float",
               "required": true
             },
+            "span": 6
+          },
+          {
+            "title": "干燥部专责",
+            "type": "input",
+            "key": "operator_dry",
+            "placeholder": "干燥部专责人员，需提供列表",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "干燥部生产记事",
+            "type": "input.textarea",
+            "key": "remark_dry",
+            "span": 6
+          },
+          {
+            "title": "施胶部专责",
+            "type": "input",
+            "key": "operator_sizing",
+            "placeholder": "施胶部专责人员，需提供列表",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "施胶部生产记事",
+            "type": "input.textarea",
+            "key": "remark_sizing",
             "span": 6
           }
         ]
@@ -1325,13 +1389,29 @@
               "required": true
             },
             "span": 6
+          },
+          {
+            "title": "专责人员",
+            "type": "input",
+            "key": "operator",
+            "placeholder": "专责人员，需提供列表",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "生产记事",
+            "type": "input.textarea",
+            "key": "remark",
+            "span": 6
           }
         ]
       }
     ]
   },
   {
-    "name": "6.纸幅水印尺寸",
+    "name": "6.纸幅尺寸及参数",
     "dev": false,
     "api": {
       "insert": {
@@ -1434,6 +1514,67 @@
             "type": "input",
             "key": "max_delta_diagonal",
             "suffix": "mm",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+
+          {
+            "title": "下轴时间",
+            "titlewidth": 280,
+            "type": "datepicker",
+            "key": "complete_time",
+            "showTime": true,
+            "datetype": "YYYY-MM-DD HH:mm",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "轴重",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "reel_weight",
+            "suffix": "Kg",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "抄宽",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "paper_width",
+            "suffix": "mm",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "QCS定量",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "qcs_weight",
+            "block": "g/m<sup>2</sup>",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "QCS水份",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "qcs_water_content",
+            "suffix": "%",
             "rule": {
               "type": "float",
               "required": true
