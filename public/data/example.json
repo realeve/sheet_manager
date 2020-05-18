@@ -132,7 +132,7 @@
           "title": "录入时间",
           "type": "datepicker",
           "key": "rec_time_detail",
-          "datetype": "YYYY-MM-DD hh:mm:ss",
+          "datetype": "YYYY-MM-DD HH:mm:ss",
           "showTime": true,
           "block": "显示时分秒",
           "rule": {

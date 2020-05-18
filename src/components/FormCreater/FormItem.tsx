@@ -69,6 +69,7 @@ export default function formItem({
     unReset,
     rule,
     increase,
+    titlewidth = 120,
     ...props
   },
   scope = [],
@@ -214,6 +215,7 @@ export default function formItem({
         className={cx('title', {
           required: rule?.required,
         })}
+        style={{ width: titlewidth }}
       >
         {isQueryKey && <span title="索引字段:录入所有索引字段后可点击载入历史数据">🔍</span>}
         {increase && <span title="自增字段:录入后，下次信息将按规则自动增加">⬆</span>}

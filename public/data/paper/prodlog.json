@@ -1,0 +1,1447 @@
+[
+  {
+    "name": "1.交接班",
+    "api": {
+      "insert": {
+        "url": "965/du2j6x6oqf",
+        "param": ["rec_time", "uid"]
+      },
+      "update": {
+        "url": "966/du2j6x6oqf",
+        "param": ["_id"]
+      },
+      "table": {
+        "url": "968/du2j6x6oqf",
+        "param": ["machine_id"]
+      },
+      "load": {
+        "url": "969/du2j6x6oqf",
+        "param": ["_id"]
+      },
+      "print": {
+        "url": "/form/print#id=981/9c1be28459&id=984/5625c69ca4&id=983/fd99ca7638&id=982/fdc20db98b&daterange=14&tabletype=list&tabletype=list&tabletype=table&span=6&span=12"
+      }
+    },
+    "table": "paper_record_prod_base",
+    "detail": [
+      {
+        "detail": [
+          {
+            "title": "品种",
+            "type": "select",
+            "unReset": true,
+            "defaultOption": [
+              "103-G-2T",
+              "103-G-2A",
+              "103-G-3TZ",
+              "103-G-4T",
+              "103-G-6T",
+              "103-G-7T",
+              "试验品"
+            ],
+            "key": "prod_id",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "机台",
+            "type": "radio.button",
+            "key": "machine_id",
+            "defaultOption": ["新线-1", "新线-2", "老线"],
+            "rule": {
+              "required": true,
+              "msg": "请输入机台"
+            },
+            "unReset": true,
+            "span": 6
+          },
+          {
+            "title": "班别",
+            "type": "select",
+            "key": "class_type",
+            "defaultOption": [
+              "光切1班",
+              "光切2班",
+              "光切3班",
+              "光切5班",
+              "光切6班",
+              "光切7班",
+              "光切8班",
+              "数封1班",
+              "数封2班",
+              "打件班"
+            ],
+            "rule": {
+              "required": true,
+              "msg": "请输入班次"
+            },
+            "placeholder": "请输入班次，用拼音缩写快速录入",
+            "unReset": true,
+            "span": 6,
+            "block": "需提供班组列表"
+          },
+          {
+            "title": "班次",
+            "type": "radio.button",
+            "key": "class_name",
+            "rule": {
+              "required": true,
+              "msg": "请输入班别"
+            },
+            "defaultOption": ["白班", "中班", "夜班"],
+            "placeholder": "请输入班别",
+            "unReset": true,
+            "span": 6
+          }
+        ]
+      },
+      {
+        "title": "烘缸温度（接班）",
+        "detail": [
+          {
+            "title": "烘缸1",
+            "type": "input",
+            "key": "dryer_temp_1",
+            "placeholder": "接班记录，烘缸温度1",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸2",
+            "type": "input",
+            "key": "dryer_temp_2",
+            "placeholder": "接班记录，烘缸温度2",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸3",
+            "type": "input",
+            "key": "dryer_temp_3",
+            "placeholder": "接班记录，烘缸温度3",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸4",
+            "type": "input",
+            "key": "dryer_temp_4",
+            "placeholder": "接班记录，烘缸温度4",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸5",
+            "type": "input",
+            "key": "dryer_temp_5",
+            "placeholder": "接班记录，烘缸温度5",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸6",
+            "type": "input",
+            "key": "dryer_temp_6",
+            "placeholder": "接班记录，烘缸温度6",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸7",
+            "type": "input",
+            "key": "dryer_temp_7",
+            "placeholder": "接班记录，烘缸温度7",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸8",
+            "type": "input",
+            "key": "dryer_temp_8",
+            "placeholder": "接班记录，烘缸温度8",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸9",
+            "type": "input",
+            "key": "dryer_temp_9",
+            "placeholder": "接班记录，烘缸温度9",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸10",
+            "type": "input",
+            "key": "dryer_temp_10",
+            "placeholder": "接班记录，烘缸温度10",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸11",
+            "type": "input",
+            "key": "dryer_temp_11",
+            "placeholder": "接班记录，烘缸温度11",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸12",
+            "type": "input",
+            "key": "dryer_temp_12",
+            "placeholder": "接班记录，烘缸温度12",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸13",
+            "type": "input",
+            "key": "dryer_temp_13",
+            "placeholder": "接班记录，烘缸温度13",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸14",
+            "type": "input",
+            "key": "dryer_temp_14",
+            "placeholder": "接班记录，烘缸温度14",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸15",
+            "type": "input",
+            "key": "dryer_temp_15",
+            "placeholder": "接班记录，烘缸温度15",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸16",
+            "type": "input",
+            "key": "dryer_temp_16",
+            "placeholder": "接班记录，烘缸温度16",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸17",
+            "type": "input",
+            "key": "dryer_temp_17",
+            "placeholder": "接班记录，烘缸温度17",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸18",
+            "type": "input",
+            "key": "dryer_temp_18",
+            "placeholder": "接班记录，烘缸温度18",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸19",
+            "type": "input",
+            "key": "dryer_temp_19",
+            "placeholder": "接班记录，烘缸温度19",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸20",
+            "type": "input",
+            "key": "dryer_temp_20",
+            "placeholder": "接班记录，烘缸温度20",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          }
+        ]
+      },
+      {
+        "title": "气垫温度(接班)",
+        "detail": [
+          {
+            "title": "进汽温度1组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "steam_temp_in_1",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          },
+          {
+            "title": "送风风量1组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_volume_in_1",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          },
+          {
+            "title": "排风风量1组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_volume_out_1",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          },
+          {
+            "title": "进汽温度2组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "steam_temp_in_2",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          },
+          {
+            "title": "送风风量2组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_volume_in_2",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          },
+          {
+            "title": "排风风量2组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_volume_out_2",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "2.恒定部",
+    "dev": false,
+    "api": {
+      "insert": {
+        "url": "971/7fx7doeq4h",
+        "param": ["rec_time", "uid"]
+      },
+      "update": {
+        "url": "972/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "table": {
+        "url": "973/7fx7doeq4h",
+        "param": ["machine_id"]
+      },
+      "load": {
+        "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      }
+    },
+    "table": "paper_record_prod_part_constant",
+    "detail": [
+      {
+        "detail": [
+          {
+            "title": "记录id",
+            "type": "input.number",
+            "disabled": true,
+            "key": "prod_baseid",
+            "span": 6,
+            "url": "/970/280796efa5.json",
+            "rule": {
+              "required": true,
+              "msg": "交接班基础信息未填写，请切换至选项卡1填写"
+            }
+          },
+          {
+            "title": "纸机车速",
+            "type": "input",
+            "key": "speed",
+            "suffix": "m/min",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "恒定部有效作业时间",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "valid_prod_timelength",
+            "suffix": "H",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "湿强剂加入量",
+            "titlewidth": 240,
+            "type": "input",
+            "key": "wet_strength_volume",
+            "suffix": "L/H",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "CMC加入量",
+            "titlewidth": 240,
+            "type": "input",
+            "key": "CMC_volume",
+            "suffix": "L/H",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "主一级筛加压泵开度",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "main_pump_pressure_percent",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "主网良浆分器浆量",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "main_screen_pulp_volume",
+            "suffix": "l/min",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "短网良浆分器浆量",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "short_screen_pulp_volume",
+            "suffix": "l/min",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "主网/短网(分浆比例)",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "main_short_pulp_percent",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "取样时间",
+            "type": "datepicker",
+            "key": "flow_wire_sample_time",
+            "showTime": true,
+            "datetype": "YYYY-MM-DD HH:mm:ss",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网浓度",
+            "type": "input",
+            "key": "flow_wire_percent",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网叩解度",
+            "type": "input",
+            "key": "flow_wire_beating_degree",
+            "suffix": "°SR",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网湿重",
+            "type": "input",
+            "key": "flow_wire_wet_weight",
+            "suffix": "g",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网浆温",
+            "type": "input",
+            "key": "flow_wire_pulp_temprature",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网电位",
+            "type": "input",
+            "key": "flow_wire_voltage",
+            "suffix": "mv",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网PH值",
+            "type": "input",
+            "key": "flow_wire_ph",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "揭纸辊揭纸区真空度",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "vacuum_degree_uncover",
+            "suffix": "MPa",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "揭纸辊脱水区真空度",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "vacuum_degree_dewater",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "3.湿部",
+    "dev": false,
+    "api": {
+      "insert": {
+        "url": "971/7fx7doeq4h",
+        "param": ["rec_time", "uid"]
+      },
+      "update": {
+        "url": "972/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "table": {
+        "url": "973/7fx7doeq4h",
+        "param": ["machine_id"]
+      },
+      "load": {
+        "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      }
+    },
+    "table": "paper_record_prod_part_wet",
+    "detail": [
+      {
+        "detail": [
+          {
+            "title": "记录id",
+            "type": "input.number",
+            "disabled": true,
+            "key": "prod_baseid",
+            "span": 6,
+            "url": "/970/280796efa5.json",
+            "rule": {
+              "required": true,
+              "msg": "交接班基础信息未填写，请切换至选项卡1填写"
+            }
+          },
+          {
+            "title": "真空伏辊真空度",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "vacuum_degree_vacuum_roller",
+            "suffix": "MPa",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "压榨真空辊真空度一区",
+            "titlewidth": 300,
+            "type": "input",
+            "key": "vacuum_degree_press_roller1",
+            "suffix": "MPa",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "压榨真空辊真空度二区",
+            "titlewidth": 300,
+            "type": "input",
+            "key": "vacuum_degree_press_roller2",
+            "suffix": "MPa",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上毛布吸力",
+            "type": "input",
+            "key": "suction_upcloth",
+            "suffix": "MPa",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "下毛布吸力",
+            "type": "input",
+            "key": "suction_undercloth",
+            "suffix": "MPa",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "接上班线",
+            "placeholder": "安全线记录",
+            "type": "input",
+            "key": "safe_line_receive",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "用线",
+            "placeholder": "安全线记录",
+            "type": "input",
+            "key": "safe_line_useage",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "交下班线",
+            "placeholder": "安全线记录（结存）",
+            "type": "input",
+            "key": "safe_line_pay",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "钥匙交班",
+            "placeholder": "交班专责：需提供人员名单",
+            "type": "input",
+            "key": "key_pay",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "钥匙接班",
+            "placeholder": "接班专责：需提供人员名单",
+            "type": "input",
+            "key": "key_receive",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "4.干燥施胶部",
+    "dev": false,
+    "api": {
+      "insert": {
+        "url": "971/7fx7doeq4h",
+        "param": ["rec_time", "uid"]
+      },
+      "update": {
+        "url": "972/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "table": {
+        "url": "973/7fx7doeq4h",
+        "param": ["machine_id"]
+      },
+      "load": {
+        "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      }
+    },
+    "table": "paper_record_prod_part_dry_sizing",
+    "detail": [
+      {
+        "title": "施胶",
+        "detail": [
+          {
+            "title": "记录id",
+            "type": "input.number",
+            "disabled": true,
+            "key": "prod_baseid",
+            "span": 6,
+            "url": "/970/280796efa5.json",
+            "rule": {
+              "required": true,
+              "msg": "交接班基础信息未填写，请切换至选项卡1填写"
+            }
+          },
+          {
+            "title": "胶槽胶液温度",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "sizing_liquid_temprature",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "操作边压力",
+            "type": "input",
+            "key": "pressure_operator_side",
+            "suffix": "MPa",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "传动边压力",
+            "type": "input",
+            "key": "pressure_power_side",
+            "suffix": "MPa",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          }
+        ]
+      },
+      {
+        "title": "烘缸温度(交班)",
+        "detail": [
+          {
+            "title": "烘缸1",
+            "type": "input",
+            "key": "dryer_temp_1",
+            "placeholder": "交班记录，烘缸温度1",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸2",
+            "type": "input",
+            "key": "dryer_temp_2",
+            "placeholder": "交班记录，烘缸温度2",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸3",
+            "type": "input",
+            "key": "dryer_temp_3",
+            "placeholder": "交班记录，烘缸温度3",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸4",
+            "type": "input",
+            "key": "dryer_temp_4",
+            "placeholder": "交班记录，烘缸温度4",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸5",
+            "type": "input",
+            "key": "dryer_temp_5",
+            "placeholder": "交班记录，烘缸温度5",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸6",
+            "type": "input",
+            "key": "dryer_temp_6",
+            "placeholder": "交班记录，烘缸温度6",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸7",
+            "type": "input",
+            "key": "dryer_temp_7",
+            "placeholder": "交班记录，烘缸温度7",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸8",
+            "type": "input",
+            "key": "dryer_temp_8",
+            "placeholder": "交班记录，烘缸温度8",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸9",
+            "type": "input",
+            "key": "dryer_temp_9",
+            "placeholder": "交班记录，烘缸温度9",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸10",
+            "type": "input",
+            "key": "dryer_temp_10",
+            "placeholder": "交班记录，烘缸温度10",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸11",
+            "type": "input",
+            "key": "dryer_temp_11",
+            "placeholder": "交班记录，烘缸温度11",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸12",
+            "type": "input",
+            "key": "dryer_temp_12",
+            "placeholder": "交班记录，烘缸温度12",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸13",
+            "type": "input",
+            "key": "dryer_temp_13",
+            "placeholder": "交班记录，烘缸温度13",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸14",
+            "type": "input",
+            "key": "dryer_temp_14",
+            "placeholder": "交班记录，烘缸温度14",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸15",
+            "type": "input",
+            "key": "dryer_temp_15",
+            "placeholder": "交班记录，烘缸温度15",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸16",
+            "type": "input",
+            "key": "dryer_temp_16",
+            "placeholder": "交班记录，烘缸温度16",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸17",
+            "type": "input",
+            "key": "dryer_temp_17",
+            "placeholder": "交班记录，烘缸温度17",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸18",
+            "type": "input",
+            "key": "dryer_temp_18",
+            "placeholder": "交班记录，烘缸温度18",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸19",
+            "type": "input",
+            "key": "dryer_temp_19",
+            "placeholder": "交班记录，烘缸温度19",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "烘缸20",
+            "type": "input",
+            "key": "dryer_temp_20",
+            "placeholder": "交班记录，烘缸温度20",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          }
+        ]
+      },
+      {
+        "title": "气垫温度(交班)",
+        "detail": [
+          {
+            "title": "进汽温度1组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "steam_temp_in_1",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          },
+          {
+            "title": "送风风量1组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_volume_in_1",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          },
+          {
+            "title": "排风风量1组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_volume_out_1",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          },
+          {
+            "title": "进汽温度2组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "steam_temp_in_2",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          },
+          {
+            "title": "送风风量2组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_volume_in_2",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          },
+          {
+            "title": "排风风量2组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_volume_out_2",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "5.压光卷取部",
+    "dev": false,
+    "api": {
+      "insert": {
+        "url": "971/7fx7doeq4h",
+        "param": ["rec_time", "uid"]
+      },
+      "update": {
+        "url": "972/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "table": {
+        "url": "973/7fx7doeq4h",
+        "param": ["machine_id"]
+      },
+      "load": {
+        "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      }
+    },
+    "table": "paper_record_prod_part_press_and_curly",
+    "detail": [
+      {
+        "detail": [
+          {
+            "title": "记录id",
+            "type": "input.number",
+            "disabled": true,
+            "key": "prod_baseid",
+            "span": 6,
+            "url": "/970/280796efa5.json",
+            "rule": {
+              "required": true,
+              "msg": "交接班基础信息未填写，请切换至选项卡1填写"
+            }
+          },
+          {
+            "title": "轴号",
+            "type": "input",
+            "key": "reel_code",
+            "rule": {
+              "type": "reel",
+              "required": true
+            },
+            "span": 6,
+            "toupper": "true"
+          },
+          {
+            "title": "操作面1",
+            "placeholder": "第一组压光机压力",
+            "type": "input",
+            "key": "pressure_side_operator1",
+            "suffix": "bar",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "传动面1",
+            "placeholder": "第一组压光机压力",
+            "type": "input",
+            "key": "pressure_side_power1",
+            "suffix": "bar",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "压差1",
+            "placeholder": "第一组压光机压力",
+            "type": "input",
+            "key": "pressure_delta1",
+            "suffix": "bar",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "操作面2",
+            "placeholder": "第二组压光机压力",
+            "type": "input",
+            "key": "pressure_side_operator2",
+            "suffix": "bar",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "传动面2",
+            "placeholder": "第二组压光机压力",
+            "type": "input",
+            "key": "pressure_side_power2",
+            "suffix": "bar",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "压差2",
+            "placeholder": "第二组压光机压力",
+            "type": "input",
+            "key": "pressure_delta2",
+            "suffix": "bar",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "6.纸幅水印尺寸",
+    "dev": false,
+    "api": {
+      "insert": {
+        "url": "971/7fx7doeq4h",
+        "param": ["rec_time", "uid"]
+      },
+      "update": {
+        "url": "972/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "table": {
+        "url": "973/7fx7doeq4h",
+        "param": ["machine_id"]
+      },
+      "load": {
+        "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      }
+    },
+    "table": "paper_record_prod_watermark_size",
+    "detail": [
+      {
+        "detail": [
+          {
+            "title": "记录id",
+            "titlewidth": 280,
+            "type": "input.number",
+            "disabled": true,
+            "key": "prod_baseid",
+            "span": 6,
+            "url": "/970/280796efa5.json",
+            "rule": {
+              "required": true,
+              "msg": "交接班基础信息未填写，请切换至选项卡1填写"
+            }
+          },
+          {
+            "title": "轴号",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "reel_code",
+            "rule": {
+              "type": "reel",
+              "required": true
+            },
+            "span": 6,
+            "toupper": "true"
+          },
+          {
+            "title": "A幅横向尺寸",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "size_horizontal_A",
+            "suffix": "mm",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "B幅横向尺寸",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "size_horizontal_B",
+            "suffix": "mm",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "C幅横向尺寸",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "size_horizontal_C",
+            "suffix": "mm",
+            "defaultValue": 0,
+            "rule": {
+              "type": "float"
+            },
+            "span": 6
+          },
+          {
+            "title": "纵横向尺寸",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "size_vertical",
+            "suffix": "mm",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "最大对角线差",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "max_delta_diagonal",
+            "suffix": "mm",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          }
+        ]
+      }
+    ]
+  }
+]
