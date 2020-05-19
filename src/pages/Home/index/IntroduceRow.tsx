@@ -2,7 +2,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { Col, Row, Tooltip } from 'antd';
 import React from 'react';
 import numeral from 'numeral';
-import { ChartCard, MiniArea, MiniBar, MiniProgress, Field, Yuan, Trend } from '../components/';
+import { ChartCard, MiniArea, MiniProgress, Field, Yuan } from '../components/';
 import { VisitDataType } from '../data';
 
 import PrintComplete from './card/print_complete';

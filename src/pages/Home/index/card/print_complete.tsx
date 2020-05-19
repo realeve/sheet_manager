@@ -17,11 +17,15 @@ const topColResponsiveProps = {
   style: { marginBottom: 24 },
 };
 
-const IntroduceRow = () => {
+export default () => {
   const [total, setTotal] = useState(0);
   const { loading, data } = useFetch<{ source: string; data: VisitDataType[] }>({
     param: { url: '/990/9877f70475.array' },
-    callback({ data, source }) {
+    callback(res) {
+      if (!res) {
+        return null;
+      }
+      let { data, source } = res;
       let sum = R.compose(R.sum, R.map(R.prop('1')))(data);
       setTotal(sum);
       return { data: data.map(([x, y]) => ({ x, y })), source };
@@ -38,8 +42,11 @@ const IntroduceRow = () => {
     param: {
       url: `/991/b6b55a36a0.json`,
     },
-    callback({ data }) {
-      return data[0];
+    callback(res) {
+      if (!res) {
+        return null;
+      }
+      return res.data[0];
     },
   });
 
@@ -69,5 +76,3 @@ const IntroduceRow = () => {
     </Col>
   );
 };
-
-export default IntroduceRow;
