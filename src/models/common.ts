@@ -179,9 +179,8 @@ export default {
       });
     },
     *handleLogin({ payload: { pathname } }, { put, select }) {
-      if (window.location.href.includes('hidemenu=1')) {
-        return true;
-      }
+      const hideMenu = window.location.href.includes('hidemenu=1');
+
       const { isLogin } = yield select(state => state.common);
 
       if (!isLogin) {
@@ -199,7 +198,7 @@ export default {
 
       // 登录逻辑
       let { data, success } = userTool.getUserSetting();
-      if (pathname !== '/login') {
+      if (pathname !== '/login' && !hideMenu) {
         if (!success || !data.autoLogin) {
           router.push('/login');
           return false;

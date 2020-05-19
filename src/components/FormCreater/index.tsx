@@ -618,6 +618,7 @@ function FormCreater({
                   tabId={tabId}
                   hidemenu={hidemenu}
                   setOutterTrigger={setOutterTrigger}
+                  uid={user.uid}
                 />
               )}
             </Row>

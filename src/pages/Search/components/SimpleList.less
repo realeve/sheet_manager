@@ -7,12 +7,6 @@
     width: 100%;
     margin-bottom: 0;
 
-    @media print {
-      li {
-        line-height: 1.5em;
-        font-size: 10.5pt;
-      }
-    }
     li {
       &:hover {
         background-color: #eef1f5;
@@ -40,6 +34,13 @@
 
       .loginfo {
         width: 100%;
+      }
+    }
+
+    @media print {
+      li {
+        line-height: 1.5em;
+        font-size: 10px;
       }
     }
   }

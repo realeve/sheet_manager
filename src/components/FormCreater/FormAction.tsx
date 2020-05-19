@@ -11,7 +11,7 @@ import qs from 'qs';
 import router from 'umi/router';
 import * as lib from '@/utils/lib';
 
-function formAction({
+export default ({
   fields,
   requiredFileds,
   uid,
@@ -30,7 +30,7 @@ function formAction({
   tabId = -1,
   hidemenu,
   setOutterTrigger,
-}) {
+}) => {
   const [_id, setId] = useState(0);
   // 当前数据提交状态，提交时禁止重复提交
   const [submitting, setSubmitting] = useState(false);
@@ -359,7 +359,7 @@ function formAction({
           type="primary"
           style={{ marginLeft: 20 }}
           onClick={() => {
-            let uidParam = uid.length > 0 ? `&uid=${uid}` : '';
+            let uidParam = uid != '' ? `&uid=${uid}` : '';
             window.open(formConfig.api.print.url + uidParam, '_blank');
           }}
         >
@@ -368,8 +368,4 @@ function formAction({
       )}
     </Col>
   );
-}
-
-export default connect(({ common: { userSetting } }) => ({
-  uid: userSetting.uid,
-}))(formAction);
+};

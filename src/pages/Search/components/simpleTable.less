@@ -18,6 +18,19 @@
           // border-right: 1px solid #F0F3F6;
         }
       }
+      @media print {
+        th {
+          padding: 0;
+          text-align: left;
+          padding: 0;
+          margin: 5px;
+          font-size: 10px;
+          &:first-child {
+            text-align: left;
+            padding-right: 10px;
+          }
+        }
+      }
     }
   }
 
@@ -42,7 +55,7 @@
         line-height: 1.42857;
         font-size: 14px;
 
-        max-width: 160px;
+        max-width: 260px;
         &:first-child {
           text-align: right;
           // border-right: 1px solid #F0F3F6;
@@ -50,12 +63,12 @@
       }
       @media print {
         td {
-          padding: 0;
-          max-width: 200px;
+          padding: '5px 0';
+          max-width: 260px;
           text-align: left;
           padding: 0;
           margin: 5px;
-          font-size: 10.5pt;
+          font-size: 10px;
           &:first-child {
             text-align: left;
             padding-right: 10px;

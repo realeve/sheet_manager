@@ -109,7 +109,7 @@ const Index = ({ user }) => {
     <div className={styles.print}>
       {Object.values(state).map((item, i) => {
         let TableItem = tabletype[i] === 'list' ? SimpleList : SimpleTable;
-        let props = { data: item, span: span[i] };
+        let props = { data: item, span: span[i] || 6 };
         if (tabletype[i] === 'list') {
           props = {
             ...props,
@@ -117,12 +117,15 @@ const Index = ({ user }) => {
             removeZero: true,
           };
         }
+
         return (
           <div key={i}>
-            <div className={styles.title}>
-              {Object.values(state).length > 1 ? `${i + 1}.` : ''}
-              {item.title}
-            </div>
+            {item.title.trim().length > 0 && (
+              <div className={styles.title}>
+                {Object.values(state).length > 1 ? `${i + 1}.` : ''}
+                {item.title}
+              </div>
+            )}
             <TableItem {...props} />
           </div>
         );
