@@ -11,12 +11,21 @@ export interface MiniBarProps {
     x: number | string;
     y: number;
   }[];
+  showX?: boolean;
+  showY?: boolean;
   forceFit?: boolean;
   style?: React.CSSProperties;
 }
 
 const MiniBar: React.FC<MiniBarProps> = props => {
-  const { height = 0, forceFit = true, color = '#1890FF', data = [] } = props;
+  const {
+    height = 0,
+    forceFit = true,
+    color = '#1890FF',
+    showX = false,
+    showY = false,
+    data = [],
+  } = props;
 
   const scale = {
     x: {
@@ -45,8 +54,15 @@ const MiniBar: React.FC<MiniBarProps> = props => {
       <div className={styles.chartContent}>
         <Chart scale={scale} height={chartHeight} forceFit={forceFit} data={data} padding={padding}>
           <Tooltip showTitle={false} crosshairs={true} />
-          <Axis name="x" visible={false} />
-          <Axis name="y" visible={false} grid={false} />
+          <Axis
+            name="x"
+            visible={showX}
+            grid={false}
+            subTickLine={false}
+            tickLine={false}
+            line={false}
+          />
+          <Axis name="y" visible={showY} grid={false} />
           <Geom type="interval" position="x*y" color={color} tooltip={tooltip} />
         </Chart>
       </div>

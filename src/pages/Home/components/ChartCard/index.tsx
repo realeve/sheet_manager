@@ -32,11 +32,22 @@ export interface ChartCardProps extends CardProps {
   contentHeight?: number;
   avatar?: React.ReactNode;
   style?: React.CSSProperties;
+  suffix?: React.ReactNode;
 }
 
 class ChartCard extends React.Component<ChartCardProps> {
   renderContent = () => {
-    const { contentHeight, title, avatar, action, total, footer, children, loading } = this.props;
+    const {
+      contentHeight,
+      title,
+      avatar,
+      action,
+      total,
+      suffix,
+      footer,
+      children,
+      loading,
+    } = this.props;
     if (loading) {
       return false;
     }
@@ -53,7 +64,10 @@ class ChartCard extends React.Component<ChartCardProps> {
               <span className={styles.title}>{title}</span>
               <span className={styles.action}>{action}</span>
             </div>
-            {renderTotal(total)}
+            <div className={styles.row}>
+              {renderTotal(total)}
+              <div className={styles.suffix}>{suffix}</div>
+            </div>
           </div>
         </div>
 

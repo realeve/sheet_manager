@@ -5,6 +5,8 @@ import numeral from 'numeral';
 import { ChartCard, MiniArea, MiniBar, MiniProgress, Field, Yuan, Trend } from '../components/';
 import { VisitDataType } from '../data';
 
+import PrintComplete from './card/print_complete';
+
 const topColResponsiveProps = {
   xs: 24,
   sm: 12,
@@ -14,7 +16,7 @@ const topColResponsiveProps = {
   style: { marginBottom: 24 },
 };
 
-const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: VisitDataType[] }) => (
+const IntroduceRow = ({ visitData }: { visitData: VisitDataType[] }) => (
   <Row gutter={24} type="flex">
     <Col {...topColResponsiveProps}>
       <ChartCard
@@ -25,7 +27,7 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Vis
             <InfoCircleOutlined />
           </Tooltip>
         }
-        loading={loading}
+        loading={false}
         total={() => <Yuan>12656023</Yuan>}
         footer={<Field label="完成率" value={`47.3%`} />}
         contentHeight={46}
@@ -37,7 +39,7 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Vis
     <Col {...topColResponsiveProps}>
       <ChartCard
         bordered={false}
-        loading={loading}
+        loading={false}
         title="利润"
         action={
           <Tooltip title="数据来源：财务报表系统">
@@ -51,26 +53,10 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Vis
         <MiniArea color="#975FE4" data={visitData} />
       </ChartCard>
     </Col>
+    <PrintComplete />
     <Col {...topColResponsiveProps}>
       <ChartCard
-        bordered={false}
-        loading={loading}
-        title="印钞入库总数(1-5月)"
-        action={
-          <Tooltip title="数据来源：MES系统">
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
-        total={numeral(2133).format('0,0')}
-        footer={<Field label="累计解缴" value={numeral(1945).format('0,0')} />}
-        contentHeight={46}
-      >
-        <MiniBar data={visitData} />
-      </ChartCard>
-    </Col>
-    <Col {...topColResponsiveProps}>
-      <ChartCard
-        loading={loading}
+        loading={false}
         bordered={false}
         title="本月钞纸产量(五月)"
         action={

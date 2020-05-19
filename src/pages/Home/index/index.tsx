@@ -13,7 +13,7 @@ export default () => {
   return (
     <div className={style.dashboard}>
       <Suspense fallback={<PageLoading />}>
-        <IntroduceRow loading={false} visitData={data.visitData} />
+        <IntroduceRow visitData={data.visitData} />
       </Suspense>
       <Suspense fallback={<PageLoading />}>
         <ProductNum />

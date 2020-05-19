@@ -22,7 +22,8 @@ class MainLayout extends React.PureComponent {
   render() {
     let pathname = this.props.location.pathname;
 
-    if (['/home', '/form/print'].includes(pathname)) {
+    // '/home',
+    if (['/form/print'].includes(pathname)) {
       return this.props.children;
     }
     return pathname.includes('/login') ? (

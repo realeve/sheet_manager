@@ -109,6 +109,23 @@ export const weeks = () => moment().weeks();
 
 export const ymd = () => moment().format('YYYYMMDD');
 
+export const monthname = () =>
+  [
+    '',
+    '一月',
+    '二月',
+    '三月',
+    '四月',
+    '五月',
+    '六月',
+    '七月',
+    '八月',
+    '九月',
+    '十月',
+    '十一月',
+    '十二月',
+  ][Number(moment().format('MM'))];
+
 export const timestamp = () => moment().format('x');
 
 interface lastAlpha {
