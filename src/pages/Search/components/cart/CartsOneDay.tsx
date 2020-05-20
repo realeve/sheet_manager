@@ -7,6 +7,8 @@ import { Card, Empty } from 'antd';
 import { useFetch } from '@/pages/Search/utils/useFetch';
 import Err from '@/components/Err';
 
+import { CHART_MODE } from '@/pages/chart/utils/lib';
+
 // 处理返回数据
 let handleData = res => {
   res.data = res.data || [];
@@ -37,7 +39,7 @@ export default function CartsOneDay({ cart }) {
     setCartInfo(res2);
   }, [mahouData.data]);
 
-  const params = { type: 'line', simple: '2', x: 1, y: 2, smooth: true };
+  const params = { type: 'line', simple: CHART_MODE.HIDE_ALL, x: 1, y: 2, smooth: true };
   const beforeRender = option => ({ ...option, color: ['#e74c3c'] });
 
   return (
@@ -58,13 +60,13 @@ export default function CartsOneDay({ cart }) {
         ) : state.rows === 0 ? (
           <Empty />
         ) : (
-              <SimpleChart
-                data={state}
-                params={params}
-                beforeRender={beforeRender}
-                style={{ height: 240 }}
-              />
-            )}
+          <SimpleChart
+            data={state}
+            params={params}
+            beforeRender={beforeRender}
+            style={{ height: 240 }}
+          />
+        )}
       </Card>
     </>
   );

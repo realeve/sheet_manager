@@ -3,11 +3,13 @@ import SimpleChart from '../SimpleChart';
 import { Card } from 'antd';
 import { useFetch } from '@/pages/Search/utils/useFetch';
 
+import { CHART_MODE } from '@/pages/chart/utils/lib';
+
 export default function CodeInfo({ cart }) {
   const state = useFetch({ params: cart, api: 'getQaInspectSlaveCode', init: [cart] });
   const params = {
     type: 'bar',
-    simple: '2',
+    simple: CHART_MODE.HIDE_ALL,
     stack: true,
     barwidth: 20,
     legend: 0,

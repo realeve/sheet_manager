@@ -5,6 +5,7 @@ import SimpleTable from '../SimpleTable';
 import { Col, Row, Card, Empty } from 'antd';
 import * as R from 'ramda';
 import Err from '@/components/Err';
+import { CHART_MODE } from '@/pages/chart/utils/lib';
 
 export default function CodeInfo({ cart }) {
   // 载入状态
@@ -49,7 +50,7 @@ export default function CodeInfo({ cart }) {
 
   const params = {
     type: 'bar',
-    simple: '2',
+    simple: CHART_MODE.HIDE_ALL,
     barwidth: 20,
   };
   const beforeRender = option => {

@@ -1,11 +1,11 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Col, Row, Tooltip } from 'antd';
 import React from 'react';
-import numeral from 'numeral';
 import { ChartCard, MiniArea, MiniProgress, Field, Yuan } from '../components/';
 import { VisitDataType } from '../data';
 
 import PrintComplete from './card/print_complete';
+import PaperProdNum from './card/paper_complete';
 
 const topColResponsiveProps = {
   xs: 24,
@@ -54,23 +54,7 @@ const IntroduceRow = ({ visitData }: { visitData: VisitDataType[] }) => (
       </ChartCard>
     </Col>
     <PrintComplete />
-    <Col {...topColResponsiveProps}>
-      <ChartCard
-        loading={false}
-        bordered={false}
-        title="本月钞纸产量(五月)"
-        action={
-          <Tooltip title="数据来源：MES系统">
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
-        total={numeral(1265).format('0,0')}
-        footer={<Field label="1-5月累计产量" value={numeral(4096).format('0,0')} />}
-        contentHeight={46}
-      >
-        <MiniArea line data={visitData} borderColor="#13C2C2" />
-      </ChartCard>
-    </Col>
+    <PaperProdNum />
   </Row>
 );
 

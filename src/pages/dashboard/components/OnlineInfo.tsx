@@ -6,12 +6,13 @@ import SimpleChart from '@/pages/Search/components/SimpleChart';
 import SimpleTable from '@/pages/Search/components/SimpleTable';
 import { useFetch } from '../utils/useFetch';
 import Err from '@/components/Err';
+import { CHART_MODE } from '@/pages/chart/utils/lib';
 
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
 export default function OnlineInfo({ res: item, visible, onOk }) {
-  const params = { type: 'line', simple: '2', x: 0, y: 1, smooth: true };
+  const params = { type: 'line', simple: CHART_MODE.HIDE_ALL, x: 0, y: 1, smooth: true };
   const cart = item.cart_number;
   const { loading, ...mahouData } = useFetch({ params: cart, api: 'getOnlineinfo', init: [cart] });
   const { loading2, ...res } = useFetch({
@@ -144,7 +145,7 @@ export default function OnlineInfo({ res: item, visible, onOk }) {
                 <SimpleTable data={{ ...res, data: res.data2, header: res.header2 }} />
                 <SimpleChart
                   data={res}
-                  params={{ type: 'line', simple: '2', x: 1, y: 2, smooth: true }}
+                  params={{ type: 'line', simple: CHART_MODE.HIDE_ALL, x: 1, y: 2, smooth: true }}
                   style={{ height: 180, marginTop: 20 }}
                 />
               </div>

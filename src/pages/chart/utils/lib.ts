@@ -44,37 +44,41 @@ let getDefaultTitle = (option, config: Iconfig, showDateRange: boolean = true) =
       option.title = R.reject(item => item.text && item.text.includes('统计时间'))(option.title);
     }
   }
-  return (
-    option.title || [
-      {
-        left: 'center',
-        text: prefix + config.data.title + suffix,
-        y: 0,
+  let defaultTitle = [
+    {
+      left: 'center',
+      text: prefix + config.data.title + suffix,
+      y: 0,
+    },
+    {
+      text: config.data.source,
+      borderWidth: 0,
+      textStyle: {
+        fontSize: 11,
+        fontWeight: 'normal',
       },
-      {
-        text: config.data.source,
-        borderWidth: 0,
-        textStyle: {
-          fontSize: 11,
-          fontWeight: 'normal',
-        },
-        x: 5,
-        y2: 0,
+      x: 5,
+      y2: 0,
+    },
+  ];
+
+  if (config?.dateRange?.[0]) {
+    defaultTitle.push({
+      text: `统计时间：${config.dateRange[0]} - ${config.dateRange[1]}`,
+      borderWidth: 0,
+      textStyle: {
+        fontSize: 11,
+        fontWeight: 'normal',
       },
-      {
-        text: `统计时间：${config.dateRange[0]} - ${config.dateRange[1]}`,
-        borderWidth: 0,
-        textStyle: {
-          fontSize: 11,
-          fontWeight: 'normal',
-        },
-        x: 5,
-        y2: 18,
-        show: showDateRange,
-      },
-      getCopyRight(),
-    ]
-  );
+      x: 5,
+      y2: 18,
+      show: showDateRange,
+    });
+  }
+
+  defaultTitle.push(getCopyRight());
+
+  return option.title || defaultTitle;
 };
 
 let handleDefaultOption = (option, config, showDateRange = true) => {
@@ -202,11 +206,15 @@ let handleDefaultOption = (option, config, showDateRange = true) => {
   option = handleSimpleMode(option, config);
   return option;
 };
-
+/**
+ *  @param HIDE_DESC 隐藏说明文字
+    @param HIDE_ALL 全部隐藏
+    @param SHOW_TITLE 显示标题
+ */
 export enum CHART_MODE {
-  HIDE_DESC = 1,
-  HIDE_ALL = 2,
-  SHOW_TITLE = 3,
+  HIDE_DESC = 1, // 隐藏说明文字
+  HIDE_ALL = 2, // 全部隐藏
+  SHOW_TITLE = 3, // 显示标题
 }
 // 简洁模式
 export const handleSimpleMode = (option, config) => {

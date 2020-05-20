@@ -7,25 +7,13 @@ import { VisitDataType } from '../../data';
 import useFetch from '@/components/hooks/useFetch';
 import * as lib from '@/utils/lib';
 import * as R from 'ramda';
-
-const topColResponsiveProps = {
-  xs: 24,
-  sm: 12,
-  md: 12,
-  lg: 12,
-  xl: 6,
-  style: { marginBottom: 24 },
-};
+import { topColResponsiveProps } from '../../components/Cards';
 
 export default () => {
   const [total, setTotal] = useState(0);
   const { loading, data } = useFetch<{ source: string; data: VisitDataType[] }>({
     param: { url: '/990/9877f70475.array' },
-    callback(res) {
-      if (!res) {
-        return null;
-      }
-      let { data, source } = res;
+    callback({ data, source }) {
       let sum = R.compose(R.sum, R.map(R.prop('1')))(data);
       setTotal(sum);
       return { data: data.map(([x, y]) => ({ x, y })), source };
@@ -42,11 +30,8 @@ export default () => {
     param: {
       url: `/991/b6b55a36a0.json`,
     },
-    callback(res) {
-      if (!res) {
-        return null;
-      }
-      return res.data[0];
+    callback({ data }) {
+      return data[0];
     },
   });
 
