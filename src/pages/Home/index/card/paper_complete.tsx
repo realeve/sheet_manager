@@ -33,8 +33,6 @@ export default () => {
     },
   });
 
-  console.log(detail?.data);
-
   return (
     <Col {...topColResponsiveProps}>
       <ChartCard
