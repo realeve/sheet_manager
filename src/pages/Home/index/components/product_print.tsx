@@ -13,7 +13,6 @@ import SimpleChart from '@/pages/Search/components/SimpleChart';
 let [tstart, tend] = range['本月'].map(item => item.format('YYYYMMDD'));
 
 export default () => {
-  const [url, setUrl] = useState('');
   const [state, setState] = useState(null);
   const [prod, setProd] = useState('');
   const [prodList, setProdList] = useState([]);
