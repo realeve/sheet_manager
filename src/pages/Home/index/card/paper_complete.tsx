@@ -52,8 +52,9 @@ export default () => {
         suffix="吨"
         footer={
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Field label="新线精浆产量" value={numeral(data?.data?.新线精浆产量).format('0,0')} />
-            <Field label="老线精浆产量" value={numeral(data?.data?.老线精浆产量).format('0,0')} />
+            <Field label="新线" value={numeral(data?.data?.新线精浆产量).format('0,0')} />
+            <Field label="老线" value={numeral(data?.data?.老线精浆产量).format('0,0')} />
+            <Field label="损纸浆" value={numeral(data?.data?.损纸浆产量).format('0,0')} />
           </div>
         }
         contentHeight={46}
