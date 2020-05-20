@@ -69,7 +69,7 @@ export default () => {
             <Button
               type="default"
               size="small"
-              style={{ marginLeft: 20, fontSize: 10 }}
+              style={{ marginLeft: 20, fontSize: 12 }}
               onClick={() => {
                 window.open(
                   `/chart#id=940/bd3aba9285&prod=${prod}&daterange=9&group=1&legend=2&x=0&y=3&type=line&smooth=1&dr0_id=941/958dada9e0&dr0_type=bar&dr0_legend=1&dr0_x=0&dr0_y=2&dr1_id=942/47a7d8b252&dr1_type=bar&dr2_id=943/64fbe9194a&dr2_drilltype=table&cache=0`
@@ -103,7 +103,7 @@ export default () => {
       }
     >
       <SimpleChart
-        data={state}
+        data={{ ...state, err: error }}
         params={{
           type: 'bar',
           simple: CHART_MODE.HIDE_ALL,

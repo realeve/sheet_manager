@@ -11,6 +11,9 @@ export interface ChartProps {
 export default function SimpleChart({ data, params, beforeRender, ...props }: ChartProps) {
   const [state, setState] = useState({});
   useEffect(() => {
+    if (!data?.data) {
+      return;
+    }
     let {
       option: [option],
     } = getDrivedState({ dataSrc: data, params });
@@ -18,7 +21,10 @@ export default function SimpleChart({ data, params, beforeRender, ...props }: Ch
       option = beforeRender(option);
     }
     setState(option);
-  }, [data.data]);
+  }, [data?.data]);
+  if (!data) {
+    return null;
+  }
 
   return data.err ? <Err err={data.err} /> : <Chart renderer="svg" option={state} {...props} />;
 }

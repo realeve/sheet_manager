@@ -18,7 +18,7 @@ const cardProp = cardStyle({
       <Button
         type="default"
         size="small"
-        style={{ marginLeft: 20, fontSize: 10 }}
+        style={{ marginLeft: 20, fontSize: 12 }}
         onClick={() => {
           window.open(`/table#id=664/9cdc31ddc6&daterange=1`);
         }}
@@ -90,7 +90,7 @@ export default () => {
       }
     >
       <SimpleChart
-        data={state}
+        data={{ ...state, err: error }}
         params={{
           type: 'bar',
           simple: CHART_MODE.HIDE_ALL,
