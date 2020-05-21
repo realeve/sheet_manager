@@ -5,7 +5,6 @@ import { axios } from '@/utils/axios';
 import * as R from 'ramda';
 import { formatMessage } from 'umi/locale';
 import styles from './index.less';
-import { connect } from 'dva';
 import { useLocation } from 'react-use';
 import qs from 'qs';
 import router from 'umi/router';

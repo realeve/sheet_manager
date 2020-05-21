@@ -9,6 +9,7 @@ import {
   getIncrease,
   validCalcKeys,
   handleDefaultHiddenKeys,
+  calcResult,
 } from './lib';
 import FormItem from './FormItem';
 import CodeDrawer from './CodeDrawer';
@@ -43,6 +44,17 @@ const getDefaultList = cfg => {
     res[key] = value || defaultValue;
   });
   return res;
+};
+
+const handleCalcKey = ({ key, calc }, cfg) => {
+  let keys = [];
+  cfg.forEach(item => {
+    if (calc.includes(item.title)) {
+      keys.push(item.key);
+    }
+    calc = calc.replace(item.title, item.key);
+  });
+  return { result: key, calc, keys };
 };
 
 function FormCreater({
@@ -88,6 +100,7 @@ function FormCreater({
     let res = getDefaultList(cfg);
     setState(res);
     setFields(res);
+    setCalcKey([]);
   };
 
   const [qualifyKey, setQualifyKey] = useState(null);
@@ -99,6 +112,8 @@ function FormCreater({
     key: '',
     status: true,
   });
+
+  const [calcKey, setCalcKey] = useState([]);
 
   useEffect(() => {
     // config改变后初始化表单数据
@@ -113,6 +128,8 @@ function FormCreater({
     if (config?.api?.query?.param || config?.api?.update?.param) {
       setQueryKey((config.api.query || config.api.update).param);
     }
+
+    let calcKeys = [];
 
     config.detail.forEach(({ detail }) => {
       detail.forEach(item => {
@@ -130,6 +147,13 @@ function FormCreater({
           }
         }
 
+        if (item.calc) {
+          calcKeys.push({
+            key: item.key,
+            calc: item.calc,
+          });
+        }
+
         // 有字段表示合格时
         if (item.checkedChildren === '合格') {
           observeKey = item.key;
@@ -143,6 +167,9 @@ function FormCreater({
         setValidateState({ [item.key]: true });
       });
     });
+
+    // 需要被计算的字段
+    setCalcKey(calcKeys.map(item => handleCalcKey(item, cfg)));
 
     // 表示结果是否“合格”的字段
     setQualifyKey(observeKey);
@@ -186,7 +213,7 @@ function FormCreater({
     // 单独运算的字段处理
     let calcStatus = validCalcKeys(state, calcFields, config, setCalcValid);
 
-    // console.log('数据状态', validStatus, required, calcStatus);
+    // console.log('数据状态', validStatus, calcFields, config, required, calcStatus);
 
     setFormstatus(validStatus && required && calcStatus);
   }, [state]);
@@ -579,9 +606,24 @@ function FormCreater({
                           setState(res);
                           return;
                         }
-                        setState({
-                          [key]: res,
-                        });
+
+                        if (calcKey.length > 0) {
+                          setState(
+                            calcResult(
+                              {
+                                ...state,
+                                [key]: res,
+                              },
+                              calcKey,
+                              key
+                            )
+                          );
+                        } else {
+                          setState({
+                            [key]: res,
+                          });
+                        }
+
                         // 如果是“合格”判断的字段，不执行重计算
                         if (key === qualifyKey) {
                           setNeedCalc(false);

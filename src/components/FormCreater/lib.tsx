@@ -504,6 +504,26 @@ export const getIncrease: (type: tIncrease, val) => string = (type, str) => {
   }
 };
 
+export let calcResult = (state, calcKey, key) => {
+  let dist = R.clone(state);
+  let obj = {};
+  calcKey.forEach(item => {
+    if (item.keys.includes(key)) {
+      let valid = true;
+      item.keys.forEach(_key => {
+        if (typeof state[_key] == 'undefined') {
+          valid = false;
+        }
+      });
+      if (valid) {
+        // 计算数据
+        obj[item.result] = mathjs.evaluate(item.calc, dist);
+      }
+    }
+  });
+  return { ...dist, ...obj };
+};
+
 /**
  * 处理需要四则运算及复杂运算的场景
  * @param state 当前数据state
@@ -521,6 +541,7 @@ export let validCalcKeys = (state, fields, config, setCalcValid) => {
   let status = true;
   let len = fields.length,
     i = 0;
+
   while (status && i < len) {
     // 字段 key,计算规则
     let { key, calc } = fields[i];
@@ -546,9 +567,9 @@ export let validCalcKeys = (state, fields, config, setCalcValid) => {
         }
       }
     });
-    // console.log(calc, _state);
 
     status = mathjs.evaluate(calc, _state);
+
     setCalcValid({
       key,
       status,

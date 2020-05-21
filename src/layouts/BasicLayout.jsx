@@ -1,47 +1,47 @@
-import React, { PureComponent } from 'react';
-import { Layout } from 'antd';
-import DocumentTitle from 'react-document-title';
-import isEqual from 'lodash/isEqual';
-import memoizeOne from 'memoize-one';
-import { connect } from 'dva';
-import { ContainerQuery } from 'react-container-query';
-import classNames from 'classnames';
-import pathToRegexp from 'path-to-regexp';
-import { enquireScreen, unenquireScreen } from 'enquire-js';
-import SiderMenu from '@/components/SiderMenu';
-import SettingDrawer from '../components/SettingDrawer1';
+import React, { PureComponent } from "react";
+import { Layout } from "antd";
+import DocumentTitle from "react-document-title";
+import isEqual from "lodash/isEqual";
+import memoizeOne from "memoize-one";
+import { connect } from "dva";
+import { ContainerQuery } from "react-container-query";
+import classNames from "classnames";
+import pathToRegexp from "path-to-regexp";
+import { enquireScreen, unenquireScreen } from "enquire-js";
+import SiderMenu from "@/components/SiderMenu";
+import SettingDrawer from "../components/SettingDrawer1";
 // import { SettingDrawer } from '@ant-design/pro-layout';
-import logo from '../assets/logo.svg';
-import Footer from './Footer';
+import logo from "../assets/logo.svg";
+import Footer from "./Footer";
 // import Header from './Header';
-import Context from './MenuContext';
-import { DateRangePicker } from '@/components/QueryCondition';
-import ToggleMenu from '@/components/GlobalHeader/ToggleMenu';
+import Context from "./MenuContext";
+import { DateRangePicker } from "@/components/QueryCondition";
+import ToggleMenu from "@/components/GlobalHeader/ToggleMenu";
 // import userTool from '../utils/users';
 // import router from 'umi/router';
 
-import menuUtil from './menuData';
-import ForOThree from '@/pages/403';
-import UnLogin from '@/pages/unlogin';
-import * as lib from '@/utils/setting';
+import menuUtil from "./menuData";
+import ForOThree from "@/pages/403";
+import UnLogin from "@/pages/unlogin";
+import * as lib from "@/utils/setting";
 
-import { ConfigProvider } from 'antd';
-import zhCN from 'antd/es/locale/zh_CN';
+import { ConfigProvider } from "antd";
+import zhCN from "antd/es/locale/zh_CN";
 
 const { Content } = Layout;
-const R = require('ramda');
+const R = require("ramda");
 
 const getMenuData = ({ menu, previewMenu, location: { pathname } }) => {
-  if (menu === '' || R.isNil(menu)) {
+  if (menu === "" || R.isNil(menu)) {
     return [];
   }
-  const previewMode = pathname === '/menu' && previewMenu.length > 0;
+  const previewMode = pathname === "/menu" && previewMenu.length > 0;
   return menuUtil.getMenuData(previewMode ? previewMenu : menu);
 };
 
-const getBreadcrumbList = menuData => {
+const getBreadcrumbList = (menuData) => {
   const { href, origin } = window.location;
-  let curMenu = href.replace(origin, '');
+  let curMenu = href.replace(origin, "");
   // console.log(curMenu);
   // , search
   // if (search.length) {
@@ -51,26 +51,26 @@ const getBreadcrumbList = menuData => {
 };
 
 const query = {
-  'screen-xs': {
+  "screen-xs": {
     maxWidth: 575,
   },
-  'screen-sm': {
+  "screen-sm": {
     minWidth: 576,
     maxWidth: 767,
   },
-  'screen-md': {
+  "screen-md": {
     minWidth: 768,
     maxWidth: 991,
   },
-  'screen-lg': {
+  "screen-lg": {
     minWidth: 992,
     maxWidth: 1199,
   },
-  'screen-xl': {
+  "screen-xl": {
     minWidth: 1200,
     maxWidth: 1599,
   },
-  'screen-xxl': {
+  "screen-xxl": {
     minWidth: 1600,
   },
 };
@@ -94,7 +94,7 @@ class BasicLayout extends PureComponent {
       previewMenu,
       pathname: props.location.pathname,
       breadcrumbList: getBreadcrumbList(menuData),
-      nextUrl: '',
+      nextUrl: "",
       settings: props.setting,
     };
     // this.renderRef = React.createRef();
@@ -104,13 +104,16 @@ class BasicLayout extends PureComponent {
     const { menu, previewMenu } = props;
 
     const { href, origin } = window.location;
-    let nextUrl = href.replace(origin, '');
+    let nextUrl = href.replace(origin, "");
     if (
       nextUrl !== curState.nextUrl ||
-      (R.equals(menu, curState.menu) && R.equals(previewMenu, curState.previewMenu))
+      (R.equals(menu, curState.menu) &&
+        R.equals(previewMenu, curState.previewMenu))
     ) {
       let { pathname } = props.location;
-      if (nextUrl !== curState.nextUrl || !R.equals(pathname, curState.pathname)) {
+      if (
+        nextUrl !== curState.nextUrl || !R.equals(pathname, curState.pathname)
+      ) {
         return {
           pathname,
           nextUrl,
@@ -132,7 +135,7 @@ class BasicLayout extends PureComponent {
   componentDidMount() {
     // console.log('componentDidMount 10');
 
-    this.enquireHandler = enquireScreen(mobile => {
+    this.enquireHandler = enquireScreen((mobile) => {
       const { isMobile } = this.state;
       if (isMobile !== mobile) {
         this.setState({
@@ -160,8 +163,8 @@ class BasicLayout extends PureComponent {
    */
   getBreadcrumbNameMap(menuData) {
     const routerMap = {};
-    const mergeMenuAndRouter = data => {
-      data.forEach(menuItem => {
+    const mergeMenuAndRouter = (data) => {
+      data.forEach((menuItem) => {
         if (menuItem.children) {
           mergeMenuAndRouter(menuItem.children);
         }
@@ -173,14 +176,14 @@ class BasicLayout extends PureComponent {
     return routerMap;
   }
 
-  matchParamsPath = pathname => {
-    const pathKey = Object.keys(this.breadcrumbNameMap).find(key =>
+  matchParamsPath = (pathname) => {
+    const pathKey = Object.keys(this.breadcrumbNameMap).find((key) =>
       pathToRegexp(key).test(pathname)
     );
     return this.breadcrumbNameMap[pathKey];
   };
 
-  getPageTitle = pathname => {
+  getPageTitle = (pathname) => {
     const currRouterData = this.matchParamsPath(pathname);
 
     if (!currRouterData) {
@@ -195,9 +198,11 @@ class BasicLayout extends PureComponent {
     const { collapsed, layout } = this.props;
     let { fixSiderbar } = this.props.settings;
 
-    if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
+    const isHideMenu = window.location.href.includes("hidemenu=1");
+
+    if (fixSiderbar && layout !== "topmenu" && !isMobile && !isHideMenu) {
       return {
-        paddingLeft: collapsed ? '80px' : '256px',
+        paddingLeft: collapsed ? "80px" : "256px",
       };
     }
     return null;
@@ -206,17 +211,17 @@ class BasicLayout extends PureComponent {
   getContentStyle = () => {
     const { fixedHeader } = this.props;
     return {
-      margin: '0 12px',
+      margin: "0 12px",
       paddingTop: fixedHeader ? 64 : 0,
     };
   };
 
-  handleMenuCollapse = collapsed => {
+  handleMenuCollapse = (collapsed) => {
     // console.log(collapsed);
     const { dispatch } = this.props;
     // console.log(collapsed, '手工调整');
     dispatch({
-      type: 'global/changeLayoutCollapsed',
+      type: "global/changeLayoutCollapsed",
       payload: collapsed,
     });
   };
@@ -228,20 +233,20 @@ class BasicLayout extends PureComponent {
       location,
       hidemenu,
       user_type,
-      dateType = ['none'],
+      dateType = ["none"],
       isLogin,
     } = this.props;
     const { isMobile, menuData, breadcrumbList, nextUrl } = this.state;
-    const isTop = PropsLayout === 'topmenu';
+    const isTop = PropsLayout === "topmenu";
 
     // 未登录，未在允许菜单列表中搜索到且用户身份类型>=4时，表示非法访问。
     const notAllowed = breadcrumbList.length === 0 && user_type >= 4;
 
     const dateStyle = isMobile
       ? {
-          paddingBottom: 10,
-        }
-      : { position: 'fixed', right: 20, top: 20, zIndex: 10 };
+        paddingBottom: 10,
+      }
+      : { position: "fixed", right: 20, top: 20, zIndex: 10 };
 
     // console.log(menuData,hidemenu,isTop,isMobile)
     const layout = (
@@ -260,13 +265,14 @@ class BasicLayout extends PureComponent {
         <Layout
           style={{
             ...this.getLayoutStyle(),
-            minHeight: '100vh',
+            minHeight: "100vh",
           }}
         >
           <Content style={this.getContentStyle()}>
-            {['/table', '/chart'].includes(location.pathname) &&
-              this.props.selectList.length + this.props.textAreaList.length === 0 &&
-              dateType[0] !== 'none' && (
+            {["/table", "/chart"].includes(location.pathname) &&
+              this.props.selectList.length +
+                    this.props.textAreaList.length === 0 &&
+              dateType[0] !== "none" && (
                 <DateRangePicker
                   refresh={true}
                   dispatch={this.props.dispatch}
@@ -274,12 +280,17 @@ class BasicLayout extends PureComponent {
                   style={dateStyle}
                 />
               )}
-            {isMobile && <ToggleMenu style={{ position: 'fixed', right: 10, top: 10 }} />}
-            {notAllowed ? <ForOThree /> : !hidemenu && !isLogin ? <UnLogin /> : children}
+            {isMobile &&
+              <ToggleMenu style={{ position: "fixed", right: 10, top: 10 }} />}
+            {notAllowed
+              ? <ForOThree />
+              : !hidemenu && !isLogin
+              ? <UnLogin />
+              : children}
 
             <SettingDrawer
               settings={this.state.settings}
-              onSettingChange={settings => {
+              onSettingChange={(settings) => {
                 console.log(settings);
                 this.setState({ settings });
               }}
@@ -295,7 +306,7 @@ class BasicLayout extends PureComponent {
         <DocumentTitle title={this.getPageTitle(location.pathname)} />
         <ConfigProvider locale={zhCN}>
           <ContainerQuery query={query}>
-            {params => (
+            {(params) => (
               <Context.Provider value={this.getContext()}>
                 <div className={classNames(params)}>{layout}</div>
               </Context.Provider>
@@ -312,7 +323,7 @@ export default connect(
   ({
     global,
     setting,
-    common: {
+common: {
       dateType,
       userSetting: { menu, previewMenu, user_type },
       isLogin,
@@ -334,5 +345,5 @@ export default connect(
     dateRange,
     selectList,
     textAreaList,
-  })
+  }),
 )(BasicLayout);

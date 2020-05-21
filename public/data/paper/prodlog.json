@@ -518,7 +518,7 @@
             "span": 6
           },
           {
-            "title": "主网良浆分器浆量",
+            "title": "主网良浆分配浆量",
             "titlewidth": 260,
             "type": "input",
             "key": "main_screen_pulp_volume",
@@ -530,7 +530,7 @@
             "span": 6
           },
           {
-            "title": "短网良浆分器浆量",
+            "title": "短网良浆分配浆量",
             "titlewidth": 260,
             "type": "input",
             "key": "short_screen_pulp_volume",
@@ -542,7 +542,7 @@
             "span": 6
           },
           {
-            "title": "主网/短网(分浆比例)",
+            "title": "主网与短网分浆比",
             "titlewidth": 260,
             "type": "input",
             "key": "main_short_pulp_percent",
@@ -551,7 +551,11 @@
               "type": "float",
               "required": true
             },
-            "span": 6
+            "calc": "主网良浆分配浆量/短网良浆分配浆量*100",
+            "block": "=主网良浆分配浆量/短网良浆分配浆量",
+            "span": 6,
+            "disabled": true,
+            "defaultValue": 0
           },
           {
             "title": "取样时间",
@@ -587,10 +591,10 @@
             "span": 6
           },
           {
-            "title": "上网湿重",
+            "title": "上网平均纤维长度",
             "type": "input",
-            "key": "flow_wire_wet_weight",
-            "suffix": "g",
+            "key": "flow_wire_avg_fibre_length",
+            "suffix": "mm",
             "rule": {
               "type": "float",
               "required": true
@@ -666,7 +670,7 @@
             "title": "生产记事",
             "type": "input.textarea",
             "key": "remark",
-            "span": 6
+            "span": 12
           }
         ]
       }
@@ -834,7 +838,7 @@
             "title": "生产记事",
             "type": "input.textarea",
             "key": "remark",
-            "span": 6
+            "span": 12
           }
         ]
       }
@@ -926,7 +930,7 @@
             "title": "干燥部生产记事",
             "type": "input.textarea",
             "key": "remark_dry",
-            "span": 6
+            "span": 12
           },
           {
             "title": "施胶部专责",
@@ -942,7 +946,7 @@
             "title": "施胶部生产记事",
             "type": "input.textarea",
             "key": "remark_sizing",
-            "span": 6
+            "span": 12
           }
         ]
       },
@@ -1404,7 +1408,7 @@
             "title": "生产记事",
             "type": "input.textarea",
             "key": "remark",
-            "span": 6
+            "span": 12
           }
         ]
       }
