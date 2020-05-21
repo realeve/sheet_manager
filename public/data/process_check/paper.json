@@ -95,7 +95,7 @@
           "title": "上胶量",
           "type": "input",
           "key": "glue_num",
-          "block": "g/m<sup>2</sup>",
+          "suffix": "g/m<sup>2</sup>",
           "rule": {
             "type": "float",
             "required": true

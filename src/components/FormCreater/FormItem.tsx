@@ -71,6 +71,7 @@ export default function formItem({
     increase,
     titlewidth = 120,
     calc,
+    suffix,
     ...props
   },
   scope = [],
@@ -257,6 +258,15 @@ export default function formItem({
             }
             allowClear={props.allowClear !== false}
             {...restScope}
+            suffix={
+              suffix && (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: suffix,
+                  }}
+                />
+              )
+            }
           />
         )}
         {type === 'input.number' && (
@@ -347,7 +357,7 @@ export default function formItem({
           <CheckSelector
             value={state}
             url={props.url}
-            onChange={value => onChange(value)}
+            onChange={onChange}
             defaultOption={restScope.defaultOption || defaultOption}
             {...props}
             outterTrigger={outterTrigger}

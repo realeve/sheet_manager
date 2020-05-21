@@ -179,7 +179,7 @@
           "title": "定量",
           "type": "input",
           "key": "weight",
-          "block": "g/m<sup>2</sup>",
+          "suffix": "g/m<sup>2</sup>",
           "span": 8,
           "rule": {
             "type": "float",

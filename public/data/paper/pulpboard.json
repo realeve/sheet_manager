@@ -343,7 +343,7 @@
           "title": "尘埃度",
           "type": "input",
           "key": "dirt_count",
-          "block": "(单位：mm<sup>2</sup>/500g)",
+          "suffix": "mm<sup>2</sup>/500g",
           "rule": {
             "type": "float",
             "required": true
@@ -367,7 +367,7 @@
           "title": "荧光物质",
           "type": "input",
           "key": "fluo",
-          "block": "(单位：mm<sup>2</sup>/500g)",
+          "suffix": "mm<sup>2</sup>/500g",
           "rule": {
             "type": "float",
             "required": true
