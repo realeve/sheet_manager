@@ -44,6 +44,11 @@
                 {
                   "key": "paste_width",
                   "min": 5
+                },
+                {
+                  "key": "band_length",
+                  "min": 194.5,
+                  "max": 195.5
                 }
               ]
             },
