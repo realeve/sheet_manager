@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import { Card, Button, Radio } from 'antd';
-import { monthname, jump } from '@/utils/lib';
 import styles from './product_print.less';
 import useFetch from '@/components/hooks/useFetch';
 import range from '@/utils/ranges';

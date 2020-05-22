@@ -109,7 +109,7 @@ export const weeks = () => moment().weeks();
 
 export const ymd = () => moment().format('YYYYMMDD');
 
-export const monthname = () =>
+export const monthname = (idx = moment().format('MM')) =>
   [
     '',
     '一月',
@@ -124,7 +124,7 @@ export const monthname = () =>
     '十月',
     '十一月',
     '十二月',
-  ][Number(moment().format('MM'))];
+  ][Number(idx)];
 
 export const timestamp = () => moment().format('x');
 

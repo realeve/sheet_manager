@@ -3,13 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Card, Button, Radio } from 'antd';
 import styles from './product_print.less';
 import useFetch from '@/components/hooks/useFetch';
-import range from '@/utils/ranges';
 import * as R from 'ramda';
 import chartLib, { CHART_MODE } from '@/pages/chart/utils/lib';
 import { cardStyle, chartHeight } from '../../components/Cards';
 import SimpleChart from '@/pages/Search/components/SimpleChart';
-
-let [tstart, tend] = range['本月'].map(item => item.format('YYYYMMDD'));
 
 const cardProp = cardStyle({
   title: (
