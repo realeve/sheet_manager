@@ -62,16 +62,14 @@
             "type": "select",
             "key": "class_type",
             "defaultOption": [
-              "光切1班",
-              "光切2班",
-              "光切3班",
-              "光切5班",
-              "光切6班",
-              "光切7班",
-              "光切8班",
-              "数封1班",
-              "数封2班",
-              "打件班"
+              "抄纸1班",
+              "抄纸2班",
+              "抄纸3班",
+              "抄纸4班",
+              "抄纸5班",
+              "抄纸6班",
+              "抄纸7班",
+              "抄纸8班"
             ],
             "rule": {
               "required": true,
@@ -338,12 +336,13 @@
           },
           {
             "title": "专责",
-            "type": "input",
             "key": "operator",
-            "placeholder": "专责人员，需提供列表",
-            "rule": {
-              "required": true
-            },
+
+            "type": "select",
+            "mode": "multiple",
+            "url": "./data/base/paper_prod_user.json",
+            "unReset": true,
+
             "span": 6
           },
           {
@@ -582,19 +581,26 @@
           },
           {
             "title": "钥匙交班",
-            "placeholder": "交班专责：需提供人员名单",
-            "type": "input",
             "key": "key_pay",
             "rule": {
               "required": true
             },
+            "type": "select",
+            "mode": "multiple",
+            "url": "./data/base/paper_prod_user.json",
+            "unReset": true,
+
             "span": 6
           },
           {
             "title": "钥匙接班",
-            "placeholder": "接班专责：需提供人员名单",
-            "type": "input",
             "key": "key_receive",
+
+            "type": "select",
+            "mode": "multiple",
+            "url": "./data/base/paper_prod_user.json",
+            "unReset": true,
+
             "rule": {
               "required": true
             },
@@ -602,9 +608,13 @@
           },
           {
             "title": "专责",
-            "type": "input",
             "key": "operator",
-            "placeholder": "专责人员，需提供列表",
+
+            "type": "select",
+            "mode": "multiple",
+            "url": "./data/base/paper_prod_user.json",
+            "unReset": true,
+
             "rule": {
               "required": true
             },
@@ -750,9 +760,14 @@
           },
           {
             "title": "干燥部专责",
-            "type": "input",
+            "titlewidth": 260,
             "key": "operator_dry",
-            "placeholder": "干燥部专责人员，需提供列表",
+
+            "type": "select",
+            "mode": "multiple",
+            "url": "./data/base/paper_prod_user.json",
+            "unReset": true,
+
             "rule": {
               "required": true
             },
@@ -766,9 +781,14 @@
           },
           {
             "title": "施胶部专责",
-            "type": "input",
+            "titlewidth": 260,
             "key": "operator_sizing",
-            "placeholder": "施胶部专责人员，需提供列表",
+
+            "type": "select",
+            "mode": "multiple",
+            "url": "./data/base/paper_prod_user.json",
+            "unReset": true,
+
             "rule": {
               "required": true
             },
@@ -1402,9 +1422,12 @@
 
           {
             "title": "专责人员",
-            "type": "input",
             "key": "operator",
-            "placeholder": "专责人员，需提供列表",
+            "type": "select",
+            "mode": "multiple",
+            "url": "./data/base/paper_prod_user.json",
+            "unReset": true,
+
             "rule": {
               "required": true
             },
@@ -1582,20 +1605,26 @@
               "type": "float",
               "required": true
             },
-            "span": 6
+            "span": 6,
+            "allowClear": false
           },
           {
-            "title": "轴重",
+            "title": "抄宽",
             "titlewidth": 280,
             "type": "input",
             "key": "reel_weight",
+            "calc": "轴号.substr(2,2)",
+            "block": "减时时间*50",
             "placeholder": "计算结果",
+            "disabled": true,
+            "defaultValue": 0,
             "suffix": "Kg",
             "rule": {
               "type": "float",
               "required": true
             },
-            "span": 6
+            "span": 6,
+            "allowClear": false
           },
 
           {
@@ -1608,7 +1637,8 @@
               "type": "float",
               "required": true
             },
-            "span": 6
+            "span": 6,
+            "allowClear": false
           },
           {
             "title": "QCS水份",
@@ -1620,7 +1650,8 @@
               "type": "float",
               "required": true
             },
-            "span": 6
+            "span": 6,
+            "allowClear": false
           },
           {
             "title": "A幅横向尺寸",
@@ -1632,7 +1663,8 @@
               "type": "float",
               "required": true
             },
-            "span": 6
+            "span": 6,
+            "allowClear": false
           },
           {
             "title": "B幅横向尺寸",
@@ -1644,7 +1676,8 @@
               "type": "float",
               "required": true
             },
-            "span": 6
+            "span": 6,
+            "allowClear": false
           },
           {
             "title": "C幅横向尺寸",
@@ -1656,7 +1689,8 @@
             "rule": {
               "type": "float"
             },
-            "span": 6
+            "span": 6,
+            "allowClear": false
           },
           {
             "title": "纵横向尺寸最大值",
@@ -1668,7 +1702,8 @@
               "type": "float",
               "required": true
             },
-            "span": 6
+            "span": 6,
+            "allowClear": false
           },
           {
             "title": "纵横向尺寸最小值",
@@ -1680,7 +1715,8 @@
               "type": "float",
               "required": true
             },
-            "span": 6
+            "span": 6,
+            "allowClear": false
           },
           {
             "title": "最大对角线差",
@@ -1692,7 +1728,8 @@
               "type": "float",
               "required": true
             },
-            "span": 6
+            "span": 6,
+            "allowClear": false
           },
 
           {
@@ -1706,7 +1743,8 @@
               "type": "float",
               "required": true
             },
-            "span": 6
+            "span": 6,
+            "allowClear": false
           },
           {
             "title": "",

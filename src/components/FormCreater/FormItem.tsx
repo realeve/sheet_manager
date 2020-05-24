@@ -72,6 +72,7 @@ export default function formItem({
     titlewidth = 120,
     calc,
     suffix,
+    offset = 0,
     ...props
   },
   scope = [],
@@ -199,6 +200,7 @@ export default function formItem({
         ['ant-form-item-has-warning']: !validateScope,
         [styles['form-item-vertical']]: formLayout === 'vertical',
       })}
+      offset={offset}
     >
       {append && (
         <Modal
@@ -213,18 +215,20 @@ export default function formItem({
         </Modal>
       )}
 
-      <span
-        className={cx('title', {
-          required: rule?.required,
-        })}
-        style={{ width: titlewidth }}
-      >
-        {isQueryKey && <span title="索引字段:录入所有索引字段后可点击载入历史数据">🔍</span>}
-        {increase && <span title="自增字段:录入后，下次信息将按规则自动增加">⬆</span>}
-        {(rule?.calc || calc) && <span title="关联计算:与其它字段一起计算关联规则">🔗</span>}
-        {unReset && <span title="固定字段:录入后字段值保持，不清空">📌</span>}
-        {title}
-      </span>
+      {title?.length > 0 && (
+        <span
+          className={cx('title', {
+            required: rule?.required,
+          })}
+          style={{ width: titlewidth }}
+        >
+          {isQueryKey && <span title="索引字段:录入所有索引字段后可点击载入历史数据">🔍</span>}
+          {increase && <span title="自增字段:录入后，下次信息将按规则自动增加">⬆</span>}
+          {(rule?.calc || calc) && <span title="关联计算:与其它字段一起计算关联规则">🔗</span>}
+          {unReset && <span title="固定字段:录入后字段值保持，不清空">📌</span>}
+          {title}
+        </span>
+      )}
       <div
         className={cx(
           { 'has-error': invalidCalc || false === validateState || false === validateScope },

@@ -46,14 +46,16 @@ const getDefaultList = cfg => {
   return res;
 };
 
-const handleCalcKey = ({ key, calc }, cfg) => {
+const handleCalcKey = (item, cfg) => {
   let keys = [];
+  let { key, calc } = R.clone(item);
   cfg.forEach(item => {
-    if (calc.includes(item.title)) {
+    if (item?.title?.length && calc.includes(item.title)) {
       keys.push(item.key);
+      calc = calc.replace(item.title, item.key);
     }
-    calc = calc.replace(item.title, item.key);
   });
+
   return { result: key, calc, keys };
 };
 
@@ -169,7 +171,7 @@ function FormCreater({
     });
 
     // 需要被计算的字段
-    setCalcKey(calcKeys.map(item => handleCalcKey(item, cfg)));
+    setCalcKey(R.map(item => handleCalcKey(item, cfg))(calcKeys));
 
     // 表示结果是否“合格”的字段
     setQualifyKey(observeKey);
@@ -193,6 +195,8 @@ function FormCreater({
 
     reFetch();
   }, [config]);
+
+  console.log(calcKey);
 
   // 表单字段当前状态判断
   const [formstatus, setFormstatus] = useState(false);
