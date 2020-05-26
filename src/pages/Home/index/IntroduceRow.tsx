@@ -28,11 +28,11 @@ const IntroduceRow = ({ visitData }: { visitData: VisitDataType[] }) => (
           </Tooltip>
         }
         loading={false}
-        total={() => <Yuan>12656023</Yuan>}
-        footer={<Field label="完成率" value={`47.3%`} />}
+        total={() => <Yuan>464950088</Yuan>}
+        footer={<Field label="完成率" value={`27.3%`} />}
         contentHeight={46}
       >
-        <MiniProgress percent={47.3} strokeWidth={8} target={50} />
+        <MiniProgress percent={27.3} strokeWidth={8} target={50} />
       </ChartCard>
     </Col>
 
@@ -46,11 +46,12 @@ const IntroduceRow = ({ visitData }: { visitData: VisitDataType[] }) => (
             <InfoCircleOutlined />
           </Tooltip>
         }
-        total={() => <Yuan>6522198</Yuan>}
-        footer={<Field label="完成率" value={`42.8%`} />}
+        total={() => <Yuan>73675984.37</Yuan>}
+        footer={<Field label="完成率" value={`22.8%`} />}
         contentHeight={46}
       >
-        <MiniArea color="#975FE4" data={visitData} />
+        <MiniProgress percent={22.8} color="#975FE4" strokeWidth={8} target={50} />
+        {/* <MiniArea color="#975FE4" data={visitData} /> */}
       </ChartCard>
     </Col>
     <PrintComplete />
