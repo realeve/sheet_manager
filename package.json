@@ -6,7 +6,8 @@
     "build": "umi build",
     "lite": "cross-env BUILD_TYPE=lite umi dev",
     "liteapp": "cross-env BUILD_TYPE=lite umi build",
-    "test": "umi test | coveralls"
+    "test": "umi test | coveralls",
+    "deploy": "npm run build && deploy.bat"
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.1",

@@ -41,8 +41,7 @@ export default [
       },
       {
         path: '/',
-        // component: './Home/index',
-        component: './Account/Settings/BaseView',
+        component: './Home/index',
       },
       {
         path: '/home',

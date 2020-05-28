@@ -106,7 +106,7 @@ const saveLastRouter = (pathname: string) => {
 
 const readLastRouter = () => {
   let router = window.localStorage.getItem('_lastRouter');
-  return router == null || router === '/' ? '/menu' : router;
+  return router || '/'; // == null || router === '/' ? '/menu' : router;
 };
 
 const saveLoginStatus = (status: number | string = 1) => {

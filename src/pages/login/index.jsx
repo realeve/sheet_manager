@@ -29,6 +29,7 @@ class LoginComponent extends Component {
     userList: [],
     uid: [],
     username: '',
+    password: '',
   };
 
   onSubmit = (_, values) => {
@@ -58,11 +59,12 @@ class LoginComponent extends Component {
       submitting: true,
     });
 
-    let { dept, uid, username, autoLogin, password } = this.state;
+    let { dept, uid = 0, username, autoLogin, password } = this.state;
 
     // todo 20190401 此处提供uid读取接口
-    let values = { password, uid, username, dept, org: ORG };
+    let values = { password, uid: uid?.[0] || '0', username, dept: dept?.[0] || '0', org: ORG };
 
+    console.log(values);
     // 是否启用统一认证登录
     // if (uap.active) {
     //   let { uid } = rtx.getUserDetail(userList, param.username);
@@ -130,6 +132,8 @@ class LoginComponent extends Component {
         }
       );
 
+      let { data } = userTool.getUserSetting();
+
       if (['10.9', '10.8', '0.0.'].includes(ip.slice(0, 4))) {
         this.setState({
           notice: (
@@ -139,6 +143,8 @@ class LoginComponent extends Component {
               密码：12345
             </div>
           ),
+          username: data?.values?.username || 'jitai',
+          password: data?.values?.password || '12345',
         });
       }
     });

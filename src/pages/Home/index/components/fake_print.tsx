@@ -9,7 +9,6 @@ export default () => {
    *   useFetch (React hooks)
    *   @database: { 数据共享平台 }
    *   @desc:     { 印钞小开作废类型分析 }
-   *   useFetch 返回值说明： data(返回数据), error(报错), loading(加载状态), reFetch(强制刷新),setData(强制设定数据)
    */
   const res = useFetch({
     param: {
@@ -42,6 +41,8 @@ export default () => {
         x: 2,
         y: 3,
         renderer: 'canvas',
+        area: true,
+        stack: true,
       }}
     />
   );

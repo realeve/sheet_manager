@@ -62,6 +62,7 @@ export default ({
     x: 2,
     y: 4,
     legend: 0,
+    renderer: 'svg',
   },
   callback,
 }) => {

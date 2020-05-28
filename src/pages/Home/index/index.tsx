@@ -25,9 +25,9 @@ export default () => {
       <Suspense fallback={<PageLoading />}>
         <FakePrint />
       </Suspense>
-      <Suspense fallback={<PageLoading />}>
+      {/* <Suspense fallback={<PageLoading />}>
         <Machine />
-      </Suspense>
+      </Suspense> */}
     </div>
   );
 };

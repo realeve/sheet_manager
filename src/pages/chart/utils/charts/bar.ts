@@ -339,7 +339,7 @@ let handleSeriesItem = option => seriesItem => {
   if (option.area && option.type !== 'bar') {
     seriesItem.areaStyle = {
       normal: {
-        opacity: 0.4,
+        opacity: 0.3,
       },
     };
   } else if (option.type === 'bar' && typeof seriesItem.label === 'undefined') {
