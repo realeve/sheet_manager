@@ -1,11 +1,13 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Col, Row, Tooltip } from 'antd';
 import React from 'react';
-import { ChartCard, MiniArea, MiniProgress, Field, Yuan } from '../components/';
+import numeral from 'numeral';
+import { ChartCard, Field, Yuan } from '../components/';
 import { VisitDataType } from '../data';
-
+// MiniArea,MiniProgress,
 import PrintComplete from './card/print_complete';
 import PaperProdNum from './card/paper_complete';
+import useFetch from '@/components/hooks/useFetch';
 
 const topColResponsiveProps = {
   xs: 24,
@@ -16,43 +18,51 @@ const topColResponsiveProps = {
   style: { marginBottom: 24 },
 };
 
+const Income = ({ url = '/1013/a33ed9f4ec.json', title = '销售收入' }) => {
+  const { data, error, loading } = useFetch({
+    param: {
+      url,
+    },
+  });
+
+  return (
+    <ChartCard
+      bordered={false}
+      title={`${title}(截至${data?.data[0]?.prod_date})`}
+      action={
+        <Tooltip title="数据来源：财务报表系统">
+          <InfoCircleOutlined />
+        </Tooltip>
+      }
+      loading={loading}
+      total={() => data && <Yuan>{data.data[0].year_total}</Yuan>}
+      footer={
+        data && (
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Field
+              label={data.data[1].type_desc}
+              value={numeral(data.data[1].year_total).format('0,0')}
+            />
+            <Field
+              label={data.data[2].type_desc}
+              value={numeral(data.data[2].year_total).format('0,0')}
+            />
+          </div>
+        )
+      }
+      contentHeight={46}
+    ></ChartCard>
+  );
+};
+
 const IntroduceRow = ({ visitData }: { visitData: VisitDataType[] }) => (
   <Row gutter={24} type="flex">
     <Col {...topColResponsiveProps}>
-      <ChartCard
-        bordered={false}
-        title="销售收入"
-        action={
-          <Tooltip title="数据来源：财务报表系统">
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
-        loading={false}
-        total={() => <Yuan>464950088</Yuan>}
-        footer={<Field label="完成率" value={`27.3%`} />}
-        contentHeight={46}
-      >
-        <MiniProgress percent={27.3} strokeWidth={8} target={50} />
-      </ChartCard>
+      <Income />
     </Col>
 
     <Col {...topColResponsiveProps}>
-      <ChartCard
-        bordered={false}
-        loading={false}
-        title="利润"
-        action={
-          <Tooltip title="数据来源：财务报表系统">
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
-        total={() => <Yuan>73675984.37</Yuan>}
-        footer={<Field label="完成率" value={`22.8%`} />}
-        contentHeight={46}
-      >
-        <MiniProgress percent={22.8} color="#975FE4" strokeWidth={8} target={50} />
-        {/* <MiniArea color="#975FE4" data={visitData} /> */}
-      </ChartCard>
+      <Income url="/1014/0af41299ce.json" title="净利润" />
     </Col>
     <PrintComplete />
     <PaperProdNum />

@@ -26,5 +26,9 @@ export default function SimpleChart({ data, params, beforeRender, ...props }: Ch
     return null;
   }
 
-  return data.err ? <Err err={data.err} /> : <Chart renderer="svg" option={state} {...props} />;
+  return data.err ? (
+    <Err err={data.err} />
+  ) : (
+    <Chart renderer={params.renderer || 'svg'} option={state} {...props} />
+  );
 }

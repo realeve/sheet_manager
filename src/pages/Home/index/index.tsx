@@ -8,6 +8,7 @@ const IntroduceRow = React.lazy(() => import('./IntroduceRow'));
 const ProductNum = React.lazy(() => import('./ProductNum'));
 const Quality = React.lazy(() => import('./Quality'));
 const Machine = React.lazy(() => import('./Machine'));
+const FakePrint = React.lazy(() => import('./FakePrint'));
 
 export default () => {
   return (
@@ -20,6 +21,9 @@ export default () => {
       </Suspense>
       <Suspense fallback={<PageLoading />}>
         <Quality />
+      </Suspense>
+      <Suspense fallback={<PageLoading />}>
+        <FakePrint />
       </Suspense>
       <Suspense fallback={<PageLoading />}>
         <Machine />
