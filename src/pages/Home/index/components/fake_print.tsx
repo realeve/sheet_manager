@@ -4,7 +4,7 @@ import moment from 'moment';
 import { CHART_MODE } from '@/pages/chart/utils/lib';
 import GroupCard from './GroupCard';
 
-export default () => {
+export default ({ title = '印钞作废类型分析', url = `/1015/d0011e0da9.json` }) => {
   /**
    *   useFetch (React hooks)
    *   @database: { 数据共享平台 }
@@ -12,7 +12,7 @@ export default () => {
    */
   const res = useFetch({
     param: {
-      url: `/1015/d0011e0da9.json`,
+      url,
       params: {
         tstart: moment()
           .subtract(12, 'month')
@@ -28,7 +28,7 @@ export default () => {
 
   return (
     <GroupCard
-      title="印钞作废类型分析"
+      title={title}
       {...res}
       radioIdx={0}
       tabIdx={4}
