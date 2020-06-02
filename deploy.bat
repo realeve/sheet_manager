@@ -5,6 +5,11 @@ rem 测试数据目录
 set destDir=\\10.8.2.133\e$\wamp\new_quality\
 set srcDir=.\dist\
  
+ rem remove files
+ del %destDir%\*.js
+ del %destDir%\*.css
+ del %destDir%\*.html
+
 rem 拷贝HTML相关文件
 copy %srcDir%*.js %destDir%
 rem css
