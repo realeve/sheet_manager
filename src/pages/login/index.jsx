@@ -152,6 +152,7 @@ class LoginComponent extends Component {
   loadUser = async () => {
     if (uap.active && this.state.dept && this.state.dept.length > 0) {
       let { data: userList } = await db.getUserListBydept(this.state.dept); //await rtx.init();
+      // console.log(userList);
       this.setState({ userList });
     }
   };

@@ -116,7 +116,7 @@ export const getUserListBydept = dept => {
       dept,
     },
   }).then(res => {
-    if (res.data.rows) {
+    if (typeof res.data.rows !== 'undefined') {
       return res.data;
     }
     return res;

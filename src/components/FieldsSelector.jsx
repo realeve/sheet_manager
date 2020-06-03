@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Checkbox } from "antd";
-import styles from "./TableCalc.less";
+import React, { Component } from 'react';
+import { Checkbox } from 'antd';
+import styles from './TableCalc.less';
 
 const CheckboxGroup = Checkbox.Group;
-const R = require("ramda");
+const R = require('ramda');
 
 class FiledsSelector extends Component {
   constructor(props) {
@@ -15,16 +15,13 @@ class FiledsSelector extends Component {
       checkAll: false,
       checkedList: [],
       allChecked: props.header.map((item, i) => i),
-      desc: props.desc
+      desc: props.desc,
     };
   }
 
   // 返回的值即是当前需要setState的内容
   static getDerivedStateFromProps({ header, desc, checkedList }, state) {
-    if (
-      R.equals(header, state.header) &&
-      R.equals(checkedList, state.checkedList)
-    ) {
+    if (R.equals(header, state.header) && R.equals(checkedList, state.checkedList)) {
       return null;
     }
 
@@ -32,7 +29,7 @@ class FiledsSelector extends Component {
       header,
       checkedList,
       desc,
-      allChecked: header.map((item, i) => i)
+      allChecked: header.map((item, i) => i),
     };
   }
 
@@ -41,7 +38,7 @@ class FiledsSelector extends Component {
     this.setState({
       checkedList,
       indeterminate: !!checkedList.length && checkedList.length < header.length,
-      checkAll: checkedList.length === header.length
+      checkAll: checkedList.length === header.length,
     });
     this.props.onChange(checkedList);
   };
@@ -53,7 +50,7 @@ class FiledsSelector extends Component {
     this.setState({
       checkedList,
       indeterminate: false,
-      checkAll: checked
+      checkAll: checked,
     });
     this.props.onChange(checkedList);
   };
@@ -86,11 +83,11 @@ class FiledsSelector extends Component {
 FiledsSelector.defaultProps = {
   header: [],
   onChange: e => {
-    console.log(e);
+    // console.log(e);
   },
-  title: "",
+  title: '',
   checkedList: [],
-  desc: ""
+  desc: '',
 };
 
 export default FiledsSelector;

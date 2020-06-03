@@ -196,7 +196,7 @@ function FormCreater({
     reFetch();
   }, [config]);
 
-  console.log(calcKey);
+  // console.log(calcKey);
 
   // 表单字段当前状态判断
   const [formstatus, setFormstatus] = useState(false);

@@ -36,7 +36,7 @@ export const DateRangePicker = ({
     } else if (dateType == 'year') {
       strDate = strDate.map(item => item.substr(0, 4));
     }
-    console.log(strDate, dateType);
+    // console.log(strDate, dateType);
     await dispatch({
       type: 'common/setStore',
       payload: { dateRange: strDate },
