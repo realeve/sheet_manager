@@ -73,6 +73,7 @@ export default function formItem({
     calc,
     suffix,
     offset = 0,
+    callback,
     ...props
   },
   scope = [],
@@ -129,7 +130,34 @@ export default function formItem({
     } else if (tolower) {
       value = handler.toLower(val);
     }
-    setState(value);
+
+    if (callback) {
+      // 处理默认载入数据的场景;
+      axios({
+        url: callback.url,
+        params: {
+          [key]: value,
+          uid: user.id,
+        },
+      }).then(res => {
+        if (res.rows == 0 && rule.required) {
+          notification.error({
+            message: '初始数据载入错误',
+            description: rule.msg,
+            duration: 10,
+          });
+          setState(value);
+          return;
+        }
+        setState({
+          ...res.data[0],
+          [key]: value,
+        });
+      });
+    } else {
+      setState(value);
+    }
+
     // 录入状态判断
     let status = onValidate(value, rule);
     setValidateState(status);

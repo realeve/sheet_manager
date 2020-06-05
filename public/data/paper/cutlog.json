@@ -80,7 +80,10 @@
             },
             "placeholder": "请输入班次，用拼音缩写快速录入",
             "unReset": true,
-            "span": 6
+            "span": 6,
+            "callback": {
+              "url": "/1023/889ec2c1d2.json"
+            }
           },
           {
             "title": "班次",
