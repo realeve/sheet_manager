@@ -7,7 +7,7 @@ export const cardStyle = ({
   height = 300,
 }: {
   height?: number;
-  title: string | ReactNode;
+  title?: string | ReactNode;
 }) => ({
   title,
   bodyStyle: { height: height, padding: '0 15px 0 10px' },

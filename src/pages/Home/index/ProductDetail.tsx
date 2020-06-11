@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Col, Row, Tabs, Button } from 'antd';
-import useFetch from '@/components/hooks/useFetch';
+import useFetch, { IAxiosState } from '@/components/hooks/useFetch';
 import { CHART_MODE } from '@/pages/chart/utils/lib';
 import dateRanges from '@/utils/ranges';
 import style from './index.less';
@@ -22,20 +22,20 @@ export default () => {
    *   @desc:     { 公司主要经济指标 }
    *   useFetch 返回值说明： data(返回数据), error(报错), loading(加载状态), reFetch(强制刷新),setData(强制设定数据)
    */
-  const { data, loading, error } = useFetch({
+  const { data, loading, error } = useFetch<IAxiosState>({
     param: {
       url: `1026/097c1d4161.json`,
       params,
     },
   });
 
-  const { data: data2, loading: loading2, error: error2 } = useFetch({
+  const { data: data2, loading: loading2, error: error2 } = useFetch<IAxiosState>({
     param: {
       url: `1027/f1037acf8c.json`,
       params,
     },
   });
-  const { data: data3, loading: loading3, error: error3 } = useFetch({
+  const { data: data3, loading: loading3, error: error3 } = useFetch<IAxiosState>({
     param: {
       url: `1028/a90809cb29`,
       params,
@@ -154,16 +154,6 @@ export default () => {
                       x: 1,
                       y: 4,
                       legend: 3,
-                      daterange: 9,
-                      dr0_id: '941/958dada9e0',
-                      dr0_type: 'bar',
-                      dr0_legend: 1,
-                      dr0_x: 0,
-                      dr0_y: 2,
-                      dr1_id: '942/47a7d8b252',
-                      dr1_type: 'bar',
-                      dr2_id: '943/64fbe9194a',
-                      dr2_drilltype: 'table',
                       ...params,
                     },
                   }}

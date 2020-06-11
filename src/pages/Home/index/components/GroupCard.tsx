@@ -8,6 +8,8 @@ import SimpleChart from '@/pages/Search/components/SimpleChart';
 
 import * as R from 'ramda';
 import Err from '@/components/Err';
+import { AxiosError } from '@/utils/axios';
+import { IAxiosState } from '@/components/hooks/useFetch';
 
 const filterData = (res, type: string, key: string = 'type') => {
   let data = R.filter(item => item[key] == type)(res.data);
@@ -66,7 +68,26 @@ const TabChart = ({ data, tabs, tabKey, chartParam, chartHeight }) => {
     )
   );
 };
-
+export interface IGroupCard {
+  title: React.ReactNode;
+  loading?: boolean;
+  data: null | IAxiosState;
+  error?: AxiosError;
+  radioIdx?: number;
+  tabIdx?: number;
+  chartHeight?: number;
+  chartParam?: {
+    type?: string;
+    simple?: CHART_MODE;
+    x: number;
+    y: number;
+    legend?: number;
+    renderer?: 'svg' | 'canvas';
+    [key: string]: any;
+  };
+  callback?: (e: any, a: any) => any;
+  [key: string]: any;
+}
 export default ({
   title,
   loading,
@@ -85,7 +106,7 @@ export default ({
     renderer: 'svg',
   },
   callback,
-}) => {
+}: IGroupCard) => {
   const [type, setType] = useState([]);
   const [curtype, setCurtype] = useState('');
   const [curdata, setCurdata] = useState(null);

@@ -3,11 +3,14 @@ import { Col, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import numeral from 'numeral';
 import { ChartCard, MiniBar, Field } from '../../components/';
-import { VisitDataType } from '../../data';
 import useFetch from '@/components/hooks/useFetch';
 import * as lib from '@/utils/lib';
 import * as R from 'ramda';
 import { topColResponsiveProps } from '../../components/Cards';
+interface VisitDataType {
+  x: string;
+  y: number;
+}
 
 export default () => {
   const [total, setTotal] = useState(0);

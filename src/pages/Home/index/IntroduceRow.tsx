@@ -3,11 +3,11 @@ import { Col, Row, Tooltip } from 'antd';
 import React from 'react';
 import numeral from 'numeral';
 import { ChartCard, Field, Yuan } from '../components/';
-import { VisitDataType } from '../data';
+
 // MiniArea,MiniProgress,
 import PrintComplete from './card/print_complete';
 import PaperProdNum from './card/paper_complete';
-import useFetch from '@/components/hooks/useFetch';
+import useFetch, { IAxiosState } from '@/components/hooks/useFetch';
 
 const topColResponsiveProps = {
   xs: 24,
@@ -18,8 +18,16 @@ const topColResponsiveProps = {
   style: { marginBottom: 24 },
 };
 
+interface IPropsIncome extends IAxiosState {
+  data: {
+    prod_date: string;
+    year_total: number;
+    type_desc: string;
+  }[];
+}
+
 const Income = ({ url = '/1013/a33ed9f4ec.json', title = '销售收入' }) => {
-  const { data, error, loading } = useFetch({
+  const { data, error, loading } = useFetch<IPropsIncome>({
     param: {
       url,
     },
@@ -28,7 +36,7 @@ const Income = ({ url = '/1013/a33ed9f4ec.json', title = '销售收入' }) => {
   return (
     <ChartCard
       bordered={false}
-      title={`${title}(截至${data?.data[0]?.prod_date})`}
+      title={`${title}(截至${data && data.data[0]?.prod_date})`}
       action={
         <Tooltip title="数据来源：财务报表系统">
           <InfoCircleOutlined />
@@ -55,8 +63,8 @@ const Income = ({ url = '/1013/a33ed9f4ec.json', title = '销售收入' }) => {
   );
 };
 
-const IntroduceRow = ({ visitData }: { visitData: VisitDataType[] }) => (
-  <Row gutter={24} type="flex">
+const IntroduceRow = () => (
+  <Row gutter={24}>
     <Col {...topColResponsiveProps}>
       <Income />
     </Col>

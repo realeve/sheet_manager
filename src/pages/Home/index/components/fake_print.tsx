@@ -1,5 +1,5 @@
 import React from 'react';
-import useFetch from '@/components/hooks/useFetch';
+import useFetch, { IAxiosState } from '@/components/hooks/useFetch';
 import moment from 'moment';
 import { CHART_MODE } from '@/pages/chart/utils/lib';
 import GroupCard from './GroupCard';
@@ -10,7 +10,7 @@ export default ({ title = '印钞作废类型分析', url = `/1015/d0011e0da9.js
    *   @database: { 数据共享平台 }
    *   @desc:     { 印钞小开作废类型分析 }
    */
-  const res = useFetch({
+  const res = useFetch<IAxiosState>({
     param: {
       url,
       params: {

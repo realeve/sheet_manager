@@ -3,9 +3,14 @@ import { Col, Tooltip } from 'antd';
 import React from 'react';
 import numeral from 'numeral';
 import { ChartCard, MiniArea, Field } from '../../components/';
-import useFetch from '@/components/hooks/useFetch';
+
+import useFetch, { IAxiosState } from '@/components/hooks/useFetch';
 import * as lib from '@/utils/lib';
 import { topColResponsiveProps } from '../../components/Cards';
+
+interface IDetailProps extends IAxiosState {
+  data: { x: string; y: number }[];
+}
 
 export default () => {
   /**
@@ -13,13 +18,18 @@ export default () => {
    *   @database: { 数据共享平台 }
    *   @desc:     { 钞纸制作部新老线纸浆产量 }
    */
-  const { data, loading } = useFetch({
+  const { data, loading } = useFetch<{
+    data: {
+      新线精浆产量: number;
+      老线精浆产量: number;
+      损纸浆产量: number;
+    };
+    source: string;
+  }>({
     param: {
       url: `/993/497fcdf516.json`,
     },
-    callback({ data, source }) {
-      return { data: data[0], source };
-    },
+    callback: ({ data, source }) => ({ data: data[0], source }),
   });
 
   /**
@@ -27,7 +37,7 @@ export default () => {
    *   @database: { 数据共享平台 }
    *   @desc:     { 每日精浆产量 }
    */
-  const { data: detail } = useFetch({
+  const { data: detail } = useFetch<IDetailProps>({
     param: {
       url: `/994/3b3ae58e40.json`,
     },
@@ -45,7 +55,7 @@ export default () => {
           </Tooltip>
         }
         total={numeral(
-          data?.data?.新线精浆产量 + data?.data?.老线精浆产量 + data?.data?.损纸浆产量
+          data && data.data?.新线精浆产量 + data?.data?.老线精浆产量 + data?.data?.损纸浆产量
         ).format('0,0')}
         suffix="吨"
         footer={
@@ -57,7 +67,7 @@ export default () => {
         }
         contentHeight={46}
       >
-        <MiniArea line data={detail?.data || []} borderColor="#13C2C2" />
+        <MiniArea line data={(detail && detail.data) || []} borderColor="#13C2C2" />
       </ChartCard>
     </Col>
   );

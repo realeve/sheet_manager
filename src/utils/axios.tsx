@@ -12,6 +12,20 @@ export interface GlobalAxios {
   token: string;
 }
 
+export interface IAxiosState {
+  title: string;
+  rows: number;
+  data: ({ [key: string]: any } | [])[];
+  header: string[];
+  ip: string;
+  date: string[];
+  source: string;
+  time: string;
+  serverTime: string;
+  hash: string;
+  [key: string]: any;
+}
+
 declare global {
   interface Window {
     g_axios: GlobalAxios;
@@ -44,7 +58,7 @@ export const codeMessage: {
 export const _commonData = {
   rows: 1,
   data: [{ affected_rows: 1, id: Math.ceil(Math.random() * 100) }],
-  time: 20,
+  time: '20ms',
   ip: '127.0.0.1',
   title: '数据更新/插入/删除返回值',
 };
