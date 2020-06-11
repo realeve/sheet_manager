@@ -35,19 +35,60 @@ export default () => {
       params,
     },
   });
+  const { data: data3, loading: loading3, error: error3 } = useFetch({
+    param: {
+      url: `1028/a90809cb29`,
+      params,
+    },
+  });
 
   return (
     <Row gutter={24} style={{ marginBottom: 24 }}>
       <Col xl={24} lg={24} md={24} sm={24} xs={24}>
         <Suspense fallback={null}>
           <Suspense fallback={null}>
-            <Tabs defaultActiveKey="1" type="line" className={style.tabs}>
-              <Tabs.TabPane tab="班效率" key="1">
+            <Tabs defaultActiveKey="0" type="line" className={style.tabs}>
+              <Tabs.TabPane tab="月度班效率" key="0">
+                <GroupCard
+                  data={data3}
+                  title={
+                    <div>
+                      班效率汇总(大万/台班)
+                      <Button
+                        type="default"
+                        size="small"
+                        style={{ marginLeft: 20, fontSize: 12 }}
+                        onClick={() => {
+                          window.open(`/table#id=1028/a90809cb29&daterange=9`);
+                        }}
+                        title="点击查看详细数据报表"
+                      >
+                        详情
+                      </Button>
+                    </div>
+                  }
+                  {...{
+                    error: error2,
+                    loading: loading2,
+                    radioIdx: 0,
+                    chartHeight: 400,
+                    // tabIdx: 0,
+                    chartParam: {
+                      type: 'bar',
+                      smooth: true,
+                      simple: CHART_MODE.HIDE_ALL,
+                      x: 1,
+                      y: 2,
+                    },
+                  }}
+                />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="每日班效率" key="1">
                 <GroupCard
                   data={data2}
                   title={
                     <div>
-                      印钞各工序班效率(大万/台班)
+                      工序每日班效率(大万/台班)
                       <Button
                         type="default"
                         size="small"
@@ -79,7 +120,7 @@ export default () => {
                   }}
                 />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="产量" key="2">
+              <Tabs.TabPane tab="日产量" key="2">
                 <GroupCard
                   data={data}
                   title={

@@ -62,7 +62,7 @@ const IntroduceRow = ({ visitData }: { visitData: VisitDataType[] }) => (
     </Col>
 
     <Col {...topColResponsiveProps}>
-      <Income url="/1014/0af41299ce.json" title="净利润" />
+      <Income url="/1014/0af41299ce.json" title="利润总额" />
     </Col>
     <PrintComplete />
     <PaperProdNum />
