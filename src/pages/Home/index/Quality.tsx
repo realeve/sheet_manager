@@ -68,8 +68,8 @@ export default () => {
       return;
     }
     setUnit({
-      print: '单位:%',
-      paper: '单位:%',
+      print: '(单位:%)',
+      paper: '(单位:%)',
     });
   }, [data?.hash]);
 
@@ -95,7 +95,7 @@ export default () => {
         <Suspense fallback={null}>
           <GroupCard
             data={handleData(data, '印钞')}
-            title={'印钞主要经济指标' + unit.print}
+            title={'印钞主要绩效指标' + unit.print}
             {...param}
             callback={(e, data) => {
               let dist = filterData(data, e, 'type');
@@ -112,7 +112,7 @@ export default () => {
           <GroupCard
             {...param}
             data={handleData(data, '钞纸')}
-            title={'钞纸主要经济指标' + unit.paper}
+            title={'钞纸主要绩效指标' + unit.paper}
             callback={(e, data) => {
               let dist = filterData(data, e, 'type');
               let paper = getUnit(dist);

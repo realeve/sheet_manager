@@ -20,6 +20,16 @@ const filterData = (res, type: string, key: string = 'type') => {
   };
 };
 
+export let beforeRender = e => {
+  if (e.legend) {
+    e.legend = {
+      ...e.legend,
+      top: -5,
+    };
+  }
+  return e;
+};
+
 const TabChart = ({ data, tabs, tabKey, chartParam, chartHeight }) => {
   const [curprod, setCurprod] = useState(null);
 
@@ -33,15 +43,25 @@ const TabChart = ({ data, tabs, tabKey, chartParam, chartHeight }) => {
   return (
     data && (
       <Tabs activeKey={curprod} onChange={setCurprod} type="line">
-        {tabs.map(prod => (
-          <Tabs.TabPane tab={prod} key={prod}>
-            <SimpleChart
-              data={filterData(data, prod, tabKey)}
-              params={chartParam}
-              style={{ height: chartHeight - 70, width: '100%' }}
-            />
-          </Tabs.TabPane>
-        ))}
+        {typeof tabKey != 'undefined' ? (
+          tabs.map(prod => (
+            <Tabs.TabPane tab={prod} key={prod}>
+              <SimpleChart
+                data={filterData(data, prod, tabKey)}
+                params={chartParam}
+                style={{ height: chartHeight - 70, width: '100%' }}
+                beforeRender={beforeRender}
+              />
+            </Tabs.TabPane>
+          ))
+        ) : (
+          <SimpleChart
+            data={data}
+            params={chartParam}
+            style={{ height: chartHeight - 70, width: '100%' }}
+            beforeRender={beforeRender}
+          />
+        )}
       </Tabs>
     )
   );
@@ -95,13 +115,15 @@ export default ({
     let dist = filterData(data, curtype, key);
     setCurdata(dist);
 
-    let tabKey = data.header[tabIdx];
+    if (typeof tabIdx != 'undefined') {
+      let tabKey = data.header[tabIdx];
 
-    let type = chartLib.getUniqByIdx({
-      key: tabKey,
-      data: R.clone(dist.data),
-    });
-    setProds(type);
+      let type = chartLib.getUniqByIdx({
+        key: tabKey,
+        data: R.clone(dist.data),
+      });
+      setProds(type);
+    }
   }, [curtype]);
 
   return (

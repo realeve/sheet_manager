@@ -10,6 +10,8 @@ const Quality = React.lazy(() => import('./Quality'));
 const Machine = React.lazy(() => import('./Machine'));
 const FakePrint = React.lazy(() => import('./FakePrint'));
 
+const ProductDetail = React.lazy(() => import('./ProductDetail'));
+
 export default () => {
   return (
     <div className={style.dashboard}>
@@ -19,6 +21,11 @@ export default () => {
       <Suspense fallback={<PageLoading />}>
         <ProductNum />
       </Suspense>
+
+      <Suspense fallback={<PageLoading />}>
+        <ProductDetail />
+      </Suspense>
+
       <Suspense fallback={<PageLoading />}>
         <Quality />
       </Suspense>

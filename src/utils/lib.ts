@@ -157,6 +157,7 @@ interface GZInfo {
   alpha: string;
   alpha2: string;
 }
+
 // interface iFunGZInfo {
 //   (param: GZSetting): GZInfo | boolean;
 // }

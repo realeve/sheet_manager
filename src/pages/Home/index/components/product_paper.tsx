@@ -19,6 +19,7 @@ const cardProp = cardStyle({
         onClick={() => {
           window.open(`/table#id=664/9cdc31ddc6&daterange=1`);
         }}
+        title="点击查看详细数据报表"
       >
         详情
       </Button>
