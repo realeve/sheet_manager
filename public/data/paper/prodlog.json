@@ -94,84 +94,6 @@
             "span": 6
           }
         ]
-      },
-
-      {
-        "title": "气垫温度(接班)",
-        "detail": [
-          {
-            "title": "进汽温度1组",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "steam_temp_in_1",
-            "suffix": "℃",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 8
-          },
-          {
-            "title": "送风风量1组",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "air_volume_in_1",
-            "suffix": "%",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 8
-          },
-          {
-            "title": "排风风量1组",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "air_volume_out_1",
-            "suffix": "%",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 8
-          },
-          {
-            "title": "进汽温度2组",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "steam_temp_in_2",
-            "suffix": "℃",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 8
-          },
-          {
-            "title": "送风风量2组",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "air_volume_in_2",
-            "suffix": "%",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 8
-          },
-          {
-            "title": "排风风量2组",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "air_volume_out_2",
-            "suffix": "%",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 8
-          }
-        ]
       }
     ]
   },
@@ -305,7 +227,7 @@
               "type": "float",
               "required": true
             },
-            "calc": "主网良浆分配浆量/短网良浆分配浆量*100",
+            "calc": "(主网良浆分配浆量/短网良浆分配浆量*100).toFixed(2)",
             "block": "=主网良浆分配浆量/短网良浆分配浆量",
             "span": 6,
             "disabled": true,
@@ -335,6 +257,40 @@
             "span": 6
           },
           {
+            "title": "短网入口间隙",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "short_mesh_entrance",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "喷浆速率",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "pulp_speed",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "匀整精浆机进刀量",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "refiner_machine_distince",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+
+          {
             "title": "专责",
             "key": "operator",
 
@@ -354,7 +310,7 @@
         ]
       },
       {
-        "title": "化验结果",
+        "title": "化验站检测结果",
         "detail": [
           {
             "title": "取样时间",
@@ -391,6 +347,7 @@
           },
           {
             "title": "上网平均纤维长度",
+            "titlewidth": 260,
             "type": "input",
             "key": "flow_wire_avg_fibre_length",
             "suffix": "mm",
@@ -629,7 +586,7 @@
         ]
       },
       {
-        "title": "安全线交接",
+        "title": "安全线交接(TA)",
         "detail": [
           {
             "title": "接上班线",
@@ -663,7 +620,7 @@
             "span": 5
           },
           {
-            "title": "领线",
+            "title": "库房领线",
             "type": "input",
             "key": "safe_line_receive",
             "rule": {
@@ -673,12 +630,63 @@
             "span": 5
           },
           {
-            "title": "退线",
+            "title": "库房退线",
             "type": "input",
             "key": "safe_line_reback",
             "rule": {
               "type": "float",
               "required": true
+            },
+            "span": 5
+          }
+        ]
+      },
+      {
+        "title": "安全线交接(TB)",
+        "detail": [
+          {
+            "title": "接上班线TB",
+            "type": "input",
+            "key": "safe_line_remain_tb",
+            "rule": {
+              "type": "float"
+            },
+            "span": 5
+          },
+          {
+            "title": "用线TB",
+            "type": "input",
+            "key": "safe_line_useage_tb",
+            "rule": {
+              "type": "float"
+            },
+            "span": 4
+          },
+          {
+            "title": "交下班线TB",
+            "placeholder": "结存",
+            "type": "input",
+            "key": "safe_line_pay_tb",
+            "rule": {
+              "type": "float"
+            },
+            "span": 5
+          },
+          {
+            "title": "库房领线TB",
+            "type": "input",
+            "key": "safe_line_receive_tb",
+            "rule": {
+              "type": "float"
+            },
+            "span": 5
+          },
+          {
+            "title": "库房退线TB",
+            "type": "input",
+            "key": "safe_line_reback_tb",
+            "rule": {
+              "type": "float"
             },
             "span": 5
           }
@@ -980,8 +988,7 @@
             "placeholder": "接班记录，烘缸温度15",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
@@ -992,8 +999,7 @@
             "placeholder": "接班记录，烘缸温度16",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
@@ -1004,8 +1010,7 @@
             "placeholder": "接班记录，烘缸温度17",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
@@ -1016,8 +1021,7 @@
             "placeholder": "接班记录，烘缸温度18",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
@@ -1028,8 +1032,7 @@
             "placeholder": "接班记录，烘缸温度19",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
@@ -1040,8 +1043,7 @@
             "placeholder": "接班记录，烘缸温度20",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           }
@@ -1225,8 +1227,7 @@
             "placeholder": "交班记录，烘缸温度15",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
@@ -1237,8 +1238,7 @@
             "placeholder": "交班记录，烘缸温度16",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
@@ -1249,8 +1249,7 @@
             "placeholder": "交班记录，烘缸温度17",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
@@ -1261,8 +1260,7 @@
             "placeholder": "交班记录，烘缸温度18",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
@@ -1273,8 +1271,7 @@
             "placeholder": "交班记录，烘缸温度19",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
@@ -1285,8 +1282,7 @@
             "placeholder": "交班记录，烘缸温度20",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           }
@@ -1296,76 +1292,149 @@
         "title": "气垫温度(交班)",
         "detail": [
           {
-            "title": "进汽温度1组",
+            "title": "温度bar1组",
             "titlewidth": 280,
             "type": "input",
             "key": "steam_temp_in_1",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
-            "title": "送风风量1组",
+            "title": "送风风机开度1组",
             "titlewidth": 280,
             "type": "input",
-            "key": "air_volume_in_1",
+            "key": "air_open_percent_1",
             "suffix": "%",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
-            "title": "排风风量1组",
+            "title": "送风风机转速1组",
             "titlewidth": 280,
             "type": "input",
             "key": "air_volume_out_1",
-            "suffix": "%",
+            "suffix": "转/分钟",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
-            "title": "进汽温度2组",
+            "title": "排风阀门开度1组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_out_switch_open_percent_1",
+            "suffix": "%",
+            "rule": {
+              "type": "float"
+            },
+            "span": 6
+          },
+
+          {
+            "title": "温度bar2组",
             "titlewidth": 280,
             "type": "input",
             "key": "steam_temp_in_2",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
-            "title": "送风风量2组",
+            "title": "送风风机开度2组",
             "titlewidth": 280,
             "type": "input",
-            "key": "air_volume_in_2",
+            "key": "air_open_percent_2",
             "suffix": "%",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
-            "title": "排风风量2组",
+            "title": "送风风机转速2组",
             "titlewidth": 280,
             "type": "input",
             "key": "air_volume_out_2",
+            "suffix": "转/分钟",
+            "rule": {
+              "type": "float"
+            },
+            "span": 6
+          },
+          {
+            "title": "排风阀门开度2组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_out_switch_open_percent_2",
             "suffix": "%",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
-            "span": 8
+            "span": 6
+          },
+          {
+            "title": "温度bar3组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "steam_temp_in_3",
+            "suffix": "℃",
+            "rule": {
+              "type": "float"
+            },
+            "span": 6
+          },
+          {
+            "title": "送风风机开度3组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_open_percent_3",
+            "suffix": "%",
+            "rule": {
+              "type": "float"
+            },
+            "span": 6
+          },
+          {
+            "title": "送风风机转速3组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_volume_out_3",
+            "suffix": "转/分钟",
+            "rule": {
+              "type": "float"
+            },
+            "span": 6
+          },
+          {
+            "title": "排风阀门开度3组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_out_switch_open_percent_3",
+            "suffix": "%",
+            "rule": {
+              "type": "float"
+            },
+            "span": 6
+          },
+
+          {
+            "title": "气垫排风风机开度",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_out_open_percent",
+            "suffix": "%",
+            "rule": {
+              "type": "float"
+            },
+            "span": 6
           }
         ]
       }
@@ -1517,47 +1586,10 @@
             "span": 8
           }
         ]
-      }
-    ]
-  },
-  {
-    "name": "6.纸幅尺寸及参数",
-    "dev": false,
-    "api": {
-      "insert": {
-        "url": "971/7fx7doeq4h",
-        "param": ["rec_time", "uid"]
       },
-      "update": {
-        "url": "972/7fx7doeq4h",
-        "param": ["_id"]
-      },
-      "table": {
-        "url": "973/7fx7doeq4h",
-        "param": ["machine_id"]
-      },
-      "load": {
-        "url": "974/7fx7doeq4h",
-        "param": ["_id"]
-      }
-    },
-    "table": "paper_record_prod_watermark_size",
-    "detail": [
       {
+        "title": "纸幅尺寸及参数",
         "detail": [
-          {
-            "title": "记录id",
-            "titlewidth": 280,
-            "type": "input.number",
-            "disabled": true,
-            "key": "prod_baseid",
-            "span": 6,
-            "url": "/970/280796efa5.json",
-            "rule": {
-              "required": true,
-              "msg": "交接班基础信息未填写，请切换至选项卡1填写"
-            }
-          },
           {
             "title": "轴号",
             "titlewidth": 280,
@@ -1609,7 +1641,7 @@
             "allowClear": false
           },
           {
-            "title": "抄宽",
+            "title": "抄重",
             "titlewidth": 280,
             "type": "input",
             "key": "reel_weight",
@@ -1754,7 +1786,10 @@
             "rule": {
               "required": true
             },
-            "span": 2
+            "offset": 2,
+            "span": 2,
+            "defaultValue": ["套框"],
+            "unReset": true
           },
           {
             "title": "",
@@ -1765,7 +1800,9 @@
             "rule": {
               "required": true
             },
-            "span": 2
+            "span": 2,
+            "defaultValue": ["荧光"],
+            "unReset": true
           },
           {
             "title": "",
@@ -1775,7 +1812,9 @@
             "rule": {
               "required": true
             },
-            "span": 2
+            "span": 2,
+            "defaultValue": ["符样性"],
+            "unReset": true
           }
         ]
       }

@@ -288,7 +288,7 @@ export default function formItem({
                 ? `范围: ${getScopeRange(scopeDetail)}`
                 : props.placeholder || ''
             }
-            allowClear={props.allowClear !== false}
+            allowClear={props.allowClear !== false && !suffix}
             {...restScope}
             suffix={
               suffix && (
