@@ -52,7 +52,7 @@ export default function codeDrawer({
     (async () => {
       let res = R.compose(
         // R.reject(R.propEq('key', 'ignoreIncrese')),
-        R.reject(item => item.key.includes('ignore') || item.ignore),
+        R.reject(item => !item.key || item.key.includes('ignore') || item.ignore),
         R.flatten,
         R.map(item => item.detail)
       )(formConfig.detail);

@@ -77,8 +77,7 @@
             },
             "placeholder": "请输入班次，用拼音缩写快速录入",
             "unReset": true,
-            "span": 6,
-            "block": "需提供班组列表"
+            "span": 6
           },
           {
             "title": "班次",
@@ -228,7 +227,7 @@
               "required": true
             },
             "calc": "(主网良浆分配浆量/短网良浆分配浆量*100).toFixed(2)",
-            "block": "=主网良浆分配浆量/短网良浆分配浆量",
+            "block": "=主网浆量/短网浆量",
             "span": 6,
             "disabled": true,
             "defaultValue": 0
@@ -306,88 +305,6 @@
             "type": "input.textarea",
             "key": "remark",
             "span": 12
-          }
-        ]
-      },
-      {
-        "title": "化验站检测结果",
-        "detail": [
-          {
-            "title": "取样时间",
-            "type": "datepicker",
-            "key": "flow_wire_sample_time",
-            "showTime": true,
-            "datetype": "YYYY-MM-DD HH:mm:ss",
-            "rule": {
-              "required": true
-            },
-            "span": 6
-          },
-          {
-            "title": "上网浓度",
-            "type": "input",
-            "key": "flow_wire_percent",
-            "suffix": "%",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 6
-          },
-          {
-            "title": "上网叩解度",
-            "type": "input",
-            "key": "flow_wire_beating_degree",
-            "suffix": "°SR",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 6
-          },
-          {
-            "title": "上网平均纤维长度",
-            "titlewidth": 260,
-            "type": "input",
-            "key": "flow_wire_avg_fibre_length",
-            "suffix": "mm",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 6
-          },
-          {
-            "title": "上网浆温",
-            "type": "input",
-            "key": "flow_wire_pulp_temprature",
-            "suffix": "℃",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 6
-          },
-          {
-            "title": "上网电位",
-            "type": "input",
-            "key": "flow_wire_voltage",
-            "suffix": "mv",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 6
-          },
-          {
-            "title": "上网PH值",
-            "type": "input",
-            "key": "flow_wire_ph",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 6
           }
         ]
       }
@@ -538,6 +455,7 @@
           },
           {
             "title": "钥匙交班",
+            "titlewidth": 320,
             "key": "key_pay",
             "rule": {
               "required": true
@@ -551,6 +469,7 @@
           },
           {
             "title": "钥匙接班",
+            "titlewidth": 320,
             "key": "key_receive",
 
             "type": "select",
@@ -599,6 +518,16 @@
             "span": 5
           },
           {
+            "title": "库房领线",
+            "type": "input",
+            "key": "safe_line_receive",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 5
+          },
+          {
             "title": "用线",
             "type": "input",
             "key": "safe_line_useage",
@@ -613,16 +542,6 @@
             "placeholder": "结存",
             "type": "input",
             "key": "safe_line_pay",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 5
-          },
-          {
-            "title": "库房领线",
-            "type": "input",
-            "key": "safe_line_receive",
             "rule": {
               "type": "float",
               "required": true
@@ -654,6 +573,15 @@
             "span": 5
           },
           {
+            "title": "库房领线TB",
+            "type": "input",
+            "key": "safe_line_receive_tb",
+            "rule": {
+              "type": "float"
+            },
+            "span": 5
+          },
+          {
             "title": "用线TB",
             "type": "input",
             "key": "safe_line_useage_tb",
@@ -667,15 +595,6 @@
             "placeholder": "结存",
             "type": "input",
             "key": "safe_line_pay_tb",
-            "rule": {
-              "type": "float"
-            },
-            "span": 5
-          },
-          {
-            "title": "库房领线TB",
-            "type": "input",
-            "key": "safe_line_receive_tb",
             "rule": {
               "type": "float"
             },
@@ -782,12 +701,6 @@
             "span": 6
           },
           {
-            "title": "干燥部生产记事",
-            "type": "input.textarea",
-            "key": "remark_dry",
-            "span": 12
-          },
-          {
             "title": "施胶部专责",
             "titlewidth": 260,
             "key": "operator_sizing",
@@ -801,6 +714,15 @@
               "required": true
             },
             "span": 6
+          },
+          {
+            "span": "12"
+          },
+          {
+            "title": "干燥部生产记事",
+            "type": "input.textarea",
+            "key": "remark_dry",
+            "span": 12
           },
           {
             "title": "施胶部生产记事",
@@ -1289,10 +1211,10 @@
         ]
       },
       {
-        "title": "气垫温度(交班)",
+        "title": "气垫温度",
         "detail": [
           {
-            "title": "温度bar1组",
+            "title": "温度1组",
             "titlewidth": 280,
             "type": "input",
             "key": "steam_temp_in_1",
@@ -1300,7 +1222,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 6
+            "span": 8
           },
           {
             "title": "送风风机开度1组",
@@ -1311,18 +1233,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 6
-          },
-          {
-            "title": "送风风机转速1组",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "air_volume_out_1",
-            "suffix": "转/分钟",
-            "rule": {
-              "type": "float"
-            },
-            "span": 6
+            "span": 8
           },
           {
             "title": "排风阀门开度1组",
@@ -1333,11 +1244,11 @@
             "rule": {
               "type": "float"
             },
-            "span": 6
+            "span": 8
           },
 
           {
-            "title": "温度bar2组",
+            "title": "温度2组",
             "titlewidth": 280,
             "type": "input",
             "key": "steam_temp_in_2",
@@ -1345,7 +1256,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 6
+            "span": 8
           },
           {
             "title": "送风风机开度2组",
@@ -1356,18 +1267,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 6
-          },
-          {
-            "title": "送风风机转速2组",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "air_volume_out_2",
-            "suffix": "转/分钟",
-            "rule": {
-              "type": "float"
-            },
-            "span": 6
+            "span": 8
           },
           {
             "title": "排风阀门开度2组",
@@ -1378,10 +1278,10 @@
             "rule": {
               "type": "float"
             },
-            "span": 6
+            "span": 8
           },
           {
-            "title": "温度bar3组",
+            "title": "温度3组",
             "titlewidth": 280,
             "type": "input",
             "key": "steam_temp_in_3",
@@ -1389,7 +1289,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 6
+            "span": 8
           },
           {
             "title": "送风风机开度3组",
@@ -1400,18 +1300,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 6
-          },
-          {
-            "title": "送风风机转速3组",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "air_volume_out_3",
-            "suffix": "转/分钟",
-            "rule": {
-              "type": "float"
-            },
-            "span": 6
+            "span": 8
           },
           {
             "title": "排风阀门开度3组",
@@ -1422,7 +1311,18 @@
             "rule": {
               "type": "float"
             },
-            "span": 6
+            "span": 8
+          },
+          {
+            "title": "送风风机转速3组",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "air_volume_out_3",
+            "suffix": "转/分钟",
+            "rule": {
+              "type": "float"
+            },
+            "span": 8
           },
 
           {
@@ -1434,7 +1334,158 @@
             "rule": {
               "type": "float"
             },
+            "span": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "4-2.干燥施胶部-纸幅参数",
+    "dev": false,
+    "api": {
+      "insert": {
+        "url": "971/7fx7doeq4h",
+        "param": ["rec_time", "uid"]
+      },
+      "update": {
+        "url": "972/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "table": {
+        "url": "973/7fx7doeq4h",
+        "param": ["machine_id"]
+      },
+      "load": {
+        "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      }
+    },
+    "table": "paper_record_prod_part_press_and_curly",
+    "detail": [
+      {
+        "title": "纸幅参数",
+        "detail": [
+          {
+            "title": "记录id",
+            "type": "input.number",
+            "disabled": true,
+            "key": "prod_baseid",
+            "span": 6,
+            "url": "/970/280796efa5.json",
+            "rule": {
+              "required": true,
+              "msg": "交接班基础信息未填写，请切换至选项卡1填写"
+            }
+          },
+          {
+            "title": "轴号",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "reel_code",
+            "rule": {
+              "type": "reel",
+              "required": true
+            },
+            "span": 6,
+            "toupper": "true"
+          },
+
+          {
+            "title": "起卷时间",
+            "titlewidth": 280,
+            "type": "datepicker",
+            "key": "start_time",
+            "showTime": true,
+            "datetype": "YYYY-MM-DD HH:mm",
+            "rule": {
+              "required": true
+            },
             "span": 6
+          },
+          {
+            "title": "下轴时间",
+            "titlewidth": 280,
+            "type": "datepicker",
+            "key": "complete_time",
+            "showTime": true,
+            "datetype": "YYYY-MM-DD HH:mm",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "减时时间",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "delta_minutes",
+            "suffix": "分钟",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6,
+            "allowClear": false
+          },
+          {
+            "title": "抄重",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "reel_weight",
+            "calc": "轴号.substr(2,2)",
+            "block": "减时时间*50",
+            "placeholder": "计算结果",
+            "disabled": true,
+            "defaultValue": 0,
+            "suffix": "Kg",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6,
+            "allowClear": false
+          },
+
+          {
+            "title": "QCS定量",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "qcs_weight",
+            "suffix": "g/m<sup>2</sup>",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6,
+            "allowClear": false
+          },
+          {
+            "title": "QCS水份",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "qcs_water_content",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6,
+            "allowClear": false
+          },
+          {
+            "title": "QCS抄宽",
+            "placeholder": "标准值，无需填写",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "paper_width_qcs",
+            "suffix": "mm",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6,
+            "allowClear": false
           }
         ]
       }
@@ -1523,7 +1574,7 @@
               "type": "float",
               "required": true
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "传动面1",
@@ -1535,7 +1586,7 @@
               "type": "float",
               "required": true
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "压差1",
@@ -1547,7 +1598,19 @@
               "type": "float",
               "required": true
             },
-            "span": 8
+            "span": 6
+          },
+          {
+            "title": "线压1",
+            "placeholder": "第一组压光机压力",
+            "type": "input",
+            "key": "line_pressure1",
+            "suffix": "bar",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
           },
           {
             "title": "操作面2",
@@ -1559,7 +1622,7 @@
               "type": "float",
               "required": true
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "传动面2",
@@ -1571,7 +1634,7 @@
               "type": "float",
               "required": true
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "压差2",
@@ -1583,12 +1646,24 @@
               "type": "float",
               "required": true
             },
-            "span": 8
+            "span": 6
+          },
+          {
+            "title": "线压2",
+            "placeholder": "第二组压光机压力",
+            "type": "input",
+            "key": "line_pressure2",
+            "suffix": "bar",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
           }
         ]
       },
       {
-        "title": "纸幅尺寸及参数",
+        "title": "纸幅参数",
         "detail": [
           {
             "title": "轴号",
@@ -1686,90 +1761,11 @@
             "allowClear": false
           },
           {
-            "title": "A幅横向尺寸",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "size_horizontal_A",
-            "suffix": "mm",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 6,
-            "allowClear": false
-          },
-          {
-            "title": "B幅横向尺寸",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "size_horizontal_B",
-            "suffix": "mm",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 6,
-            "allowClear": false
-          },
-          {
-            "title": "C幅横向尺寸",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "size_horizontal_C",
-            "suffix": "mm",
-            "defaultValue": 0,
-            "rule": {
-              "type": "float"
-            },
-            "span": 6,
-            "allowClear": false
-          },
-          {
-            "title": "纵横向尺寸最大值",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "size_vertical_max",
-            "suffix": "mm",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 6,
-            "allowClear": false
-          },
-          {
-            "title": "纵横向尺寸最小值",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "size_vertical_min",
-            "suffix": "mm",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 6,
-            "allowClear": false
-          },
-          {
-            "title": "最大对角线差",
-            "titlewidth": 280,
-            "type": "input",
-            "key": "max_delta_diagonal",
-            "suffix": "mm",
-            "rule": {
-              "type": "float",
-              "required": true
-            },
-            "span": 6,
-            "allowClear": false
-          },
-
-          {
-            "title": "抄宽",
+            "title": "QCS抄宽",
             "placeholder": "标准值，无需填写",
             "titlewidth": 280,
             "type": "input",
-            "key": "paper_width",
+            "key": "paper_width_qcs",
             "suffix": "mm",
             "rule": {
               "type": "float",
@@ -1779,42 +1775,179 @@
             "allowClear": false
           },
           {
-            "title": "",
-            "type": "check",
-            "defaultOption": ["套框"],
+            "title": "套框检查",
+            "titlewidth": 280,
+            "type": "switch",
+            "checkedChildren": "合格",
+            "unCheckedChildren": "不合格",
             "key": "surface_check_size",
             "rule": {
               "required": true
             },
-            "offset": 2,
-            "span": 2,
-            "defaultValue": ["套框"],
+            "span": 6,
+            "defaultValue": 1,
             "unReset": true
           },
           {
-            "title": "",
-            "type": "check",
+            "title": "荧光",
+            "titlewidth": 280,
+            "type": "switch",
             "key": "surface_check_fluorescent",
-
-            "defaultOption": ["荧光"],
+            "checkedChildren": "正常",
+            "unCheckedChildren": "异常",
             "rule": {
               "required": true
             },
-            "span": 2,
-            "defaultValue": ["荧光"],
+            "span": 6,
+            "defaultValue": 1,
             "unReset": true
           },
           {
-            "title": "",
-            "type": "check",
+            "title": "符样性",
+            "titlewidth": 280,
+            "type": "switch",
             "key": "surface_check_similar",
-            "defaultOption": ["符样性"],
+            "checkedChildren": "正常",
+            "unCheckedChildren": "异常",
             "rule": {
               "required": true
             },
-            "span": 2,
-            "defaultValue": ["符样性"],
+            "span": 6,
+            "defaultValue": 1,
             "unReset": true
+          },
+          {
+            "title": "机台样张",
+            "titlewidth": 280,
+            "type": "switch",
+            "key": "surface_check_sample_paper",
+            "checkedChildren": "正常",
+            "unCheckedChildren": "异常",
+            "rule": {
+              "required": true
+            },
+            "span": 6,
+            "defaultValue": 1,
+            "unReset": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "6.化验站",
+    "dev": false,
+    "api": {
+      "insert": {
+        "url": "971/7fx7doeq4h",
+        "param": ["rec_time", "uid"]
+      },
+      "update": {
+        "url": "972/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "table": {
+        "url": "973/7fx7doeq4h",
+        "param": ["machine_id"]
+      },
+      "load": {
+        "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      }
+    },
+    "table": "paper_record_prod_part_constant",
+    "detail": [
+      {
+        "title": "检测结果",
+        "detail": [
+          {
+            "title": "记录id",
+            "type": "input.number",
+            "disabled": true,
+            "key": "prod_baseid",
+            "span": 6,
+            "url": "/970/280796efa5.json",
+            "rule": {
+              "required": true,
+              "msg": "交接班基础信息未填写，请切换至选项卡1填写"
+            }
+          },
+          {
+            "title": "取样时间",
+            "type": "datepicker",
+            "key": "flow_wire_sample_time",
+            "showTime": true,
+            "datetype": "YYYY-MM-DD HH:mm:ss",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网浓度",
+            "type": "input",
+            "key": "flow_wire_percent",
+            "suffix": "%",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网叩解度",
+            "type": "input",
+            "key": "flow_wire_beating_degree",
+            "suffix": "°SR",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网平均纤维长度",
+            "titlewidth": 260,
+            "type": "input",
+            "key": "flow_wire_avg_fibre_length",
+            "suffix": "mm",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网浆温",
+            "type": "input",
+            "key": "flow_wire_pulp_temprature",
+            "suffix": "℃",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网电位",
+            "type": "input",
+            "key": "flow_wire_voltage",
+            "suffix": "mv",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
+          },
+          {
+            "title": "上网PH值",
+            "type": "input",
+            "key": "flow_wire_ph",
+            "rule": {
+              "type": "float",
+              "required": true
+            },
+            "span": 6
           }
         ]
       }
