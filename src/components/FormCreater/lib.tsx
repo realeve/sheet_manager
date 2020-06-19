@@ -4,7 +4,7 @@ import qs from 'qs';
 import { axios, mockData } from '@/utils/axios';
 import { DEV } from '@/utils/setting';
 import * as mathjs from 'mathjs';
-import { IRule, IFormDb } from './index';
+import { IRule } from './index';
 // 处理数据
 export const handler = {
   toUpper(str) {

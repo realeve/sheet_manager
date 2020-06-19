@@ -28,6 +28,9 @@ import * as lib from '@/utils/lib';
 import User from './user';
 import classnames from 'classnames';
 import { Dispatch } from 'redux';
+
+import * as mathjs from 'mathjs';
+
 moment.locale('zh-cn');
 
 let getUrl = formConfig => {
@@ -38,11 +41,29 @@ let getUrl = formConfig => {
   return url;
 };
 
+const getCalcResult = (calcvalue: 'class_name' | 'hour' | string) => {
+  switch (calcvalue) {
+    case 'class_name':
+      return new Date().getHours() >= 8 && new Date().getHours() < 16
+        ? '白班'
+        : new Date().getHours() >= 16
+        ? '中班'
+        : '';
+    case 'hour':
+      return new Date().getHours();
+    default:
+      return mathjs.evaluate(calcvalue);
+  }
+};
+
 const getDefaultList = cfg => {
-  let defaultList = R.filter(item => item.defaultValue || item.value)(cfg);
+  let defaultList = R.filter(item => item.defaultValue || item.value || item.calcvalue)(cfg);
   let res = {};
-  defaultList.forEach(({ key, defaultValue, value }) => {
+  defaultList.forEach(({ key, defaultValue, value, calcvalue }) => {
     res[key] = value || defaultValue;
+    if (calcvalue) {
+      res[key] = getCalcResult(calcvalue);
+    }
   });
   return res;
 };
@@ -107,6 +128,7 @@ export interface IFieldItem {
   disabled: boolean; // 禁用
   url: string; // 载入指定链接的数据
   calc: string; // 其它字段计算得到当前值，calc为计算规则
+  calcvalue: 'class_name' | 'hour' | string; // 当前字段的计算,不依赖其它值，比如根据时间计算班次；也可配置url，通过接口获取数据值
   block: string; // 字段下方提示文字
   allowClear: boolean; // 允许清除
   defaultValue: any; // 默认值
@@ -636,12 +658,12 @@ function FormCreater({
       />
 
       <div className={classnames(className, styles.form)}>
-        {formConfig.detail.map(({ title: mainTitle, detail: detailArr }, idx) => (
+        {formConfig.detail.map(({ title: mainTitle = '', detail: detailArr }, idx) => (
           <Card
             title={
               <div>
                 {idx === 0 && (
-                  <h3 style={{ marginBottom: 10 }}>
+                  <h3 style={{ marginBottom: 0 }}>
                     {formConfig.name}
 
                     <Icon
@@ -652,14 +674,16 @@ function FormCreater({
                   </h3>
                 )}
 
-                <span>
-                  {mainTitle}
-                  {formConfig.showScore && idx === 0 && (
-                    <p>
-                      <small>总分：{totalScore}</small>
-                    </p>
-                  )}
-                </span>
+                {mainTitle.length > 0 && (
+                  <span style={{ marginTop: 10 }}>
+                    {mainTitle}
+                    {formConfig.showScore && idx === 0 && (
+                      <p>
+                        <small>总分：{totalScore}</small>
+                      </p>
+                    )}
+                  </span>
+                )}
               </div>
             }
             style={{ marginBottom: 20 }}

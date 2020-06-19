@@ -59,7 +59,7 @@ export default () => {
                         size="small"
                         style={{ marginLeft: 20, fontSize: 12 }}
                         onClick={() => {
-                          window.open(`/table#id=1028/a90809cb29&daterange=9`);
+                          window.open(`/table#id=1036/5148b9c40f&daterange=9`);
                         }}
                         title="点击查看详细数据报表"
                       >
