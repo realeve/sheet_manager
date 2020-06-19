@@ -64,14 +64,11 @@ export interface ISelectItem {
   name: string;
   value: string;
   hide?: string[]; // 选中当前选项后需要隐藏哪些字段
-  scope?: [
-    // 指标范围
-    {
-      key: string; // 选中该选项后，对应的当前key字段参数注入
-      min?: string; // 最小值
-      max?: string; //最大值
-    }
-  ];
+  scope?: {
+    key: string; // 选中该选项后，对应的当前key字段参数注入
+    min?: string; // 最小值
+    max?: string; //最大值
+  }[]; // 指标范围
 }
 
 // 组件类型列表

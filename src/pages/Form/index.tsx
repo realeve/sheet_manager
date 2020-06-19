@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import FormCreater from '@/components/FormCreater';
+import FormCreater, { IFormConfig } from '@/components/FormCreater';
 import { Card, Tabs } from 'antd';
 import qs from 'qs';
 import useFetch from '@/components/hooks/useFetch';
 import * as lib from '@/utils/lib';
 import styles from './index.less';
 
-const callback = (res, setNeedRefresh) => {
+const callback = (
+  res: IFormConfig,
+  setNeedRefresh: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   // 集中处理detail字段，对其中scope字段一个key有多个字段的数据打散
   res.detail = res.detail.map(detail => {
     detail.detail = detail.detail.map(item => {
@@ -18,12 +21,12 @@ const callback = (res, setNeedRefresh) => {
         return item;
       }
       item.defaultOption.map(opt => {
-        if (!opt.scope) {
+        if (typeof opt === 'string' || !opt.scope) {
           return opt;
         }
         let scope = [];
         opt.scope.forEach(({ key, ...optItem }) => {
-          if (lib.getType(key) === 'array') {
+          if (Array.isArray(key)) {
             // 将数据打散
             scope = [
               ...scope,
@@ -53,11 +56,11 @@ const callback = (res, setNeedRefresh) => {
 };
 
 // http://localhost:8000/form#id=./form/example2.json
-export default function page(): JSX.Element {
+export default () => {
   let res: { id?: string } = qs.parse(window.location.hash.slice(1));
   const [needRefresh, setNeedRefresh] = useState(false);
   let url: string = res.id || '';
-  const { data } = useFetch({
+  const { data } = useFetch<IFormConfig | IFormConfig[]>({
     param: { url },
     valid: () => url.length > 0,
     callback: res => {
@@ -95,8 +98,8 @@ export default function page(): JSX.Element {
     );
   }
 
-  const FormItem = ({ item, idx = -1 }) =>
-    lib.getType(item) === 'array' ? (
+  const FormItem = ({ item, idx = -1 }: { item: IFormConfig | IFormConfig[]; idx?: number }) =>
+    Array.isArray(item) ? (
       <div className={styles.alignColumn}>
         {item.map((formConfig, id) => (
           <FormCreater
@@ -120,7 +123,7 @@ export default function page(): JSX.Element {
       />
     );
 
-  if (lib.getType(data) === 'array') {
+  if (Array.isArray(data)) {
     return (
       <Tabs defaultActiveKey="0" type="line">
         {data.map((item, idx) => (
@@ -133,4 +136,4 @@ export default function page(): JSX.Element {
   }
 
   return <FormItem item={data} />;
-}
+};
