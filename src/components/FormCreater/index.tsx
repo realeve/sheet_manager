@@ -23,10 +23,11 @@ import 'moment/locale/zh-cn';
 import qs from 'qs';
 import { useLocation } from 'react-use';
 import router from 'umi/router';
-import { ICommon } from '@/models/common';
+import { ICommon, IUserSetting } from '@/models/common';
 import * as lib from '@/utils/lib';
 import User from './user';
-
+import classnames from 'classnames';
+import { Dispatch } from 'redux';
 moment.locale('zh-cn');
 
 let getUrl = formConfig => {
@@ -59,6 +60,130 @@ const handleCalcKey = (item, cfg) => {
   return { result: key, calc, keys };
 };
 
+export interface ISelectItem {
+  name: string;
+  value: string;
+  hide?: string[]; // 选中当前选项后需要隐藏哪些字段
+  scope?: [
+    // 指标范围
+    {
+      key: string; // 选中该选项后，对应的当前key字段参数注入
+      min?: string; // 最小值
+      max?: string; //最大值
+    }
+  ];
+}
+
+// 组件类型列表
+export type FieldType =
+  | 'input.textarea'
+  | 'label'
+  | 'input'
+  | 'input.number'
+  | 'datepicker'
+  | 'datepicker.month'
+  | 'switch'
+  | 'select'
+  | 'radio.button'
+  | 'radio'
+  | 'check'
+  | 'rate';
+
+export interface IRule {
+  type: string; // 校验正则
+  required: boolean; // 必填项
+  msg: string; // 报错后提示文字
+  calc: string; // 当前字段通过计算进行校验
+}
+export interface IFieldItem {
+  title: string; //标题名称，可为空
+  titlewidth: number; // 标题宽度
+  type: FieldType; // 组件类型
+  key: string; // 数据库key
+  placeholder: string; // 输入框中显示的默认文字
+  suffix: string; // 单位
+  rule: Partial<IRule> | string; // 字段校验
+  offset: number; // 偏移量
+  span: number; // 宽度，栅格基准为24
+  unReset: boolean; // 保留上次数据
+  defaultOption: (string | ISelectItem)[]; // Select选项卡使用
+  disabled: boolean; // 禁用
+  url: string; // 载入指定链接的数据
+  calc: string; // 其它字段计算得到当前值，calc为计算规则
+  block: string; // 字段下方提示文字
+  allowClear: boolean; // 允许清除
+  defaultValue: any; // 默认值
+  checkedChildren: string; // switch选项卡参数
+  unCheckedChildren: string; // switch选项卡参数
+  showTime: boolean; // 显示时分秒
+  dateType: string; // 时间格式,type为datepicker的时候生效
+  increase: string; // 字段自增
+  toupper: 'true' | 'false'; //转换为大写
+  maxLength: number; // 字段长度
+  [key: string]: any;
+}
+
+export interface IFormDetail {
+  title?: string;
+  detail: Partial<IFieldItem>[];
+}
+export interface IFormDb {
+  insert: {
+    // 添加
+    url: string;
+    param?: string[];
+  };
+  update?: {
+    // 更新
+    url: string;
+    param?: string[];
+  };
+  table?: {
+    // 查询最近录入的数据
+    url: string;
+    param?: string[];
+  };
+  load?: {
+    // 载入历史数据，载入指定id的信息
+    url: string;
+    param?: string[];
+  };
+  print?: {
+    // 打印当前表单
+    url: string;
+    param?: string[];
+  };
+  query?: {
+    //  数据载入接口(此处将id转为_id，注入查询结果，用于数据更新)
+    url: string;
+    param?: string[];
+  };
+  delete?: {
+    // 删除
+    url: string;
+    param?: string[];
+  };
+}
+export interface IFormConfig {
+  name: string; // 业务名
+  api: IFormDb; // 数据库接口
+  table: string; // 表单名
+  showScore: boolean; // 显示当前得分，仅用于字段有得分范围需要自动计算分数的场景
+  dev: boolean; // 开发模式，设为true后会显示每个字段的key以及对应的数值，用于开发测试
+  detail: IFormDetail[];
+}
+export interface IFormCreater {
+  config: IFormConfig;
+  hidemenu: boolean;
+  dispatch: Dispatch;
+  user: IUserSetting;
+  innerTrigger: string;
+  setInnerTrigger: React.Dispatch<React.SetStateAction<string>>;
+  tabId?: number;
+  showHeader?: boolean;
+  className?: string;
+}
+
 function FormCreater({
   config,
   hidemenu,
@@ -67,12 +192,14 @@ function FormCreater({
   innerTrigger,
   setInnerTrigger,
   tabId = -1,
-  shouldConnect = false,
-  // parentConfig = { hide: [], scope: [] },
-  // setParentConfig,
-}) {
+  showHeader = true,
+  className,
+}: IFormCreater) {
   // 增加对总分的计算，与scope字段一并处理
-  let [state, setState] = useSetState();
+  let [state, setState] = useSetState<{
+    ignoreIncrese?: boolean;
+    [key: string]: any;
+  }>();
   let [totalScore, setTotalScore] = useState(100);
 
   let [editMethod, setEditMethod] = useState('insert');
@@ -135,7 +262,7 @@ function FormCreater({
 
     config.detail.forEach(({ detail }) => {
       detail.forEach(item => {
-        if (item.rule) {
+        if (item.rule && 'string' !== typeof item.rule) {
           if (item.rule.required) {
             requiredFileds.push(item.key);
           }
@@ -511,7 +638,7 @@ function FormCreater({
         setModalVisible={setModalVisible}
       />
 
-      <div className={styles.form}>
+      <div className={classnames(className, styles.form)}>
         {formConfig.detail.map(({ title: mainTitle, detail: detailArr }, idx) => (
           <Card
             title={
@@ -573,19 +700,24 @@ function FormCreater({
                     />
                   )}
 
-                  <div>
-                    <User user={user} />
-                    <Switch
-                      checked={formLayout === 'horizontal'}
-                      title="输入项布局"
-                      checkedChildren="横向布局"
-                      unCheckedChildren="纵向布局"
-                      onClick={val => {
-                        setFormLayout(val ? 'horizontal' : 'vertical');
-                        window.localStorage.setItem('_formLayout', val ? 'horizontal' : 'vertical');
-                      }}
-                    />
-                  </div>
+                  {showHeader && (
+                    <div>
+                      <User user={user} />
+                      <Switch
+                        checked={formLayout === 'horizontal'}
+                        title="输入项布局"
+                        checkedChildren="横向布局"
+                        unCheckedChildren="纵向布局"
+                        onClick={val => {
+                          setFormLayout(val ? 'horizontal' : 'vertical');
+                          window.localStorage.setItem(
+                            '_formLayout',
+                            val ? 'horizontal' : 'vertical'
+                          );
+                        }}
+                      />
+                    </div>
+                  )}
                 </>
               )
             }

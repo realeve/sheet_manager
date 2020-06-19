@@ -4,6 +4,7 @@ import { Card, Tabs } from 'antd';
 import qs from 'qs';
 import useFetch from '@/components/hooks/useFetch';
 import * as lib from '@/utils/lib';
+import styles from './index.less';
 
 const callback = (res, setNeedRefresh) => {
   // 集中处理detail字段，对其中scope字段一个key有多个字段的数据打散
@@ -62,7 +63,13 @@ export default function page(): JSX.Element {
     callback: res => {
       setNeedRefresh(false);
       if (lib.getType(res) == 'array') {
-        return res.map(item => callback(item, setNeedRefresh));
+        return res.map(item => {
+          if (lib.getType(item) == 'array') {
+            return item.map(config => callback(config, setNeedRefresh));
+          } else {
+            return callback(item, setNeedRefresh);
+          }
+        });
       }
       return callback(res, setNeedRefresh);
     },
@@ -88,33 +95,42 @@ export default function page(): JSX.Element {
     );
   }
 
-  // console.log(lib.getType(data), data);
+  const FormItem = ({ item, idx = -1 }) =>
+    lib.getType(item) === 'array' ? (
+      <div className={styles.alignColumn}>
+        {item.map((formConfig, id) => (
+          <FormCreater
+            config={formConfig}
+            innerTrigger={innerTrigger}
+            setInnerTrigger={setInnerTrigger}
+            key={String(id)}
+            tabId={idx}
+            className={styles.item}
+            showHeader={id == 0}
+          />
+        ))}
+      </div>
+    ) : (
+      <FormCreater
+        config={item}
+        innerTrigger={innerTrigger}
+        setInnerTrigger={setInnerTrigger}
+        tabId={idx}
+        showHeader={idx == 0}
+      />
+    );
+
   if (lib.getType(data) === 'array') {
     return (
       <Tabs defaultActiveKey="0" type="line">
         {data.map((item, idx) => (
-          <Tabs.TabPane tab={item.name} key={String(idx)}>
-            <FormCreater
-              config={item}
-              // parentConfig={parentConfig}
-              // setParentConfig={setParentConfig}
-              // shouldConnect
-              innerTrigger={innerTrigger}
-              setInnerTrigger={setInnerTrigger}
-              tabId={idx}
-            />
+          <Tabs.TabPane tab={item?.name || item[0]?.name} key={String(idx)}>
+            <FormItem item={item} idx={idx} />
           </Tabs.TabPane>
         ))}
       </Tabs>
     );
   }
 
-  return (
-    <FormCreater
-      config={data}
-      innerTrigger={innerTrigger}
-      setInnerTrigger={setInnerTrigger}
-      tabId={-1}
-    />
-  );
+  return <FormItem item={data} />;
 }

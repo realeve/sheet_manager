@@ -21,7 +21,7 @@ import * as R from 'ramda';
 
 import { axios } from '@/utils/axios';
 import SimpleList from '@/pages/Search/components/SimpleList';
-
+import { IFieldItem } from './index';
 import styles from './index.less';
 import classNames from 'classnames/bind';
 import moment from 'moment';
@@ -82,8 +82,11 @@ export default function formItem({
   isQueryKey = false,
   formLayout,
   user,
-  innerTrigger = 0,
+  innerTrigger = '0',
   outterTrigger,
+}: {
+  detail: Partial<IFieldItem>;
+  [key: string]: any;
 }) {
   let [append, setAppend] = useState(null);
   const [appendShow, setAppendShow] = useState(false);
@@ -140,7 +143,7 @@ export default function formItem({
           uid: user.id,
         },
       }).then(res => {
-        if (res.rows == 0 && rule.required) {
+        if (res.rows == 0 && typeof rule != 'string' && rule.required) {
           notification.error({
             message: '初始数据载入错误',
             description: rule.msg,
@@ -203,7 +206,7 @@ export default function formItem({
         uid: user.uid,
       },
     }).then(res => {
-      if (res.rows == 0 && rule.required) {
+      if (res.rows == 0 && typeof rule != 'string' && rule.required) {
         notification.error({
           message: '初始数据载入错误',
           description: rule.msg,
@@ -246,13 +249,15 @@ export default function formItem({
       {title?.length > 0 && (
         <span
           className={cx('title', {
-            required: rule?.required,
+            required: typeof rule != 'string' && rule?.required,
           })}
           style={{ width: titlewidth }}
         >
           {isQueryKey && <span title="索引字段:录入所有索引字段后可点击载入历史数据">🔍</span>}
           {increase && <span title="自增字段:录入后，下次信息将按规则自动增加">⬆</span>}
-          {(rule?.calc || calc) && <span title="关联计算:与其它字段一起计算关联规则">🔗</span>}
+          {((typeof rule != 'string' && rule?.calc) || calc) && (
+            <span title="关联计算:与其它字段一起计算关联规则">🔗</span>
+          )}
           {unReset && <span title="固定字段:录入后字段值保持，不清空">📌</span>}
           {title}
         </span>

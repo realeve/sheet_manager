@@ -4,7 +4,7 @@ import qs from 'qs';
 import { axios, mockData } from '@/utils/axios';
 import { DEV } from '@/utils/setting';
 import * as mathjs from 'mathjs';
-
+import { IRule, IFormDb } from './index';
 // 处理数据
 export const handler = {
   toUpper(str) {
@@ -81,13 +81,7 @@ export const getPostData = ({ config, params, editMethod, uid }) => {
 };
 
 // 数据有效性校验
-interface IRule {
-  type: string;
-  msg?: string;
-  calc?: string;
-  requires?: boolean;
-}
-export const onValidate = (value, rule: IRule | string) => {
+export const onValidate = (value, rule: Partial<IRule> | string) => {
   if (R.isNil(rule)) {
     return true;
   }
@@ -295,7 +289,12 @@ export const getApi = (config, nonce) => {
 
   let keyStrs = res.map(item => item.key);
 
-  let param = {
+  let param: {
+    insert: string[];
+    delete?: string[];
+    update?: string[];
+    query?: string[];
+  } = {
     insert: config.api.insert.param || [],
   };
 
