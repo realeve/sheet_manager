@@ -1511,22 +1511,22 @@
     "dev": true,
     "api": {
       "insert": {
-        "url": "971/7fx7doeq4h",
+        "url": "850/envxbk97iq",
         "param": ["rec_time", "uid"]
       },
+      "delete": {
+        "url": "851/envxbk97iq",
+        "param": ["_id"]
+      },
       "update": {
-        "url": "972/7fx7doeq4h",
+        "url": "852/envxbk97iq",
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h"
+        "url": "853/envxbk97iq"
       },
       "load": {
-        "url": "974/7fx7doeq4h",
-        "param": ["_id"]
-      },
-      "delete": {
-        "url": "",
+        "url": "854/envxbk97iq",
         "param": ["_id"]
       }
     },
@@ -1760,13 +1760,11 @@
             "defaultValue": 0,
             "suffix": "Kg",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 6,
             "allowClear": false
           },
-
           {
             "title": "QCS定量",
             "titlewidth": 280,
@@ -1872,22 +1870,22 @@
     "dev": true,
     "api": {
       "insert": {
-        "url": "971/7fx7doeq4h",
+        "url": "855/42nkbiks3",
         "param": ["rec_time", "uid"]
       },
+      "delete": {
+        "url": "856/42nkbiks3",
+        "param": ["_id"]
+      },
       "update": {
-        "url": "972/7fx7doeq4h",
+        "url": "857/42nkbiks3",
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h"
+        "url": "858/42nkbiks3"
       },
       "load": {
-        "url": "974/7fx7doeq4h",
-        "param": ["_id"]
-      },
-      "delete": {
-        "url": "",
+        "url": "859/42nkbiks3",
         "param": ["_id"]
       }
     },

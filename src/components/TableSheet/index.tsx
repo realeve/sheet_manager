@@ -71,7 +71,7 @@ const getConfig = (data, afterFilter, sheetHeight) => {
       };
     }
 
-    if (lib.isCartOrReel(item) || lib.isPlate(item)) {
+    if (lib.isCartOrReel(item) || (lib.isPlate(item) && !lib.isDate(item))) {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
         TD.innerHTML = value
           ? `<a href="${setting.searchUrl}${value}" target="_blank" style="text-decoration:none">${value}</a>`

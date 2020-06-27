@@ -50,7 +50,7 @@ export function handleColumns(
     return [];
   }
   let showURL: boolean = typeof data !== 'undefined';
- 
+
   let column = header.map((title, i) => {
     let key = 'col' + i;
     let item: {
