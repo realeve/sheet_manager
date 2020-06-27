@@ -62,24 +62,6 @@ function DatePick({
     onChange(dateString);
   };
 
-  // const [dateType, setDateType] = useState(_dateType);
-  // const handlePanelChange = (value, mode) => {
-  //   console.log(value);
-  //   console.log(mode);
-  //   let curMode = [
-  //     mode[0] === 'date' ? _dateType[0] : mode[0],
-  //     mode[1] === 'date' ? _dateType[0] : mode[1],
-  //   ];
-  //   if (R.isNil(mode[0])) {
-  //     curMode[0] = _dateType[0];
-  //   }
-  //   if (R.isNil(mode[1])) {
-  //     curMode[1] = _dateType[1];
-  //   }
-  //   setDateType(curMode);
-  //   setDates(value);
-  // };
-
   return (
     <div {...props}>
       <label style={{ paddingRight: 10 }}>{formatMessage({ id: 'app.timerange' })}:</label>
