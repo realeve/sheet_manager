@@ -10,6 +10,7 @@ import {
   notification,
   Button,
   Modal,
+  Tooltip,
 } from 'antd';
 import PinyinSelector from './PinyinSelector';
 import RadioSelector from './RadioSelector';
@@ -77,6 +78,7 @@ export default function formItem({
     callback,
     hidetitle = false,
     init,
+    tooltip,
     ...props
   },
   scope = [],
@@ -261,6 +263,11 @@ export default function formItem({
           })}
           style={{ width: showTitle ? titlewidth : 'auto' }}
         >
+          {tooltip && (
+            <Tooltip title={tooltip}>
+              <span>💡</span>
+            </Tooltip>
+          )}
           {isQueryKey && <span title="索引字段:录入所有索引字段后可点击载入历史数据">🔍</span>}
           {increase && <span title="自增字段:录入后，下次信息将按规则自动增加">⬆</span>}
           {((typeof rule != 'string' && rule?.calc) || calc) && (

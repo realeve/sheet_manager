@@ -134,6 +134,7 @@ export interface IRule {
 }
 export interface IFieldItem {
   title: string; //标题名称，可为空
+  tooltip?: string; // 标题移上去显示提示文字
   hidetitle: boolean; // 是否隐藏标题，用于input中，隐藏后placeholder将置为标题
   titlewidth: number; // 标题宽度
   init?: boolean; // 是否需要在初始化的时候加载

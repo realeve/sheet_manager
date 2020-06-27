@@ -386,9 +386,9 @@
             "url": "828/70ffa281c9",
             "rule": {
               "required": true,
-              "msg": "交接班基础信息未填写，请切换至选项卡1填写",
-              "remark": "SELECT top 1 a.id prod_baseid,a.[录入时间],a.[品种],a.[机台],a.[班别],a.[班次] FROM dbo.view_paper_record_prod_base AS a WHERE a.ip =?  ORDER BY a.id DESC"
-            }
+              "msg": "交接班基础信息未填写，请切换至选项卡1填写"
+            },
+            "tooltip": "SELECT top 1 a.id prod_baseid,isnull(b.speed,0) speed,a.[录入时间],a.[品种],a.[机台],a.[班别],a.[班次] FROM dbo.view_paper_record_prod_base AS a left join tbl_paper_record_prod_part_constant b on a.id=b.prod_baseid WHERE a.ip =? ORDER BY a.id DESC"
           },
           {
             "title": "纸机车速",
@@ -572,23 +572,22 @@
     "dev": true,
     "api": {
       "insert": {
-        "url": "971/7fx7doeq4h",
+        "url": "835/e5jug0l40c",
         "param": ["rec_time", "uid"]
       },
+      "delete": {
+        "url": "836/e5jug0l40c",
+        "param": ["_id"]
+      },
       "update": {
-        "url": "972/7fx7doeq4h",
+        "url": "837/e5jug0l40c",
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h",
-        "param": ["machine_name"]
+        "url": "838/e5jug0l40c"
       },
       "load": {
-        "url": "974/7fx7doeq4h",
-        "param": ["_id"]
-      },
-      "delete": {
-        "url": "",
+        "url": "839/e5jug0l40c",
         "param": ["_id"]
       }
     },
@@ -602,11 +601,12 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "828/70ffa281c9",
+            "url": "834/4d45f40cd4",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"
-            }
+            },
+            "tooltip": "SELECT top 1 a.id prod_baseid,isnull(b.safe_line_pay_ta,0) safe_line_remain_ta,isnull(b.safe_line_pay_tb,0) safe_line_remain_tb,a.[录入时间],a.[品种],a.[机台],a.[班别],a.[班次] FROM dbo.view_paper_record_prod_base AS a left join tbl_paper_record_prod_part_wet b on a.id=b.prod_baseid WHERE a.ip ='0.0.0.0' ORDER BY a.id DESC"
           },
           {
             "title": "真空伏辊真空度",
@@ -769,9 +769,9 @@
         "title": "安全线交接(TA)",
         "detail": [
           {
-            "title": "接上班线",
+            "title": "接上班线TA",
             "type": "input",
-            "key": "safe_line_remain",
+            "key": "safe_line_remain_ta",
             "rule": {
               "type": "float",
               "required": true
@@ -779,9 +779,9 @@
             "span": 5
           },
           {
-            "title": "库房领线",
+            "title": "库房领线TA",
             "type": "input",
-            "key": "safe_line_receive",
+            "key": "safe_line_receive_ta",
             "rule": {
               "type": "float",
               "required": true
@@ -789,9 +789,9 @@
             "span": 5
           },
           {
-            "title": "用线",
+            "title": "用线TA",
             "type": "input",
-            "key": "safe_line_useage",
+            "key": "safe_line_useage_ta",
             "rule": {
               "type": "float",
               "required": true
@@ -799,10 +799,10 @@
             "span": 4
           },
           {
-            "title": "交下班线",
+            "title": "交下班线TA",
             "placeholder": "结存",
             "type": "input",
-            "key": "safe_line_pay",
+            "key": "safe_line_pay_ta",
             "rule": {
               "type": "float",
               "required": true
@@ -812,7 +812,7 @@
           {
             "title": "库房退线",
             "type": "input",
-            "key": "safe_line_reback",
+            "key": "safe_line_reback_ta",
             "rule": {
               "type": "float",
               "required": true
@@ -887,8 +887,7 @@
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h",
-        "param": ["machine_name"]
+        "url": "973/7fx7doeq4h"
       },
       "load": {
         "url": "974/7fx7doeq4h",
@@ -1384,8 +1383,7 @@
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h",
-        "param": ["machine_name"]
+        "url": "973/7fx7doeq4h"
       },
       "load": {
         "url": "974/7fx7doeq4h",
@@ -1520,8 +1518,7 @@
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h",
-        "param": ["machine_name"]
+        "url": "973/7fx7doeq4h"
       },
       "load": {
         "url": "974/7fx7doeq4h",
@@ -1685,8 +1682,7 @@
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h",
-        "param": ["machine_name"]
+        "url": "973/7fx7doeq4h"
       },
       "load": {
         "url": "974/7fx7doeq4h",
@@ -1883,8 +1879,7 @@
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h",
-        "param": ["machine_name"]
+        "url": "973/7fx7doeq4h"
       },
       "load": {
         "url": "974/7fx7doeq4h",
