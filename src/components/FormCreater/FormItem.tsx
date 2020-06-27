@@ -59,6 +59,7 @@ export default function formItem({
   keyName: key,
   cascade,
   dev,
+  ip,
   detail: {
     title,
     type,
@@ -143,6 +144,7 @@ export default function formItem({
         params: {
           [key]: value,
           uid: user.id,
+          ip,
         },
       }).then(res => {
         if (res.rows == 0 && typeof rule != 'string' && rule.required) {
@@ -206,6 +208,7 @@ export default function formItem({
       url: props.url,
       params: {
         uid: user.uid,
+        ip,
       },
     }).then(res => {
       if (res.rows == 0 && typeof rule != 'string' && rule.required) {
@@ -217,11 +220,12 @@ export default function formItem({
         return;
       }
       setAppend(res);
-      console.log('trigger 5');
+      // console.log('trigger 5');
       setState(res.data[0]);
     });
   }, [innerTrigger]);
 
+  let showTitle = title?.length > 0 && !hidetitle;
   return (
     <Col
       span={span}
@@ -249,12 +253,13 @@ export default function formItem({
         </Modal>
       )}
 
-      {title?.length > 0 && !hidetitle && (
+      {
         <span
           className={cx('title', {
             required: typeof rule != 'string' && rule?.required,
+            [styles.showTitle]: showTitle,
           })}
-          style={{ width: titlewidth }}
+          style={{ width: showTitle ? titlewidth : 'auto' }}
         >
           {isQueryKey && <span title="索引字段:录入所有索引字段后可点击载入历史数据">🔍</span>}
           {increase && <span title="自增字段:录入后，下次信息将按规则自动增加">⬆</span>}
@@ -262,9 +267,9 @@ export default function formItem({
             <span title="关联计算:与其它字段一起计算关联规则">🔗</span>
           )}
           {unReset && <span title="固定字段:录入后字段值保持，不清空">📌</span>}
-          {title}
+          {showTitle ? title : ''}
         </span>
-      )}
+      }
       <div
         className={cx(
           { 'has-error': invalidCalc || false === validateState || false === validateScope },

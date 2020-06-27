@@ -221,15 +221,18 @@ export const getCreate = config => {
     let key = item.key;
     if (item.type.includes('date')) {
       return `  [${key}] datetime  DEFAULT (getdate()) NULL`;
-    } else if (['input.number', 'switch'].includes(item.type)) {
+    } else if (['input.number', 'switch', 'input'].includes(item.type)) {
       // 字段类型
       let filedType = 'int';
       if (item?.rule?.type === 'float') {
         filedType = 'float(53)';
+      } else if (item.type === 'input' && !item?.rule.type) {
+        return `  [${key}] nchar(40) DEFAULT ''`;
       }
+
       return `  [${key}] ${filedType} DEFAULT ((0)) NULL`;
     }
-    return `  [${key}] nchar(40) DEFAULT ''`;
+    return `  [${key}] nchar(${item?.key?.includes('remark') ? 255 : 40}) DEFAULT ''`;
   });
 
   let param = config.api.insert.param || [];
@@ -405,9 +408,9 @@ VALUES
       -- 初始化时根据ip载入初始化数据
       INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr,param,remark )
       VALUES
-        ( '${nonce}','2','1','${config.name} 根据IP载入初始化数据','SELECT ${keyInit.join(
+        ( '${nonce}','2','1','${config.name} 根据IP载入初始化数据','SELECT top 1 id,${keyInit.join(
       ','
-    )}  FROM tbl_${config.table} where ip = ?','ip','' );`;
+    )}  FROM tbl_${config.table} where ip = ? order by id desc','ip','' );`;
   }
 
   return [add, del, edit, query, review, load, init].join('\r\n');

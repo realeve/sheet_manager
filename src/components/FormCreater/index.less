@@ -1,6 +1,16 @@
 // @import '../../styles/theme.less';
 
 .form {
+  .required {
+    &::before {
+      display: inline-block;
+      margin-right: 4px;
+      color: #f5222d;
+      font-size: 14px;
+      line-height: 1;
+      content: '*';
+    }
+  }
   &-item {
     // height: 38px;
     // margin: 0px 0 10px 0;
@@ -8,16 +18,6 @@
     margin-bottom: 10px;
     display: flex;
     align-items: flex-start;
-    .required {
-      &::before {
-        display: inline-block;
-        margin-right: 4px;
-        color: #f5222d;
-        font-size: 14px;
-        line-height: 1;
-        content: '*';
-      }
-    }
 
     .title {
       text-align: right;
@@ -25,7 +25,8 @@
       position: relative;
       width: 120px;
       line-height: 32px;
-
+    }
+    .showTitle {
       &::after {
         content: ':';
         position: absolute;

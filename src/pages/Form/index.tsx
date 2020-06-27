@@ -58,11 +58,16 @@ const callback = (
 };
 
 // http://localhost:8000/form#id=./form/example2.json
+
+// http://localhost:8000/form#id=./data/paper/prodlog.json&hidemenu=1&tabid=1
+
 const Index = ({ location }) => {
   const [url, setUrl] = useState(null);
+  const [tabid, setTabid] = useState('0');
   useEffect(() => {
-    let res: { id?: string } = qs.parse(window.location.hash.slice(1));
+    let res: { id?: string; tabid?: string } = qs.parse(window.location.hash.slice(1));
     setUrl(res.id || '');
+    setTabid(res.tabid || '0');
   }, [location.hash]);
 
   const [needRefresh, setNeedRefresh] = useState(false);
@@ -133,7 +138,7 @@ const Index = ({ location }) => {
 
   if (Array.isArray(data)) {
     return (
-      <Tabs defaultActiveKey="0" type="line">
+      <Tabs defaultActiveKey={tabid} type="line">
         {R.clone(data).map((item, idx) => (
           <Tabs.TabPane tab={item?.name || item[0]?.name} key={String(idx)}>
             <FormItem item={item} idx={idx} />

@@ -355,7 +355,7 @@
     "api": {
       "insert": {
         "url": "971/7fx7doeq4h",
-        "param": ["rec_time", "uid"]
+        "param": ["rec_time", "uid", "ip"]
       },
       "update": {
         "url": "972/7fx7doeq4h",
@@ -380,7 +380,7 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "/970/280796efa5.json",
+            "url": "828/70ffa281c9",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"
@@ -425,7 +425,7 @@
             "title": "CMC加入量",
             "titlewidth": 240,
             "type": "input",
-            "key": "CMC_volume",
+            "key": "cmc_volume",
             "suffix": "L/H",
             "rule": {
               "type": "float",
@@ -476,8 +476,7 @@
             "key": "main_short_pulp_percent",
             "suffix": "%",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "calc": "(主网良浆分配浆量/短网良浆分配浆量*100).toFixed(2)",
             "block": "=主网浆量/短网浆量",
@@ -594,7 +593,7 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "/970/280796efa5.json",
+            "url": "828/70ffa281c9",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"
@@ -897,7 +896,7 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "/970/280796efa5.json",
+            "url": "828/70ffa281c9",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"
@@ -1390,7 +1389,7 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "/970/280796efa5.json",
+            "url": "828/70ffa281c9",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"
@@ -1522,7 +1521,7 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "/970/280796efa5.json",
+            "url": "828/70ffa281c9",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"
@@ -1877,7 +1876,7 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "/970/280796efa5.json",
+            "url": "828/70ffa281c9",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"

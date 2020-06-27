@@ -271,8 +271,7 @@ function FormCreater({
   const init = async () => {
     let res = await getDefaultList(cfg, ip, R.clone(config.api.init));
     setState(res);
-    // setFields(res);
-    setCalcKey([]);
+    setFields(res);
   };
 
   const [qualifyKey, setQualifyKey] = useState(null);
@@ -292,6 +291,7 @@ function FormCreater({
     init();
     // console.log('config变更了');
 
+    setCalcKey([]);
     setFormConfig(R.clone(config));
     let requiredFileds = [];
     let nextFields = {};
@@ -367,8 +367,6 @@ function FormCreater({
     reFetch();
     refreshScope();
   }, [JSON.stringify(config)]);
-
-  // console.log(calcKey);
 
   // 表单字段当前状态判断
   const [formstatus, setFormstatus] = useState(false);
@@ -788,6 +786,7 @@ function FormCreater({
                       formLayout={formLayout}
                       dev={formConfig.dev}
                       innerTrigger={innerTrigger}
+                      ip={ip}
                       setState={res => {
                         if (lib.getType(res) === 'object') {
                           setState(res);
