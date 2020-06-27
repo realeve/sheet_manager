@@ -120,9 +120,7 @@ const getConfig = (data, afterFilter, sheetHeight) => {
     columns,
     data: data.data,
     licenseKey: 'non-commercial-and-evaluation',
-    columnSorting: {
-      indicator: true,
-    },
+
     autoColumnSize: {
       samplingRatio: 23,
     },
@@ -137,6 +135,12 @@ const getConfig = (data, afterFilter, sheetHeight) => {
     multiColumnSorting: {
       indicator: true,
     },
+
+    // Plugins `columnSorting` and `multiColumnSorting` should not be enabled simultaneously.
+    // columnSorting: {
+    //   indicator: true,
+    // },
+
     language: 'zh-CN',
     manualColumnFreeze: true,
     // fragmentSelection: 'cell',

@@ -876,25 +876,26 @@
   },
   {
     "name": "4.干燥施胶部交班",
+    "subtitle": "Data too long for column 'param' at row 1",
     "dev": true,
     "api": {
       "insert": {
-        "url": "971/7fx7doeq4h",
+        "url": "840/elgtcs6jjc",
         "param": ["rec_time", "uid"]
       },
+      "delete": {
+        "url": "841/elgtcs6jjc",
+        "param": ["_id"]
+      },
       "update": {
-        "url": "972/7fx7doeq4h",
+        "url": "842/elgtcs6jjc",
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h"
+        "url": "843/elgtcs6jjc"
       },
       "load": {
-        "url": "974/7fx7doeq4h",
-        "param": ["_id"]
-      },
-      "delete": {
-        "url": "",
+        "url": "844/elgtcs6jjc",
         "param": ["_id"]
       }
     },
@@ -1375,22 +1376,22 @@
     "dev": true,
     "api": {
       "insert": {
-        "url": "971/7fx7doeq4h",
+        "url": "845/f61g8ldap",
         "param": ["rec_time", "uid"]
       },
+      "delete": {
+        "url": "846/f61g8ldap",
+        "param": ["_id"]
+      },
       "update": {
-        "url": "972/7fx7doeq4h",
+        "url": "847/f61g8ldap",
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h"
+        "url": "848/f61g8ldap"
       },
       "load": {
-        "url": "974/7fx7doeq4h",
-        "param": ["_id"]
-      },
-      "delete": {
-        "url": "",
+        "url": "849/f61g8ldap",
         "param": ["_id"]
       }
     },
@@ -1571,7 +1572,7 @@
         "detail": [
           {
             "title": "操作面1",
-            "placeholder": "第一组压光机压力",
+
             "type": "input",
             "key": "pressure_side_operator1",
             "suffix": "bar",
@@ -1583,7 +1584,7 @@
           },
           {
             "title": "传动面1",
-            "placeholder": "第一组压光机压力",
+
             "type": "input",
             "key": "pressure_side_power1",
             "suffix": "bar",
@@ -1595,7 +1596,7 @@
           },
           {
             "title": "压差1",
-            "placeholder": "第一组压光机压力",
+
             "type": "input",
             "key": "pressure_delta1",
             "suffix": "bar",
@@ -1607,7 +1608,7 @@
           },
           {
             "title": "线压1",
-            "placeholder": "第一组压光机压力",
+
             "type": "input",
             "key": "line_pressure1",
             "suffix": "N/mm",
@@ -1619,7 +1620,7 @@
           },
           {
             "title": "操作面2",
-            "placeholder": "第二组压光机压力",
+
             "type": "input",
             "key": "pressure_side_operator2",
             "suffix": "bar",
@@ -1631,7 +1632,7 @@
           },
           {
             "title": "传动面2",
-            "placeholder": "第二组压光机压力",
+
             "type": "input",
             "key": "pressure_side_power2",
             "suffix": "bar",
@@ -1643,7 +1644,7 @@
           },
           {
             "title": "压差2",
-            "placeholder": "第二组压光机压力",
+
             "type": "input",
             "key": "pressure_delta2",
             "suffix": "bar",
@@ -1655,7 +1656,7 @@
           },
           {
             "title": "线压2",
-            "placeholder": "第二组压光机压力",
+
             "type": "input",
             "key": "line_pressure2",
             "suffix": "N/mm",

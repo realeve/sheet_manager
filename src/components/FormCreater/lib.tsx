@@ -227,8 +227,19 @@ export const getCreate = config => {
       let filedType = 'int';
       if (item?.rule?.type === 'float') {
         filedType = 'float(53)';
-      } else if (item.type === 'input' && !item?.rule.type) {
-        return `  [${key}] nchar(40) DEFAULT ''`;
+      } else if (
+        item.type === 'input' &&
+        (!item?.rule.type || ['reel', 'cart', 'gz'].includes(item?.rule?.type))
+      ) {
+        return `  [${key}] nchar(${
+          item?.rule?.type == 'reel'
+            ? 12
+            : item?.rule?.type == 'cart'
+            ? 10
+            : item?.rule?.type == 'gz'
+            ? 10
+            : 40
+        }) DEFAULT ''`;
       }
 
       return `  [${key}] ${filedType} DEFAULT ((0)) NULL`;

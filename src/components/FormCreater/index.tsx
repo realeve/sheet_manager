@@ -127,7 +127,7 @@ export type FieldType =
   | 'rate';
 
 export interface IRule {
-  type: string; // 校验正则
+  type: 'reel' | 'cart' | 'gz' | 'int' | 'float' | 'number' | string; // 校验正则 可选有正则字符串或  "reel"|"cart"|'gz'|'int'|'float'|'number'
   required: boolean; // 必填项
   msg: string; // 报错后提示文字
   calc: string; // 当前字段通过计算进行校验
@@ -774,11 +774,11 @@ function FormCreater({
           >
             <Row gutter={15}>
               {detailArr.map(
-                ({ key, cascade, ...detail }) =>
+                ({ key, cascade, ...detail }, idx) =>
                   !hideKeys.includes(key) &&
                   !detail.hide && (
                     <FormItem
-                      key={key}
+                      key={key + idx}
                       keyName={key}
                       state={state[key]}
                       cascade={[cascade, state[cascade]]}
