@@ -192,11 +192,12 @@ export const handleOptions = (data, textVal: boolean) =>
  *   @desc:     { api接口最大id }
  */
 export const getSysApi = () =>
-  DEV
-    ? mockData({ data: [{ maxid: 12 }] })
-    : axios({
-        url: '/6/2b9eaaabc3.json',
-      });
+  // DEV
+  //   ? mockData({ data: [{ maxid: 12 }] })
+  //   :
+  axios({
+    url: '/6/2b9eaaabc3.json',
+  });
 
 /**
 // 更新触发器 
@@ -429,6 +430,7 @@ export const getApiConfig = async (formConfig, nonce) => {
   let res = {};
 
   let { maxid } = await getSysApi().then(res => res.data[0]);
+
   maxid = parseInt(maxid);
   keys.forEach((key, idx) => {
     res[key] = {

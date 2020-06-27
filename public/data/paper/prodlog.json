@@ -351,22 +351,25 @@
   },
   {
     "name": "2.恒定部",
-    "dev": false,
+    "dev": true,
     "api": {
       "insert": {
-        "url": "971/7fx7doeq4h",
+        "url": "829/y3e76pvqu",
         "param": ["rec_time", "uid", "ip"]
       },
+      "delete": {
+        "url": "830/y3e76pvqu",
+        "param": ["_id"]
+      },
       "update": {
-        "url": "972/7fx7doeq4h",
+        "url": "831/y3e76pvqu",
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h",
-        "param": ["machine_name"]
+        "url": "832/y3e76pvqu"
       },
       "load": {
-        "url": "974/7fx7doeq4h",
+        "url": "833/y3e76pvqu",
         "param": ["_id"]
       }
     },
@@ -383,7 +386,8 @@
             "url": "828/70ffa281c9",
             "rule": {
               "required": true,
-              "msg": "交接班基础信息未填写，请切换至选项卡1填写"
+              "msg": "交接班基础信息未填写，请切换至选项卡1填写",
+              "remark": "SELECT top 1 a.id prod_baseid,a.[录入时间],a.[品种],a.[机台],a.[班别],a.[班次] FROM dbo.view_paper_record_prod_base AS a WHERE a.ip =?  ORDER BY a.id DESC"
             }
           },
           {
@@ -395,7 +399,8 @@
               "type": "int",
               "required": true
             },
-            "span": 6
+            "span": 6,
+            "unReset": true
           },
           {
             "title": "恒定部有效作业时间",
@@ -564,7 +569,7 @@
   },
   {
     "name": "3.湿部",
-    "dev": false,
+    "dev": true,
     "api": {
       "insert": {
         "url": "971/7fx7doeq4h",
@@ -580,6 +585,10 @@
       },
       "load": {
         "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "delete": {
+        "url": "",
         "param": ["_id"]
       }
     },
@@ -867,7 +876,7 @@
   },
   {
     "name": "4.干燥施胶部交班",
-    "dev": false,
+    "dev": true,
     "api": {
       "insert": {
         "url": "971/7fx7doeq4h",
@@ -883,6 +892,10 @@
       },
       "load": {
         "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "delete": {
+        "url": "",
         "param": ["_id"]
       }
     },
@@ -1360,7 +1373,7 @@
   },
   {
     "name": "4.2干燥施胶部-纸幅尺寸",
-    "dev": false,
+    "dev": true,
     "api": {
       "insert": {
         "url": "971/7fx7doeq4h",
@@ -1376,6 +1389,10 @@
       },
       "load": {
         "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "delete": {
+        "url": "",
         "param": ["_id"]
       }
     },
@@ -1492,7 +1509,7 @@
   },
   {
     "name": "5.压光卷取部",
-    "dev": false,
+    "dev": true,
     "api": {
       "insert": {
         "url": "971/7fx7doeq4h",
@@ -1508,6 +1525,10 @@
       },
       "load": {
         "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "delete": {
+        "url": "",
         "param": ["_id"]
       }
     },
@@ -1653,7 +1674,7 @@
   },
   {
     "name": "5.2压光卷曲部-纸幅参数",
-    "dev": false,
+    "dev": true,
     "api": {
       "insert": {
         "url": "971/7fx7doeq4h",
@@ -1669,6 +1690,10 @@
       },
       "load": {
         "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "delete": {
+        "url": "",
         "param": ["_id"]
       }
     },
@@ -1847,7 +1872,7 @@
   },
   {
     "name": "6.化验站",
-    "dev": false,
+    "dev": true,
     "api": {
       "insert": {
         "url": "971/7fx7doeq4h",
@@ -1863,6 +1888,10 @@
       },
       "load": {
         "url": "974/7fx7doeq4h",
+        "param": ["_id"]
+      },
+      "delete": {
+        "url": "",
         "param": ["_id"]
       }
     },
