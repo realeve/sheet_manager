@@ -5,6 +5,8 @@ import qs from 'qs';
 import useFetch from '@/components/hooks/useFetch';
 import * as lib from '@/utils/lib';
 import styles from './index.less';
+import * as R from 'ramda';
+import { connect } from 'dva';
 
 const callback = (
   res: IFormConfig,
@@ -56,10 +58,15 @@ const callback = (
 };
 
 // http://localhost:8000/form#id=./form/example2.json
-export default () => {
-  let res: { id?: string } = qs.parse(window.location.hash.slice(1));
+const Index = ({ location }) => {
+  const [url, setUrl] = useState(null);
+  useEffect(() => {
+    let res: { id?: string } = qs.parse(window.location.hash.slice(1));
+    setUrl(res.id || '');
+  }, [location.hash]);
+
   const [needRefresh, setNeedRefresh] = useState(false);
-  let url: string = res.id || '';
+
   const { data } = useFetch<IFormConfig | IFormConfig[]>({
     param: { url },
     valid: () => url.length > 0,
@@ -78,6 +85,7 @@ export default () => {
     },
   });
 
+  // innerTrigger变更时，会触发所有表单的重渲染，包括 Tab中的内容
   const [innerTrigger, setInnerTrigger] = useState(lib.timestamp());
   useEffect(() => {
     if (!needRefresh) {
@@ -126,7 +134,7 @@ export default () => {
   if (Array.isArray(data)) {
     return (
       <Tabs defaultActiveKey="0" type="line">
-        {data.map((item, idx) => (
+        {R.clone(data).map((item, idx) => (
           <Tabs.TabPane tab={item?.name || item[0]?.name} key={String(idx)}>
             <FormItem item={item} idx={idx} />
           </Tabs.TabPane>
@@ -135,5 +143,7 @@ export default () => {
     );
   }
 
-  return <FormItem item={data} />;
+  return <FormItem item={R.clone(data)} />;
 };
+
+export default connect()(Index);

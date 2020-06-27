@@ -3,23 +3,27 @@
     "name": "1.干燥施胶部接班",
     "api": {
       "insert": {
-        "url": "965/du2j6x6oqf",
-        "param": ["rec_time", "uid"]
+        "url": "822/m4l7q83qai",
+        "param": ["rec_time", "uid", "ip"]
+      },
+      "delete": {
+        "url": "823/m4l7q83qai",
+        "param": ["_id"]
       },
       "update": {
-        "url": "966/du2j6x6oqf",
+        "url": "824/m4l7q83qai",
         "param": ["_id"]
       },
       "table": {
-        "url": "968/du2j6x6oqf",
+        "url": "825/m4l7q83qai",
         "param": ["machine_name"]
       },
       "load": {
-        "url": "969/du2j6x6oqf",
+        "url": "826/m4l7q83qai",
         "param": ["_id"]
       },
-      "print": {
-        "url": "/form/print#id=981/9c1be28459&id=984/5625c69ca4&id=983/fd99ca7638&id=982/fdc20db98b&daterange=14&tabletype=list&tabletype=list&tabletype=table&span=6&span=12"
+      "init": {
+        "url": "827/tsje09h8fw"
       }
     },
     "table": "paper_record_prod_base",
@@ -30,10 +34,11 @@
             "title": "品种",
             "type": "select",
             "unReset": true,
+            "init": true,
             "defaultOption": [
               "103-G-2T",
               "103-G-2A",
-              "103-G-3TZ",
+              "103-G-3T",
               "103-G-4T",
               "103-G-6T",
               "103-G-7T",
@@ -55,6 +60,7 @@
               "msg": "请输入机台"
             },
             "unReset": true,
+            "init": true,
             "span": 6
           },
           {
@@ -101,174 +107,175 @@
         "detail": [
           {
             "title": "烘缸1",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_1",
             "placeholder": "接班记录，烘缸温度1",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸2",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_2",
             "placeholder": "接班记录，烘缸温度2",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸3",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_3",
             "placeholder": "接班记录，烘缸温度3",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸4",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_4",
             "placeholder": "接班记录，烘缸温度4",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸5",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_5",
             "placeholder": "接班记录，烘缸温度5",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸6",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_6",
             "placeholder": "接班记录，烘缸温度6",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸7",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_7",
             "placeholder": "接班记录，烘缸温度7",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸8",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_8",
             "placeholder": "接班记录，烘缸温度8",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸9",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_9",
             "placeholder": "接班记录，烘缸温度9",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸10",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_10",
             "placeholder": "接班记录，烘缸温度10",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
           {
             "title": "烘缸11",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_11",
             "placeholder": "接班记录，烘缸温度11",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
           {
             "title": "烘缸12",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_12",
             "placeholder": "接班记录，烘缸温度12",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
           {
             "title": "烘缸13",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_13",
             "placeholder": "接班记录，烘缸温度13",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
           {
             "title": "烘缸14",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_14",
             "placeholder": "接班记录，烘缸温度14",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸15",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_15",
             "placeholder": "接班记录，烘缸温度15",
@@ -280,6 +287,7 @@
           },
           {
             "title": "烘缸16",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_16",
             "placeholder": "接班记录，烘缸温度16",
@@ -291,6 +299,7 @@
           },
           {
             "title": "烘缸17",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_17",
             "placeholder": "接班记录，烘缸温度17",
@@ -302,6 +311,7 @@
           },
           {
             "title": "烘缸18",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_18",
             "placeholder": "接班记录，烘缸温度18",
@@ -313,6 +323,7 @@
           },
           {
             "title": "烘缸19",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_19",
             "placeholder": "接班记录，烘缸温度19",
@@ -324,6 +335,7 @@
           },
           {
             "title": "烘缸20",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_receive_20",
             "placeholder": "接班记录，烘缸温度20",
@@ -977,174 +989,175 @@
         "detail": [
           {
             "title": "烘缸1",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_1",
             "placeholder": "交班记录，烘缸温度1",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸2",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_2",
             "placeholder": "交班记录，烘缸温度2",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸3",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_3",
             "placeholder": "交班记录，烘缸温度3",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸4",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_4",
             "placeholder": "交班记录，烘缸温度4",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸5",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_5",
             "placeholder": "交班记录，烘缸温度5",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸6",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_6",
             "placeholder": "交班记录，烘缸温度6",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸7",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_7",
             "placeholder": "交班记录，烘缸温度7",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸8",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_8",
             "placeholder": "交班记录，烘缸温度8",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸9",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_9",
             "placeholder": "交班记录，烘缸温度9",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸10",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_10",
             "placeholder": "交班记录，烘缸温度10",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
           {
             "title": "烘缸11",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_11",
             "placeholder": "交班记录，烘缸温度11",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
           {
             "title": "烘缸12",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_12",
             "placeholder": "交班记录，烘缸温度12",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
           {
             "title": "烘缸13",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_13",
             "placeholder": "交班记录，烘缸温度13",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 3
           },
           {
             "title": "烘缸14",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_14",
             "placeholder": "交班记录，烘缸温度14",
             "suffix": "℃",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 4
           },
           {
             "title": "烘缸15",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_15",
             "placeholder": "交班记录，烘缸温度15",
@@ -1156,6 +1169,7 @@
           },
           {
             "title": "烘缸16",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_16",
             "placeholder": "交班记录，烘缸温度16",
@@ -1167,6 +1181,7 @@
           },
           {
             "title": "烘缸17",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_17",
             "placeholder": "交班记录，烘缸温度17",
@@ -1178,6 +1193,7 @@
           },
           {
             "title": "烘缸18",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_18",
             "placeholder": "交班记录，烘缸温度18",
@@ -1189,6 +1205,7 @@
           },
           {
             "title": "烘缸19",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_19",
             "placeholder": "交班记录，烘缸温度19",
@@ -1200,6 +1217,7 @@
           },
           {
             "title": "烘缸20",
+            "hidetitle": true,
             "type": "input",
             "key": "dryer_temp_20",
             "placeholder": "交班记录，烘缸温度20",

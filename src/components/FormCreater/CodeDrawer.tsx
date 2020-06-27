@@ -84,7 +84,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       const api = getApi(formConfig, nonce);
       let jsonCfg = await getApiConfig(R.clone(formConfig), nonce);
 
-      let { maxid } = await getSysApi().then(res => res.data[0]);
+      // let { maxid } = await getSysApi().then(res => res.data[0]);
 
       // console.log(
       //   JSON.stringify({
@@ -102,7 +102,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         json: beautify(JSON.stringify(jsonCfg), beautyOption),
         view: `
     CREATE VIEW  view_${formConfig.table} AS
-      SELECT uid,id,CONVERT ( VARCHAR, rec_time, 120 ) 录入时间,
+      SELECT id,CONVERT ( VARCHAR, rec_time, 120 ) 录入时间,
       ${res
         .map(item => {
           let keyName = item.key;
@@ -126,7 +126,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
           }
           return `${keyName} ${item.title}`;
         })
-        .join(',\r\n        ')} 
+        .join(',\r\n        ')} , uid 
       FROM
       tbl_${formConfig.table};
       EXEC sp_addextendedproperty
@@ -136,7 +136,7 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         query,
       });
     })();
-  }, [formConfig]);
+  }, [JSON.stringify(formConfig)]);
 
   const handleConfig = () => {
     try {

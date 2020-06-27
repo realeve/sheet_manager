@@ -240,10 +240,13 @@ export const getCreate = config => {
   if (param.includes('uid')) {
     appendSql += '\r\n  [uid] int NULL,';
   }
+  if (param.includes('ip')) {
+    appendSql += "\r\n  ip nchar(16) DEFAULT '',";
+  }
 
-  // 建表SQL
+  // 建表SQL(建表时自动增加IP字段)
   let createSql = `CREATE TABLE tbl_${config.table} (
-  [id] int  IDENTITY(1,1) NOT NULL,
+  [id] int  IDENTITY(1,1) NOT NULL, 
   ${appendSql}\r\n${keyStrs.join(',\r\n')}
 ) ;
 ALTER TABLE tbl_${config.table} ADD PRIMARY KEY ([id]);
@@ -394,7 +397,20 @@ VALUES
     } where id = ?','_id','' );`;
   }
 
-  return [add, del, edit, query, review, load].join('\r\n');
+  let init = '';
+  // 初始化
+  if (config.api.init) {
+    let keyInit = res.filter(item => item.init).map(item => item.key);
+    init = `
+      -- 初始化时根据ip载入初始化数据
+      INSERT INTO sys_api ( nonce,db_id, uid, api_name, sqlstr,param,remark )
+      VALUES
+        ( '${nonce}','2','1','${config.name} 根据IP载入初始化数据','SELECT ${keyInit.join(
+      ','
+    )}  FROM tbl_${config.table} where ip = ?','ip','' );`;
+  }
+
+  return [add, del, edit, query, review, load, init].join('\r\n');
 };
 
 /**

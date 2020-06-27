@@ -34,7 +34,7 @@
           "defaultOption": [
             "103-G-2T",
             "103-G-2A",
-            "103-G-3TZ",
+            "103-G-3T",
             "103-G-4T",
             "103-G-6T",
             "103-G-7T",
@@ -90,6 +90,7 @@
             "msg": "请输入班别"
           },
           "defaultOption": ["白班", "中班"],
+          "calcvalue": "class_name",
           "placeholder": "请输入班别",
           "unReset": true,
           "span": 6

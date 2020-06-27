@@ -6,6 +6,15 @@ import * as R from 'ramda';
 import { handleOptions } from '@/components/FormCreater/lib';
 import router from 'umi/router';
 
+// 获取ip
+const getIp = () =>
+  axios({
+    url: '/ip',
+  }).then(res => {
+    window.localStorage.setItem('ip', res.ip);
+    return res.ip;
+  });
+
 const needCascade = params => !(R.isNil(params.cascade) || params.cascade[0] === '0');
 export function* getSelectList(params, call) {
   if (R.isNil(params.select)) {
@@ -117,6 +126,7 @@ export interface ICommon {
   showDateRange: boolean;
   spinning: boolean;
   curUrl: string;
+  ip?: string;
 }
 const defaultState: ICommon = {
   userSetting: defaultUserSetting,
@@ -133,6 +143,7 @@ const defaultState: ICommon = {
   showDateRange: false,
   spinning: false,
   curUrl: '',
+  ip: '',
 };
 
 export default {
@@ -301,9 +312,21 @@ export default {
         },
       });
     },
+    *refreshIp(_, { call, put }) {
+      let ip = yield call(getIp);
+      yield put({
+        type: 'setStore',
+        payload: {
+          ip,
+        },
+      });
+    },
   },
   subscriptions: {
     setup({ dispatch, history }) {
+      dispatch({
+        type: 'refreshIp',
+      });
       return history.listen(() => {
         dispatch({
           type: 'init',

@@ -29,6 +29,7 @@ export default ({
   tabId = -1,
   hidemenu,
   setOutterTrigger,
+  ip = '',
 }) => {
   const [_id, setId] = useState(0);
   // 当前数据提交状态，提交时禁止重复提交
@@ -247,14 +248,16 @@ export default ({
     let params = formInstance.get();
 
     // 注入_id，uid信息，支持用户信息调整
+    // 2020-06-27 注入IP地址
     params = {
       ...params,
       _id,
       uid,
+      ip,
     };
 
     let axiosConfig = getPostData({ config, params, editMethod: editType, uid });
-    console.log('插入/更新数据', axiosConfig);
+    // console.log('插入/更新数据', axiosConfig);
 
     if (!axiosConfig) {
       notification.error({
@@ -266,12 +269,11 @@ export default ({
 
     setSubmitting(true);
 
-    // console.log(axiosConfig);
-
     // notification.success({
     //   message: 'tips',
     //   description: '数据提交测试中',
     // });
+    // reFetch && reFetch();
     // return;
 
     let {
@@ -279,7 +281,6 @@ export default ({
     } = await axios(axiosConfig).finally(() => {
       setSubmitting(false);
     });
-
     notity(affected_rows);
 
     reFetch && reFetch();

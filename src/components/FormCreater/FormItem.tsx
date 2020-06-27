@@ -74,6 +74,8 @@ export default function formItem({
     suffix,
     offset = 0,
     callback,
+    hidetitle = false,
+    init,
     ...props
   },
   scope = [],
@@ -215,6 +217,7 @@ export default function formItem({
         return;
       }
       setAppend(res);
+      console.log('trigger 5');
       setState(res.data[0]);
     });
   }, [innerTrigger]);
@@ -246,7 +249,7 @@ export default function formItem({
         </Modal>
       )}
 
-      {title?.length > 0 && (
+      {title?.length > 0 && !hidetitle && (
         <span
           className={cx('title', {
             required: typeof rule != 'string' && rule?.required,
@@ -278,6 +281,7 @@ export default function formItem({
             value={state}
             onChange={e => onChange(e.target.value, props)}
             {...props}
+            placeholder={hidetitle ? title : props.placeholder}
           />
         )}
         {type === 'label' && <label style={{ lineHeight: '32px' }}>{state}</label>}
@@ -289,7 +293,9 @@ export default function formItem({
             onChange={e => onChange(e.target.value, props)}
             {...props}
             placeholder={
-              scopeDetail && (scopeDetail.min || scopeDetail.max)
+              hidetitle
+                ? title
+                : scopeDetail && (scopeDetail.min || scopeDetail.max)
                 ? `范围: ${getScopeRange(scopeDetail)}`
                 : props.placeholder || ''
             }
@@ -315,7 +321,9 @@ export default function formItem({
             onChange={value => onChange(value, props)}
             {...props}
             placeholder={
-              scopeDetail && (scopeDetail.min || scopeDetail.max)
+              hidetitle
+                ? title
+                : scopeDetail && (scopeDetail.min || scopeDetail.max)
                 ? `范围: ${getScopeRange(scopeDetail)}`
                 : props.placeholder || ''
             }

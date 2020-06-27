@@ -28,8 +28,10 @@ import * as lib from '@/utils/lib';
 import User from './user';
 import classnames from 'classnames';
 import { Dispatch } from 'redux';
+import { DEV } from '@/utils/setting';
 
 import * as mathjs from 'mathjs';
+import { axios } from '@/utils/axios';
 
 moment.locale('zh-cn');
 
@@ -56,7 +58,7 @@ const getCalcResult = (calcvalue: 'class_name' | 'hour' | string) => {
   }
 };
 
-const getDefaultList = cfg => {
+const getDefaultList = async (cfg, ip, initParam) => {
   let defaultList = R.filter(item => item.defaultValue || item.value || item.calcvalue)(cfg);
   let res = {};
   defaultList.forEach(({ key, defaultValue, value, calcvalue }) => {
@@ -65,6 +67,23 @@ const getDefaultList = cfg => {
       res[key] = getCalcResult(calcvalue);
     }
   });
+  if (initParam) {
+    await axios({
+      ...initParam,
+      params: {
+        ip,
+      },
+    }).then(({ data, rows }) => {
+      if (rows === 0) {
+        return;
+      }
+      res = {
+        ...res,
+        ...data[0],
+      };
+    });
+  }
+
   return res;
 };
 
@@ -115,7 +134,9 @@ export interface IRule {
 }
 export interface IFieldItem {
   title: string; //标题名称，可为空
+  hidetitle: boolean; // 是否隐藏标题，用于input中，隐藏后placeholder将置为标题
   titlewidth: number; // 标题宽度
+  init?: boolean; // 是否需要在初始化的时候加载
   type: FieldType; // 组件类型
   key: string; // 数据库key
   placeholder: string; // 输入框中显示的默认文字
@@ -182,6 +203,10 @@ export interface IFormDb {
     url: string;
     param?: string[];
   };
+  // 初始化载入数据，以ip为参数，系统自动注入当前ip
+  init?: {
+    url: string;
+  };
 }
 export interface IFormConfig {
   name: string; // 业务名
@@ -201,6 +226,7 @@ export interface IFormCreater {
   tabId?: number;
   showHeader?: boolean;
   className?: string;
+  ip?: string;
 }
 
 function FormCreater({
@@ -213,6 +239,7 @@ function FormCreater({
   tabId = -1,
   showHeader = true,
   className,
+  ip,
 }: IFormCreater) {
   // 增加对总分的计算，与scope字段一并处理
   let [state, setState] = useSetState<{
@@ -231,7 +258,7 @@ function FormCreater({
 
   let [modalVisible, setModalVisible] = useState(false);
 
-  let [formConfig, setFormConfig] = useState(config);
+  let [formConfig, setFormConfig] = useState(R.clone(config));
 
   let cfg = R.flatten(R.map(R.prop('detail'))(config.detail));
 
@@ -240,14 +267,11 @@ function FormCreater({
    * @wiki https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
    * 处理带function的JSON文件
    */
-  useEffect(() => {
-    init();
-  }, []);
 
-  const init = () => {
-    let res = getDefaultList(cfg);
+  const init = async () => {
+    let res = await getDefaultList(cfg, ip, R.clone(config.api.init));
     setState(res);
-    setFields(res);
+    // setFields(res);
     setCalcKey([]);
   };
 
@@ -266,20 +290,21 @@ function FormCreater({
   useEffect(() => {
     // config改变后初始化表单数据
     init();
+    // console.log('config变更了');
 
-    setFormConfig(config);
+    setFormConfig(R.clone(config));
     let requiredFileds = [];
     let nextFields = {};
     let observeKey = null;
     let calcFields = [];
 
     if (config?.api?.query?.param || config?.api?.update?.param) {
-      setQueryKey((config.api.query || config.api.update).param);
+      setQueryKey(R.clone(config.api.query || config.api.update).param);
     }
 
     let calcKeys = [];
 
-    config.detail.forEach(({ detail }) => {
+    R.clone(config).detail.forEach(({ detail }) => {
       detail.forEach(item => {
         if (item.rule && 'string' !== typeof item.rule) {
           if (item.rule.required) {
@@ -340,7 +365,8 @@ function FormCreater({
     });
 
     reFetch();
-  }, [config]);
+    refreshScope();
+  }, [JSON.stringify(config)]);
 
   // console.log(calcKey);
 
@@ -361,12 +387,12 @@ function FormCreater({
     let validStatus = Object.values(validateState).filter(item => !item).length == 0;
 
     // 单独运算的字段处理
-    let calcStatus = validCalcKeys(state, calcFields, config, setCalcValid);
+    let calcStatus = validCalcKeys(state, calcFields, R.clone(config), setCalcValid);
 
     // console.log('数据状态', validStatus, calcFields, config, required, calcStatus);
 
     setFormstatus(validStatus && required && calcStatus);
-  }, [state]);
+  }, [JSON.stringify(state)]);
 
   // console.log(config, state, '🌸');
 
@@ -467,9 +493,9 @@ function FormCreater({
   //   refreshScope();
   // }, [state]);
 
-  useEffect(() => {
-    refreshScope();
-  }, [config]);
+  // useEffect(() => {
+  //   refreshScope();
+  // }, [JSON.stringify(config)]);
 
   // 手工决定是否继续执行重计算，当做完scope判断后，需要对 【合格】 字段重新计算是否合格，此时应该禁止再次计算，防止循环更新。
   const [needCalc, setNeedCalc] = useState(true);
@@ -513,7 +539,7 @@ function FormCreater({
       setState({ [qualifyKey]: fields.length === 0 });
       setNeedCalc(false);
     }
-  }, [state, scope]);
+  }, [JSON.stringify(state), JSON.stringify(scope)]);
 
   // 数据重置：配置中 unReset 的项在重置时保持上次结果
   const onReset = () => {
@@ -599,7 +625,7 @@ function FormCreater({
       ...fields,
       ...nextState,
     });
-  }, [hideKeys]);
+  }, [JSON.stringify(hideKeys)]);
 
   const updateScope = ({ scope: nextScope, hide }, handleHideKeys) => {
     let keys = R.map(R.prop('key'))(nextScope);
@@ -650,12 +676,14 @@ function FormCreater({
 
   return (
     <div>
-      <CodeDrawer
-        formConfig={formConfig}
-        setFormConfig={setFormConfig}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
+      {DEV && (
+        <CodeDrawer
+          formConfig={formConfig}
+          setFormConfig={setFormConfig}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      )}
 
       <div className={classnames(className, styles.form)}>
         {formConfig.detail.map(({ title: mainTitle = '', detail: detailArr }, idx) => (
@@ -666,11 +694,13 @@ function FormCreater({
                   <h3 style={{ marginBottom: 0 }}>
                     {formConfig.name}
 
-                    <Icon
-                      style={{ paddingLeft: 10 }}
-                      type="question-circle-o"
-                      onClick={() => setModalVisible(true)}
-                    />
+                    {DEV && (
+                      <Icon
+                        style={{ paddingLeft: 10 }}
+                        type="question-circle-o"
+                        onClick={() => setModalVisible(true)}
+                      />
+                    )}
                   </h3>
                 )}
 
@@ -805,10 +835,12 @@ function FormCreater({
                   formstatus={formstatus} // 数据校验字段，为false时禁止提交
                   editMethod={editMethod}
                   formConfig={formConfig}
-                  config={config}
+                  config={R.clone(config)}
                   reFetch={() => {
                     reFetch();
-                    setInnerTrigger(lib.timestamp());
+
+                    // 变更此项会导致不必要的重渲染
+                    // setInnerTrigger(lib.timestamp());
                   }}
                   remark={remark}
                   onReset={onReset}
@@ -818,6 +850,7 @@ function FormCreater({
                   hidemenu={hidemenu}
                   setOutterTrigger={setOutterTrigger}
                   uid={user.uid}
+                  ip={ip}
                 />
               )}
             </Row>
@@ -839,7 +872,8 @@ function FormCreater({
   );
 }
 
-export default connect(({ common: { hidemenu, userSetting: user } }: { common: ICommon }) => ({
+export default connect(({ common: { hidemenu, userSetting: user, ip } }: { common: ICommon }) => ({
   hidemenu,
   user,
+  ip,
 }))(FormCreater);
