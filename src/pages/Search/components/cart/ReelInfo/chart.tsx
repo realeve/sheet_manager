@@ -7,9 +7,13 @@ export const handleData = (data, cart) => {
     edges = [];
   let nodeObj = {};
 
-  data.map(({ cart_num, ream_count, ...item }) => {
+  data.forEach(({ cart_num, ream_count, ...item }) => {
     // 是否为当前大万
     let append = cart_num.includes(cart) ? { itemStyle: { color: '#F61D16' } } : {};
+
+    if (cart_num.length == 0) {
+      return;
+    }
 
     nodeObj[cart_num] = nodeObj[cart_num]
       ? (nodeObj[cart_num].value += ream_count)
@@ -117,7 +121,15 @@ export const handleData = (data, cart) => {
     ],
   };
 };
-
+export const handleChartData = res => {
+  let data = res.data.filter(item => item.cart_num.length > 0);
+  let rows = data.length;
+  return {
+    ...res,
+    data,
+    rows,
+  };
+};
 export default ({ cart }) => {
   const [option, setOption] = useState({});
   /**
@@ -126,21 +138,24 @@ export default ({ cart }) => {
    *   @desc:     { 装箱产品关联分析查询 }
    *   useFetch 返回值说明： data(返回数据), error(报错), loading(加载状态), reFetch(强制刷新),setData(强制设定数据)
    */
-  const { data, error, loading } = useFetch({
+  const { data, loading } = useFetch({
     param: {
       url: `/960/f8261a89e2.json`,
       params: { cart },
     },
     valid: () => cart, // params中指定参数存在时才发起请求
+    callback: handleChartData,
   });
 
   useEffect(() => {
     if (!data) {
       return;
     }
+    console.log(data.data, cart);
     setOption(handleData(data.data, cart));
   }, [data]);
 
+  console.log(data, option);
   return (
     data &&
     data.rows > 0 && <Chart renderer="svg" option={option} style={{ width: '100%', height: 600 }} />

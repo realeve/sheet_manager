@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useFetch from '@/components/hooks/useFetch';
 import Chart from '@/pages/chart/components/ChartComponent';
-import { handleData } from '../cart/ReelInfo/chart';
+import { handleData, handleChartData } from '../cart/ReelInfo/chart';
 
 export default ({ reel: cart }) => {
   const [option, setOption] = useState({});
@@ -11,12 +11,13 @@ export default ({ reel: cart }) => {
    *   @desc:     { 装箱产品关联分析查询 }
    *   useFetch 返回值说明： data(返回数据), error(报错), loading(加载状态), reFetch(强制刷新),setData(强制设定数据)
    */
-  const { data, error, loading } = useFetch({
+  const { data } = useFetch({
     param: {
       url: '/964/ee972ac15d.json',
       params: { cart },
     },
     valid: () => cart, // params中指定参数存在时才发起请求
+    callback: handleChartData,
   });
 
   useEffect(() => {

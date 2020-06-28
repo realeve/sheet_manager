@@ -269,7 +269,7 @@ export let axios = option => {
 
   return http
     .create({
-      baseURL: '//localhost:90/api/', // host,
+      baseURL: host, // '//localhost:90/api/',
       timeout: 30 * 1000,
       transformRequest: [
         function(data) {

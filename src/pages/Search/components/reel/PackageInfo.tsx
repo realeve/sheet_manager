@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Card } from 'antd';
 import Reel2Cart from '../cart/ReelInfo/Reel2Cart';
-import Cart from './chart';
+import Chart from './chart';
 
 export default function PackageInfo({ reel }) {
   return (
@@ -14,7 +14,7 @@ export default function PackageInfo({ reel }) {
         hoverable
         style={{ marginBottom: 10 }}
       >
-        <Cart reel={reel} />
+        <Chart reel={reel} />
         <Reel2Cart reel={reel} />
       </Card>
     </Col>
