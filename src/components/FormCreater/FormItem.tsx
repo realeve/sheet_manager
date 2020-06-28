@@ -124,7 +124,7 @@ export default function formItem({
   }
 
   useEffect(() => {
-    if (!__defaultValue) {
+    if (typeof __defaultValue === 'undefined') {
       return;
     }
     setState(__defaultValue);
@@ -349,6 +349,7 @@ export default function formItem({
             showTime={props.showTime || false}
             style={{ width: '100%' }}
             {...props}
+            format={props.datetype || (props.showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD')}
           />
         )}
         {type === 'datepicker.month' && (
@@ -447,7 +448,7 @@ export default function formItem({
         {/* 开发模式显示字段值 */}
         {dev && state && (
           <label className="ant-form-explain">
-            {key}:{state}
+            {key}:{typeof state === 'string' ? state : JSON.stringify(state)}
           </label>
         )}
         {append && (

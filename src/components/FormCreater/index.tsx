@@ -46,20 +46,25 @@ let getUrl = formConfig => {
 const getCalcResult = (calcvalue: 'class_name' | 'hour' | string) => {
   switch (calcvalue) {
     case 'class_name':
+      // 班次
       return new Date().getHours() >= 8 && new Date().getHours() < 16
         ? '白班'
         : new Date().getHours() >= 16
         ? '中班'
         : '';
     case 'hour':
+      // 当前小时
       return new Date().getHours();
+      return '';
     default:
       return mathjs.evaluate(calcvalue);
   }
 };
 
 const getDefaultList = async (cfg, ip, initParam) => {
-  let defaultList = R.filter(item => item.defaultValue || item.value || item.calcvalue)(cfg);
+  let defaultList = R.filter(
+    item => typeof item.defaultValue !== 'undefined' || item.value || item.calcvalue
+  )(cfg);
   let res = {};
   defaultList.forEach(({ key, defaultValue, value, calcvalue }) => {
     res[key] = value || defaultValue;
@@ -91,9 +96,11 @@ const handleCalcKey = (item, cfg) => {
   let keys = [];
   let { key, calc } = R.clone(item);
   cfg.forEach(item => {
-    if (item?.title?.length && calc.includes(item.title)) {
+    if (item?.title?.length && typeof calc === 'string' && calc.includes(item.title)) {
       keys.push(item.key);
       calc = calc.replace(item.title, item.key);
+    } else {
+      keys = R.uniq([...keys, ...calc.params]);
     }
   });
 
@@ -139,7 +146,8 @@ export interface IFieldItem {
   titlewidth: number; // 标题宽度
   init?: boolean; // 是否需要在初始化的时候加载
   type: FieldType; // 组件类型
-  key: string; // 数据库key
+  key: string; // 数据库key，如果key中包含了  ignore 该数据不提交
+  ignore: string; // 忽略该值，不提交至后台，仅用做前台辅助展示
   placeholder: string; // 输入框中显示的默认文字
   suffix: string; // 单位
   rule: Partial<IRule> | string; // 字段校验
@@ -149,8 +157,17 @@ export interface IFieldItem {
   defaultOption: (string | ISelectItem)[]; // Select选项卡使用
   disabled: boolean; // 禁用
   url: string; // 载入指定链接的数据
-  calc: string; // 其它字段计算得到当前值，calc为计算规则
-  calcvalue: 'class_name' | 'hour' | string; // 当前字段的计算,不依赖其它值，比如根据时间计算班次；也可配置url，通过接口获取数据值
+  calc:
+    | {
+        type: 'reel_weight' | 'string'; // 当type为reel_weight时，计算轴重
+        params: string[];
+      }
+    | string; // 其它字段计算得到当前值，calc为计算规则。
+  calcvalue:
+    | 'class_name' // 计算班次
+    | 'hour' // 计算小时
+    | string;
+  // 当前字段的计算，比如根据时间计算班次；也可配置url，通过接口获取数据值
   block: string; // 字段下方提示文字
   allowClear: boolean; // 允许清除
   defaultValue: any; // 默认值
@@ -161,6 +178,10 @@ export interface IFieldItem {
   increase: string; // 字段自增
   toupper: 'true' | 'false'; //转换为大写
   maxLength: number; // 字段长度
+  callback: {
+    url: string; // 某个值变更时，触发数据加载
+    params?: string[]; // state中的某些参数注入用于此次刷新
+  };
   [key: string]: any;
 }
 

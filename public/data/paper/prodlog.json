@@ -392,13 +392,14 @@
           },
           {
             "title": "纸机车速",
-            "type": "input",
+            "type": "radio.button",
             "key": "speed",
-            "suffix": "m/min",
+            "block": "m/min",
             "rule": {
               "type": "int",
               "required": true
             },
+            "defaultOption": ["45", "50", "55", "60"],
             "span": 6,
             "unReset": true
           },
@@ -1710,7 +1711,19 @@
             "span": 6,
             "toupper": "true"
           },
-
+          {
+            "title": "纸机车速",
+            "type": "radio.button",
+            "key": "speed",
+            "block": "m/min",
+            "rule": {
+              "type": "int"
+            },
+            "defaultOption": ["45", "50", "55", "60"],
+            "span": 6,
+            "unReset": true,
+            "ignore": true
+          },
           {
             "title": "起卷时间",
             "titlewidth": 280,
@@ -1741,25 +1754,45 @@
             "type": "input",
             "key": "delta_minutes",
             "suffix": "分钟",
+            "scope": { "min": 0 },
+            "block": "不能小于0分钟",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "int",
+              "required": true,
+              "msg": "不能小于0分钟"
             },
+            "defaultValue": 0,
             "span": 6,
             "allowClear": false
+          },
+          {
+            "title": "抄造时长",
+            "titlewidth": 280,
+            "type": "input",
+            "key": "time_length",
+            "suffix": "分钟",
+            "rule": {
+              "type": "int",
+              "required": true
+            },
+            "disabled": true,
+            "span": 6
           },
           {
             "title": "抄重",
             "titlewidth": 280,
             "type": "input",
             "key": "reel_weight",
-            "calc": "轴号.substr(2,2)",
-            "block": "减时时间*50",
-            "placeholder": "计算结果",
+            "calc": {
+              "type": "reel_weight",
+              "params": ["reel_code", "speed", "start_time", "complete_time", "delta_minutes"]
+            },
+            "placeholder": "自动计算结果",
             "disabled": true,
             "defaultValue": 0,
             "suffix": "Kg",
             "rule": {
+              "required": true,
               "type": "float"
             },
             "span": 6,
@@ -1775,6 +1808,7 @@
               "type": "float",
               "required": true
             },
+            "disabled": true,
             "span": 6,
             "allowClear": false
           },
@@ -1793,7 +1827,6 @@
           },
           {
             "title": "QCS抄宽",
-            "placeholder": "标准值，无需填写",
             "titlewidth": 280,
             "type": "input",
             "key": "paper_width_qcs",
@@ -1802,6 +1835,7 @@
               "type": "float",
               "required": true
             },
+            "disabled": true,
             "span": 6,
             "allowClear": false
           },

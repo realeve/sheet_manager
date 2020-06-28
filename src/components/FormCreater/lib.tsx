@@ -5,6 +5,7 @@ import { axios, mockData } from '@/utils/axios';
 import { DEV } from '@/utils/setting';
 import * as mathjs from 'mathjs';
 import { IRule } from './index';
+import { reelweight } from './calculator';
 // 处理数据
 export const handler = {
   toUpper(str) {
@@ -542,13 +543,28 @@ export let calcResult = (state, calcKey, key) => {
     if (item.keys.includes(key)) {
       let valid = true;
       item.keys.forEach(_key => {
-        if (typeof state[_key] == 'undefined') {
+        if (typeof dist[_key] == 'undefined') {
           valid = false;
         }
       });
+      // console.log(valid, key, item, dist);
       if (valid) {
         // 计算数据
-        obj[item.result] = mathjs.evaluate(item.calc, dist);
+        if (typeof item.calc === 'string') {
+          obj[item.result] = mathjs.evaluate(item.calc, dist);
+        } else {
+          // 2020-06-28 此处可考虑将计算逻辑移至后端接口来处理
+          let {
+            data: [res],
+          } = reelweight({
+            ...item.calc,
+            state: dist,
+          });
+          obj = {
+            ...obj,
+            ...res,
+          };
+        }
       }
     }
   });
@@ -583,7 +599,7 @@ export let validCalcKeys = (state, fields, config, setCalcValid) => {
     }
 
     // 处理calc字段,先移除空格,如果双等号不存在，将等于替换为双等号;
-    if (!calc.includes('==')) {
+    if (typeof calc === 'string' && !calc.includes('==')) {
       calc = calc.replace(/=/, '==');
     }
 
@@ -599,7 +615,7 @@ export let validCalcKeys = (state, fields, config, setCalcValid) => {
       }
     });
 
-    status = mathjs.evaluate(calc, _state);
+    status = typeof calc !== 'string' || mathjs.evaluate(calc, _state);
 
     setCalcValid({
       key,

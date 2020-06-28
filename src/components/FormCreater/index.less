@@ -69,17 +69,10 @@
       textarea.ant-input {
         max-width: unset;
       }
-
-      .ant-input-affix-wrapper::-webkit-input-placeholder,
-      .ant-input-affix-wrapper:-ms-input-placeholder,
-      .ant-input-affix-wrapper::-ms-input-placeholder,
-      .ant-input-affix-wrapper::placeholder,
-      .ant-input::-webkit-input-placeholder,
-      .ant-input:-ms-input-placeholder,
-      .ant-input::-ms-input-placeholder,
-      .ant-input::placeholder,
-      input.ant-input::placeholder {
-        color: #e23 !important;
+      .ant-input[disabled],
+      .ant-input-affix-wrapper-disabled {
+        color: rgba(0, 0, 0, 0.7);
+        background-color: #fafafa;
       }
     }
 
