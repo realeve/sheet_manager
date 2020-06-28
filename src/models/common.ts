@@ -1,5 +1,5 @@
 import userTool from '@/utils/users';
-import { setStore, handleUrlParams, str2Arr } from '@/utils/lib';
+import { setStore, handleUrlParams, str2Arr, getVersion } from '@/utils/lib';
 import { axios } from '@/utils/axios';
 import qs from 'qs';
 import * as R from 'ramda';
@@ -127,6 +127,7 @@ export interface ICommon {
   spinning: boolean;
   curUrl: string;
   ip?: string;
+  version?: {};
 }
 const defaultState: ICommon = {
   userSetting: defaultUserSetting,
@@ -144,6 +145,7 @@ const defaultState: ICommon = {
   spinning: false,
   curUrl: '',
   ip: '',
+  version: {},
 };
 
 export default {
@@ -313,6 +315,13 @@ export default {
       });
     },
     *refreshIp(_, { call, put }) {
+      let version = yield call(getVersion);
+      yield put({
+        type: 'setStore',
+        payload: {
+          version,
+        },
+      });
       let ip = yield call(getIp);
       yield put({
         type: 'setStore',

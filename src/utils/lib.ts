@@ -1,6 +1,6 @@
 import moment from 'moment';
 import http from 'axios';
-import { uploadHost } from './setting';
+import { uploadHost, DEV } from './setting';
 import qs from 'qs';
 import dateRanges from './ranges';
 // import router from 'umi/router';
@@ -542,3 +542,8 @@ export const getNonce = () =>
     .slice(3);
 
 export const jump = url => router.push(url);
+
+export const getVersion = () =>
+  axios.axios({
+    url: `${window.location.origin}/version${DEV ? 'dev' : ''}.json`,
+  });

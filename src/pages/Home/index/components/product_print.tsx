@@ -33,6 +33,9 @@ export default () => {
       },
     },
     callback(res) {
+      if (!res.data) {
+        return res;
+      }
       res.data = res.data
         .filter(item => item['工序'] != '白纸')
         .map(item => {

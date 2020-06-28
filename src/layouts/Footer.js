@@ -2,41 +2,27 @@ import React from 'react';
 import { Layout } from 'antd';
 import { Icon } from '@ant-design/compatible';
 import { AUTHOR, CUR_COMPANY } from '@/utils/setting';
-// import styles from './index.less';
+import { connect } from 'dva';
+
 const { Footer } = Layout;
-// let links = [];
-
-// if (CUR_COMPANY === 'chengdu') {
-//   links = [
-//     {
-//       key: '首页',
-//       title: '首页',
-//       href: '/',
-//       blankTarget: true,
-//     },
-//     {
-//       key: '文档',
-//       title: '文档',
-//       href: '/doc',
-//       blankTarget: true,
-//     },
-//     {
-//       key: '工艺质量交互管理',
-//       title: '工艺质量交互管理',
-//       href: 'http://10.8.2.133:90',
-//       blankTarget: true,
-//     },
-//   ];
-// }
-
-const FooterView = ({ hidemenu }) => (
+const FooterView = ({ version }) => (
   <Footer
     className="footer"
-    style={{ display: 'flex', alignItems: 'center', height: 30, background: 'transparent' }}
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      height: 44,
+      background: 'transparent',
+    }}
   >
     <div>
       <Icon type="copyright" /> 2019 {AUTHOR}
     </div>
+    <div style={{ marginLeft: 20 }}>
+      <span>系统版本: V {version.version}</span>
+      <span style={{ margin: '0 20px' }}>hash: {version.hash}</span>
+      <span>发布时间: {version.date}</span>
+    </div>
   </Footer>
 );
-export default FooterView;
+export default connect(({ common }) => ({ version: common.version }))(FooterView);
