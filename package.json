@@ -2,12 +2,13 @@
   "name": "sheet_manager",
   "private": true,
   "scripts": {
-    "start": "cross-env APP_TYPE=site UMI_UI=none umi dev",
-    "build": "umi build",
+    "start": "hash.bat && npm run dev",
+    "dev": "cross-env APP_TYPE=site UMI_UI=none umi dev",
+    "build": "umi build && hash.bat",
     "lite": "cross-env BUILD_TYPE=lite umi dev",
     "liteapp": "cross-env BUILD_TYPE=lite umi build",
     "test": "umi test | coveralls",
-    "deploy": "npm run build && deploy.bat"
+    "deploy": "npm run build && hash.bat && deploy.bat"
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.1",
