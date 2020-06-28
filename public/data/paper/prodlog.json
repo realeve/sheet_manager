@@ -3,27 +3,27 @@
     "name": "1.干燥施胶部接班",
     "api": {
       "insert": {
-        "url": "822/m4l7q83qai",
+        "url": "1040/9au1mh0ocn",
         "param": ["rec_time", "uid", "ip"]
       },
       "delete": {
-        "url": "823/m4l7q83qai",
+        "url": "1041/9au1mh0ocn",
         "param": ["_id"]
       },
       "update": {
-        "url": "824/m4l7q83qai",
+        "url": "1042/9au1mh0ocn",
         "param": ["_id"]
       },
       "table": {
-        "url": "825/m4l7q83qai",
+        "url": "1043/9au1mh0ocn",
         "param": ["machine_name"]
       },
       "load": {
-        "url": "826/m4l7q83qai",
+        "url": "1044/9au1mh0ocn",
         "param": ["_id"]
       },
       "init": {
-        "url": "827/tsje09h8fw"
+        "url": "1045/9au1mh0ocn"
       }
     },
     "table": "paper_record_prod_base",
@@ -354,22 +354,22 @@
     "dev": true,
     "api": {
       "insert": {
-        "url": "829/y3e76pvqu",
+        "url": "1046/utqtv2lbo",
         "param": ["rec_time", "uid", "ip"]
       },
       "delete": {
-        "url": "830/y3e76pvqu",
+        "url": "1047/utqtv2lbo",
         "param": ["_id"]
       },
       "update": {
-        "url": "831/y3e76pvqu",
+        "url": "1048/utqtv2lbo",
         "param": ["_id"]
       },
       "table": {
-        "url": "832/y3e76pvqu"
+        "url": "1049/utqtv2lbo"
       },
       "load": {
-        "url": "833/y3e76pvqu",
+        "url": "1050/utqtv2lbo",
         "param": ["_id"]
       }
     },
@@ -383,12 +383,12 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "828/70ffa281c9",
+            "url": "1051/6d8ae47082",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"
             },
-            "tooltip": "SELECT top 1 a.id prod_baseid,isnull(b.speed,0) speed,a.[录入时间],a.[品种],a.[机台],a.[班别],a.[班次] FROM dbo.view_paper_record_prod_base AS a left join tbl_paper_record_prod_part_constant b on a.id=b.prod_baseid WHERE a.ip =? ORDER BY a.id DESC"
+            "tooltip": "SELECT top 1 a.id prod_baseid,isnull(b.speed,0) speed,a.[录入时间],a.[品种],a.[机台],a.[班别],a.[班次] FROM dbo.view_paper_record_prod_base AS a left join tbl_paper_record_prod_part_constant b on a.id=b.prod_baseid  and b.ip =? ORDER BY a.id DESC"
           },
           {
             "title": "纸机车速",
@@ -573,22 +573,22 @@
     "dev": true,
     "api": {
       "insert": {
-        "url": "835/e5jug0l40c",
-        "param": ["rec_time", "uid"]
+        "url": "1052/4cpz15iocv",
+        "param": ["rec_time", "uid", "ip"]
       },
       "delete": {
-        "url": "836/e5jug0l40c",
+        "url": "1053/4cpz15iocv",
         "param": ["_id"]
       },
       "update": {
-        "url": "837/e5jug0l40c",
+        "url": "1054/4cpz15iocv",
         "param": ["_id"]
       },
       "table": {
-        "url": "838/e5jug0l40c"
+        "url": "1055/4cpz15iocv"
       },
       "load": {
-        "url": "839/e5jug0l40c",
+        "url": "1056/4cpz15iocv",
         "param": ["_id"]
       }
     },
@@ -602,12 +602,12 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "834/4d45f40cd4",
+            "url": "1057/7fe2d10ac5",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"
             },
-            "tooltip": "SELECT top 1 a.id prod_baseid,isnull(b.safe_line_pay_ta,0) safe_line_remain_ta,isnull(b.safe_line_pay_tb,0) safe_line_remain_tb,a.[录入时间],a.[品种],a.[机台],a.[班别],a.[班次] FROM dbo.view_paper_record_prod_base AS a left join tbl_paper_record_prod_part_wet b on a.id=b.prod_baseid WHERE a.ip ='0.0.0.0' ORDER BY a.id DESC"
+            "tooltip": "SELECT top 1 a.id prod_baseid,isnull(b.safe_line_pay_ta,0) safe_line_remain_ta,isnull(b.safe_line_pay_tb,0) safe_line_remain_tb,a.[录入时间],a.[品种],a.[机台],a.[班别],a.[班次] FROM dbo.view_paper_record_prod_base AS a left join tbl_paper_record_prod_part_wet b on a.id=b.prod_baseid and b.ip ='0.0.0.0' ORDER BY a.id DESC"
           },
           {
             "title": "真空伏辊真空度",
@@ -877,26 +877,25 @@
   },
   {
     "name": "4.干燥施胶部交班",
-    "subtitle": "Data too long for column 'param' at row 1",
     "dev": true,
     "api": {
       "insert": {
-        "url": "840/elgtcs6jjc",
-        "param": ["rec_time", "uid"]
+        "url": "1058/yyw9utc1vr",
+        "param": ["rec_time", "uid", "ip"]
       },
       "delete": {
-        "url": "841/elgtcs6jjc",
+        "url": "1059/yyw9utc1vr",
         "param": ["_id"]
       },
       "update": {
-        "url": "842/elgtcs6jjc",
+        "url": "1060/yyw9utc1vr",
         "param": ["_id"]
       },
       "table": {
-        "url": "843/elgtcs6jjc"
+        "url": "1061/yyw9utc1vr"
       },
       "load": {
-        "url": "844/elgtcs6jjc",
+        "url": "1062/yyw9utc1vr",
         "param": ["_id"]
       }
     },
@@ -910,7 +909,7 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "828/70ffa281c9",
+            "url": "1051/6d8ae47082",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"
@@ -985,12 +984,14 @@
           },
           {
             "title": "干燥部生产记事",
+            "titlewidth": 260,
             "type": "input.textarea",
             "key": "remark_dry",
             "span": 12
           },
           {
             "title": "施胶部生产记事",
+            "titlewidth": 260,
             "type": "input.textarea",
             "key": "remark_sizing",
             "span": 12
@@ -1377,22 +1378,22 @@
     "dev": true,
     "api": {
       "insert": {
-        "url": "845/f61g8ldap",
-        "param": ["rec_time", "uid"]
+        "url": "1063/b7b2sczvb",
+        "param": ["rec_time", "uid", "ip"]
       },
       "delete": {
-        "url": "846/f61g8ldap",
+        "url": "1064/b7b2sczvb",
         "param": ["_id"]
       },
       "update": {
-        "url": "847/f61g8ldap",
+        "url": "1065/b7b2sczvb",
         "param": ["_id"]
       },
       "table": {
-        "url": "848/f61g8ldap"
+        "url": "1066/b7b2sczvb"
       },
       "load": {
-        "url": "849/f61g8ldap",
+        "url": "1067/b7b2sczvb",
         "param": ["_id"]
       }
     },
@@ -1406,7 +1407,7 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "828/70ffa281c9",
+            "url": "1051/6d8ae47082",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"
@@ -1512,22 +1513,22 @@
     "dev": true,
     "api": {
       "insert": {
-        "url": "850/envxbk97iq",
-        "param": ["rec_time", "uid"]
+        "url": "1068/5c6iartu6e",
+        "param": ["rec_time", "uid", "ip"]
       },
       "delete": {
-        "url": "851/envxbk97iq",
+        "url": "1069/5c6iartu6e",
         "param": ["_id"]
       },
       "update": {
-        "url": "852/envxbk97iq",
+        "url": "1070/5c6iartu6e",
         "param": ["_id"]
       },
       "table": {
-        "url": "853/envxbk97iq"
+        "url": "1071/5c6iartu6e"
       },
       "load": {
-        "url": "854/envxbk97iq",
+        "url": "1072/5c6iartu6e",
         "param": ["_id"]
       }
     },
@@ -1541,7 +1542,7 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "828/70ffa281c9",
+            "url": "1051/6d8ae47082",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"
@@ -1676,29 +1677,45 @@
     "dev": true,
     "api": {
       "insert": {
-        "url": "971/7fx7doeq4h",
-        "param": ["rec_time", "uid"]
+        "url": "1073/g7zt56xc6f",
+        "param": ["rec_time", "uid", "ip"]
+      },
+      "delete": {
+        "url": "1074/g7zt56xc6f",
+        "param": ["_id"]
       },
       "update": {
-        "url": "972/7fx7doeq4h",
+        "url": "1075/g7zt56xc6f",
         "param": ["_id"]
       },
       "table": {
-        "url": "973/7fx7doeq4h"
+        "url": "1076/g7zt56xc6f"
       },
       "load": {
-        "url": "974/7fx7doeq4h",
+        "url": "1077/g7zt56xc6f",
         "param": ["_id"]
       },
-      "delete": {
-        "url": "",
-        "param": ["_id"]
+      "init": {
+        "url": "1078/db23e6b229"
       }
     },
     "table": "paper_record_prod_log_paper_param",
     "detail": [
       {
         "detail": [
+          {
+            "title": "记录id",
+            "type": "input.number",
+            "disabled": true,
+            "key": "prod_baseid",
+            "span": 6,
+            "url": "1051/6d8ae47082",
+            "rule": {
+              "required": true,
+              "msg": "交接班基础信息未填写，请切换至选项卡1填写"
+            },
+            "tooltip": "SELECT TOP 1 a.id prod_baseid,isnull(b.speed,0) speed,convert(varchar,isnull(b.complete_time,getdate()) ,120) start_time,a.[录入时间],a.[品种],a.[机台],a.[班别],a.[班次] FROM dbo.view_paper_record_prod_base AS a LEFT JOIN tbl_paper_record_prod_log_paper_param b ON a.id = b.prod_baseid AND b.ip =? ORDER BY b.id DESC"
+          },
           {
             "title": "轴号",
             "titlewidth": 280,
@@ -1721,8 +1738,7 @@
             },
             "defaultOption": ["45", "50", "55", "60"],
             "span": 6,
-            "unReset": true,
-            "ignore": true
+            "unReset": true
           },
           {
             "title": "起卷时间",
@@ -1904,22 +1920,22 @@
     "dev": true,
     "api": {
       "insert": {
-        "url": "855/42nkbiks3",
-        "param": ["rec_time", "uid"]
+        "url": "1079/k6nuvfpibs",
+        "param": ["rec_time", "uid", "ip"]
       },
       "delete": {
-        "url": "856/42nkbiks3",
+        "url": "1080/k6nuvfpibs",
         "param": ["_id"]
       },
       "update": {
-        "url": "857/42nkbiks3",
+        "url": "1081/k6nuvfpibs",
         "param": ["_id"]
       },
       "table": {
-        "url": "858/42nkbiks3"
+        "url": "1082/k6nuvfpibs"
       },
       "load": {
-        "url": "859/42nkbiks3",
+        "url": "1083/k6nuvfpibs",
         "param": ["_id"]
       }
     },
@@ -1933,7 +1949,7 @@
             "disabled": true,
             "key": "prod_baseid",
             "span": 6,
-            "url": "828/70ffa281c9",
+            "url": "1051/6d8ae47082",
             "rule": {
               "required": true,
               "msg": "交接班基础信息未填写，请切换至选项卡1填写"

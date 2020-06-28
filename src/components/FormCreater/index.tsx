@@ -28,10 +28,11 @@ import * as lib from '@/utils/lib';
 import User from './user';
 import classnames from 'classnames';
 import { Dispatch } from 'redux';
-import { DEV } from '@/utils/setting';
 
 import * as mathjs from 'mathjs';
 import { axios } from '@/utils/axios';
+// import { DEV } from '@/utils/setting';
+let DEV = true;
 
 moment.locale('zh-cn');
 
@@ -99,7 +100,7 @@ const handleCalcKey = (item, cfg) => {
     if (item?.title?.length && typeof calc === 'string' && calc.includes(item.title)) {
       keys.push(item.key);
       calc = calc.replace(item.title, item.key);
-    } else {
+    } else if (calc.params) {
       keys = R.uniq([...keys, ...calc.params]);
     }
   });
@@ -577,6 +578,8 @@ function FormCreater({
       // 带有defaultOption及url的下拉项不重置
     )(cfg);
 
+    // console.log({ cfg, keys, fields });
+
     if (keys.length === 0) {
       setState(fields);
       return;
@@ -599,7 +602,7 @@ function FormCreater({
       ...increaseFileds,
     };
 
-    // console.log(nextFields);
+    // console.log({ nextFields });
 
     setFields(nextFields);
     setState(nextFields);
@@ -816,16 +819,14 @@ function FormCreater({
                         }
 
                         if (calcKey.length > 0) {
-                          setState(
-                            calcResult(
-                              {
-                                ...state,
-                                [key]: res,
-                              },
-                              calcKey,
-                              key
-                            )
-                          );
+                          calcResult(
+                            {
+                              ...state,
+                              [key]: res,
+                            },
+                            calcKey,
+                            key
+                          ).then(setState);
                         } else {
                           setState({
                             [key]: res,
@@ -860,6 +861,9 @@ function FormCreater({
                   reFetch={() => {
                     reFetch();
 
+                    if (config.api.init) {
+                      init();
+                    }
                     // 变更此项会导致不必要的重渲染
                     // setInnerTrigger(lib.timestamp());
                   }}

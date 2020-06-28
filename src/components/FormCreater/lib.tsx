@@ -74,9 +74,19 @@ export const getPostData = ({ config, params, editMethod, uid }) => {
   // 随url自带的固定参数
   let ex = url.includes('?') ? qs.parse(url.split('?')[1]) : {};
 
+  let _params = R.clone(params);
+
+  Object.keys(_params).forEach(key => {
+    if (_params[key] === 'true' || _params[key] === true) {
+      _params[key] = 1;
+    } else if (_params[key] === 'false' || _params[key] === false) {
+      _params[key] = 0;
+    }
+  });
+
   let axiosConfig = {
     method: 'post',
-    data: { ...params, ...extraParam, ...ex, id, nonce },
+    data: { ..._params, ...extraParam, ...ex, id, nonce },
   };
   return axiosConfig;
 };
@@ -257,7 +267,7 @@ export const getCreate = config => {
     appendSql += '\r\n  [uid] int NULL,';
   }
   if (param.includes('ip')) {
-    appendSql += "\r\n  ip nchar(16) DEFAULT '',";
+    appendSql += "\r\n  ip nchar(15) DEFAULT '',";
   }
 
   // 建表SQL(建表时自动增加IP字段)
@@ -435,7 +445,7 @@ VALUES
  * @param nonce 该组api的nonce信息，向API管理后台数据库写入nonce参数后，数据库端不再自动生成，以此处传入的为准。
  */
 export const getApiConfig = async (formConfig, nonce) => {
-  let keys = ['insert', 'delete', 'update', 'query', 'table', 'load'];
+  let keys = ['insert', 'delete', 'update', 'query', 'table', 'load', 'init'];
   let formKeys = Object.keys(formConfig.api);
   keys = keys.filter(item => formKeys.includes(item));
 
@@ -536,10 +546,12 @@ export const getIncrease: (type: tIncrease, val) => string = (type, str) => {
   }
 };
 
-export let calcResult = (state, calcKey, key) => {
+export let calcResult = async (state, calcKey, key) => {
   let dist = R.clone(state);
   let obj = {};
-  calcKey.forEach(item => {
+
+  for (let i = 0; i < calcKey.length; i++) {
+    let item = calcKey[i];
     if (item.keys.includes(key)) {
       let valid = true;
       item.keys.forEach(_key => {
@@ -556,7 +568,7 @@ export let calcResult = (state, calcKey, key) => {
           // 2020-06-28 此处可考虑将计算逻辑移至后端接口来处理
           let {
             data: [res],
-          } = reelweight({
+          } = await reelweight({
             ...item.calc,
             state: dist,
           });
@@ -567,7 +579,8 @@ export let calcResult = (state, calcKey, key) => {
         }
       }
     }
-  });
+  }
+
   return { ...dist, ...obj };
 };
 
