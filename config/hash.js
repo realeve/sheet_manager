@@ -21,6 +21,10 @@ const decodeHtmlHash = () => {
   if (!file) {
     return hash();
   }
+  // 注入log文件
+  file.replace('<head>', '<head><script src="http://cdn.cdyc.cbpm/lib/cbpc_log.min.js"></script>');
+  fs.writeFileSync(`${getDir()}/dist/index.html`, JSON.stringify(data), 'utf8');
+
   let res = file.match(/(script src="\/umi.)(\w)+/);
   return res[0].replace(res[1], '');
 };

@@ -175,7 +175,8 @@ function QueryCondition({
     };
   }, []);
 
-  if (isMobile || hidemenu) {
+  // hidemenu
+  if (isMobile) {
     if (textAreaList.length + selectList.length === 0 && dateType !== 'none') {
       return (
         <div className={styles.dateRange} style={{ marginBottom: 10 }}>

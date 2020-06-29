@@ -77,6 +77,12 @@ const getConfig = (data, afterFilter, sheetHeight) => {
           ? `<a href="${setting.searchUrl}${value}" target="_blank" style="text-decoration:none">${value}</a>`
           : '';
       };
+    } else if (lib.isUrl(item)) {
+      column.renderer = (hotInstance, TD, row, col, prop, value) => {
+        TD.innerHTML = value
+          ? `<a href="${value}" target="_blank" style="text-decoration:none">${value}</a>`
+          : '';
+      };
     }
 
     if (String(item).includes('base64')) {

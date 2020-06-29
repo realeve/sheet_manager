@@ -36,6 +36,8 @@ interface Rules {
   pallet: RegExp;
   plate: RegExp;
   phone: RegExp;
+  url: RegExp;
+  [key: string]: RegExp;
 }
 export const rules: Rules = {
   cart: /^[0-9]\d{3}[A-Za-z]\d{3}(|[a-bA-B])$/, // 车号
@@ -46,6 +48,7 @@ export const rules: Rules = {
   pallet: /^\d{2}(0[1-9]|1[0-2])\d{2}(1|2)\d{6}$/,
   plate: /^[A-Z|a-z]{2}\d{6}$|^[A-Z|a-z]{2}\d{8}$|^\d{8}$|^\d{6}$/,
   phone: /^\d{8}$|^\d{11}$/,
+  url: /^http(s|):\/\//,
 };
 
 interface CartReelReg {
@@ -59,6 +62,8 @@ export const isCartOrReel: CartReelReg = str => {
 export const isCart: CartReelReg = str => rules.cart.test(String(str).trim());
 export const isReel: CartReelReg = str => rules.reel.test(String(str).trim());
 export const isPlate: CartReelReg = str => rules.plate.test(String(str).trim());
+
+export const isUrl = str => rules.url.test(String(str).trim());
 
 // 车号/冠号/轴号的起始2位
 export const mayBeCartOrReel: CartReelReg = str => {
