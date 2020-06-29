@@ -559,7 +559,12 @@ export let calcResult = async (state, calcKey, key) => {
           valid = false;
         }
       });
-      // console.log(valid, key, item, dist);
+
+      // "title": "机台",
+      // "type": "radio.button",
+      // "key": "machine_name",
+      //   "calc": "轴号.substr(4,1)",
+
       if (valid) {
         // 计算数据
         if (typeof item.calc === 'string') {

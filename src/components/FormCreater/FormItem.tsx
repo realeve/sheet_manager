@@ -80,6 +80,7 @@ export default function formItem({
     hidetitle = false,
     init,
     tooltip,
+    style,
     ...props
   },
   scope = [],
@@ -242,6 +243,7 @@ export default function formItem({
         [styles['form-item-vertical']]: formLayout === 'vertical',
       })}
       offset={offset}
+      style={style}
     >
       {append && (
         <Modal

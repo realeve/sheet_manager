@@ -56,8 +56,8 @@ const getCalcResult = (calcvalue: 'class_name' | 'hour' | string) => {
     case 'hour':
       // 当前小时
       return new Date().getHours();
-      return '';
     default:
+      // mathjs.evaluate(item.calc, dist)
       return mathjs.evaluate(calcvalue);
   }
 };
