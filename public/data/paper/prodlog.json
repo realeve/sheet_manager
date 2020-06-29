@@ -392,25 +392,24 @@
           },
           {
             "title": "纸机车速",
-            "type": "radio.button",
+            "type": "input.number",
             "key": "speed",
             "block": "m/min",
             "rule": {
               "type": "int",
               "required": true
             },
-            "defaultOption": ["45", "50", "55", "60"],
             "span": 6,
             "unReset": true
           },
           {
             "title": "恒定部有效作业时间",
             "titlewidth": 260,
-            "type": "input",
+            "type": "timepicker",
+            "datetype": "HH小时mm分钟",
             "key": "valid_prod_timelength",
             "suffix": "H",
             "rule": {
-              "type": "float",
               "required": true
             },
             "span": 6
@@ -1730,13 +1729,12 @@
           },
           {
             "title": "纸机车速",
-            "type": "radio.button",
+            "type": "input.number",
             "key": "speed",
             "block": "m/min",
             "rule": {
               "type": "int"
             },
-            "defaultOption": ["45", "50", "55", "60"],
             "span": 6,
             "unReset": true
           },
@@ -1824,7 +1822,6 @@
               "type": "float",
               "required": true
             },
-            "disabled": true,
             "span": 6,
             "allowClear": false
           },
@@ -1851,7 +1848,6 @@
               "type": "float",
               "required": true
             },
-            "disabled": true,
             "span": 6,
             "allowClear": false
           },

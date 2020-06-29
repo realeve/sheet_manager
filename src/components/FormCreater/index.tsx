@@ -125,6 +125,7 @@ export type FieldType =
   | 'label'
   | 'input'
   | 'input.number'
+  | 'timepicker'
   | 'datepicker'
   | 'datepicker.month'
   | 'switch'

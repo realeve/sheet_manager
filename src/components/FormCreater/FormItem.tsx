@@ -6,6 +6,7 @@ import {
   Switch,
   InputNumber,
   DatePicker,
+  TimePicker,
   Rate,
   notification,
   Button,
@@ -340,6 +341,15 @@ export default function formItem({
                 : props.placeholder || ''
             }
             {...restScope}
+          />
+        )}
+        {type === 'timepicker' && (
+          <TimePicker
+            value={moment(state || moment(), props.datetype || 'HH:mm:ss')}
+            onChange={(_, value) => onChange(value)}
+            style={{ width: '100%' }}
+            {...props}
+            format={props.datetype || 'HH:mm:ss'}
           />
         )}
         {type === 'datepicker' && (

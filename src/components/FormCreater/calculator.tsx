@@ -86,8 +86,8 @@ const calcWeight = ({ reel, speed, time_start, time_end, time_delta }) => {
     });
     return handleData({
       reel_weight: '',
-      qcs_weight: cfg.weight * 1000,
-      paper_width_qcs: cfg.width * reel_size,
+      // qcs_weight: cfg.weight * 1000,
+      // paper_width_qcs: cfg.width * reel_size,
       time_length,
     });
   }
@@ -98,8 +98,8 @@ const calcWeight = ({ reel, speed, time_start, time_end, time_delta }) => {
   let reel_weight = prod_line == 3 || dist <= 600 ? dist * speed : (dist - 2 * prefix) * speed;
   return handleData({
     reel_weight: Number(reel_weight.toFixed(0)),
-    qcs_weight: cfg.weight * 1000,
-    paper_width_qcs: cfg.width * reel_size,
+    // qcs_weight: cfg.weight * 1000,
+    // paper_width_qcs: cfg.width * reel_size,
     time_length,
   });
 };

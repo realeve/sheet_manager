@@ -16,6 +16,7 @@ rem css
 copy %srcDir%*.css %destDir%
 copy %srcDir%*.html %destDir%
 copy %srcDir%*.svg %destDir%
+copy %srcDir%*.json %destDir%
 copy %srcDir%.htaccess %destDir%
 
 REM 拷贝JSON文件
