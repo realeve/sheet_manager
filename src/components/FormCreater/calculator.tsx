@@ -95,7 +95,10 @@ const calcWeight = ({ reel, speed, time_start, time_end, time_delta }) => {
   const prefix = reel_size * cfg.width * cfg.weight * coefficient[prod_line];
 
   const dist = prefix * time_length;
-  let reel_weight = prod_line == 3 || dist <= 600 ? dist * speed : (dist - 2 * prefix) * speed;
+
+  const result = dist * speed;
+
+  let reel_weight = prod_line == 3 || result <= 600 ? result : result - 2 * prefix * speed;
   return handleData({
     reel_weight: Number(reel_weight.toFixed(0)),
     // qcs_weight: cfg.weight * 1000,

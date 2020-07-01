@@ -20,10 +20,14 @@ export function useOptions({ url, defaultOption, params, textVal, cascade }) {
       return;
     }
 
-    axios({ url, params }).then(({ data }) => {
-      data = handleOptions(data, textVal);
-      setOptions({ options: data, loading: false });
-    });
+    axios({ url, params })
+      .then(({ data }) => {
+        data = handleOptions(data, textVal);
+        setOptions({ options: data, loading: false });
+      })
+      .catch(e => {
+        console.error(e);
+      });
   }, [url, defaultOption, params, cascade]);
   return options;
 }

@@ -8,8 +8,7 @@ import SimpleChart from '@/pages/Search/components/SimpleChart';
 
 import * as R from 'ramda';
 import Err from '@/components/Err';
-import { AxiosError } from '@/utils/axios';
-import { IAxiosState } from '@/components/hooks/useFetch';
+import { AxiosError, IAxiosState } from '@/utils/axios';
 
 const filterData = (res, type: string, key: string = 'type') => {
   let data = R.filter(item => item[key] == type)(res.data);

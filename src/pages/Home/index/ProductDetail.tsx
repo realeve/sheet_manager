@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { Col, Row, Tabs, Button } from 'antd';
-import useFetch, { IAxiosState } from '@/components/hooks/useFetch';
+import useFetch from '@/components/hooks/useFetch';
+import { IAxiosState } from '@/utils/axios';
 import { CHART_MODE } from '@/pages/chart/utils/lib';
 import dateRanges from '@/utils/ranges';
 import style from './index.less';

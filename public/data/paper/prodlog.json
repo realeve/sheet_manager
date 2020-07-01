@@ -583,7 +583,6 @@
             "mode": "multiple",
             "url": "./data/base/paper_prod_user.json",
             "unReset": true,
-
             "span": 6
           },
           {
@@ -775,12 +774,10 @@
           {
             "title": "专责",
             "key": "operator",
-
             "type": "select",
             "mode": "multiple",
             "url": "./data/base/paper_prod_user.json",
             "unReset": true,
-
             "rule": {
               "required": true
             },
@@ -1645,7 +1642,6 @@
             "mode": "multiple",
             "url": "./data/base/paper_prod_user.json",
             "unReset": true,
-
             "rule": {
               "required": true
             },

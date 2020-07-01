@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { mock, axios, AxiosError } from '@/utils/axios';
 import http, { AxiosRequestConfig } from 'axios';
 import * as R from 'ramda';
-export { IAxiosState } from '@/utils/axios';
 /**
  *
  * @param axios所返回数据的自动解析，在返回数据只有单个对象时使用

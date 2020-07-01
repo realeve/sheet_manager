@@ -1,5 +1,6 @@
 import React from 'react';
-import useFetch, { IAxiosState } from '@/components/hooks/useFetch';
+import useFetch from '@/components/hooks/useFetch';
+import { IAxiosState } from '@/utils/axios';
 import moment from 'moment';
 import { CHART_MODE } from '@/pages/chart/utils/lib';
 import GroupCard from './GroupCard';

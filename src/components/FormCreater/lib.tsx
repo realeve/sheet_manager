@@ -235,12 +235,13 @@ export const getCreate = config => {
       return `  [${key}] datetime  DEFAULT (getdate()) NULL`;
     } else if (['input.number', 'switch', 'input'].includes(item.type)) {
       // 字段类型
+
       let filedType = 'int';
       if (item?.rule?.type === 'float') {
         filedType = 'float(53)';
       } else if (
         item.type === 'input' &&
-        (!item?.rule.type || ['reel', 'cart', 'gz'].includes(item?.rule?.type))
+        (!item?.rule?.type || ['reel', 'cart', 'gz'].includes(item?.rule?.type))
       ) {
         return `  [${key}] nchar(${
           item?.rule?.type == 'reel'

@@ -7,7 +7,8 @@ import { ChartCard, Field, Yuan } from '../components/';
 // MiniArea,MiniProgress,
 import PrintComplete from './card/print_complete';
 import PaperProdNum from './card/paper_complete';
-import useFetch, { IAxiosState } from '@/components/hooks/useFetch';
+import useFetch from '@/components/hooks/useFetch';
+import { IAxiosState } from '@/utils/axios';
 
 const topColResponsiveProps = {
   xs: 24,

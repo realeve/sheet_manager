@@ -294,7 +294,9 @@ export default function formItem({
             style={{ width: '100%' }}
             autoSize={{ minRows: 2, maxRows: 4 }}
             value={state}
-            onChange={e => onChange(e.target.value, props)}
+            onChange={e => {
+              onChange(e.target.value, props);
+            }}
             {...props}
             placeholder={hidetitle ? title : props.placeholder}
           />

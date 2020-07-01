@@ -4,7 +4,9 @@ import React from 'react';
 import numeral from 'numeral';
 import { ChartCard, MiniArea, Field } from '../../components/';
 
-import useFetch, { IAxiosState } from '@/components/hooks/useFetch';
+import useFetch from '@/components/hooks/useFetch';
+import { IAxiosState } from '@/utils/axios';
+
 import * as lib from '@/utils/lib';
 import { topColResponsiveProps } from '../../components/Cards';
 
