@@ -10,10 +10,15 @@ import router from 'umi/router';
 const getIp = () =>
   axios({
     url: '/ip',
-  }).then(res => {
-    window.localStorage.setItem('ip', res.ip);
-    return res.ip;
-  });
+  })
+    .then(res => {
+      window.localStorage.setItem('ip', res.ip);
+      return res.ip;
+    })
+    .catch(e => {
+      console.error('IP地址获取失败');
+      return '0.0.0.0';
+    });
 
 const needCascade = params => !(R.isNil(params.cascade) || params.cascade[0] === '0');
 export function* getSelectList(params, call) {

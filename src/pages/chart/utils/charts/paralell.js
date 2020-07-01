@@ -1,6 +1,6 @@
 import util from '../lib';
 import * as lib from '@/utils/lib';
-import jStat from 'jStat';
+import jStat from 'jstat';
 const R = require('ramda');
 
 let chartConfig = [

@@ -1,7 +1,7 @@
 import Excel from 'exceljs/dist/es5/exceljs.browser.js';
 import { saveAs } from 'file-saver';
 import * as R from 'ramda';
-import jStat from 'jStat';
+import jStat from 'jstat';
 import lib from '@/pages/chart/utils/lib';
 import * as utils from './lib';
 import { AUTHOR, config, company } from './setting';

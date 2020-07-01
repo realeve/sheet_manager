@@ -1,4 +1,4 @@
-import jStat from 'jStat';
+import jStat from 'jstat';
 import * as lib from '../utils/lib';
 const R = require('ramda');
 

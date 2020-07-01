@@ -1,5 +1,5 @@
 import util from '../lib';
-import jStat from 'jStat';
+import jStat from 'jstat';
 import moment from 'moment';
 
 const R = require('ramda');
@@ -184,19 +184,13 @@ let getCalendar = (config, idx, range, name) => {
 let getRange = (data, { startmode }) => {
   let curData = R.pluck(0)(data);
   if (startmode === 'day') {
-    curData = R.compose(
-      R.uniq,
-      R.map(R.slice(0, 10))
-    )(curData);
+    curData = R.compose(R.uniq, R.map(R.slice(0, 10)))(curData);
     curData.sort((a, b) => a.localeCompare(b));
     return [R.head(curData), R.last(curData)].sort((a, b) => a.localeCompare(b));
   }
 
   // 以月为单位
-  curData = R.compose(
-    R.uniq,
-    R.map(R.slice(0, 7))
-  )(curData);
+  curData = R.compose(R.uniq, R.map(R.slice(0, 7)))(curData);
   curData = curData.sort((a, b) => a.localeCompare(b));
   let head = R.head(curData);
   let last = R.last(curData);

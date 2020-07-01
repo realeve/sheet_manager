@@ -1,5 +1,5 @@
 import util from '../lib';
-import jStat from 'jStat';
+import jStat from 'jstat';
 
 const R = require('ramda');
 
@@ -8,14 +8,14 @@ let chartConfig = [
     key: 'type',
     title: '图表类型',
     default: 'sunburst',
-    url: '/chart#id=8/26f49db157&type=sunburst'
+    url: '/chart#id=8/26f49db157&type=sunburst',
   },
   {
     key: 'border',
     title: '最外层数据是否显示为细线条样式',
     default: '1',
-    url: '/chart#id=8/26f49db157&type=sunburst&border=1'
-  }
+    url: '/chart#id=8/26f49db157&type=sunburst&border=1',
+  },
 ];
 
 let getColSum = (data, key) => {
@@ -36,20 +36,17 @@ let handleSunBrustData = (data, header, colorful = true) => {
   // 当前字段共几个非重复元素
   let itemList = util.getUniqByIdx({
     key,
-    data
+    data,
   });
-  return itemList.map((name) => {
-    let _data = R.compose(
-      R.map(R.pick(_header)),
-      R.filter(R.propEq(key, name))
-    )(data);
+  return itemList.map(name => {
+    let _data = R.compose(R.map(R.pick(_header)), R.filter(R.propEq(key, name)))(data);
     let res = {
       name,
-      value: getColSum(_data, valKey)
+      value: getColSum(_data, valKey),
     };
     if (colorful) {
       res.itemStyle = {
-        color: util.colors[Math.floor(Math.random() * util.colors.length)]
+        color: util.colors[Math.floor(Math.random() * util.colors.length)],
       };
     }
 
@@ -79,16 +76,16 @@ let getLevels = (len, config) => {
       r0: r0 + '%',
       r: levels[i + 1] + '%',
       label: {
-        align: 'right'
+        align: 'right',
       },
       itemStyle: {
-        borderWidth: 2
-      }
+        borderWidth: 2,
+      },
     });
   });
 
   res[0].label = {
-    rotate: 'tangential'
+    rotate: 'tangential',
   };
 
   if (showBorder) {
@@ -98,18 +95,18 @@ let getLevels = (len, config) => {
       label: {
         position: 'outside',
         padding: 3,
-        silent: false
+        silent: false,
       },
       itemStyle: {
-        borderWidth: 3
-      }
+        borderWidth: 3,
+      },
     });
   }
 
   return [{}, ...res];
 };
 
-let sunburst = (config) => {
+let sunburst = config => {
   let { data, header } = config.data;
 
   config.border = config.border || '1';
@@ -123,18 +120,18 @@ let sunburst = (config) => {
     radius: [0, '95%'],
     data: seriesData,
     sort: null,
-    levels
+    levels,
   };
 
   return {
     series,
     tooltip: {
-      trigger: 'item'
+      trigger: 'item',
     },
     legend: {
-      show: false
+      show: false,
     },
-    toolbox: {}
+    toolbox: {},
   };
 };
 

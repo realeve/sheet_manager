@@ -1,5 +1,5 @@
 import { histogram } from '@/utils/echarts-stat';
-import jStat from 'jStat';
+import jStat from 'jstat';
 import util from '../lib';
 import theme from './theme';
 const R = require('ramda');

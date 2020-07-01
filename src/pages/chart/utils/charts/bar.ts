@@ -1,5 +1,5 @@
 import util, { TChartConfig } from '../lib';
-import jStat from 'jStat';
+import jStat from 'jstat';
 import theme from './theme';
 import * as scatter from './scatter';
 import * as histogram from './histogram';
