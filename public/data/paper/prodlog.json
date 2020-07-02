@@ -1003,7 +1003,14 @@
                   "dryer_temp_17",
                   "dryer_temp_18",
                   "dryer_temp_19",
-                  "dryer_temp_20"
+                  "dryer_temp_20",
+                  "air_open_percent_1",
+                  "air_out_switch_open_percent_1",
+                  "air_open_percent_2",
+                  "air_out_switch_open_percent_2",
+                  "air_open_percent_3",
+                  "air_out_switch_open_percent_3",
+                  "air_out_open_percent"
                 ]
               },
               {
@@ -1015,7 +1022,14 @@
                   "dryer_temp_17",
                   "dryer_temp_18",
                   "dryer_temp_19",
-                  "dryer_temp_20"
+                  "dryer_temp_20",
+                  "air_open_percent_1",
+                  "air_out_switch_open_percent_1",
+                  "air_open_percent_2",
+                  "air_out_switch_open_percent_2",
+                  "air_open_percent_3",
+                  "air_out_switch_open_percent_3",
+                  "air_out_open_percent"
                 ]
               },
               {
@@ -1373,7 +1387,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "送风风机开度1组",
@@ -1384,7 +1398,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "排风阀门开度1组",
@@ -1395,7 +1409,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 8
+            "span": 6
           },
 
           {
@@ -1407,7 +1421,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "送风风机开度2组",
@@ -1418,7 +1432,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "排风阀门开度2组",
@@ -1429,7 +1443,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "温度3组",
@@ -1440,7 +1454,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "送风风机开度3组",
@@ -1451,7 +1465,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "排风阀门开度3组",
@@ -1462,7 +1476,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 8
+            "span": 6
           },
           {
             "title": "送风风机转速3组",
@@ -1473,9 +1487,8 @@
             "rule": {
               "type": "float"
             },
-            "span": 8
+            "span": 6
           },
-
           {
             "title": "气垫排风风机开度",
             "titlewidth": 280,
@@ -1485,7 +1498,7 @@
             "rule": {
               "type": "float"
             },
-            "span": 8
+            "span": 6
           }
         ]
       }
