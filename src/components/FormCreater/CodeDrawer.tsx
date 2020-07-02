@@ -49,6 +49,9 @@ export default function codeDrawer({
     if (!formConfig.detail) {
       return;
     }
+
+    let unmounted = false;
+
     (async () => {
       let res = R.compose(
         // R.reject(R.propEq('key', 'ignoreIncrese')),
@@ -62,12 +65,14 @@ export default function codeDrawer({
       let condition = formConfig.api.query || {
         param: ['_id'],
       };
+
       const select = `      SELECT 
       ${keys.join(',\r\n        ')} 
     FROM
       tbl_${formConfig.table} 
     WHERE
       ${(condition.param || []).map(item => `${item} = '1'`).join(' and ')}`;
+
       let quick = `      SELECT 
       ${keys.join(',\r\n        ')} 
     FROM
@@ -93,6 +98,10 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
       //     .replace('{', ',')
       //     .slice(0, -1)
       // );
+
+      if (unmounted) {
+        return;
+      }
 
       setSql({
         select,
@@ -136,6 +145,10 @@ SELECT top 50 * FROM view_${formConfig.table} ORDER BY 录入时间 desc;`;
         query,
       });
     })();
+
+    return () => {
+      unmounted = true;
+    };
   }, [JSON.stringify(formConfig)]);
 
   const handleConfig = () => {
