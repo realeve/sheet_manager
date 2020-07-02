@@ -440,6 +440,7 @@
             "rule": {
               "required": true
             },
+            "defaultValue": "08:00",
             "span": 6
           },
           {
@@ -682,9 +683,6 @@
               }
             ],
             "key": "prod_id",
-            "rule": {
-              "required": true
-            },
             "span": 6
           },
           {
