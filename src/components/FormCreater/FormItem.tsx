@@ -137,6 +137,7 @@ export default function formItem({
   const onChange = (val: any, props: { [key: string]: any } = {}) => {
     let value = handler.trim(val);
     let { toupper, tolower } = props;
+
     if (toupper) {
       value = handler.toUpper(val);
     } else if (tolower) {

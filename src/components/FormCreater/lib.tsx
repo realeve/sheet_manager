@@ -259,7 +259,7 @@ export const getCreate = config => {
     return `  [${key}] nchar(${item?.key?.includes('remark') ? 255 : 40}) DEFAULT ''`;
   });
 
-  let param = config.api.insert.param || [];
+  let param = config?.api?.insert?.param || [];
   let appendSql = '';
   if (param.includes('rec_time')) {
     appendSql += '[rec_time] datetime DEFAULT (getdate()) NULL,';
@@ -325,7 +325,7 @@ export const getApi = (config, nonce) => {
     update?: string[];
     query?: string[];
   } = {
-    insert: config.api.insert.param || [],
+    insert: config?.api?.insert?.param || [],
   };
 
   if (config.api.delete) {

@@ -435,9 +435,8 @@
             "title": "恒定部有效作业时间",
             "titlewidth": 260,
             "type": "timepicker",
-            "datetype": "HH小时mm分钟",
+            "datetype": "H小时m分钟",
             "key": "valid_prod_timelength",
-            "suffix": "H",
             "rule": {
               "required": true
             },
@@ -504,21 +503,6 @@
             "span": 6
           },
           {
-            "title": "主网与短网分浆比",
-            "titlewidth": 260,
-            "type": "input",
-            "key": "main_short_pulp_percent",
-            "suffix": "%",
-            "rule": {
-              "type": "float"
-            },
-            "calc": "(主网良浆分配浆量/短网良浆分配浆量*100).toFixed(2)",
-            "block": "=主网浆量/短网浆量",
-            "span": 6,
-            "disabled": true,
-            "defaultValue": 0
-          },
-          {
             "title": "揭纸辊揭纸区真空度",
             "titlewidth": 260,
             "type": "input",
@@ -574,11 +558,9 @@
             },
             "span": 6
           },
-
           {
             "title": "专责",
             "key": "operator",
-
             "type": "select",
             "mode": "multiple",
             "url": "./data/base/paper_prod_user.json",

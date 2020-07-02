@@ -45,6 +45,6 @@ export function useOptions({ url, defaultOption, params, textVal, cascade }) {
     return () => {
       source.cancel();
     };
-  }, [JSON.stringify(url), JSON.stringify(defaultOption), cascade, params[cascade]]);
+  }, [url, JSON.stringify(defaultOption), cascade, params[cascade]]);
   return options;
 }
