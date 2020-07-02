@@ -143,12 +143,19 @@ export interface AxiosError {
 }
 export const handleError = error => {
   let config = error.config || {};
+
   let str = config.params || config.data || {};
   let { id, nonce, ...params } = typeof str === 'string' ? qs.parse(str) : str;
   Reflect.deleteProperty(params, 'tstart2');
   Reflect.deleteProperty(params, 'tend2');
   Reflect.deleteProperty(params, 'tstart3');
   Reflect.deleteProperty(params, 'tend3');
+
+  if (http.isCancel(error)) {
+    return Promise.reject({
+      message: '请求取消',
+    });
+  }
 
   if (typeof error.message === 'undefined') {
     // 路由取消

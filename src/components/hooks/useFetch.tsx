@@ -44,6 +44,9 @@ const useFetch = <T extends {} | void>({
   setData: (data: T) => void;
   reFetch: () => void;
 } => {
+  // unmounted时才更新数据
+  let unmounted = false;
+
   // 同时未传时，返回空值
   // 部分场景允许不设置param时，返回默认状态为空的数据
   // 如，多个tab条的切换点击
@@ -61,20 +64,27 @@ const useFetch = <T extends {} | void>({
 
   // 首次加载
   useEffect(() => {
+    const source = CancelToken.source();
+
+    param.cancelToken = source.token;
+
     // if (!R.isNil(initData) && R.equals(data, initData)) {
     //   return;
     // }
 
     // 加载时，data置为空
-    setData(null);
+    if (!unmounted) {
+      setData(null);
+    }
 
     // 数据请求前校验
     if (typeof param.url === 'undefined' || !param.url || param.url.length === 0 || !valid()) {
       return;
     }
 
-    setLoading(true);
-
+    if (!unmounted) {
+      setLoading(true);
+    }
     // 数据mock
     if (initData) {
       mock<T>(initData).then(v => {
@@ -82,19 +92,21 @@ const useFetch = <T extends {} | void>({
         // if (v.length === 0) {
         //   return;
         // }
-        setData(v);
-        setLoading(false);
+        if (!unmounted) {
+          setData(v);
+          setLoading(false);
+        }
       });
       return;
     }
 
-    const source = CancelToken.source();
-
-    param.cancelToken = source.token;
-
     // 从后端发起请求
     axios(param as AxiosRequestConfig)
       .then((data: any) => {
+        if (unmounted) {
+          return;
+        }
+
         if (callback) {
           setData(callback(data));
         } else {
@@ -103,14 +115,17 @@ const useFetch = <T extends {} | void>({
         setLoading(false);
       })
       .catch((e: any) => {
-        setError(e);
-        setLoading(false);
-        throw e;
+        if (!unmounted) {
+          setError(e);
+          setLoading(false);
+          throw e;
+        }
       });
 
     // 路由变更时，取消axios
     return () => {
-      source.cancel();
+      unmounted = true;
+      source.cancel('组件卸载或页面刷新，取消请求。');
     };
     // 监听axios数据请求中 url、get/post关键参数
   }, [param.url, JSON.stringify(param.params), JSON.stringify(param.data), initData, innerTrigger]);

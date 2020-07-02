@@ -408,7 +408,7 @@ function FormCreater({
         },
       });
 
-      reFetch();
+      // reFetch();
       refreshScope();
     }
 
@@ -497,13 +497,13 @@ function FormCreater({
   };
 
   // 底部table支持注入查询参数
-  const { data: tblData, loading, reFetch } = useFetch({
-    param: {
-      url: getUrl(formConfig),
-      params: R.pick(formConfig?.api?.table?.param || [])({ ...state, ...user }),
-    },
-    valid: shouldRefreshHistoryData,
-  });
+  // const { data: tblData, loading, reFetch } = useFetch({
+  //   param: {
+  //     url: getUrl(formConfig),
+  //     params: R.pick(formConfig?.api?.table?.param || [])({ ...state, ...user }),
+  //   },
+  //   valid: shouldRefreshHistoryData,
+  // });
 
   // 设置不合格数据
   let [remark, setRemark] = useState('');
@@ -888,7 +888,7 @@ function FormCreater({
                   formConfig={formConfig}
                   config={R.clone(config)}
                   reFetch={() => {
-                    reFetch();
+                    // reFetch();
 
                     if (config.api.init) {
                       init();
@@ -910,7 +910,7 @@ function FormCreater({
             </Row>
           </Card>
         ))}
-        {tblData && (
+        {/* {tblData && (
           <Card>
             <VTable
               dataSrc={tblData}
@@ -920,7 +920,7 @@ function FormCreater({
               merge={false}
             />
           </Card>
-        )}
+        )} */}
       </div>
     </div>
   );

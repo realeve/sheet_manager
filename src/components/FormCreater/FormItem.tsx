@@ -22,6 +22,8 @@ import { handler, onValidate, getRuleMsg } from './lib';
 import * as R from 'ramda';
 
 import { axios } from '@/utils/axios';
+import http from 'axios';
+
 import SimpleList from '@/pages/Search/components/SimpleList';
 import { IFieldItem } from './index';
 import styles from './index.less';
@@ -207,6 +209,9 @@ export default function formItem({
       return;
     }
 
+    let unmounted = false;
+    let source = http.CancelToken.source();
+
     // 处理默认载入数据的场景;
     axios({
       url: props.url,
@@ -214,6 +219,7 @@ export default function formItem({
         uid: user.uid,
         ip,
       },
+      cancelToken: source.token,
     }).then(res => {
       if (res.rows == 0 && typeof rule != 'string' && rule.required) {
         notification.error({
@@ -223,10 +229,16 @@ export default function formItem({
         });
         return;
       }
+      if (unmounted) {
+        return;
+      }
       setAppend(res);
-      // console.log('trigger 5');
       setState(res.data[0]);
     });
+    return () => {
+      unmounted = true;
+      source.cancel();
+    };
   }, [innerTrigger]);
 
   let showTitle = title?.length > 0 && !hidetitle;

@@ -111,7 +111,7 @@ const Index = ({ location }) => {
     );
   }
 
-  const FormItem = ({ item, idx = -1 }: { item: IFormConfig | IFormConfig[]; idx?: number }) =>
+  const FormPage = ({ item, idx = -1 }: { item: IFormConfig | IFormConfig[]; idx?: number }) =>
     Array.isArray(item) ? (
       <div className={styles.alignColumn}>
         {item.map((formConfig, id) => (
@@ -141,14 +141,14 @@ const Index = ({ location }) => {
       <Tabs defaultActiveKey={tabid} type="line">
         {R.clone(data).map((item, idx) => (
           <Tabs.TabPane tab={item?.name || item[0]?.name} key={String(idx)}>
-            <FormItem item={item} idx={idx} />
+            <FormPage item={item} idx={idx} />
           </Tabs.TabPane>
         ))}
       </Tabs>
     );
   }
 
-  return <FormItem item={R.clone(data)} />;
+  return <FormPage item={R.clone(data)} />;
 };
 
 export default connect()(Index);
