@@ -66,7 +66,9 @@ const getCalcResult = (calcvalue: 'class_name' | 'hour' | string) => {
   }
 };
 
-const getDefaultList = async (cfg, ip, initParam) => {
+const getDefaultList = async (setSource, cfg, ip, initParam) => {
+  let _source = CancelToken.source();
+  setSource(_source);
   let defaultList = R.filter(
     item => typeof item.defaultValue !== 'undefined' || item.value || item.calcvalue
   )(cfg);
@@ -78,20 +80,24 @@ const getDefaultList = async (cfg, ip, initParam) => {
     }
   });
   if (initParam) {
-    await axios({
+    let dist = await axios({
       ...initParam,
       params: {
         ip,
       },
+      cancelToken: _source.token,
     }).then(({ data, rows }) => {
       if (rows === 0) {
-        return;
+        return false;
       }
+      return data;
+    });
+    if (dist) {
       res = {
         ...res,
-        ...data[0],
+        ...dist[0],
       };
-    });
+    }
   }
 
   return res;
@@ -299,13 +305,11 @@ function FormCreater({
    * 处理带function的JSON文件
    */
 
-  const init = async (isUnmounted = false) => {
-    setSource(CancelToken.source());
-    let res = await getDefaultList(cfg, ip, R.clone(config.api.init));
-    if (!isUnmounted) {
+  const init = () => {
+    getDefaultList(setSource, cfg, ip, R.clone(config.api.init)).then(res => {
       setState(res);
       setFields(res);
-    }
+    });
   };
 
   const [qualifyKey, setQualifyKey] = useState(null);
@@ -324,7 +328,14 @@ function FormCreater({
     let isUnmounted = false;
 
     // config改变后初始化表单数据
-    init(isUnmounted);
+    getDefaultList(setSource, cfg, ip, R.clone(config.api.init)).then(res => {
+      // 此处
+      if (!isUnmounted) {
+        setState(res);
+        setFields(res);
+      }
+    });
+
     // console.log('config变更了');
     if (!isUnmounted) {
       setCalcKey([]);
