@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSetState } from 'react-use';
 import { Card, Row, Switch } from 'antd';
-import { Icon } from '@ant-design/compatible';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import {
   validRequire,
@@ -31,6 +31,10 @@ import { Dispatch } from 'redux';
 
 import * as mathjs from 'mathjs';
 import { axios } from '@/utils/axios';
+
+import http from 'axios';
+const { CancelToken } = http;
+
 // import { DEV } from '@/utils/setting';
 let DEV = true;
 
@@ -272,6 +276,9 @@ function FormCreater({
   }>();
   let [totalScore, setTotalScore] = useState(100);
 
+  // axios 取消请求时使用
+  let [source, setSource] = useState(null);
+
   let [editMethod, setEditMethod] = useState('insert');
   let [validateState, setValidateState] = useSetState();
 
@@ -292,10 +299,13 @@ function FormCreater({
    * 处理带function的JSON文件
    */
 
-  const init = async () => {
+  const init = async (isUnmounted = false) => {
+    setSource(CancelToken.source());
     let res = await getDefaultList(cfg, ip, R.clone(config.api.init));
-    setState(res);
-    setFields(res);
+    if (!isUnmounted) {
+      setState(res);
+      setFields(res);
+    }
   };
 
   const [qualifyKey, setQualifyKey] = useState(null);
@@ -311,19 +321,24 @@ function FormCreater({
   const [calcKey, setCalcKey] = useState([]);
 
   useEffect(() => {
-    // config改变后初始化表单数据
-    init();
-    // console.log('config变更了');
+    let isUnmounted = false;
 
-    setCalcKey([]);
-    setFormConfig(R.clone(config));
+    // config改变后初始化表单数据
+    init(isUnmounted);
+    // console.log('config变更了');
+    if (!isUnmounted) {
+      setCalcKey([]);
+      setFormConfig(R.clone(config));
+    }
     let requiredFileds = [];
     let nextFields = {};
     let observeKey = null;
     let calcFields = [];
 
     if (config?.api?.query?.param || config?.api?.update?.param) {
-      setQueryKey(R.clone(config.api.query || config.api.update).param);
+      if (!isUnmounted) {
+        setQueryKey(R.clone(config.api.query || config.api.update).param);
+      }
     }
 
     let calcKeys = [];
@@ -359,37 +374,51 @@ function FormCreater({
         nextFields[item.key] = item.mode === 'tags' ? [] : '';
         // 如果有日期选择组件，记录初始化数据
         if (item.type === 'datepicker') {
-          setState({ [item.key]: moment().format(item.datetype || 'YYYY-MM-DD') });
+          if (!isUnmounted) {
+            setState({ [item.key]: moment().format(item.datetype || 'YYYY-MM-DD') });
+          }
         }
-        setValidateState({ [item.key]: true });
+        if (!isUnmounted) {
+          setValidateState({ [item.key]: true });
+        }
       });
     });
 
-    // 需要被计算的字段
-    setCalcKey(R.map(item => handleCalcKey(item, cfg))(calcKeys));
+    if (!isUnmounted) {
+      // 需要被计算的字段
+      setCalcKey(R.map(item => handleCalcKey(item, cfg))(calcKeys));
 
-    // 表示结果是否“合格”的字段
-    setQualifyKey(observeKey);
+      // 表示结果是否“合格”的字段
+      setQualifyKey(observeKey);
 
-    setFields(nextFields);
-    setRequiredFileds(requiredFileds);
+      setFields(nextFields);
+      setRequiredFileds(requiredFileds);
 
-    setCalcFields(calcFields);
+      setCalcFields(calcFields);
 
-    setCalcValid({
-      key: '',
-      status: true,
-    });
+      setCalcValid({
+        key: '',
+        status: true,
+      });
 
-    dispatch({
-      type: 'common/setStore',
-      payload: {
-        curPageName: config.name,
-      },
-    });
+      dispatch({
+        type: 'common/setStore',
+        payload: {
+          curPageName: config.name,
+        },
+      });
 
-    reFetch();
-    refreshScope();
+      reFetch();
+      refreshScope();
+    }
+
+    return () => {
+      isUnmounted = true;
+
+      if (source) {
+        source.cancel();
+      }
+    };
   }, [JSON.stringify(config)]);
 
   // 表单字段当前状态判断
@@ -719,9 +748,8 @@ function FormCreater({
                     {formConfig.name}
 
                     {DEV && (
-                      <Icon
+                      <QuestionCircleOutlined
                         style={{ paddingLeft: 10 }}
-                        type="question-circle-o"
                         onClick={() => setModalVisible(true)}
                       />
                     )}
@@ -813,7 +841,7 @@ function FormCreater({
                       dev={formConfig.dev}
                       innerTrigger={innerTrigger}
                       ip={ip}
-                      setState={res => {
+                      setState={async res => {
                         if (lib.getType(res) === 'object') {
                           setState(res);
                           return;

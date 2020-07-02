@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Select, message, Drawer, List, Switch, Divider, Button, Alert, Tooltip } from 'antd';
-import { Icon } from '@ant-design/compatible';
+import { CloseOutlined, SettingOutlined } from '@ant-design/icons';
 import { formatMessage } from 'umi/locale';
 // import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { connect } from 'dva';
@@ -141,13 +141,21 @@ class SettingDrawer extends PureComponent {
         placement="right"
         handler={
           <div className="ant_theme_handle">
-            <Icon
-              type={collapse ? 'close' : 'setting'}
-              style={{
-                color: '#fff',
-                fontSize: 20,
-              }}
-            />
+            {collapse ? (
+              <CloseOutlined
+                style={{
+                  color: '#fff',
+                  fontSize: 20,
+                }}
+              />
+            ) : (
+              <SettingOutlined
+                style={{
+                  color: '#fff',
+                  fontSize: 20,
+                }}
+              />
+            )}
           </div>
         }
         onHandleClick={this.togglerContent}

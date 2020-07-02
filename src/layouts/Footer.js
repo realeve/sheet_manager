@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from 'antd';
-import { Icon } from '@ant-design/compatible';
-import { AUTHOR, CUR_COMPANY } from '@/utils/setting';
+import { CopyrightOutlined } from '@ant-design/icons';
+import { AUTHOR } from '@/utils/setting'; // CUR_COMPANY
 import { connect } from 'dva';
 
 const { Footer } = Layout;
@@ -16,7 +16,7 @@ const FooterView = ({ version }) => (
     }}
   >
     <div>
-      <Icon type="copyright" /> 2019 {AUTHOR}
+      <CopyrightOutlined /> 2019 {AUTHOR}
     </div>
     <div style={{ marginLeft: 20 }}>
       <span>系统版本: V {version.version}</span>

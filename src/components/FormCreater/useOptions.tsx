@@ -2,17 +2,23 @@ import { useState, useEffect } from 'react';
 import { axios } from '@/utils/axios';
 import * as R from 'ramda';
 import { handleOptions } from './lib';
+import http from 'axios';
+const { CancelToken } = http;
 
 export function useOptions({ url, defaultOption, params, textVal, cascade }) {
   const [options, setOptions] = useState({ options: [], loading: true });
+
+  const callback = (data, textVal) => {
+    let res = handleOptions(data, textVal);
+    setOptions({ options: res, loading: false });
+  };
+
   useEffect(() => {
     if (cascade && !params[cascade]) {
       return;
     }
-
     if (defaultOption) {
-      let data = handleOptions(defaultOption, textVal);
-      setOptions({ options: data, loading: false });
+      callback(defaultOption, textVal);
       return;
     }
 
@@ -20,14 +26,25 @@ export function useOptions({ url, defaultOption, params, textVal, cascade }) {
       return;
     }
 
-    axios({ url, params })
-      .then(({ data }) => {
-        data = handleOptions(data, textVal);
-        setOptions({ options: data, loading: false });
+    const source = CancelToken.source();
+
+    axios({ url, params, cancelToken: source.token })
+      .then(res => {
+        if (!res) {
+          return;
+        }
+        let { data } = res;
+        callback(data, textVal);
       })
       .catch(e => {
         console.error(e);
+        return e;
       });
-  }, [url, defaultOption, params, cascade]);
+
+    // 路由变更时，取消axios
+    return () => {
+      source.cancel();
+    };
+  }, [JSON.stringify(url), JSON.stringify(defaultOption), cascade, params[cascade]]);
   return options;
 }

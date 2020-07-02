@@ -45,7 +45,7 @@ export default function PinyinSelector({
     }
     let val = detail.map(({ name }) => name);
     setOptVal(val);
-  }, [JSON.stringify(options), value.join(','), props.cascade]);
+  }, [options, value.join(','), props.cascade]);
 
   let [selectedItems, setSelectedItems] = useState([]);
 
@@ -54,7 +54,7 @@ export default function PinyinSelector({
   useEffect(() => {
     let res = options.filter(o => !selectedItems.includes(o.value));
     setOption(res);
-  }, [JSON.stringify(options), selectedItems]);
+  }, [options, selectedItems]);
 
   const handleOption = value => {
     if (R.isNil(value) || props.mode !== 'tags') {
