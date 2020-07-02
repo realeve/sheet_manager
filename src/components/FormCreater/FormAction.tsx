@@ -341,7 +341,7 @@ export default ({
         </Button>
       )}
 
-      {formConfig.api.delete && formConfig.api.delete.url && (
+      {_id > 0 && formConfig.api.delete && formConfig.api.delete.url && (
         <Popconfirm
           title="确定删除本条数据?"
           onConfirm={() => onDelete()}

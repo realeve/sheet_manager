@@ -5,7 +5,7 @@ import { handleOptions } from './lib';
 import http from 'axios';
 const { CancelToken } = http;
 
-export function useOptions({ url, defaultOption, params, textVal, cascade }) {
+export function useOptions({ url, defaultOption, params, textVal, cascade = '' }) {
   const [options, setOptions] = useState({ options: [], loading: true });
 
   const callback = (data, textVal) => {
@@ -14,7 +14,7 @@ export function useOptions({ url, defaultOption, params, textVal, cascade }) {
   };
 
   useEffect(() => {
-    if (cascade && !params[cascade]) {
+    if (cascade.length > 0 && !params[cascade]) {
       return;
     }
     if (defaultOption) {
@@ -45,6 +45,7 @@ export function useOptions({ url, defaultOption, params, textVal, cascade }) {
     return () => {
       source.cancel();
     };
-  }, [url, JSON.stringify(defaultOption), cascade, params[cascade]]);
+  }, [url, JSON.stringify(defaultOption), cascade, JSON.stringify(params)]);
+
   return options;
 }

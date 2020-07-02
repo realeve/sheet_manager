@@ -47,41 +47,43 @@ export default function PinyinSelector({
     setOptVal(val);
   }, [options, value.join(','), props.cascade]);
 
-  let [selectedItems, setSelectedItems] = useState([]);
+  // let [selectedItems, setSelectedItems] = useState([]);
 
-  const [option, setOption] = useState([]);
+  // const [option, setOption] = useState([]);
 
-  useEffect(() => {
-    let res = options.filter(o => !selectedItems.includes(o.value));
-    setOption(res);
-  }, [options, selectedItems]);
+  // useEffect(() => {
+  //   let res = options.filter(o => !selectedItems.includes(o.value));
+  //   setOption(res);
+  // }, [options, selectedItems]);
 
-  const handleOption = value => {
-    if (R.isNil(value) || props.mode !== 'tags') {
-      return;
-    }
-    let label = R.last(value);
-    if (R.isNil(label)) {
-      return;
-    }
-    let needPush = R.filter(R.propEq('name', label))(options).length === 0;
-    if (!needPush) {
-      return;
-    }
-    let newOptions = [...options, { label, name: label, value: label }];
-    setOption(newOptions);
-  };
+  // const handleOption = value => {
+  //   if (R.isNil(value) || props.mode !== 'tags') {
+  //     return;
+  //   }
+  //   let label = R.last(value);
+  //   if (R.isNil(label)) {
+  //     return;
+  //   }
+  //   let needPush = R.filter(R.propEq('name', label))(options).length === 0;
+  //   if (!needPush) {
+  //     return;
+  //   }
+  //   let newOptions = [...options, { label, name: label, value: label }];
+  //   setOption(newOptions);
+  // };
 
   const onMultipleChange = value => {
     let detail = R.filter(item => value.includes(item.value) || value.includes(item.name))(options);
     let val = detail.map(({ value }) => value);
-    setSelectedItems(val);
+    // if (val.length === 0) {
+    //   val = [''];
+    // }
     onChange(val);
   };
 
   const onSingleChange = value => {
     if (props.mode === 'tags') {
-      handleOption(value);
+      // handleOption(value);
       value = [R.last(value)];
     }
     let scope = handleScope(R.type(value) == 'Array' ? value[0] : value, options);
@@ -93,7 +95,7 @@ export default function PinyinSelector({
   useEffect(() => {
     let nextState = props.mode !== 'tags' ? optVal : value;
     setSelectVal(R.isNil(nextState) ? {} : { value: nextState });
-  }, [value.join(','), optVal]);
+  }, [value, optVal]);
 
   // 选择项变更时清除历史数据
   useEffect(() => {
@@ -113,7 +115,7 @@ export default function PinyinSelector({
     <PinyinSelect
       style={{ width: props.mode === 'multiple' ? 230 : 150 }}
       onChange={onSelect}
-      options={cascade && R.isNil(params[cascade]) ? [] : option}
+      options={cascade && R.isNil(params[cascade]) ? [] : options}
       placeholder="拼音首字母过滤"
       {...props}
       {...selectVal}

@@ -3,7 +3,13 @@ import { useOptions } from './useOptions';
 import { Radio } from 'antd';
 import { handleScope } from './FormItem';
 const { Group } = Radio;
-export default function RadioButton({ url, value: val, onChange, defaultOption, ...props }) {
+export default function RadioButton({
+  url = null,
+  value: val,
+  onChange,
+  defaultOption = {},
+  ...props
+}) {
   const { options } = useOptions({ url, defaultOption });
   return (
     <Group

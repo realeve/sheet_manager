@@ -619,6 +619,75 @@
             "tooltip": "SELECT top 1 a.id prod_baseid,isnull(b.safe_line_pay_ta,0) safe_line_remain_ta,isnull(b.safe_line_pay_tb,0) safe_line_remain_tb,a.[录入时间],a.[品种],a.[机台],a.[班别],a.[班次] FROM dbo.view_paper_record_prod_base AS a left join tbl_paper_record_prod_part_wet b on a.id=b.prod_baseid and b.ip ='0.0.0.0' ORDER BY a.id DESC"
           },
           {
+            "title": "品种",
+            "type": "select",
+            "unReset": true,
+            "init": true,
+            "defaultOption": [
+              {
+                "name": "103-G-2T",
+                "value": "103-G-2T",
+                "hide": [
+                  "safe_line_remain_tb",
+                  "safe_line_receive_tb",
+                  "safe_line_useage_tb",
+                  "safe_line_pay_tb",
+                  "safe_line_reback_tb"
+                ]
+              },
+              {
+                "name": "103-G-2A",
+                "value": "103-G-2A",
+                "hide": [
+                  "safe_line_remain_tb",
+                  "safe_line_receive_tb",
+                  "safe_line_useage_tb",
+                  "safe_line_pay_tb",
+                  "safe_line_reback_tb"
+                ]
+              },
+              {
+                "name": "103-G-3T",
+                "value": "103-G-3T",
+                "hide": [
+                  "safe_line_remain_tb",
+                  "safe_line_receive_tb",
+                  "safe_line_useage_tb",
+                  "safe_line_pay_tb",
+                  "safe_line_reback_tb"
+                ]
+              },
+              {
+                "name": "103-G-4T",
+                "value": "103-G-4T",
+                "hide": [
+                  "safe_line_remain_tb",
+                  "safe_line_receive_tb",
+                  "safe_line_useage_tb",
+                  "safe_line_pay_tb",
+                  "safe_line_reback_tb"
+                ]
+              },
+              {
+                "name": "103-G-6T",
+                "value": "103-G-6T"
+              },
+              {
+                "name": "103-G-7T",
+                "value": "103-G-7T"
+              },
+              {
+                "name": "试验品",
+                "value": "试验品"
+              }
+            ],
+            "key": "prod_id",
+            "rule": {
+              "required": true
+            },
+            "span": 6
+          },
+          {
             "title": "真空伏辊真空度",
             "titlewidth": 260,
             "type": "input",
@@ -953,7 +1022,13 @@
               },
               {
                 "value": "老线",
-                "name": "老线"
+                "name": "老线",
+                "hide": [
+                  "steam_temp_in_3",
+                  "air_open_percent_3",
+                  "air_out_switch_open_percent_3",
+                  "air_volume_out_3"
+                ]
               }
             ],
             "unReset": true,
@@ -1618,6 +1693,31 @@
             }
           },
           {
+            "title": "机台",
+            "type": "radio.button",
+            "key": "machine_name",
+            "defaultOption": [
+              {
+                "value": "1",
+                "name": "新线-1",
+                "hide": ["pressure_delta1", "pressure_delta2"]
+              },
+              {
+                "value": "2",
+                "name": "新线-2",
+                "hide": ["pressure_delta1", "pressure_delta2"]
+              },
+              {
+                "value": "3",
+                "name": "老线",
+                "hide": ["line_pressure2", "line_pressure1"]
+              }
+            ],
+            "unReset": true,
+            "span": 6,
+            "ignore": true
+          },
+          {
             "title": "专责人员",
             "key": "operator",
             "type": "select",
@@ -1671,8 +1771,7 @@
             "key": "pressure_delta1",
             "suffix": "bar",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 6
           },
@@ -1683,8 +1782,7 @@
             "key": "line_pressure1",
             "suffix": "N/mm",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 6
           },
@@ -1719,8 +1817,7 @@
             "key": "pressure_delta2",
             "suffix": "bar",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 6
           },
@@ -1731,8 +1828,7 @@
             "key": "line_pressure2",
             "suffix": "N/mm",
             "rule": {
-              "type": "float",
-              "required": true
+              "type": "float"
             },
             "span": 6
           }

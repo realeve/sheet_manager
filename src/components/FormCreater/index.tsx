@@ -419,7 +419,7 @@ function FormCreater({
         },
       });
 
-      // reFetch();
+      reFetch();
       refreshScope();
     }
 
@@ -899,7 +899,7 @@ function FormCreater({
                   formConfig={formConfig}
                   config={R.clone(config)}
                   reFetch={() => {
-                    // reFetch();
+                    reFetch();
 
                     if (config.api.init) {
                       init();
@@ -921,13 +921,12 @@ function FormCreater({
             </Row>
           </Card>
         ))}
-        {tblData && (
-          <Card>
+        {formConfig.api.load && (
+          <Card loading={loading}>
             <VTable
-              dataSrc={tblData}
+              dataSrc={tblData || { data: [], rows: 0 }}
               beforeRender={formConfig.api.load ? beforeSheetRender : e => e}
               renderParam={{ tabId }}
-              loading={loading}
               merge={false}
             />
           </Card>
