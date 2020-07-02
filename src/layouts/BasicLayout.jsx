@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { Layout } from 'antd';
-import DocumentTitle from 'react-document-title';
 import isEqual from 'lodash/isEqual';
 import memoizeOne from 'memoize-one';
 import { connect } from 'dva';
-import { ContainerQuery } from 'react-container-query';
-import classNames from 'classnames';
+
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+
 import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
 import SiderMenu from '@/components/SiderMenu';
@@ -17,8 +17,6 @@ import Footer from './Footer';
 import Context from './MenuContext';
 import { DateRangePicker } from '@/components/QueryCondition';
 import ToggleMenu from '@/components/GlobalHeader/ToggleMenu';
-// import userTool from '../utils/users';
-// import router from 'umi/router';
 
 import menuUtil from './menuData';
 import ForOThree from '@/pages/403';
@@ -50,30 +48,30 @@ const getBreadcrumbList = menuData => {
   return menuUtil.getBreadcrumbList(decodeURI(curMenu), menuData);
 };
 
-const query = {
-  'screen-xs': {
-    maxWidth: 575,
-  },
-  'screen-sm': {
-    minWidth: 576,
-    maxWidth: 767,
-  },
-  'screen-md': {
-    minWidth: 768,
-    maxWidth: 991,
-  },
-  'screen-lg': {
-    minWidth: 992,
-    maxWidth: 1199,
-  },
-  'screen-xl': {
-    minWidth: 1200,
-    maxWidth: 1599,
-  },
-  'screen-xxl': {
-    minWidth: 1600,
-  },
-};
+// const query = {
+//   'screen-xs': {
+//     maxWidth: 575,
+//   },
+//   'screen-sm': {
+//     minWidth: 576,
+//     maxWidth: 767,
+//   },
+//   'screen-md': {
+//     minWidth: 768,
+//     maxWidth: 991,
+//   },
+//   'screen-lg': {
+//     minWidth: 992,
+//     maxWidth: 1199,
+//   },
+//   'screen-xl': {
+//     minWidth: 1200,
+//     maxWidth: 1599,
+//   },
+//   'screen-xxl': {
+//     minWidth: 1600,
+//   },
+// };
 
 class BasicLayout extends PureComponent {
   constructor(props) {
@@ -293,18 +291,14 @@ class BasicLayout extends PureComponent {
     );
 
     return (
-      <React.Fragment>
-        <DocumentTitle title={this.getPageTitle(location.pathname)} />
+      <HelmetProvider>
         <ConfigProvider locale={zhCN}>
-          <ContainerQuery query={query}>
-            {params => (
-              <Context.Provider value={this.getContext()}>
-                <div className={classNames(params)}>{layout}</div>
-              </Context.Provider>
-            )}
-          </ContainerQuery>
+          <Helmet>
+            <title>{this.getPageTitle(location.pathname)}</title>
+          </Helmet>
+          <Context.Provider value={this.getContext()}>{layout}</Context.Provider>
         </ConfigProvider>
-      </React.Fragment>
+      </HelmetProvider>
     );
   }
 }
