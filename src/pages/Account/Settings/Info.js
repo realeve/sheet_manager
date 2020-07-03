@@ -4,12 +4,13 @@ import router from 'umi/router';
 import { FormattedMessage } from 'umi/locale';
 import { Menu } from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
-import styles from './index.less'; 
-import classNames from 'classnames'
+import styles from './index.less';
+import classNames from 'classnames';
 const { Item } = Menu;
 
-@connect(({ common: { userSetting } ,setting}) => ({
-  userSetting,setting
+@connect(({ common: { userSetting }, setting }) => ({
+  userSetting,
+  setting,
 }))
 class Info extends Component {
   constructor(props) {
@@ -81,7 +82,7 @@ class Info extends Component {
     requestAnimationFrame(() => {
       let mode = 'inline';
 
-      const { offsetWidth } = this.main;
+      const { offsetWidth } = this.main || { offsetWidth: 1680 };
       if (this.main.offsetWidth < 641 && offsetWidth > 400) {
         mode = 'horizontal';
       }
@@ -95,7 +96,7 @@ class Info extends Component {
   };
 
   render() {
-    const { children, userSetting ,setting} = this.props;
+    const { children, userSetting, setting } = this.props;
     if (!userSetting.uid) {
       return '';
     }
@@ -109,7 +110,13 @@ class Info extends Component {
           }}
         >
           <div className={styles.leftmenu}>
-            <Menu theme={setting.navTheme} className={classNames({realDark:setting.navTheme==='realDark'})} mode={mode} selectedKeys={[selectKey]} onClick={this.selectKey}>
+            <Menu
+              theme={setting.navTheme}
+              className={classNames({ realDark: setting.navTheme === 'realDark' })}
+              mode={mode}
+              selectedKeys={[selectKey]}
+              onClick={this.selectKey}
+            >
               {this.getmenu()}
             </Menu>
           </div>
