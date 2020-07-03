@@ -37,20 +37,28 @@ const ListItem = ({ data, header, span, removeZero, removeEmpty }) => {
   return <ListItemFull data={data} header={newHeader} span={span} />;
 };
 
-const ListItemFull = ({ data, header, span }) => {
+export const ListItemFull = ({ data, header, span }) => {
+  const ListItem = ({ item }) => (
+    <ul style={{ marginRight: 15 }} className={styles.ul}>
+      {item.map(title => (
+        <li key={title}>
+          <strong style={{ fontWeight: 800 }}>{title}</strong>
+          {data[title] === '0.0' ? '' : renderItem(data[title])}
+        </li>
+      ))}
+    </ul>
+  );
+
+  if (span === 24) {
+    return <ListItem item={header} />;
+  }
+
   // 自动清除空数据
   let headerData = R.splitEvery(Math.ceil(header.length / Math.ceil(24 / span)), header);
-  // style={{ marginBottom: 15 }}
+
   return headerData.map((item, idx) => (
     <Col span={span} key={idx}>
-      <ul style={{ marginRight: 15 }}>
-        {item.map(title => (
-          <li key={title}>
-            <strong style={{ fontWeight: 800 }}>{title}</strong>
-            {data[title] === '0.0' ? '' : renderItem(data[title])}
-          </li>
-        ))}
-      </ul>
+      <ListItem item={item} />
     </Col>
   ));
 };

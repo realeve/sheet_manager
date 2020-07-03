@@ -93,6 +93,12 @@ export default [
         ],
       },
       {
+        name: '作业记录',
+        icon: 'table',
+        path: '/prod/log',
+        component: './prod/log',
+      },
+      {
         name: 'table',
         icon: 'table',
         path: '/table',
@@ -121,29 +127,6 @@ export default [
         icon: 'user',
         path: '/account',
         routes: [
-          // {
-          //   path: '/account/center',
-          //   name: 'center',
-          //   component: './Account/Center/Center',
-          //   routes: [
-          //     {
-          //       path: '/account/center',
-          //       redirect: '/account/center/myarticle',
-          //     },
-          //     {
-          //       path: '/account/center/myarticle',
-          //       component: './Account/Center/Articles',
-          //     },
-          //     {
-          //       path: '/account/center/aboutme',
-          //       component: './Account/Center/Aboutme',
-          //     },
-          //     {
-          //       path: '/account/center/hot',
-          //       component: './Account/Center/Hot',
-          //     },
-          //   ],
-          // },
           {
             path: '/account/settings',
             name: 'settings',
