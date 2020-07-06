@@ -93,12 +93,6 @@ export default [
         ],
       },
       {
-        name: '作业记录',
-        icon: 'table',
-        path: '/prod/log',
-        component: './prod/log',
-      },
-      {
         name: 'table',
         icon: 'table',
         path: '/table',

@@ -26,7 +26,7 @@ export default {
       .quarter(4)
       .endOf('quarters'),
   ],
-  上季: [
+  上季度: [
     moment()
       .subtract(1, 'quarter')
       .startOf('quarter'),
@@ -34,7 +34,7 @@ export default {
       .subtract(1, 'quarter')
       .endOf('quarter'),
   ],
-  本季: [moment().startOf('quarter'), moment().endOf('quarter')],
+  本季度: [moment().startOf('quarter'), moment().endOf('quarter')],
   去年同期: [
     moment()
       .subtract(1, 'year')
@@ -64,4 +64,6 @@ export default {
   本周: [moment().startOf('week'), moment().endOf('week')],
   昨天: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
   今天: [moment(), moment()],
+  前天: [moment().subtract(2, 'days'), moment().subtract(2, 'days')],
+  三天前: [moment().subtract(3, 'days'), moment().subtract(3, 'days')],
 };

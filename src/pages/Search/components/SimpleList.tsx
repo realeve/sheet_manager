@@ -40,10 +40,10 @@ const ListItem = ({ data, header, span, removeZero, removeEmpty }) => {
 export const ListItemFull = ({ data, header, span }) => {
   const ListItem = ({ item }) => (
     <ul style={{ marginRight: 15 }} className={styles.ul}>
-      {item.map(title => (
+      {item.map((title, idx) => (
         <li key={title}>
           <strong style={{ fontWeight: 800 }}>{title}</strong>
-          {data[title] === '0.0' ? '' : renderItem(data[title])}
+          {data[title] || data[idx] === '0.0' ? '' : renderItem(data[title] || data[idx])}
         </li>
       ))}
     </ul>
@@ -81,7 +81,7 @@ export default ({
     return <Err err={data.err} />;
   }
   if (data.rows === 0) {
-    return <Empty />;
+    return <Empty description="查询无结果，请更换检索日期重试" />;
   }
 
   return (

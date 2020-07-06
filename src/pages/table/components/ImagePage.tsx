@@ -121,7 +121,7 @@ function Index({ data, blob, extra = null, subTitle = null, onImageClick = () =>
       extra={extra}
     >
       {rows === 0 ? (
-        <Empty />
+        <Empty description="查询无结果，请更换检索车号重试" />
       ) : (
         <ul className={styles.content} ref={container}>
           <ImageItem data={data} blob={blob} gutter={gutter} onImageClick={onImageClick} />

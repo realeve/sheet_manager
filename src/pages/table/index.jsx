@@ -12,6 +12,8 @@ import QueryCondition from '@/components/QueryCondition';
 import Err from '@/components/Err';
 import ImageList from './components/ImagePage';
 import * as R from 'ramda';
+import qs from 'qs';
+import CardList from '@/components/CardList';
 
 const cx = classNames.bind(styles);
 
@@ -27,6 +29,7 @@ function Tables({
   common,
   axiosOptions,
   darkTheme,
+  location,
 }) {
   const [tableIds, setTableIds] = useState(common.tid);
   const [query, setQuery] = useState(common.query);
@@ -83,6 +86,8 @@ function Tables({
     );
   };
 
+  const hash = qs.parse(location.hash.slice(1));
+
   // loading={loading}
   return (
     <Spin size="large" tip="载入中..." spinning={common.spinning}>
@@ -112,29 +117,33 @@ function Tables({
               tabs: true,
             })}
           >
-            <Tabs defaultActiveKey="1" animated={false}>
-              <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="1">
-                <VTable
-                  loading={loading}
-                  dataSrc={dataSrc}
-                  extra={extraData[key]}
-                  config={lib.parseUrl(window.location.hash)}
-                  subTitle={subTitle}
-                />
-              </TabPane>
-              <TabPane tab={formatMessage({ id: 'chart.tab.tableCalc' })} key="2">
-                {dataSrc.err ? (
-                  <Err err={dataSrc.err} />
-                ) : (
-                  <VTableCalc
-                    dataSrc={dataSrc}
+            {hash.theme === 'listcard' ? (
+              <CardList data={dataSrc} group={hash.group} subTitle={subTitle} loading={loading} />
+            ) : (
+              <Tabs defaultActiveKey="1" animated={false}>
+                <TabPane tab={formatMessage({ id: 'chart.tab.table' })} key="1">
+                  <VTable
                     loading={loading}
-                    merge={false}
+                    dataSrc={dataSrc}
+                    extra={extraData[key]}
+                    config={lib.parseUrl(window.location.hash)}
                     subTitle={subTitle}
                   />
-                )}
-              </TabPane>
-            </Tabs>
+                </TabPane>
+                <TabPane tab={formatMessage({ id: 'chart.tab.tableCalc' })} key="2">
+                  {dataSrc.err ? (
+                    <Err err={dataSrc.err} />
+                  ) : (
+                    <VTableCalc
+                      dataSrc={dataSrc}
+                      loading={loading}
+                      merge={false}
+                      subTitle={subTitle}
+                    />
+                  )}
+                </TabPane>
+              </Tabs>
+            )}
           </div>
         );
       })}

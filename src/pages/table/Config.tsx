@@ -488,13 +488,22 @@ export default function tableConfig() {
           <li>
             <div className={styles.tip}>11.报表样式</div>
             <div className={classnames(styles.desc, 'configDemoDesc')}>theme</div>
-            <div>可选值 antd sheet，设为antd时使用ant design的报表组件，推荐不设置该属性</div>
+            <div>
+              可选值 antd|sheet|listcard，设为antd时使用ant design的报表组件，默认不设置该属性
+            </div>
             <div className={classnames(styles.demoLink, 'configDemoLink')}>
               <a href="/table#id=7/d0e509c803&daterange=6&theme=antd" target="_blank">
                 /table#id=7/d0e509c803&daterange=6&theme=antd
               </a>
               <a href="/table#id=7/d0e509c803&daterange=6" target="_blank">
                 /table#id=7/d0e509c803&daterange=6
+              </a>
+              <a
+                href="/table#id=1086/c36dff7762&daterange=13&theme=listcard&group=1"
+                target="_blank"
+              >
+                当设为listcard时，将以卡片的形式展示数据，详情见
+                /table#id=1086/c36dff7762&daterange=13&theme=listcard&group=1
               </a>
             </div>
           </li>

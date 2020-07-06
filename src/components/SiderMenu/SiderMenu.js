@@ -22,7 +22,7 @@ const R = require('ramda');
  * @memberof SiderMenu
  */
 const getDefaultCollapsedSubMenus = ({ breadcrumbList, menuData }) => {
-  let selectedKeys = getCurKey(breadcrumbList);
+  let selectedKeys = getCurKey(breadcrumbList || []);
   return {
     selectedKeys: [selectedKeys],
     openKeys: R.compose(
@@ -56,10 +56,10 @@ export default class SiderMenu extends PureComponent {
         pathname: props.location.pathname,
         ...nextState,
       };
-    } else if (props.nextUrl !== state.nextUrl || props.location.pathname !== pathname) {
+    } else if (props.nextUrl !== state.nextUrl || props?.location?.pathname !== pathname) {
       let nextState = getDefaultCollapsedSubMenus(props);
       return {
-        pathname: props.location.pathname,
+        pathname: props?.location?.pathname,
         ...nextState,
         searchValue: '',
         nextUrl: props.nextUrl,
@@ -140,18 +140,17 @@ export default class SiderMenu extends PureComponent {
     const { logo, collapsed, setting } = this.props;
     const { selectedKeys, openKeys, searchValue } = this.state;
     const defaultProps = { selectedKeys, openKeys }; //collapsed ? {} : { selectedKeys, openKeys };
-    let {navTheme:theme,fixSiderbar} = setting; 
-    
+    let { navTheme: theme, fixSiderbar } = setting;
+
     const siderClassName = cx('sider', {
-      fixSiderbar:fixSiderbar,
+      fixSiderbar: fixSiderbar,
       light: theme === 'light',
     });
-     
 
     const { menuData, ...baseMenuDefaultProps } = this.props;
     return (
       <Sider
-        trigger={null}
+        // trigger={null}
         collapsible
         collapsed={collapsed}
         breakpoint="lg"

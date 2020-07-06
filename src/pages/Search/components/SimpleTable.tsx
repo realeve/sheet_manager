@@ -20,7 +20,7 @@ export default function SimpleTable({
   if (data.err) {
     return <Err err={data.err} />;
   } else if (data.rows == 0) {
-    return <Empty />;
+    return <Empty description="查询无结果，请更换检索日期重试" />;
   }
 
   let dataSrc = R.clone(data.data);

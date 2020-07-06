@@ -27,7 +27,7 @@ export default function MachineCheck({ reel }) {
         {res.err ? (
           <Err err={res.err} />
         ) : res.rows === 0 ? (
-          <Empty />
+          <Empty description="查询无结果，请更换轴号重试" />
         ) : (
           <SimpleTable data={res} loading={loading} />
         )}

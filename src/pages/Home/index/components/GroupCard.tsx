@@ -41,28 +41,30 @@ const TabChart = ({ data, tabs, tabKey, chartParam, chartHeight }) => {
     setCurprod(tabs[0]);
   }, [tabs]);
 
+  if (data && (tabs.length == 0 || R.isNil(tabKey))) {
+    return (
+      <SimpleChart
+        data={data}
+        params={chartParam}
+        style={{ height: chartHeight - 70, width: '100%' }}
+        beforeRender={beforeRender}
+      />
+    );
+  }
+
   return (
     data && (
       <Tabs activeKey={curprod} onChange={setCurprod} type="line">
-        {typeof tabKey != 'undefined' ? (
-          tabs.map(prod => (
-            <Tabs.TabPane tab={prod} key={prod}>
-              <SimpleChart
-                data={filterData(data, prod, tabKey)}
-                params={chartParam}
-                style={{ height: chartHeight - 70, width: '100%' }}
-                beforeRender={beforeRender}
-              />
-            </Tabs.TabPane>
-          ))
-        ) : (
-          <SimpleChart
-            data={data}
-            params={chartParam}
-            style={{ height: chartHeight - 70, width: '100%' }}
-            beforeRender={beforeRender}
-          />
-        )}
+        {tabs.map(prod => (
+          <Tabs.TabPane tab={prod} key={prod}>
+            <SimpleChart
+              data={filterData(data, prod, tabKey)}
+              params={chartParam}
+              style={{ height: chartHeight - 70, width: '100%' }}
+              beforeRender={beforeRender}
+            />
+          </Tabs.TabPane>
+        ))}
       </Tabs>
     )
   );

@@ -7,6 +7,8 @@ import { connect } from 'dva';
 import userTool from '@/utils/users';
 import * as R from 'ramda';
 import { DEFAULT_MENU_ID } from '@/utils/setting';
+import { DownCircleOutlined } from '@ant-design/icons';
+
 const refreshMenu = (data, id = DEFAULT_MENU_ID) => {
   let menuId = window.localStorage.getItem('_userMenuId') || id;
   if (menuId == 'undefined') {
@@ -28,6 +30,7 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
         setCurMenuId(menu_id);
 
         let menu = refreshMenu(data, menu_id);
+        // console.log(menu);
         dispatch({
           type: 'common/setStore',
           payload: {
@@ -102,7 +105,8 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
       <div>
         <img src={logo} alt="logo" />
         <h1>{menu_title}</h1>
-        <Icon type="down" style={{ color: '#fff', marginLeft: 10 }} />
+        {/* <Icon type="down" style={{ color: '#fff', marginLeft: 10 }} /> */}
+        <DownCircleOutlined style={{ color: '#fff', marginLeft: 10 }} />
       </div>
     </Dropdown>
   );

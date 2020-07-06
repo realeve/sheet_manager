@@ -100,7 +100,7 @@ class BaseMenu extends PureComponent {
       <Link
         to={itemPath}
         target={target}
-        replace={itemPath === location.pathname}
+        replace={itemPath === location?.pathname}
         onClick={
           isMobile
             ? () => {
@@ -167,7 +167,7 @@ class BaseMenu extends PureComponent {
       className: mode === 'horizontal' ? 'top-nav-menu' : '',
     };
     // console.log('themeBaseMenu', this.props.theme);
- 
+
     return (
       <Menu
         onOpenChange={handleOpenChange}
