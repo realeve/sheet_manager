@@ -160,3 +160,41 @@ END IF
 ~~5、以轴号查车号、以车号查轴号，显示界面不太友好。平常较多的是利用在以轴号查相关箱号；~~
 
 ~~6、立体库工艺（10 令/垛）今后将长期运行，建议将每屏的轴号由 9 个增加为 10 个；~~
+
+# wamp 缓存设置
+
+```.htaccess
+# 打开模块
+LoadModule expires_module modules/mod_expires.so
+
+<IfModule expires_module>
+
+    #打开缓存
+    ExpiresActive on
+
+    #文件缓存2592000/3600/24=30天
+
+    ExpiresByType text/css A2592000
+
+    ExpiresByType application/x-javascript A2592000
+
+    ExpiresByType application/javascript A2592000
+
+    ExpiresByType image/jpeg A2592000
+
+    ExpiresByType image/gif A2592000
+
+    ExpiresByType image/svg+xml A2592000
+
+    ExpiresByType image/png A2592000
+
+    ExpiresByType image/x-icon A2592000
+
+	#index.html 1分钟
+    ExpiresByType text/html A60
+
+	ExpiresByType application/json A60
+
+</IfModule>
+
+```
