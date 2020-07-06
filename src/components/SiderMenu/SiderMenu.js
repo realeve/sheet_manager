@@ -150,7 +150,7 @@ export default class SiderMenu extends PureComponent {
     const { menuData, ...baseMenuDefaultProps } = this.props;
     return (
       <Sider
-        // trigger={null}
+        trigger={null}
         collapsible
         collapsed={collapsed}
         breakpoint="lg"

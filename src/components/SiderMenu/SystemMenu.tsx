@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, Dropdown, notification } from 'antd';
-import { Icon } from '@ant-design/compatible';
 import * as dbMenu from '@/pages/menu/service';
 // import { FormattedMessage } from 'umi/locale';
 import { connect } from 'dva';
@@ -13,6 +12,7 @@ const refreshMenu = (data, id = DEFAULT_MENU_ID) => {
   let menuId = window.localStorage.getItem('_userMenuId') || id;
   if (menuId == 'undefined') {
     menuId = id;
+    window.localStorage.setItem('_userMenuId', String(id));
   }
   let menu = R.find(R.propEq('id', Number(menuId)))(data) || { detail: '[]' };
   return menu.detail;
@@ -26,8 +26,10 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
       .getBaseMenuList()
       .then(({ data }) => {
         setMenuList(data);
+
         let menu_id = R.findIndex(R.propEq('title', menu_title))(data);
         setCurMenuId(menu_id);
+        window.localStorage.setItem('_userMenu', JSON.stringify(data));
 
         let menu = refreshMenu(data, menu_id);
         // console.log(menu);
