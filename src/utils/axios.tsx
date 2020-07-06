@@ -152,9 +152,10 @@ export const handleError = error => {
   Reflect.deleteProperty(params, 'tend3');
 
   if (http.isCancel(error)) {
-    return Promise.reject({
+    // 请求取消时无须发送至后台
+    return {
       message: '请求取消',
-    });
+    };
   }
 
   if (typeof error.message === 'undefined') {

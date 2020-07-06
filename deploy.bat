@@ -22,4 +22,6 @@ copy %srcDir%.htaccess %destDir%
 REM 拷贝JSON文件
 xcopy %srcDir%data %destDir%data\ /E /Y /F
 
+rem 打开网站
+start http://10.8.2.133:8000/
 pause

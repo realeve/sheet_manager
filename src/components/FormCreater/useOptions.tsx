@@ -9,11 +9,12 @@ export function useOptions({ url, defaultOption, params, textVal, cascade = '' }
   const [options, setOptions] = useState({ options: [], loading: true });
 
   const callback = (data, textVal) => {
-    let res = handleOptions(data, textVal);
+    let res = !data ? [] : handleOptions(data, textVal);
     setOptions({ options: res, loading: false });
   };
 
   useEffect(() => {
+    let mounted = false;
     if (cascade.length > 0 && !params[cascade]) {
       return;
     }
@@ -34,7 +35,7 @@ export function useOptions({ url, defaultOption, params, textVal, cascade = '' }
           return;
         }
         let { data } = res;
-        callback(data, textVal);
+        !mounted && callback(data, textVal);
       })
       .catch(e => {
         console.error(e);
@@ -44,6 +45,7 @@ export function useOptions({ url, defaultOption, params, textVal, cascade = '' }
     // 路由变更时，取消axios
     return () => {
       source.cancel();
+      mounted = true;
     };
   }, [url, JSON.stringify(defaultOption), cascade, JSON.stringify(params)]);
 

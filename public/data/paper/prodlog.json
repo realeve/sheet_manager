@@ -380,7 +380,7 @@
   },
   {
     "name": "2.恒定部",
-    "dev": true,
+    "dev": false,
     "api": {
       "insert": {
         "url": "1046/utqtv2lbo",
@@ -580,7 +580,7 @@
   },
   {
     "name": "3.湿部",
-    "dev": true,
+    "dev": false,
     "api": {
       "insert": {
         "url": "1052/4cpz15iocv",
@@ -951,7 +951,7 @@
   },
   {
     "name": "4.干燥施胶部交班",
-    "dev": true,
+    "dev": false,
     "api": {
       "insert": {
         "url": "1058/yyw9utc1vr",
@@ -1506,7 +1506,7 @@
   },
   {
     "name": "4.2干燥施胶部-纸幅尺寸",
-    "dev": true,
+    "dev": false,
     "api": {
       "insert": {
         "url": "1063/b7b2sczvb",
@@ -1665,7 +1665,7 @@
   },
   {
     "name": "5.压光卷取部",
-    "dev": true,
+    "dev": false,
     "api": {
       "insert": {
         "url": "1068/5c6iartu6e",
@@ -1849,7 +1849,7 @@
   },
   {
     "name": "5.2压光卷曲部-纸幅参数",
-    "dev": true,
+    "dev": false,
     "api": {
       "insert": {
         "url": "1073/g7zt56xc6f",
@@ -2089,7 +2089,7 @@
   },
   {
     "name": "6.化验站",
-    "dev": true,
+    "dev": false,
     "api": {
       "insert": {
         "url": "1079/k6nuvfpibs",
