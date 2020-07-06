@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styles from './index.less';
 import { Card, List, Tabs } from 'antd';
 import { ListItemFull } from '@/pages/Search/components/SimpleList';
@@ -12,18 +12,31 @@ const groupData = (data, param) => {
   return R.groupBy(R.prop(param))(data.data);
 };
 
-const CardListItem = ({ data, loading = false }) => (
+const CardListItem = ({
+  data,
+  loading = false,
+  spaceBetween = false,
+  beforeRender,
+  removeZero,
+}) => (
   <div className={styles.cardList}>
     <List
       rowKey="id"
       loading={loading}
-      grid={{ gutter: 12, lg: 3, md: 2, sm: 1, xs: 1 }}
+      grid={{ gutter: 12, lg: 4, md: 2, sm: 1, xs: 1 }}
       dataSource={(data && data.data) || []}
       renderItem={(item, idx) => {
         return (
           <List.Item key={idx}>
             <Card hoverable className={styles.card}>
-              <ListItemFull header={data.header} data={item} span={24} />
+              <ListItemFull
+                spaceBetween={spaceBetween}
+                header={data.header}
+                data={item}
+                span={24}
+                beforeRender={beforeRender}
+                removeZero={removeZero}
+              />
             </Card>
           </List.Item>
         );
@@ -45,17 +58,38 @@ const handleData = (data, group) => {
   });
 };
 
-const GroupCardList = ({ data, group }) => (
+const GroupCardList = ({ data, group, spaceBetween = false, beforeRender, removeZero }) => (
   <Tabs defaultActiveKey="1" type="line">
     {handleData(data, group).map(item => (
       <TabPane tab={item.tabTitle} key={item.tabTitle}>
-        <CardListItem data={item} />
+        <CardListItem
+          data={item}
+          spaceBetween={spaceBetween}
+          beforeRender={beforeRender}
+          removeZero={removeZero}
+        />
       </TabPane>
     ))}
   </Tabs>
 );
 
-export default ({ group, data: list, loading = false, subTitle = null }) => {
+export default ({
+  group,
+  data: list,
+  loading = false,
+  subTitle = null,
+  spaceBetween = false,
+  beforeRender = null,
+  removeZero = false,
+}: {
+  group?: string | number;
+  data: any;
+  loading?: boolean;
+  subTitle?: ReactNode;
+  spaceBetween?: boolean;
+  beforeRender?: null | ((id: string) => ReactNode);
+  removeZero?: boolean;
+}) => {
   // 载入数据
   if (loading || R.isNil(list) || R.isNil(list.data)) {
     return <Skeleton active />;
@@ -74,9 +108,21 @@ export default ({ group, data: list, loading = false, subTitle = null }) => {
         {subTitle && <small style={{ marginLeft: 5, fontSize: 14 }}>{subTitle}</small>}
       </h3>
       {typeof group !== 'undefined' ? (
-        <GroupCardList data={list} group={group} />
+        <GroupCardList
+          data={list}
+          group={group}
+          spaceBetween={spaceBetween}
+          beforeRender={beforeRender}
+          removeZero={removeZero}
+        />
       ) : (
-        <CardListItem data={list} loading={loading} />
+        <CardListItem
+          data={list}
+          loading={loading}
+          spaceBetween={spaceBetween}
+          beforeRender={beforeRender}
+          removeZero={removeZero}
+        />
       )}
       {!list ||
         (list.rows === 0 && (

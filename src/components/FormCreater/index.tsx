@@ -32,6 +32,8 @@ import { Dispatch } from 'redux';
 import * as mathjs from 'mathjs';
 import { axios } from '@/utils/axios';
 
+import CardList from '@/components/CardList';
+
 import http from 'axios';
 const { CancelToken } = http;
 
@@ -216,6 +218,7 @@ export interface IFormDb {
     // 查询最近录入的数据
     url: string;
     param?: string[];
+    theme?: string; // 当设置为 cardlist 时显示为卡片形式
   };
   load?: {
     // 载入历史数据，载入指定id的信息
@@ -921,15 +924,35 @@ function FormCreater({
             </Row>
           </Card>
         ))}
-        {formConfig.api.load && (
-          <Card loading={loading}>
-            <VTable
-              dataSrc={tblData || { data: [], rows: 0 }}
-              beforeRender={formConfig.api.load ? beforeSheetRender : e => e}
-              renderParam={{ tabId }}
-              merge={false}
-            />
-          </Card>
+        {formConfig.api?.table?.theme === 'cardlist' ? (
+          <CardList
+            data={tblData}
+            loading={loading}
+            spaceBetween
+            removeZero
+            beforeRender={id => {
+              let { hash } = window.location;
+              let param = qs.parse(hash.slice(1));
+              Reflect.deleteProperty(param, '_id');
+              let url = `#${qs.stringify(param)}&_id=${id}`;
+              return (
+                <a href={url} className="ant-btn ant-btn-primary ant-btn-sm">
+                  载入数据
+                </a>
+              );
+            }}
+          />
+        ) : (
+          formConfig.api.load && (
+            <Card loading={loading}>
+              <VTable
+                dataSrc={tblData || { data: [], rows: 0 }}
+                beforeRender={formConfig.api.load ? beforeSheetRender : e => e}
+                renderParam={{ tabId }}
+                merge={false}
+              />
+            </Card>
+          )
         )}
       </div>
     </div>

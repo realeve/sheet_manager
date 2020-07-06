@@ -22,7 +22,7 @@ export const renderItem = item => {
   return item;
 };
 
-const ListItem = ({ data, header, span, removeZero, removeEmpty }) => {
+const ListItem = ({ data, header, span, removeZero, removeEmpty, beforeRender }) => {
   let newHeader = [];
   header.forEach(key => {
     let notEmpty = removeEmpty && String(data[key]).trim().length > 0;
@@ -34,18 +34,34 @@ const ListItem = ({ data, header, span, removeZero, removeEmpty }) => {
       }
     }
   });
-  return <ListItemFull data={data} header={newHeader} span={span} />;
+  return <ListItemFull data={data} header={newHeader} span={span} beforeRender={beforeRender} />;
 };
 
-export const ListItemFull = ({ data, header, span }) => {
+export const ListItemFull = ({
+  data,
+  header,
+  span,
+  spaceBetween = false,
+  beforeRender,
+  removeZero,
+}) => {
   const ListItem = ({ item }) => (
     <ul style={{ marginRight: 15 }} className={styles.ul}>
-      {item.map((title, idx) => (
-        <li key={title}>
-          <strong style={{ fontWeight: 800 }}>{title}</strong>
-          {data[title] || data[idx] === '0.0' ? '' : renderItem(data[title] || data[idx])}
-        </li>
-      ))}
+      {item.map((title, idx) =>
+        removeZero &&
+        ((data[title] || data[idx]) == '0' || (data[title] || data[idx]) == '') ? null : (
+          <li key={title} style={{ justifyContent: spaceBetween ? 'space-between' : 'unset' }}>
+            {beforeRender && title === 'id' ? (
+              beforeRender({ name: title, value: data[title] || data[idx] })
+            ) : (
+              <>
+                <strong style={{ fontWeight: 800 }}>{title}</strong>
+                {(data[title] || data[idx]) === '0.0' ? '' : renderItem(data[title] || data[idx])}
+              </>
+            )}
+          </li>
+        )
+      )}
     </ul>
   );
 
