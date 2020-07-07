@@ -551,7 +551,14 @@ export const jump = url => router.push(url);
 const saveVersion = version => {
   window.localStorage.setItem('version', version);
 };
+
+/**
+ * 处理当前系统版本号
+ * @param param0 系统版本号、更新日期
+ */
 const readVersion = async ({ version, date }) => {
+  onTips(date);
+
   let localVersion = Number(window.localStorage.getItem('version') || '0.0');
   let serverVersion = Number(version);
 
@@ -562,7 +569,13 @@ const readVersion = async ({ version, date }) => {
 
   // 否则存储新版本信息;
   saveVersion(version);
+};
 
+/**
+ * 弹出新功能界面
+ * @param date 最近更新时间
+ */
+const onTips = async date => {
   let [res]: [{ title: string; desc: string; url: string }] = await axios.axios({
     url: `${window.location.origin}/update.json`,
   });
@@ -578,7 +591,7 @@ const readVersion = async ({ version, date }) => {
     message: res.title,
     description: (
       <div>
-        更新时间:{date}
+        更新时间：{date}
         <br />
         功能描述：{res.desc}
         <br />
@@ -589,10 +602,13 @@ const readVersion = async ({ version, date }) => {
         )}
       </div>
     ),
-    duration: 60,
+    duration: 600,
   });
 };
 
+/**
+ * 获取系统版本号
+ */
 export const getVersion = () =>
   axios
     .axios({
