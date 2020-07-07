@@ -5,7 +5,7 @@ import qs from 'qs';
 import dateRanges from './ranges';
 // import router from 'umi/router';
 import router from './router';
-
+import { notification } from 'antd';
 import userTool from './users';
 import { Dispatch } from 'react-redux';
 import * as axios from './axios';
@@ -548,7 +548,57 @@ export const getNonce = () =>
 
 export const jump = url => router.push(url);
 
-export const getVersion = () =>
-  axios.axios({
-    url: `${window.location.origin}/version${DEV ? 'dev' : ''}.json`,
+const saveVersion = version => {
+  window.localStorage.setItem('version', version);
+};
+const readVersion = async ({ version, date }) => {
+  let localVersion = Number(window.localStorage.getItem('version') || '0.0');
+  let serverVersion = Number(version);
+
+  // 版本未更新，退出
+  if (serverVersion <= localVersion) {
+    return;
+  }
+
+  // 否则存储新版本信息;
+  saveVersion(version);
+
+  let [res]: [{ title: string; desc: string; url: string }] = await axios.axios({
+    url: `${window.location.origin}/update.json`,
   });
+
+  let title = window.localStorage.getItem('funcName') || '';
+
+  // 功能弹出过，退出
+  if (title === res.title) {
+    return;
+  }
+  window.localStorage.setItem('funcName', res.title);
+  notification.info({
+    message: res.title,
+    description: (
+      <div>
+        更新时间:{date}
+        <br />
+        功能描述：{res.desc}
+        <br />
+        {res?.url?.length > 0 && (
+          <a href={res.url} target="_blank">
+            点击这里查看新功能
+          </a>
+        )}
+      </div>
+    ),
+    duration: 60,
+  });
+};
+
+export const getVersion = () =>
+  axios
+    .axios({
+      url: `${window.location.origin}/version${DEV ? 'dev' : ''}.json`,
+    })
+    .then(res => {
+      readVersion(res);
+      return res;
+    });

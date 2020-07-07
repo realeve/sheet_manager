@@ -192,6 +192,7 @@ export interface IFieldItem {
   increase: string; // 字段自增
   toupper: 'true' | 'false'; //转换为大写
   maxLength: number; // 字段长度
+  rows?: number; //textarea行数
   callback: {
     url: string; // 某个值变更时，触发数据加载
     params?: string[]; // state中的某些参数注入用于此次刷新
@@ -264,6 +265,8 @@ export interface IFormCreater {
   showHeader?: boolean;
   className?: string;
   ip?: string;
+  callback?: () => void;
+  value?: object;
 }
 
 function FormCreater({
@@ -277,12 +280,14 @@ function FormCreater({
   showHeader = true,
   className,
   ip,
+  callback,
+  value = {},
 }: IFormCreater) {
   // 增加对总分的计算，与scope字段一并处理
   let [state, setState] = useSetState<{
     ignoreIncrese?: boolean;
     [key: string]: any;
-  }>();
+  }>(value);
   let [totalScore, setTotalScore] = useState(100);
 
   // axios 取消请求时使用
@@ -301,6 +306,10 @@ function FormCreater({
   let [formConfig, setFormConfig] = useState(R.clone(config));
 
   let cfg = R.flatten(R.map(R.prop('detail'))(config.detail));
+
+  useEffect(() => {
+    setState(value || {});
+  }, [JSON.stringify(value)]);
 
   // 初始化defaultValue
   /**
@@ -771,14 +780,21 @@ function FormCreater({
                 )}
 
                 {mainTitle.length > 0 && (
-                  <span style={{ marginTop: 10 }}>
+                  <div
+                    style={{
+                      marginTop: 10,
+                      whiteSpace: 'pre-wrap',
+                      fontSize: 12,
+                      lineHeight: '16px',
+                    }}
+                  >
                     {mainTitle}
                     {formConfig.showScore && idx === 0 && (
                       <p>
                         <small>总分：{totalScore}</small>
                       </p>
                     )}
-                  </span>
+                  </div>
                 )}
               </div>
             }
@@ -919,6 +935,7 @@ function FormCreater({
                   setOutterTrigger={setOutterTrigger}
                   uid={user.uid}
                   ip={ip}
+                  callback={callback}
                 />
               )}
             </Row>

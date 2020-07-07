@@ -30,6 +30,7 @@ export default ({
   hidemenu,
   setOutterTrigger,
   ip = '',
+  callback,
 }) => {
   const [_id, setId] = useState(0);
   // 当前数据提交状态，提交时禁止重复提交
@@ -278,12 +279,20 @@ export default ({
 
     let {
       data: [{ affected_rows }],
-    } = await axios(axiosConfig).finally(() => {
-      setSubmitting(false);
-    });
+    } = await axios(axiosConfig)
+      .finally(() => {
+        setSubmitting(false);
+      })
+      .catch(e => {
+        notification.error({
+          message: '系统提示',
+          description: '添加/更新数据出错，请稍后再试',
+        });
+      });
     notity(affected_rows);
 
     reFetch && reFetch();
+    callback && callback();
   };
 
   const [shouldLoad, setShouldLoad] = useState(false);

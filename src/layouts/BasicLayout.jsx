@@ -26,6 +26,8 @@ import * as lib from '@/utils/setting';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 
+import FeedBack from '@/components/feedback';
+
 const { Content } = Layout;
 const R = require('ramda');
 
@@ -284,6 +286,7 @@ class BasicLayout extends PureComponent {
                 this.setState({ settings });
               }}
             />
+            <FeedBack />
           </Content>
           <Footer hidemenu={hidemenu} />
         </Layout>
