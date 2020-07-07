@@ -29,10 +29,10 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
 
         let menu_id = R.findIndex(R.propEq('title', menu_title))(data);
         setCurMenuId(menu_id);
-        window.localStorage.setItem('_userMenu', JSON.stringify(data));
 
         let menu = refreshMenu(data, menu_id);
-        // console.log(menu);
+        window.localStorage.setItem('_userMenu', JSON.stringify(menu));
+
         dispatch({
           type: 'common/setStore',
           payload: {

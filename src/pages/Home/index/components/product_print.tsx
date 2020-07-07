@@ -67,7 +67,7 @@ export default () => {
       {...cardStyle({
         title: (
           <div>
-            印钞生产计划完成率(%)
+            印钞生产计划月度完成率(%)
             <Button
               type="default"
               size="small"

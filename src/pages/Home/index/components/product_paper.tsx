@@ -11,7 +11,7 @@ import SimpleChart from '@/pages/Search/components/SimpleChart';
 const cardProp = cardStyle({
   title: (
     <div>
-      钞纸生产计划完成情况
+      钞纸生产计划月度完成情况
       <Button
         type="default"
         size="small"
