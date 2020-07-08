@@ -12,7 +12,7 @@ const formConfig = {
   name: '问题反馈',
   api: {
     insert: {
-      url: '715/f176c6fe9c',
+      url: '8/b5455c4214.json',
       param: ['ip'],
     },
   },
