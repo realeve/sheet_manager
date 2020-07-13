@@ -251,6 +251,9 @@ export const handleUrl = option => {
   if (option?.url?.[0] === '.') {
     option.url = window.location.origin + option.url.slice(1);
   }
+  if (option?.url?.includes('@/mock/')) {
+    option.url = option.url.replace('@', location.origin);
+  }
   return option;
 };
 
@@ -266,6 +269,12 @@ export let axios = option => {
     loadUserInfo(user);
   }
 
+  if (typeof option === 'string') {
+    option = {
+      url: option,
+      method: 'get',
+    };
+  }
   option = handleUrl(option);
 
   option = Object.assign(option, {

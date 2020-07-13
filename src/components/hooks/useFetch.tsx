@@ -85,6 +85,11 @@ const useFetch = <T extends {} | void>({
     if (!unmounted) {
       setLoading(true);
     }
+
+    if (param.url.includes('@/mock/')) {
+      param.url = param.url.replace('@', location.origin);
+    }
+
     // 数据mock
     if (initData) {
       mock<T>(initData).then(v => {
