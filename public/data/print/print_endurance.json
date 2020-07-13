@@ -54,7 +54,11 @@
               "value": "9602A",
               "hide": ["anti_CreaseB", "anti_CreaseOVMI", "washB", "anti_scrab"]
             },
-            { "name": "9602T", "value": "9602T", "hide": ["anti_CreaseOVMI", "anti_scrab"] },
+            {
+              "name": "9602T",
+              "value": "9602T",
+              "hide": ["anti_CreaseOVMI", "anti_scrab", "anti_CreaseB", "washB"]
+            },
             { "name": "9603A", "value": "9603A", "hide": ["anti_CreaseOVMI", "anti_scrab"] },
             { "name": "9603T", "value": "9603T" },
             { "name": "9604T", "value": "9604T" },
