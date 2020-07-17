@@ -42,11 +42,13 @@ const getMenuData = ({ menu, previewMenu, location: { pathname } }) => {
 const getBreadcrumbList = menuData => {
   const { href, origin } = window.location;
   let curMenu = href.replace(origin, '');
-  // console.log(curMenu);
   // , search
   // if (search.length) {
   //   curMenu = curMenu.replace(search, '');
   // }
+  
+  // console.log(curMenu,menuData);
+  
   return menuUtil.getBreadcrumbList(decodeURI(curMenu), menuData);
 };
 

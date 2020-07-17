@@ -382,7 +382,7 @@ export const handleUrlParams: (
   }
   let datename = Object.keys(dateRanges)[defaultDate];
 
-  const [tstart, tend] = dateRanges[datename];
+  const [tstart, tend] = dateRanges[datename] || dateRanges.三天前;
 
   // 处理默认日期类型（20190327）
   let formatType = 'YYYYMMDD';

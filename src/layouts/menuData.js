@@ -49,7 +49,15 @@ const handleMenuData = menuData => {
 const handleBreadItem = (pathname, menuData) => {
   let result = [];
   menuData.forEach(({ path, children, bread }) => {
-    if (R.equals(decodeURI(path).trim(), pathname.trim())) {
+    let _path = decodeURI(path).trim(),
+      _path2 = pathname.trim();
+    if (_path[0] == '/') {
+      _path = _path.slice(1);
+    }
+    if (_path2[0] == '/') {
+      _path2 = _path2.slice(1);
+    }
+    if (R.equals(_path, _path2)) {
       result = bread;
       return;
     }

@@ -22,6 +22,7 @@ const R = require('ramda');
  * @memberof SiderMenu
  */
 const getDefaultCollapsedSubMenus = ({ breadcrumbList, menuData }) => {
+ 
   let selectedKeys = getCurKey(breadcrumbList || []);
   return {
     selectedKeys: [selectedKeys],

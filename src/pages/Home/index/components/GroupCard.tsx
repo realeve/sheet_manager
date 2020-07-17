@@ -130,7 +130,7 @@ export default ({
   }, [data?.hash]);
 
   useEffect(() => {
-    if (!data || curtype.length == 0) {
+    if (!data || (curtype||'').length == 0) {
       return;
     }
     let key = data.header[radioIdx];
