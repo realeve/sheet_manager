@@ -40,7 +40,7 @@ export default () => {
               <span>2</span>
               <span>|</span>
               <span>
-                7<small>:2-7，品种编码</small>
+                7<small>:2-7，96品 品种编码;1代表尼泊尔钞</small>
               </span>
             </div>
             <div className={cx(styles.line, styles.item1)}>

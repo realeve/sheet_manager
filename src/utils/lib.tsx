@@ -40,7 +40,7 @@ interface Rules {
   [key: string]: RegExp;
 }
 export const rules: Rules = {
-  cart: /^[0-9]\d{3}[A-Za-z]\d{3}(|[a-bA-B])$/, // 车号
+  cart: /^[0-9]\d{3}[A-Za-z]\d{3}(|[a-bA-B])$|^BP\d{2}[A-Z]\d{3}$/, // 车号
   // reel: /^[1-9]\d{6}(|[A-Ca-c])$|[A-Z]\d{11}[A-Z]/, //^[1-9]\d{4}[A-Ca-c]$|
   reel: /^[0-9]\d{6}([A-Ca-c]|)$|[A-Z]\d{11}([A-Z]|)|^\d{3}[A-Z]\d{5}(|[A-Z])$/, // 轴号 //^[1-9]\d{4}[A-Ca-c]$|
   reel_cart: /^[0-9]\d{3}[A-Za-z]\d{3}([A-B]|[a-b])$/,
@@ -226,10 +226,14 @@ export const handleGZInfo: (param: GZSetting) => GZInfo | boolean = ({ code, pro
   };
 };
 
+//尼泊尔品种
+export const isNRB = (str: any) => /^[A-Z](|[1-9]|[1-9]\d|100)$/.test(String(str));
+
+// 冠字
 export let isGZ: CartReelReg = value =>
   /^[A-Za-z]{2}\d{4}$|^[A-Za-z]\d[A-Za-z]\d{3}$|^[A-Za-z]\d{2}[A-Za-z]\d{2}$|^[A-Za-z]\d{3}[A-Za-z]\d$|^[A-Za-z]\d{4}[A-Za-z]$/.test(
     String(value)
-  );
+  ) || isNRB(value);
 
 // export let loadFile: {
 //   (fileName: string, content: any): void;
@@ -576,7 +580,9 @@ const readVersion = async ({ version, date }) => {
  * @param date 最近更新时间
  */
 const onTips = async date => {
-  let [res]: [{ title: string; desc: string; url: string }] = await axios.axios({
+  let [res]: [
+    { title: string; desc: string[] | string; url: { title: string; href: string }[] | string }
+  ] = await axios.axios({
     url: `${window.location.origin}/update.json`,
   });
 
@@ -593,9 +599,23 @@ const onTips = async date => {
       <div>
         更新时间：{date}
         <br />
-        功能描述：{res.desc}
+        功能描述：
+        {Array.isArray(res.desc)
+          ? res.desc.map(item => (
+              <div key={item}>
+                {item}
+                <br />
+              </div>
+            ))
+          : res.desc}
         <br />
-        {res?.url?.length > 0 && (
+        {Array.isArray(res.url) ? (
+          res.url.map(item => (
+            <a href={item.href} target="_blank" key={item.href} style={{ marginRight: 10 }}>
+              {item.title}
+            </a>
+          ))
+        ) : (
           <a href={res.url} target="_blank">
             点击这里查看新功能
           </a>

@@ -7,7 +7,7 @@ import { connect } from 'dva';
 import * as lib from '../models/search.js';
 import { formatMessage } from 'umi/locale';
 import { useDebounce } from 'react-use';
-
+import NepanInput from '@/components/NepalInput';
 import CartRule from './cart/rules';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -19,7 +19,17 @@ function ProdItem({ cart, onClose, dispatch }) {
     setState(cart);
   }, [cart]);
 
-  const prodList = ['9602A', '9602T', '9603A', '9603T', '9604A', '9604T', '9606T', '9607T'];
+  const prodList = [
+    'NRB10',
+    '9602A',
+    '9602T',
+    '9603A',
+    '9603T',
+    '9604A',
+    '9604T',
+    '9606T',
+    '9607T',
+  ];
 
   const confirm = cart => {
     let type = lib.getProdType(cart);
@@ -77,6 +87,15 @@ function ProdItem({ cart, onClose, dispatch }) {
           </RadioGroup>
         </Col>
       </Row>
+      {/* 尼泊尔品冠字录入 */}
+      {prod === 'NRB10' && (
+        <NepanInput
+          onClick={e => {
+            setState(state => state + e);
+          }}
+          needCopy={false}
+        />
+      )}
       <Row className={styles['form-control']}>
         <Col span={8}>冠字/车号/轴号/印版</Col>
         <Col span={16}>
@@ -91,9 +110,14 @@ function ProdItem({ cart, onClose, dispatch }) {
             maxLength={12}
           />
         </Col>
+        {prod === 'NRB10' && (
+          <Col offset={8} span={16} className="nepal" style={{ fontSize: 28 }}>
+            {state}
+          </Col>
+        )}
       </Row>
-      <div className={styles.block}>
-        <p>提示：查字查询请输入前六位，如"A2A400"，品种信息必须选择。</p>
+      <div className={styles.block} style={{ marginTop: 20 }}>
+        <p>提示：冠字查询请输入前六位，如"A2A400"，品种必须选择。</p>
         <p>指定冠字请在结果中加1，如"AA0000"请查询"AA0001"。</p>
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>

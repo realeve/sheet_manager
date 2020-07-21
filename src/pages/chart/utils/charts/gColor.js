@@ -27,6 +27,7 @@ let gColor = {
   '103-G-7A': '#d35351',
   '9607T': '#d35351',
   '103-G-7T': '#d35351',
+  NRB10: '#775452',
 };
 
 let handleColor = option => {

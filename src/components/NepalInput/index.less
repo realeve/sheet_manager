@@ -1,0 +1,71 @@
+@liHeight: 45px;
+
+.alignRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.nepalList {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  .row {
+    .alignRow;
+    list-style: none;
+
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    padding-inline-start: 0px;
+
+    height: @liHeight;
+    line-height: @liHeight;
+    .highlight {
+      background-color: rgba(255, 58, 58, 0.3);
+    }
+    li {
+      border: 1px solid #aaa;
+      width: -6 + @liHeight;
+      height: 100%;
+      line-height: 100%;
+      text-align: center;
+      font-size: 20px;
+      cursor: pointer;
+      position: relative;
+      .str {
+        line-height: 30px;
+      }
+      .idx {
+        position: absolute;
+        right: 2px;
+        bottom: 2px;
+        font-size: 11px;
+        height: 12px;
+        line-height: 12px;
+      }
+
+      &:hover {
+        background: rgb(225, 244, 246);
+      }
+      &:nth-child(odd) {
+        border-right: none;
+        border-left: none;
+      }
+      &:first-child {
+        border-left: 1px solid #aaa;
+      }
+      // &:last-child {
+      //   border-right: 1px solid #aaa;
+      // }
+    }
+    &:first-child {
+      li {
+        border-bottom: none;
+      }
+    }
+    &:last-child {
+      li {
+        font-size: @liHeight;
+      }
+    }
+  }
+}
