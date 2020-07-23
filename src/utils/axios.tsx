@@ -12,6 +12,18 @@ export interface GlobalAxios {
   token: string;
 }
 
+/**
+ * @param title:标题
+ * @param rows 数据行
+ * @param data 数据
+ * @param header 字段列表，报表头
+ * @param ip IP地址
+ * @param date 请求日期
+ * @param source 数据来源:某数据库
+ * @param time 当前时间
+ * @param serverTime 服务器时间
+ * @param hash 当前数据的hash值，数据变更时hash变更
+ */
 export interface IAxiosState {
   title: string;
   rows: number;
@@ -55,12 +67,17 @@ export const codeMessage: {
   504: '网关超时。',
 };
 
-export const _commonData = {
+export const _commonData: IAxiosState = {
   rows: 1,
   data: [{ affected_rows: 1, id: Math.ceil(Math.random() * 100) }],
-  time: '20ms',
+  time: 20,
   ip: '127.0.0.1',
   title: '数据更新/插入/删除返回值',
+  header: ['affected_rows', 'id'],
+  date: [],
+  source: '模拟数据',
+  serverTime: '',
+  hash: 'hash',
 };
 
 // 导出数据，随机时长

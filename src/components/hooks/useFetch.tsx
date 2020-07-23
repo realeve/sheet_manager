@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { mock, axios, AxiosError } from '@/utils/axios';
+import { mock, axios, AxiosError, IAxiosState } from '@/utils/axios';
 import http, { AxiosRequestConfig } from 'axios';
 import * as R from 'ramda';
 /**
@@ -11,7 +11,11 @@ import * as R from 'ramda';
 export const callback = <T extends {}>(data: { [key: string]: any }): T => Object.values(data)[0];
 
 const { CancelToken } = http;
-
+export interface IFetchState {
+  data: IAxiosState | null;
+  loading: boolean;
+  error: AxiosError | null;
+}
 export interface IFetchProps<T> {
   param?: AxiosRequestConfig | null;
   initData?: T;

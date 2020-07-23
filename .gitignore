@@ -24,3 +24,5 @@ npm-debug.log*
 /sql
 /src/mock/*.json
 public/doc/office_tool.zip
+
+/doc
