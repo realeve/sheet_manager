@@ -614,17 +614,18 @@ const onTips = async date => {
             ))
           : res.desc}
         <br />
-        {Array.isArray(res.url) ? (
-          res.url.map(item => (
-            <a href={item.href} target="_blank" key={item.href} style={{ marginRight: 10 }}>
-              {item.title}
-            </a>
-          ))
-        ) : (
-          <a href={res.url} target="_blank">
-            点击这里查看新功能
-          </a>
-        )}
+        {Array.isArray(res.url)
+          ? res.url.map(item => (
+              <a href={item.href} target="_blank" key={item.href} style={{ marginRight: 10 }}>
+                {item.title}
+              </a>
+            ))
+          : res.url &&
+            res.url.length > 0 && (
+              <a href={res.url} target="_blank">
+                点击这里查看新功能
+              </a>
+            )}
         <br />
         {(res.img || []).map(item => (
           <img src={item} key={item} style={{ width: '100%', maxWidth: 500 }} />

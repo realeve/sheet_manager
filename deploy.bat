@@ -19,6 +19,7 @@ copy %srcDir%*.svg %destDir%
 copy %srcDir%*.json %destDir%
 copy %srcDir%.htaccess %destDir%
 
+copy %srcDir%img\update\*.* %destDir%\img\update\
 REM 拷贝JSON文件
 xcopy %srcDir%data %destDir%data\ /E /Y /F
 
