@@ -581,7 +581,12 @@ const readVersion = async ({ version, date }) => {
  */
 const onTips = async date => {
   let [res]: [
-    { title: string; desc: string[] | string; url: { title: string; href: string }[] | string }
+    {
+      title: string;
+      desc: string[] | string;
+      url: { title: string; href: string }[] | string;
+      img?: string[];
+    }
   ] = await axios.axios({
     url: `${window.location.origin}/update.json`,
   });
@@ -620,6 +625,10 @@ const onTips = async date => {
             点击这里查看新功能
           </a>
         )}
+        <br />
+        {(res.img || []).map(item => (
+          <img src={item} key={item} style={{ width: '100%', maxWidth: 500 }} />
+        ))}
       </div>
     ),
     duration: 600,

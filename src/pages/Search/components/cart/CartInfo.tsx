@@ -166,7 +166,7 @@ export default ({ cartInfo, cart: carno }) => {
                   <Icon type={icons[idx]} /> {key}
                 </strong>
                 {data.data[0][key]}
-                {key === '冠字' && (
+                {key === '冠字' && data.data[0]['品种'] == 'NRB10' && (
                   <span className="nepal" style={{ fontSize: 28, marginLeft: 20 }}>
                     {data.data[0][key]}
                   </span>

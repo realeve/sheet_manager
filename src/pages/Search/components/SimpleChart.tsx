@@ -20,6 +20,13 @@ export default function SimpleChart({ data, params, beforeRender, ...props }: Ch
     if (beforeRender) {
       option = beforeRender(option);
     }
+    if (option.legend) {
+      option.legend = {
+        ...option.legend,
+        icon: 'circle',
+      };
+    }
+
     setState(option);
   }, [data?.data]);
   if (!data) {

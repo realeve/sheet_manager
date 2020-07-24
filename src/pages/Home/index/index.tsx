@@ -10,6 +10,8 @@ const FakePrint = React.lazy(() => import('./FakePrint'));
 
 const ProductDetail = React.lazy(() => import('./ProductDetail'));
 
+const PaperRun = React.lazy(() => import('./PaperRun'));
+
 export default () => {
   return (
     <div className={style.dashboard}>
@@ -29,6 +31,10 @@ export default () => {
       </Suspense>
       <Suspense fallback={<PageLoading />}>
         <FakePrint />
+      </Suspense>
+
+      <Suspense fallback={<PageLoading />}>
+        <PaperRun />
       </Suspense>
     </div>
   );

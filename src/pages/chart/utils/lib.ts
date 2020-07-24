@@ -81,6 +81,56 @@ let getDefaultTitle = (option, config: Iconfig, showDateRange: boolean = true) =
   return option.title || defaultTitle;
 };
 
+export const tooltipFormatter = (p, unit, axisName, append) => {
+  let title: boolean | string = false;
+  let str = '';
+  p = p.filter(item => typeof item.value !== 'undefined');
+
+  if (p.length === 0) {
+    return;
+  }
+
+  let shouldDrill = window.location.hash.includes('dr0_id=');
+  let drillTipText = shouldDrill ? '<div style="color:#e23;">( 点击查看详情 )</div>' : '';
+
+  p.forEach((item, idx) => {
+    if (!title) {
+      title = item.name;
+    }
+    if (title !== item.name) {
+      return;
+    }
+
+    if (typeof item.value !== 'undefined' && item.value !== '-') {
+      str +=
+        `<div class="ex_tooltip"><div class="icon" style="background-color:${
+          item.color
+        };"></div><span>${item.seriesName || axisName}：${
+          typeof item.value === 'string' ? Number(item.value) : item.value
+        } </span></div>` +
+        (append ? `<div class="ex_tooltip_append">${append[item.seriesName]}</div>` : '');
+    }
+  });
+  if (unit) {
+    str = unit + str;
+  }
+  if (title) {
+    title = `<div style="font-weight:bold;font-size:20px;height:30px;">${title}</div>`;
+  }
+
+  return `${title}${str}${drillTipText}` || false;
+};
+export const getTooltipUnit = title => {
+  let unit: boolean | string = false;
+  if (!title) {
+    return unit;
+  }
+  let res = title.match(/\((\S+)\)/);
+  if (res && res[1]) {
+    unit = `<div style="margin-bottom:5px;display:block;">(单位:${res[1]})</div>`;
+  }
+  return unit;
+};
 let handleDefaultOption = (option, config, showDateRange = true) => {
   let renderer = getRenderer(config);
   let toolbox = option.toolbox || {
@@ -139,61 +189,20 @@ let handleDefaultOption = (option, config, showDateRange = true) => {
       //   axisPointerType = 'cross';
       // break;
     }
-    let title = config?.data?.title;
-    let unit: boolean | string = false;
-    let res = title.match(/\((\S+)\)/);
-    if (res && res[1]) {
-      unit = `<div style="margin-bottom:5px;display:block;">(单位:${res[1]})</div>`;
-    }
 
     /**
      * 该语法可代替
      * let axisName = option&&option.yAxis&&option.yAxis.name;
      */
     let axisName = option?.yAxis?.name;
+    let unit = getTooltipUnit(config?.data?.title);
 
-    let shouldDrill = window.location.hash.includes('dr0_id=');
-    let drillTipText = shouldDrill ? '<div style="color:#e23;">( 点击查看详情 )</div>' : '';
     option.tooltip = {
       trigger: tooltipTrigger,
       axisPointer: {
         type: axisPointerType,
       },
-      formatter: function(p) {
-        let title: boolean | string = false;
-        let str = '';
-        p = p.filter(item => typeof item.value !== 'undefined');
-
-        if (p.length === 0) {
-          return;
-        }
-
-        p.forEach((item, idx) => {
-          if (!title) {
-            title = item.name;
-          }
-          if (title !== item.name) {
-            return;
-          }
-
-          if (typeof item.value !== 'undefined' && item.value !== '-') {
-            str += `<div style="display:flex;flex-direction:row;align-items:center;height:25px;"><div style="width:10px;height:10px;border-radius:50%;background-color:${
-              item.color
-            };margin-right:10px;"></div><span style="font-size:17px;">${item.seriesName ||
-              axisName}：${
-              typeof item.value === 'string' ? Number(item.value) : item.value
-            }</span></div>`;
-          }
-        });
-        if (unit) {
-          str = unit + str;
-        }
-        if (title) {
-          title = `<div style="font-weight:bold;font-size:20px;height:30px;">${title}</div>`;
-        }
-
-        return `${title}${str}${drillTipText}` || false;
-      },
+      formatter: p => tooltipFormatter(p, unit, axisName),
     };
 
     if (config.histogram) {

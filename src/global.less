@@ -136,3 +136,29 @@ input.ant-input::placeholder {
 .nepal {
   font-family: nepal;
 }
+
+:global {
+  .ex_tooltip {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 25px;
+    .icon {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    span {
+      font-size: 17px;
+    }
+    &_append {
+      max-width: 450px;
+      white-space: pre-wrap;
+      margin-bottom: 10px;
+    }
+  }
+  .ant-notification {
+    width: 540px;
+  }
+}
