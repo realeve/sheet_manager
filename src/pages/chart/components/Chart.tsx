@@ -61,6 +61,7 @@ const Charts = ({ dispatch, ...props }: IProp) => {
     group_name: '',
     series_name: '',
   });
+ 
 
   const init = async () => {
     setState({ loading: true });
@@ -73,15 +74,12 @@ const Charts = ({ dispatch, ...props }: IProp) => {
       return;
     }
 
-    let { dataSrc, option, groupList } = await db
-      .computeDerivedState({
-        method: props.textAreaList.length > 0 ? 'post' : 'get',
-        params,
-      })
-      .finally(e => {
-        setState({ loading: false });
-      });
+    let { dataSrc, option, groupList } = await db.computeDerivedState({
+      method: props.textAreaList.length > 0 ? 'post' : 'get',
+      params,
+    }); 
 
+    setState({ loading: false });
     setDrill({ groupList });
 
     setOption(option);

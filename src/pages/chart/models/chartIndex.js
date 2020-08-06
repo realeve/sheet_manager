@@ -22,6 +22,9 @@ export default {
       let disabled = isDisabled({ ...common, select: common.query.select });
 
       if (disabled) {
+        yield put({
+          type: 'initState',
+        });
         return;
       }
 
@@ -34,8 +37,10 @@ export default {
         dateType: [dateType],
       } = common;
 
-      // console.log('refresh chart data',dateRange,tid);
       if (!tid) {
+        yield put({
+          type: 'initState',
+        });
         return;
       }
 
@@ -52,13 +57,17 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
-        const match = pathToRegexp('/' + namespace).exec(pathname);
+      return history.listen(props => {
+        const match = pathToRegexp('/' + namespace).exec(props.pathname);
         if (!match) {
           return;
-        }
+        } 
 
-        dispatch({ type: 'initState' });
+        dispatch({
+          type: 'refreshData',
+        });
+
+        // dispatch({ type: 'initState' });
       });
     },
   },

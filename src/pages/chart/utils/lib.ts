@@ -1,6 +1,8 @@
 import gColor from './charts/gColor';
 import * as lib from '@/utils/lib';
 import { AUTHOR } from '@/utils/setting';
+
+import { EChartsSeriesType } from 'echarts';
 const R = require('ramda');
 
 export interface IChart {
@@ -81,7 +83,7 @@ let getDefaultTitle = (option, config: Iconfig, showDateRange: boolean = true) =
   return option.title || defaultTitle;
 };
 
-export const tooltipFormatter = (p, unit, axisName, append) => {
+export const tooltipFormatter = (p, unit, axisName, append = false) => {
   let title: boolean | string = false;
   let str = '';
   p = p.filter(item => typeof item.value !== 'undefined');
@@ -512,7 +514,7 @@ type tGl =
   | 'sankey'
   | 'paralell'
   | 'calendar'
-  | echarts.EChartsSeriesType;
+  | EChartsSeriesType;
 let chartGL: Array<tGl> = ['bar3d', 'line3d', 'scatter3d', 'surface'];
 
 export type tRender = 'canvas' | 'svg';

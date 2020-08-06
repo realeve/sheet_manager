@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'dva';
 import Chart from './components/Chart';
 import styles from './index.less';
 import classNames from 'classnames';
 import QueryCondition from '@/components/QueryCondition';
 import { Spin } from 'antd';
-import * as R from 'ramda';
+import { ICommon } from '@/models/common';
 
-function Charts({ dispatch, config, spinning, tid, query }) {
+function Charts({ dispatch, config, spinning }) {
   const onLoad = curPageName => {
     dispatch({
       type: 'common/setStore',
@@ -16,10 +16,6 @@ function Charts({ dispatch, config, spinning, tid, query }) {
       },
     });
   };
-
-  useEffect(() => {
-    refreshData();
-  }, [JSON.stringify(tid), JSON.stringify(query)]);
 
   const refreshData = () => {
     dispatch({
@@ -39,11 +35,11 @@ function Charts({ dispatch, config, spinning, tid, query }) {
   );
 }
 
-const chartPage = connect(state => ({
-  ...state.chart,
-  ...R.pick(['spinning', 'query', 'tid'])(state.common),
-}))(Charts);
+const chartPage = connect(
+  ({ common: { spinning }, chart: { config } }: { common: ICommon; chart: { config: any[] } }) => ({
+    config,
+    spinning,
+  })
+)(Charts);
 
-export default React.memo(chartPage, (prevProps, nextProps) =>
-  R.equals(prevProps.config, nextProps.config)
-);
+export default chartPage;

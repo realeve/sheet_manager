@@ -50,7 +50,10 @@ export const ListItemFull = ({
       {item.map((title, idx) =>
         removeZero &&
         ((data[title] || data[idx]) == '0' || (data[title] || data[idx]) == '') ? null : (
-          <li key={title} style={{ justifyContent: spaceBetween ? 'space-between' : 'unset' }}>
+          <li
+            key={title}
+            style={{ justifyContent: spaceBetween ? 'space-between' : 'unset', maxWidth: 320 }}
+          >
             {beforeRender && title === 'id' ? (
               beforeRender({ name: title, value: data[title] || data[idx] })
             ) : (

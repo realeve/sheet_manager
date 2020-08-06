@@ -25,10 +25,16 @@ const CardListItem = ({
       loading={loading}
       grid={{ gutter: 12, lg: 4, md: 2, sm: 1, xs: 1 }}
       dataSource={(data && data.data) || []}
-      renderItem={(item, idx) => {
+      renderItem={(item: string[], idx: number) => {
+        const isSpecialProd = item.join('').includes('9603T') || item.join('').includes('NRB');
+
         return (
           <List.Item key={idx}>
-            <Card hoverable className={styles.card}>
+            <Card
+              hoverable
+              className={styles.card}
+              bodyStyle={{ background: isSpecialProd ? '#f1fcff' : 'unset' }}
+            >
               <ListItemFull
                 spaceBetween={spaceBetween}
                 header={data.header}
