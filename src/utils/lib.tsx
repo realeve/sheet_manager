@@ -606,24 +606,25 @@ const onTips = async date => {
         <br />
         功能描述：
         {Array.isArray(res.desc)
-          ? res.desc.map(item => (
-              <div key={item}>
-                {item}
+          ? res.desc.map((item, idx) => (
+              <div key={item} style={{ margin: '5px 0' }}>
+                {idx + 1}.{item}
                 <br />
               </div>
             ))
           : res.desc}
         <br />
+        {res.url && res.url.length > 0 && <div>本次更新功能链接：</div>}
         {Array.isArray(res.url)
-          ? res.url.map(item => (
+          ? res.url.map((item, idx) => (
               <a href={item.href} target="_blank" key={item.href} style={{ marginRight: 10 }}>
-                {item.title}
+                {idx + 1}: {item.title}
               </a>
             ))
           : res.url &&
             res.url.length > 0 && (
               <a href={res.url} target="_blank">
-                点击这里查看新功能
+                点击这里查看
               </a>
             )}
         <br />
