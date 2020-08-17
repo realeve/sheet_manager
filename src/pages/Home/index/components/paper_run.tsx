@@ -3,7 +3,7 @@ import useFetch from '@/components/hooks/useFetch';
 import { IAxiosState } from '@/utils/axios';
 import moment from 'moment';
 import { CHART_MODE } from '@/pages/chart/utils/lib';
-import { beforeRender } from './GroupCard';
+import { _beforeRender as beforeRender } from './GroupCard';
 import { Card } from 'antd';
 import SimpleChart from '@/pages/Search/components/SimpleChart';
 import { cardStyle } from '../../components/Cards';

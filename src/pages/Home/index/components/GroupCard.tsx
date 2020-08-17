@@ -21,7 +21,7 @@ const filterData = (res, type: string, key: string = 'type') => {
   };
 };
 
-export let beforeRender = e => {
+export let _beforeRender = e => {
   if (e.legend) {
     e.legend = {
       ...e.legend,
@@ -31,7 +31,7 @@ export let beforeRender = e => {
   return e;
 };
 
-const TabChart = ({ data, tabs, tabKey, chartParam, chartHeight }) => {
+const TabChart = ({ data, tabs, tabKey, chartParam, chartHeight, beforeRender }) => {
   const [curprod, setCurprod] = useState(null);
 
   useEffect(() => {
@@ -47,7 +47,10 @@ const TabChart = ({ data, tabs, tabKey, chartParam, chartHeight }) => {
         data={data}
         params={chartParam}
         style={{ height: chartHeight - 70, width: '100%' }}
-        beforeRender={beforeRender}
+        beforeRender={e => {
+          let res = _beforeRender(e);
+          return beforeRender ? beforeRender(res) : res;
+        }}
       />
     );
   }
@@ -61,7 +64,10 @@ const TabChart = ({ data, tabs, tabKey, chartParam, chartHeight }) => {
               data={filterData(data, prod, tabKey)}
               params={chartParam}
               style={{ height: chartHeight - 70, width: '100%' }}
-              beforeRender={beforeRender}
+              beforeRender={e => {
+                let res = _beforeRender(e);
+                return beforeRender ? beforeRender(res) : res;
+              }}
             />
           </Tabs.TabPane>
         ))}
@@ -87,6 +93,7 @@ export interface IGroupCard {
     [key: string]: any;
   };
   callback?: (e: any, a: any) => any;
+  beforeRender: (e: any) => any;
   [key: string]: any;
 }
 export default ({
@@ -107,6 +114,7 @@ export default ({
     renderer: 'svg',
   },
   callback,
+  beforeRender,
 }: IGroupCard) => {
   const [type, setType] = useState([]);
   const [curtype, setCurtype] = useState('');
@@ -130,7 +138,7 @@ export default ({
   }, [data?.hash]);
 
   useEffect(() => {
-    if (!data || (curtype||'').length == 0) {
+    if (!data || (curtype || '').length == 0) {
       return;
     }
     let key = data.header[radioIdx];
@@ -182,6 +190,7 @@ export default ({
         tabs={prods}
         tabKey={data?.header[tabIdx]}
         chartParam={chartParam}
+        beforeRender={beforeRender}
       />
     </Card>
   );

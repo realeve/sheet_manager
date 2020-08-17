@@ -44,6 +44,10 @@ export default ({ title = '印钞作废类型分析', url = `/1015/d0011e0da9.js
         renderer: 'canvas',
         area: true,
         stack: true,
+      }} 
+      beforeRender={e=>{
+        let grid = {left: 50, right: 25, top: 10, bottom: 20};
+        return {...e,grid};
       }}
     />
   );

@@ -5,7 +5,8 @@ import qs from 'qs';
 import * as R from 'ramda';
 import { handleOptions } from '@/components/FormCreater/lib';
 import router from 'umi/router';
-
+import { validIP } from '@/utils/setting';
+import { router } from 'umi/router';
 // 获取ip
 const getIp = () =>
   axios({
@@ -19,6 +20,20 @@ const getIp = () =>
       console.error('IP地址获取失败');
       return '0.0.0.0';
     });
+
+// 校验IP白名单
+const authIP = (ip: string) => {
+  // 获取
+  const ipTag =
+    ip
+      .split('.')
+      .slice(0, 2)
+      .join('.') + '.';
+  if (validIP.includes(ipTag)) {
+    return;
+  }
+  router.push('/invalid');
+};
 
 const needCascade = params => !(R.isNil(params.cascade) || params.cascade[0] === '0');
 export function* getSelectList(params, call) {
@@ -328,6 +343,8 @@ export default {
         },
       });
       let ip = yield call(getIp);
+      authIP(ip);
+
       yield put({
         type: 'setStore',
         payload: {

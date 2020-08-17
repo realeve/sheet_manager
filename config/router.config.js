@@ -52,6 +52,10 @@ export default [
         component: './menu',
       },
       {
+        path: '/invalid',
+        component: './invalid',
+      },
+      {
         name: 'form',
         icon: 'form',
         path: '/form',

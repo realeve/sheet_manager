@@ -47,6 +47,11 @@ export let config = {
 // export const CUR_COMPANY = 'kunshan';
 
 export const CUR_COMPANY = 'chengdu';
+
+// IP访问权限控制
+const ipList = { chengdu: ['10.8.', '10.9.'], kunshan: ['10.8.'] };
+export const validIP = ipList[CUR_COMPANY];
+
 export const DEFAULT_MENU_ID = 3;
 
 let defaultTitle = window.localStorage.getItem('_userMenuTitle');
