@@ -23,6 +23,9 @@ copy %srcDir%img\update\*.* %destDir%\img\update\
 REM 拷贝JSON文件
 xcopy %srcDir%data %destDir%data\ /E /Y /F
 
+REM 拷贝字体
+copy %srcDir%fonts\*.* %destDir%fonts\ /E /Y /F
+
 rem 打开网站
 start http://10.8.2.133:8000/
 pause
