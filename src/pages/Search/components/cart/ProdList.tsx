@@ -53,6 +53,7 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
         callback(res);
       })
       .catch(e => {
+        console.log(e)
         setErr(e);
         setRes({ loading: false, rows: 0, data: [] });
       });

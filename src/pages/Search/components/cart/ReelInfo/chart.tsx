@@ -155,7 +155,7 @@ export default ({ cart }) => {
     setOption(handleData(data.data, cart));
   }, [data]);
 
-  console.log(data, option);
+  // console.log(data, option);
   return (
     data &&
     data.rows > 0 && <Chart renderer="svg" option={option} style={{ width: '100%', height: 600 }} />
