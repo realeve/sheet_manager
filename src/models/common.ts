@@ -28,7 +28,7 @@ const authIP = (ip: string) => {
     ip
       .split('.')
       .slice(0, 2)
-      .join('.') + '.';
+      .join('.') + '.'; 
   if (validIP.includes(ipTag)) {
     return;
   }

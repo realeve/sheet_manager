@@ -1,4 +1,4 @@
-export let DEV: boolean = process.env.NODE_ENV === 'test'; // || process.env.NODE_ENV === 'development';
+export let DEV: boolean = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development';
 
 // 前台资源部署域名，默认头像图片资源调用域名
 export let config = {
@@ -50,7 +50,8 @@ export const CUR_COMPANY = 'chengdu';
 
 // IP访问权限控制
 const ipList = { chengdu: ['10.8.', '10.9.'], kunshan: ['10.8.'] };
-export const validIP = ipList[CUR_COMPANY];
+
+export const validIP = ['0.0.', ...ipList[CUR_COMPANY]];
 
 export const DEFAULT_MENU_ID = 3;
 

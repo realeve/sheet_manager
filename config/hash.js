@@ -42,7 +42,7 @@ const init = (env = '') => {
   file = JSON.parse(file);
   let preVersion = Number(file.version);
   const data = {
-    version: String((preVersion + 0.1).toFixed(1)),
+    version: String((preVersion + 0.01).toFixed(2)),
     hash: env === '' ? decodeHtmlHash() : hash(),
     date: dayjs().format('YYYY-MM-DD HH:mm'),
   };
