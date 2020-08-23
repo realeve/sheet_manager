@@ -261,7 +261,7 @@ class BasicLayout extends PureComponent {
             {...this.props}
           />
         )}
-        <div
+        <Layout
           style={{
             ...this.getLayoutStyle(),
             minHeight: '100vh',
@@ -291,7 +291,7 @@ class BasicLayout extends PureComponent {
             <FeedBack />
           </Content>
           <Footer hidemenu={hidemenu} />
-        </div>
+        </Layout>
       </Layout>
     );
 

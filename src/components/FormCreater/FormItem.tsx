@@ -388,6 +388,14 @@ export default function formItem({
             {...props}
           />
         )}
+        {type === 'datepicker.year' && (
+          <DatePicker.YearPicker
+            value={moment(state || moment(), props.datetype || 'YYYY')}
+            onChange={(_, value) => onChange(value)}
+            style={{ width: '100%' }}
+            {...props}
+          />
+        )}
         {type === 'switch' && (
           <Switch
             defaultChecked

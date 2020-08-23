@@ -140,6 +140,7 @@ export type FieldType =
   | 'timepicker'
   | 'datepicker'
   | 'datepicker.month'
+  | 'datepicker.year'
   | 'switch'
   | 'select'
   | 'radio.button'
