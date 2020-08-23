@@ -1,5 +1,7 @@
-{
+[
+  {
     "name": "年度印刷任务量",
+    "dev": true,
     "api": {
       "insert": {
         "url": "944/2uo98bjlni",
@@ -32,21 +34,99 @@
             "rule": {
               "required": true
             },
-            "defaultOption": ["9602A", "9602T", "9603A", "9603T", "9604T", "9606T", "9607T", "NRB10"]
+            "defaultOption": [
+              "9602A",
+              "9602T",
+              "9603A",
+              "9603T",
+              "9604T",
+              "9606T",
+              "9607T",
+              "NRB10"
+            ]
           },
           {
             "title": "计划数",
             "type": "input",
             "key": "print_num",
             "rule": {
-              "type": "int",
+              "type": "float",
               "required": true
             }
           },
           {
             "title": "年份",
             "type": "datepicker.year",
-            "key": "year", 
+            "key": "year",
+            "rule": {
+              "required": true
+            },
+            "unReset": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "月度印刷任务量",
+    "dev": true,
+    "api": {
+      "insert": {
+        "url": "944/2uo98bjlni",
+        "param": ["rec_time", "uid"]
+      },
+      "delete": {
+        "url": "945/2uo98bjlni",
+        "param": ["_id"]
+      },
+      "update": {
+        "url": "946/2uo98bjlni",
+        "param": ["_id"]
+      },
+      "table": {
+        "url": "948/vkwjcewui"
+      },
+      "load": {
+        "url": "949/vkwjcewui",
+        "param": ["_id"]
+      }
+    },
+    "table": "print_task",
+    "detail": [
+      {
+        "detail": [
+          {
+            "title": "品种",
+            "type": "select",
+            "key": "prod_id",
+            "rule": {
+              "required": true
+            },
+            "defaultOption": [
+              "9602A",
+              "9602T",
+              "9603A",
+              "9603T",
+              "9604T",
+              "9606T",
+              "9607T",
+              "NRB10"
+            ]
+          },
+          {
+            "title": "计划数",
+            "type": "input",
+            "key": "print_num",
+            "rule": {
+              "type": "float",
+              "required": true
+            }
+          },
+          {
+            "title": "月份",
+            "type": "datepicker.month",
+            "key": "month",
+            "datetype": "YYYY-MM",
             "rule": {
               "required": true
             },
@@ -56,4 +136,4 @@
       }
     ]
   }
-  
+]

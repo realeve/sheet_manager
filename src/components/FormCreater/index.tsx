@@ -401,6 +401,14 @@ function FormCreater({
           if (!isUnmounted) {
             setState({ [item.key]: moment().format(item.datetype || 'YYYY-MM-DD') });
           }
+        } else if (item.type === 'datepicker.month') {
+          if (!isUnmounted) {
+            setState({ [item.key]: moment().format(item.datetype || 'YYYY-MM') });
+          }
+        } else if (item.type === 'datepicker.year') {
+          if (!isUnmounted) {
+            setState({ [item.key]: moment().format(item.datetype || 'YYYY') });
+          }
         }
         if (!isUnmounted) {
           setValidateState({ [item.key]: true });

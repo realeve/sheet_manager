@@ -288,8 +288,13 @@ export default ({
           message: '系统提示',
           description: '添加/更新数据出错，请稍后再试',
         });
+        return { data: [{ affected_rows: 0 }] };
       });
+
     notity(affected_rows);
+    if (affected_rows == 0) {
+      return;
+    }
 
     reFetch && reFetch();
     callback && callback();
