@@ -1,29 +1,28 @@
 [
   {
-    "name": "年度印刷任务量",
-    "dev": true,
+    "name": "年度计划量", 
     "api": {
       "insert": {
-        "url": "944/2uo98bjlni",
+        "url": "1142/k50g9egwr",
         "param": ["rec_time", "uid"]
       },
       "delete": {
-        "url": "945/2uo98bjlni",
+        "url": "1143/k50g9egwr",
         "param": ["_id"]
       },
       "update": {
-        "url": "946/2uo98bjlni",
+        "url": "1144/k50g9egwr",
         "param": ["_id"]
       },
       "table": {
-        "url": "948/vkwjcewui"
+        "url": "1145/k50g9egwr"
       },
       "load": {
-        "url": "949/vkwjcewui",
+        "url": "1146/k50g9egwr",
         "param": ["_id"]
       }
     },
-    "table": "print_task_year",
+    "table": "cbpc_udt_report_storage_plan",
     "detail": [
       {
         "detail": [
@@ -35,13 +34,13 @@
               "required": true
             },
             "defaultOption": [
-              "9602A",
-              "9602T",
-              "9603A",
-              "9603T",
-              "9604T",
-              "9606T",
-              "9607T",
+              "9602A品",
+              "9602T品",
+              "9603A品",
+              "9603T品",
+              "9604T品",
+              "9606T品",
+              "9607T品",
               "NRB10"
             ]
           },
@@ -71,25 +70,7 @@
     "name": "月度印刷任务量",
     "dev": true,
     "api": {
-      "insert": {
-        "url": "944/2uo98bjlni",
-        "param": ["rec_time", "uid"]
-      },
-      "delete": {
-        "url": "945/2uo98bjlni",
-        "param": ["_id"]
-      },
-      "update": {
-        "url": "946/2uo98bjlni",
-        "param": ["_id"]
-      },
-      "table": {
-        "url": "948/vkwjcewui"
-      },
-      "load": {
-        "url": "949/vkwjcewui",
-        "param": ["_id"]
-      }
+      
     },
     "table": "print_task",
     "detail": [
