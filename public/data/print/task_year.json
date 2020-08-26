@@ -1,6 +1,6 @@
 [
   {
-    "name": "年度计划量", 
+    "name": "年度计划量",
     "api": {
       "insert": {
         "url": "1142/k50g9egwr",
@@ -26,6 +26,53 @@
     "detail": [
       {
         "detail": [
+          {
+            "title": "类型",
+            "type": "radio.button",
+            "key": "type",
+            "rule": {
+              "required": true
+            },
+            "defaultValue": 1,
+            "defaultOption": [
+              {
+                "name": "印钞",
+                "value": 1,
+                "scope": [
+                  {
+                    "key": "prod_id",
+                    "defaultOption": [
+                      "9602A品",
+                      "9602T品",
+                      "9603A品",
+                      "9603T品",
+                      "9604T品",
+                      "9606T品",
+                      "9607T品",
+                      "NRB10"
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "钞纸",
+                "value": 2,
+                "scope": [
+                  {
+                    "key": "prod_id",
+                    "defaultOption": [
+                      "103-G-2T",
+                      "103-G-3A",
+                      "103-G-3T",
+                      "103-G-4T",
+                      "103-G-6T",
+                      "103-G-7T"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
           {
             "title": "品种",
             "type": "select",
@@ -54,6 +101,15 @@
             }
           },
           {
+            "title": "铺底数据",
+            "type": "input",
+            "key": "history_storage",
+            "defaultValue": 0,
+            "rule": {
+              "type": "float"
+            }
+          },
+          {
             "title": "年份",
             "type": "datepicker.year",
             "key": "year",
@@ -69,9 +125,7 @@
   {
     "name": "月度印刷任务量",
     "dev": true,
-    "api": {
-      
-    },
+    "api": {},
     "table": "print_task",
     "detail": [
       {

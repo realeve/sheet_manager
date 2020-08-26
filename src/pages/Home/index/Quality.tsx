@@ -57,6 +57,7 @@ export default () => {
       url: `/999/9a4ae4bce9.json`,
     },
   });
+  console.log(data)
 
   const [unit, setUnit] = useSetState({
     print: null,

@@ -347,7 +347,11 @@ let handleSeriesItem = option => seriesItem => {
       normal: {
         show: true,
         position: 'insideTop',
-        formatter: ({ value }) => (typeof value === 'string' ? Number(value) : value[1]),
+        formatter: ({ value }) => {
+          let res = typeof value === 'string' ? Number(value) : value[1] || value;
+          // 2020-08-26 值为0时不显示 
+          return res == 0 ? '' : res;
+        },
       },
     };
   }
