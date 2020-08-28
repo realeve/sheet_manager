@@ -198,3 +198,9 @@ LoadModule expires_module modules/mod_expires.so
 </IfModule>
 
 ```
+
+
+---
+
+
+## 开发模式报表：http://localhost:8000/table#id=http://localhost:8000/data/mock/543_e6fef8a252.json&datetype=none

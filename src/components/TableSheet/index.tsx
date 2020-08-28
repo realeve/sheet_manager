@@ -109,10 +109,11 @@ const getConfig = (data, afterFilter, sheetHeight) => {
     return column;
   });
 
-  if (columns.length < minCols) {
-    let nextCol = R.slice(columns.length, minCols)(colTitles);
-    columns = [...columns, ...nextCol.map(title => ({ title }))];
-  }
+  // 8.0版本中，如果行列数小于数据给出的列数，在处理排序逻辑时，由于未读到 column信息导致报错，此处需删除
+  // if (columns.length < minCols) {
+  //   let nextCol = R.slice(columns.length, minCols)(colTitles);
+  //   columns = [...columns, ...nextCol.map(title => ({ title }))];
+  // }
 
   let isSearch = window.location.pathname.includes('/search');
   let minRows = isSearch ? 13 : 32;
@@ -126,10 +127,7 @@ const getConfig = (data, afterFilter, sheetHeight) => {
     columns,
     data: data.data,
     licenseKey: 'non-commercial-and-evaluation',
-
-    autoColumnSize: {
-      samplingRatio: 23,
-    },
+ 
     mergeCells: true,
     manualRowResize: true,
     manualColumnResize: true,
@@ -138,10 +136,20 @@ const getConfig = (data, afterFilter, sheetHeight) => {
     filters: true,
     afterFilter,
     dropdownMenu: true,
+
+    trimRows:[],
+
     multiColumnSorting: {
-      indicator: true,
+      sortEmptyCells: true, // true = the table sorts empty cells, false = the table moves all empty cells to the end of the table (by default)
+      indicator: true, // true = shows indicator for all columns (by default), false = don't show indicator for columns
+      headerAction: true, // true = allow to click on the headers to sort (by default), false = turn off possibility to click on the headers to sort
+    },
+    
+    autoColumnSize: {
+      samplingRatio: 23
     },
 
+    // 8.0 报错
     // Plugins `columnSorting` and `multiColumnSorting` should not be enabled simultaneously.
     // columnSorting: {
     //   indicator: true,
@@ -183,8 +191,14 @@ const TableSheet = ({ data, onFilter, beforeRender, sheetHeight, renderParam = {
     let hot = hotTable.current.hotInstance;
 
     // 数据过滤后返回结果，单元格由于可编辑，此处不使用 hot.getData() 拿数据。
-    const afterFilter = () => {
-      let arrs = hot.getPlugin('filters').trimRowsPlugin.rowsMapper.__arrayMap;
+    const afterFilter = () => { 
+      let arrs = [];// 7.0 适用后面的逻辑 hot.getPlugin('filters').trimRowsPlugin.rowsMapper.__arrayMap;
+      
+      hot.getPlugin('filters').filtersRowsMap.indexedValues.forEach((item,idx)=>{
+        if(item){
+          arrs.push(idx)
+        }
+      })
       onFilter(arrs);
     };
 
@@ -194,7 +208,7 @@ const TableSheet = ({ data, onFilter, beforeRender, sheetHeight, renderParam = {
       cfg = beforeRender(cfg, renderParam);
     }
 
-    setConfig(cfg);
+    setConfig(cfg); 
 
     // 冻结指定列
     if (hotTable) {
