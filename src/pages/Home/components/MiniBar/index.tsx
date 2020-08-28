@@ -36,7 +36,7 @@ const MiniBar: React.FC<MiniBarProps> = props => {
     },
   };
 
-  const padding: [number, number, number, number] = [36, 5, 30, 5];
+  const padding: [number, number, number, number] = [36, 5, 40, 5];
 
   const tooltip: [string, (...args: any[]) => { name?: string; value: string }] = [
     'x*y',

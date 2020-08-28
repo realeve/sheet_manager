@@ -19,7 +19,7 @@ export default () => {
     callback({ data, source }) {
       let sum = R.compose(R.sum, R.map(R.prop('1')))(data);
       setTotal(sum);
-      return { data: data.map(([x, y]) => ({ x, y })), source };
+      return { data: data.map(([x, y]) => ({ x:x.replace('品',''), y })), source };
     },
   });
 
@@ -59,7 +59,7 @@ export default () => {
         }
         contentHeight={46}
       >
-        <MiniBar data={data?.data || []} />
+        <MiniBar showX data={data?.data || []} />
       </ChartCard>
     </Col>
   );
