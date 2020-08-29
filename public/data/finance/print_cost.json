@@ -1,0 +1,17 @@
+{
+  "name": "行业印钞产品成本分析表",
+  "dev": true,
+  "api": {
+    "insert": {
+      "url": "1142/k50g9egwr",
+      "param": ["rec_time"]
+    },
+    "delete": {
+      "url": "1143/k50g9egwr",
+      "param": ["prod_id", "year"]
+    }
+  },
+  "table": "finance_print_cost",
+  "maxrow": 23,
+  "maxcol": 8
+}

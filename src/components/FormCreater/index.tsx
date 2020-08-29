@@ -247,13 +247,15 @@ export interface IFormDb {
     url: string;
   };
 }
+
+
 export interface IFormConfig {
   name: string; // 业务名
   api: IFormDb; // 数据库接口
   table: string; // 表单名
   showScore: boolean; // 显示当前得分，仅用于字段有得分范围需要自动计算分数的场景
   dev: boolean; // 开发模式，设为true后会显示每个字段的key以及对应的数值，用于开发测试
-  detail: IFormDetail[];
+  detail: IFormDetail[]; 
 }
 export interface IFormCreater {
   config: IFormConfig;

@@ -8,50 +8,52 @@ import styles from './index.less';
 import * as R from 'ramda';
 import { connect } from 'dva';
 
-const callback = (
+export const handleDetail = (item, setNeedRefresh = null) => {
+  // input/label中有url时，强制刷新
+  if (['input', 'input.number', 'label'].includes(item.type) && item.url) {
+    setNeedRefresh && setNeedRefresh(true);
+  }
+  if (!item.defaultOption) {
+    return item;
+  }
+  item.defaultOption.map(opt => {
+    if (typeof opt === 'string' || !opt.scope) {
+      return opt;
+    }
+    let scope = [];
+    opt.scope.forEach(({ key, ...optItem }) => {
+      if (Array.isArray(key)) {
+        // 将数据打散
+        scope = [
+          ...scope,
+          ...key.map(keyName => ({
+            key: keyName,
+            ...optItem,
+          })),
+        ];
+      } else {
+        scope = [
+          ...scope,
+          {
+            key,
+            ...optItem,
+          },
+        ];
+      }
+    });
+    opt.scope = scope;
+    return opt;
+  });
+  return item;
+};
+
+export const callback = (
   res: IFormConfig,
-  setNeedRefresh: React.Dispatch<React.SetStateAction<boolean>>
+  setNeedRefresh: React.Dispatch<React.SetStateAction<boolean>> = null
 ) => {
   // 集中处理detail字段，对其中scope字段一个key有多个字段的数据打散
   res.detail = res.detail.map(detail => {
-    detail.detail = detail.detail.map(item => {
-      // input/label中有url时，强制刷新
-      if (['input', 'input.number', 'label'].includes(item.type) && item.url) {
-        setNeedRefresh(true);
-      }
-      if (!item.defaultOption) {
-        return item;
-      }
-      item.defaultOption.map(opt => {
-        if (typeof opt === 'string' || !opt.scope) {
-          return opt;
-        }
-        let scope = [];
-        opt.scope.forEach(({ key, ...optItem }) => {
-          if (Array.isArray(key)) {
-            // 将数据打散
-            scope = [
-              ...scope,
-              ...key.map(keyName => ({
-                key: keyName,
-                ...optItem,
-              })),
-            ];
-          } else {
-            scope = [
-              ...scope,
-              {
-                key,
-                ...optItem,
-              },
-            ];
-          }
-        });
-        opt.scope = scope;
-        return opt;
-      });
-      return item;
-    });
+    detail.detail = detail.detail.map(detail => handleDetail(detail, setNeedRefresh));
     return detail;
   });
   return res;

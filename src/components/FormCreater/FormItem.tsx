@@ -197,7 +197,7 @@ export default function formItem({
     return [val];
   };
 
-  let invalidCalc = calcValid.key === key && !calcValid.status;
+  let invalidCalc = calcValid?.key === key && !calcValid.status;
 
   let [haveHideKeys, setHaveHideKeys] = useState(false);
   useEffect(() => {
@@ -409,7 +409,7 @@ export default function formItem({
             url={props.url}
             onChange={(val, scopeItem) => {
               onChange(val);
-              scopeItem && setScope(scopeItem, haveHideKeys || scopeItem.hide);
+              scopeItem && setScope && setScope(scopeItem, haveHideKeys || scopeItem.hide);
             }}
             defaultOption={restScope.defaultOption || defaultOption}
             state={state}

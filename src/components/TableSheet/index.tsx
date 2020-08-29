@@ -8,8 +8,7 @@ import * as setting from '@/utils/setting';
 import qs from 'qs';
 import chartLib from '@/pages/chart/utils/lib';
 import { handleMerge } from '@/utils/excelConfig';
-import { handleMergeV } from '@/utils/exceljs';
-import { mergeConfig } from '@/services/table';
+import { handleMergeV } from '@/utils/exceljs'; 
 
 export const getFirstRow = data => {
   if (!data.data || !data.data[0]) {
@@ -239,7 +238,7 @@ const TableSheet = ({
         let nextCol = R.slice(columns.length, minCols)(colTitles);
         columns = [...columns, ...nextCol.map(title => ({ title }))];
       }
-      
+
       cfg = {
         ...cfg,
         columns,

@@ -68,6 +68,10 @@ export default [
             path: '/form/print',
             component: './Form/print',
           },
+          {
+            path: '/form/excel',
+            component: './Form/excel',
+          },
         ],
       },
       {
