@@ -29,11 +29,11 @@ export const getFirstRow = data => {
  * wiki: https://handsontable.com/docs/7.2.2/Options.html#mergeCells
  */
 
+const minCols = 10; // 最少10行
 let colTitles = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const getConfig = (data, afterFilter, sheetHeight) => {
   let firstRow = getFirstRow(data);
 
-  const minCols = 10; // 最少10行
   // console.log(data);
   let columns = (data.header || []).map((title, idx) => {
     let item = firstRow[idx] || '';
@@ -117,6 +117,7 @@ const getConfig = (data, afterFilter, sheetHeight) => {
   //   let nextCol = R.slice(columns.length, minCols)(colTitles);
   //   columns = [...columns, ...nextCol.map(title => ({ title }))];
   // }
+  // console.log(columns)
 
   let isSearch = window.location.pathname.includes('/search');
   let minRows = isSearch ? 13 : 32;
@@ -191,13 +192,6 @@ const getFreeze = () => {
   return R.range(0, Number(freeze));
 };
 
-const getMergeConfig = (data, params, mergev) => {
-  let mergeCells = handleMergeV(data, mergev);
-  // 合并过后的单元格需要居中
-  let cell = mergeCells.map(({ row, col }) => ({ row, col, className: 'htCenter htMiddle' })); // htLeft htMiddle
-  return { mergeCells, cell };
-};
-
 const TableSheet = ({
   data,
   onFilter,
@@ -228,7 +222,7 @@ const TableSheet = ({
         }
       });
 
-      onFilter(arrs); 
+      onFilter(arrs);
     };
 
     let cfg = getConfig(data, afterFilter, sheetHeight);
@@ -238,9 +232,17 @@ const TableSheet = ({
     }
 
     if (mergev.length > 0) {
-      let nextConfig = getMergeConfig(data.data, params, mergev); 
+      let nextConfig = handleMergeV(data.data, mergev);
+      let columns = R.clone(cfg.columns);
+
+      if (columns.length < minCols) {
+        let nextCol = R.slice(columns.length, minCols)(colTitles);
+        columns = [...columns, ...nextCol.map(title => ({ title }))];
+      }
+      
       cfg = {
         ...cfg,
+        columns,
         filters: false,
         ...nextConfig,
         multiColumnSorting: false,

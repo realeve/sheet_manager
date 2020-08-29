@@ -494,9 +494,10 @@ export const handleMergeV = (data: (string | number)[][], mergev: number[]) => {
       rowspan: rows.length - start,
     });
   });
+  let cell = res.map(({ row, col }) => ({ row, col, className: 'htCenter htMiddle' }));
 
   // 都为1的数据过滤掉，无需合并
   res = R.reject(item => item.colspan == 1 && item.rowspan === 1, res);
 
-  return res;
+  return { mergeCells: res, cell };
 };
