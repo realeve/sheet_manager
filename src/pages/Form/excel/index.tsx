@@ -12,6 +12,8 @@ import * as lib from '@/utils/lib';
 import { connect } from 'dva';
 import { handleDetail } from '../index';
 
+import TableSheet from '@/components/TableSheet';
+
 interface ISheetForm extends IFormConfig {
   maxrow?: number; // 用表格录入数据时最大数据行数;
   maxcol?: number; // 最大数据列
@@ -25,7 +27,7 @@ const callback = res => {
   return res;
 };
 
-export const Form = ({ data: json, children, state, setState, dev, setFormstatus }) => { 
+export const Form = ({ data: json, children, state, setState, dev, setFormstatus }) => {
   return (
     <Card title={json?.name}>
       {json?.detail && (
@@ -87,12 +89,32 @@ const Index = ({ location }) => {
 
   const [hot, setHot] = useState(null);
 
+  const [result, setResult] = useState([]);
+  const [formdata, setFormdata] = useState([]);
   const save = () => {
     if (!hot) {
       return;
     }
-    let res = hot.getData();
-    console.log(res);
+    let data = hot.getData();
+    setResult([]);
+    setFormdata([]);
+
+    var mock = () =>
+      fetch('http://localhost:3030/api/finance/cost', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data }),
+      })
+        .then(res => res.json())
+        .then(res => {
+          console.log(res);
+          setFormdata(res.data);
+          setResult(res.table);
+        });
+
+    mock();
   };
 
   return (
@@ -109,9 +131,19 @@ const Index = ({ location }) => {
         maxrow={data?.maxrow}
         maxcol={data?.maxcol}
       />
+
+      <Row style={{ marginTop: 15 }}>
+        {result.map(item => (
+          <div key={item.hash} style={{ marginTop: 20 }}>
+            <h3 style={{fontWeight:'bold',textAlign:'center'}}>数据解析结果：{item.title}</h3>
+            <TableSheet data={item} sheetHeight={Math.min((item.rows + 1) * 25, 400)} />
+          </div>
+        ))}
+      </Row>
+
       <Row style={{ marginTop: 15 }}>
         <Button disabled={!formstatus} type="default" onClick={save}>
-          提交
+          解析数据
         </Button>
       </Row>
     </Form>

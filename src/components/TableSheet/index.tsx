@@ -8,7 +8,7 @@ import * as setting from '@/utils/setting';
 import qs from 'qs';
 import chartLib from '@/pages/chart/utils/lib';
 import { handleMerge } from '@/utils/excelConfig';
-import { handleMergeV } from '@/utils/exceljs'; 
+import { handleMergeV } from '@/utils/exceljs';
 
 export const getFirstRow = data => {
   if (!data.data || !data.data[0]) {
@@ -193,11 +193,12 @@ const getFreeze = () => {
 
 const TableSheet = ({
   data,
-  onFilter,
-  beforeRender,
+  onFilter = null,
+  beforeRender = null,
   sheetHeight,
   renderParam = {},
   params = {},
+  ...props
 }) => {
   const [config, setConfig] = useState({
     licenseKey: 'non-commercial-and-evaluation',
@@ -221,7 +222,7 @@ const TableSheet = ({
         }
       });
 
-      onFilter(arrs);
+      onFilter && onFilter(arrs);
     };
 
     let cfg = getConfig(data, afterFilter, sheetHeight);
@@ -265,7 +266,7 @@ const TableSheet = ({
     // console.log(filtersPlugin);
   }, [data.hash]);
 
-  return React.useMemo(() => <HotTable ref={hotTable} settings={config} />, [config]);
+  return React.useMemo(() => <HotTable ref={hotTable} settings={config} {...props} />, [config]);
 };
 
 export default TableSheet;
