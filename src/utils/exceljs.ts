@@ -451,3 +451,52 @@ export const save: (config: SaveSetting) => void = ({ params, ...config }) => {
 };
 
 // http://localhost:8000/table#id=http://localhost:8000/form/4e00407442.json&merge=0-1&mergetext=%E6%8A%95%E5%85%A5&merge=1-9&mergetext=%E5%8D%B0%E5%88%B7%E5%B7%A5%E5%BA%8F&merge=2-7&mergetext=%E5%85%B6%E5%AE%83%E5%B7%A5%E5%BA%8F&merge=1-2&mergetext=%E5%BA%93%E5%AD%98%E6%95%B0&merge=2-4&mergetext=%E4%BB%98%E5%87%BA%E6%95%B0&merge=1-2&mergetext=%E5%BA%93%E5%AD%98%E5%8F%8A%E4%BB%98%E5%87%BA&product=9607T%E5%93%81&cache=0&daterange=9&menufold=1
+
+/**
+ * http://localhost:8000/table#id=http://localhost:8000/data/mock/543_e6fef8a252.json&mergev=0-2
+ * 
+ * 处理数据纵向合并
+ * 
+ * 返回数据示例
+ * [
+      { row: 0, col: 1, rowspan: 2, colspan: 1 },
+      { row: 2, col: 1, rowspan: 6, colspan: 1 },
+    ] 
+
+ * @param data 表格数据
+ * @param mergev 需要合并的列
+ *  
+ */
+export const handleMergeV = (data: (string | number)[][], mergev: number[]) => {
+  let res: { row: number; col: number; rowspan: number; colspan: number }[] = [];
+  mergev.forEach(key => {
+    // 获取数据项
+    let rows = lib.getDataByIdx({ key, data });
+    let start = 0;
+    for (let end = 1; end < rows.length; end++) {
+      if ((rows[end] || '').trim() != (rows[start] || '').trim()) {
+        res.push({
+          row: start,
+          col: key,
+          colspan: 1,
+          rowspan: end - start,
+        });
+        // 向右移动新的起始指针
+        start = end;
+      }
+    }
+    // bug待修复
+    // console.log(key, rows, start);
+    res.push({
+      row: start,
+      col: key,
+      colspan: 1,
+      rowspan: rows.length - start,
+    });
+  });
+
+  // 都为1的数据过滤掉，无需合并
+  res = R.reject(item => item.colspan == 1 && item.rowspan === 1, res);
+
+  return res;
+};

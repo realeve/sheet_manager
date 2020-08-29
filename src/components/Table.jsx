@@ -405,6 +405,7 @@ class Tables extends Component {
               });
             }}
             sheetHeight={this.props.sheetHeight}
+            params={this.props.config}
           />
           <p style={{ padding: '5px 0', marginBottom: 0 }}>
             {source} (共耗时{timing})

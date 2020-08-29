@@ -7,6 +7,9 @@ import * as R from 'ramda';
 import * as setting from '@/utils/setting';
 import qs from 'qs';
 import chartLib from '@/pages/chart/utils/lib';
+import { handleMerge } from '@/utils/excelConfig';
+import { handleMergeV } from '@/utils/exceljs';
+import { mergeConfig } from '@/services/table';
 
 export const getFirstRow = data => {
   if (!data.data || !data.data[0]) {
@@ -127,8 +130,16 @@ const getConfig = (data, afterFilter, sheetHeight) => {
     columns,
     data: data.data,
     licenseKey: 'non-commercial-and-evaluation',
- 
+
     mergeCells: true,
+    // declares a list of merged sections
+    // rowspan and colspan properties declare the width and height of a merged section in cells
+
+    // mergeCells: [
+    //   { row: 0, col: 1, rowspan: 2, colspan: 1 },
+    //   { row: 2, col: 1, rowspan: 6, colspan: 1 },
+    // ],
+
     manualRowResize: true,
     manualColumnResize: true,
     manualColumnMove: true,
@@ -137,16 +148,16 @@ const getConfig = (data, afterFilter, sheetHeight) => {
     afterFilter,
     dropdownMenu: true,
 
-    trimRows:[],
+    trimRows: [],
 
     multiColumnSorting: {
       sortEmptyCells: true, // true = the table sorts empty cells, false = the table moves all empty cells to the end of the table (by default)
       indicator: true, // true = shows indicator for all columns (by default), false = don't show indicator for columns
       headerAction: true, // true = allow to click on the headers to sort (by default), false = turn off possibility to click on the headers to sort
     },
-    
+
     autoColumnSize: {
-      samplingRatio: 23
+      samplingRatio: 23,
     },
 
     // 8.0 报错
@@ -180,26 +191,44 @@ const getFreeze = () => {
   return R.range(0, Number(freeze));
 };
 
-const TableSheet = ({ data, onFilter, beforeRender, sheetHeight, renderParam = {} }) => {
+const getMergeConfig = (data, params, mergev) => {
+  let mergeCells = handleMergeV(data, mergev);
+  // 合并过后的单元格需要居中
+  let cell = mergeCells.map(({ row, col }) => ({ row, col, className: 'htCenter htMiddle' })); // htLeft htMiddle
+  return { mergeCells, cell };
+};
+
+const TableSheet = ({
+  data,
+  onFilter,
+  beforeRender,
+  sheetHeight,
+  renderParam = {},
+  params = {},
+}) => {
   const [config, setConfig] = useState({
     licenseKey: 'non-commercial-and-evaluation',
   });
 
   const hotTable = useRef(null);
 
+  // 处理列合并逻辑
+  let { mergev } = handleMerge(params);
+
   useEffect(() => {
     let hot = hotTable.current.hotInstance;
 
     // 数据过滤后返回结果，单元格由于可编辑，此处不使用 hot.getData() 拿数据。
-    const afterFilter = () => { 
-      let arrs = [];// 7.0 适用后面的逻辑 hot.getPlugin('filters').trimRowsPlugin.rowsMapper.__arrayMap;
-      
-      hot.getPlugin('filters').filtersRowsMap.indexedValues.forEach((item,idx)=>{
-        if(item){
-          arrs.push(idx)
+    const afterFilter = () => {
+      let arrs = []; // 7.0 适用后面的逻辑 hot.getPlugin('filters').trimRowsPlugin.rowsMapper.__arrayMap;
+
+      hot.getPlugin('filters').filtersRowsMap.indexedValues.forEach((item, idx) => {
+        if (item) {
+          arrs.push(idx);
         }
-      })
-      onFilter(arrs);
+      });
+
+      onFilter(arrs); 
     };
 
     let cfg = getConfig(data, afterFilter, sheetHeight);
@@ -208,7 +237,17 @@ const TableSheet = ({ data, onFilter, beforeRender, sheetHeight, renderParam = {
       cfg = beforeRender(cfg, renderParam);
     }
 
-    setConfig(cfg); 
+    if (mergev.length > 0) {
+      let nextConfig = getMergeConfig(data.data, params, mergev); 
+      cfg = {
+        ...cfg,
+        filters: false,
+        ...nextConfig,
+        multiColumnSorting: false,
+      };
+    }
+
+    setConfig(cfg);
 
     // 冻结指定列
     if (hotTable) {

@@ -334,8 +334,9 @@ export default function tableConfig() {
             </div>
           </li>
           <li>
-            <div className={styles.tip}>3.excel报表列合并</div>
+            <div className={styles.tip}><Tag color="#e23">新功能</Tag> 4.列合并</div>
             <div className={classnames(styles.desc, 'configDemoDesc')}>mergev </div>
+            <div>2020-08-29：现在起，列合并将在前台展示中生效，合并时将不允许数据排序及过滤（这样需要重新计算合并设置）。</div>
             <div>默认值：不设置时不做合并。如设置mergev为0,1,2时，相当于合并第1至3列</div>
             <div>
               excel报表导出时需要纵向合并的列，系统将根据上下列自动运算

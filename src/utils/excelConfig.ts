@@ -53,6 +53,7 @@ export interface MergeRes {
   merge?: mergeItem[] | [];
   mergetext?: string[];
   mergedRows?: number[];
+  mergev?: number[];
 }
 /**
  * 处理merge字段
