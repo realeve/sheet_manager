@@ -168,7 +168,7 @@ const Index = ({ location }) => {
       // 服务端处理数据提交
       notification.success({
         message: '系统提示',
-        description: `数据提交${res.affected_rows > 0 ? '成功' : '失败'}`,
+        description: `服务端数据提交${res.affected_rows > 0 ? '成功' : '失败'}`,
       });
       setNeedinsert(false);
       clearData();
@@ -206,6 +206,7 @@ const Index = ({ location }) => {
 
   const clearData = () => {
     hot.clear();
+    hot.selectCell(0, 0);
     setFormdata([]);
     setNeedinsert(true);
   };
