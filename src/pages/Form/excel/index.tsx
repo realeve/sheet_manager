@@ -109,12 +109,15 @@ const Index = ({ location }) => {
       })
         .then(res => res.json())
         .then(res => {
-          console.log(res);
           setFormdata(res.data);
           setResult(res.table);
         });
 
     mock();
+  };
+
+  const upload = () => {
+    console.log(formdata);
   };
 
   return (
@@ -125,6 +128,7 @@ const Index = ({ location }) => {
       dev={data?.dev}
       setFormstatus={setFormstatus}
     >
+      <p>请在【A1】单元格粘贴数据，然后点击下方【解析数据】按钮.</p>
       <Sheet
         sheetHeight={data?.sheetHeight}
         onRender={setHot}
@@ -133,19 +137,33 @@ const Index = ({ location }) => {
       />
 
       <Row style={{ marginTop: 15 }}>
+        <Button disabled={!formstatus} type="primary" onClick={save}>
+          解析数据
+        </Button>
+      </Row>
+
+      <Row style={{ marginTop: 15 }}>
         {result.map(item => (
-          <div key={item.hash} style={{ marginTop: 20 }}>
-            <h3 style={{fontWeight:'bold',textAlign:'center'}}>数据解析结果：{item.title}</h3>
-            <TableSheet data={item} sheetHeight={Math.min((item.rows + 1) * 25, 400)} />
+          <div key={item.hash} style={{ marginTop: 20, width: '100%' }}>
+            <h3 style={{ fontWeight: 'bold', textAlign: 'center' }}>
+              数据解析结果 —— {item.title}
+            </h3>
+            <TableSheet
+              style={{ width: '100%' }}
+              data={item}
+              sheetHeight={Math.min(Math.max(item.rows + 1, 5) * 25, 400)}
+            />
           </div>
         ))}
       </Row>
 
-      <Row style={{ marginTop: 15 }}>
-        <Button disabled={!formstatus} type="default" onClick={save}>
-          解析数据
-        </Button>
-      </Row>
+      {formdata.length > 0 && (
+        <Row style={{ marginTop: 15 }}>
+          <Button disabled={!formstatus} type="primary" onClick={upload}>
+            数据上传
+          </Button>
+        </Row>
+      )}
     </Form>
   );
 };
