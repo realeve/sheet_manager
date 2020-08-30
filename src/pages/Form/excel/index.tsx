@@ -96,6 +96,10 @@ const Index = ({ location }) => {
       return;
     }
     let data = hot.getData();
+    decode(data);
+  };
+
+  const decode = (data: string[][]) => {
     setResult([]);
     setFormdata([]);
 
@@ -134,12 +138,18 @@ const Index = ({ location }) => {
         onRender={setHot}
         maxrow={data?.maxrow}
         maxcol={data?.maxcol}
+        onPaste={decode}
       />
 
       <Row style={{ marginTop: 15 }}>
-        <Button disabled={!formstatus} type="primary" onClick={save}>
-          解析数据
-        </Button>
+        <Button disabled={!formstatus} type="default" onClick={save}>
+          手工解析数据
+        </Button> 
+        {formdata.length > 0 && (
+          <Button style={{ marginLeft: 15 }} disabled={!formstatus} type="primary" onClick={upload}>
+            数据上传
+          </Button>
+        )}
       </Row>
 
       <Row style={{ marginTop: 15 }}>
@@ -156,14 +166,6 @@ const Index = ({ location }) => {
           </div>
         ))}
       </Row>
-
-      {formdata.length > 0 && (
-        <Row style={{ marginTop: 15 }}>
-          <Button disabled={!formstatus} type="primary" onClick={upload}>
-            数据上传
-          </Button>
-        </Row>
-      )}
     </Form>
   );
 };

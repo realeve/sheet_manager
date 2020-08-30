@@ -47,8 +47,8 @@ const TableSheet = ({
   beforeRender = null,
   renderParam = {},
   onRender = null,
+  onPaste = (e: string[][]) => {},
 }) => {
-  const [config] = useState();
   const hotTable = useRef(null);
 
   useEffect(() => {
@@ -68,9 +68,11 @@ const TableSheet = ({
 
   return (
     <HotTable
+      style={{ width: '100%' }}
       ref={hotTable}
       settings={{
         licenseKey: 'non-commercial-and-evaluation',
+        afterPaste: onPaste,
       }}
     />
   );
