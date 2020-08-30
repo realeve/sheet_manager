@@ -176,7 +176,7 @@ export default function formItem({
     // 录入状态判断
     let status = onValidate(value, rule);
     setValidateState(status);
-    setFormstatus(status);
+    setFormstatus && setFormstatus(status);
 
     if (isInput && scopeDetail && (typeof __min !== 'undefined' || typeof __max !== 'undefined')) {
       // input 元素需要处理数据录入范围

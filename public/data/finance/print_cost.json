@@ -2,16 +2,21 @@
   "name": "行业印钞产品成本分析表",
   "dev": true,
   "api": {
-    "insert": {
-      "url": "1142/k50g9egwr",
-      "param": ["rec_time"]
-    },
-    "delete": {
-      "url": "1143/k50g9egwr",
-      "param": ["prod_id", "year"]
-    }
+    "insert": ["1142/k50g9egwr", "1143/k50g9egwr"]
   },
+  "detail": [
+    {
+      "title": "年份",
+      "type": "datepicker.year",
+      "key": "year",
+      "rule": {
+        "required": true
+      },
+      "unReset": true
+    }
+  ],
   "table": "finance_print_cost",
   "maxrow": 23,
-  "maxcol": 8
+  "maxcol": 8,
+  "callback": "http://localhost:3030/api/finance/cost"
 }
