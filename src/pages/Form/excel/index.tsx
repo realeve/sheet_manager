@@ -15,13 +15,13 @@ import moment from 'moment';
 import TableSheet from '@/components/TableSheet';
 import { axios } from '@/utils/axios';
 
-interface ICallbackData {
+export interface ICallbackData {
   data: string[][]; // 前台插入的数据
   table: { title: string; header: string[]; data: [][]; rows: number; hash: string }[]; //解析结果
   title: string; // 业务标题
   affected_rows: number; //写入数据量
 }
-const post = ({ url, data, extra }) =>
+export const post = ({ url, data, extra }) =>
   fetch(url, {
     method: 'post',
     headers: {
@@ -30,18 +30,25 @@ const post = ({ url, data, extra }) =>
     body: JSON.stringify({ data, extra }),
   }).then(res => res.json());
 
-interface ISheetForm extends IFormConfig {
+export interface IExcelForm {
+  name: string; // 业务名称
+  desc?: string; // 描述信息
+  callback: string; // 数据回调
+  decimal?: number; //小数长度
+}
+export interface ISheetForm extends IFormConfig, IExcelForm {
   maxrow?: number; // 用表格录入数据时最大数据行数;
   maxcol?: number; // 最大数据列
   sheetHeight?: number; // sheet高度
-  callback: string; // 数据回调
 }
 
-const callback = res => {
+export const callback = res => {
   if (!res) {
     return null;
   }
-  res.detail = res.detail.map(handleDetail);
+  if (res.detail) {
+    res.detail = res.detail.map(handleDetail);
+  }
   return res;
 };
 
@@ -77,7 +84,7 @@ export const Form = ({ data: json, children, state, setState, dev }) => {
   );
 };
 
-const handleSubmit = async ({ params, url, idx }) => {
+export const handleSubmit = async ({ params, url, idx }) => {
   let [id, nonce] = url.match(/(\d+)\/(\w+)/g)[0].split('/');
   let {
     data: [{ affected_rows }],
@@ -120,21 +127,22 @@ const Index = ({ location }) => {
     callback: e => {
       let isUnmounted = false;
       let res = callback(e);
-      res.detail.forEach(item => {
-        if (item.type === 'datepicker') {
-          if (!isUnmounted) {
-            setState({ [item.key]: moment().format(item.datetype || 'YYYY-MM-DD') });
+      res.detail &&
+        res.detail.forEach(item => {
+          if (item.type === 'datepicker') {
+            if (!isUnmounted) {
+              setState({ [item.key]: moment().format(item.datetype || 'YYYY-MM-DD') });
+            }
+          } else if (item.type === 'datepicker.month') {
+            if (!isUnmounted) {
+              setState({ [item.key]: moment().format(item.datetype || 'YYYY-MM') });
+            }
+          } else if (item.type === 'datepicker.year') {
+            if (!isUnmounted) {
+              setState({ [item.key]: moment().format(item.datetype || 'YYYY') });
+            }
           }
-        } else if (item.type === 'datepicker.month') {
-          if (!isUnmounted) {
-            setState({ [item.key]: moment().format(item.datetype || 'YYYY-MM') });
-          }
-        } else if (item.type === 'datepicker.year') {
-          if (!isUnmounted) {
-            setState({ [item.key]: moment().format(item.datetype || 'YYYY') });
-          }
-        }
-      });
+        });
       isUnmounted = true;
       return res;
     },
@@ -214,6 +222,7 @@ const Index = ({ location }) => {
   return (
     <Form data={option} state={state} setState={setState} dev={option?.dev}>
       <p>请在【A1】单元格粘贴数据，然后点击下方【解析数据】按钮.</p>
+      {option?.desc}
       <Sheet
         sheetHeight={option?.sheetHeight}
         onRender={setHot}

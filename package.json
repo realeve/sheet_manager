@@ -75,7 +75,8 @@
     "umi-plugin-antd-theme": "^1.0.1",
     "umi-plugin-locale": "^2.1.1",
     "use-merge-value": "^1.0.1",
-    "x2js": "^3.2.6"
+    "x2js": "^3.2.6",
+    "xlsx": "^0.16.6"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",

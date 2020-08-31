@@ -649,3 +649,31 @@ export const getVersion = () =>
       readVersion(res);
       return res;
     });
+
+/**
+ *
+ * @param {file文件对象，input type="file"} file 
+ * @param type 'buffer' | 'binary'
+ * @desc 将file图像文件对象转换为BASE64
+ */
+export let loadDataFile: (file: File, type?: 'binary' | 'buffer') => Promise<null | Blob> = async (
+  file,
+  type = 'buffer'
+) => {
+  if (typeof FileReader === 'undefined') {
+    return Promise.resolve(null);
+  }
+
+  let reader: FileReader = new FileReader();
+  reader[type === 'buffer' ? 'readAsArrayBuffer' : 'readAsBinaryString'](file);
+
+  return new Promise(resolve => {
+    reader.onload = ({ target: { result } }: { target: { result: Blob } }) => {
+      resolve(result);
+    };
+  });
+};
+
+export const encodeBase64 = (str: string) => window.btoa(unescape(encodeURIComponent(str)));
+
+export const decodeBase64 = (str: string) => decodeURIComponent(escape(window.atob(str)));

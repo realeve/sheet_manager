@@ -1,0 +1,27 @@
+.uploadWrapper {
+  width: 100%;
+  margin: 0 0 30px 0;
+}
+
+.formTab {
+  width: 100%;
+  :global {
+    .ant-tabs-nav {
+      margin-top: 0;
+      .ant-tabs-ink-bar {
+        top: unset;
+        bottom: 0;
+        height: 46px;
+        z-index: 0;
+      }
+      .ant-tabs-tab {
+        z-index: 1;
+        margin: 0;
+        padding: 12px;
+      }
+      .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+        color: #fff;
+      }
+    }
+  }
+}

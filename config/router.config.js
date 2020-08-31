@@ -72,6 +72,10 @@ export default [
             path: '/form/excel',
             component: './Form/excel',
           },
+          {
+            path: '/form/xls',
+            component: './Form/file',
+          },
         ],
       },
       {

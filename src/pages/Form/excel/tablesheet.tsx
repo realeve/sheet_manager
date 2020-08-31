@@ -22,7 +22,7 @@ const getConfig = (data, sheetHeight, { maxrow, maxcol }) => ({
   rowHeaders: true,
   colHeaders: [],
   columns: data.head || colTitles.slice(0, maxcol),
-  data: [],
+  data: data.data || [],
   licenseKey: 'non-commercial-and-evaluation',
 
   manualRowResize: true,
