@@ -34,6 +34,7 @@ const Income = ({ url = '/1013/a33ed9f4ec.json', title = '销售收入' }) => {
     },
   });
 
+  console.log(data)
   return (
     <ChartCard
       bordered={false}
@@ -44,17 +45,17 @@ const Income = ({ url = '/1013/a33ed9f4ec.json', title = '销售收入' }) => {
         </Tooltip>
       }
       loading={loading}
-      total={() => data && <Yuan>{data.data[0].year_total}</Yuan>}
+      total={() => data && <Yuan>{data.data[0]?.year_total}</Yuan>}
       footer={
         data && (
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <Field
-              label={data.data[1].type_desc}
-              value={numeral(data.data[1].year_total).format('0,0')}
+              label={data.data[1]?.type_desc}
+              value={numeral(data.data[1]?.year_total).format('0,0')}
             />
             <Field
-              label={data.data[2].type_desc}
-              value={numeral(data.data[2].year_total).format('0,0')}
+              label={data.data[2]?.type_desc}
+              value={numeral(data.data[2]?.year_total).format('0,0')}
             />
           </div>
         )
