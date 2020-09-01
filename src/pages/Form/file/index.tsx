@@ -131,8 +131,6 @@ const Index = ({ location }) => {
       setResult(res);
       return;
     }
-    setUploadStatus('active');
-    setUploading(true);
 
     res = res.map(item => {
       item.data = item.data.map(row =>
@@ -238,9 +236,7 @@ const Index = ({ location }) => {
                   data={{
                     data,
                     rows: data.length,
-                    hash: Math.random()
-                      .toString(16)
-                      .slice(3),
+                    hash: (data[1] || [''])[0],
                   }}
                   sheetHeight={700}
                 />

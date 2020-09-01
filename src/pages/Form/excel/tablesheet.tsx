@@ -64,7 +64,7 @@ const TableSheet = ({
     }
     let hot = hotTable.current.hotInstance;
     hot.updateSettings(cfg);
-  }, [maxrow, maxcol, sheetHeight]);
+  }, [maxrow, maxcol, sheetHeight,JSON.stringify(data)]);
 
   return (
     <HotTable

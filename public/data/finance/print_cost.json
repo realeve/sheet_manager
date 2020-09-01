@@ -1,6 +1,6 @@
 {
   "name": "行业印钞产品成本分析表",
-  "desc": "点击选择或拖拽文件《行业印钞产品成本.xls》到此处以上传数据",
+  "desc": "点击选择或拖拽文件《行业印钞产品成本.xls》到此处以上传数据  10.8.1.27",
   "decimal": 2,
-  "callback": "http://10.8.1.27:4040/api/finance/cost"
+  "callback": "http://localhost:3030/api/finance/cost"
 }
