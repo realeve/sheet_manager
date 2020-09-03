@@ -71,26 +71,31 @@ export default () => {
       if (e.xAxis.data.length === 1) {
         return e;
       }
+      
       let val = R.last(series.data);
+
       series.markLine.data[0].yAxis = val;
+      series.markLine.lineStyle = { normal: { type: 'dashed', color: '#e23' } };
+
       series.data = R.init(series.data);
       e.xAxis.data = R.init(e.xAxis.data);
+
       e.series = [series];
       e.legend.show = false;
+
       e.grid = {
         ...e.grid,
         left: 50,
         right: 55,
       };
+
       if (['纸张', '变动成本合计'].includes(a)) {
         e.yAxis.min = Math.floor((val * 0.9) / 5000) * 5000;
       }
       e.tooltip.axisPointer.type = 'cross';
 
-      // {value:4501.23,itemStyle:{normal:{color:'#e23'}}}
-
       let barData = series.data.map((value, idx) => {
-        let name = e.xAxis.data[idx].replace('公司','');
+        let name = e.xAxis.data[idx].replace('公司', '');
         return {
           value: name.includes('成都')
             ? { value, itemStyle: { normal: { color: '#2FC25B' } } }
