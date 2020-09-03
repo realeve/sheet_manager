@@ -12,6 +12,8 @@ const ProductDetail = React.lazy(() => import('./ProductDetail'));
 
 const PaperRun = React.lazy(() => import('./PaperRun'));
 
+const CostAnany = React.lazy(()=>import('./Cost'));
+
 export default () => {
   return (
     <div className={style.dashboard}>
@@ -22,10 +24,14 @@ export default () => {
         <ProductNum />
       </Suspense>
 
+
+      <Suspense fallback={<PageLoading />}>
+        <CostAnany />
+      </Suspense> 
+      
       <Suspense fallback={<PageLoading />}>
         <ProductDetail />
       </Suspense>
-
       <Suspense fallback={<PageLoading />}>
         <Quality />
       </Suspense>

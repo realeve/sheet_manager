@@ -23,6 +23,7 @@ npm-debug.log*
 /jest.config.js 
 /sql
 /src/mock/*.json
+public/mock/*.json
 public/doc/office_tool.zip
 
 /doc

@@ -33,8 +33,7 @@ const Income = ({ url = '/1013/a33ed9f4ec.json', title = '销售收入' }) => {
       url,
     },
   });
-
-  console.log(data)
+ 
   return (
     <ChartCard
       bordered={false}
