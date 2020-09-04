@@ -31,15 +31,27 @@ export default () => {
       if (!e) {
         return e;
       }
-      e.data = e.data.map(item => {
+
+      let res = R.filter(R.propEq('期间', '去年平均'))(e.data);
+      setAvg(res);
+
+      let data = R.reject(R.propEq('期间', '去年平均'))(e.data);
+
+      data = data.map(item => {
         if (item['类型'] === '总成本') {
           item['类型'] = '变动成本';
         }
         return item;
       });
-      return e;
+
+      return {
+        ...e,
+        data,
+      };
     },
   });
+
+  const [avg, setAvg] = useState([]);
 
   const [period, setPeriod] = useState('');
   useEffect(() => {
@@ -63,19 +75,50 @@ export default () => {
       x: 0,
       y: 5,
       legend: 3,
-      markline: 152333,
-      marktext: '行业加权\n平均值',
+      markline: 0,
+      marktext: '行业平均',
     },
-    beforeRender: (e, a) => {
+    beforeRender: (e, a, curtype) => {
       let series = R.clone(e.series[0]);
       if (e.xAxis.data.length === 1) {
         return e;
       }
-      
-      let val = R.last(series.data);
 
-      series.markLine.data[0].yAxis = val;
-      series.markLine.lineStyle = { normal: { type: 'dashed', color: '#e23' } };
+      let val = R.last(series.data);
+      let prevMarkLine = R.clone(series.markLine) || {
+        data: [
+          {
+            label: {
+              formatter(a) {
+                return '行业平均';
+              },
+            },
+          },
+        ],
+        symbolSize: 0,
+        symbol: 'none',
+        lineStyle: {},
+      };
+
+      console.log(prevMarkLine, series);
+      if (prevMarkLine) {
+        prevMarkLine.data[0].yAxis = val;
+        prevMarkLine.lineStyle = { normal: { type: 'dashed', color: '#e23' } };
+
+        let avgItem = avg.find(item => item['品种'] == curtype && item['成本项目'] == a);
+        if (avgItem) {
+          prevMarkLine.data.push({
+            yAxis: avgItem['成本值'],
+            label: {
+              formatter(a) {
+                return '去年成钞';
+              },
+            },
+            lineStyle: { normal: { type: 'dashed', color: '#2FC25B' } },
+          });
+        }
+        series.markLine = prevMarkLine;
+      }
 
       series.data = R.init(series.data);
       e.xAxis.data = R.init(e.xAxis.data);
@@ -108,7 +151,7 @@ export default () => {
       barData = barData.sort((a, b) => (a.value?.value || a.value) - (b.value?.value || b.value));
       (series.data = barData.map(item => item.value)),
         (e.xAxis.data = barData.map((item, idx) => idx + 1 + '.' + item.name));
-      console.log(e);
+      console.log(e, a, curtype);
       return e;
     },
   };

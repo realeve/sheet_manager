@@ -11,7 +11,7 @@ import Err from '@/components/Err';
 import { AxiosError, IAxiosState } from '@/utils/axios';
 
 const filterData = (res, type: string, key: string = 'type') => {
-  let data = R.filter(item => item[key] == type)(res.data); 
+  let data = R.filter(item => item[key] == type)(res.data);
   let hash = res.hash + type + data.length;
   return {
     ...res,
@@ -31,7 +31,7 @@ export let _beforeRender = e => {
   return e;
 };
 
-const TabChart = ({ data, tabs, tabKey, chartParam, chartHeight, beforeRender }) => {
+const TabChart = ({ data, tabs, tabKey, curtype, chartParam, chartHeight, beforeRender }) => {
   const [curprod, setCurprod] = useState(null);
 
   useEffect(() => {
@@ -48,8 +48,8 @@ const TabChart = ({ data, tabs, tabKey, chartParam, chartHeight, beforeRender })
         params={chartParam}
         style={{ height: chartHeight - 70, width: '100%' }}
         beforeRender={e => {
-          let res = _beforeRender(e); 
-          return beforeRender ? beforeRender(res,curprod) : res;
+          let res = _beforeRender(e);
+          return beforeRender ? beforeRender(res, curprod, curtype) : res;
         }}
       />
     );
@@ -66,7 +66,7 @@ const TabChart = ({ data, tabs, tabKey, chartParam, chartHeight, beforeRender })
               style={{ height: chartHeight - 70, width: '100%' }}
               beforeRender={e => {
                 let res = _beforeRender(e);
-                return beforeRender ? beforeRender(res,prod) : res;
+                return beforeRender ? beforeRender(res, prod,curtype) : res;
               }}
             />
           </Tabs.TabPane>
@@ -185,6 +185,7 @@ export default ({
     >
       {error && <Err err={error} />}
       <TabChart
+        curtype={curtype}
         chartHeight={chartHeight}
         data={curdata}
         tabs={prods}
