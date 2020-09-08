@@ -468,13 +468,17 @@ export const save: (config: SaveSetting) => void = ({ params, ...config }) => {
  *  
  */
 export const handleMergeV = (data: (string | number)[][], mergev: number[]) => {
+  if (data.length === 0) {
+    return {};
+  }
+
   let res: { row: number; col: number; rowspan: number; colspan: number }[] = [];
   mergev.forEach(key => {
     // 获取数据项
     let rows = lib.getDataByIdx({ key, data });
     let start = 0;
     for (let end = 1; end < rows.length; end++) {
-      if ((rows[end] || '').trim() != (rows[start] || '').trim()) {
+      if (String(rows[end] || '').trim() != String(rows[start] || '').trim()) {
         res.push({
           row: start,
           col: key,
