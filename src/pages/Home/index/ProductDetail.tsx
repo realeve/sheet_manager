@@ -69,8 +69,8 @@ export default () => {
                     </div>
                   }
                   {...{
-                    error: error2,
-                    loading: loading2,
+                    error: error3,
+                    loading: loading3,
                     radioIdx: 0,
                     chartHeight: 400,
                     // tabIdx: 0,
