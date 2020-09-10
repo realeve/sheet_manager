@@ -16,7 +16,7 @@ const handleData = (data, key) => {
   return res;
 };
 
-export default () => {
+export default ({ proc_name = 0 }) => {
   /**
    *   useFetch (React hooks)
    *   @database: { 总公司数据共享平台 }
@@ -26,6 +26,12 @@ export default () => {
   const { data, loading, error } = useFetch({
     param: {
       url: `/1158/45412abcb2.json`, // @/mock/1158_45412abcb2.json
+      params: {
+        proc1: proc_name,
+        proc2: proc_name,
+        proc3: proc_name,
+        proc4: proc_name,
+      },
     },
     callback: e => {
       if (!e) {
