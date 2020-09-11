@@ -114,23 +114,22 @@ export const now = () => moment().format('YYYY-MM-DD HH:mm:ss');
 export const weeks = () => moment().weeks();
 
 export const ymd = () => moment().format('YYYYMMDD');
-
-export const monthname = (idx = moment().format('MM')) =>
-  [
-    '',
-    '一月',
-    '二月',
-    '三月',
-    '四月',
-    '五月',
-    '六月',
-    '七月',
-    '八月',
-    '九月',
-    '十月',
-    '十一月',
-    '十二月',
-  ][Number(idx)];
+export const monthList = [
+  '',
+  '一月',
+  '二月',
+  '三月',
+  '四月',
+  '五月',
+  '六月',
+  '七月',
+  '八月',
+  '九月',
+  '十月',
+  '十一月',
+  '十二月',
+];
+export const monthname = (idx = moment().format('MM')) => monthList[Number(idx)];
 
 export const timestamp = () => moment().format('x');
 
@@ -652,7 +651,7 @@ export const getVersion = () =>
 
 /**
  *
- * @param {file文件对象，input type="file"} file 
+ * @param {file文件对象，input type="file"} file
  * @param type 'buffer' | 'binary'
  * @desc 将file图像文件对象转换为BASE64
  */

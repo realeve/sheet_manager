@@ -77,7 +77,7 @@ export default () => {
   });
   const res: IFetchState = useFetch({
     param: {
-      url: `/1159/0365af0235/5`,
+      url: `/1159/0365af0235`,
       params: {
         method: 'post',
         deptName: '',
@@ -98,7 +98,7 @@ export default () => {
 
   const res2: IFetchState = useFetch({
     param: {
-      url: `/1161/9a37e5de0b/5.json`,
+      url: `/1161/9a37e5de0b`,
       params: {
         method: 'post',
         sblb: 's',
@@ -119,7 +119,7 @@ export default () => {
 
   const res3: IFetchState = useFetch({
     param: {
-      url: `/1161/9a37e5de0b/5.json`,
+      url: `/1161/9a37e5de0b`,
       params: {
         method: 'post',
         sblb: 'q',
@@ -140,7 +140,7 @@ export default () => {
 
   const res4: IFetchState = useFetch({
     param: {
-      url: `/1161/9a37e5de0b/5.json`,
+      url: `/1161/9a37e5de0b`,
       params: {
         method: 'post',
         sblb: 'l',

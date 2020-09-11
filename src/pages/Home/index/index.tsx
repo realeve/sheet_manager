@@ -14,7 +14,8 @@ const PaperRun = React.lazy(() => import('./PaperRun'));
 
 const CostAnany = React.lazy(() => import('./Cost'));
 
-const EnergeyUseage = React.lazy(() => import('./EnergeyUseage'));
+const EnergeyUseage = React.lazy(() => import('./EnergeUseage'));
+const EnergeyLine = React.lazy(() => import('./EnergeLine'));
 
 export default () => {
   return (
@@ -46,6 +47,9 @@ export default () => {
 
       <Suspense fallback={<PageLoading />}>
         <EnergeyUseage />
+      </Suspense>
+      <Suspense fallback={<PageLoading />}>
+        <EnergeyLine />
       </Suspense>
     </div>
   );
