@@ -1,3 +1,4 @@
+@import '~antd/es/style/themes/default.less';
 .action {
   :global {
     .ant-radio-group {
@@ -10,6 +11,33 @@
       &:last-child {
         border-radius: 0 12px 12px 0;
       }
+    }
+  }
+}
+.row {
+  display: flex;
+}
+.wrapper {
+  display: flex;
+  justify-content: flex-end;
+
+  .colors {
+    display: flex;
+
+    li {
+      line-height: 25px;
+      width: 50px;
+      text-align: center;
+      height: 50px;
+      // outline: 2px solid #aaa;
+      cursor: pointer;
+      &:hover {
+        outline: 2px solid #df3030;
+        opacity: 0.9;
+      }
+    }
+    .active {
+      outline: 2px solid #df3030;
     }
   }
 }

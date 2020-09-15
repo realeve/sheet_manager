@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import style from './index.less';
 import { PageLoading } from '../components/';
+import browsers from '@/utils/browser';
 
 const IntroduceRow = React.lazy(() => import('./IntroduceRow'));
 
@@ -16,6 +17,14 @@ const CostAnany = React.lazy(() => import('./Cost'));
 
 const EnergeyUseage = React.lazy(() => import('./EnergeUseage'));
 const EnergeyLine = React.lazy(() => import('./EnergeLine'));
+
+const Storage = React.lazy(() => import('./Storage'));
+const Storage2 = React.lazy(() => import('./Storage2'));
+
+
+// XP系统不显示三维图表
+let OS = browsers().os;
+let isXP = OS == 'Windows XP';
 
 export default () => {
   return (
@@ -51,6 +60,16 @@ export default () => {
       <Suspense fallback={<PageLoading />}>
         <EnergeyLine />
       </Suspense>
+
+      <Suspense fallback={<PageLoading />}>
+        <Storage2 />
+      </Suspense>
+
+      {!isXP && (
+        <Suspense fallback={<PageLoading />}>
+          <Storage />
+        </Suspense>
+      )}
     </div>
   );
 };

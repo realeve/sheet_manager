@@ -8,26 +8,26 @@ export interface ChartProps {
   params: any;
   beforeRender?: Function;
 }
-export default function SimpleChart({ data, params, beforeRender, ...props }: ChartProps) {
+export default function SimpleChart({ option, data, params, beforeRender, ...props }: ChartProps) {
   const [state, setState] = useState({});
   useEffect(() => {
-    if (!data?.data) {
+    if (!data?.data || option) {
       return;
     }
     let {
-      option: [option],
+      option: [nextOption],
     } = getDrivedState({ dataSrc: data, params });
     if (beforeRender) {
-      option = beforeRender(option);
+      nextOption = beforeRender(nextOption);
     }
-    if (option.legend) {
-      option.legend = {
-        ...option.legend,
+    if (nextOption.legend) {
+      nextOption.legend = {
+        ...nextOption.legend,
         icon: 'circle',
       };
     }
 
-    setState(option);
+    setState(nextOption);
   }, [data?.data]);
   if (!data) {
     return null;
@@ -36,6 +36,6 @@ export default function SimpleChart({ data, params, beforeRender, ...props }: Ch
   return data.err ? (
     <Err err={data.err} />
   ) : (
-    <Chart renderer={params.renderer || 'svg'} option={state} {...props} />
+    <Chart renderer={params.renderer || 'svg'} option={option || state} {...props} />
   );
 }

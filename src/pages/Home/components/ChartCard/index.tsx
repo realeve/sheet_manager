@@ -35,6 +35,14 @@ export interface ChartCardProps extends CardProps {
   suffix?: React.ReactNode;
 }
 
+export const Indicator = ({ total, suffix = '', prefix = '', ...props }) => (
+  <div className={styles.row} {...props}>
+    <div className={styles.prefix}>{prefix}</div>
+    {renderTotal(total)}
+    <div className={styles.suffix}>{suffix}</div>
+  </div>
+);
+
 class ChartCard extends React.Component<ChartCardProps> {
   renderContent = () => {
     const {
@@ -64,10 +72,7 @@ class ChartCard extends React.Component<ChartCardProps> {
               <span className={styles.title}>{title}</span>
               <span className={styles.action}>{action}</span>
             </div>
-            <div className={styles.row}>
-              {renderTotal(total)}
-              <div className={styles.suffix}>{suffix}</div>
-            </div>
+            <Indicator total={total} suffix={suffix} />
           </div>
         </div>
 
