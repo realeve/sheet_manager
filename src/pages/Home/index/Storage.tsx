@@ -319,7 +319,7 @@ export default () => {
 
   const { data, error, loading } = useFetch({
     param: {
-      url: `@/mock/1167_1252ddb336.json`,
+      url: `1167/1252ddb336.json`,
     },
     callback(res) {
       let data = R.filter(res => res['品种'] != null && !res['品种'].includes('辅料-'))(res.data);
