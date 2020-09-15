@@ -106,7 +106,7 @@ export default ({ proc_name = 0 }) => {
         lineStyle: {},
       };
 
-      console.log(prevMarkLine, series);
+      // console.log(prevMarkLine, series);
       if (prevMarkLine) {
         prevMarkLine.data[0].yAxis = val;
         prevMarkLine.lineStyle = { normal: { type: 'dashed', color: '#e23' } };
@@ -157,7 +157,7 @@ export default ({ proc_name = 0 }) => {
       barData = barData.sort((a, b) => (a.value?.value || a.value) - (b.value?.value || b.value));
       (series.data = barData.map(item => item.value)),
         (e.xAxis.data = barData.map((item, idx) => idx + 1 + '.' + item.name));
-      console.log(e, a, curtype);
+      // console.log(e, a, curtype);
       return e;
     },
   };

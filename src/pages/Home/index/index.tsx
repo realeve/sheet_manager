@@ -17,10 +17,10 @@ const CostAnany = React.lazy(() => import('./Cost'));
 
 const EnergeyUseage = React.lazy(() => import('./EnergeUseage'));
 const EnergeyLine = React.lazy(() => import('./EnergeLine'));
+const EnergeyDetail = React.lazy(() => import('./EnergeDetail'));
 
 const Storage = React.lazy(() => import('./Storage'));
 const Storage2 = React.lazy(() => import('./Storage2'));
-
 
 // XP系统不显示三维图表
 let OS = browsers().os;
@@ -59,6 +59,9 @@ export default () => {
       </Suspense>
       <Suspense fallback={<PageLoading />}>
         <EnergeyLine />
+      </Suspense>
+      <Suspense fallback={<PageLoading />}>
+        <EnergeyDetail />
       </Suspense>
 
       <Suspense fallback={<PageLoading />}>

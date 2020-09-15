@@ -109,7 +109,7 @@ export const tooltipFormatter = (p, unit, axisName, append = false) => {
           item.color
         };"></div><span>${item.seriesName || axisName}：${
           typeof item.value === 'string' ? Number(item.value) : item.value
-        } </span></div>` +
+        }${item.percent ? ` (占比:${item.percent}%)` : ''} </span></div>` +
         (append ? `<div class="ex_tooltip_append">${append[item.seriesName]}</div>` : '');
     }
   });

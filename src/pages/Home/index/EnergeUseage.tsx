@@ -62,7 +62,7 @@ const Chart = ({ res }) => (
         return item;
       });
       e.legend.top = 2; 
-      console.log(e)
+      // console.log(e)
       return { ...e, series, ...config };
     }}
   />
