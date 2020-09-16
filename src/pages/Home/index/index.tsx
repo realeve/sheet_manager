@@ -22,6 +22,8 @@ const EnergeyDetail = React.lazy(() => import('./EnergeDetail'));
 const Storage = React.lazy(() => import('./Storage'));
 const Storage2 = React.lazy(() => import('./Storage2'));
 
+const PlanAnany = React.lazy(()=>import('./Plan'))
+
 // XP系统不显示三维图表
 let OS = browsers().os;
 let isXP = OS == 'Windows XP';
@@ -29,13 +31,17 @@ let isXP = OS == 'Windows XP';
 export default () => {
   return (
     <div className={style.dashboard}>
-      <Suspense fallback={<PageLoading />}>
+      {/* <Suspense fallback={<PageLoading />}>
         <IntroduceRow />
       </Suspense>
       <Suspense fallback={<PageLoading />}>
         <ProductNum />
-      </Suspense>
+      </Suspense> */}
 
+      <Suspense fallback={<PageLoading />}>
+        <PlanAnany />
+      </Suspense>
+{/* 
       <Suspense fallback={<PageLoading />}>
         <CostAnany />
       </Suspense>
@@ -66,7 +72,7 @@ export default () => {
 
       <Suspense fallback={<PageLoading />}>
         <Storage2 />
-      </Suspense>
+      </Suspense> */}
 
       {!isXP && (
         <Suspense fallback={<PageLoading />}>

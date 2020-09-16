@@ -96,7 +96,7 @@ const useFetch = <T extends {} | void>({
 
     // 数据mock
     if (initData) {
-      mock<T>(initData).then(v => {
+      mock<T>(initData).then(v => { 
         // 如果为空就不再进行设置
         // if (v.length === 0) {
         //   return;
@@ -137,7 +137,7 @@ const useFetch = <T extends {} | void>({
       source.cancel('组件卸载或页面刷新，取消请求。');
     };
     // 监听axios数据请求中 url、get/post关键参数
-  }, [param.url, JSON.stringify(param.params), JSON.stringify(param.data), initData, innerTrigger]);
+  }, [param.url, JSON.stringify(param.params), JSON.stringify(param.data), JSON.stringify(initData), innerTrigger]);
 
   return {
     data,
