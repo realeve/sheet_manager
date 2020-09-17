@@ -31,17 +31,17 @@ let isXP = OS == 'Windows XP';
 export default () => {
   return (
     <div className={style.dashboard}>
-      {/* <Suspense fallback={<PageLoading />}>
+      <Suspense fallback={<PageLoading />}>
         <IntroduceRow />
       </Suspense>
       <Suspense fallback={<PageLoading />}>
         <ProductNum />
-      </Suspense> */}
+      </Suspense>
 
       <Suspense fallback={<PageLoading />}>
         <PlanAnany />
       </Suspense>
-{/* 
+
       <Suspense fallback={<PageLoading />}>
         <CostAnany />
       </Suspense>
@@ -72,7 +72,7 @@ export default () => {
 
       <Suspense fallback={<PageLoading />}>
         <Storage2 />
-      </Suspense> */}
+      </Suspense>
 
       {!isXP && (
         <Suspense fallback={<PageLoading />}>

@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React from 'react';
 import { Col, Row, Card, Button } from 'antd';
 import * as R from 'ramda';
 import useFetch from '@/components/hooks/useFetch';
@@ -9,7 +9,9 @@ import SimpleChart from '@/pages/Search/components/SimpleChart';
 import { cardStyle, chartHeight } from '../../components/Cards';
 import * as lib from '@/utils/lib';
 
-export default () => {
+import Profit from './profit';
+
+const Plan = () => {
   /**
    *   useFetch (React hooks)
    *   @database: { 总公司数据共享平台 }
@@ -18,7 +20,7 @@ export default () => {
    */
   const res = useFetch({
     param: {
-      url: `@/mock/1172_e3f61b67fc.json`,
+      url: `/1172/e3f61b67fc.json`,
     },
     callback: e => {
       if (e.rows === 0) {
@@ -62,7 +64,9 @@ export default () => {
   });
 
   const { data, loading } = useFetch({
-    param: { url: '@/mock/profit.json' },
+    param: {
+      url: `/1173/d9aa8f684d.json`,
+    },
     callback: e => {
       e.data = e.data.map(item => {
         item.month = lib.monthname(item.month);
@@ -73,76 +77,68 @@ export default () => {
   });
 
   return (
-    <Row gutter={24} style={{ marginBottom: 24 }}>
-      <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-        <Card
-          {...cardStyle({
-            title: (
-              <div>
-                年度财务利润预算执行情况
-                <Button
-                  type="default"
-                  size="small"
-                  style={{ marginLeft: 20, fontSize: 12 }}
-                  onClick={() => {
-                    window.open('/table#id=1036/5148b9c40f&daterange=9');
-                  }}
-                  title="点击查看详细数据报表"
-                >
-                  详情
-                </Button>
-              </div>
-            ),
-            height: chartHeight,
-          })}
-          loading={loading}
-        >
-          <SimpleChart
-            title="sd"
-            style={{ height: chartHeight - 15, width: '100%' }}
-            data={{
-              ...res.data,
-              err: res.error,
-              loading: res.loading || loading,
-              data: res.data?.data && data?.data ? [...R.clone(data.data), ...res.data.data] : [],
-            }}
-            params={{
-              type: 'line',
-              smooth: true,
-              simple: CHART_MODE.HIDE_ALL,
-              legend: 0,
-              x: 1,
-              y: 2,
-            }}
-            beforeRender={e => {
-              if (!e?.series?.length) {
-                return e;
-              }
-              let config = {
-                grid: { ...e.grid, left: 90, right: 30, top: 20, bottom: 30 },
-              };
-              e.legend.top = 2;
-              e.series[1].connectNulls = true;
-              return { ...e, ...config };
-            }}
-          />
-        </Card>
-      </Col>
-      {/* <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-        <Suspense fallback={null}>
-          <GroupCard
-            {...param}
-            data={handleData(data, '固定成本')}
-            title={
-              <div style={{ lineHeight: '16px' }}>
-                固定成本分析 ({period})
-                <br />
-                <small>(单位:元/百万小张)</small>
-              </div>
-            }
-          />
-        </Suspense>
-      </Col> */}
-    </Row>
+    <Card
+      {...cardStyle({
+        title: (
+          <div>
+            财务利润预算执行情况(成钞公司合并)
+            <Button
+              type="default"
+              size="small"
+              style={{ marginLeft: 20, fontSize: 12 }}
+              onClick={() => {
+                window.open('/table#id=1036/5148b9c40f&daterange=9');
+              }}
+              title="点击查看详细数据报表"
+            >
+              详情
+            </Button>
+          </div>
+        ),
+        height: chartHeight,
+      })}
+      loading={loading}
+    >
+      <SimpleChart
+        title="sd"
+        style={{ height: chartHeight - 15, width: '100%' }}
+        data={{
+          ...res.data,
+          err: res.error,
+          loading: res.loading || loading,
+          data: res.data?.data && data?.data ? [...R.clone(data.data), ...res.data.data] : [],
+        }}
+        params={{
+          type: 'line',
+          smooth: true,
+          simple: CHART_MODE.HIDE_ALL,
+          legend: 0,
+          x: 1,
+          y: 2,
+        }}
+        beforeRender={e => {
+          if (!e?.series?.length) {
+            return e;
+          }
+          let config = {
+            grid: { ...e.grid, left: 90, right: 30, top: 20, bottom: 30 },
+          };
+          e.legend.top = 2;
+          e.series[1].connectNulls = true;
+          return { ...e, ...config };
+        }}
+      />
+    </Card>
   );
 };
+
+export default () => (
+  <Row gutter={24} style={{ marginBottom: 24 }}>
+    <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+      <Plan />
+    </Col>
+    <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+      <Profit />
+    </Col>
+  </Row>
+);
