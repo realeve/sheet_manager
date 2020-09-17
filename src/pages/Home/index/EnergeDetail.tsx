@@ -116,12 +116,12 @@ export default () => {
         style={{ height: chartHeight - 15, width: '100%' }}
         beforeRender={e => {
           let formatter = param => {
-            let arr = R.pluck('value')(param); 
-            let sum = R.sum(arr); 
+            let arr = R.pluck('value')(param);
+            let sum = R.sum(arr);
             let next = param.map(item => {
               let percent = ((item.value / sum) * 100).toFixed(2);
-              return { ...item, percent };
-            }); 
+              return { ...item, percent: ` (占比:${percent}%)` };
+            });
             return e.tooltip.formatter(next);
           };
 

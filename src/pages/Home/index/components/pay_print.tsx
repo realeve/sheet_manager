@@ -51,7 +51,7 @@ const config = {
 
 export default () => {
   const [percent, setPercent] = useState(null);
-  const [prod, setProd] = useState('百分比');
+  const [prod, setProd] = useState('完成量');
   /**
    *   useFetch (React hooks)
    *   @database: { MES系统_生产环境 }
