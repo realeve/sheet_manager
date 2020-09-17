@@ -3,13 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Card, Button, Radio } from 'antd';
 import styles from './product_print.less';
 import useFetch from '@/components/hooks/useFetch';
-import range from '@/utils/ranges';
 import * as R from 'ramda';
 import chartLib, { CHART_MODE } from '@/pages/chart/utils/lib';
 import { cardStyle, chartHeight } from '../../components/Cards';
 import SimpleChart from '@/pages/Search/components/SimpleChart';
-
-let [tstart, tend] = range['本月'].map(item => item.format('YYYYMMDD'));
 
 const keyName = '品种';
 
@@ -67,8 +64,6 @@ export default () => {
     setState(res);
   }, [prod, data?.hash]);
 
-  console.log(state);
-
   return (
     <Card
       {...cardStyle({
@@ -123,10 +118,13 @@ export default () => {
         style={{ height: chartHeight + 62 - 15, width: '100%' }}
         beforeRender={e => {
           let series = R.head(e.series);
-          let plan = state.data[0]; 
+          let plan = state.data[0];
 
           series.label.normal.position = 'insideRight';
           e.yAxis.data = e.yAxis.data.reverse();
+
+          console.log(plan);
+
           // 最后一项隐藏显示
           series.data = series.data
             .map((item, idx) => {
@@ -142,19 +140,27 @@ export default () => {
               };
             })
             .reverse();
+          const needPrint = (((plan.计划量 - plan.铺底量) * plan.时间进度) / 100).toFixed(0);
 
-          let formatter = param => { 
+          let formatter = param => {
             let idx = param[0].dataIndex;
-            let percent = state.data[state.data.length - 1 - idx].计划完成比;
+            let res = state.data[state.data.length - 1 - idx];
+            let percent = res.计划完成比;
 
-            return e.tooltip.formatter([
-              {
-                ...param[0],
-                percent:
-                  ` <br/>完工比例:${percent}%<br/>` +
-                  (percent >= plan.时间进度 ? '' : `比时间进度延误：${plan.时间进度 - percent}%`),
-              },
-            ],'大万');
+            return e.tooltip.formatter(
+              [
+                {
+                  ...param[0],
+                  percent:
+                    `万张 <br/>完工比例:${percent}%<br/>` +
+                    (percent >= plan.时间进度
+                      ? ''
+                      : `比时间进度延误：${plan.时间进度 - percent}%,约${Number(needPrint) -
+                          res.累计产量}万`),
+                },
+              ],
+              '大万'
+            );
           };
 
           series.markLine = {
@@ -163,16 +169,21 @@ export default () => {
                 xAxis: plan.计划量,
                 label: {
                   formatter(a) {
-                    return '年度计划\n' + plan.计划量 + '大万';
+                    return (
+                      '年度计划\n' +
+                      plan.计划量 +
+                      '万' +
+                      (plan.铺底量 > 0 ? `\n(含上年结存:${plan.铺底量}万)` : '')
+                    );
                   },
                 },
                 lineStyle: { normal: { type: 'dashed', color: '#e23' } },
               },
               {
-                xAxis: (plan.计划量 * plan.时间进度) / 100,
+                xAxis: ((plan.计划量 - plan.铺底量) * plan.时间进度) / 100,
                 label: {
                   formatter(a) {
-                    return '全年时间进度\n' + plan.时间进度 + '%';
+                    return '全年时间进度\n' + plan.时间进度 + '%\n应完工量:' + needPrint + '万';
                   },
                 },
                 lineStyle: { normal: { type: 'dashed', color: '#e23' } },
@@ -186,14 +197,14 @@ export default () => {
             grid: {
               ...e.grid,
               left: 90,
-              right: 30,
-              top: 40,
+              right: 50,
+              top: 45,
             },
             series: [series],
             tooltip: {
               ...e.tooltip,
               formatter,
-            }, 
+            },
           };
         }}
       />
