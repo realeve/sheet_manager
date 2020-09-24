@@ -92,6 +92,19 @@ export const getImagedata = mahou_id =>
 export const proxy109330 = () =>
   axios({
     url: DEV ? '@/mock/1176_7473df504c.json' : '/1176/7473df504c.json',
-  }).then(eval);
+  }).then(async res => {
+    let data = eval(res);
+    let data2 = await axios(`${window.location.origin}/vnc.json`);
+    return [
+      {
+        type: '凹印工序',
+        data: data2,
+      },
+      {
+        type: '印码工序',
+        data,
+      },
+    ];
+  });
 
-  export const isOnline = ()=>axios('http://10.9.5.133/ip.json').then(res=>res.ip)
+export const isOnline = () => axios('http://10.9.5.133/ip.json').then(res => res.ip);

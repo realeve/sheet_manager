@@ -63,7 +63,7 @@ function Dashboard({ ip }) {
     };
   }, []);
 
-  const titleStyle = { display: 'flex', justifyContent: 'space-between' };
+  // const titleStyle = { display: 'flex', justifyContent: 'space-between' };
 
   return (
     <Row gutter={10}>

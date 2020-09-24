@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Card, Modal } from 'antd';
 import styles from './control.less';
 
-export default ({ data }) => {
+const Page = ({ data, type }) => {
   const [show, setShow] = useState(false);
   const [idx, setIdx] = useState(-1);
   return (
-    <Card title="VNC远程控制" className={styles.panel}>
+    <>
+      <h3>{type}</h3>
       <ul className={styles.list}>
         {data.map((item, id) => (
           <li
@@ -57,6 +58,14 @@ export default ({ data }) => {
             ))}
         </ul>
       </Modal>
-    </Card>
+    </>
   );
 };
+
+export default ({ data }) => (
+  <Card title="VNC远程控制" className={styles.panel}>
+    {data.map(item => (
+      <Page {...item} key={item.type} />
+    ))}
+  </Card>
+);

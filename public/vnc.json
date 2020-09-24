@@ -1,0 +1,49 @@
+[
+  {
+    "RowOID": 131,
+    "Name": "W10",
+    "children": [
+      {
+        "RowOID": "131-13",
+        "Name": "检测主站",
+        "VNCProxyIPAddr": "10.9.51.45",
+        "NodeType": "Node",
+        "VNCProxyIPPort": 8080,
+        "VNCToken": "token13",
+        "MachineNodeTag": "检测主站"
+      },
+      {
+        "RowOID": "131-1",
+        "Name": "从站1",
+        "VNCProxyIPAddr": "10.9.51.45",
+        "NodeType": "Node",
+        "VNCProxyIPPort": 8080,
+        "VNCToken": "token1"
+      },
+      {
+        "RowOID": "131-2",
+        "Name": "从站2",
+        "VNCProxyIPAddr": "10.9.51.45",
+        "NodeType": "Node",
+        "VNCProxyIPPort": 8080,
+        "VNCToken": "token2"
+      },
+      {
+        "RowOID": "131-18",
+        "Name": "在线清数",
+        "VNCProxyIPAddr": "10.9.51.45",
+        "NodeType": "Node",
+        "VNCProxyIPPort": 8080,
+        "VNCToken": "token18"
+      },
+      {
+        "RowOID": "131-12",
+        "Name": "控制站",
+        "VNCProxyIPAddr": "10.9.51.45",
+        "NodeType": "Node",
+        "VNCProxyIPPort": 8080,
+        "VNCToken": "token12"
+      }
+    ]
+  }
+]
