@@ -1,0 +1,27 @@
+@import '~antd/lib/style/themes/default.less';
+.panel {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  list-style: none;
+
+  li {
+    margin: 8px 8px 0 8px;
+    width: 150px;
+    height: 50px;
+    background: #eee;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      box-shadow: #b1b1b1 1px 1px 3px;
+    }
+  }
+}

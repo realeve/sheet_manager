@@ -84,3 +84,14 @@ export const getImagedata = mahou_id =>
           mahou_id,
         },
       });
+
+/**
+ *   @database: { 接口管理 }
+ *   @desc:     { 印码机检系统列表 }
+ */
+export const proxy109330 = () =>
+  axios({
+    url: DEV ? '@/mock/1176_7473df504c.json' : '/1176/7473df504c.json',
+  }).then(eval);
+
+  export const isOnline = ()=>axios('http://10.9.5.133/ip.json').then(res=>res.ip)

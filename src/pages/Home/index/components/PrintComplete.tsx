@@ -123,7 +123,7 @@ export default () => {
           series.label.normal.position = 'insideRight';
           e.yAxis.data = e.yAxis.data.reverse();
 
-          console.log(plan);
+          // console.log(plan);
 
           // 最后一项隐藏显示
           series.data = series.data

@@ -5,17 +5,32 @@ import * as db from './utils/db';
 import 'animate.css';
 import classNames from 'classnames/bind';
 import OnlinePanel from './components/OnlineInfo';
+import ControlPanel from './components/ControlPanel';
+import { connect } from 'dva';
+
+import { ICommon } from '@/models/common';
 
 const cx = classNames.bind(styles);
 let totalTime = 30;
 
-export default function Dashboard() {
+function Dashboard({ ip }) {
   let [visible, setVisible] = useState(false);
   let [curIdx, setCurIdx] = useState(0);
   let [state, setState] = useState({ rows: 0, data: [], title: '' });
   let [curTime, setCurTime] = useState(totalTime);
 
+  let [machines, setMachines] = useState([]);
+
+  const shouldConnect = ip.includes('10.9.');
   useEffect(() => {
+    if (shouldConnect) {
+      db.proxy109330().then(setMachines);
+    } else {
+      db.isOnline().then(res => {
+        res && db.proxy109330().then(setMachines);
+      });
+    }
+
     let itvId2 = null;
     const refresh = async () => {
       let res = await db.getViewPrintOnlineQuality();
@@ -109,6 +124,7 @@ export default function Dashboard() {
           </ul>
         </div>
       </Card>
+      {machines.length > 0 && <ControlPanel data={machines} />}
       {state.rows > 0 && (
         <OnlinePanel
           visible={visible}
@@ -121,3 +137,5 @@ export default function Dashboard() {
     </Row>
   );
 }
+
+export default connect(({ common: { ip } }: { common: ICommon }) => ({ ip }))(Dashboard);
