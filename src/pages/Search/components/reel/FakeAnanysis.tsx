@@ -1,30 +1,13 @@
 import React from 'react';
-import { Col, Card, Empty } from 'antd';
+import { Col, Card } from 'antd';
 import SimpleTable from '../SimpleTable';
 import styles from '../cart/ProdList.less';
-import Err from '@/components/Err';
 import { Scrollbars } from 'react-custom-scrollbars';
 import SimpleChart from '@/pages/Search/components/SimpleChart';
 import { CHART_MODE } from '@/pages/chart/utils/lib';
 import useFetch from '@/components/hooks/useFetch';
 
-export const ComponentPage = ({ data: res, children }) => {
-  return res.error ? (
-    <Err err={res.error} />
-  ) : res?.data?.rows === 0 ? (
-    <Empty description="查询无结果，请更换查询条件重试" />
-  ) : (
-    <Scrollbars
-      autoHide
-      style={{
-        height: 300,
-        marginTop: 20,
-      }}
-    >
-      {children}
-    </Scrollbars>
-  );
-};
+import ComponentPage from '@/pages/Search/components/ComponentPage';
 
 export default function MachineCheck({ reel }) {
   const res = useFetch({
