@@ -993,6 +993,7 @@ let bar = options => {
   }
 
   // 交换x/y
+  console.log(options)
   if (options.reverse && !options.histogram) {
     option = handleReverse(options, option);
   }

@@ -6,7 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import SimpleChart from '@/pages/Search/components/SimpleChart';
 import { CHART_MODE } from '@/pages/chart/utils/lib';
 import useFetch from '@/components/hooks/useFetch';
-
+import * as R from 'ramda';
 import ComponentPage from '@/pages/Search/components/ComponentPage';
 
 export default function MachineCheck({ reel }) {
@@ -78,8 +78,25 @@ export default function MachineCheck({ reel }) {
           <ComponentPage data={res2}>
             <SimpleChart
               data={res2.data}
-              params={{ type: 'bar', simple: CHART_MODE.HIDE_ALL }}
+              params={{ type: 'bar', simple: CHART_MODE.HIDE_ALL, reverse: true }}
               style={{ height: 300, marginTop: 20 }}
+              beforeRender={e => {
+                let series = R.clone(e.series).map(item => {
+                  item.label.normal.position = 'right';
+                  return item;
+                });
+
+                return {
+                  ...e,
+                  grid: {
+                    ...e.grid,
+                    left: 130,
+                    right: 50,
+                    top: 5,
+                  },
+                  series,
+                };
+              }}
             />
           </ComponentPage>
         </Card>
