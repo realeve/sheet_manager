@@ -37,7 +37,7 @@ export default function MachineCheck({ reel }) {
 
   return (
     <>
-      <Col span={12}>
+      <Col span={16}>
         <Card
           title={
             <div>
@@ -64,7 +64,7 @@ export default function MachineCheck({ reel }) {
           </ComponentPage>
         </Card>
       </Col>
-      <Col span={12}>
+      <Col span={8}>
         <Card
           title={`安全线缺陷对比分析`}
           bodyStyle={{
