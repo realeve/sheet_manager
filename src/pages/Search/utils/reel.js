@@ -13,7 +13,7 @@ export const getViewPaperQuality = async reel => {
     : await axios({
         url: '/504/c9e662a163.json',
         params: {
-          reel: reel + '%',
+          reel: ['A', 'B', 'C'].includes(reel[reel.length - 1]) ? reel : reel + '%',
         },
       });
   res.data = res.data.map(item => {
@@ -22,6 +22,14 @@ export const getViewPaperQuality = async reel => {
   });
   return res;
 };
+
+export const getPaperDetailNewframe = prefix =>
+  axios({
+    url: '/1177/451dd98d51.json',
+    params: {
+      prefix,
+    },
+  });
 
 /**
  *   @database: { 质量信息系统 }

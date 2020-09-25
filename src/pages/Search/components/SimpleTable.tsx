@@ -4,6 +4,29 @@ import { getType } from '@/utils/lib';
 import { Skeleton, Empty } from 'antd';
 import * as R from 'ramda';
 import Err from '@/components/Err';
+import * as lib from '@/utils/lib';
+import * as setting from '@/utils/setting';
+
+const searchUrl = setting.searchUrl;
+
+const getTd = tdValue => {
+  const isCart: boolean = lib.isCart(tdValue);
+
+  if (lib.isReel(tdValue) || isCart) {
+    let url = searchUrl;
+    let attrs: {
+      href: string;
+      target?: string;
+    } = {
+      href: url + tdValue,
+    };
+    // if (!simpleMode) {
+    //   attrs.target = '_blank';
+    // }
+    return <a {...attrs}> {tdValue} </a>;
+  }
+  return tdValue;
+};
 
 export default function SimpleTable({
   data,
@@ -42,7 +65,7 @@ export default function SimpleTable({
         {dataSrc.map((tr, idx) => (
           <tr key={idx}>
             {tr.map((td, idx) => (
-              <td key={idx}>{td}</td>
+              <td key={idx}>{getTd(td)}</td>
             ))}
           </tr>
         ))}
