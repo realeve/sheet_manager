@@ -96,10 +96,7 @@ export const proxy109330 = () =>
     let data = eval(res);
     let data2 = await axios(`${window.location.origin}/vnc.json`);
     return [
-      {
-        type: '凹印工序',
-        data: data2,
-      },
+      ...data2,
       {
         type: '印码工序',
         data,

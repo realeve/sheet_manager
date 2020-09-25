@@ -1,48 +1,523 @@
 [
   {
-    "RowOID": 131,
-    "Name": "W10",
-    "children": [
+    "type": "凹印工序",
+    "data": [
       {
-        "RowOID": "131-13",
-        "Name": "检测主站",
-        "VNCProxyIPAddr": "10.9.51.45",
-        "NodeType": "Node",
-        "VNCProxyIPPort": 8080,
-        "VNCToken": "token13",
-        "MachineNodeTag": "检测主站"
+        "RowOID": 131,
+        "Name": "W10",
+        "children": [
+          {
+            "RowOID": "131-13",
+            "Name": "检测主站",
+            "VNCProxyIPAddr": "10.9.51.45",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token13",
+            "MachineNodeTag": "检测主站"
+          },
+          {
+            "RowOID": "131-1",
+            "Name": "从站1",
+            "VNCProxyIPAddr": "10.9.51.45",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token1"
+          },
+          {
+            "RowOID": "131-2",
+            "Name": "从站2",
+            "VNCProxyIPAddr": "10.9.51.45",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token2"
+          },
+          {
+            "RowOID": "131-18",
+            "Name": "在线清数",
+            "VNCProxyIPAddr": "10.9.51.45",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token18"
+          },
+          {
+            "RowOID": "131-12",
+            "Name": "控制站",
+            "VNCProxyIPAddr": "10.9.51.45",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token12"
+          }
+        ]
       },
       {
-        "RowOID": "131-1",
-        "Name": "从站1",
-        "VNCProxyIPAddr": "10.9.51.45",
-        "NodeType": "Node",
-        "VNCProxyIPPort": 8080,
-        "VNCToken": "token1"
+        "RowOID": 132,
+        "Name": "92-12#",
+        "children": [
+          {
+            "RowOID": "131-13",
+            "Name": "检测主站",
+            "VNCProxyIPAddr": "10.9.51.75",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token13",
+            "MachineNodeTag": "检测主站"
+          },
+          {
+            "RowOID": "131-1",
+            "Name": "从站1",
+            "VNCProxyIPAddr": "10.9.51.75",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token1"
+          },
+          {
+            "RowOID": "131-2",
+            "Name": "从站2",
+            "VNCProxyIPAddr": "10.9.51.75",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token2"
+          },
+          {
+            "RowOID": "131-18",
+            "Name": "在线清数",
+            "VNCProxyIPAddr": "10.9.51.75",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token18"
+          },
+          {
+            "RowOID": "131-12",
+            "Name": "控制站",
+            "VNCProxyIPAddr": "10.9.51.75",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token12"
+          }
+        ]
       },
       {
-        "RowOID": "131-2",
-        "Name": "从站2",
-        "VNCProxyIPAddr": "10.9.51.45",
-        "NodeType": "Node",
-        "VNCProxyIPPort": 8080,
-        "VNCToken": "token2"
+        "RowOID": 133,
+        "Name": "92-11#",
+        "children": [
+          {
+            "RowOID": "131-13",
+            "Name": "检测主站",
+            "VNCProxyIPAddr": "10.9.51.76",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token13",
+            "MachineNodeTag": "检测主站"
+          },
+          {
+            "RowOID": "131-1",
+            "Name": "从站1",
+            "VNCProxyIPAddr": "10.9.51.76",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token1"
+          },
+          {
+            "RowOID": "131-2",
+            "Name": "从站2",
+            "VNCProxyIPAddr": "10.9.51.76",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token2"
+          },
+          {
+            "RowOID": "131-18",
+            "Name": "在线清数",
+            "VNCProxyIPAddr": "10.9.51.76",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token18"
+          },
+          {
+            "RowOID": "131-12",
+            "Name": "控制站",
+            "VNCProxyIPAddr": "10.9.51.76",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token12"
+          }
+        ]
       },
       {
-        "RowOID": "131-18",
-        "Name": "在线清数",
-        "VNCProxyIPAddr": "10.9.51.45",
-        "NodeType": "Node",
-        "VNCProxyIPPort": 8080,
-        "VNCToken": "token18"
+        "RowOID": 134,
+        "Name": "92-10#",
+        "children": [
+          {
+            "RowOID": "131-13",
+            "Name": "检测主站",
+            "VNCProxyIPAddr": "10.9.51.69",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token13",
+            "MachineNodeTag": "检测主站"
+          },
+          {
+            "RowOID": "131-1",
+            "Name": "从站1",
+            "VNCProxyIPAddr": "10.9.51.69",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token1"
+          },
+          {
+            "RowOID": "131-2",
+            "Name": "从站2",
+            "VNCProxyIPAddr": "10.9.51.69",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token2"
+          },
+          {
+            "RowOID": "131-18",
+            "Name": "在线清数",
+            "VNCProxyIPAddr": "10.9.51.69",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token18"
+          },
+          {
+            "RowOID": "131-12",
+            "Name": "控制站",
+            "VNCProxyIPAddr": "10.9.51.69",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token12"
+          }
+        ]
       },
       {
-        "RowOID": "131-12",
-        "Name": "控制站",
-        "VNCProxyIPAddr": "10.9.51.45",
-        "NodeType": "Node",
-        "VNCProxyIPPort": 8080,
-        "VNCToken": "token12"
+        "RowOID": 135,
+        "Name": "92-8#",
+        "children": [
+          {
+            "RowOID": "131-13",
+            "Name": "检测主站",
+            "VNCProxyIPAddr": "10.9.51.65",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token13",
+            "MachineNodeTag": "检测主站"
+          },
+          {
+            "RowOID": "131-1",
+            "Name": "从站1",
+            "VNCProxyIPAddr": "10.9.51.65",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token1"
+          },
+          {
+            "RowOID": "131-2",
+            "Name": "从站2",
+            "VNCProxyIPAddr": "10.9.51.65",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token2"
+          },
+          {
+            "RowOID": "131-18",
+            "Name": "在线清数",
+            "VNCProxyIPAddr": "10.9.51.65",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token18"
+          },
+          {
+            "RowOID": "131-12",
+            "Name": "控制站",
+            "VNCProxyIPAddr": "10.9.51.65",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token12"
+          }
+        ]
+      },
+      {
+        "RowOID": 136,
+        "Name": "92-6#",
+        "children": [
+          {
+            "RowOID": "131-13",
+            "Name": "检测主站",
+            "VNCProxyIPAddr": "10.9.51.82",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token13",
+            "MachineNodeTag": "检测主站"
+          },
+          {
+            "RowOID": "131-1",
+            "Name": "从站1",
+            "VNCProxyIPAddr": "10.9.51.82",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token1"
+          },
+          {
+            "RowOID": "131-2",
+            "Name": "从站2",
+            "VNCProxyIPAddr": "10.9.51.82",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token2"
+          },
+          {
+            "RowOID": "131-18",
+            "Name": "在线清数",
+            "VNCProxyIPAddr": "10.9.51.82",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token18"
+          },
+          {
+            "RowOID": "131-12",
+            "Name": "控制站",
+            "VNCProxyIPAddr": "10.9.51.82",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token12"
+          }
+        ]
+      },
+      {
+        "RowOID": 137,
+        "Name": "92-5#",
+        "children": [
+          {
+            "RowOID": "131-13",
+            "Name": "检测主站",
+            "VNCProxyIPAddr": "10.9.51.81",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token13",
+            "MachineNodeTag": "检测主站"
+          },
+          {
+            "RowOID": "131-1",
+            "Name": "从站1",
+            "VNCProxyIPAddr": "10.9.51.81",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token1"
+          },
+          {
+            "RowOID": "131-2",
+            "Name": "从站2",
+            "VNCProxyIPAddr": "10.9.51.81",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token2"
+          },
+          {
+            "RowOID": "131-18",
+            "Name": "在线清数",
+            "VNCProxyIPAddr": "10.9.51.81",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token18"
+          },
+          {
+            "RowOID": "131-12",
+            "Name": "控制站",
+            "VNCProxyIPAddr": "10.9.51.81",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token12"
+          }
+        ]
+      },
+      {
+        "RowOID": 138,
+        "Name": "92-4#",
+        "children": [
+          {
+            "RowOID": "131-13",
+            "Name": "检测主站",
+            "VNCProxyIPAddr": "10.9.51.80",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token13",
+            "MachineNodeTag": "检测主站"
+          },
+          {
+            "RowOID": "131-1",
+            "Name": "从站1",
+            "VNCProxyIPAddr": "10.9.51.80",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token1"
+          },
+          {
+            "RowOID": "131-2",
+            "Name": "从站2",
+            "VNCProxyIPAddr": "10.9.51.80",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token2"
+          },
+          {
+            "RowOID": "131-18",
+            "Name": "在线清数",
+            "VNCProxyIPAddr": "10.9.51.80",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token18"
+          },
+          {
+            "RowOID": "131-12",
+            "Name": "控制站",
+            "VNCProxyIPAddr": "10.9.51.80",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token12"
+          }
+        ]
+      },
+      {
+        "RowOID": 139,
+        "Name": "92-3#",
+        "children": [
+          {
+            "RowOID": "131-13",
+            "Name": "检测主站",
+            "VNCProxyIPAddr": "10.9.51.79",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token13",
+            "MachineNodeTag": "检测主站"
+          },
+          {
+            "RowOID": "131-1",
+            "Name": "从站1",
+            "VNCProxyIPAddr": "10.9.51.79",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token1"
+          },
+          {
+            "RowOID": "131-2",
+            "Name": "从站2",
+            "VNCProxyIPAddr": "10.9.51.79",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token2"
+          },
+          {
+            "RowOID": "131-18",
+            "Name": "在线清数",
+            "VNCProxyIPAddr": "10.9.51.79",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token18"
+          },
+          {
+            "RowOID": "131-12",
+            "Name": "控制站",
+            "VNCProxyIPAddr": "10.9.51.79",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token12"
+          }
+        ]
+      },
+      {
+        "RowOID": 140,
+        "Name": "92-2#",
+        "children": [
+          {
+            "RowOID": "131-13",
+            "Name": "检测主站(从站需配置)",
+            "VNCProxyIPAddr": "10.9.51.77",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token13",
+            "MachineNodeTag": "检测主站"
+          },
+          {
+            "RowOID": "131-1",
+            "Name": "从站1(从站需配置)",
+            "VNCProxyIPAddr": "10.9.51.77",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token1"
+          },
+          {
+            "RowOID": "131-2",
+            "Name": "从站2(从站需配置)",
+            "VNCProxyIPAddr": "10.9.51.77",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token2"
+          },
+          {
+            "RowOID": "131-18",
+            "Name": "在线清数",
+            "VNCProxyIPAddr": "10.9.51.77",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token18"
+          },
+          {
+            "RowOID": "131-12",
+            "Name": "控制站(从站需配置)",
+            "VNCProxyIPAddr": "10.9.51.77",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token12"
+          }
+        ]
+      },
+      {
+        "RowOID": 141,
+        "Name": "线凹-4#",
+        "children": [
+          {
+            "RowOID": "131-13",
+            "Name": "检测主站（线凹全部存在故障）",
+            "VNCProxyIPAddr": "10.9.51.72",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token13",
+            "MachineNodeTag": "检测主站"
+          },
+          {
+            "RowOID": "131-1",
+            "Name": "从站1",
+            "VNCProxyIPAddr": "10.9.51.72",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token1"
+          },
+          {
+            "RowOID": "131-2",
+            "Name": "从站2",
+            "VNCProxyIPAddr": "10.9.51.72",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token2"
+          },
+          {
+            "RowOID": "131-18",
+            "Name": "在线清数",
+            "VNCProxyIPAddr": "10.9.51.72",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token18"
+          },
+          {
+            "RowOID": "131-12",
+            "Name": "控制站",
+            "VNCProxyIPAddr": "10.9.51.72",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token12"
+          }
+        ]
       }
     ]
   }
