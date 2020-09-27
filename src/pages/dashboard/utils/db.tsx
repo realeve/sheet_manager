@@ -104,4 +104,58 @@ export const proxy109330 = () =>
     ];
   });
 
+// {
+//   "machine": "92型-2#",
+//   "token": "92-2"
+// },
+// {
+//   "machine": "92型-3#",
+//   "token": "92-3"
+// },
+// {
+//   "machine": "92型-4#",
+//   "token": "92-4"
+// },
+// {
+//   "machine": "92型-5#",
+//   "token": "92-5"
+// },
+// {
+//   "machine": "92型-6#",
+//   "token": "92-6"
+// },
+// {
+//   "machine": "92型-7#",
+//   "token": "92-7"
+// },
+// {
+//   "machine": "92型-8#",
+//   "token": "92-8"
+// },
+// {
+//   "machine": "92型-9#",
+//   "token": "92-9"
+// },
+// {
+//   "machine": "92型-10#",
+//   "token": "92-10"
+// },
+// {
+//   "machine": "92型-11#",
+//   "token": "92-11"
+// },
+// {
+//   "machine": "92型-12#",
+//   "token": "92-12"
+// },
+// {
+//   "machine": "W10-1#",
+//   "token": "W10"
+// },
+// {
+//   "machine": "W10-1#",
+//   "token": "W10"
+// },
+export const getVNCList = () => axios(`${window.location.origin}/vnc_lite.json`);
+
 export const isOnline = () => axios('http://10.9.5.133/ip.json').then(res => res.ip);

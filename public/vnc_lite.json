@@ -1,0 +1,66 @@
+[
+  {
+    "type": "胶印工序",
+    "data": [
+      {
+        "machine": "海德堡1#",
+        "token": "hdb-1"
+      },
+      {
+        "machine": "海德堡2#",
+        "token": "hdb-2"
+      }
+    ]
+  },
+  {
+    "type": "凹印工序-接线凹印机",
+    "data": [
+    
+      {
+        "machine": "线凹-1#",
+        "token": "chaoao1"
+      },
+      {
+        "machine": "线凹-2#",
+        "token": "chaoao2"
+      },
+      {
+        "machine": "线凹-3#",
+        "token": "chaoao3"
+      },
+      {
+        "machine": "线凹-4#",
+        "token": "chaoao4"
+      },
+      {
+        "machine": "线凹-5#",
+        "token": "chaoao5"
+      },
+      {
+        "machine": "线凹-6#",
+        "token": "chaoao6"
+      }
+    ]
+  },
+  {
+    "type": "检封工序",
+    "data": [
+      {
+        "machine": "装箱-1#",
+        "token": "zx-1"
+      },
+      {
+        "machine": "装箱-2#",
+        "token": "zx-2"
+      },
+      {
+        "machine": "装箱-3#",
+        "token": "zx-3"
+      },
+      {
+        "machine": "装箱-4#",
+        "token": "zx-4"
+      }
+    ]
+  }
+]

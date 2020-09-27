@@ -62,8 +62,9 @@ const Page = ({ data, type }) => {
   );
 };
 
-export default ({ data }) => (
+export default ({ data, children }) => (
   <Card title="VNC远程控制" className={styles.panel}>
+    {children}
     {data.map(item => (
       <Page {...item} key={item.type} />
     ))}

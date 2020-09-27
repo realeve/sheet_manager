@@ -6,8 +6,7 @@ import SimpleChart from '@/pages/Search/components/SimpleChart';
 import SimpleTable from '@/pages/Search/components/SimpleTable';
 import { useFetch } from '../utils/useFetch';
 import Err from '@/components/Err';
-import { CHART_MODE } from '@/pages/chart/utils/lib';
-
+import { CHART_MODE } from '@/pages/chart/utils/lib'; 
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 

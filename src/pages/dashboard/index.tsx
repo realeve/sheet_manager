@@ -6,6 +6,7 @@ import 'animate.css';
 import classNames from 'classnames/bind';
 import OnlinePanel from './components/OnlineInfo';
 import ControlPanel from './components/ControlPanel';
+import ControlPanel2 from './components/ControlPanel2';
 import { connect } from 'dva';
 
 import { ICommon } from '@/models/common';
@@ -20,7 +21,9 @@ function Dashboard({ ip }) {
   let [curTime, setCurTime] = useState(totalTime);
 
   let [machines, setMachines] = useState([]);
+  let [vnclist, setVnclist] = useState([]);
 
+  // 生产网IP
   const shouldConnect = ip.includes('10.9.');
   useEffect(() => {
     if (shouldConnect) {
@@ -30,6 +33,8 @@ function Dashboard({ ip }) {
         res && db.proxy109330().then(setMachines);
       });
     }
+
+    db.getVNCList().then(setVnclist);
 
     let itvId2 = null;
     const refresh = async () => {
@@ -124,7 +129,12 @@ function Dashboard({ ip }) {
           </ul>
         </div>
       </Card>
-      {machines.length > 0 && <ControlPanel data={machines} />}
+      {machines.length > 0 && (
+        <ControlPanel data={machines}> 
+          {vnclist.length > 0 && <ControlPanel2 data={vnclist} />}
+        </ControlPanel>
+      )}
+
       {state.rows > 0 && (
         <OnlinePanel
           visible={visible}
