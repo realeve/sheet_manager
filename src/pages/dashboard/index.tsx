@@ -5,8 +5,6 @@ import * as db from './utils/db';
 import 'animate.css';
 import classNames from 'classnames/bind';
 import OnlinePanel from './components/OnlineInfo';
-import ControlPanel from './components/ControlPanel';
-import ControlPanel2 from './components/ControlPanel2';
 import { connect } from 'dva';
 
 import { ICommon } from '@/models/common';
@@ -14,28 +12,13 @@ import { ICommon } from '@/models/common';
 const cx = classNames.bind(styles);
 let totalTime = 30;
 
-function Dashboard({ ip }) {
+function Dashboard() {
   let [visible, setVisible] = useState(false);
   let [curIdx, setCurIdx] = useState(0);
   let [state, setState] = useState({ rows: 0, data: [], title: '' });
   let [curTime, setCurTime] = useState(totalTime);
 
-  let [machines, setMachines] = useState([]);
-  let [vnclist, setVnclist] = useState([]);
-
-  // 生产网IP
-  const shouldConnect = ip.includes('10.9.');
   useEffect(() => {
-    if (shouldConnect) {
-      db.proxy109330().then(setMachines);
-    } else {
-      db.isOnline().then(res => {
-        res && db.proxy109330().then(setMachines);
-      });
-    }
-
-    db.getVNCList().then(setVnclist);
-
     let itvId2 = null;
     const refresh = async () => {
       let res = await db.getViewPrintOnlineQuality();
@@ -67,8 +50,6 @@ function Dashboard({ ip }) {
       clearInterval(itvId2);
     };
   }, []);
-
-  // const titleStyle = { display: 'flex', justifyContent: 'space-between' };
 
   return (
     <Row gutter={10}>
@@ -129,11 +110,6 @@ function Dashboard({ ip }) {
           </ul>
         </div>
       </Card>
-      {machines.length > 0 && (
-        <ControlPanel data={machines}> 
-          {vnclist.length > 0 && <ControlPanel2 data={vnclist} />}
-        </ControlPanel>
-      )}
 
       {state.rows > 0 && (
         <OnlinePanel

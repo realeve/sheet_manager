@@ -36,7 +36,7 @@ const Page = ({ data, type }) => {
                 style={{ height: 80, color: '#555' }}
                 onClick={() => {
                   window.open(
-                    `http://10.9.3.30/Comm/NoVnc/nvc_auto.aspx?host=${item.VNCProxyIPAddr}&port=${item.VNCProxyIPPort}&token=${item.VNCToken}`,
+                    `http://10.8.1.25:100/novnc/?host=${item.VNCProxyIPAddr}&port=${item.VNCProxyIPPort}&token=${item.VNCToken}`,
                     '_blank'
                   );
                 }}
@@ -62,8 +62,8 @@ const Page = ({ data, type }) => {
   );
 };
 
-export default ({ data, children }) => (
-  <Card title="VNC远程控制" className={styles.panel}>
+export default ({ data, children ,ip}) => (
+  <Card title={`VNC远程控制 (本机IP：${ip})`} className={styles.panel}>
     {children}
     {data.map(item => (
       <Page {...item} key={item.type} />

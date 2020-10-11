@@ -158,4 +158,7 @@ export const proxy109330 = () =>
 // },
 export const getVNCList = () => axios(`${window.location.origin}/vnc_lite.json`);
 
+
+export const getVNCUser = () => axios(`${window.location.origin}/vnc_user.json`);
+
 export const isOnline = () => axios('http://10.9.5.133/ip.json').then(res => res.ip);
