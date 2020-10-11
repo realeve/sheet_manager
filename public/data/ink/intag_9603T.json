@@ -1,0 +1,338 @@
+{
+  "name": "油墨/凹印/9603T",
+  "api": {
+    "insert": {
+      "url": "784/o3p6ldzyyc",
+      "param": ["rec_time", "uid"]
+    },
+    "delete": {
+      "url": "785/o3p6ldzyyc",
+      "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
+    },
+    "update": {
+      "url": "786/o3p6ldzyyc",
+      "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
+    },
+    "query": {
+      "url": "787/o3p6ldzyyc",
+      "param": ["prod_name", "ink_type", "ink_name", "sample_date", "place", "batch_no"]
+    },
+    "table": {
+      "url": "788/o3p6ldzyyc.array?prod=9604T"
+    },
+    "load": { "url": "819/to6f7xujo.json", "param": ["_id"] }
+  },
+  "table": "ink_offset",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "产品品种",
+          "type": "label",
+          "key": "prod_name",
+          "value": "9603T"
+        },
+        {
+          "title": "油墨类型",
+          "type": "label",
+          "key": "ink_type",
+          "value": "凹印油墨"
+        },
+        {
+          "title": "油墨名称",
+          "type": "select",
+          "key": "ink_name",
+          "unReset": true,
+          "rule": {
+            "required": true
+          },
+          "span": 8,
+          "defaultOption": [
+            {
+              "name": "WF1正主景紫",
+              "value": "WF1正主景紫",
+              "hide": ["anti_fake", "drying_time", "release_time"],
+              "scope": [
+                {
+                  "key": "viscosity",
+                  "min": 5,
+                  "max": 11
+                },
+                {
+                  "key": "dryness",
+                  "min": 6,
+                  "max": 14
+                }
+              ]
+            },
+            {
+              "name": "WF1正紫红（SM-1）",
+              "value": "WF1正紫红（SM-1）",
+              "hide": ["drying_time", "release_time"],
+              "scope": [
+                {
+                  "key": "anti_fake",
+                  "min": 800,
+                  "block": "≥800"
+                },
+                {
+                  "key": "viscosity",
+                  "min": 5,
+                  "max": 11
+                },
+                {
+                  "key": "dryness",
+                  "min": 8,
+                  "max": 16
+                }
+              ]
+            },
+            {
+              "name": "WF1背主景紫",
+              "value": "WF1背主景紫",
+              "hide": ["anti_fake", "drying_time", "release_time"],
+              "scope": [
+                {
+                  "key": "viscosity",
+                  "min": 8,
+                  "max": 14
+                },
+                {
+                  "key": "dryness",
+                  "min": 7,
+                  "max": 15
+                }
+              ]
+            },
+            {
+              "name": "WF1背紫红",
+              "value": "WF1背紫红",
+              "hide": ["anti_fake", "drying_time", "release_time"],
+              "scope": [
+                {
+                  "key": "viscosity",
+                  "min": 5,
+                  "max": 11
+                },
+                {
+                  "key": "dryness",
+                  "min": 8,
+                  "max": 16
+                }
+              ]
+            },
+            {
+              "name": "WF1背蓝",
+              "value": "WF1背蓝",
+              "hide": ["anti_fake", "drying_time", "release_time"],
+              "scope": [
+                {
+                  "key": "viscosity",
+                  "min": 5,
+                  "max": 11
+                },
+                {
+                  "key": "dryness",
+                  "min": 8,
+                  "max": 16
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "来料日期",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        },
+        {
+          "title": "生产厂家",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入生产厂家"
+          },
+          "placeholder": "请输入生产厂家",
+          "type": "select",
+          "defaultOption": [{ "name": "中钞油墨", "value": "中钞油墨" }],
+          "defaultValue": "中钞油墨",
+          "unReset": true
+        },
+        {
+          "title": "批次",
+          "type": "input",
+          "key": "batch_no",
+          "rule": {
+            "required": true,
+            "msg": "请输入批号"
+          },
+          "placeholder": "请输入批号",
+          "toupper": "true"
+        },
+        {
+          "title": "数量",
+          "type": "input",
+          "key": "prod_num",
+          "rule": {
+            "type": "float",
+            "required": true,
+            "msg": "请输入数量"
+          },
+          "suffix": "kg"
+        },
+        {
+          "title": "报检人",
+          "type": "select",
+          "key": "check_user",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true,
+          "defaultOption": [
+            { "name": "李群英", "value": "李群英" },
+            { "name": "刘哲萍", "value": "刘哲萍" },
+            { "name": "胡艳", "value": "胡艳" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "色光",
+          "block": "刮样法",
+          "type": "input",
+          "key": "coloured_light",
+          "unReset": true,
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "近似—微"
+        },
+        {
+          "title": "色差",
+          "type": "input",
+          "key": "delta_e",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "max": 3,
+            "min": 0
+          },
+          "block": "△E (仪器法)"
+        },
+        {
+          "title": "粘度",
+          "type": "input",
+          "key": "viscosity",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "suffix": "Pa•S/40℃"
+        },
+        {
+          "title": "细度",
+          "type": "input",
+          "key": "fineness",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "max": 16,
+            "min": 0
+          },
+          "suffix": "μm"
+        },
+        {
+          "title": "释放时间",
+          "type": "input",
+          "key": "release_time",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "suffix": "S",
+          "hide": true
+        },
+        {
+          "title": "自然干",
+          "type": "input",
+          "key": "drying_time",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "max": 24,
+            "min": 0
+          },
+          "suffix": "h",
+          "hide": true
+        },
+        {
+          "title": "干性",
+          "type": "input",
+          "key": "dryness",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "suffix": "Min/80℃"
+        },
+        {
+          "title": "防伪特性",
+          "type": "input",
+          "key": "anti_fake",
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "检验员",
+          "type": "select",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true,
+          "url": "./data/base/paper_material_check_user.json"
+        },
+        {
+          "title": "检验结论",
+          "type": "switch",
+          "key": "result",
+          "checkedChildren": "合格",
+          "unCheckedChildren": "不合格",
+          "placeholder": "请在此填入检验结论",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": false
+          }
+        }
+      ]
+    }
+  ]
+}
