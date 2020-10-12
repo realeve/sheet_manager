@@ -93,6 +93,14 @@
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
             "VNCToken": "token12"
+          },
+          {
+            "RowOID": "131-88",
+            "Name": "MES系统",
+            "VNCProxyIPAddr": "10.9.51.79",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token88"
           }
         ]
       },
@@ -140,6 +148,22 @@
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
             "VNCToken": "token12"
+          },
+          {
+            "RowOID": "131-88",
+            "Name": "MES系统",
+            "VNCProxyIPAddr": "10.9.51.80",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token88"
+          },
+          {
+            "RowOID": "131-100",
+            "Name": "集中显示",
+            "VNCProxyIPAddr": "10.9.51.80",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token100"
           }
         ]
       },
@@ -187,6 +211,14 @@
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
             "VNCToken": "token12"
+          },
+          {
+            "RowOID": "131-88",
+            "Name": "MES系统",
+            "VNCProxyIPAddr": "10.9.51.81",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token88"
           }
         ]
       },
@@ -234,6 +266,22 @@
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
             "VNCToken": "token12"
+          },
+          {
+            "RowOID": "131-88",
+            "Name": "MES系统",
+            "VNCProxyIPAddr": "10.9.51.82",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token88"
+          },
+          {
+            "RowOID": "131-100",
+            "Name": "集中显示",
+            "VNCProxyIPAddr": "10.9.51.82",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token100"
           }
         ]
       },
@@ -282,6 +330,14 @@
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
             "VNCToken": "token12"
+          },
+          {
+            "RowOID": "131-88",
+            "Name": "MES系统",
+            "VNCProxyIPAddr": "10.9.51.64",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token88"
           }
         ]
       },
@@ -329,6 +385,14 @@
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
             "VNCToken": "token12"
+          },
+          {
+            "RowOID": "131-88",
+            "Name": "MES系统",
+            "VNCProxyIPAddr": "10.9.51.65",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token88"
           }
         ]
       },
@@ -471,6 +535,14 @@
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
             "VNCToken": "token12"
+          },
+          {
+            "RowOID": "131-88",
+            "Name": "MES系统",
+            "VNCProxyIPAddr": "10.9.51.76",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token88"
           }
         ]
       },
@@ -518,6 +590,14 @@
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
             "VNCToken": "token12"
+          },
+          {
+            "RowOID": "131-88",
+            "Name": "MES系统",
+            "VNCProxyIPAddr": "10.9.51.75",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token88"
           }
         ]
       },
@@ -565,6 +645,14 @@
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
             "VNCToken": "token12"
+          },
+          {
+            "RowOID": "131-88",
+            "Name": "MES系统",
+            "VNCProxyIPAddr": "10.9.51.45",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token88"
           }
         ]
       }
