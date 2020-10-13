@@ -16,6 +16,8 @@ const handleData = (data, key) => {
   return res;
 };
 
+let procs = ['印钞','钞纸']
+
 export default ({ proc_name = 0 }) => {
   /**
    *   useFetch (React hooks)
@@ -170,7 +172,7 @@ export default ({ proc_name = 0 }) => {
             data={handleData(data, '变动成本')}
             title={
               <div style={{ lineHeight: '16px' }}>
-                变动成本分析 ({period})
+                {procs[proc_name]}变动成本分析 ({period})
                 <br />
                 <small>(单位:元/百万小张)</small>
               </div>
@@ -186,7 +188,7 @@ export default ({ proc_name = 0 }) => {
             data={handleData(data, '固定成本')}
             title={
               <div style={{ lineHeight: '16px' }}>
-                固定成本分析 ({period})
+                {procs[proc_name]}固定成本分析 ({period})
                 <br />
                 <small>(单位:元/百万小张)</small>
               </div>
