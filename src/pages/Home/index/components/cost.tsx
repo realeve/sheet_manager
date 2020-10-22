@@ -172,7 +172,7 @@ export default ({ proc_name = 0 }) => {
             data={handleData(data, '变动成本')}
             title={
               <div style={{ lineHeight: '16px' }}>
-                {procs[proc_name]}变动成本分析 ({period})
+                {procs[proc_name]}变动成本({period})
                 <br />
                 <small>(单位:元/百万小张)</small>
               </div>
@@ -188,7 +188,7 @@ export default ({ proc_name = 0 }) => {
             data={handleData(data, '固定成本')}
             title={
               <div style={{ lineHeight: '16px' }}>
-                {procs[proc_name]}固定成本分析 ({period})
+                {procs[proc_name]}固定成本({period})
                 <br />
                 <small>(单位:元/百万小张)</small>
               </div>

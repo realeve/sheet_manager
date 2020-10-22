@@ -34,6 +34,27 @@
             },
             "_desc": "SELECT track_name name,track_name value FROM tbl_sample_bar_desc"
         }, {
+            "title": "部门",
+            "block": "多选，选择后载入数据加载下一个组件的数据",
+            "type": "select",
+            "url": "27/9b520a55df.json",
+            "key": "dept_id",
+            "rule": {
+              "required": true
+            },
+            "mode": "multiple"
+          },
+          {
+            "title": "单选部门",
+            "type": "select",
+            "url": "27/9b520a55df.json",
+            "key": "dept_id4",
+            "rule": {
+              "required": true
+            },
+            "cascade": "dept_id",
+            "block": "当dept_id变更时，加载该组件数据"
+          }, {
             "title": "数据维度",
             "type": "select",
             "url": "80/5a60996975.json",

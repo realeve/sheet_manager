@@ -280,6 +280,7 @@ export let axios = option => {
     host,
     token: '',
   };
+  let timeout = option?.timeout || 30;
   // token为空时自动获取
   if (window.g_axios.token === '') {
     let user: null | string = window.localStorage.getItem('user');
@@ -293,6 +294,7 @@ export let axios = option => {
     };
   }
   option = handleUrl(option);
+  Reflect.deleteProperty(option, 'timeout');
 
   option = Object.assign(option, {
     headers: {
@@ -304,7 +306,7 @@ export let axios = option => {
   return http
     .create({
       baseURL: host, // '//localhost:90/api/',
-      timeout: 30 * 1000,
+      timeout: timeout * 1000,
       transformRequest: [
         function(data) {
           let dataType = getType(data);

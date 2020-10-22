@@ -12,25 +12,33 @@ function Dashboard({ ip }) {
   let [vnclist, setVnclist] = useState([]);
 
   // 生产网IP
-  const shouldConnect = ip.includes('10.9.');
+  let [valid, setValid] = useState(ip.includes('10.9.'));
+
   useEffect(() => {
-    if (shouldConnect) {
+    if (valid) {
       db.proxy109330().then(setMachines);
     } else {
-      db.isOnline().then(res => {
-        res && db.proxy109330().then(setMachines);
-      });
+      db.isOnline()
+        .then(res => {
+          res &&
+            db.proxy109330().then(res => {
+              setMachines(res);
+              setValid(true);
+            });
+        })
+        .catch(() => {
+          setValid(false);
+          console.log('无生产网权限');
+        });
     }
 
     db.getVNCList().then(setVnclist);
   }, []);
 
   return (
-    machines.length > 0 && (
-      <ControlPanel data={machines} ip={ip}>
-        {vnclist.length > 0 && <ControlPanel2 data={vnclist} />}
-      </ControlPanel>
-    )
+    <ControlPanel data={machines} ip={ip}>
+      {vnclist.length > 0 && <ControlPanel2 data={!valid ? [...vnclist, ...db.mList] : vnclist} />}
+    </ControlPanel>
   );
 }
 

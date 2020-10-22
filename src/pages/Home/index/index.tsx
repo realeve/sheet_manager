@@ -74,11 +74,12 @@ export default () => {
         <Storage2 />
       </Suspense>
 
-      {!isXP && (
+{/* 立体库使用情况，功能不实用，内存消耗大，移除 */}
+      {/* {!isXP && (
         <Suspense fallback={<PageLoading />}>
           <Storage />
         </Suspense>
-      )}
+      )} */}
     </div>
   );
 };

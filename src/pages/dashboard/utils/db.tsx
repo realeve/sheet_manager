@@ -104,61 +104,93 @@ export const proxy109330 = () =>
     ];
   });
 
-// {
-//   "machine": "92型-2#",
-//   "token": "92-2"
-// },
-// {
-//   "machine": "92型-3#",
-//   "token": "92-3"
-// },
-// {
-//   "machine": "92型-4#",
-//   "token": "92-4"
-// },
-// {
-//   "machine": "92型-5#",
-//   "token": "92-5"
-// },
-// {
-//   "machine": "92型-6#",
-//   "token": "92-6"
-// },
-// {
-//   "machine": "92型-7#",
-//   "token": "92-7"
-// },
-// {
-//   "machine": "92型-8#",
-//   "token": "92-8"
-// },
-// {
-//   "machine": "92型-9#",
-//   "token": "92-9"
-// },
-// {
-//   "machine": "92型-10#",
-//   "token": "92-10"
-// },
-// {
-//   "machine": "92型-11#",
-//   "token": "92-11"
-// },
-// {
-//   "machine": "92型-12#",
-//   "token": "92-12"
-// },
-// {
-//   "machine": "W10-1#",
-//   "token": "W10"
-// },
-// {
-//   "machine": "W10-1#",
-//   "token": "W10"
-// },
 export const getVNCList = () => axios(`${window.location.origin}/vnc_lite.json`);
-
 
 export const getVNCUser = () => axios(`${window.location.origin}/vnc_user.json`);
 
-export const isOnline = () => axios('http://10.9.5.133/ip.json').then(res => res.ip);
+export const isOnline = () =>
+  axios({ url: 'http://10.9.5.133/ip.json', timeout: 3 }).then(res => res.ip);
+
+export const mList = [
+  {
+    type: '凹印工序-92型',
+    data: [
+      {
+        machine: '92型-2#',
+        token: '92-2',
+      },
+      {
+        machine: '92型-3#',
+        token: '92-3',
+      },
+      {
+        machine: '92型-4#',
+        token: '92-4',
+      },
+      {
+        machine: '92型-5#',
+        token: '92-5',
+      },
+      {
+        machine: '92型-6#',
+        token: '92-6',
+      },
+      {
+        machine: '92型-7#',
+        token: '92-7',
+      },
+      {
+        machine: '92型-8#',
+        token: '92-8',
+      },
+      {
+        machine: '92型-9#',
+        token: '92-9',
+      },
+      {
+        machine: '92型-10#',
+        token: '92-10',
+      },
+      {
+        machine: '92型-11#',
+        token: '92-11',
+      },
+      {
+        machine: '92型-12#',
+        token: '92-12',
+      },
+      {
+        machine: 'W10-1#',
+        token: 'w10',
+      },
+    ],
+  },
+  {
+    type: '印码工序',
+    data: [
+      { machine: '码后大张一号机', ip: '10.9.61.154', token: 'dmj1' },
+      { machine: '码后大张二号机', ip: '10.9.61.155', token: 'dmj2' },
+      { machine: '丝凸检一号机', ip: '10.9.61.220', token: 'stj1' },
+      { machine: '丝凸检二号机', ip: '10.9.61.197', token: 'stj2' },
+      { machine: '丝凸检三号机', ip: '10.9.61.225', token: 'stj3' },
+      { machine: '丝凸印一号机', ip: '10.9.61.221', token: 'sty1' },
+      { machine: '丝凸印二号机', ip: '10.9.61.222', token: 'sty2' },
+      { machine: '丝凸印三号机', ip: '10.9.61.223', token: 'sty3' },
+      { machine: 'M81D一号机', ip: '10.9.61.156', token: 'm81d1' },
+      { machine: 'M81D二号机', ip: '10.9.61.203', token: 'm81d2' },
+      { machine: '多功能一号机', ip: '10.9.61.124', token: 'dgn1' },
+      { machine: '多功能二号机', ip: '10.9.61.44', token: 'dgn2' },
+      { machine: '多功能三号机', ip: '10.9.61.43', token: 'dgn3' },
+      { machine: '接线印码机', ip: '10.9.61.217', token: 'jxym' },
+      { machine: '涂布一号机', ip: '10.9.61.46', token: 'tb1' },
+      { machine: '涂布二号机', ip: '10.9.61.48', token: 'tb2' },
+      { machine: '涂布三号机', ip: '10.9.61.50', token: 'tb3' },
+      { machine: '涂布四号机', ip: '10.9.61.53', token: 'tb4' },
+      { machine: '涂布五号机', ip: '10.9.61.58', token: 'tb5' },
+      { machine: '远程建模设备34', ip: '10.9.3.34', token: 'ymjm34' },
+      { machine: '远程建模设备35', ip: '10.9.3.35', token: 'ymjm35' },
+      { machine: '远程建模设备36', ip: '10.9.3.36', token: 'ymjm36' },
+      { machine: '远程建模设备37', ip: '10.9.3.37', token: 'ymjm37' },
+    ],
+  },
+];
