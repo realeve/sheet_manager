@@ -1,0 +1,317 @@
+{
+  "name": "计算机设备管理",
+  "api": { 
+  },
+  "table": "computer_management",
+  "detail": [{
+    "title": "设备基础信息",
+    "detail": [  
+	
+	{
+      "title": "设备名称",
+      "type": "input",
+      "key": "equ_name",
+      "rule": {
+        "required": true,
+        "msg": "请输入设备名称"
+      },
+      "placeholder": "请输入设备名称",
+      "toupper": "true"
+    },
+	
+	{
+      "title": "设备编码",
+      "type": "input",
+      "key": "equ_id",
+      "rule": {
+        "required": true,
+        "msg": "请输入设备编码"
+      },
+      "placeholder": "请输入设备编码",
+      "toupper": "true"
+    },
+	
+	{
+      "title": "设备品牌",
+      "type": "select",
+      "key": "place",
+      "rule": {
+        "required": true,
+        "msg": "请选择设备品牌"
+      },	  
+      "placeholder": "请选择设备品牌",
+      "defaultOption": [
+	    { "name": "戴尔DELL", "value": "DELL" },
+        { "name": "联想LENOVO", "value": "LENOVO" },
+        { "name": "华为HUAWEI", "value": "HUAWEI" },
+		{ "name": "小米MI", "value": "MI" },
+		{ "name": "浪潮INSPUR", "value": "INSPUR" }
+	  ]
+    },
+	
+		{
+      "title": "设备型号",
+      "type": "input",
+      "key": "equ_model",
+      "rule": {
+        "required": true,
+        "msg": "请输入设备型号"
+      },
+      "placeholder": "请输入设备型号",
+      "toupper": "true"
+    },
+
+	{
+      "title": "设备来源",
+      "type": "select",
+      "key": "equ_source",
+      "rule": {
+        "required": true,
+        "msg": "请选择设备来源"
+      },	  
+      "placeholder": "请选择设备来源",
+      "defaultOption": [
+	    { "name": "采购", "value": "purchase" },
+        { "name": "项目", "value": "project" },
+        { "name": "盘盈", "value": "inventory" }
+	  ]
+    },
+	
+	
+	{
+      "title": "采购价格",
+      "block": "单位:元",
+      "type": "input",
+      "key": "equ_price",
+      "rule": {
+        "required": true,
+        "type": "int",
+        "msg": "请输入价格"
+      },
+      "placeholder": "请输入价格"
+    },
+		
+	{
+      "title": "采购日期",
+      "type": "datepicker",
+      "key": "equ_date",
+      "datetype": "YYYY-MM-DD",
+      "rule": {
+        "required": true
+      },
+      "unReset": true
+    },
+	
+		{
+      "title": "备注信息",
+      "type": "input",
+      "key": "equ_comment",
+      "rule": {
+        "required": true,
+        "msg": "请输入备注信息"
+      },
+      "placeholder": "请输入备注信息"
+    }
+
+		
+]
+  }, {
+    "title": "设备管理信息",
+    "detail": [{
+      "title": "序列号",
+      "type": "input",
+      "key": "serial_number",
+      "rule": {
+        "required": true,
+		"msg": "请输入序列号"
+      },
+	  "placeholder": "请输入序列号",
+	  "toupper": "true"
+    }, 
+	{
+      "title": "服务代码",
+      "type": "input",
+      "key": "service_tag",
+      "rule": {
+        "type": "string",
+        "required": true
+      },
+	  "placeholder": "请输入服务代码",
+	  "toupper": "true"
+    }, 
+	{
+      "title": "设备状态",
+      "type": "select",
+      "key": "status_code",
+      "rule": {
+        "required": true,
+        "msg": "请选择状态类型"
+      },	  
+      "placeholder": "请选择状态类型",
+      "defaultOption": [
+	    { "name": "新增入库", "value": "1" },
+        { "name": "发放至信息部", "value": "2" },
+        { "name": "发放至个人", "value": "3" },
+		{ "name": "待处理（报废）", "value": "4" },
+		{ "name": "报废", "value": "5" }
+	  ]
+    },
+	
+	{
+      "title": "设备位置",
+      "type": "select",
+      "key": "equ_location",
+      "rule": {
+        "required": true,
+        "msg": "请选择设备位置"
+      },	  
+      "placeholder": "请选择设备位置",
+      "defaultOption": [
+	    { "name": "物资库房", "value": "1" },
+        { "name": "信息库房", "value": "2" },
+        { "name": "个人工位", "value": "3" }
+	  ]
+    },
+	
+	{
+      "title": "设备MAC地址1",
+      "type": "input",
+      "key": "equ_mac_1",
+      "rule": {
+        "type": "string",
+        "required": true
+      },
+	  "placeholder": "请输入MAC地址",
+	  "toupper": "true"
+    }, 
+	
+		{
+      "title": "设备IP地址1",
+      "type": "input",
+      "key": "equ_ip_1",
+      "rule": {
+        "type": "string",
+        "required": true
+      },
+	  "placeholder": "请输入IP地址",
+	  "toupper": "true"
+    }, 
+		{
+      "title": "设备MAC地址2",
+      "type": "input",
+      "key": "equ_mac_2",
+      "rule": {
+        "type": "string",
+        "required": true
+      },
+	  "placeholder": "请输入MAC地址",
+	  "toupper": "true"
+    }, 
+		{
+      "title": "设备IP地址2",
+      "type": "input",
+      "key": "equ_ip_2",
+      "rule": {
+        "type": "string",
+        "required": true
+      },
+	  "placeholder": "请输入IP地址",
+	  "toupper": "true"
+    }
+	
+	]
+  },
+  
+  {
+    "title": "设备变动记录",
+    "detail": [
+		{
+      "title": "设备编码",
+      "type": "input",
+      "key": "equ_id",
+      "rule": {
+        "required": true,
+        "msg": "请输入设备编码"
+      },
+      "placeholder": "请输入设备编码",
+      "toupper": "true"
+    },
+	
+	{
+      "title": "设备来源",
+      "type": "select",
+      "key": "equ_source",
+      "rule": {
+        "required": true,
+        "msg": "请选择设备来源"
+      },	  
+      "placeholder": "请选择设备来源",
+      "defaultOption": [
+	    { "name": "采购", "value": "purchase" ,"hide":["equ_record_content"]},
+        { "name": "项目", "value": "project" },
+        { "name": "盘盈", "value": "inventory" }
+	  ]
+    },
+	
+	
+		{
+      "title": "记录类型",
+      "type": "select",
+      "key": "equ_record_type",
+      "rule": {
+        "required": true,
+        "msg": "请选择记录类型"
+      },	  
+      "placeholder": "请选择记录类型",
+      "defaultOption": [
+	    { "name": "新增入库", "value": "1" },
+        { "name": "发放至信息部", "value": "2" },
+        { "name": "发放至个人", "value": "3" },
+		{ "name": "待处理（报废）", "value": "4" },
+		{ "name": "报废", "value": "5" }
+	  ]
+    },
+		{
+      "title": "记录内容",
+      "type": "input",
+      "key": "equ_record_content",
+      "rule": {
+        "type": "string",
+        "required": true
+      },
+	  "placeholder": "请输入记录内容"
+    }, 
+ 
+	
+	{
+      "title": "记录人员",
+      "type": "select",
+      "key": "equ_record_user",
+      "rule": {
+        "required": true,
+        "msg": "请选择记录人员"
+      },	  
+      "placeholder": "请选择记录人员",
+      "defaultOption": [
+	    { "name": "设备部-杨曦", "value": "54002365" },
+        { "name": "信息部-郝中明", "value": "54002589" },
+        { "name": "信息部-宁蒙浩", "value": "54006398" }
+	  ]
+    },
+	
+	{
+      "title": "记录日期",
+      "type": "datepicker",
+      "key": "equ_record_date",
+      "datetype": "YYYY-MM-DD",
+      "rule": {
+        "required": true
+      }
+    }
+	
+	]
+  }
+  
+  
+  ]
+}
