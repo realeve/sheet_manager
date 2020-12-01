@@ -20,7 +20,9 @@ const config = {
     title: '印钞生产计划年度完成数(单位：千尺)',
     beforeRender: e => {
       e.grid = { ...e.grid, left: 50 };
-      e.legend.top = 5;
+      if (e.legend) {
+        e.legend.top = 5;
+      }
       return e;
     },
   },
@@ -36,7 +38,9 @@ const config = {
     },
     beforeRender: e => {
       e.grid = { ...e.grid, left: 50, right: 35, top: 30 };
-      e.legend.top = 5;
+      if (e.legend) {
+        e.legend.top = 5;
+      }
       e.series = e.series.map(item => {
         item.label.normal.position = 'right';
         item.label.normal.formatter = e => {

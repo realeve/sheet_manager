@@ -11,10 +11,7 @@ const Page = ({ data, type }) => {
           <li
             key={item.token}
             onClick={() => {
-              window.open(
-                `//10.8.1.25:100/novnc/?host=10.8.1.25&port=8080&token=${item.token}`,
-                '_blank'
-              );
+              window.open(`//10.8.1.25:100/novnc/?token=${item.token}`, '_blank');
             }}
           >
             {item.machine}

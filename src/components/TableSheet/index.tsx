@@ -9,6 +9,7 @@ import qs from 'qs';
 import chartLib from '@/pages/chart/utils/lib';
 import { handleMerge } from '@/utils/excelConfig';
 import { handleMergeV } from '@/utils/exceljs';
+import number from 'echarts/lib/util/number';
 
 export const getFirstRow = data => {
   if (!data.data || !data.data[0]) {
@@ -62,7 +63,7 @@ const getConfig = (data, afterFilter, sheetHeight) => {
       };
       if (lib.isFloat(item)) {
         column.renderer = (hotInstance, TD, row, col, prop, value) => {
-          TD.innerHTML = value ? Number(Number(value).toFixed(3)) : value || '';
+          TD.innerHTML = value ? number.round(value) : value || '';
         };
       }
     } else if (type === 'date' || type === 'time') {

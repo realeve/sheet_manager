@@ -39,7 +39,8 @@
             "required": true
           },
           "placeholder": "请选择部门信息",
-          "span": 6
+          "span": 6,
+          "unReset": true
         },
         {
           "title": "姓名",
