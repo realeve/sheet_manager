@@ -106,6 +106,10 @@ export default [
             path: '/dashboard/vnc',
             component: './dashboard/vnc',
           },
+          {
+            path: '/dashboard/it',
+            component: './dashboard/it',
+          },
         ],
       },
       {

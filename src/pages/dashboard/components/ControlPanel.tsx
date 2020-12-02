@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Card, Modal } from 'antd';
 import styles from './control.less';
 
+import router from 'umi/router';
+import { SettingOutlined } from '@ant-design/icons';
+
 const Page = ({ data, type }) => {
   const [show, setShow] = useState(false);
   const [idx, setIdx] = useState(-1);
@@ -62,8 +65,18 @@ const Page = ({ data, type }) => {
   );
 };
 
-export default ({ data, children ,ip}) => (
-  <Card title={`VNC远程控制 (本机IP：${ip})`} className={styles.panel}>
+export default ({ data, children, ip }) => (
+  <Card
+    title={`VNC远程控制 (本机IP：${ip})`}
+    className={styles.panel}
+    extra={
+      <SettingOutlined
+        onClick={() => {
+          router.push('/dashboard/it');
+        }}
+      />
+    }
+  >
     {children}
     {data.map(item => (
       <Page {...item} key={item.type} />

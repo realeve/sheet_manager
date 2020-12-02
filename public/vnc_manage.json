@@ -1,0 +1,27 @@
+[
+  {
+    "type": "管理服务器",
+    "data": [
+      {
+        "machine": "API管理服务器",
+        "token": "cdn"
+      },
+      {
+        "machine": "质量专业 管理网",
+        "token": "82133"
+      },
+      {
+        "machine": "质量专业 生产网",
+        "token": "95133"
+      },
+      {
+        "machine": "MES 运维1",
+        "token": "mes1"
+      },
+      {
+        "machine": "MES 运维2",
+        "token": "mes2"
+      }
+    ]
+  }
+]

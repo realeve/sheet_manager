@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card } from 'antd';
 import styles from './control.less';
 
 const Page = ({ data, type }) => {

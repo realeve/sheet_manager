@@ -4,7 +4,8 @@ import VTable from '@/components/Table';
 import { Modal } from 'antd';
 import DatePicker from '@/components/DatePicker';
 import styles from './ProdList.less';
-
+import dayjs from 'dayjs';
+import * as R from 'ramda';
 export default function CartsByDate({
   mid,
   tstart,
@@ -51,7 +52,13 @@ export default function CartsByDate({
       title={
         <div className={styles['modal-title']}>
           <h3>
-            {machine} {dates[0] === '' ? tstart : dates.join('至')} 生产记录
+            <span style={{ marginRight: 5 }}>{machine}</span>
+            {dates[0] === ''
+              ? tstart
+              : R.uniq(dates)
+                  .map(item => dayjs(item).format('YYYY年MM月DD日'))
+                  .join(' 至 ')}
+            <span style={{ marginLeft: 5 }}>生产记录</span>
           </h3>
           <DatePicker value={dates[0] === '' ? [tstart] : dates} onChange={onDateChange} />
         </div>

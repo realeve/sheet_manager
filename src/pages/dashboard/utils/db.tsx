@@ -105,6 +105,7 @@ export const proxy109330 = () =>
   });
 
 export const getVNCList = () => axios(`${window.location.origin}/vnc_lite.json`);
+export const getVNCManage = () => axios(`${window.location.origin}/vnc_manage.json`);
 
 export const getVNCUser = () => axios(`${window.location.origin}/vnc_user.json`);
 
