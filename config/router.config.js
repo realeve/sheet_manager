@@ -44,6 +44,10 @@ export default [
         component: './Home/index',
       },
       {
+        path: '/manage',
+        component: './Home/index',
+      },
+      {
         path: '/home',
         component: './Home/index',
       },

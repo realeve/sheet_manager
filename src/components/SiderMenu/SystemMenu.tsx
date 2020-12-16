@@ -5,7 +5,7 @@ import * as dbMenu from '@/pages/menu/service';
 import { connect } from 'dva';
 import userTool from '@/utils/users';
 import * as R from 'ramda';
-import { DEFAULT_MENU_ID } from '@/utils/setting';
+import { DEFAULT_MENU_ID, DEFAULT_MANAGER_ID } from '@/utils/setting';
 import { DownCircleOutlined } from '@ant-design/icons';
 
 const refreshMenu = (data, id = DEFAULT_MENU_ID) => {
@@ -14,6 +14,7 @@ const refreshMenu = (data, id = DEFAULT_MENU_ID) => {
     menuId = id;
     window.localStorage.setItem('_userMenuId', String(id));
   }
+
   let menu = R.find(R.propEq('id', Number(menuId)))(data) || { detail: '[]' };
   return menu.detail;
 };
@@ -28,9 +29,15 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
         setMenuList(data);
 
         let menu_id = R.findIndex(R.propEq('title', menu_title))(data);
+
+        if (window.location.href.includes('/manage')) {
+          menu_id = DEFAULT_MANAGER_ID;
+        }
         setCurMenuId(menu_id);
 
-        let menu = refreshMenu(data, menu_id);
+        refreshMenu(data, menu_id);
+
+        let menu = data[menu_id].detail;
         window.localStorage.setItem('_userMenu', JSON.stringify(menu));
 
         dispatch({
@@ -38,6 +45,7 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
           payload: {
             userSetting: {
               menu,
+              menu_title: data[menu_id].title,
             },
           },
         });
@@ -89,7 +97,12 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
   };
 
   const menu = (
-    <div>
+    <div
+      style={{
+        border: '1px solid #666',
+        width: 200,
+      }}
+    >
       <Menu
         theme="dark"
         style={{ boxShadow: ' -3px 5px 2px rgba(0, 0, 0, 0.15)' }}
@@ -102,6 +115,7 @@ function SystemMenu({ logo, uid, menu_title, dispatch }) {
       </Menu>
     </div>
   );
+
   return (
     <Dropdown overlay={menu}>
       <div>
