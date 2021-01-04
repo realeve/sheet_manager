@@ -126,8 +126,6 @@ export default () => {
             series.label.normal.position = 'insideRight';
             e.yAxis.data = e.yAxis.data.reverse();
 
-            // console.log(plan);
-
             // 最后一项隐藏显示
             series.data = series.data
               .map((item, idx) => {
@@ -165,35 +163,36 @@ export default () => {
                 '大万'
               );
             };
-
-            series.markLine = {
-              data: [
-                {
-                  xAxis: plan.计划量,
-                  label: {
-                    formatter(a) {
-                      return (
-                        '年度计划\n' +
-                        plan.计划量 +
-                        '万' +
-                        (plan.铺底量 > 0 ? `\n(含上年结存:${plan.铺底量}万)` : '')
-                      );
+            if (plan.计划量 && plan.铺底量) {
+              series.markLine = {
+                data: [
+                  {
+                    xAxis: plan.计划量,
+                    label: {
+                      formatter(a) {
+                        return (
+                          '年度计划\n' +
+                          plan.计划量 +
+                          '万' +
+                          (plan.铺底量 > 0 ? `\n(含上年结存:${plan.铺底量}万)` : '')
+                        );
+                      },
                     },
+                    lineStyle: { normal: { type: 'dashed', color: '#e23' } },
                   },
-                  lineStyle: { normal: { type: 'dashed', color: '#e23' } },
-                },
-                {
-                  xAxis: ((plan.计划量 - plan.铺底量) * plan.时间进度) / 100,
-                  label: {
-                    formatter(a) {
-                      return '全年时间进度\n' + plan.时间进度 + '%\n应完工量:' + needPrint + '万';
+                  {
+                    xAxis: ((plan.计划量 - plan.铺底量) * plan.时间进度) / 100,
+                    label: {
+                      formatter(a) {
+                        return '全年时间进度\n' + plan.时间进度 + '%\n应完工量:' + needPrint + '万';
+                      },
                     },
+                    lineStyle: { normal: { type: 'dashed', color: '#e23' } },
                   },
-                  lineStyle: { normal: { type: 'dashed', color: '#e23' } },
-                },
-              ],
-              symbolSize: 0,
-            };
+                ],
+                symbolSize: 0,
+              };
+            }
 
             return {
               ...e,

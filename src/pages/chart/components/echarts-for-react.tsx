@@ -189,7 +189,7 @@ export default class EchartsReactCore extends Component<IChartProps, {}> {
   renderEchartDom = () => {
     // init the echart object
     const echartObj = this.getEchartsInstance();
-
+    // console.log(this.props.option)
     // set the echart option
     echartObj.setOption(
       this.props.option,
