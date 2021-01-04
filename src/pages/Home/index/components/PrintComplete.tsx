@@ -46,7 +46,7 @@ export default () => {
   });
 
   useEffect(() => {
-    if (prod.length == 0 || !data) {
+    if (prod?.length == 0 || !data) {
       return;
     }
     let res = R.clone(data);
@@ -56,7 +56,7 @@ export default () => {
     nextData.push({
       ...firstLine,
       工序: '年度计划',
-      累计产量: firstLine.计划量,
+      累计产量: firstLine?.计划量 || 0,
     });
 
     res.data = nextData;
@@ -105,109 +105,113 @@ export default () => {
         </div>
       }
     >
-      <SimpleChart
-        data={{ ...state, err: error }}
-        params={{
-          type: 'bar',
-          simple: CHART_MODE.HIDE_ALL,
-          x: 1,
-          y: 2,
-          barWidth: 40,
-          reverse: true,
-        }}
-        style={{ height: chartHeight + 62 - 15, width: '100%' }}
-        beforeRender={e => {
-          let series = R.head(e.series);
-          let plan = state.data[0];
+      {!loading && data && (
+        <SimpleChart
+          data={{ ...state, err: error }}
+          params={{
+            type: 'bar',
+            simple: CHART_MODE.HIDE_ALL,
+            x: 1,
+            y: 2,
+            barWidth: 40,
+            reverse: true,
+          }}
+          style={{ height: chartHeight + 62 - 15, width: '100%' }}
+          beforeRender={e => {
+            let series = R.head(e.series);
+            if (!series) {
+              return e;
+            }
+            let plan = state.data[0];
+            series.label.normal.position = 'insideRight';
+            e.yAxis.data = e.yAxis.data.reverse();
 
-          series.label.normal.position = 'insideRight';
-          e.yAxis.data = e.yAxis.data.reverse();
+            // console.log(plan);
 
-          // console.log(plan);
+            // 最后一项隐藏显示
+            series.data = series.data
+              .map((item, idx) => {
+                if (idx < series.data.length - 1) {
+                  return item;
+                }
+                return {
+                  value: item,
+                  itemStyle: {
+                    color: '#2FC25B',
+                    // opacity: 0,
+                  },
+                };
+              })
+              .reverse();
+            const needPrint = (((plan.计划量 - plan.铺底量) * plan.时间进度) / 100).toFixed(0);
 
-          // 最后一项隐藏显示
-          series.data = series.data
-            .map((item, idx) => {
-              if (idx < series.data.length - 1) {
-                return item;
-              }
-              return {
-                value: item,
-                itemStyle: {
-                  color: '#2FC25B',
-                  // opacity: 0,
-                },
-              };
-            })
-            .reverse();
-          const needPrint = (((plan.计划量 - plan.铺底量) * plan.时间进度) / 100).toFixed(0);
+            let formatter = param => {
+              let idx = param[0].dataIndex;
+              let res = state.data[state.data.length - 1 - idx];
+              let percent = res.计划完成比;
 
-          let formatter = param => {
-            let idx = param[0].dataIndex;
-            let res = state.data[state.data.length - 1 - idx];
-            let percent = res.计划完成比;
+              return e.tooltip.formatter(
+                [
+                  {
+                    ...param[0],
+                    percent:
+                      `万张 <br/>完工比例:${percent}%<br/>` +
+                      (percent >= plan.时间进度
+                        ? ''
+                        : `比时间进度延误：${plan.时间进度 - percent}%,约${Number(needPrint) -
+                            res.累计产量}万`),
+                  },
+                ],
+                '大万'
+              );
+            };
 
-            return e.tooltip.formatter(
-              [
+            series.markLine = {
+              data: [
                 {
-                  ...param[0],
-                  percent:
-                    `万张 <br/>完工比例:${percent}%<br/>` +
-                    (percent >= plan.时间进度
-                      ? ''
-                      : `比时间进度延误：${plan.时间进度 - percent}%,约${Number(needPrint) -
-                          res.累计产量}万`),
+                  xAxis: plan.计划量,
+                  label: {
+                    formatter(a) {
+                      return (
+                        '年度计划\n' +
+                        plan.计划量 +
+                        '万' +
+                        (plan.铺底量 > 0 ? `\n(含上年结存:${plan.铺底量}万)` : '')
+                      );
+                    },
+                  },
+                  lineStyle: { normal: { type: 'dashed', color: '#e23' } },
+                },
+                {
+                  xAxis: ((plan.计划量 - plan.铺底量) * plan.时间进度) / 100,
+                  label: {
+                    formatter(a) {
+                      return '全年时间进度\n' + plan.时间进度 + '%\n应完工量:' + needPrint + '万';
+                    },
+                  },
+                  lineStyle: { normal: { type: 'dashed', color: '#e23' } },
                 },
               ],
-              '大万'
-            );
-          };
+              symbolSize: 0,
+            };
 
-          series.markLine = {
-            data: [
-              {
-                xAxis: plan.计划量,
-                label: {
-                  formatter(a) {
-                    return (
-                      '年度计划\n' +
-                      plan.计划量 +
-                      '万' +
-                      (plan.铺底量 > 0 ? `\n(含上年结存:${plan.铺底量}万)` : '')
-                    );
-                  },
-                },
-                lineStyle: { normal: { type: 'dashed', color: '#e23' } },
+            return {
+              ...e,
+              grid: {
+                ...e.grid,
+                left: 90,
+                right: 50,
+                top: 45,
               },
-              {
-                xAxis: ((plan.计划量 - plan.铺底量) * plan.时间进度) / 100,
-                label: {
-                  formatter(a) {
-                    return '全年时间进度\n' + plan.时间进度 + '%\n应完工量:' + needPrint + '万';
-                  },
-                },
-                lineStyle: { normal: { type: 'dashed', color: '#e23' } },
+              series: [series],
+              tooltip: {
+                ...e.tooltip,
+                formatter,
               },
-            ],
-            symbolSize: 0,
-          };
-
-          return {
-            ...e,
-            grid: {
-              ...e.grid,
-              left: 90,
-              right: 50,
-              top: 45,
-            },
-            series: [series],
-            tooltip: {
-              ...e.tooltip,
-              formatter,
-            },
-          };
-        }}
-      />
+            };
+          }}
+        />
+      )}
     </Card>
   );
 };

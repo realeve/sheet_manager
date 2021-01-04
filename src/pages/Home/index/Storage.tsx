@@ -224,7 +224,7 @@ export const getFeakOption = (data, proc, selected) => {
     yAxis3D: {
       type: 'value',
       ...axisSetting,
-      min: 1, 
+      min: 1,
       max: maxX,
       boundaryGap: true,
       axisLabel: {
@@ -238,7 +238,7 @@ export const getFeakOption = (data, proc, selected) => {
       name: '列',
       type: 'value',
       ...axisSetting,
-      min: 1, 
+      min: 1,
       max: maxY,
       boundaryGap: true,
       axisLabel: {
@@ -257,7 +257,7 @@ export const getFeakOption = (data, proc, selected) => {
         },
         show: false,
       },
-      max: maxZ,  
+      max: maxZ,
       min: 1,
       interval: 1,
       boundaryGap: false,
@@ -343,7 +343,7 @@ export default () => {
   const [prodData, setProdData] = useState([]);
 
   useEffect(() => {
-    if (prod.length == 0 || !data) {
+    if (prod?.length == 0 || !data) {
       return;
     }
     let res = R.clone(data);

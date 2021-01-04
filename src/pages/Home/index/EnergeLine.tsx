@@ -59,7 +59,7 @@ export default () => {
   });
 
   useEffect(() => {
-    if (prod.length == 0 || !data) {
+    if (prod?.length == 0 || !data) {
       return;
     }
     let res = R.clone(data);
@@ -110,10 +110,10 @@ export default () => {
               left: 70,
               right: 35,
             },
-            legend:{
-                ...e.legend,
-                top:0
-            }
+            legend: {
+              ...e.legend,
+              top: 0,
+            },
           };
         }}
       />

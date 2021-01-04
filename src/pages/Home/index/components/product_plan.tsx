@@ -53,7 +53,7 @@ export default () => {
   });
 
   useEffect(() => {
-    if (prod.length == 0 || !data) {
+    if (prod?.length == 0 || !data) {
       return;
     }
     let res = R.clone(data);
@@ -114,6 +114,9 @@ export default () => {
         }}
         style={{ height: chartHeight - 15, width: '100%' }}
         beforeRender={e => {
+          if (!e?.grid) {
+            return {};
+          }
           e.grid.left = 45;
           return e;
         }}
