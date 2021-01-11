@@ -27,6 +27,7 @@ function CartDetail({ dispatch, ...params }) {
   };
 
   const { cart, type, prod, codeInfo } = params;
+
   return (
     <>
       <div className={styles.header}>
