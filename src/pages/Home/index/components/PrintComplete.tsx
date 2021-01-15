@@ -163,7 +163,8 @@ export default () => {
                 '大万'
               );
             };
-            if (plan.计划量 && plan.铺底量) {
+
+            if ('undefined' !== typeof plan.计划量 && 'undefined' !== plan.铺底量) {
               series.markLine = {
                 data: [
                   {
