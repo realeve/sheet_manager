@@ -324,7 +324,7 @@ class Tables extends Component {
     this.setState({ loading: true });
     let config = this.getExportConfig();
 
-    console.log('download start');
+    console.log('download start',config);
     Excel.save(config).then(() => {
       console.log('download end');
       this.setState({ loading: false });

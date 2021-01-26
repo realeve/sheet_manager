@@ -392,7 +392,6 @@ const colors: Array<string> = [
   '#9db2b7',
   '#8b8c90',
   '#beb276',
-  '#fefef4',
   '#744e03',
   '#a3a36f',
   '#c9b583',
