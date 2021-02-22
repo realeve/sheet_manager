@@ -7,7 +7,7 @@ import { CHART_MODE } from '@/pages/chart/utils/lib';
 import SimpleChart from '@/pages/Search/components/SimpleChart';
 
 import { cardStyle, chartHeight } from '../../components/Cards';
-import * as lib from '@/utils/lib';
+// import * as lib from '@/utils/lib';
 
 const getWaterfall = data => {
   let total = data[4].value;
@@ -92,7 +92,7 @@ const getWaterfall = data => {
           },
         },
         data: seriesValue.map(item => ({
-          value: Math.abs(item / 10000).toFixed(2),
+          value: (item / 10000).toFixed(2),
           itemStyle: {
             color: item > 0 ? '#1890FF' : '#F04864',
           },
@@ -124,7 +124,6 @@ export default () => {
   });
 
   const [option, setOption] = useState(null);
-
   return (
     <Card
       {...cardStyle({

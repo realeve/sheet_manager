@@ -324,7 +324,7 @@ class Tables extends Component {
     this.setState({ loading: true });
     let config = this.getExportConfig();
 
-    console.log('download start',config);
+    console.log('download start', config);
     Excel.save(config).then(() => {
       console.log('download end');
       this.setState({ loading: false });
@@ -557,7 +557,8 @@ class Tables extends Component {
     );
 
     let tableTitle = !notSimple ? (
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+        <Action />
         {SearchFilter}
       </div>
     ) : (
