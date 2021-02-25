@@ -67,4 +67,5 @@ export default {
   前天: [moment().subtract(2, 'days'), moment().subtract(2, 'days')],
   三天前: [moment().subtract(3, 'days'), moment().subtract(3, 'days')],
   过去一年: [moment().subtract(1, 'year'), moment()],
+  日历月: [moment().startOf('month'), moment().endOf('month')],
 };

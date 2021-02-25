@@ -9,7 +9,7 @@ import chartLib, { CHART_MODE } from '@/pages/chart/utils/lib';
 import { cardStyle, chartHeight } from '../../components/Cards';
 import SimpleChart from '@/pages/Search/components/SimpleChart';
 
-let [tstart, tend] = range['本月'].map(item => item.format('YYYYMMDD'));
+let [tstart, tend] = range['日历月'].map(item => item.format('YYYYMMDD'));
 
 const keyName = '品种';
 
@@ -75,7 +75,7 @@ export default () => {
               size="small"
               style={{ marginLeft: 20, fontSize: 12 }}
               onClick={() => {
-                window.open('/table#id=1036/5148b9c40f&daterange=9');
+                window.open('/table#id=1036/5148b9c40f&daterange=18');
               }}
               title="点击查看详细数据报表"
             >
@@ -112,6 +112,17 @@ export default () => {
           simple: CHART_MODE.HIDE_ALL,
           x: 0,
           y: 1,
+        }}
+        beforeRender={e => {
+          return {
+            ...e,
+            xAxis: {
+              ...e.xAxis,
+              axisLabel: {
+                interval: 0,
+              },
+            },
+          };
         }}
         style={{ height: chartHeight - 15, width: '100%' }}
       />
