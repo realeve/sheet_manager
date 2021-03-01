@@ -11,7 +11,7 @@ import * as lib from '@/utils/lib';
 import { connect } from 'dva';
 import { handleDetail } from '../index';
 import moment from 'moment';
-
+import * as R from 'ramda';
 import TableSheet from '@/components/TableSheet';
 import { axios } from '@/utils/axios';
 
@@ -33,8 +33,15 @@ export const post = ({ url, data, extra }) =>
 export interface IExcelForm {
   name: string; // 业务名称
   desc?: string; // 描述信息
-  callback: string; // 数据回调
-  decimal?: number; //小数长度
+
+  /** 数据回调 */
+  callback: string;
+
+  /** 小数长度 */
+  decimal?: number;
+
+  /** 忽略的行数 */
+  omitLine?: number;
 }
 export interface ISheetForm extends IFormConfig, IExcelForm {
   maxrow?: number; // 用表格录入数据时最大数据行数;
@@ -157,6 +164,9 @@ const Index = ({ location }) => {
       return;
     }
     let data = hot.getData();
+    if (option?.omitLine > 0) {
+      data.data = R.slice(option.omitLine, data.length)(data.data);
+    }
     decode(data);
   };
 

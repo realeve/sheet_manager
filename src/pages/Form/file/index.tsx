@@ -58,8 +58,14 @@ const Index = ({ location }) => {
 
   const [result, setResult] = useState<{ title: string; data: any[][] }[]>([]);
 
-  const decode = (src: string[][], tabName: string = '') =>
-    post({ url: option.callback, data: src, extra: state })
+  const decode = (src: string[][], tabName: string = '') => {
+    let data = R.clone(src);
+    // 忽略数据
+    if (option?.omitLine > 0) {
+      data = R.slice(option.omitLine, src.length)(src);
+    }
+
+    return post({ url: option.callback, data, extra: state })
       .then((res: ICallbackData) => {
         // 需要前端处理数据提交
         if (typeof res.affected_rows == 'undefined') {
@@ -80,6 +86,7 @@ const Index = ({ location }) => {
           description: `${tabName} 数据提交失败`,
         });
       });
+  };
 
   // 前台处理数据上传
   const upload = async () => {
@@ -139,7 +146,8 @@ const Index = ({ location }) => {
           if (lib.isFloat(td)) {
             return td.toFixed(option.decimal);
           }
-          return String(td);
+          // 移除换行符
+          return String(td).replace(/\r|\n/g, '');
         })
       );
       return item;
