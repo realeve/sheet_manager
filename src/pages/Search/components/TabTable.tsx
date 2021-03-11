@@ -31,6 +31,7 @@ export default function LogInfo({ cart, config, simpleIdx = [], ...props }) {
   let refresh = async ({ api, params }, nextState) => {
     let data = await fetchData({ api, params });
     nextState[Number(activeKey)] = data;
+
     setState(nextState);
 
     let nextStatus = R.clone(needRefresh);

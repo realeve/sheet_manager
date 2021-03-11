@@ -638,6 +638,7 @@ Tables.defaultProps = {
   loading: false,
   cartLinkPrefix: setting.searchUrl,
   actions: false,
+  formatNumber: true,
   subTitle: '',
   config: {
     prefix: '',

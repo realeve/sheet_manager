@@ -89,7 +89,7 @@ export const isMonth: CartReelReg = str => /^[1-9]\d{3}(|\-|\/)[0-1]\d$/.test(St
 
 // 数字
 export const isNumOrFloat: CartReelReg = str =>
-  /^(-|\+|)\d+(\.)\d+$|^(-|\+|)\d+$/.test(String(str));
+  /^(-|\+|)\d+\.\d+$|^(-|\+|)[1-9]\d+$/.test(String(str));
 
 // 整数
 export const isInt: CartReelReg = str => /^(-|\+|)?[0-9]\d*$/.test(String(str));
