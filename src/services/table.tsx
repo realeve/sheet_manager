@@ -39,7 +39,7 @@ const isFilterColumn: <T>(
 };
 
 export function handleColumns(
-  { dataSrc, filteredInfo },
+  { dataSrc, filteredInfo, formatNumber = true },
   cartLinkPrefix = setting.searchUrl,
   imgHost = null,
   merge = [],
@@ -104,7 +104,12 @@ export function handleColumns(
         return <a {...attrs}> {text} </a>;
       };
       return item;
-    } else if (lib.isInt(tdValue) && !lib.isDateTime(tdValue) && !lib.isMonth(tdValue)) {
+    } else if (
+      lib.isInt(tdValue) &&
+      formatNumber &&
+      !lib.isDateTime(tdValue) &&
+      !lib.isMonth(tdValue)
+    ) {
       item.render = text => Number(text).toLocaleString();
       return item;
     } else if (lib.hasDecimal(tdValue)) {
@@ -371,6 +376,7 @@ export const updateState = (props, { page, pageSize }, merge = true) => {
     {
       dataSrc,
       filteredInfo: {},
+      formatNumber: props.formatNumber,
     },
     (props.config && props.config.link) || props.cartLinkPrefix || setting.searchUrl,
     (props.config && props.config.host) || setting.host,

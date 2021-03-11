@@ -78,6 +78,7 @@ export default function LogInfo({ cart, config, simpleIdx = [], ...props }) {
                   isAntd={config[key].isAntd !== false}
                   dataSrc={res}
                   loading={res.loading}
+                  formatNumber={false}
                   {...defaultTableSetting}
                 />
               )}

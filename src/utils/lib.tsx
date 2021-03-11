@@ -340,7 +340,7 @@ export const thouandsNum: {
   if (String(num).length === 0) {
     return '';
   }
-  console.log(num);
+  // console.log(num);
 
   let numStr: string = Number(num).toLocaleString();
   if (numStr.includes('.')) {
