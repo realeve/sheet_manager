@@ -97,7 +97,7 @@ const getConfig = (data, afterFilter, sheetHeight) => {
 
     if (type === 'time') {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
-        TD.innerHTML = (value || '').split('.')[0];
+        TD.innerHTML = String(value || '').split('.')[0];
       };
       column.width = 160;
     } else {

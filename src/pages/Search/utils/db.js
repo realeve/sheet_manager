@@ -457,6 +457,18 @@ export const getWipJobsRectifyCode = cart =>
 
 /**
  *   @database: { 小张核查 }
+ *   @desc:     { 丝印识码信息查询 }
+ */
+export const getMahouCodeinfo = cart =>
+  axios({
+    url: DEV ? '@/mock/1258.json' : '/1258/cf83f9b813.json',
+    params: {
+      cart,
+    },
+  });
+
+/**
+ *   @database: { 小张核查 }
  *   @desc:     { 丝印原始记录 }
  */
 export const getQfmWipJobsSilk = cart =>

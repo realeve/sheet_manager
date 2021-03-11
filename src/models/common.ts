@@ -4,7 +4,6 @@ import { axios } from '@/utils/axios';
 import qs from 'qs';
 import * as R from 'ramda';
 import { handleOptions } from '@/components/FormCreater/lib';
-import router from 'umi/router';
 import { validIP } from '@/utils/setting';
 import { router } from 'umi/router';
 // 获取ip
@@ -28,7 +27,7 @@ const authIP = (ip: string) => {
     ip
       .split('.')
       .slice(0, 2)
-      .join('.') + '.'; 
+      .join('.') + '.';
   if (validIP.includes(ipTag)) {
     return;
   }
