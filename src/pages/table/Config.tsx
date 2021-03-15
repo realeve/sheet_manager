@@ -174,11 +174,17 @@ export default function tableConfig() {
             <div className={classnames(styles.desc, 'configDemoDesc')}>datetype </div>
             <div>
               默认值：date,可选项为 year|month|date ，设定后默认向后台发起YYYY | YYYYMM | YYYYMMDD
-              的日期请求
+              的日期请求。添加single前缀后只显示单个日期/月/年，用于指定某个时间的查询。
             </div>
             <div className={classnames(styles.demoLink, 'configDemoLink')}>
               <a href="/table#id=http://localhost:90/76/dd3cf2e48e&datetype=month" target="_blank">
                 /table#id=http://localhost:90/76/dd3cf2e48e&datetype=month
+              </a>
+              <a
+                href="/table#id=1086/c36dff7762&daterange=13&theme=listcard&group=1&cache=0&datetype=singledate"
+                target="_blank"
+              >
+                /table#id=1086/c36dff7762&daterange=13&theme=listcard&group=1&cache=0&datetype=singledate
               </a>
             </div>
           </li>
@@ -334,9 +340,13 @@ export default function tableConfig() {
             </div>
           </li>
           <li>
-            <div className={styles.tip}><Tag color="#e23">新功能</Tag> 4.列合并</div>
+            <div className={styles.tip}>
+              <Tag color="#e23">新功能</Tag> 4.列合并
+            </div>
             <div className={classnames(styles.desc, 'configDemoDesc')}>mergev </div>
-            <div>2020-08-29：现在起，列合并将在前台展示中生效，合并时将不允许数据排序及过滤（这样需要重新计算合并设置）。</div>
+            <div>
+              2020-08-29：现在起，列合并将在前台展示中生效，合并时将不允许数据排序及过滤（这样需要重新计算合并设置）。
+            </div>
             <div>默认值：不设置时不做合并。如设置mergev为0,1,2时，相当于合并第1至3列</div>
             <div>
               excel报表导出时需要纵向合并的列，系统将根据上下列自动运算

@@ -71,22 +71,40 @@ function DatePick({
 
   return (
     <div {...props}>
-      <label style={{ paddingRight: 10 }}>{formatMessage({ id: 'app.timerange' })}:</label>
-      <RangePicker
-        ranges={getRanges(dateFormat)}
-        format={dateFormat}
-        defaultValue={[moment(strDate[0], dateFormat), moment(strDate[1], dateFormat)]}
-        value={[moment(strDate[0], dateFormat), moment(strDate[1], dateFormat)]}
-        // mode={dateType}
-        onOpenChange={setOpen}
-        onChange={onRangeChange}
-        style={{ width: 220 }}
-        size="small"
-        allowClear={false}
-        locale={{
-          rangePlaceholder: ['开始日期', '结束日期'],
-        }}
-      />
+      <label style={{ paddingRight: 10 }}>
+        {_dateType[0].includes('single') ? '查询日期' : formatMessage({ id: 'app.timerange' })}:
+      </label>
+      {_dateType[0].includes('single') ? (
+        <DatePicker
+          format={dateFormat}
+          defaultValue={moment(strDate[0], dateFormat)}
+          value={moment(strDate[0], dateFormat)}
+          mode={_dateType[0].replace('single', '')}
+          onOpenChange={setOpen}
+          onChange={e => {
+            setStrDate([e, e]);
+          }}
+          style={{ width: 110 }}
+          size="small"
+          allowClear={false}
+        />
+      ) : (
+        <RangePicker
+          ranges={getRanges(dateFormat)}
+          format={dateFormat}
+          defaultValue={[moment(strDate[0], dateFormat), moment(strDate[1], dateFormat)]}
+          value={[moment(strDate[0], dateFormat), moment(strDate[1], dateFormat)]}
+          mode={_dateType}
+          onOpenChange={setOpen}
+          onChange={onRangeChange}
+          style={{ width: 220 }}
+          size="small"
+          allowClear={false}
+          locale={{
+            rangePlaceholder: ['开始日期', '结束日期'],
+          }}
+        />
+      )}
     </div>
   );
 }
