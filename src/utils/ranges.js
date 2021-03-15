@@ -64,7 +64,7 @@ export default {
   本周: [moment().startOf('week'), moment()],
   昨天: [
     moment().subtract(moment().format('E') == 1 ? 3 : 1, 'days'),
-    moment().subtract(moment().format('E') ? 3 : 1, 'days'),
+    moment().subtract(moment().format('E') == 1 ? 3 : 1, 'days'),
   ],
   今天: [moment(), moment()],
   前天: [moment().subtract(2, 'days'), moment().subtract(2, 'days')],
