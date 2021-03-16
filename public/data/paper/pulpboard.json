@@ -423,6 +423,39 @@
           "url": "./data/base/paper_material_check_user.json"
         },
         {
+          "title": "L",
+          "type": "input.number",
+          "key": "color_l",
+          "rule": {
+            "type": "int",
+            "required": true
+          },
+          "max": 100,
+          "min": 0
+        },
+        {
+          "title": "a*",
+          "type": "input.number",
+          "key": "color_a",
+          "rule": {
+            "type": "int",
+            "required": true
+          },
+          "max": -128,
+          "min": 127
+        },
+        {
+          "title": "b*",
+          "type": "input.number",
+          "key": "color_b",
+          "rule": {
+            "type": "int",
+            "required": true
+          },
+          "max": -128,
+          "min": 127
+        },
+        {
           "title": "检验结论",
           "type": "switch",
           "key": "result",

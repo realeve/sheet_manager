@@ -1,12 +1,6 @@
 import { notification } from 'antd';
 import moment from 'moment';
 import { axios } from '@/utils/axios';
-let config = {};
-axios({ url: window.location.origin + '/data/base/paper_weight_setting.json' }).then(res => {
-  res.data.forEach(({ prod, ...item }) => {
-    config[prod] = item;
-  });
-});
 
 // 兼容服务端用url来处理数值计算
 const handleData = (data, title = '计算轴号') => {
@@ -52,7 +46,7 @@ export const reelweight = async ({ type, params, state }) => {
   });
 };
 
-const calcWeight = ({ reel, speed, time_start, time_end, time_delta }) => {
+const calcWeight = async ({ reel, speed, time_start, time_end, time_delta }) => {
   //   const config = {
   //     '2T': {
   //       width: 0.696,
@@ -76,6 +70,15 @@ const calcWeight = ({ reel, speed, time_start, time_end, time_delta }) => {
   const prod_line = reel[4];
 
   const reel_size = prod_line == 3 ? 3 : 2;
+  let config = {};
+  await axios({ url: window.location.origin + '/data/base/paper_weight_setting.json' }).then(
+    res => {
+      res.data.forEach(({ prod, ...item }) => {
+        config[prod] = item;
+      });
+    }
+  );
+
   const cfg = config[prod];
 
   if (time_length < 0) {

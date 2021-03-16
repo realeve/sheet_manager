@@ -109,8 +109,7 @@ export const getVNCManage = () => axios(`${window.location.origin}/vnc_manage.js
 
 export const getVNCUser = () => axios(`${window.location.origin}/vnc_user.json`);
 
-export const isOnline = () =>
-  axios({ url: 'http://10.9.5.133/ip.json', timeout: 3 }).then(res => res.ip);
+export const isOnline = () => axios({ url: '/ping/10.9.5.133' }).then(res => res.data.success);
 
 export const mList = [
   {
