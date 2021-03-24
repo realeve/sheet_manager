@@ -90,7 +90,7 @@ const getConfig = (data, afterFilter, sheetHeight) => {
 
     if (String(item).includes('base64')) {
       column.renderer = (hotInstance, TD, row, col, prop, value) => {
-        TD.innerHTML = value ? `<img src="${value}" />` : '';
+        TD.innerHTML = value && value.length > 20 ? `<img src="${value}" />` : '';
       };
       column.width = 200;
     }

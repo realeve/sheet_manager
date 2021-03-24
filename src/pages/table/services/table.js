@@ -105,6 +105,9 @@ export const handleParams = ({ tid, params, dateRange, dateType, textAreaList, .
   return option.map((item, idx) => {
     paramKeys.forEach(key => {
       item.data[key] = params[key][idx];
+      if (key == 'blob') {
+        item.data[key] = params.blob;
+      }
     });
     if (item.method === 'get') {
       let {

@@ -94,15 +94,10 @@ function Tables({
       <QueryCondition onQuery={refreshData} />
       {dataSource.map((dataSrc, key) => {
         let subTitle = dataSrc.dates && dataSrc.dates.length > 0 && staticRanges(dataSrc.dates);
+        let param = axiosOptions[key].data || axiosOptions[key].params || {};
+        let blob = axiosOptions[key] && param.blob;
 
-        let blob =
-          axiosOptions[key] &&
-          (axiosOptions[key].data || axiosOptions[key].params) &&
-          (axiosOptions[key].data || axiosOptions[key].params).blob;
-
-        // console.log(axiosOptions[key], blob);
-
-        if (!R.isNil(blob)) {
+        if (!R.isNil(blob) && !param.theme) {
           return <ImageList data={dataSrc} blob={blob} key={key} subTitle={subTitle} />;
         }
 

@@ -67,6 +67,10 @@ function ImageItem({ data, blob, gutter, onImageClick }) {
     let image = row[blobIdx] || '';
     if (!image.includes('base64')) {
       image = prefix + image;
+    } else {
+      if (image.length < 30) {
+        image = null;
+      }
     }
     let titleList = filterBlob(row || [], blobIdx);
     return (
@@ -76,9 +80,7 @@ function ImageItem({ data, blob, gutter, onImageClick }) {
         style={{ marginRight: gutter }}
         onClick={() => onImageClick(row)}
       >
-        <div className={styles.wrap}>
-          <img src={image} alt={idx} />
-        </div>
+        <div className={styles.wrap}>{image && <img src={image} alt={idx} />}</div>
         <div className={styles.desc}>
           <ImageTitle data={titleList} header={header} key={idx} />
         </div>

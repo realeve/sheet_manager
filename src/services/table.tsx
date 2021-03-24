@@ -123,6 +123,10 @@ export function handleColumns(
           String(text).includes('data:image/') && String(text).includes(';base64');
         let hostUrl = isBase64Image ? '' : imgHost || setting.uploadHost;
 
+        // 空图像不展示
+        if (isBase64Image && text.length < 30) {
+          return null;
+        }
         return !isImg ? (
           text
         ) : (
