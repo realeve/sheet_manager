@@ -109,7 +109,8 @@ export const getVNCManage = () => axios(`${window.location.origin}/vnc_manage.js
 
 export const getVNCUser = () => axios(`${window.location.origin}/vnc_user.json`);
 
-export const isOnline = () => axios({ url: '/ping/10.9.5.133' }).then(res => res.data.success);
+// ping是用于服务器判断目标主机是否连通
+export const isOnline = () => axios({ url: 'http://10.9.5.133/ip.json' }).then(res => res.data.ip);
 
 export const mList = [
   {

@@ -72,9 +72,9 @@ function DatePick({
   return (
     <div {...props}>
       <label style={{ paddingRight: 10 }}>
-        {_dateType[0].includes('single') ? '查询日期' : formatMessage({ id: 'app.timerange' })}:
+        {_dateType?.[0]?.includes('single') ? '查询日期' : formatMessage({ id: 'app.timerange' })}:
       </label>
-      {_dateType[0].includes('single') ? (
+      {_dateType?.[0]?.includes('single') ? (
         <DatePicker
           format={dateFormat}
           defaultValue={moment(strDate[0], dateFormat)}

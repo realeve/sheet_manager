@@ -441,8 +441,8 @@
             "type": "int",
             "required": true
           },
-          "max": -128,
-          "min": 127
+          "min": -128,
+          "max": 127
         },
         {
           "title": "b*",
@@ -452,8 +452,8 @@
             "type": "int",
             "required": true
           },
-          "max": -128,
-          "min": 127
+          "min": -128,
+          "max": 127
         },
         {
           "title": "检验结论",
