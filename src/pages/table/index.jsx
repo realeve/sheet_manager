@@ -94,8 +94,8 @@ function Tables({
       <QueryCondition onQuery={refreshData} />
       {dataSource.map((dataSrc, key) => {
         let subTitle = dataSrc.dates && dataSrc.dates.length > 0 && staticRanges(dataSrc.dates);
-        let param = axiosOptions[key].data || axiosOptions[key].params || {};
-        let blob = axiosOptions[key] && param.blob;
+        let param = axiosOptions[key]?.data || axiosOptions[key]?.params || {};
+        let blob = param.blob;
 
         if (!R.isNil(blob) && !param.theme) {
           return <ImageList data={dataSrc} blob={blob} key={key} subTitle={subTitle} />;
