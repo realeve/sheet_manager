@@ -1,4 +1,4 @@
-import { axios, mock } from '@/utils/axios';
+import { axios, mock, IAxiosState } from '@/utils/axios';
 import { DEV } from '@/utils/setting';
 import * as R from 'ramda';
 import moment from 'moment';
@@ -652,6 +652,18 @@ export const getVCbpcCfturnguard = cart =>
           cache,
         },
       });
+
+/**
+ *   @database: { MES系统_生产环境 }
+ *   @desc:     { 指定大万过数记录 }
+ */
+export const getShushujiCount: (cart: string) => Promise<IAxiosState> = cart =>
+  axios({
+    url: DEV ? '@/mock/1268_5839c5a70f.json' : '/1268/5839c5a70f.json',
+    params: {
+      cart,
+    },
+  });
 
 /**
  *   @database: { MES系统_生产环境 }

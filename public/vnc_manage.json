@@ -21,6 +21,10 @@
       {
         "machine": "MES 运维2",
         "token": "mes2"
+      },
+      {
+        "machine": "印钞机检风险管控平台",
+        "token": "fxgk"
       }
     ]
   }

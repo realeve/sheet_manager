@@ -8,6 +8,7 @@ import ProcAdjustList from './ProcAdjustList';
 import * as lib from '../../utils/lib';
 import * as R from 'ramda';
 import StorageLog from './StorageLog';
+import CountLog from './CountLog';
 import ReelInfo from './ReelInfo/index';
 
 const TabPane = Tabs.TabPane;
@@ -46,7 +47,10 @@ export default function SearchPage({ onRefresh, ...params }) {
             <TabPane tab="产品物流记录" key="2">
               <StorageLog cart={cart} />
             </TabPane>
-            <TabPane tab="成品装箱记录" key="3">
+            <TabPane tab="大张过数记录" key="3">
+              <CountLog cart={cart} />
+            </TabPane>
+            <TabPane tab="成品装箱记录" key="4">
               <ReelInfo cart={cart} />
             </TabPane>
           </Tabs>
