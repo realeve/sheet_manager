@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row, Card, Button } from 'antd';
+import { Col, Row, Card, Button, Tabs } from 'antd';
 import * as R from 'ramda';
 import useFetch from '@/components/hooks/useFetch';
 import { CHART_MODE } from '@/pages/chart/utils/lib';
@@ -10,6 +10,9 @@ import { cardStyle, chartHeight } from '../../components/Cards';
 import * as lib from '@/utils/lib';
 
 import Profit from './profit';
+import Ovmi from './ovmi';
+
+const { TabPane } = Tabs;
 
 const Plan = () => {
   /**
@@ -135,10 +138,17 @@ const Plan = () => {
 export default () => (
   <Row gutter={24} style={{ marginBottom: 24 }}>
     <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-      <Plan />
+      <Tabs defaultActiveKey="2" type="line">
+        <TabPane key="1" tab="预算执行">
+          <Plan />
+        </TabPane>
+        <TabPane key="2" tab="合并利润">
+          <Profit />
+        </TabPane>
+      </Tabs>
     </Col>
     <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-      <Profit />
+      <Ovmi />
     </Col>
   </Row>
 );

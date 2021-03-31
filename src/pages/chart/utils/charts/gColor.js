@@ -31,7 +31,8 @@ let gColor = {
 };
 
 let handleColor = option => {
-  let name = option?.series?.[0];
+  let name = option?.series?.[0]?.name;
+
   if (!name || !R.keys(gColor).includes(name)) {
     return option;
   }

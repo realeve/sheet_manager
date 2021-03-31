@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getDrivedState } from '@/pages/chart/services/chart';
 import Chart from '@/pages/chart/components/ChartComponent';
 import Err from '@/components/Err';
+
 export interface ChartProps {
   [key: string]: any;
   data: any;
@@ -20,6 +21,7 @@ export default function SimpleChart({ option, data, params, beforeRender, ...pro
     if (beforeRender) {
       nextOption = beforeRender(nextOption);
     }
+
     if (nextOption.legend) {
       nextOption.legend = {
         ...nextOption.legend,
