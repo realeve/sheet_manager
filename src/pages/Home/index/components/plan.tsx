@@ -138,6 +138,9 @@ const Plan = () => {
 export default () => (
   <Row gutter={24} style={{ marginBottom: 24 }}>
     <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+      <Ovmi />
+    </Col>
+    <Col xl={12} lg={24} md={24} sm={24} xs={24}>
       <Tabs defaultActiveKey="2" type="line">
         <TabPane key="1" tab="预算执行">
           <Plan />
@@ -146,9 +149,6 @@ export default () => (
           <Profit />
         </TabPane>
       </Tabs>
-    </Col>
-    <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-      <Ovmi />
     </Col>
   </Row>
 );

@@ -23,7 +23,7 @@ export default () => {
       {...cardStyle({
         title: (
           <div>
-            丝印油墨单位耗量(千克/万张)
+            丝印油墨单位耗量(千克/千尺)
             <Button
               type="default"
               size="small"
