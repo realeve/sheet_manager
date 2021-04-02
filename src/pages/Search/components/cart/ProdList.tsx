@@ -53,7 +53,7 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
         callback(res);
       })
       .catch(e => {
-        console.log(e)
+        console.log(e);
         setErr(e);
         setRes({ loading: false, rows: 0, data: [] });
       });
@@ -96,6 +96,7 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
 
   const [showPlate, setShowPlate] = useState(false);
   // let cartName: string = rows ? `(${prodDetail[0].CartNumber})` : '';
+
   return (
     <>
       <CartsByDate {...cartDetail} visible={visible} onToggle={onToggle} />
@@ -166,7 +167,7 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
                   },
                   idx
                 ) => (
-                  <li key={key_recid}>
+                  <li key={key_recid + ' ' + idx}>
                     <div style={{ width: '100%' }}>
                       <div className={styles.title}>
                         <div>

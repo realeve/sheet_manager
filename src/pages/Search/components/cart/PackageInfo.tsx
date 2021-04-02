@@ -30,6 +30,9 @@ export default function PackageInfo({ prod, code }) {
   let [cpkParam, setCpkParam] = useState({});
 
   useEffect(() => {
+    if (!boxInfo.data?.length) {
+      return;
+    }
     let codenum = R.pluck('col0')(boxInfo.data);
     if (codenum.length === 0 || R.isNil(codenum[0])) {
       return;
@@ -37,7 +40,7 @@ export default function PackageInfo({ prod, code }) {
     let code = codenum[0].match(/[A-Z](|\*+)[A-Z]/g).join('');
     codenum = R.map(item => item.match(/\d+/g).join(''))(codenum);
     setCpkParam({ prod, code, codenum });
-  }, [boxInfo.data[0]]);
+  }, [boxInfo?.data?.[0]]);
 
   // 成品库记录
   const { loading: loading5, ...cpkDetail } = useFetch({
