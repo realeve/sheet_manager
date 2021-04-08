@@ -38,7 +38,7 @@ export default function CartsByDate({
   const [dates, setDates] = useState([tstart, tstart]);
   const onDateChange = async e => {
     setDates(e);
-    updateMachine(e);
+    updateMachine([dayjs(e[0]).format('YYYYMMDD'), dayjs(e[1]).format('YYYYMMDD')]);
   };
 
   useEffect(() => {
