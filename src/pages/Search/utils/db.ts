@@ -260,7 +260,7 @@ export const getViewPrintHechaImageCheck = async cart => {
   let res = DEV
     ? await mock(require('@/mock/420_ce6e8bb0ec.json'))
     : await axios({
-        url: '/420/ce6e8bb0ec.json',
+        url: '/1295/af44a68634.json',
         params: {
           cart,
           cache,
