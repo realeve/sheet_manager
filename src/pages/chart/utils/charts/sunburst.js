@@ -23,7 +23,7 @@ let getColSum = (data, key) => {
   return R.sum(vals);
 };
 
-let handleSunBrustData = (data, header, colorful = true) => {
+let handleSunBrustData = (data, header, colorful = true, _sum = 0) => {
   // 剩余待处理的header
   let _header = R.tail(header);
 
@@ -38,12 +38,34 @@ let handleSunBrustData = (data, header, colorful = true) => {
     key,
     data,
   });
+
+  let curSum = getColSum(data, valKey);
+  let sum = _sum == 0 ? curSum : _sum;
+
   return itemList.map(name => {
     let _data = R.compose(R.map(R.pick(_header)), R.filter(R.propEq(key, name)))(data);
     let res = {
       name,
       value: getColSum(_data, valKey),
+      tooltip: {
+        formatter: e => {
+          if (!e.data) {
+            return;
+          }
+          let detail = e.data;
+          let str = `${detail.name}：${detail.value} (${detail.percent}%)`;
+          if (_sum > 0) {
+            str += `<br/>总占比：${detail.percentAll}%`;
+          }
+          return str;
+        },
+      },
     };
+
+    res.percent = Number(((100 * res.value) / curSum).toFixed(2));
+
+    res.percentAll = Number(((100 * res.value) / sum).toFixed(2));
+
     if (colorful) {
       res.itemStyle = {
         color: util.colors[Math.floor(Math.random() * util.colors.length)],
@@ -51,7 +73,7 @@ let handleSunBrustData = (data, header, colorful = true) => {
     }
 
     if (_header.length > 1) {
-      res.children = handleSunBrustData(_data, _header, colorful);
+      res.children = handleSunBrustData(_data, _header, colorful, sum);
     }
     return res;
   });

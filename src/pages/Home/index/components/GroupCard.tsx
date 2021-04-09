@@ -31,7 +31,15 @@ export let _beforeRender = e => {
   return e;
 };
 
-const TabChart = ({ data, tabs, tabKey, curtype, chartParam, chartHeight, beforeRender }) => {
+export const TabChart = ({
+  data,
+  tabs,
+  tabKey,
+  curtype,
+  chartParam,
+  chartHeight,
+  beforeRender,
+}) => {
   const [curprod, setCurprod] = useState(null);
 
   useEffect(() => {
@@ -66,7 +74,7 @@ const TabChart = ({ data, tabs, tabKey, curtype, chartParam, chartHeight, before
               style={{ height: chartHeight - 70, width: '100%' }}
               beforeRender={e => {
                 let res = _beforeRender(e);
-                return beforeRender ? beforeRender(res, prod,curtype) : res;
+                return beforeRender ? beforeRender(res, prod, curtype) : res;
               }}
             />
           </Tabs.TabPane>
@@ -115,6 +123,7 @@ export default ({
   },
   callback,
   beforeRender,
+  onTypeChange,
 }: IGroupCard) => {
   const [type, setType] = useState([]);
   const [curtype, setCurtype] = useState('');
@@ -154,6 +163,7 @@ export default ({
       });
       setProds(type);
     }
+    onTypeChange?.(curtype);
   }, [curtype]);
 
   return (
