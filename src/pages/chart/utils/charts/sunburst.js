@@ -53,9 +53,12 @@ let handleSunBrustData = (data, header, colorful = true, _sum = 0) => {
             return;
           }
           let detail = e.data;
-          let str = `${detail.name}：${detail.value} (${detail.percent}%)`;
+          let dataIndex = e.dataIndex;
+          let treePathInfo = e.treePathInfo;
+          let curName = dataIndex > 1 ? treePathInfo[dataIndex - 1].name : '当前';
+          let str = `${detail.name}：${detail.value}<br/>${curName}占比：${detail.percent}%<br/>${curName}总量：${curSum}`;
           if (_sum > 0) {
-            str += `<br/>总占比：${detail.percentAll}%`;
+            str += `<br/>总占比：${detail.percentAll}%<br/>总量：${sum}`;
           }
           return str;
         },
