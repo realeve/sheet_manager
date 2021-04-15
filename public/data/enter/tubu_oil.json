@@ -1,0 +1,224 @@
+{
+  "name": "印钞辅料进厂检测/纸张涂布光油",
+  "api": {
+    "insert": {
+      "url": "1303/49v58h00g",
+      "param": ["rec_time", "uid"]
+    },
+    "delete": {
+      "url": "1304/49v58h00g",
+      "param": ["prod_size", "place", "sample_date", "batch_no"]
+    },
+    "update": {
+      "url": "1305/49v58h00g",
+      "param": ["prod_size", "place", "sample_date", "batch_no"]
+    },
+    "query": {
+      "url": "1306/49v58h00g",
+      "param": ["prod_size", "place", "sample_date", "batch_no"]
+    },
+    "table": {
+      "url": "1307/49v58h00g"
+    },
+    "load": {
+      "url": "1308/49v58h00g",
+      "param": ["_id"]
+    }
+  },
+  "table": "enter_check_tubu_oil",
+  "detail": [
+    {
+      "title": "基础数据",
+      "detail": [
+        {
+          "title": "产品名称",
+          "key": "prod_name",
+          "value": "纸张涂布光油",
+          "rule": {
+            "required": true,
+            "msg": "请输入产品名称"
+          },
+          "type": "radio.button",
+          "defaultOption": ["纸张涂布光油", "塑料涂布光油"],
+          "unReset": true
+        },
+        {
+          "title": "来料日期",
+          "type": "datepicker",
+          "key": "sample_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "titlewidth": 260,
+          "unReset": true
+        },
+        {
+          "title": "生产厂家",
+          "type": "input",
+          "key": "place",
+          "rule": {
+            "required": true,
+            "msg": "请输入生产厂家"
+          },
+          "titlewidth": 260,
+          "placeholder": "请输入生产厂家",
+          "defaultValue": "中钞油墨",
+          "unReset": true
+        },
+        {
+          "title": "批次",
+          "type": "input",
+          "key": "batch_no",
+          "rule": {
+            "required": true,
+            "msg": "请输入批号"
+          },
+          "placeholder": "请输入批号",
+          "toupper": "true"
+        },
+        {
+          "title": "数量",
+          "type": "input",
+          "key": "prod_num",
+          "rule": {
+            "type": "float",
+            "required": true,
+            "msg": "请输入数量"
+          },
+          "suffix": "kg"
+        },
+        {
+          "title": "报告日期",
+          "type": "datepicker",
+          "key": "report_date",
+          "datetype": "YYYY-MM-DD",
+          "rule": {
+            "required": true
+          },
+          "unReset": true
+        }
+      ]
+    },
+    {
+      "title": "检测详情",
+      "detail": [
+        {
+          "title": "颜色-日光",
+          "type": "input",
+          "defaultValue": "近似—微",
+          "key": "color_sun",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "颜色-紫外光",
+          "type": "input",
+          "defaultValue": "无荧光",
+          "key": "color_ultraviolet",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "粘度",
+          "type": "input",
+          "key": "viscosity",
+          "suffix": "mPa﹒S/25℃",
+          "span": 8,
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 200,
+            "max": 500
+          }
+        },
+        {
+          "title": "光泽度",
+          "type": "input",
+          "key": "glossiness",
+          "span": 8,
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "scope": {
+            "min": 10,
+            "max": 23
+          }
+        },
+        {
+          "title": "固化性能-触指测试",
+          "type": "input",
+          "defaultValue": "固化",
+          "key": "solidify_touch",
+          "span": 8,
+          "titlewidth": 320,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "固化性能-胶带测试",
+          "type": "input",
+          "defaultValue": "固化",
+          "key": "solidify_tape",
+          "span": 8,
+          "titlewidth": 320,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "固化性能-荧光笔测试",
+          "type": "input",
+          "defaultValue": "固化",
+          "key": "solidify_nite_writer_pen",
+          "span": 8,
+          "titlewidth": 320,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "检验员",
+          "key": "operator",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true,
+          "type": "select",
+          "url": "./data/base/paper_material_check_user.json"
+        },
+        {
+          "title": "检验结论",
+          "type": "switch",
+          "key": "result",
+          "checkedChildren": "合格",
+          "unCheckedChildren": "不合格",
+          "placeholder": "请在此填入检验结论",
+          "span": 8,
+          "rule": {
+            "required": true
+          }
+        },
+        {
+          "title": "备注",
+          "type": "input.textarea",
+          "key": "remark",
+          "placeholder": "请在此填入备注信息",
+          "span": 8,
+          "rule": {
+            "required": false
+          }
+        }
+      ]
+    }
+  ]
+}

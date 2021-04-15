@@ -43,7 +43,6 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
     if (type !== 'cart') {
       return;
     }
-
     db.getVCbpcCartlist(cart)
       .then(res => {
         if (beforeRender) {
@@ -65,6 +64,7 @@ export default function ProdList({ onRefresh, beforeRender, ...params }: CartCon
     }
 
     let gzRes = lib.handleGZInfo({ code: params.cart, prod: params.prod });
+
     if (typeof gzRes === 'boolean') {
       return;
     }

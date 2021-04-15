@@ -166,7 +166,7 @@ interface GZInfo {
 //   (param: GZSetting): GZInfo | boolean;
 // }
 export const handleGZInfo: (param: GZSetting) => GZInfo | boolean = ({ code, prod }) => {
-  if (code.length !== 6) {
+  if (code.length !== 6 && prod != 'NRB10') {
     return false;
   }
   code = code.toUpperCase();
@@ -191,6 +191,10 @@ export const handleGZInfo: (param: GZSetting) => GZInfo | boolean = ({ code, pro
   let start2: string = String(start + 1),
     end2: string = end;
 
+  if (prod == 'NRB10') {
+    alphaInfo[1] = '';
+  }
+
   let alpha: string = alphaInfo[0] + starInfo + alphaInfo[1];
   let alpha2: string = alpha;
 
@@ -201,6 +205,7 @@ export const handleGZInfo: (param: GZSetting) => GZInfo | boolean = ({ code, pro
     end2 = numInfo;
     // 字母进位
     let [a1, a2] = alphaInfo;
+
     if (a2 === 'A') {
       a1 = getLastAlpha(a1);
       a2 = getLastAlpha(a2);
@@ -226,7 +231,7 @@ export const handleGZInfo: (param: GZSetting) => GZInfo | boolean = ({ code, pro
 };
 
 //尼泊尔品种
-export const isNRB = (str: any) => /^[A-Z](|[1-9]|[1-9]\d|100)$/.test(String(str));
+export const isNRB = (str: any) => /^[A-Z]([1-9][1-9](\d|\d\d)|100)$/.test(String(str));
 
 // 冠字
 export let isGZ: CartReelReg = value =>

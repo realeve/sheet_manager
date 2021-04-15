@@ -340,6 +340,16 @@
           }
         },
         {
+          "title": "粘度",
+          "type": "input",
+          "key": "viscosity",
+          "block": "(单位：ml/g)",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
           "title": "尘埃度",
           "type": "input",
           "key": "dirt_count",
