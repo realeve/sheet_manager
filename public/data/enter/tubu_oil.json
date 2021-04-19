@@ -33,7 +33,7 @@
         {
           "title": "产品名称",
           "key": "prod_name",
-          "value": "纸张涂布光油",
+          "defaultValue": "纸张涂布光油",
           "rule": {
             "required": true,
             "msg": "请输入产品名称"
@@ -89,7 +89,25 @@
           "suffix": "kg"
         },
         {
-          "title": "报告日期",
+          "title": "报检人",
+          "type": "select",
+          "key": "check_user",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "unReset": true,
+          "defaultOption": [
+            { "name": "李群英", "value": "李群英" },
+            { "name": "刘哲萍", "value": "刘哲萍" },
+            { "name": "胡艳", "value": "胡艳" },
+            { "name": "黄妮茵", "value": "黄妮茵" },
+            { "name": "李菲菲", "value": "李菲菲" },
+            { "name": "何秋菡", "value": "何秋菡" }
+          ]
+        },
+        {
+          "title": "录入日期",
           "type": "datepicker",
           "key": "report_date",
           "datetype": "YYYY-MM-DD",
