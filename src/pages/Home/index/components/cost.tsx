@@ -16,7 +16,7 @@ const handleData = (data, key) => {
   return res;
 };
 
-let procs = ['印钞','钞纸']
+let procs = ['印钞', '钞纸'];
 
 export default ({ proc_name = 0 }) => {
   /**
@@ -86,7 +86,8 @@ export default ({ proc_name = 0 }) => {
       markline: 0,
       marktext: '行业平均',
     },
-    beforeRender: (e, a, curtype) => {
+    beforeRender: (_e, a, curtype) => {
+      let e = R.clone(_e);
       let series = R.clone(e.series[0]);
       if (e.xAxis.data.length === 1) {
         return e;
@@ -128,8 +129,9 @@ export default ({ proc_name = 0 }) => {
         series.markLine = prevMarkLine;
       }
 
-      series.data = R.init(series.data);
-      e.xAxis.data = R.init(e.xAxis.data);
+      // ?为何删除最后一项
+      // series.data = R.init(series.data);
+      // e.xAxis.data = R.init(e.xAxis.data);
 
       e.series = [series];
       e.legend.show = false;

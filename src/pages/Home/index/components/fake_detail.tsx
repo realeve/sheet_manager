@@ -61,7 +61,6 @@ export default ({ data, prod, error, loading }) => {
           //   simple: CHART_MODE.HIDE_ALL,
         }}
         beforeRender={e => {
-          console.log(e);
           return e;
         }}
         style={{ height: chartHeight - 15, width: '100%' }}

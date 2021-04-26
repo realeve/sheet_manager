@@ -153,7 +153,6 @@ export default ({
     let key = data.header[radioIdx];
     let dist = filterData(data, curtype, key);
     setCurdata(dist);
-
     if (typeof tabIdx != 'undefined') {
       let tabKey = data.header[tabIdx];
 

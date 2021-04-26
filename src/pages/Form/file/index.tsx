@@ -192,15 +192,22 @@ const Index = ({ location }) => {
                 let workbook = XLSX.read(buffer, { type: 'array' });
                 let res = [];
 
-                workbook.SheetNames.forEach(sheetName => {
-                  let roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
-                  if (roa.length) {
-                    res.push({
-                      title: sheetName,
-                      data: roa,
-                    });
+                // 只显示其中不隐藏的表格
+                workbook.Workbook.Sheets.filter(item => item.Hidden === 0).forEach(
+                  ({ name: sheetName }) => {
+                    let roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+                    if (roa.length) {
+                      res.push({
+                        title: sheetName,
+                        data: roa,
+                      });
+                    }
                   }
-                });
+                );
+                // 显示全部表格
+                // workbook.SheetNames.forEach(sheetName => {
+
+                // });
                 handleResult(res);
                 setLoading(false);
               })
