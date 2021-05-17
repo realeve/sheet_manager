@@ -33,8 +33,8 @@
           "key": "prod_name",
           "defaultOption": [
             {
-              "name": "7T裁封线分百条",
-              "value": "7T裁封线分百条",
+              "name": "2T裁封线分百条",
+              "value": "2T裁封线分百条",
               "scope": [
                 {
                   "key": "weight",
@@ -47,8 +47,68 @@
                 },
                 {
                   "key": "band_length",
-                  "min": 194.5,
-                  "max": 195.5
+                  "min": 165,
+                  "max": 166
+                }
+              ]
+            },
+            {
+              "name": "3T裁封线分百条",
+              "value": "3T裁封线分百条",
+              "scope": [
+                {
+                  "key": "weight",
+                  "min": 76,
+                  "max": 84
+                },
+                {
+                  "key": "paste_width",
+                  "min": 5
+                },
+                {
+                  "key": "band_length",
+                  "min": 165,
+                  "max": 166
+                }
+              ]
+            },
+            {
+              "name": "4T裁封线分百条",
+              "value": "4T裁封线分百条",
+              "scope": [
+                {
+                  "key": "weight",
+                  "min": 76,
+                  "max": 84
+                },
+                {
+                  "key": "paste_width",
+                  "min": 5
+                },
+                {
+                  "key": "band_length",
+                  "min": 179.5,
+                  "max": 180.5
+                }
+              ]
+            },
+            {
+              "name": "5T裁封线分百条",
+              "value": "5T裁封线分百条",
+              "scope": [
+                {
+                  "key": "weight",
+                  "min": 76,
+                  "max": 84
+                },
+                {
+                  "key": "paste_width",
+                  "min": 5
+                },
+                {
+                  "key": "band_length",
+                  "min": 179.5,
+                  "max": 180.5
                 }
               ]
             },
@@ -69,6 +129,26 @@
                   "key": "band_length",
                   "min": 182.5,
                   "max": 183.5
+                }
+              ]
+            },
+            {
+              "name": "7T裁封线分百条",
+              "value": "7T裁封线分百条",
+              "scope": [
+                {
+                  "key": "weight",
+                  "min": 76,
+                  "max": 84
+                },
+                {
+                  "key": "paste_width",
+                  "min": 5
+                },
+                {
+                  "key": "band_length",
+                  "min": 194.5,
+                  "max": 195.5
                 }
               ]
             },
