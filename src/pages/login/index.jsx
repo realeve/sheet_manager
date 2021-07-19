@@ -110,9 +110,9 @@ class LoginComponent extends Component {
       userTool.saveLoginStatus(1);
 
       // const query = this.props.location.query;
-      let nextUrl = window.location.href.split('?redirect=')[1] || userTool.readLastRouter();
-      window.location.href = nextUrl;
-      // router.push(nextUrl);
+      // let nextUrl = window.location.href.split('?redirect=')[1] || userTool.readLastRouter();
+      // window.location.href = nextUrl;
+      router.push('/');
       return;
     } else if (userInfo.rows == 0) {
       message.error('账号或密码错误！');

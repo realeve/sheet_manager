@@ -143,8 +143,8 @@ const Index = ({ location }) => {
       item.data = item.data.map(row =>
         row.map(td => {
           // 只处理浮点数
-          if (lib.isFloat(td)) {
-            return td.toFixed(option.decimal);
+          if (lib.isFloat(td)) { 
+            return Number(td).toFixed(option.decimal);
           }
           // 移除换行符
           return String(td).replace(/\r|\n/g, '');
