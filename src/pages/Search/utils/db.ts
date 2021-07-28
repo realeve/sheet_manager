@@ -486,15 +486,29 @@ export const getQfmWipJobsSilk = cart =>
  *   @database: { 质量信息系统 }
  *   @desc:     { 工艺调整记录 }
  */
-export const getProcAdjustLog = cart =>
-  DEV
-    ? mock(require('@/mock/433_6c3298675c.json'))
-    : axios({
+export const getProcAdjustLog = async cart => {
+  let list1 = DEV
+    ? await mock(require('@/mock/433_6c3298675c.json'))
+    : await axios({
         url: '/433/6c3298675c.json',
         params: {
           cart,
         },
       });
+  // MES系统 工艺调整
+  let list2 = await axios({
+    url: '/1366/9de6c64672.json',
+    params: {
+      cart,
+    },
+  });
+  if (list1.rows == 0) {
+    return list2;
+  }
+  list1.data = [...list1.data, ...list2.data];
+  list1.rows = list1.data.length;
+  return list1;
+};
 
 /**
  *   @database: { 全幅面 }

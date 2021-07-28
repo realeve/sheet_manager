@@ -6,7 +6,7 @@ import SimpleTable from '../SimpleTable';
 import Err from '@/components/Err';
 
 export default function ProcAdjustList({ cart }) {
-  const res = useFetch({ params: cart, api: 'getProcAdjustLog', init: [cart] });
+  const res = useFetch({ params: cart, api: 'getProcAdjustLog', init: [cart] }); 
   return (
     <Card
       title={`工艺调整记录`}
