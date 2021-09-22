@@ -132,6 +132,14 @@
       {
         "machine": "线凹-6#",
         "token": "chaoao6"
+      },
+      {
+        "machine": "SD-1#",
+        "token": "sd1"
+      },
+      {
+        "machine": "SD-2#",
+        "token": "sd2"
       }
     ]
   },
