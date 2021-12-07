@@ -27,3 +27,4 @@ public/mock/*.json
 public/doc/office_tool.zip
 
 /doc
+/public/vnc_lite.json
