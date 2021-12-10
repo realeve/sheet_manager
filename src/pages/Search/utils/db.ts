@@ -190,6 +190,65 @@ export const getViewScoreOffset = async cart => {
   return res;
 };
 
+export const getIntaglioMain = async cart => {
+  let res = DEV
+    ? await mock(require('@/mock/414_ff15f9dad5.json'))
+    : await axios({
+        url: '/1417/5b181f76a4.json',
+        params: {
+          cart,
+          cache,
+        },
+      });
+  return res;
+};
+
+/**
+ *   @database: { 凹印在线检测 }
+ *   @desc:     { 凹印在线检测缺陷图像查询 }
+ */
+export const getViewErrorImage = async cart => {
+  let res = DEV
+    ? await mock(require('@/mock/414_ff15f9dad5.json'))
+    : await axios({
+        url: '/1418/33f0a44268.json',
+        params: {
+          cart,
+          blob: 'img',
+          blob_type: 'jpg',
+          cache,
+        },
+      });
+  let result = R.groupBy(item => item['缺陷描述'], res.data);
+  return Object.entries(result).map(([title, data]) => ({
+    title,
+    data: data.map(item => {
+      if (item.roi) {
+        let { x1, x2, y1, y2 } = JSON.parse(item.roi);
+        let scale = 256 / 180;
+        let width = scale * Math.abs(x2 - x1) + 20,
+          height = scale * Math.abs(y2 - y1) + 20;
+        let left = scale * x1 - 10,
+          top = scale * y1 - 10;
+        item.roi = { width, height, left, top };
+      }
+      return item;
+    }),
+  }));
+};
+
+/**
+ *   @database: { 凹印在线检测 }
+ *   @desc:     { 印刷曲线图 }
+ */
+export const getViewPrintDetail: (cart: string) => Promise<IAxiosState> = cart =>
+  axios({
+    url: DEV ? '@/mock/1419_637e72b4be.json' : '/1419/637e72b4be.json',
+    params: {
+      cart,
+    },
+  });
+
 /**
 *   @database: { MES_MAIN }
 *   @desc:     { 当天生产车号信息追溯 } 

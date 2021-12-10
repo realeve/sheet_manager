@@ -10,6 +10,8 @@ import LogInfo from './components/cart/LogInfo';
 import * as R from 'ramda';
 import styles from './CartDetail.less';
 import ProdSelect from './components/ProdSelect';
+import IntaglioCheck from './components/cart/IntaglioCheck';
+
 // import CodeInfo from './components/cart/MahouInfo';
 
 function CartDetail({ dispatch, ...params }) {
@@ -38,6 +40,7 @@ function CartDetail({ dispatch, ...params }) {
         {type == 'cart' && (
           <>
             <OfflineCheck cart={cart} />
+            <IntaglioCheck cart={cart}/>
             <OnlineCount cart={cart} />
             <HechaInfo cart={cart} />
             <LogInfo cart={cart} />

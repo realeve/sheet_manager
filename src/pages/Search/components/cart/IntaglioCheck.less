@@ -1,0 +1,67 @@
+@import './prodList.less';
+
+.intaglioImg {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  height: 600px;
+  overflow-y: scroll;
+  li {
+    width: 246px;
+    margin: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+
+    .wrap {
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+      top: 0;
+      transition: transform 0.3s;
+      width: 256px;
+      height: 171px;
+      img {
+        display: block;
+        border: 0;
+        width: 100%;
+        transition: transform 0.3s;
+        position: absolute;
+        z-index: 0;
+      }
+      .border {
+        transition: transform 0.3s;
+        z-index: 1;
+        position: absolute;
+        border: 1px solid #ff121e;
+      }
+    }
+
+    @title-height: 60px;
+
+    &:hover {
+      img {
+        transform: translateY(-20px);
+      }
+
+      .desc {
+        transform: translateY(-@title-height);
+      }
+    }
+
+    .desc {
+      width: 100%;
+      position: absolute;
+      z-index: 2;
+      transform: translateY(0px);
+      transition: transform 0.3s;
+      height: @title-height;
+      color: #fff;
+      text-align: left;
+      line-height: 18px;
+      background: #282727;
+      padding: 0 5px;
+    }
+  }
+}
