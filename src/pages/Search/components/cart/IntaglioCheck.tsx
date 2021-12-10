@@ -98,7 +98,7 @@ export default function IntagCheck({ cart }) {
       <Card
         hoverable
         style={{ marginBottom: 10 }}
-        className={styles.cart}
+        className={styles.intaglio}
       >
         <Modal
           title={`${cart}凹印在线检测缺陷详情`}
