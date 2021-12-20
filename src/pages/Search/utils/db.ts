@@ -326,7 +326,7 @@ export const getViewPrintHechaImageCheck = async cart => {
         },
       });
   let src = R.clone(res);
-  src.header = res.header.slice(4);
+  src.header = res.header.slice(3);
   return src;
 };
 
