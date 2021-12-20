@@ -30,17 +30,21 @@ export default function PackageInfo({ prod, code }) {
   let [cpkParam, setCpkParam] = useState({});
 
   useEffect(() => {
-    if (!boxInfo.data?.length) {
+    if (boxInfo.rows == 0) {
       return;
     }
-    let codenum = R.pluck('col0')(boxInfo.data);
+    let codenum = R.pluck('0')(boxInfo.data);
+    console.log(boxInfo.data, codenum)
     if (codenum.length === 0 || R.isNil(codenum[0])) {
       return;
     }
     let code = codenum[0].match(/[A-Z](|\*+)[A-Z]/g).join('');
     codenum = R.map(item => item.match(/\d+/g).join(''))(codenum);
+    codenum = R.uniq(codenum)
     setCpkParam({ prod, code, codenum });
-  }, [boxInfo?.data?.[0]]);
+  }, [boxInfo?.hash]);
+
+  console.log(boxInfo, cpkParam)
 
   // 成品库记录
   const { loading: loading5, ...cpkDetail } = useFetch({
@@ -56,11 +60,11 @@ export default function PackageInfo({ prod, code }) {
     getType(option) === 'object'
       ? option
       : option.map(item => {
-          Reflect.deleteProperty(item, 'sorter');
-          Reflect.deleteProperty(item, 'filters');
-          Reflect.deleteProperty(item, 'filteredValue');
-          return item;
-        });
+        Reflect.deleteProperty(item, 'sorter');
+        Reflect.deleteProperty(item, 'filters');
+        Reflect.deleteProperty(item, 'filteredValue');
+        return item;
+      });
 
   return (
     <Col span={24}>

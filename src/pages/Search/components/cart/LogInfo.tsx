@@ -5,7 +5,7 @@ let config = [
   {
     api: 'getNoteaysdata',
     title: '印钞特抽信息',
-    isAntd: false,
+    // isAntd: false,
   },
   {
     api: 'getQfmWipJobsMahouSrc',
