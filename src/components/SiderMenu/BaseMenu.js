@@ -104,8 +104,8 @@ class BaseMenu extends PureComponent {
         onClick={
           isMobile
             ? () => {
-                onCollapse(true);
-              }
+              onCollapse(true);
+            }
             : undefined
         }
       >
@@ -166,7 +166,7 @@ class BaseMenu extends PureComponent {
       key: 'Menu',
       className: mode === 'horizontal' ? 'top-nav-menu' : '',
     };
-    // console.log('themeBaseMenu', this.props.theme);  
+
     return (
       <Menu
         onOpenChange={handleOpenChange}

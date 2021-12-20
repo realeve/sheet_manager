@@ -22,7 +22,7 @@ const R = require('ramda');
  * @memberof SiderMenu
  */
 const getDefaultCollapsedSubMenus = ({ breadcrumbList, menuData }) => {
- 
+
   let selectedKeys = getCurKey(breadcrumbList || []);
   return {
     selectedKeys: [selectedKeys],
@@ -141,7 +141,8 @@ export default class SiderMenu extends PureComponent {
     const { logo, collapsed, setting } = this.props;
     const { selectedKeys, openKeys, searchValue } = this.state;
     const defaultProps = { selectedKeys, openKeys }; //collapsed ? {} : { selectedKeys, openKeys };
-    let { navTheme: theme, fixSiderbar } = setting;
+    let { navTheme: theme = 'dark', fixSiderbar } = setting;
+
 
     const siderClassName = cx('sider', {
       fixSiderbar: fixSiderbar,
@@ -149,6 +150,8 @@ export default class SiderMenu extends PureComponent {
     });
 
     const { menuData, ...baseMenuDefaultProps } = this.props;
+
+
     return (
       <Sider
         trigger={null}

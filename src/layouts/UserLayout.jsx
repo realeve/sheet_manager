@@ -28,8 +28,8 @@ export default class UserLayout extends PureComponent {
                 top: 0,
                 width: '100%',
                 height: '100%',
-                background: `url(${avatar}) no-repeat`,
-                backgroundSize: 'cover',
+                background: `url(${avatar}) cover no-repeat`,
+                // backgroundSize: 'cover',
                 filter: 'blur(35px)',
               }}
             ></div>

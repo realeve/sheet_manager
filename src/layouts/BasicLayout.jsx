@@ -46,9 +46,9 @@ const getBreadcrumbList = menuData => {
   // if (search.length) {
   //   curMenu = curMenu.replace(search, '');
   // }
-  
+
   // console.log(curMenu,menuData);
-  
+
   return menuUtil.getBreadcrumbList(decodeURI(curMenu), menuData);
 };
 
@@ -250,7 +250,7 @@ class BasicLayout extends PureComponent {
     // console.log(menuData,hidemenu,isTop,isMobile)
     const layout = (
       <Layout>
-        {hidemenu || (isTop && !isMobile) ? null : (
+        {hidemenu || !isLogin || (isTop && !isMobile) ? null : (
           <SiderMenu
             logo={logo}
             onCollapse={this.handleMenuCollapse}

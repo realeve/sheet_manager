@@ -5,7 +5,7 @@ import qs from 'qs';
 import * as R from 'ramda';
 import { handleOptions } from '@/components/FormCreater/lib';
 import { validIP } from '@/utils/setting';
-import { router } from 'umi/router';
+import router from 'umi/router';
 // 获取ip
 const getIp = () =>
   axios({

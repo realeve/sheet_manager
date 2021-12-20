@@ -196,24 +196,24 @@ const getThemeList = () => {
     color: string;
     theme: 'dark' | 'light';
   }[] = [
-    {
-      key: 'daybreak',
-      color: '#1da57a',
-      theme: 'dark',
-    },
-  ];
+      {
+        key: 'daybreak',
+        color: '#1da57a',
+        theme: 'dark',
+      },
+    ];
 
   const lightColorList: {
     key: string;
     color: string;
     theme: 'dark' | 'light';
   }[] = [
-    {
-      key: 'daybreak',
-      color: '#1da57a',
-      theme: 'dark',
-    },
-  ];
+      {
+        key: 'daybreak',
+        color: '#1da57a',
+        theme: 'dark',
+      },
+    ];
 
   if (list.find(item => item.theme === 'dark')) {
     themeList.push({
@@ -448,6 +448,11 @@ const SettingDrawer: React.FC<SettingDrawerProps> = props => {
       search: stringify(diffParams),
     });
   }, [JSON.stringify(settingState)]);
+
+  useEffect(() => {
+    console.log(navTheme)
+    changeSetting('navTheme', navTheme, hideLoading);
+  }, [])
 
   return (
     <Drawer
