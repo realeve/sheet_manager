@@ -8,7 +8,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 const TabPane = Tabs.TabPane;
 
-let fetchData = ({ api, params }) =>
+export let fetchData = ({ api, params }) =>
   db[api](params)
     .then(res => ({ ...res, loading: false, err: false }))
     .catch(err => ({ err, loading: false, rows: 0 }));
@@ -18,7 +18,7 @@ const defaultTableSetting = {
   pagesize: 10,
 };
 
-export default function LogInfo({ cart, config, simpleIdx = [], ...props }) {
+export default function LogInfo({ cart, config, simpleIdx = [], children = null, defaultActiveKey = '0', ...props }) {
   let [activeKey, setActiveKey]: [string, (str: string) => void] = useState('0');
   let [needRefresh, setNeedRefresh] = useState(new Array(config.length).fill(false));
   let [state, setState] = useState(new Array(config.length).fill({ loading: true }));
@@ -61,7 +61,8 @@ export default function LogInfo({ cart, config, simpleIdx = [], ...props }) {
         }}
         style={{ marginBottom: 10 }}
       >
-        <Tabs defaultActiveKey="0" onChange={setActiveKey} animated={false}>
+        <Tabs defaultActiveKey={defaultActiveKey} onChange={setActiveKey} animated={false}>
+          {children}
           {state.map((res, key) => (
             <TabPane tab={config[key].title} key={String(key)}>
               {simpleIdx.includes(key) ? (

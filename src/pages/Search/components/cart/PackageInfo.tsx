@@ -34,7 +34,7 @@ export default function PackageInfo({ prod, code }) {
       return;
     }
     let codenum = R.pluck('0')(boxInfo.data);
-    console.log(boxInfo.data, codenum)
+    // console.log(boxInfo.data, codenum)
     if (codenum.length === 0 || R.isNil(codenum[0])) {
       return;
     }
@@ -44,7 +44,7 @@ export default function PackageInfo({ prod, code }) {
     setCpkParam({ prod, code, codenum });
   }, [boxInfo?.hash]);
 
-  console.log(boxInfo, cpkParam)
+  // console.log(boxInfo, cpkParam)
 
   // 成品库记录
   const { loading: loading5, ...cpkDetail } = useFetch({

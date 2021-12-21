@@ -485,6 +485,16 @@ export const getOcrContrastResult = cart =>
       });
 
 /**
+ *   @database: { 在线清数 }
+ *   @desc:     { 指定工序识码结果 }
+ */
+export const getQmRectifySlave = (params: { year: string; rectifym_id: string }) =>
+  axios({
+    url: DEV ? '@/mock/1422_cccb1ea479.json' : '/1422/cccb1ea479.json',
+    params,
+  });
+
+/**
  *   @database: { 号码三合一 }
  *   @desc:     { 号码三合一原始数据 }
  */

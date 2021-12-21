@@ -9,7 +9,7 @@ import * as setting from '@/utils/setting';
 
 const searchUrl = setting.searchUrl;
 
-const getTd = tdValue => {
+const getTableCell = (tdValue, i: number, tr: any[]) => {
   const isCart: boolean = lib.isCart(tdValue);
 
   if (lib.isReel(tdValue) || isCart) {
@@ -30,11 +30,12 @@ const getTd = tdValue => {
 
 export default function SimpleTable({
   data,
-  loading,
+  loading, getTd,
   ...props
 }: {
   data: any;
   loading?: boolean;
+  getTd?: (item: any, i: number, tr: any[]) => React.ReactNode,
   [key: string]: any;
 }) {
   if (loading || R.isNil(data) || R.isNil(data.data)) {
@@ -64,8 +65,8 @@ export default function SimpleTable({
       <tbody>
         {dataSrc.map((tr, idx) => (
           <tr key={idx}>
-            {tr.map((td, idx) => (
-              <td key={idx}>{getTd(td)}</td>
+            {tr.map((td, idx, tr) => (
+              <td key={idx}>{(getTd || getTableCell)(td, idx, tr)}</td>
             ))}
           </tr>
         ))}

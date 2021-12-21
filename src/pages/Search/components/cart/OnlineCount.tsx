@@ -1,13 +1,17 @@
 import React from 'react';
 import TabTable from '../TabTable';
+import { Tabs } from 'antd'
+import OnlineCounter from './OnlineCounter'
+const TabPane = Tabs.TabPane
+
 const baseConfig = [
+  // {
+  //   api: 'getQmRectifyMaster',
+  //   title: '在线清数情况',
+  // },
   {
     api: 'getViewPrintHechaImageCheck',
     title: '图像核查人工判废',
-  },
-  {
-    api: 'getQmRectifyMaster',
-    title: '在线清数情况',
   },
   {
     api: 'getUdtPsExchange',
@@ -44,6 +48,8 @@ export default function OnlineCount({ cart }) {
       cart={cart}
       config={cart.slice(2, 4) == '75' ? config : commonConfig}
       simpleIdx={[0, 1, 2]}
-    />
+      defaultActiveKey="-1"
+    ><TabPane tab="在线清数情况" key="-1">
+        <OnlineCounter cart={cart} /> </TabPane></TabTable>
   );
 }
