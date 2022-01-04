@@ -118,6 +118,7 @@ export default () => {
           }}
           style={{ height: chartHeight + 62 - 15, width: '100%' }}
           beforeRender={e => {
+
             let series = R.head(e.series);
             if (!series) {
               return e;
@@ -157,20 +158,20 @@ export default () => {
                       (percent >= plan.时间进度
                         ? ''
                         : `比时间进度延误：${plan.时间进度 - percent}%,约${Number(needPrint) -
-                            res.累计产量}万`),
+                        res.累计产量}万`),
                   },
                 ],
                 '大万'
               );
             };
 
-            if ('undefined' !== typeof plan.计划量 && 'undefined' !== plan.铺底量) {
+            if (null != plan.计划量 && 'undefined' !== typeof plan.计划量 && 'undefined' !== plan.铺底量) {
               series.markLine = {
                 data: [
                   {
                     xAxis: plan.计划量,
                     label: {
-                      formatter(a) {
+                      formatter() {
                         return (
                           '年度计划\n' +
                           plan.计划量 +
@@ -182,7 +183,7 @@ export default () => {
                     lineStyle: { normal: { type: 'dashed', color: '#e23' } },
                   },
                   {
-                    xAxis: ((plan.计划量 - plan.铺底量) * plan.时间进度) / 100,
+                    xAxis: ((plan.计划量 - plan.铺底量 || 0) * plan.时间进度) / 100,
                     label: {
                       formatter(a) {
                         return '全年时间进度\n' + plan.时间进度 + '%\n应完工量:' + needPrint + '万';
