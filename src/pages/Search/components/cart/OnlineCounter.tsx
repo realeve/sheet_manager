@@ -46,7 +46,7 @@ export default function OnlineCounter({ cart }) {
             footer={null}
             onCancel={() => setShow(false)}
             onOk={() => setShow(false)}
-            width={800}
+            width={1000}
             bodyStyle={{ padding: '12px 5px' }}
         >
             {rectify && <VTable

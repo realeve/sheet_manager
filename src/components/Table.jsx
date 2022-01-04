@@ -454,6 +454,7 @@ class Tables extends Component {
           className="ant-table-pagination"
           showTotal={(total, range) => (total ? `${range[0]}-${range[1]} 共 ${total} 条数据` : '')}
           showSizeChanger
+          showQuickJumper
           onShowSizeChange={this.onShowSizeChange}
           total={total}
           current={page}
