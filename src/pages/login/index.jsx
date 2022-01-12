@@ -290,7 +290,7 @@ class LoginComponent extends Component {
               <Submit loading={submitting}>
                 <FormattedMessage id="app.login.login" />
               </Submit>
-              <Link style={{ float: 'right', marginBottom: 12 }} to={`/login/register${search}`}>
+              <Link style={{ zIndex: 1 }} to={`/login/register${search}`}>
                 <FormattedMessage id="app.login.signup" />
               </Link>
             </div>
@@ -353,7 +353,7 @@ class LoginComponent extends Component {
               <Submit loading={submitting}>
                 <FormattedMessage id="app.login.login" />
               </Submit>
-              <Link style={{ float: 'right', marginBottom: 12 }} to={`/login/register${search}`}>
+              <Link style={{ zIndex: 1 }} to={`/login/register${search}`}>
                 <FormattedMessage id="app.login.signup" />
               </Link>
             </div>
