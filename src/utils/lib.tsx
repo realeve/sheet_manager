@@ -92,13 +92,13 @@ export const isInt: CartReelReg = str => /^(-|\+|)?[0-9]\d*$/.test(String(str));
 
 // 数字
 export const isNumOrFloat: CartReelReg = str =>
-  isInt(str) || /^(-|\+|)\d+\.\d+$|^(-|\+|)[1-9]\d+$/.test(String(str));
+  isInt(str) || /^(-|\+|)\d+\.\d+$|^(-|\+|)[1-9]\d+$/.test(String(str)) || /^(-|\+|)\d+(\.|)(\d+|)(E-\d)$/.test(String(str));
 // 浮点
 export const isFloat: CartReelReg = str =>
   !isCart(str) &&
   (isInt(str) ||
     isNumOrFloat(str) ||
-    /^(-|\+|)\d+\.\d+(|e|E)(|\-|\+)\d+$|^(-|\+|)\d+(|e|E)(|\-|\+)\d+$/.test(String(str)));
+    /^(-|\+|)\d+\.\d+(|e|E)(|\-|\+)\d+$|^(-|\+|)\d+(|e|E)(|\-|\+)\d+$/.test(String(str))) || /^(-|\+|)\d+(\.|)(\d+|)(E-\d)$/.test(String(str));
 
 export const hasDecimal: CartReelReg = str => /^(-|\+|)\d+\.\d+$/.test(String(str));
 export const parseNumber: {
@@ -611,26 +611,26 @@ const onTips = async date => {
         功能描述：
         {Array.isArray(res.desc)
           ? res.desc.map((item, idx) => (
-              <div key={item} style={{ margin: '5px 0' }}>
-                {idx + 1}.{item}
-                <br />
-              </div>
-            ))
+            <div key={item} style={{ margin: '5px 0' }}>
+              {idx + 1}.{item}
+              <br />
+            </div>
+          ))
           : res.desc}
         <br />
         {res.url && res.url.length > 0 && <div>本次更新功能链接：</div>}
         {Array.isArray(res.url)
           ? res.url.map((item, idx) => (
-              <a href={item.href} target="_blank" key={item.href} style={{ marginRight: 10 }}>
-                {idx + 1}: {item.title}
-              </a>
-            ))
+            <a href={item.href} target="_blank" key={item.href} style={{ marginRight: 10 }}>
+              {idx + 1}: {item.title}
+            </a>
+          ))
           : res.url &&
-            res.url.length > 0 && (
-              <a href={res.url} target="_blank">
-                点击这里查看
-              </a>
-            )}
+          res.url.length > 0 && (
+            <a href={res.url} target="_blank">
+              点击这里查看
+            </a>
+          )}
         <br />
         {(res.img || []).map(item => (
           <img src={item} key={item} style={{ width: '100%', maxWidth: 500 }} />
