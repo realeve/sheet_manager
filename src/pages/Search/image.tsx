@@ -221,9 +221,8 @@ function ImageSearch({ cart }) {
             </div>
           </div>
 
-          <ul className={styles.content}>
-            <ImageItem visible data={imgs} type="tubu" gutter={gutter} />
-          </ul>
+          <ImageItem visible data={imgs} type="tubu" gutter={gutter} />
+
         </div>
       </Card>
     </>

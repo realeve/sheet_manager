@@ -30,6 +30,38 @@ function ImageItem({ data, type, visible, gutter }) {
     setId(idx);
   };
 
+  const [codeData, setCodeData] = useState({})
+  useEffect(() => {
+    if (data.length == 0) {
+      setCodeData({})
+      return;
+    }
+    let item = data[0]
+    if (!item.code) {
+      setCodeData({ '无号码': data })
+      return;
+    }
+
+    let nextData = R.groupBy(item => item.code[6], data)
+    setCodeData(nextData)
+  }, [data])
+
+  const ImageRows = ({ data }) => data.map((item, idx) => (
+    <li
+      key={type + idx}
+      className="animated zoomIn"
+      onClick={() => copyImg(`${prefix}${item.image}`, idx)}
+      style={{ marginRight: gutter }}
+    >
+      <div className={styles.wrap}>
+        <img src={`${prefix}${item.image}`} alt={item.code} />
+      </div>
+      <div className={styles.desc}>
+        <ImageTitle data={item} key={idx} />
+      </div>
+    </li>
+  ))
+
   return (
     <>
       <Modal title="图片详情" visible={show} onCancel={() => setShow(false)} footer={null}>
@@ -39,22 +71,12 @@ function ImageItem({ data, type, visible, gutter }) {
 
         {id >= 0 && <ImageTitle data={data[id]} style={{ marginTop: 5 }} />}
       </Modal>
-      {visible &&
-        data.map((item, idx) => (
-          <li
-            key={type + idx}
-            className="animated zoomIn"
-            onClick={() => copyImg(`${prefix}${item.image}`, idx)}
-            style={{ marginRight: gutter }}
-          >
-            <div className={styles.wrap}>
-              <img src={`${prefix}${item.image}`} alt={item.code} />
-            </div>
-            <div className={styles.desc}>
-              <ImageTitle data={item} key={idx} />
-            </div>
-          </li>
-        ))}
+
+      {visible && R.keys(codeData).map(key => <div key={key} className={styles.mainContent} style={{ marginBottom: 20, borderBottom: '1px solid #ddd' }}>
+        <div style={{ fontWeight: 'bold', borderLeft: '3px solid #e23', paddingLeft: 12 }}>第 {key} 千</div>
+        <ul className={styles.content}>  <ImageRows data={codeData[key]} /> </ul>
+      </div>)
+      }
     </>
   );
 }
