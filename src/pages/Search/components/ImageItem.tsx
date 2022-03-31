@@ -22,12 +22,13 @@ const ImageTitle = ({ data: { camera, macro_id, pos, code, sheet_num }, ...props
 
 function ImageItem({ data, type, visible, gutter }) {
   const [show, setShow] = useState(false);
-  const [id, setId] = useState(-1);
+
+  const [id, setId] = useState(-1)
   const copyImg = (img, idx) => {
-    copy(img);
-    message.success('图像拷贝成功');
     setShow(true);
     setId(idx);
+    copy(img);
+    message.success('图像拷贝成功');
   };
 
   const [codeData, setCodeData] = useState({})
@@ -42,15 +43,17 @@ function ImageItem({ data, type, visible, gutter }) {
       return;
     }
 
-    let nextData = R.groupBy(item => item.code[6], data)
+    let nextData = R.clone(data).map((item, idx) => ({ ...item, idx }))
+    nextData = R.groupBy(item => item.code[6], nextData)
+
     setCodeData(nextData)
   }, [data])
 
   const ImageRows = ({ data }) => data.map((item, idx) => (
     <li
       key={type + idx}
-      className="animated zoomIn"
-      onClick={() => copyImg(`${prefix}${item.image}`, idx)}
+      // className="animated zoomIn"
+      onClick={() => copyImg(`${prefix}${item.image}`, item.idx)}
       style={{ marginRight: gutter }}
     >
       <div className={styles.wrap}>
@@ -65,11 +68,10 @@ function ImageItem({ data, type, visible, gutter }) {
   return (
     <>
       <Modal title="图片详情" visible={show} onCancel={() => setShow(false)} footer={null}>
-        {id >= 0 && (
+        {id > -1 && <>
           <img style={{ width: '100%' }} src={`${prefix}${data[id].image}`} alt="图片详情" />
-        )}
-
-        {id >= 0 && <ImageTitle data={data[id]} style={{ marginTop: 5 }} />}
+          <ImageTitle data={data[id]} style={{ marginTop: 5 }} />
+        </>}
       </Modal>
 
       {visible && R.keys(codeData).map(key => <div key={key} className={styles.mainContent} style={{ marginBottom: 20, borderBottom: '1px solid #ddd' }}>
@@ -81,10 +83,12 @@ function ImageItem({ data, type, visible, gutter }) {
   );
 }
 
-export default React.memo(ImageItem, (prevProps, nextProps) => {
-  return (
-    prevProps.gutter === nextProps.gutter &&
-    prevProps.visible === nextProps.visible &&
-    R.equals(prevProps.data, nextProps.data)
-  );
-});
+export default ImageItem
+
+// export default React.memo(ImageItem, (prevProps, nextProps) => {
+//   return (
+//     prevProps.gutter === nextProps.gutter &&
+//     prevProps.visible === nextProps.visible &&
+//     R.equals(prevProps.data, nextProps.data)
+//   );
+// });
