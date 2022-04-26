@@ -112,18 +112,18 @@ export default ({ proc_name = 0 }) => {
       let barData = series.data.map((value, idx) => {
         let name = e.xAxis.data[idx].replace('公司', '');
         return {
-          value: name.includes('成都')
+          value: (name.includes('成都') || name.includes('成钞'))
             ? { value, itemStyle: { normal: { color: '#2FC25B' } } }
             : value,
           name,
         };
       });
 
-      let haveAverage = barData.find(item=>item.name=='平均值')
-      barData = barData.filter((item)=>item?.name!='平均值')
-      if(haveAverage){
+      let haveAverage = barData.find(item => item.name == '平均值')
+      barData = barData.filter((item) => item?.name != '平均值')
+      if (haveAverage) {
         let val = haveAverage.value
-   
+
         if (['纸张', '变动成本合计'].includes(a)) {
           e.yAxis.min = Math.floor((val * 0.9) / 5000) * 5000;
         }
@@ -141,12 +141,12 @@ export default ({ proc_name = 0 }) => {
           symbol: 'none',
           lineStyle: {},
         };
-  
+
         // console.log(prevMarkLine, series);
         if (prevMarkLine) {
           prevMarkLine.data[0].yAxis = val;
           prevMarkLine.lineStyle = { normal: { type: 'dashed', color: '#e23' } };
-  
+
           let avgItem = avg.find(item => item['品种'] == curtype && item['成本项目'] == a);
           if (avgItem) {
             prevMarkLine.data.push({
@@ -160,13 +160,13 @@ export default ({ proc_name = 0 }) => {
             });
           }
           series.markLine = prevMarkLine;
-        } 
+        }
       }
-     
+
 
       // 数据排序
       barData = barData.sort((a, b) => (a.value?.value || a.value) - (b.value?.value || b.value));
-    
+
       (series.data = barData.map(item => item.value)),
         (e.xAxis.data = barData.map((item, idx) => idx + 1 + '.' + item.name));
       // console.log(e, a, curtype);

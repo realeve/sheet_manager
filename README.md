@@ -199,10 +199,12 @@ LoadModule expires_module modules/mod_expires.so
 
 ```
 
-
 ---
-
 
 ## 开发模式报表：http://localhost:8000/table#id=http://localhost:8000/data/mock/543_e6fef8a252.json&datetype=none
 
 http://localhost:8000/table#id=http://localhost:8000/data/mock/618_618_8c0f3617cf.json&datetype=none
+
+> ps -ef | grep nginx
+> cd /usr/sbin
+> ./nginx -s reload

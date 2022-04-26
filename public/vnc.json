@@ -346,20 +346,20 @@
         "Name": "92-8#",
         "children": [
           {
-            "RowOID": "c12",
+            "RowOID": "c13",
             "Name": "主显站",
             "VNCProxyIPAddr": "10.9.51.65",
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
-            "VNCToken": "token12"
+            "VNCToken": "token13"
           },
           {
-            "RowOID": "c13",
+            "RowOID": "c12",
             "Name": "控制站",
             "VNCProxyIPAddr": "10.9.51.65",
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
-            "VNCToken": "token13"
+            "VNCToken": "token12"
           },
           {
             "RowOID": "c1",

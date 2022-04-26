@@ -20,7 +20,10 @@
     "table": {
       "url": "758/li4y6pztli"
     },
-    "load": { "url": "812/4ihq3k92zrl.json", "param": ["_id"] }
+    "load": {
+      "url": "812/4ihq3k92zrl.json",
+      "param": ["_id"]
+    }
   },
   "table": "process_check_paper",
   "detail": [
@@ -55,7 +58,6 @@
             },
             {
               "name": "老线-3号",
-
               "value": "老线-3号"
             }
           ]
@@ -77,13 +79,32 @@
             "required": true
           },
           "defaultOption": [
-            "103-G-2T",
-            "103-G-3T",
-            "103-G-4T",
-            "103-G-5T",
-            "103-G-6T",
-            "103-G-7T",
-            "试验品"
+            {
+              "name": "103-G-2T",
+              "value": "103-G-2T"
+            },
+            {
+              "name": "103-G-3T",
+              "value": "103-G-3T"
+            },
+            {
+              "name": "103-G-4T",
+              "value": "103-G-4T"
+            },
+            { "name": "103-G-5T", "value": "103-G-5T" },
+            { "name": "103-G-6T", "value": "103-G-6T" },
+            {
+              "name": "103-G-7T",
+              "value": "103-G-7T",
+              "scope": [
+                {
+                  "key": "ph",
+                  "min": 7,
+                  "max": 9
+                }
+              ]
+            },
+            { "name": "试验品", "value": "试验品" }
           ]
         }
       ]
@@ -122,7 +143,11 @@
             "type": "float",
             "required": true
           },
-          "suffix": "%"
+          "suffix": "%",
+          "scope": {
+            "max": 5,
+            "min": 0
+          }
         },
         {
           "title": "检验员",

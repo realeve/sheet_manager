@@ -10,6 +10,8 @@ import SimpleChart from '@/pages/Search/components/SimpleChart';
 
 const keyName = '品种';
 
+
+
 export default () => {
   const [state, setState] = useState(null);
   const [prod, setProd] = useState('');
@@ -172,8 +174,9 @@ export default () => {
                     xAxis: plan.计划量,
                     label: {
                       formatter() {
+                        let str = (new Date).getMonth() + 1 > 6 ? '全年' : '上半年'
                         return (
-                          '年度计划\n' +
+                          str + '计划\n' +
                           plan.计划量 +
                           '万' +
                           (plan.铺底量 > 0 ? `\n(含上年结存:${plan.铺底量}万)` : '')
@@ -186,7 +189,8 @@ export default () => {
                     xAxis: ((plan.计划量 - plan.铺底量 || 0) * plan.时间进度) / 100,
                     label: {
                       formatter(a) {
-                        return '全年时间进度\n' + plan.时间进度 + '%\n应完工量:' + needPrint + '万';
+                        let str = (new Date).getMonth() + 1 > 6 ? '全年' : '上半年'
+                        return str + '时间进度\n' + plan.时间进度 + '%\n应完工量:' + needPrint + '万';
                       },
                     },
                     lineStyle: { normal: { type: 'dashed', color: '#e23' } },

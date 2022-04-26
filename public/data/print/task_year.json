@@ -110,6 +110,16 @@
             }
           },
           {
+            "title": "上半年计划",
+            "type": "input",
+            "key": "print_num_1st_half_year",
+            "defaultValue": 0,
+            "rule": {
+              "type": "float"
+            }
+          },
+
+          {
             "title": "年份",
             "type": "datepicker.year",
             "key": "year",
