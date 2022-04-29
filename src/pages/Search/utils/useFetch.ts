@@ -38,6 +38,7 @@ export function useFetch({
       setState({ ...state, loading: false });
       return;
     }
+
     db[api](params)
       .then((res: DbJson) => {
         setState({ ...res, loading: false, err: false });

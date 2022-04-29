@@ -1,4 +1,4 @@
-export let DEV: boolean = process.env.NODE_ENV === 'test'; // || process.env.NODE_ENV === 'development';
+export let DEV: boolean = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development';
 
 export const DEFAULT_MANAGER_ID = 4; // 运营数据管理平台
 // 前台资源部署域名，默认头像图片资源调用域名

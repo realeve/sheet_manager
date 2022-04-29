@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Input, Tooltip, Tabs } from 'antd';
+import { Row, Col, Card, Input, Tooltip, Tabs, Switch } from 'antd';
 
 import styles from './Image.less';
 import { useFetch } from './utils/useFetch';
 import ImageItem from './components/ImageItem';
+import FakeImageItem from './components/FakeImageItem';
 import classNames from 'classnames/bind';
 import * as R from 'ramda';
 import HeatmapChart from './HeatmapChart';
@@ -127,6 +128,8 @@ function ImageSearch({ cart }) {
     setImgs(getCurData(list));
   }, [filter, res.hash, codeHash, silkHash, code, curpos, fakeInfo]);
 
+  const [showKilo, setShowKilo] = useState(false)
+
   return (
     <>
       <Row gutter={16}>
@@ -209,6 +212,8 @@ function ImageSearch({ cart }) {
                     </div>
                   </Tooltip>
                 ))}
+                <div className={cx({ item: true })} style={{ marginLeft: 20, color: '#333', border: 'none' }}>显示方式：<Switch checked={showKilo} onChange={setShowKilo} checkedChildren="千位" unCheckedChildren="类型" /></div>
+
               </div>
               <Input.Search
                 value={code}
@@ -220,9 +225,10 @@ function ImageSearch({ cart }) {
               />
             </div>
           </div>
-
-          <ImageItem visible data={imgs} type="tubu" gutter={gutter} />
-
+          {
+            showKilo ? <ImageItem visible data={imgs} type="tubu" gutter={gutter} /> :
+              <FakeImageItem visible data={imgs} type="tubu" gutter={gutter} />
+          }
         </div>
       </Card>
     </>

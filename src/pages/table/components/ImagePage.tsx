@@ -89,7 +89,7 @@ function ImageItem({ data, blob, gutter, onImageClick }) {
   });
 }
 
-function Index({ data, blob, extra = null, subTitle = null, onImageClick = () => {} }) {
+function Index({ data, blob, extra = null, subTitle = null, onImageClick = () => { } }) {
   let { title, source, rows } = data;
   let container = useRef({ current: { offsetWidth: 0 } });
   let [gutter, setGutter] = useState(5);
@@ -106,9 +106,10 @@ function Index({ data, blob, extra = null, subTitle = null, onImageClick = () =>
     setGutter(curGutter > 100 ? 5 : curGutter);
   }, [container?.current?.offsetWidth]);
 
-  if (data.data.length === 0 || R.type(data.data[0]) === 'Object') {
+  if (null == data || data.data.length === 0 || R.type(data.data[0]) === 'Object') {
     return null;
   }
+
   return (
     <Card
       title={
