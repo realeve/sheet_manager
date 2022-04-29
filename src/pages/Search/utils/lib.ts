@@ -33,7 +33,7 @@ export const getFakeStatus: (s: string) => string = status => {
  */
 export const getMaxPapersByCarts: (carts: string) => number = carts => {
   let prodid: string = carts[2];
-  if ([0, 4, 5, 6, 7, 8].includes(Number(prodid))) {
+  if ([0, 1, 4, 5, 6, 7, 8].includes(Number(prodid))) {
     return 35;
   }
   return 40;

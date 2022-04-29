@@ -60,9 +60,13 @@ export default function OnlineCounter({ cart }) {
         <SimpleTable getTd={(item, i, row) => {
             if (i == data.header.length - 1) {
                 return <Button type="default" size='small' onClick={() => {
+                    let year = (row[1].slice(0, 4))
+                    if (row[0] == '涂布') {
+                        year = Number(year) - 1
+                    }
                     setParams({
                         proc: row[0],
-                        year: row[1].slice(0, 4),
+                        year: String(year),
                         rectifym_id: item
                     })
                 }}>识码详情</Button>
