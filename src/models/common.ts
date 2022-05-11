@@ -342,7 +342,7 @@ export default {
         },
       });
       let ip = yield call(getIp);
-      authIP(ip);
+      // authIP(ip);
 
       yield put({
         type: 'setStore',

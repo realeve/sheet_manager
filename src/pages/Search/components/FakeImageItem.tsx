@@ -85,8 +85,8 @@ function ImageItem({ data, type, visible, gutter }) {
             </Modal>
 
             {visible && codeData.map(({ proc: key, value }) => <div key={key} className={styles.mainContent} style={{ marginBottom: 20, borderBottom: '1px solid #ddd' }}>
-                <div style={{ fontWeight: 'bold', borderLeft: '3px solid #e23', paddingLeft: 12 }}>{key}({value.length})</div>
-                <ul className={styles.content}>  <ImageRows data={value} /> </ul>
+                <div style={{ fontWeight: 'bold', borderLeft: '3px solid #e23', paddingLeft: 12 }}>{key}({value?.length})</div>
+                <ul className={styles.content}> {value && <ImageRows data={value} />}</ul>
             </div>)
             }
         </>

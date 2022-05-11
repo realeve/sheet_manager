@@ -76,7 +76,7 @@ function ImageItem({ data, type, visible, gutter }) {
 
       {visible && R.keys(codeData).map(key => <div key={key} className={styles.mainContent} style={{ marginBottom: 20, borderBottom: '1px solid #ddd' }}>
         <div style={{ fontWeight: 'bold', borderLeft: '3px solid #e23', paddingLeft: 12 }}>第 {key} 千</div>
-        <ul className={styles.content}>  <ImageRows data={codeData[key]} /> </ul>
+        <ul className={styles.content}>  {codeData[key] && <ImageRows data={codeData[key]} />} </ul>
       </div>)
       }
     </>

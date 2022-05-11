@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'dva';
 import { Row, Col, Card, Input, Tooltip, Tabs, Switch } from 'antd';
-
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import styles from './Image.less';
 import { useFetch } from './utils/useFetch';
 import ImageItem from './components/ImageItem';
@@ -130,6 +130,11 @@ function ImageSearch({ cart }) {
 
   const [showKilo, setShowKilo] = useState(false)
 
+  // 目前暂时只处理4T品
+  useEffect(() => {
+    setShowKilo(!['45', '75'].includes(cart.slice(2, 4)))
+  }, [cart])
+
   return (
     <>
       <Row gutter={16}>
@@ -212,7 +217,10 @@ function ImageSearch({ cart }) {
                     </div>
                   </Tooltip>
                 ))}
-                <div className={cx({ item: true })} style={{ marginLeft: 20, color: '#333', border: 'none' }}>显示方式：<Switch checked={showKilo} onChange={setShowKilo} checkedChildren="千位" unCheckedChildren="类型" /></div>
+                <div className={cx({ item: true })} style={{ marginLeft: 20, color: '#333', border: 'none' }}><span><Tooltip title="截止2022年5月，已将9604T品2020年以来生产所有产品标记缺陷类型。后续陆续将7T品以及2022年以前的4T标注。">
+                  <QuestionCircleOutlined /> 显示方式：
+                </Tooltip></span><Switch checked={showKilo} onChange={setShowKilo} checkedChildren="千位" unCheckedChildren="类型" />
+                </div>
 
               </div>
               <Input.Search
