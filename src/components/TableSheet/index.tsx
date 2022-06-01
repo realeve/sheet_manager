@@ -34,16 +34,19 @@ let colTitles = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const getConfig = (data, afterFilter, sheetHeight) => {
   let firstRow = getFirstRow(data);
 
+  // let items = R.uniq(data)
+  // console.log(items, data)
+
   // console.log(data);
   let columns = (data.header || []).map((title, idx) => {
     let item = firstRow[idx] || '';
     let type = lib.isDate(item)
       ? 'date'
       : lib.isTime(item)
-      ? 'time'
-      : lib.isNumOrFloat(item)
-      ? 'numeric'
-      : 'text';
+        ? 'time'
+        : lib.isNumOrFloat(item)
+          ? 'numeric'
+          : 'text';
     let column: {
       title: string;
       type: string;

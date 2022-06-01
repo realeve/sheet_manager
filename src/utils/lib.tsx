@@ -88,13 +88,13 @@ export const isTime: CartReelReg = str =>
 export const isMonth: CartReelReg = str => /^[1-9]\d{3}(|\-|\/)[0-1]\d$/.test(String(str).trim());
 
 // 整数
-export const isInt: CartReelReg = str => /^(-|\+|)?[0-9]\d*$/.test(String(str));
+export const isInt: CartReelReg = str => String(str).length <= 12 && /^(-|\+|)?[0-9]\d*$/.test(String(str));
 
 // 数字
-export const isNumOrFloat: CartReelReg = str =>
-  isInt(str) || /^(-|\+|)\d+\.\d+$|^(-|\+|)[1-9]\d+$/.test(String(str)) || /^(-|\+|)\d+(\.|)(\d+|)(E-\d)$/.test(String(str));
+export const isNumOrFloat: CartReelReg = str => String(str).length <= 12 && (
+  isInt(str) || /^(-|\+|)\d+\.\d+$|^(-|\+|)[1-9]\d+$/.test(String(str)) || /^(-|\+|)\d+(\.|)(\d+|)(E-\d)$/.test(String(str)));
 // 浮点
-export const isFloat: CartReelReg = str =>
+export const isFloat: CartReelReg = str => String(str).length <= 12 &&
   !isCart(str) &&
   (isInt(str) ||
     isNumOrFloat(str) ||
