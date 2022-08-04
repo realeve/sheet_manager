@@ -42,7 +42,7 @@ interface Rules {
 export const rules: Rules = {
   cart: /^[0-9]\d{3}[A-Za-z]\d{3}(|[a-bA-B])$|^BP\d{2}[A-Z]\d{3}$/, // 车号
   // reel: /^[1-9]\d{6}(|[A-Ca-c])$|[A-Z]\d{11}[A-Z]/, //^[1-9]\d{4}[A-Ca-c]$|
-  reel: /^[0-9]\d{6}([A-Ca-c]|)$|[A-Z]\d{11}([A-Z]|)|^\d{3}[A-Z]\d{5}(|[A-Z])$/, // 轴号 //^[1-9]\d{4}[A-Ca-c]$|
+  reel: /^[0-9]\d{6}([A-Ca-c]|)$|^[A-Z]\d{11}([A-Z]|)$|^\d{3}[A-Z]\d{5}(|[A-Z])$|^试验\d*#$/, // 轴号 //^[1-9]\d{4}[A-Ca-c]$|
   reel_cart: /^[0-9]\d{3}[A-Za-z]\d{3}([A-B]|[a-b])$/,
   reel_patch: /^\d{5}([A-Z|a-z])\d$/, //2020 6T 2
   pallet: /^\d{2}(0[1-9]|1[0-2])\d{2}(1|2)\d{6}$/,
@@ -88,17 +88,21 @@ export const isTime: CartReelReg = str =>
 export const isMonth: CartReelReg = str => /^[1-9]\d{3}(|\-|\/)[0-1]\d$/.test(String(str).trim());
 
 // 整数
-export const isInt: CartReelReg = str => String(str).length <= 12 && /^(-|\+|)?[0-9]\d*$/.test(String(str));
+export const isInt: CartReelReg = str =>
+  String(str).length <= 12 && /^(-|\+|)?[0-9]\d*$/.test(String(str));
 
 // 数字
-export const isNumOrFloat: CartReelReg = str => (
-  isInt(str)) || /^(-|\+|)\d+\.\d+$/.test(String(str)) || /^(-|\+|)\d+(\.|)(\d+|)(E-\d)$/.test(String(str));
+export const isNumOrFloat: CartReelReg = str =>
+  isInt(str) ||
+  /^(-|\+|)\d+\.\d+$/.test(String(str)) ||
+  /^(-|\+|)\d+(\.|)(\d+|)(E-\d)$/.test(String(str));
 // 浮点
 export const isFloat: CartReelReg = str =>
-  !isCart(str) &&
-  ((isInt(str)) ||
-    isNumOrFloat(str) ||
-    /^(-|\+|)\d+\.\d+(|e|E)(|\-|\+)\d+$|^(-|\+|)\d+(|e|E)(|\-|\+)\d+$/.test(String(str))) || /^(-|\+|)\d+(\.|)(\d+|)(E-\d)$/.test(String(str));
+  (!isCart(str) &&
+    (isInt(str) ||
+      isNumOrFloat(str) ||
+      /^(-|\+|)\d+\.\d+(|e|E)(|\-|\+)\d+$|^(-|\+|)\d+(|e|E)(|\-|\+)\d+$/.test(String(str)))) ||
+  /^(-|\+|)\d+(\.|)(\d+|)(E-\d)$/.test(String(str));
 
 export const hasDecimal: CartReelReg = str => /^(-|\+|)\d+\.\d+$/.test(String(str));
 export const parseNumber: {
@@ -611,26 +615,26 @@ const onTips = async date => {
         功能描述：
         {Array.isArray(res.desc)
           ? res.desc.map((item, idx) => (
-            <div key={item} style={{ margin: '5px 0' }}>
-              {idx + 1}.{item}
-              <br />
-            </div>
-          ))
+              <div key={item} style={{ margin: '5px 0' }}>
+                {idx + 1}.{item}
+                <br />
+              </div>
+            ))
           : res.desc}
         <br />
         {res.url && res.url.length > 0 && <div>本次更新功能链接：</div>}
         {Array.isArray(res.url)
           ? res.url.map((item, idx) => (
-            <a href={item.href} target="_blank" key={item.href} style={{ marginRight: 10 }}>
-              {idx + 1}: {item.title}
-            </a>
-          ))
+              <a href={item.href} target="_blank" key={item.href} style={{ marginRight: 10 }}>
+                {idx + 1}: {item.title}
+              </a>
+            ))
           : res.url &&
-          res.url.length > 0 && (
-            <a href={res.url} target="_blank">
-              点击这里查看
-            </a>
-          )}
+            res.url.length > 0 && (
+              <a href={res.url} target="_blank">
+                点击这里查看
+              </a>
+            )}
         <br />
         {(res.img || []).map(item => (
           <img src={item} key={item} style={{ width: '100%', maxWidth: 500 }} />
