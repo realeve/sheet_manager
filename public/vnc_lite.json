@@ -1,0 +1,426 @@
+[
+  {
+    "type": "钞纸工序",
+    "data": [
+      {
+        "machine": "纸机新线-1#",
+        "token": "cz-1"
+      },
+      {
+        "machine": "纸机新线-2#",
+        "token": "cz-2"
+      },
+      {
+        "machine": "纸机老线-3#",
+        "token": "cz-3"
+      },
+      {
+        "machine": "必诺-1#",
+        "token": "qz-1"
+      },
+      {
+        "machine": "帕萨班",
+        "token": "qz-2"
+      },
+      {
+        "machine": "4号切纸机",
+        "token": "qz-4"
+      }
+    ]
+  },
+  {
+    "type": "胶印工序-离线检测",
+    "data": [
+      {
+        "machine": "J98-1#",
+        "token": "j98-1"
+      },
+      {
+        "machine": "J98-2#",
+        "token": "j98-2"
+      },
+      {
+        "machine": "J98-3#",
+        "token": "j98-3"
+      },
+      {
+        "machine": "J98-4#",
+        "token": "j98-4"
+      },
+      {
+        "machine": "J98-5#",
+        "token": "j98-5"
+      },
+      {
+        "machine": "J98-6#",
+        "token": "j98-6"
+      },
+      {
+        "machine": "J98-7#",
+        "token": "j98-7"
+      }
+    ]
+  },
+  {
+    "type": "凹印工序-离线检测",
+    "data": [
+      {
+        "machine": "离线1#",
+        "token": "wylx-1"
+      },
+      {
+        "machine": "离线2#",
+        "token": "wylx-2"
+      },
+      {
+        "machine": "离线3#",
+        "token": "wylx-3"
+      },
+      {
+        "machine": "离线4#",
+        "token": "wylx-4"
+      },
+      {
+        "machine": "离线5#",
+        "token": "wylx-5"
+      },
+      {
+        "machine": "离线6#",
+        "token": "wylx-6"
+      },
+      {
+        "machine": "离线7#",
+        "token": "wylx-7"
+      },
+      {
+        "machine": "离线8#",
+        "token": "wylx-8"
+      },
+      {
+        "machine": "离线9#(线凹-6)",
+        "token": "wylx-9"
+      },
+      {
+        "machine": "SD-2#",
+        "token": "kexin-sd2"
+      }
+    ]
+  },
+  {
+    "type": "检封工序",
+    "data": [
+      {
+        "machine": "装箱-1#",
+        "token": "zx-1"
+      },
+      {
+        "machine": "装箱-2#",
+        "token": "zx-2"
+      },
+      {
+        "machine": "装箱-3#",
+        "token": "zx-3"
+      },
+      {
+        "machine": "装箱-4#",
+        "token": "zx-4"
+      },
+      {
+        "machine": "单开分析仪-2#",
+        "token": "dk-2"
+      }
+    ]
+  },
+  {
+    "type": "MES-胶印",
+    "data": [
+      {
+        "machine": "8色水胶印机1号",
+        "token": "mes_jy-8s-1"
+      },
+      {
+        "machine": "J98-1号",
+        "token": "mes_jy-j98-1"
+      },
+      {
+        "machine": "J98-2号",
+        "token": "mes_jy-j98-2"
+      },
+      {
+        "machine": "J98-3号",
+        "token": "mes_jy-j98-3"
+      },
+      {
+        "machine": "J98-4号",
+        "token": "mes_jy-j98-4"
+      },
+      {
+        "machine": "J98-5号",
+        "token": "mes_jy-j98-5"
+      },
+      {
+        "machine": "J98-6号",
+        "token": "mes_jy-j98-6"
+      },
+      {
+        "machine": "J98-7号",
+        "token": "mes_jy-j98-7"
+      },
+      {
+        "machine": "J99-1号",
+        "token": "mes_jy-j99-1"
+      },
+      {
+        "machine": "J99-2号",
+        "token": "mes_jy-j99-2"
+      },
+      {
+        "machine": "小森机-1号",
+        "token": "mes_jy-xsj-1"
+      },
+      {
+        "machine": "小森机-2号",
+        "token": "mes_jy-xsj-2"
+      },
+      {
+        "machine": "小森机-3号",
+        "token": "mes_jy-xsj-3"
+      },
+      {
+        "machine": "小森机-4号",
+        "token": "mes_jy-xsj-4"
+      }
+    ]
+  },
+  {
+    "type": "MES-丝印",
+    "data": [
+      {
+        "machine": "KY18丝印机-1号",
+        "token": "mes_ym-ky18-1"
+      },
+      {
+        "machine": "丝凸印-1号",
+        "token": "mes_ym-sty-1"
+      },
+
+      {
+        "machine": "丝凸印-2号",
+        "token": "mes_ym-sty-2"
+      },
+      {
+        "machine": "丝凸印-3号",
+        "token": "mes_ym-sty-3"
+      },
+      {
+        "machine": "丝凸检-1号",
+        "token": "mes_ym-stj-1"
+      },
+      {
+        "machine": "丝凸检-2号",
+        "token": "mes_ym-stj-2"
+      },
+      {
+        "machine": "丝凸检-3号",
+        "token": "mes_ym-stj-3"
+      }
+    ]
+  },
+  {
+    "type": "MES-印码",
+    "data": [
+      {
+        "machine": "M81D-1号",
+        "token": "mes_ym-m81d-1"
+      },
+      {
+        "machine": "M81D-2号",
+        "token": "mes_ym-m81d-2"
+      },
+      {
+        "machine": "M97-1号",
+        "token": "mes_ym-m97-1"
+      },
+      {
+        "machine": "M97-2号",
+        "token": "mes_ym-m97-2"
+      },
+      {
+        "machine": "M97-3号",
+        "token": "mes_ym-m97-3"
+      },
+      {
+        "machine": "M97-4号",
+        "token": "mes_ym-m97-4"
+      },
+      {
+        "machine": "多功能-1号",
+        "token": "mes_ym-dgn-1"
+      },
+      {
+        "machine": "多功能-2号",
+        "token": "mes_ym-dgn-2"
+      },
+      {
+        "machine": "多功能-3号",
+        "token": "mes_ym-dgn-3"
+      },
+      {
+        "machine": "接线印码机-1号",
+        "token": "mes_ym-jwym-1"
+      }
+    ]
+  },
+  {
+    "type": "MES-涂布",
+    "data": [
+      {
+        "machine": "涂布-1号",
+        "token": "mes_ym-tubu-1"
+      },
+      {
+        "machine": "涂布-2号",
+        "token": "mes_ym-tubu-2"
+      },
+      {
+        "machine": "涂布-3号",
+        "token": "mes_ym-tubu-3"
+      },
+      {
+        "machine": "涂布-4号",
+        "token": "mes_ym-tubu-4"
+      },
+      {
+        "machine": "涂布-5号",
+        "token": "mes_ym-tubu-5"
+      }
+    ]
+  },
+  {
+    "type": "MES-裁封",
+    "data": [
+      {
+        "machine": "裁封-3号",
+        "token": "mes_jf-cf-3"
+      },
+      {
+        "machine": "裁封-4号",
+        "token": "mes_jf-cf-4"
+      },
+      {
+        "machine": "裁封-6号",
+        "token": "mes_jf-cf-6"
+      },
+      {
+        "machine": "裁封-7号",
+        "token": "mes_jf-cf-7"
+      },
+      {
+        "machine": "裁封-8号",
+        "token": "mes_jf-cf-8"
+      },
+      {
+        "machine": "裁封-9号",
+        "token": "mes_jf-cf-9"
+      },
+      {
+        "machine": "裁封-10号",
+        "token": "mes_jf-cf-10"
+      },
+      {
+        "machine": "裁切-1号",
+        "token": "mes_jf-cq-1"
+      },
+      {
+        "machine": "裁切-2号",
+        "token": "mes_jf-cq-2"
+      },
+      {
+        "machine": "裁切-3号",
+        "token": "mes_jf-cq-3"
+      }
+    ]
+  },
+  {
+    "type": "MES-清分机",
+    "data": [
+      {
+        "machine": "国产清分机-1号",
+        "token": "mes_jf-gq-1"
+      },
+      {
+        "machine": "国产清分机-2号",
+        "token": "mes_jf-gq-2"
+      },
+      {
+        "machine": "国产清分机-3号",
+        "token": "mes_jf-gq-3"
+      },
+      {
+        "machine": "BPS2000-1号",
+        "token": "mes_jf-bps-1"
+      },
+      {
+        "machine": "BPS2000-2号",
+        "token": "mes_jf-bps-2"
+      },
+      {
+        "machine": "BPS2000-3号",
+        "token": "mes_jf-bps-3"
+      },
+      {
+        "machine": "BPS2000-4号",
+        "token": "mes_jf-bps-4"
+      },
+      {
+        "machine": "BPS2000-5号",
+        "token": "mes_jf-bps-5"
+      },
+      {
+        "machine": "挑残机-1号",
+        "token": "mes_jf-tc-1"
+      },
+      {
+        "machine": "挑残机-2号",
+        "token": "mes_jf-tc-2"
+      },
+      {
+        "machine": "挑残机-3号",
+        "token": "mes_jf-tc-3"
+      },
+      {
+        "machine": "X1型-1号",
+        "token": "mes_jf-x1-1"
+      },
+      {
+        "machine": "X1型-2号",
+        "token": "mes_jf-x1-2"
+      },
+      {
+        "machine": "X1型-3号",
+        "token": "mes_jf-x1-3"
+      },
+      {
+        "machine": "X1型-4号",
+        "token": "mes_jf-x1-4"
+      }
+    ]
+  },
+  {
+    "type": "MES-装箱",
+    "data": [
+      {
+        "machine": "装箱-1号",
+        "token": "mes_jf-zx-1"
+      },
+      {
+        "machine": "装箱-2号",
+        "token": "mes_jf-zx-2"
+      },
+      {
+        "machine": "装箱-3号",
+        "token": "mes_jf-zx-3"
+      }
+    ]
+  }
+]
