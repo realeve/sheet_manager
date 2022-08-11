@@ -1358,6 +1358,22 @@
             "VNCToken": "token144"
           },
           {
+            "RowOID": "131-3",
+            "Name": "对1",
+            "VNCProxyIPAddr": "10.9.51.209",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "token131"
+          },
+          {
+            "RowOID": "131-4",
+            "Name": "对2",
+            "VNCProxyIPAddr": "10.9.51.209",
+            "NodeType": "Node",
+            "VNCProxyIPPort": 8080,
+            "VNCToken": "192.168.50.132"
+          },
+          {
             "RowOID": "131-18",
             "Name": "在线清数",
             "VNCProxyIPAddr": "10.9.51.209",
