@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Layout } from 'antd';
+import { Layout, BackTop } from 'antd';
 import isEqual from 'lodash/isEqual';
 import memoizeOne from 'memoize-one';
 import { connect } from 'dva';
@@ -289,6 +289,7 @@ class BasicLayout extends PureComponent {
               }}
             />
             <FeedBack />
+            <BackTop style={{ right: 25 }} />
           </Content>
           <Footer hidemenu={hidemenu} />
         </Layout>

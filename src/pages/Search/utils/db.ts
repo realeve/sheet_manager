@@ -596,15 +596,19 @@ export const getQfmWipJobsByCarts = carts =>
  *   @database: { 全幅面 }
  *   @desc:     { 产品主要缺陷类型分析 }
  */
-export const getQfmWipJobsMain = cart =>
-  axios({
-    url: DEV ? '@/mock/554_ccd89d81b5.json' : '/554/ccd89d81b5/array',
+export const getQfmWipJobsMain = cart => {
+  let faketypeurl = ['45', '75'].includes(cart.slice(2, 4))
+    ? '/1598/b58865a522.array'
+    : '/554/ccd89d81b5/array';
+  return axios({
+    url: DEV ? '@/mock/554_ccd89d81b5.json' : faketypeurl,
     params: {
       cart,
       cache,
       blob: 3,
     },
   });
+};
 
 /**
 *   @database: { 检封装箱系统 }

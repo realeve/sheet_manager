@@ -128,12 +128,12 @@ function ImageSearch({ cart }) {
     setImgs(getCurData(list));
   }, [filter, res.hash, codeHash, silkHash, code, curpos, fakeInfo]);
 
-  const [showKilo, setShowKilo] = useState(false)
+  const [showKilo, setShowKilo] = useState(false);
 
   // 目前暂时只处理4T品
   useEffect(() => {
-    setShowKilo(!['45', '75'].includes(cart.slice(2, 4)))
-  }, [cart])
+    setShowKilo(!['45', '75'].includes(cart.slice(2, 4)));
+  }, [cart]);
 
   return (
     <>
@@ -180,6 +180,9 @@ function ImageSearch({ cart }) {
             blob={3}
             subTitle={<div>点击图像显示指定区域缺陷</div>}
             onImageClick={([camera, macro]: [string, string]) => {
+              if (['45', '75'].includes(cart.slice(2, 4))) {
+                return;
+              }
               setFakeInfo({ camera, macro });
             }}
             extra={
@@ -217,11 +220,22 @@ function ImageSearch({ cart }) {
                     </div>
                   </Tooltip>
                 ))}
-                <div className={cx({ item: true })} style={{ marginLeft: 20, color: '#333', border: 'none' }}><span><Tooltip title="截止2022年5月，已将9604T品2020年以来生产所有产品标记缺陷类型。后续陆续将7T品以及2022年以前的4T标注。">
-                  <QuestionCircleOutlined /> 显示方式：
-                </Tooltip></span><Switch checked={showKilo} onChange={setShowKilo} checkedChildren="千位" unCheckedChildren="类型" />
+                <div
+                  className={cx({ item: true })}
+                  style={{ marginLeft: 20, color: '#333', border: 'none' }}
+                >
+                  <span>
+                    <Tooltip title="截止2022年5月，已将9604T品2020年以来生产所有产品标记缺陷类型。后续陆续将7T品以及2022年以前的4T标注。">
+                      <QuestionCircleOutlined /> 显示方式：
+                    </Tooltip>
+                  </span>
+                  <Switch
+                    checked={showKilo}
+                    onChange={setShowKilo}
+                    checkedChildren="千位"
+                    unCheckedChildren="类型"
+                  />
                 </div>
-
               </div>
               <Input.Search
                 value={code}
@@ -233,10 +247,11 @@ function ImageSearch({ cart }) {
               />
             </div>
           </div>
-          {
-            showKilo ? <ImageItem visible data={imgs} type="tubu" gutter={gutter} /> :
-              <FakeImageItem visible data={imgs} type="tubu" gutter={gutter} />
-          }
+          {showKilo ? (
+            <ImageItem visible data={imgs} type="tubu" gutter={gutter} />
+          ) : (
+            <FakeImageItem visible data={imgs} type="tubu" gutter={gutter} />
+          )}
         </div>
       </Card>
     </>
