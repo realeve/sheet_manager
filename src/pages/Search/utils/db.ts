@@ -597,7 +597,7 @@ export const getQfmWipJobsByCarts = carts =>
  *   @desc:     { 产品主要缺陷类型分析 }
  */
 export const getQfmWipJobsMain = cart => {
-  let faketypeurl = ['45', '75'].includes(cart.slice(2, 4))
+  let faketypeurl = ['45', '75', '25'].includes(cart.slice(2, 4))
     ? '/1598/b58865a522.array'
     : '/554/ccd89d81b5/array';
   return axios({

@@ -132,7 +132,7 @@ function ImageSearch({ cart }) {
 
   // 目前暂时只处理4T品
   useEffect(() => {
-    setShowKilo(!['45', '75'].includes(cart.slice(2, 4)));
+    setShowKilo(!['45', '75', '25'].includes(cart.slice(2, 4)));
   }, [cart]);
 
   return (
@@ -180,7 +180,7 @@ function ImageSearch({ cart }) {
             blob={3}
             subTitle={<div>点击图像显示指定区域缺陷</div>}
             onImageClick={([camera, macro]: [string, string]) => {
-              if (['45', '75'].includes(cart.slice(2, 4))) {
+              if (['45', '75', '25'].includes(cart.slice(2, 4))) {
                 return;
               }
               setFakeInfo({ camera, macro });
