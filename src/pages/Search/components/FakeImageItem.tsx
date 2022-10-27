@@ -66,16 +66,24 @@ function ImageItem({ data, type, visible, gutter, cart }) {
   const downloadCodes = codes => {
     const sortKey = '印码小号';
     const deltaKey = sortKey + '差值';
-    let codeList = R.map(
-      ({ sheet_num, code, pos }) => ({
+    let codeList = R.map(({ sheet_num, code, pos }) => {
+      if (!sheet_num) {
+        return {
+          喷码号: '',
+          大张号: '',
+          印码号: code,
+          印码小号: code.slice(-4),
+          开位: pos,
+        };
+      }
+      return {
         喷码号: sheet_num.slice(0, 5) + ' ' + sheet_num.slice(5, 10) + ' ' + sheet_num.slice(-1),
         大张号: sheet_num.slice(6, 10),
         印码号: code,
         印码小号: code.slice(-4),
         开位: pos,
-      }),
-      codes
-    ).sort((a, b) => Number(a[sortKey]) - Number(b[sortKey]));
+      };
+    }, codes).sort((a, b) => Number(a[sortKey]) - Number(b[sortKey]));
     // 查看号码差异
     codeList = R.clone(codeList).map((item, idx) => {
       let delta: string | number = '';
