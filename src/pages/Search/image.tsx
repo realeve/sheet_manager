@@ -250,7 +250,7 @@ function ImageSearch({ cart }) {
           {showKilo ? (
             <ImageItem visible data={imgs} type="tubu" gutter={gutter} />
           ) : (
-            <FakeImageItem visible data={imgs} type="tubu" gutter={gutter} />
+            <FakeImageItem cart={cart} visible data={imgs} type="tubu" gutter={gutter} />
           )}
         </div>
       </Card>

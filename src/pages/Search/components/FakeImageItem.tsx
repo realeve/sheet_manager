@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styles from '../Image.less';
 import 'animate.css';
 import copy from 'copy-to-clipboard';
-import { message, Modal } from 'antd';
+import { message, Modal, Button } from 'antd';
 import * as R from 'ramda';
 import classnames from 'classnames';
+import * as Excel from '@/utils/exceljs';
 
 const prefix = 'data:image/jpg;base64,';
 // todo 增加点击复制url链接功能.
@@ -22,7 +23,7 @@ const ImageTitle = ({ data: { camera, macro_id, pos, code, sheet_num }, ...props
   </div>
 );
 
-function ImageItem({ data, type, visible, gutter }) {
+function ImageItem({ data, type, visible, gutter, cart }) {
   const [show, setShow] = useState(false);
 
   const [id, setId] = useState(-1);
@@ -61,6 +62,44 @@ function ImageItem({ data, type, visible, gutter }) {
     result = result.sort((a, b) => b.value.length - a.value.length);
     setCodeData(result);
   }, [data]);
+
+  const downloadCodes = codes => {
+    const sortKey = '印码小号';
+    const deltaKey = sortKey + '差值';
+    let codeList = R.map(
+      ({ sheet_num, code, pos }) => ({
+        喷码号: sheet_num.slice(0, 5) + ' ' + sheet_num.slice(5, 10) + ' ' + sheet_num.slice(-1),
+        大张号: sheet_num.slice(6, 10),
+        印码号: code,
+        印码小号: code.slice(-4),
+        开位: pos,
+      }),
+      codes
+    ).sort((a, b) => Number(a[sortKey]) - Number(b[sortKey]));
+    // 查看号码差异
+    codeList = R.clone(codeList).map((item, idx) => {
+      let delta: string | number = '';
+      if (idx) {
+        delta = Number(item[sortKey]) - Number(codeList[idx - 1][sortKey]);
+      }
+      return {
+        ...item,
+        [deltaKey]: delta,
+      };
+    });
+    let header = ['喷码号', '大张号', '印码号', '印码小号', '开位', deltaKey];
+    let config = {
+      columns: header,
+      creator: '',
+      source: '',
+      filename: cart + '_' + codes[0].proc_name + codes[0].err_type,
+      header,
+      body: codeList.map(item => header.map(key => item[key])),
+      params: {},
+      extra: null,
+    };
+    Excel.save(config);
+  };
 
   const ImageRows = ({ data }) =>
     data.map((item, idx) => (
@@ -137,8 +176,18 @@ function ImageItem({ data, type, visible, gutter }) {
             className={styles.mainContent}
             style={{ marginBottom: 20, borderBottom: '1px solid #ddd' }}
           >
-            <div style={{ fontWeight: 'bold', borderLeft: '3px solid #e23', paddingLeft: 12 }}>
-              {key}({value?.length})
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ fontWeight: 'bold', borderLeft: '3px solid #e23', paddingLeft: 12 }}>
+                {key}({value?.length})
+              </div>
+              <Button
+                type="default"
+                onClick={() => {
+                  downloadCodes(value);
+                }}
+              >
+                下载号码清单
+              </Button>
             </div>
             <ul className={styles.content}> {value && <ImageRows data={value} />}</ul>
           </div>

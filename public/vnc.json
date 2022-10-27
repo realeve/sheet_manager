@@ -1070,7 +1070,7 @@
             "VNCProxyIPAddr": "10.9.51.203",
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
-            "VNCToken": "token13",
+            "VNCToken": "token250",
             "MachineNodeTag": "检测主站"
           },
           {
@@ -1079,7 +1079,7 @@
             "VNCProxyIPAddr": "10.9.51.203",
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
-            "VNCToken": "token1"
+            "VNCToken": "token101"
           },
           {
             "RowOID": "131-2",
@@ -1087,7 +1087,7 @@
             "VNCProxyIPAddr": "10.9.51.203",
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
-            "VNCToken": "token2"
+            "VNCToken": "token102"
           },
           {
             "RowOID": "131-3",
@@ -1095,7 +1095,7 @@
             "VNCProxyIPAddr": "10.9.51.203",
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
-            "VNCToken": "token3"
+            "VNCToken": "token103"
           },
           {
             "RowOID": "131-4",
@@ -1103,7 +1103,7 @@
             "VNCProxyIPAddr": "10.9.51.203",
             "NodeType": "Node",
             "VNCProxyIPPort": 8080,
-            "VNCToken": "token4"
+            "VNCToken": "token104"
           },
           {
             "RowOID": "131-18",
