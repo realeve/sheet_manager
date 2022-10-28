@@ -685,3 +685,13 @@ export let loadDataFile: (file: File, type?: 'binary' | 'buffer') => Promise<nul
 export const encodeBase64 = (str: string) => window.btoa(unescape(encodeURIComponent(str)));
 
 export const decodeBase64 = (str: string) => decodeURIComponent(escape(window.atob(str)));
+
+export const convertPos = (cart: string, pos: string) => {
+  let prod = cart.substr(2, 2);
+  let iPos = Number(pos);
+  let num = ['25', '35'].includes(prod) ? 40 : 35;
+  let rowNum = ['25', '35'].includes(prod) ? 8 : 7;
+  let col = Math.floor((num - iPos) / rowNum);
+  let row = iPos % rowNum;
+  return col * rowNum + (row || rowNum);
+};
