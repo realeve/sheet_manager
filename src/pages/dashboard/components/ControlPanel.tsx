@@ -14,7 +14,7 @@ const Page = ({ data, type }) => {
       <ul className={styles.list}>
         {data.map((item, id) => (
           <li
-            key={item.RowOID}
+            key={item.Name}
             onClick={() => {
               setShow(true);
               setIdx(id);
@@ -35,7 +35,7 @@ const Page = ({ data, type }) => {
           {idx > -1 &&
             data[idx].children.map((item, id) => (
               <li
-                key={item.RowOID}
+                key={item.Name}
                 style={{ height: 80, color: '#555' }}
                 onClick={() => {
                   window.open(
