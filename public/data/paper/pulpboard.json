@@ -49,7 +49,8 @@
                 },
                 {
                   "key": "dirt_count",
-                  "max": 32,
+                  "max": 24,
+                  "excludeMax": true,
                   "score": 2,
                   "min": 0
                 },
@@ -67,13 +68,13 @@
                 },
                 {
                   "key": "avg_fiber_length",
-                  "min": 2.5,
-                  "max": 3.5,
+                  "min": 2,
+                  "max": 3,
                   "score": 1.8
                 },
                 {
                   "key": "folding_strength",
-                  "min": 3000,
+                  "min": 1200,
                   "score": 2.1
                 },
                 {
@@ -86,12 +87,34 @@
                   "min": 7,
                   "max": 8,
                   "score": 3
+                },
+
+                {
+                  "key": "color_l",
+                  "max": 95.7,
+                  "min": 93.3
+                },
+                {
+                  "key": "color_a",
+                  "min": -0.8,
+                  "max": 0.2
+                },
+                {
+                  "key": "color_b",
+                  "min": 4.3,
+                  "max": 5.7
+                },
+                {
+                  "key": "delta_e",
+                  "max": 1.4,
+                  "min": 0
                 }
               ]
             },
             {
               "name": "梳落棉浆板",
               "value": "梳落棉浆板",
+              "hide": ["color_l", "color_a", "color_b", "delta_e"],
               "scope": [
                 {
                   "key": "whiteness",
@@ -153,7 +176,8 @@
                 },
                 {
                   "key": "dirt_count",
-                  "max": 32,
+                  "max": 18,
+                  "excludeMax": true,
                   "score": 3.1,
                   "min": 0
                 },
@@ -171,13 +195,13 @@
                 },
                 {
                   "key": "avg_fiber_length",
-                  "min": 2.5,
-                  "max": 3.5,
+                  "min": 2.0,
+                  "max": 3.0,
                   "score": 1
                 },
                 {
                   "key": "folding_strength",
-                  "min": 800,
+                  "min": 1200,
                   "score": 1.2
                 },
                 {
@@ -190,13 +214,33 @@
                   "min": 7,
                   "max": 8,
                   "score": 1
+                },
+                {
+                  "key": "color_l",
+                  "max": 95.7,
+                  "min": 93.3
+                },
+                {
+                  "key": "color_a",
+                  "min": -0.8,
+                  "max": 0.2
+                },
+                {
+                  "key": "color_b",
+                  "min": 4.4,
+                  "max": 5.6
+                },
+                {
+                  "key": "delta_e",
+                  "max": 1.2,
+                  "min": 0
                 }
               ]
             },
             {
               "name": "针叶木浆板",
               "value": "针叶木浆板",
-              "hide": ["avg_fiber_length", "ph"],
+              "hide": ["avg_fiber_length", "ph", "color_l", "color_a", "color_b", "delta_e"],
               "scope": [
                 {
                   "key": "whiteness",
@@ -423,39 +467,6 @@
           "url": "./data/base/paper_material_check_user.json"
         },
         {
-          "title": "L",
-          "type": "input.number",
-          "key": "color_l",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "max": 100,
-          "min": 0
-        },
-        {
-          "title": "a*",
-          "type": "input.number",
-          "key": "color_a",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "min": -128,
-          "max": 127
-        },
-        {
-          "title": "b*",
-          "type": "input.number",
-          "key": "color_b",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "min": -128,
-          "max": 127
-        },
-        {
           "title": "粘度",
           "type": "input",
           "key": "viscosity",
@@ -464,6 +475,43 @@
             "type": "float",
             "required": true
           }
+        },
+        {
+          "title": "L",
+          "type": "input.number",
+          "key": "color_l",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "a*",
+          "type": "input.number",
+          "key": "color_a",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "b*",
+          "type": "input.number",
+          "key": "color_b",
+          "rule": {
+            "type": "float",
+            "required": true
+          }
+        },
+        {
+          "title": "色差",
+          "type": "input",
+          "key": "delta_e",
+          "rule": {
+            "type": "float",
+            "required": true
+          },
+          "block": "△E (仪器法)"
         },
         {
           "title": "检验结论",
@@ -476,6 +524,19 @@
           "rule": {
             "required": true
           }
+        },
+        {
+          "title": "表面质量（外观）",
+          "type": "switch",
+          "key": "surface",
+          "block": "是否符合要求",
+          "checkedChildren": "符合",
+          "unCheckedChildren": "不符合",
+          "span": 8,
+          "rule": {
+            "required": true
+          },
+          "defaultValue": "1"
         },
         {
           "title": "备注",

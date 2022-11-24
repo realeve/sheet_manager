@@ -39,22 +39,22 @@
               "scope": [
                 {
                   "key": "solid_content",
-                  "min": 11.5,
+                  "min": 11.0,
                   "max": 12.5
                 },
                 {
                   "key": "ph",
                   "min": 3,
-                  "max": 6
+                  "max": 5
                 },
                 {
                   "key": "viscosity",
-                  "min": 10,
-                  "max": 30
+                  "min": 15,
+                  "max": 35
                 },
                 {
                   "key": "surface",
-                  "defaultValue": "淡黄色或略带粉红色透明液体"
+                  "defaultValue": "淡黄色至琥珀色粘稠状透明液体"
                 }
               ]
             },
@@ -197,8 +197,7 @@
             "type": "float",
             "required": true
           },
-          "suffix": "mpa.s",
-          "block": "20±1℃ 或 25±1℃"
+          "suffix": "mpa.s"
         },
         {
           "title": "阳离子化度",

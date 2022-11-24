@@ -81,18 +81,21 @@
           "defaultOption": [
             {
               "name": "103-G-2T",
-              "value": "103-G-2T"
+              "value": "103-G-2T",
+              "hide": ["prodname_test"]
             },
             {
               "name": "103-G-3T",
-              "value": "103-G-3T"
+              "value": "103-G-3T",
+              "hide": ["prodname_test"]
             },
             {
               "name": "103-G-4T",
-              "value": "103-G-4T"
+              "value": "103-G-4T",
+              "hide": ["prodname_test"]
             },
-            { "name": "103-G-5T", "value": "103-G-5T" },
-            { "name": "103-G-6T", "value": "103-G-6T" },
+            { "name": "103-G-5T", "value": "103-G-5T", "hide": ["prodname_test"] },
+            { "name": "103-G-6T", "value": "103-G-6T", "hide": ["prodname_test"] },
             {
               "name": "103-G-7T",
               "value": "103-G-7T",
@@ -102,10 +105,17 @@
                   "min": 7,
                   "max": 9
                 }
-              ]
+              ],
+              "hide": ["prodname_test"]
             },
             { "name": "试验品", "value": "试验品" }
           ]
+        },
+
+        {
+          "title": "试验品名称",
+          "type": "input",
+          "key": "prodname_test"
         }
       ]
     },

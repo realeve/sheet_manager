@@ -47,12 +47,16 @@ export const handleScope = (value, option) => {
 const getScopeRange = detail => {
   if (!R.isNil(detail.min) && !R.isNil(detail.max)) {
     return detail.min < detail.max
-      ? `[${detail.min},${detail.max}]`
-      : `[${detail.max},${detail.min}]`;
+      ? `${detail.excludeMin ? '(' : '['}${detail.min},${detail.max}${
+          detail.excludeMax ? ')' : ']'
+        }`
+      : `${detail.excludeMin ? '(' : '['}${detail.max},${detail.min}${
+          detail.excludeMax ? ')' : ']'
+        }`;
   } else if (R.isNil(detail.max)) {
-    return `≥${detail.min}`;
+    return `${detail.excludeMin ? '>' : '≥'}${detail.min}`;
   } else {
-    return `≤${detail.max}`;
+    return `${detail.excludeMax ? '<' : '≤'}${detail.max}`;
   }
 };
 
@@ -180,12 +184,19 @@ export default function formItem({
 
     if (isInput && scopeDetail && (typeof __min !== 'undefined' || typeof __max !== 'undefined')) {
       // input 元素需要处理数据录入范围
-
-      if ((!R.isNil(__min) && val < __min) || (!R.isNil(__max) && val > __max)) {
-        setValidateScope(false);
-      } else {
-        setValidateScope(true);
+      if (!R.isNil(__min)) {
+        if (val < __min || (scopeDetail.excludeMin && val == __min)) {
+          setValidateScope(false);
+          return;
+        }
       }
+      if (!R.isNil(__max)) {
+        if (val > __max || (scopeDetail.excludeMax && val == __max)) {
+          setValidateScope(false);
+          return;
+        }
+      }
+      setValidateScope(true);
     }
   };
 
@@ -347,6 +358,8 @@ export default function formItem({
           <InputNumber
             min={props.min}
             max={props.max}
+            excludeMax={props.excludeMax}
+            excludeMin={props.excludeMin}
             style={{ width: '100%' }}
             value={state}
             onChange={value => onChange(value, props)}

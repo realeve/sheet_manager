@@ -208,3 +208,11 @@ http://localhost:8000/table#id=http://localhost:8000/data/mock/618_618_8c0f3617c
 > ps -ef | grep nginx
 > cd /usr/sbin
 > ./nginx -s reload
+
+---
+
+# todo
+
+[] public\data\paper\pulpboard.json 增加 delta_e ，surface 相关字段
+
+[] 过程质量检测，输入实验品名称 prodname_test

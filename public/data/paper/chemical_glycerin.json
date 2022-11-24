@@ -1,28 +1,31 @@
 {
-  "name": "化工原材料——二氧化钛（钛白）",
+  "name": "化工原材料——甘油(need update api setting)",
+  "table": "paper_material_chemical_glycerin",
   "api": {
     "insert": {
-      "url": "729/4hhkp7d14",
+      "url": "710/6d968fc9b1",
       "param": ["rec_time", "uid"]
     },
     "delete": {
-      "url": "730/4hhkp7d14",
+      "url": "711/167e091805",
       "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "update": {
-      "url": "731/4hhkp7d14",
+      "url": "712/a385017347",
       "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "query": {
-      "url": "732/4hhkp7d14",
+      "url": "713/2e4f7b808e",
       "param": ["batch_no", "prod_name", "place", "sample_date"]
     },
     "table": {
-      "url": "733/4hhkp7d14"
+      "url": "714/878165419b"
     },
-    "load": { "url": "807/5nyuu4vyqv5.json", "param": ["_id"] }
+    "load": {
+      "url": "804/9euxgr7yx.json",
+      "param": ["_id"]
+    }
   },
-  "table": "paper_material_chemical_tio2",
   "detail": [
     {
       "title": "基础数据",
@@ -31,25 +34,11 @@
           "title": "产品名称",
           "type": "label",
           "key": "prod_name",
-          "value": "二氧化钛（钛白）",
+          "value": "甘油",
           "scope": [
             {
-              "key": "tio2",
-              "min": 97
-            },
-            {
-              "key": "settling_volume",
-              "min": 9.9
-            },
-            {
-              "key": "residue_on_sieve",
-              "max": 0.3,
-              "min": 0
-            },
-            {
-              "key": "ph",
-              "min": 6.5,
-              "max": 8.0
+              "key": "content_percent",
+              "min": 95
             }
           ]
         },
@@ -129,64 +118,17 @@
           "rule": {
             "required": true
           },
-          "defaultValue": "白色粉末"
+          "defaultValue": "透明液体、无不良气味"
         },
         {
-          "title": "二氧化钛",
+          "title": "有效成分含量",
           "type": "input",
-          "key": "tio2",
+          "key": "content_percent",
           "rule": {
             "type": "float",
             "required": true
           },
-          "suffix": "%",
-          "block": "TiO2"
-        },
-        {
-          "title": "沉降体积",
-          "type": "input",
-          "key": "settling_volume",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "suffix": "ml/g",
-          "block": "一小时无分层"
-        },
-        {
-          "title": "筛余物",
-          "type": "input",
-          "key": "residue_on_sieve",
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "block": "45μm筛孔",
           "suffix": "%"
-        },
-        {
-          "title": "水悬浮液pH值",
-          "type": "input",
-          "key": "ph",
-          "rule": {
-            "type": "float",
-            "required": true
-          }
-        },
-        {
-          "title": "白度",
-          "type": "input",
-          "key": "whiteness",
-          "suffix": "%",
-          "span": 8,
-          "rule": {
-            "type": "float",
-            "required": true
-          },
-          "scope": {
-            "min": 90,
-            "max": 100
-          }
         },
         {
           "title": "检验员",
